@@ -5,6 +5,7 @@ object::object()
 	clickable = true;
 	visible = true;
 	dragable = false;
+	hoverable = true;
 	clicked = false;
 	hover = false;
 	scale = 1;
@@ -43,7 +44,7 @@ bool
 object::overYou(int y, int x)
 {
 		//Check for x
-		if (this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
+		if (hoverable==true && this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
 		{
 			hover = true;
 			return true;

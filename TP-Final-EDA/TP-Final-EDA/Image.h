@@ -11,6 +11,5 @@ public:
 	/*Sets scale for the image to be drawn, it mantains aspect ratio*/
 	void setScale(double s) { this->scale = s; };
 private:
-	double scale;
 	ALLEGRO_BITMAP* im;
 };

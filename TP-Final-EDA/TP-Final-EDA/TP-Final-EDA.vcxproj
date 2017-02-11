@@ -30,6 +30,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Container.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="object.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

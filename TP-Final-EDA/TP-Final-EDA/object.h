@@ -10,8 +10,10 @@ public:
 	virtual void draw(ALLEGRO_BITMAP* target);
 	/*Sets the scale to draw the object (height*scale and width*scale)*/
 	void setScale(double s) { scale = s; };
-
+	/*Set position for the given object*/
 	void setPosition(int x, int y) { this->x = x; this->y = y; };
+	/*Set the size for the given object*/
+	virtual void setSize(int h, int w) { this->h = h; this->w = w; };
 	/*Default true*/
 	void setVisible(bool b) { visible = b; };
 	/*Default false*/
@@ -33,7 +35,7 @@ public:
 	virtual void drag(int y, int x);
 protected:
 	/*Properties*/
-	bool dragable, clickable;
+	bool dragable, clickable,hoverable;
 	/*States*/
 	bool visible,clicked, hover;
 
