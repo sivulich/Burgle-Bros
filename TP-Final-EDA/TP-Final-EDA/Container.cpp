@@ -15,16 +15,21 @@ Container::Container(int h, int w)
 	this->h = h;
 	this->w = w;
 	offsetX = offsetY = 0;
-	bScale = 1;
+	bScale = 5;
 	toDraw = al_create_bitmap(w, h);
+	background = al_load_bitmap("transparent.png");
+
 }
 
 void
 Container::draw(ALLEGRO_BITMAP* target)
 {
 	al_set_target_bitmap(toDraw);
-	al_draw_scaled_bitmap(background,offsetX,offsetY,al_get_bitmap_width(background),al_get_bitmap_height(background),0,0,
-		bScale*al_get_bitmap_width(background),bScale*al_get_bitmap_height(background),0 );
+	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
+	al_draw_scaled_bitmap(background, offsetX, offsetY, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0,
+			bScale*al_get_bitmap_width(background), bScale*al_get_bitmap_height(background), 0);
+		
+
 	for (auto & x : objects)
 		x->draw(toDraw);
 	al_set_target_bitmap(target);
@@ -34,18 +39,15 @@ Container::draw(ALLEGRO_BITMAP* target)
 string
 Container::click(int y, int x)
 {
-	if (this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
+	for (auto& ob : objects)
 	{
-		for (auto& ob : objects)
-		{
-			if (ob->overYou(y - this->y, x - this->x) == true)
-				return ob->click(y, x);
-		}
-		if (clickable == true)
-		{
+		if (ob->overYou(y - this->y, x - this->x) == true)
+			return ob->click(y-this->y, x-this->x);
+	}
+	if (clickable == true && this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
+	{
 			clicked = true;
 			return name;
-		}
 	}
 	return "";
 }
@@ -60,10 +62,11 @@ Container::unClick()
 bool
 Container::overYou(int y, int x)
 {
+	for (auto& ob : objects)
+		if (ob->overYou(y - this->y, x - this->x) == true)
+			return true;
 	if (this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
 	{
-		for (auto& ob : objects)
-			ob->overYou(y - this->y, x - this->x);
 		return true;
 	}
 	return false;
