@@ -6,13 +6,13 @@
 class Container :public object {
 public:
 	/*This constructor should be used when setting a background to fill the container*/
-	Container(ALLEGRO_BITMAP* b);
+	Container(string& path);
 	//This constructor sets a fixed size to where the background will be drawn with the given offsets
 	Container(int height, int width);
 	/*Draws the container with all the child objects inside*/
 	void draw(ALLEGRO_BITMAP* target);
 	/*Sets the background for the given container*/
-	void setBackground(ALLEGRO_BITMAP* b) { background = b; };
+	void setBackground(string& path) { background = al_load_bitmap(path.c_str()); };
 	//Changes the properties of the background
 	void backgroundProperties(int offsetX, int offsetY, double bScale) { this->offsetX = offsetX; this->offsetY = offsetY; this->bScale = bScale; };
 
@@ -23,7 +23,8 @@ public:
 	void setSize(int h, int w) { this->h = h; this->w = w; };
 	/*returns the name of what you pressed, can be container or object within the container*/
 	string click(int y, int x);
-	void unClickAll();
+	bool overYou(int y, int x);
+	void unClick();
 private:
 
 	/*Background info*/

@@ -16,11 +16,8 @@
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{5b96ed45-a52b-4ddd-819c-fcd97d81b71b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Graphics\Headers">
-      <UniqueIdentifier>{5d51e940-502d-4287-abfc-8dc9d4b0a330}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics\Code">
-      <UniqueIdentifier>{01f2348f-0651-4cdd-9e19-71fd175e0559}</UniqueIdentifier>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{1ef5168f-34b2-4dda-8dc8-5c7ae891a2d6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -28,16 +25,19 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Image.h">
-      <Filter>Header Files\Graphics\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Container.h">
-      <Filter>Header Files\Graphics\Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\Graphics\Headers</Filter>
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="object.h">
-      <Filter>Header Files\Graphics\Headers</Filter>
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,16 +45,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="object.cpp">
-      <Filter>Header Files\Graphics\Code</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Header Files\Graphics\Code</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Image.cpp">
-      <Filter>Header Files\Graphics\Code</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Container.cpp">
-      <Filter>Header Files\Graphics\Code</Filter>
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

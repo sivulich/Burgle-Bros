@@ -2,7 +2,9 @@
 
 #include <allegro5\allegro.h>
 #include <allegro5\allegro_image.h>
+#include <allegro5\allegro_primitives.h>
 #include <allegro5\bitmap.h>
+#include <allegro5\color.h>
 #include "Configs.h"
 class object {
 public:
@@ -11,7 +13,7 @@ public:
 	/*Sets the scale to draw the object (height*scale and width*scale)*/
 	void setScale(double s) { scale = s; };
 	/*Set position for the given object*/
-	void setPosition(int x, int y) { this->x = x; this->y = y; };
+	void setPosition(int y, int x) { this->x = x; this->y = y; };
 	/*Set the size for the given object*/
 	virtual void setSize(int h, int w) { this->h = h; this->w = w; };
 	/*Default true*/

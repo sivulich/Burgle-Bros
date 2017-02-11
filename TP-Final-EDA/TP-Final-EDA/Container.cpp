@@ -1,12 +1,12 @@
 
 #include "Container.h"
 
-Container::Container(ALLEGRO_BITMAP* b)
+Container::Container(string& path)
 {
-	background = b;
-	toDraw = b;
-	h = al_get_bitmap_height(b);
-	w = al_get_bitmap_width(b);
+	background = al_load_bitmap(path.c_str());
+	toDraw = background;
+	h = al_get_bitmap_height(background);
+	w = al_get_bitmap_width(background);
 	offsetX = offsetY = 0;
 	bScale = 1;
 }
@@ -23,7 +23,8 @@ void
 Container::draw(ALLEGRO_BITMAP* target)
 {
 	al_set_target_bitmap(toDraw);
-	al_draw_bitmap(background, offsetX, offsetY, 0);
+	al_draw_scaled_bitmap(background,offsetX,offsetY,al_get_bitmap_width(background),al_get_bitmap_height(background),0,0,
+		bScale*al_get_bitmap_width(background),bScale*al_get_bitmap_height(background),0 );
 	for (auto & x : objects)
 		x->draw(toDraw);
 	al_set_target_bitmap(target);
@@ -49,9 +50,21 @@ Container::click(int y, int x)
 	return "";
 }
 void
-Container::unClickAll()
+Container::unClick()
 {
 	clicked = false;
 	for (auto& x : objects)
 		x->unClick();
+}
+
+bool
+Container::overYou(int y, int x)
+{
+	if (this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
+	{
+		for (auto& ob : objects)
+			ob->overYou(y - this->y, x - this->x);
+		return true;
+	}
+	return false;
 }
