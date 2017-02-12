@@ -25,7 +25,8 @@ void
 Container::draw(ALLEGRO_BITMAP* target)
 {
 	al_set_target_bitmap(toDraw);
-	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
+	if(background==nullptr)
+		al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	al_draw_scaled_bitmap(background, offsetX, offsetY, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0,
 			bScale*al_get_bitmap_width(background), bScale*al_get_bitmap_height(background), 0);
 		
