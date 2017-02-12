@@ -96,6 +96,7 @@
     <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonColor>true</Allegro_AddonColor>
+    <IncludePath>D:\Google Drive\ITBA\3° Cuatrimestre\EDA\TP final\Source\TP-Final-EDA\TP-Final-EDA\packages\Allegro.5.2.2.0\build\native\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -103,6 +104,13 @@
     <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonColor>true</Allegro_AddonColor>
+    <IncludePath>D:\Google Drive\ITBA\3° Cuatrimestre\EDA\TP final\Source\TP-Final-EDA\TP-Final-EDA\packages\Allegro.5.2.2.0\build\native\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>D:\Google Drive\ITBA\3° Cuatrimestre\EDA\TP final\Source\TP-Final-EDA\TP-Final-EDA\packages\Allegro.5.2.2.0\build\native\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>D:\Google Drive\ITBA\3° Cuatrimestre\EDA\TP final\Source\TP-Final-EDA\TP-Final-EDA\packages\Allegro.5.2.2.0\build\native\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Controllers">
       <UniqueIdentifier>{b9c46c4a-31d4-4513-b11f-47759b27d3b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{11281a75-b2ee-45fb-af84-779524414ab2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{0d717e52-3072-42e0-8a27-071d4d349cdc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Configs.h">

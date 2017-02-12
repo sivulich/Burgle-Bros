@@ -14,7 +14,21 @@ object::object()
 	x = 0;
 	y = 0;
 }
-
+object::object(string name, int x, int y, int h, int w, double scale)
+{
+	clickable = true;
+	visible = true;
+	dragable = false;
+	hoverable = true;
+	clicked = false;
+	hover = false;
+	this->scale = scale;
+	this->h = h;
+	this->w = w;
+	this->x = x;
+	this->y = y;
+	this->name = name;
+}
 string
 object::click(int y, int x)
 {

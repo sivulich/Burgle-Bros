@@ -33,7 +33,7 @@ private:
 	double bScale; //Used to scale up or down the given backGround
 
 	/*Container utility*/
-	ALLEGRO_BITMAP* toDraw;
+	ALLEGRO_BITMAP* toDraw;// Que es?? Tobi:P
 
 	/*Child objects for the given container*/
 	vector<object*> objects;

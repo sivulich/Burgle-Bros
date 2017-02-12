@@ -4,6 +4,7 @@
 class object {
 public:
 	object();
+	object(string name, int x, int y, int h, int w, double scale);
 	virtual void draw(ALLEGRO_BITMAP* target);
 	/*Sets the scale to draw the object (height*scale and width*scale)*/
 	void setScale(double s) { scale = s; };
@@ -32,7 +33,7 @@ public:
 	virtual void drag(int y, int x);
 protected:
 	/*Properties*/
-	bool dragable, clickable,hoverable;
+	bool dragable,clickable,hoverable; // Hoverable?! jajaj :')
 	/*States*/
 	bool visible,clicked, hover;
 

@@ -13,6 +13,7 @@ localControler::localControler(Screen* source)
 }
 localControler::~localControler()
 {
+	// Deshacer todo lo del constructor, teclado mouse etc
 	al_destroy_event_queue(events);
 }
 string
@@ -45,6 +46,7 @@ localControler::input()
 			{
 				if (event.keyboard.keycode == ALLEGRO_KEY_ESCAPE)
 					return "exit";
+				// Si se aprieta otra tecla no se la tiene que pasar a la screen??
 			}
 		}
 	}

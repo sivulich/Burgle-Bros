@@ -1,7 +1,8 @@
 #pragma once
 #include "object.h"
 
-class Button :public object {
+class Button :public object
+{
 public:
 	Button(string& n) { name = n; };
 	void draw(ALLEGRO_BITMAP* target);
