@@ -18,7 +18,7 @@ public:
 
 	/*Adds an object to the parent container*/
 	void addObject(object* ob) { objects.insert(objects.begin(),ob); };
-
+	bool removeObject(object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; }
 	/*Sets the size in pixels, within the parent container*/
 	void setSize(int h, int w) { this->h = h; this->w = w; };
 	/*returns the name of what you pressed, can be container or object within the container*/

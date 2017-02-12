@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{1ef5168f-34b2-4dda-8dc8-5c7ae891a2d6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Controllers">
+      <UniqueIdentifier>{e4fa0d2e-06c6-4929-86ff-4834a9b60813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{b9c46c4a-31d4-4513-b11f-47759b27d3b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Configs.h">
@@ -38,6 +44,12 @@
     </ClInclude>
     <ClInclude Include="Screen.h">
       <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="localControler.h">
+      <Filter>Header Files\Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="controller.h">
+      <Filter>Header Files\Controllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -61,6 +73,9 @@
     </ClCompile>
     <ClCompile Include="Screen.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="localControler.cpp">
+      <Filter>Source Files\Controllers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -21,6 +21,8 @@
   <ItemGroup>
     <ClInclude Include="Button.h" />
     <ClInclude Include="Configs.h" />
+    <ClInclude Include="controller.h" />
+    <ClInclude Include="localControler.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="Image.h" />
@@ -33,6 +35,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Container.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="localControler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="Screen.cpp" />

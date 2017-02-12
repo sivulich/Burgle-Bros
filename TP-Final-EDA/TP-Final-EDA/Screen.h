@@ -6,6 +6,7 @@ public:
 	Screen(int h, int w, string& pathToBackground);
 	void draw();
 	void addObject(object* ob) { objects.insert(objects.begin(), ob); };
+	bool removeObject(object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; };
 	string click(int y, int x);
 	bool overYou(int y, int x);
 	void unClick();
