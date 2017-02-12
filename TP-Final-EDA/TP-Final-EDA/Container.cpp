@@ -31,8 +31,8 @@ Container::draw(ALLEGRO_BITMAP* target)
 			bScale*al_get_bitmap_width(background), bScale*al_get_bitmap_height(background), 0);
 		
 
-	for (auto & x : objects)
-		x->draw(toDraw);
+	for (int i=objects.size()-1;i>=0;i--)
+		objects[i]->draw(toDraw);
 	al_set_target_bitmap(target);
 	al_draw_scaled_bitmap(toDraw, 0, 0, w, h, x, y, scale*w, scale*h, 0);
 }

@@ -52,8 +52,8 @@ Screen::draw()
 	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	al_draw_scaled_bitmap(background, offsetX, offsetY, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0,
 		bScale*al_get_bitmap_width(background), bScale*al_get_bitmap_height(background), 0);
-	for (auto& ob : objects)
-		ob->draw(toDraw);
+	for (int i = objects.size() - 1; i >= 0; i--)
+		objects[i]->draw(toDraw);
 	al_set_target_backbuffer(display);
 	al_draw_bitmap(toDraw, 0, 0, 0);
 	al_flip_display();
