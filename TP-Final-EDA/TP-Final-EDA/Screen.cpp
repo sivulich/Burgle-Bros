@@ -62,7 +62,7 @@ Screen::draw()
 bool
 Screen::overYou(int y, int x)
 {
-	for (auto ob : objects)
-		ob->overYou(y, x);
+	for (int i = objects.size() - 1; i >= 0; i--)
+		objects[i]->overYou(y, x);
 	return true;
 }

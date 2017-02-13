@@ -37,7 +37,7 @@ int main(void)
 			delete test;
 			test = nullptr;
 		}
-		if (in == name)
+		if (in == name && test==nullptr)
 		{
 
 			test = new Image(name + ".jpg");

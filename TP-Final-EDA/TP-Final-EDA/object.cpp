@@ -58,7 +58,7 @@ bool
 object::overYou(int y, int x)
 {
 		//Check for x
-		if (hoverable==true && this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
+		if (hoverable==true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 		{
 			hover = true;
 			return true;

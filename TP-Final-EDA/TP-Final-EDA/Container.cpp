@@ -45,7 +45,7 @@ Container::click(int y, int x)
 		if (ob->overYou(y - this->y, x - this->x) == true)
 			return ob->click(y-this->y, x-this->x);
 	}
-	if (clickable == true && this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
+	if (clickable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
 			clicked = true;
 			return name;
@@ -63,10 +63,11 @@ Container::unClick()
 bool
 Container::overYou(int y, int x)
 {
-	for (auto& ob : objects)
-		if (ob->overYou(y - this->y, x - this->x) == true)
+	for (int i = objects.size() - 1; i >= 0; i--)
+		if (objects[i]->overYou((y - this->y)*(1.0/scale), (x - this->x)*(1.0/scale)) == true)
 			return true;
-	if (this->x <= x  &&  x <= (this->x + this->w) && this->y <= y && y <= (this->y + this->h))
+
+	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
 		return true;
 	}
