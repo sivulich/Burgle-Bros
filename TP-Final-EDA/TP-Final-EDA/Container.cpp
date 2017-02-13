@@ -42,8 +42,8 @@ Container::click(int y, int x)
 {
 	for (auto& ob : objects)
 	{
-		if (ob->overYou(y - this->y, x - this->x) == true)
-			return ob->click(y-this->y, x-this->x);
+		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
+			return ob->click((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
 	}
 	if (clickable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
