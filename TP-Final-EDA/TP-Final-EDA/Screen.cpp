@@ -7,8 +7,8 @@ Screen::Screen(int h, int w, string& pathToBackground)
 	{
 		if (al_init_image_addon()==true && al_init_primitives_addon()==true )
 		{
-
-			toDraw = al_create_bitmap(w, h);
+			display = new Display(w, h);
+			toDraw = new Bitmap(w, h);
 			this->h = h;
 			this->w = w;
 			clickable = false;
@@ -16,9 +16,7 @@ Screen::Screen(int h, int w, string& pathToBackground)
 			offsetX = 0;
 			offsetY = 0;
 			bScale = 1;
-			background = al_load_bitmap(pathToBackground.c_str());
-			display = al_create_display(w, h);
-			toDraw = al_create_bitmap(w, h);
+			background.load(pathToBackground.c_str());
 			initOk = true;
 		}
 		else
@@ -48,14 +46,13 @@ Screen::unClick()
 void
 Screen::draw()
 {
-	al_set_target_bitmap(toDraw);
-	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
-	al_draw_scaled_bitmap(background, offsetX, offsetY, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0,
-		bScale*al_get_bitmap_width(background), bScale*al_get_bitmap_height(background), 0);
+	toDraw->setTarget();
+	background.drawScaled( offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,
+		bScale*background.getWidth(), bScale* background.getHeight(), 0);
 	for (int i = objects.size() - 1; i >= 0; i--)
 		objects[i]->draw(toDraw);
-	al_set_target_backbuffer(display);
-	al_draw_bitmap(toDraw, 0, 0, 0);
+	display->setTarget(*display);
+	toDraw->draw(0, 0, 0);
 	al_flip_display();
 }
 

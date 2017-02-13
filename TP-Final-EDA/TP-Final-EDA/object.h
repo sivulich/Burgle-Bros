@@ -5,7 +5,7 @@ class object {
 public:
 	object();
 	object(string name, int x, int y, int h, int w, double scale);
-	virtual void draw(ALLEGRO_BITMAP* target);
+	virtual void draw(Bitmap* target);
 	/*Sets the scale to draw the object (height*scale and width*scale)*/
 	void setScale(double s) { scale = s; };
 	/*Set position for the given object*/

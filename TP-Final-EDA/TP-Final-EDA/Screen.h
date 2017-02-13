@@ -11,11 +11,12 @@ public:
 	bool overYou(int y, int x);
 	void unClick();
 	void backgroundProperties(int offsetX, int offsetY, double bScale) { this->offsetX = offsetX; this->offsetY = offsetY; this->bScale = bScale; };
-	ALLEGRO_DISPLAY* getDisplay() { return display; };
+	Display* getDisplay() { return display; };
+	~Screen() { delete toDraw; delete display; };
 private:
-	ALLEGRO_DISPLAY* display;
-	ALLEGRO_BITMAP* toDraw;
-	ALLEGRO_BITMAP* background;
+	Display* display;
+	Bitmap* toDraw;
+	Bitmap background;
 	int offsetX, offsetY; //Used to offset the drawing of the background in the given container
 	double bScale; //Used to scale up or down the given backGround
 	bool initOk;

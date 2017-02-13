@@ -3,10 +3,11 @@
 
 Container::Container(string& path)
 {
-	background = al_load_bitmap(path.c_str());
-	toDraw = background;
-	h = al_get_bitmap_height(background);
-	w = al_get_bitmap_width(background);
+	background.load(path.c_str());
+	
+	h = background.getHeight();
+	w = background.getWidth();
+	toDraw = new Bitmap(w, h);
 	offsetX = offsetY = 0;
 	bScale = 1;
 }
@@ -16,25 +17,26 @@ Container::Container(int h, int w)
 	this->w = w;
 	offsetX = offsetY = 0;
 	bScale = 5;
-	toDraw = al_create_bitmap(w, h);
-	background = al_load_bitmap("transparent.png");
+	toDraw = new Bitmap(w, h);
+	background.load("transparent.png");
 
 }
 
 void
-Container::draw(ALLEGRO_BITMAP* target)
+Container::draw(Bitmap* target)
 {
-	al_set_target_bitmap(toDraw);
-	if(background==nullptr)
+	toDraw->setTarget();
+	if(background._Get()==nullptr)
 		al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
-	al_draw_scaled_bitmap(background, offsetX, offsetY, al_get_bitmap_width(background), al_get_bitmap_height(background), 0, 0,
-			bScale*al_get_bitmap_width(background), bScale*al_get_bitmap_height(background), 0);
+	else
+		background.drawScaled( offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,
+			bScale*background.getWidth(), bScale*background.getHeight(), 0);
 		
 
 	for (int i=objects.size()-1;i>=0;i--)
 		objects[i]->draw(toDraw);
-	al_set_target_bitmap(target);
-	al_draw_scaled_bitmap(toDraw, 0, 0, w, h, x, y, scale*w, scale*h, 0);
+	target->setTarget();
+	toDraw->drawScaled( 0, 0, w, h, x, y, scale*w, scale*h, 0);
 }
 
 string

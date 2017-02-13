@@ -80,8 +80,8 @@ object::drag(int y, int x)
 	}
 }
 void
-object::draw(ALLEGRO_BITMAP* target)
+object::draw(Bitmap* target)
 {
-	al_set_target_bitmap(target);
-	al_draw_rectangle(x, y, x + w, y + h, al_map_rgb(255, 0, 0), 10);
+	target->setTarget();
+	al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 10);
 }

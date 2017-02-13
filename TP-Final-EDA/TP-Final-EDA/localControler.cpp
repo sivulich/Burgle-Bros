@@ -3,7 +3,7 @@
 localControler::localControler(Screen* source)
 {
 	this->source = source;
-	ALLEGRO_DISPLAY* temp = source->getDisplay();
+	ALLEGRO_DISPLAY* temp = source->getDisplay()->_Get();
 	al_install_keyboard();
 	al_install_mouse();
 	events = al_create_event_queue();

@@ -10,7 +10,7 @@ public:
 	//This constructor sets a fixed size to where the background will be drawn with the given offsets
 	Container(int height, int width);
 	/*Draws the container with all the child objects inside*/
-	void draw(ALLEGRO_BITMAP* target);
+	void draw(Bitmap* target);
 	/*Sets the background for the given container*/
 	void setBackground(string& path) { background = al_load_bitmap(path.c_str()); };
 	//Changes the properties of the background
@@ -25,15 +25,16 @@ public:
 	string click(int y, int x);
 	bool overYou(int y, int x);
 	void unClick();
+	~Container() { delete toDraw; };
 private:
 
 	/*Background info*/
-	ALLEGRO_BITMAP* background;
+	Bitmap background;
 	int offsetX, offsetY; //Used to offset the drawing of the background in the given container
 	double bScale; //Used to scale up or down the given backGround
 
 	/*Container utility*/
-	ALLEGRO_BITMAP* toDraw;// Que es?? Tobi:P
+	Bitmap* toDraw;// Que es?? Tobi:P
 
 	/*Child objects for the given container*/
 	vector<object*> objects;
