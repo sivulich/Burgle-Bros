@@ -35,10 +35,10 @@ object::click(int y, int x)
 	if ( clickable == true )
 	{
 		//Check for x
-		if (this->x <= x  &&  x <= (this->x + this->w))
+		if (this->x <= x  &&  x <= (this->x + scale*this->w))
 		{
 			//check for y
-			if (this->y <= y && y <= (this->y + this->h))
+			if (this->y <= y && y <= (this->y + scale* this->h))
 			{
 				clicked = true;
 				return this->name;
@@ -58,9 +58,10 @@ bool
 object::overYou(int y, int x)
 {
 		//Check for x
-		if (hoverable==true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+		if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 		{
-			hover = true;
+			if(hoverable == true)
+				hover = true;
 			return true;
 		}
 		else
@@ -79,6 +80,9 @@ object::drag(int y, int x)
 		this->y = y;
 	}
 }
+
+
+
 void
 object::draw(Bitmap* target)
 {

@@ -65,8 +65,8 @@ Container::unClick()
 bool
 Container::overYou(int y, int x)
 {
-	for (int i = objects.size() - 1; i >= 0; i--)
-		if (objects[i]->overYou((y - this->y)*(1.0/scale), (x - this->x)*(1.0/scale)) == true)
+	for (auto& ob:objects)
+		if (ob->overYou((y - this->y)*(1.0/scale), (x - this->x)*(1.0/scale)) == true)
 			return true;
 
 	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
