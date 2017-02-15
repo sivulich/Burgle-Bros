@@ -26,6 +26,7 @@ void
 Container::draw(Bitmap* target)
 {
 	toDraw->setTarget();
+	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	if(background._Get()==nullptr)
 		al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	else
@@ -55,11 +56,11 @@ Container::click(int y, int x)
 	return "";
 }
 void
-Container::unClick()
+Container::unClick(int y, int x)
 {
 	clicked = false;
-	for (auto& x : objects)
-		x->unClick();
+	for (auto& ob : objects)
+		ob->unClick((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
 }
 
 bool
@@ -74,4 +75,20 @@ Container::overYou(int y, int x)
 		return true;
 	}
 	return false;
+}
+
+void
+Container::drag(int y, int x)
+{
+	for (auto& ob : objects)
+		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
+		{
+			ob->drag((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+			return;
+		}
+	if (dragable==true &&this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	{
+		this->x = x - scale*w / 2;
+		this->y = y - scale*h / 2;
+	}
 }

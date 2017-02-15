@@ -9,9 +9,10 @@ public:
 	bool removeObject(object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; };
 	string click(int y, int x);
 	bool overYou(int y, int x);
-	void unClick();
+	void unClick(int y, int x);
 	void backgroundProperties(int offsetX, int offsetY, double bScale) { this->offsetX = offsetX; this->offsetY = offsetY; this->bScale = bScale; };
 	Display* getDisplay() { return display; };
+	void drag(int y, int x);
 	~Screen() { delete toDraw; delete display; };
 private:
 	Display* display;

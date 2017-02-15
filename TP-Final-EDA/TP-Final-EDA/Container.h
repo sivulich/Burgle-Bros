@@ -24,7 +24,8 @@ public:
 	/*returns the name of what you pressed, can be container or object within the container*/
 	string click(int y, int x);
 	bool overYou(int y, int x);
-	void unClick();
+	void unClick(int y, int x);
+	void drag(int y, int x);
 	~Container() { delete toDraw; };
 private:
 

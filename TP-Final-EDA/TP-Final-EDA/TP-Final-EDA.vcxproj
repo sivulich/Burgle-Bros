@@ -27,6 +27,7 @@
     <ClInclude Include="Container.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="Textbox.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -39,6 +40,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="Textbox.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B67B3C83-A332-4386-A176-80658A8B6572}</ProjectGuid>

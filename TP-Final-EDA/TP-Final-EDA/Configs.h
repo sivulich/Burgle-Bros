@@ -10,12 +10,6 @@
 #include <map>
 #include <utility>
 #include <algorithm>
-/*#include <allegro5\allegro.h>
-#include <allegro5\allegro_image.h>
-#include <allegro5\allegro_primitives.h>
-#include <allegro5\bitmap.h>
-#include <allegro5\color.h>
-*/
 #include "alx.hpp"
 #include "alx\Bitmap.hpp"
 #include "alx\Color.hpp"

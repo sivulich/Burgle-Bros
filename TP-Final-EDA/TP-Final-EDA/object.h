@@ -28,7 +28,7 @@ public:
 	virtual bool overYou(int y, int x);
 	/*By default returns the name of the object clicked*/
 	virtual string click(int y, int x);
-	virtual void unClick();
+	virtual void unClick(int y, int x);
 	/*Drag*/
 	virtual void drag(int y, int x);
 protected:

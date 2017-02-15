@@ -31,15 +31,19 @@ localControler::input()
 			case ALLEGRO_EVENT_MOUSE_AXES:
 			{
 				source->overYou(event.mouse.y, event.mouse.x);
+				if (mPressed)
+					source->drag(event.mouse.y, event.mouse.x);
 				return "";
 			}
 			case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 			{
+				mPressed = true;
 				return source->click(event.mouse.y, event.mouse.x);
 			}
 			case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
 			{
-				source->unClick();
+				mPressed = false;
+				source->unClick(event.mouse.y, event.mouse.x);
 				return "";
 			}
 			case ALLEGRO_EVENT_KEY_DOWN:

@@ -37,10 +37,10 @@ Screen::click(int y, int x)
 }
 
 void
-Screen::unClick()
+Screen::unClick(int y, int x)
 {
 	for (auto& ob : objects)
-		ob->unClick();
+		ob->unClick(y,x);
 }
 
 void
@@ -62,4 +62,11 @@ Screen::overYou(int y, int x)
 	for (int i = objects.size() - 1; i >= 0; i--)
 		objects[i]->overYou(y, x);
 	return true;
+}
+void
+Screen::drag(int y, int x)
+{
+	for (auto& ob : objects)
+		if(ob->overYou(y,x)==true)
+			ob->drag(y, x);
 }

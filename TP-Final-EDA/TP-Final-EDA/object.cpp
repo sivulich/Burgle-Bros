@@ -49,7 +49,7 @@ object::click(int y, int x)
 }
 
 void
-object::unClick()
+object::unClick(int y, int x)
 {
 	clicked = false;
 }
@@ -74,10 +74,10 @@ object::overYou(int y, int x)
 void
 object::drag(int y, int x)
 {
-	if (dragable == true)
+	if (dragable == true && clicked==true)
 	{
-		this->x = x;
-		this->y = y;
+		this->x = x-scale*w/2;
+		this->y = y-scale*h/2;
 	}
 }
 
