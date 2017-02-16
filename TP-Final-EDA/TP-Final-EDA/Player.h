@@ -6,8 +6,15 @@ class Player
 {
 public:
 	Player(string & playerName);
-	void setId(characterID i) { id = i; };
-	characterID getId() { return id; };
+	void setId(characterID character);
+	void newTurn();
+	void move(Coord & newPos);
+	void newAction(string & action);
+	void removeStealthToken();
+	void removeActionToken();
+	int getStealthTokens();
+	int getActionTokens();
+
 	vector<Coord> visibleFrom;
 	list <actionNode> actions;
 private:
