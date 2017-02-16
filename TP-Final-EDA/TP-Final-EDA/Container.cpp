@@ -27,6 +27,7 @@ Container::draw(Bitmap* target)
 {
 	toDraw->setTarget();
 	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
+
 	if(background._Get()==nullptr)
 		al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 	else
@@ -38,6 +39,9 @@ Container::draw(Bitmap* target)
 		objects[i]->draw(toDraw);
 	target->setTarget();
 	toDraw->drawScaled( 0, 0, w, h, x, y, scale*w, scale*h, 0);
+
+	if (borderVisibe)
+		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
 }
 
 string

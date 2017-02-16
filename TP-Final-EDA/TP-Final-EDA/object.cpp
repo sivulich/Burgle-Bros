@@ -1,11 +1,13 @@
 #include "Object.h"
 
+
 Object::Object()
 {
 	clickable = true;
 	visible = true;
 	dragable = false;
 	hoverable = true;
+	borderVisibe = false;
 	clicked = false;
 	hover = false;
 	scale = 1;
@@ -20,6 +22,7 @@ Object::Object(string name, int x, int y, int h, int w, double scale)
 	visible = true;
 	dragable = false;
 	hoverable = true;
+	borderVisibe = false;
 	clicked = false;
 	hover = false;
 	this->scale = scale;
@@ -29,33 +32,27 @@ Object::Object(string name, int x, int y, int h, int w, double scale)
 	this->y = y;
 	this->name = name;
 }
-string
-Object::click(int y, int x)
+
+string Object::click(int y, int x)
 {
 	if ( clickable == true )
 	{
 		//Check for x
-		if (this->x <= x  &&  x <= (this->x + scale*this->w))
+		if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 		{
-			//check for y
-			if (this->y <= y && y <= (this->y + scale* this->h))
-			{
-				clicked = true;
-				return this->name;
-			}
+			clicked = true;
+			return this->name;
 		}
 	}
 	return "";
 }
 
-void
-Object::unClick(int y, int x)
+void Object::unClick(int y, int x)
 {
 	clicked = false;
 }
 
-bool
-Object::overYou(int y, int x)
+bool Object::overYou(int y, int x)
 {
 		//Check for x
 		if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
@@ -71,8 +68,7 @@ Object::overYou(int y, int x)
 			return false;
 		}
 }
-void
-Object::drag(int y, int x)
+void Object::drag(int y, int x)
 {
 	if (dragable == true && clicked==true)
 	{
@@ -83,9 +79,9 @@ Object::drag(int y, int x)
 
 
 
-void
-Object::draw(Bitmap* target)
+void Object::draw(Bitmap* target)
 {
 	target->setTarget();
-	al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 10);
+	if(borderVisibe)
+		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
 }

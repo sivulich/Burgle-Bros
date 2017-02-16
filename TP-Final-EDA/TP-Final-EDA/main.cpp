@@ -20,14 +20,18 @@ int main(void)
 	Image moveImage(move + ".png");
 	
 	Textbox tbox(10, 10, font, 50, 20);
+	tbox.fitText(true);
+
 	Timer draw(1.0 / 60.0);
 	moveImage.setScale(0.7);
 	moveImage.setPosition(185, 420);
+	moveImage.setBorderVisible(true);
 	testCont.addObject(&moveImage);
 	peekImage.setScale(0.3);
 	peekImage.setPosition(170, 600);
 	testCont.addObject(&peekImage);
 	testCont.addObject(&testImage);
+	testCont.setBorderVisible(true);
 	testImage.setPosition(100, 30);
 	testImage.setScale(0.51);
 	testCont.setScale(0.666);
