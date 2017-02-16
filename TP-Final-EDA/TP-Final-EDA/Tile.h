@@ -64,5 +64,5 @@ private:
 	int type;
 	vector<string> actions;
 	vector<Tile*> adjacent;
-	pair<int, int> coord;
+	COORD coord;
 };
