@@ -11,7 +11,7 @@ Guard::~Guard()
 {
 }
 
-void AddNextTarget(COORD)
+void AddNextTarget(pair<int, int>)
 {
 
 }

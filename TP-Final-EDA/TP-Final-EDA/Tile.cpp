@@ -15,7 +15,7 @@ Tile::Tile(int x, int y)
 	coord.second = y;
 }
 
-Tile::Tile(int type, int x, int y)
+Tile::Tile(tileType type, int x, int y)
 {
 	flipped = false;
 	alarm = false;
