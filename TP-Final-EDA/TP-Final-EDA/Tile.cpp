@@ -43,7 +43,7 @@ bool Tile::moveTo(Player p)
 
 /**
 */
-int Tile::getType()
+tileType Tile::getType()
 {
 	return type;
 }

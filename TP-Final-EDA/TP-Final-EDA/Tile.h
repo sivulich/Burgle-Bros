@@ -4,9 +4,10 @@
 class
 	Tile
 {
+public:
 	Tile();
 	Tile(int x, int y);
-	Tile(int type, int x, int y);
+	Tile(tileType type, int x, int y);
 	/**
 
 	*/
@@ -20,7 +21,10 @@ class
 	/**
 
 	*/
-	int getType();
+	pair<int, int> getCoord() { return coord; };
+	/**
+	*/
+	tileType getType();
 
 	/**
 
@@ -61,8 +65,9 @@ private:
 	bool flipped;
 	bool alarm;
 	int safeNumber;
-	int type;
+	tileType type;
 	vector<string> actions;
 	vector<Tile*> adjacent;
 	pair<int, int> coord;
+	int floor;
 };
