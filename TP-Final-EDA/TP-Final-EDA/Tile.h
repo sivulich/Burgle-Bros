@@ -1,12 +1,21 @@
 #pragma once
 #include "Player.h"
 #include "Configs.h"
-class
-	Tile
+
+typedef enum {
+	ATRIUM = 0x01,
+	CAMERA,
+	COMPUTER_ROOM_F,
+	COMPUTER_ROOM_L, COMPUTER_ROOM_M, DEADBOLT, FINGERPRINT, FOYER, KEYPAD, LABORATORY, LASER, LAVATORY, MOTION, SAFE, SCANNER, SECRET_DOOR, SERVICE_DUCT, STAIR, THERMO, WALKWAY
+} tileType;
+
+
+class Tile
 {
+public:
 	Tile();
-	Tile(int x, int y);
-	Tile(int type, int x, int y);
+	Tile(int x, int y, tileType type);
+	
 	/**
 
 	*/
@@ -38,6 +47,9 @@ class
 	void  setAlarm(bool b);
 
 	/**
+	*/
+	void setCoord(int x, int y);
+	/**
 
 	*/
 	vector<string>& getActions(Player p);
@@ -64,5 +76,5 @@ private:
 	int type;
 	vector<string> actions;
 	vector<Tile*> adjacent;
-	pair<int, int> coord;
+	Coord coord;
 };
