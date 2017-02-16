@@ -258,6 +258,12 @@
     <ClInclude Include="actionNode.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Loot.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="basicDeck.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -306,6 +312,12 @@
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="actionNode.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Loot.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="basicDeck.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>

@@ -71,6 +71,8 @@
     <ClInclude Include="alx\VertexDecl.hpp" />
     <ClInclude Include="alx\Voice.hpp" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="basicDeck.h" />
+    <ClInclude Include="Loot.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="TileObserver.h" />
     <ClInclude Include="Configs.h" />
@@ -98,11 +100,13 @@
     <ClCompile Include="GuardDeck.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="localControler.cpp" />
+    <ClCompile Include="Loot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="PatrolCard.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="basicDeck.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileObserver.cpp" />

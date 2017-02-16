@@ -1,6 +1,7 @@
 #pragma once
 #include "Configs.h"
 #include "actionNode.h"
+#include "Loot.h"
 
 class Player
 {
@@ -17,6 +18,7 @@ public:
 
 	vector<Coord> visibleFrom;
 	list <actionNode> actions;
+	list <Loot> loots;
 private:
 	string name;
 	characterID id;
