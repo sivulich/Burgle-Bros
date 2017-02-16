@@ -3,7 +3,6 @@
 
 Player::Player(string & playerName) {
 	name = playerName;
-	id = 0;
 	pos = { 0,0 };
 	actionTokens = 0;
 	stealthTokens = 0;

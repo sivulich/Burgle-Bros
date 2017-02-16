@@ -3,6 +3,7 @@
 #include "Observer.h"
 #include "Container.h"
 #include "TileObserver.h"
+#include "Floor.h"
 class FloorObserver :public Observer {
 public:
 	FloorObserver(Floor* f,Container* p);
