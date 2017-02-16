@@ -7,6 +7,7 @@ public:
 	void draw(Bitmap* target);
 	string click(int y, int x);
 	void unClick(int y, int x);
+	bool overYou(int y, int x);
 	~Textbox() { delete font; delete titilate; };
 private:
 	EventQueue queue;

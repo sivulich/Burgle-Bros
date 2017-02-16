@@ -40,6 +40,17 @@ Textbox::unClick(int y, int x)
 	titilate->stop();
 	return;
 }
+bool
+Textbox::overYou(int y, int x)
+{
+	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	{
+		hover = true;
+		return true;
+	}
+	hover = false;
+	return false;
+}
 void
 Textbox::draw(Bitmap* target)
 {
