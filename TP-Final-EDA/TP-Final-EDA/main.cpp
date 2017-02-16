@@ -19,7 +19,7 @@ int main(void)
 	Image peekImage(peek + ".png");
 	Image moveImage(move + ".png");
 	
-	Textbox tbox(10, 10, font, 50, 20);
+	Textbox tbox(10, 10, font, 10, 50);
 	Timer draw(1.0 / 60.0);
 	moveImage.setScale(0.7);
 	moveImage.setPosition(185, 420);
@@ -35,6 +35,7 @@ int main(void)
 	mainScreen.addObject(&testCont);
 	mainScreen.backgroundProperties(0, 0, 0.66666);
 	mainScreen.addObject(&tbox);
+	testImage.setDragable(true);
 	testCont.setDragable(true);
 
 	localControler control(&mainScreen);
