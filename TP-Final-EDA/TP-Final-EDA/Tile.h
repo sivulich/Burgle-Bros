@@ -61,6 +61,9 @@ public:
 	*/
 	vector<Tile*>& getAdjacent();
 
+	/**
+	*/
+	int getFloor() { return floor; };
 private:
 	bool flipped;
 	bool alarm;
