@@ -71,6 +71,8 @@
     <ClInclude Include="alx\VertexDecl.hpp" />
     <ClInclude Include="alx\Voice.hpp" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="TileObserver.h" />
     <ClInclude Include="Configs.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="Guard.h" />
@@ -103,6 +105,7 @@
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\Characters\Characters - The Acrobat.jpg" />

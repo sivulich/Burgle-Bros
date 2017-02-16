@@ -14,6 +14,10 @@ public:
 	Object(string name, int x, int y, int h, int w, double scale);
 
 	/**
+
+	*/
+	virtual Bitmap* getTarget() { return nullptr; };
+	/**
 	
 	*/
 	virtual void draw(Bitmap* target);

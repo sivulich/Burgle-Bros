@@ -20,7 +20,7 @@ int main(void)
 	Image moveImage(move + ".png");
 	
 	Textbox tbox(10, 10, font, 50, 20);
-	tbox.fitText(true);
+	
 
 	Timer draw(1.0 / 60.0);
 	moveImage.setScale(0.7);

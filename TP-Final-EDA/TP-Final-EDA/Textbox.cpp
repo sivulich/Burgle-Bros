@@ -67,15 +67,13 @@ Textbox::draw(Bitmap* target)
 			int c = event.getKeyboardCharacter();
 			if (event.getKeyboardKeycode() == ALLEGRO_KEY_BACKSPACE && buffer.size() > 0)
 				buffer.pop_back();
-			else if (isascii(c) &&  ( x + font->getWidth(buffer.c_str()) < x+w && ( fitToBox==true ? true : buffer.size() < size)))
+			else if (isascii(c) &&  (  font->getWidth(buffer.c_str())+font->getWidth("W") <= w-10 && ( fitToBox==true ? true : buffer.size() < size)))
 					buffer.push_back(c);
 			
 				
 		}
 	}
-	else
-		queue.clear();
 	font->draw(x + 5, y + 2, al_map_rgb(0, 0, 0), buffer.c_str());
 	if(clicked==true && titilate->getCount()%2==0)
-		al_draw_line(x + w / 2+5 + font->getWidth(buffer.c_str() )/2, y + 2, x + w / 2 + 5 + font->getWidth(buffer.c_str() )/2, y + 2 + font->getHeight(), al_map_rgb(0, 0, 0), 2);
+		al_draw_line(x + font->getHeight()/5+ font->getWidth(buffer.c_str() ), y + 2, x + font->getHeight() / 5 + font->getWidth(buffer.c_str()), y + 2 + font->getHeight(), al_map_rgb(0, 0, 0), 2);
 }

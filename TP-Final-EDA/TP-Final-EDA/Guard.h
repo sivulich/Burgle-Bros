@@ -17,7 +17,7 @@ public:
 	/**
 
 	*/
-	void AddNextTarget ( COORD);
+	void AddNextTarget (pair<int, int>);
 
 	/**
 
@@ -26,7 +26,7 @@ public:
 
 private:
 	unsigned steps, currsteps;
-	COORD pos;
-	list<COORD> targets;
+	Coord pos;
+	list<Coord> targets;
 };
 

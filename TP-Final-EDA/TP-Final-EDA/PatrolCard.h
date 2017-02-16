@@ -13,19 +13,19 @@ public:
 	/**
 
 	*/
-	pair<char, char> getCoord();
+	Coord getCoord();
 
 	/**
 
 	*/
-	PatrolCard(COORD coord);
+	PatrolCard(pair<int,int> coord);
 	/**
 
 	*/
 	~PatrolCard();
 
 private:
-	COORD coord;
+	pair<int,int> coord;
 	bool flipped;
 };
 

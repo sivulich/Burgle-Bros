@@ -13,6 +13,7 @@ public:
 	void unClick(int y, int x);
 	void backgroundProperties(int offsetX, int offsetY, double bScale) { this->offsetX = offsetX; this->offsetY = offsetY; this->bScale = bScale; };
 	Display* getDisplay() { return display; };
+	Bitmap* getTarget() { return toDraw; };
 	void drag(int y, int x);
 	~Screen() { delete toDraw; delete display; };
 private:
