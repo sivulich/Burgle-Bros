@@ -95,6 +95,50 @@
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tile.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\Characters\Characters - The Acrobat.jpg" />
+    <Image Include="Images\Characters\Characters - The Hacker.jpg" />
+    <Image Include="Images\Characters\Characters - The Hawk.jpg" />
+    <Image Include="Images\Characters\Characters - The Peterman.jpg" />
+    <Image Include="Images\Characters\Characters - The Raven.jpg" />
+    <Image Include="Images\Characters\Characters - The Rigger.jpg" />
+    <Image Include="Images\Characters\Characters - The Rook.jpg" />
+    <Image Include="Images\Characters\Characters - The Spotter.jpg" />
+    <Image Include="Images\Characters\Characters.JPG" />
+    <Image Include="Images\Loot\Loot - Bust.jpg" />
+    <Image Include="Images\Loot\Loot - Chihuahua (2).jpg" />
+    <Image Include="Images\Loot\Loot - Chihuahua.jpg" />
+    <Image Include="Images\Loot\Loot - Cursed Goblet.jpg" />
+    <Image Include="Images\Loot\Loot - Gemstone.jpg" />
+    <Image Include="Images\Loot\Loot - Gold Bar.jpg" />
+    <Image Include="Images\Loot\Loot - Mirror.jpg" />
+    <Image Include="Images\Loot\Loot - Painting.jpg" />
+    <Image Include="Images\Loot\Loot - Persian Kitty.jpg" />
+    <Image Include="Images\Loot\Loot - Reverse.jpg" />
+    <Image Include="Images\Loot\Loot - Tiara.jpg" />
+    <Image Include="Images\Patrol cards\Tiles 3 - copia (5).jpg" />
+    <Image Include="Images\Tiles\Tile - Atrium.jpg" />
+    <Image Include="Images\Tiles\Tile - Camera.jpg" />
+    <Image Include="Images\Tiles\Tile - Computer Room (Fingerprint).jpg" />
+    <Image Include="Images\Tiles\Tile - Computer Room (Laser).jpg" />
+    <Image Include="Images\Tiles\Tile - Computer Room (Motion).jpg" />
+    <Image Include="Images\Tiles\Tile - Deadbolt.jpg" />
+    <Image Include="Images\Tiles\Tile - Detector.jpg" />
+    <Image Include="Images\Tiles\Tile - Fingerprint.jpg" />
+    <Image Include="Images\Tiles\Tile - Foyer.jpg" />
+    <Image Include="Images\Tiles\Tile - Keypad.jpg" />
+    <Image Include="Images\Tiles\Tile - Laboratory.jpg" />
+    <Image Include="Images\Tiles\Tile - Laser.jpg" />
+    <Image Include="Images\Tiles\Tile - Lavatory.jpg" />
+    <Image Include="Images\Tiles\Tile - Motion.jpg" />
+    <Image Include="Images\Tiles\Tile - Reverse.jpg" />
+    <Image Include="Images\Tiles\Tile - Safe.jpg" />
+    <Image Include="Images\Tiles\Tile - Secret Door.jpg" />
+    <Image Include="Images\Tiles\Tile - Service Duct.jpg" />
+    <Image Include="Images\Tiles\Tile - Stairs.jpg" />
+    <Image Include="Images\Tiles\Tile - Thermo.jpg" />
+    <Image Include="Images\Tiles\Tile - Walkway.jpg" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B67B3C83-A332-4386-A176-80658A8B6572}</ProjectGuid>
     <RootNamespace>TPFinalEDA</RootNamespace>

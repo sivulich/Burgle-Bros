@@ -34,6 +34,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{0fabdcbc-ac1d-4bd6-9175-38ec4366bae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Loot">
+      <UniqueIdentifier>{da740d30-85f9-4487-b9f6-f54fdc00f190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Characters">
+      <UniqueIdentifier>{131fe75d-5d62-4f96-9a0b-016d1dc2e1e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Patrol">
+      <UniqueIdentifier>{9f6d876c-e3b2-46b8-9002-89994b0a01f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Tiles">
+      <UniqueIdentifier>{b258887e-4be6-43f0-b3e0-1ec84efd4eec}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Configs.h">
@@ -251,5 +266,133 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\Loot\Loot - Bust.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Chihuahua (2).jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Chihuahua.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Cursed Goblet.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Gemstone.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Gold Bar.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Mirror.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Painting.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Persian Kitty.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Reverse.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Tiara.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Acrobat.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Hacker.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Hawk.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Peterman.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Raven.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Rigger.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Rook.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Spotter.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters.JPG">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Atrium.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Camera.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Computer Room (Fingerprint).jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Computer Room (Laser).jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Computer Room (Motion).jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Deadbolt.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Detector.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Fingerprint.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Foyer.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Keypad.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Laboratory.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Laser.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Lavatory.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Motion.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Reverse.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Safe.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Secret Door.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Service Duct.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Stairs.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Thermo.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Walkway.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\Tiles 3 - copia (5).jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
   </ItemGroup>
 </Project>
