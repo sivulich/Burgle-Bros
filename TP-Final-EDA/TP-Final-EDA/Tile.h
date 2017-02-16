@@ -6,8 +6,8 @@ class
 {
 public:
 	Tile();
-	Tile(int x, int y);
-	Tile(tileType type, int x, int y);
+	Tile(int x, int y, tileType type);
+	
 	/**
 
 	*/
@@ -41,6 +41,9 @@ public:
 	*/
 	void  setAlarm(bool b);
 
+	/**
+	*/
+	void setCoord(int x, int y);
 	/**
 
 	*/

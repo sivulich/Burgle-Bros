@@ -21,6 +21,14 @@
 #include "alx\Keyboard.hpp"
 #include "alx\Size.hpp"
 
+//#define DEBUG
+#ifdef DEBUG
+#define DEBUG_MSG(x) do { { cerr << x << endl; } } while (0)
+#else
+#define DEBUG_MSG(x)
+#endif
+
+
 using namespace std;
 using namespace alx;
 #define Coord pair<int,int>	// <COL,FILA>
@@ -33,7 +41,7 @@ using namespace alx;
 
 
 
-typedef enum {THE_JUICER=0x20, THE_HACKER, THE_ACROBAT, THE_SPOTTER, THE_HAWK, THE_RAVEN, THE_PETERMAN } characterID;
+typedef enum { THE_JUICER = 0x20, THE_HACKER, THE_ACROBAT, THE_SPOTTER, THE_HAWK, THE_RAVEN, THE_PETERMAN } characterID;
 
 typedef enum {
 	ACK = 0x01,

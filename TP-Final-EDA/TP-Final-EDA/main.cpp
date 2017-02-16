@@ -5,6 +5,8 @@
 #include "Button.h"
 #include "localControler.h"
 #include "Textbox.h"
+#include "Board.h"
+
 int main(void)
 {
 	string background = "background.jpg";
@@ -41,6 +43,8 @@ int main(void)
 	mainScreen.addObject(&tbox);
 	testCont.setDragable(true);
 
+	Board b;
+	b.print();
 	localControler control(&mainScreen);
 	string in;
 	Image* test = nullptr;

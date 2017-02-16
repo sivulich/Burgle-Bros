@@ -7,21 +7,13 @@ Tile::Tile()
 
 }
 
-Tile::Tile(int x, int y)
+Tile::Tile(int x, int y, tileType t)
 {
 	flipped = false;
 	alarm = false;
 	coord.first = x;
 	coord.second = y;
-}
-
-Tile::Tile(tileType type, int x, int y)
-{
-	flipped = false;
-	alarm = false;
-	coord.first = x;
-	coord.second = y;
-	this->type = type;
+	type = t;
 }
 
 
@@ -30,6 +22,7 @@ Tile::Tile(tileType type, int x, int y)
 void Tile::peek(Player p)
 {
 	flipped = true;
+
 
 }
 
@@ -67,6 +60,14 @@ bool Tile::isFlipped()
 void  Tile::setAlarm(bool b)
 {
 
+}
+
+/**
+*/
+void Tile::setCoord(int x, int y)
+{
+	coord.first = x;
+	coord.second = y;
 }
 
 /**

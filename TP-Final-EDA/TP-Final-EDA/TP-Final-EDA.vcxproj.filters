@@ -302,6 +302,9 @@
     <ClCompile Include="PatrolCard.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
     <ClCompile Include="GuardDeck.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
@@ -313,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="FloorObserver.cpp">
       <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
