@@ -8,6 +8,7 @@ public:
 	string click(int y, int x);
 	void unClick(int y, int x);
 	bool overYou(int y, int x);
+	void fitText(bool b) { fitToBox = b; };
 	~Textbox() { delete font; delete titilate; };
 private:
 	EventQueue queue;
@@ -15,6 +16,7 @@ private:
 	Font* font;
 	string buffer;
 	unsigned long long count;
+	bool fitToBox;
 	Timer* titilate;
 	int size;
 };
