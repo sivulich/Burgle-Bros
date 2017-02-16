@@ -234,6 +234,12 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="PatrolCard.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardDeck.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -264,6 +270,12 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolCard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardDeck.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
