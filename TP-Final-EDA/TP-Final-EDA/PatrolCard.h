@@ -13,7 +13,7 @@ public:
 	/**
 
 	*/
-	pair<int, int> getCoord();
+	Coord getCoord();
 
 	/**
 

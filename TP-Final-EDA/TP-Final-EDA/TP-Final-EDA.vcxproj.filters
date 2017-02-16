@@ -240,7 +240,13 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="actionNode.h">
+    <ClInclude Include="TileObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCard.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="GuardDeck.h">
@@ -249,14 +255,8 @@
     <ClInclude Include="Guard.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="PatrolCard.h">
+    <ClInclude Include="actionNode.h">
       <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="TileObserver.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -288,6 +288,24 @@
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TileObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolCard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardDeck.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Guard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="actionNode.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>

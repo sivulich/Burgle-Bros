@@ -21,7 +21,7 @@ public:
 	/**
 
 	*/
-	pair<int, int> getCoord() { return coord; };
+	Coord getCoord() { return coord; };
 	/**
 	*/
 	tileType getType();
@@ -68,6 +68,6 @@ private:
 	tileType type;
 	vector<string> actions;
 	vector<Tile*> adjacent;
-	pair<int, int> coord;
+	Coord coord;
 	int floor;
 };

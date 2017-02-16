@@ -6,13 +6,13 @@ class Player
 {
 public:
 	Player(string & playerName);
-	void setId();
-
+	void setId(characterID i) { id = i; };
+	characterID getId() { return id; };
 	vector<Coord> visibleFrom;
 	list <actionNode> actions;
 private:
 	string name;
-	int id;
+	characterID id;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;

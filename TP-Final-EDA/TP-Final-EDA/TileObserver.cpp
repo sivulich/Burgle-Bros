@@ -27,7 +27,7 @@ TileObserver::TileObserver(Tile* t, Container* p)
 	tile = t;
 	front = new Image(imagesPath[tile->getType()]);
 	back = new Image(string("./Images/Tile - Reverse.jpg"));
-	pair<int, int> coord = tile->getCoord();
+	Coord coord = tile->getCoord();
 	front->setPosition(coord.second*p->getHeight() / 4, coord.first*p->getWidth() / 4);
 	back->setPosition(coord.second*p->getHeight() / 4, coord.first*p->getWidth() / 4);
 	front->setScale(double(p->getWidth()) / 4.0 / double(front->getWidth()));
@@ -53,4 +53,9 @@ TileObserver::update()
 		parent->removeObject(back);
 		parent->addObject(front);
 	}
+}
+TileObserver::~TileObserver()
+{
+	delete back;
+	delete front;
 }

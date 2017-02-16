@@ -27,7 +27,7 @@ using namespace alx;
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
 
-typedef enum {the_juicer=0x20, the_hacker, the_acrobat, the_spotter, the_hawk, the_raven, the_peterman } characterID;
+typedef enum {THE_JUICER=0x20, THE_HACKER, THE_ACROBAT, THE_SPOTTER, THE_HAWK, THE_RAVEN, THE_PETERMAN } characterID;
 
 typedef enum {
 	ACK = 0x01,

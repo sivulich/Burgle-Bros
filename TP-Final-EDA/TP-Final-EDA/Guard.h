@@ -26,7 +26,7 @@ public:
 
 private:
 	unsigned steps, currsteps;
-	pair<int, int> pos;
-	list<pair<int, int>> targets;
+	Coord pos;
+	list<Coord> targets;
 };
 

@@ -8,7 +8,7 @@ class TileObserver :public Observer {
 public:
 	TileObserver(Tile* t,Container* p );
 	void update();
-	TileObserver(Tile* t);
+    ~TileObserver();
 private:
 	Image* back;
 	Image* front;
