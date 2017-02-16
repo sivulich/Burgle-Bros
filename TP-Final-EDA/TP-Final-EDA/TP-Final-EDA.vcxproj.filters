@@ -258,6 +258,15 @@
     <ClInclude Include="actionNode.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="FloorObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
     <ClInclude Include="Loot.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
@@ -305,6 +314,9 @@
     <ClCompile Include="PatrolCard.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
     <ClCompile Include="GuardDeck.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
@@ -312,6 +324,12 @@
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="actionNode.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="Loot.cpp">

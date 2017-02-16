@@ -70,7 +70,10 @@
     <ClInclude Include="alx\Vector2Base.hpp" />
     <ClInclude Include="alx\VertexDecl.hpp" />
     <ClInclude Include="alx\Voice.hpp" />
+    <ClInclude Include="Board.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Floor.h" />
+    <ClInclude Include="FloorObserver.h" />
     <ClInclude Include="basicDeck.h" />
     <ClInclude Include="Loot.h" />
     <ClInclude Include="Observer.h" />
@@ -93,11 +96,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="actionNode.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="FloorObserver.cpp" />
     <ClCompile Include="Guard.cpp" />
     <ClCompile Include="GuardDeck.cpp" />
+    <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="localControler.cpp" />
     <ClCompile Include="Loot.cpp" />
