@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{5b96ed45-a52b-4ddd-819c-fcd97d81b71b}</UniqueIdentifier>
     </Filter>
@@ -25,11 +21,33 @@
     <Filter Include="Source Files\Controllers">
       <UniqueIdentifier>{b9c46c4a-31d4-4513-b11f-47759b27d3b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{0d717e52-3072-42e0-8a27-071d4d349cdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ALX">
+      <UniqueIdentifier>{f21c996a-aba6-49b5-82fc-ac0349be9a88}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Model">
       <UniqueIdentifier>{11281a75-b2ee-45fb-af84-779524414ab2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Model">
-      <UniqueIdentifier>{0d717e52-3072-42e0-8a27-071d4d349cdc}</UniqueIdentifier>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{0fabdcbc-ac1d-4bd6-9175-38ec4366bae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Loot">
+      <UniqueIdentifier>{da740d30-85f9-4487-b9f6-f54fdc00f190}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Characters">
+      <UniqueIdentifier>{131fe75d-5d62-4f96-9a0b-016d1dc2e1e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Patrol">
+      <UniqueIdentifier>{9f6d876c-e3b2-46b8-9002-89994b0a01f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Tiles">
+      <UniqueIdentifier>{b258887e-4be6-43f0-b3e0-1ec84efd4eec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +78,162 @@
     <ClInclude Include="Textbox.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="alx\AllegroFile.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\AudioStream.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Bitmap.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Color.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Condition.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Config.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\ConfigEntryContainer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\ConfigSectionContainer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Display.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Event.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\EventQueue.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\EventSource.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\File.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\FileEntry.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\FilePath.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Fixed.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Font.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Joystick.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\JoystickState.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Keyboard.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\KeyboardState.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Lock.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mixer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mouse.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\MouseState.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mutex.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\NativeFileDialog.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\NativeTextLog.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Point.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Rect.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Sample.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\SampleId.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\SampleInstance.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Shared.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Size.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\State.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\String.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\System.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Thread.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Timeout.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Timer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Transform.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\UserEvent.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\UserEventSource.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Util.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Value.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Vector2.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Vector2Base.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\VertexDecl.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Voice.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -89,5 +263,136 @@
     <ClCompile Include="Textbox.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\Loot\Loot - Bust.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Chihuahua (2).jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Chihuahua.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Cursed Goblet.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Gemstone.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Gold Bar.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Mirror.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Painting.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Persian Kitty.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Reverse.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Tiara.jpg">
+      <Filter>Resource Files\Images\Loot</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Acrobat.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Hacker.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Hawk.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Peterman.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Raven.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Rigger.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Rook.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters - The Spotter.jpg">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters.JPG">
+      <Filter>Resource Files\Images\Characters</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Atrium.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Camera.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Computer Room (Fingerprint).jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Computer Room (Laser).jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Computer Room (Motion).jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Deadbolt.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Detector.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Fingerprint.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Foyer.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Keypad.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Laboratory.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Laser.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Lavatory.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Motion.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Reverse.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Safe.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Secret Door.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Service Duct.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Stairs.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Thermo.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Walkway.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\Tiles 3 - copia (5).jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
   </ItemGroup>
 </Project>

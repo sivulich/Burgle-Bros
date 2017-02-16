@@ -1,9 +1,9 @@
 #include "Textbox.h"
-
+#include <ctype.h>
 
 Textbox::Textbox(int y, int x, string& path, int fSize,int max)
 {
-	al_init();
+	al_init(); //ESTO ES RE CABEZA DESPUES CAMBIEMOSLOOO
 	al_init_primitives_addon();
 	al_install_keyboard();
 	al_init_font_addon();
@@ -19,6 +19,7 @@ Textbox::Textbox(int y, int x, string& path, int fSize,int max)
 	scale = 1;
 	titilate = new Timer(0.5);
 	queue << Keyboard::getEventSource();
+	fitToBox = false;
 }
 string
 Textbox::click(int y, int x)
@@ -31,6 +32,7 @@ Textbox::click(int y, int x)
 	}
 	return "";
 }
+
 void
 Textbox::unClick(int y, int x)
 {
@@ -40,6 +42,17 @@ Textbox::unClick(int y, int x)
 	titilate->stop();
 	return;
 }
+bool
+Textbox::overYou(int y, int x)
+{
+	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	{
+		hover = true;
+		return true;
+	}
+	hover = false;
+	return false;
+}
 void
 Textbox::draw(Bitmap* target)
 {
@@ -48,22 +61,21 @@ Textbox::draw(Bitmap* target)
 	if (clicked == true && queue.isEmpty() == false)
 	{
 		event = queue.getEvent();
-		int c = event.getKeyboardCharacter();
-		if (isalnum(c) != 0 && buffer.size() < size)
+		
+		if (event.getType() == ALLEGRO_EVENT_KEY_CHAR)
 		{
-			buffer.push_back(c);
-		}
-		else if (event.getKeyboardKeycode() == ALLEGRO_KEY_BACKSPACE && buffer.size() > 0)
-		{
-			buffer.pop_back();
+			int c = event.getKeyboardCharacter();
+			if (event.getKeyboardKeycode() == ALLEGRO_KEY_BACKSPACE && buffer.size() > 0)
+				buffer.pop_back();
+			else if (isascii(c) &&  ( x + font->getWidth(buffer.c_str()) < x+w && ( fitToBox==true ? true : buffer.size() < size)))
+					buffer.push_back(c);
 			
-			queue.clear();
-			queue.dropEvent();
+				
 		}
 	}
 	else
 		queue.clear();
-	font->draw(x + w/2-font->getWidth(buffer.c_str())/2, y + 2, al_map_rgb(0, 0, 0), buffer.c_str());
+	font->draw(x + 5, y + 2, al_map_rgb(0, 0, 0), buffer.c_str());
 	if(clicked==true && titilate->getCount()%2==0)
 		al_draw_line(x + w / 2+5 + font->getWidth(buffer.c_str() )/2, y + 2, x + w / 2 + 5 + font->getWidth(buffer.c_str() )/2, y + 2 + font->getHeight(), al_map_rgb(0, 0, 0), 2);
 }

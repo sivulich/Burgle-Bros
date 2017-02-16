@@ -1,11 +1,13 @@
-#include "object.h"
+#include "Object.h"
 
-object::object()
+
+Object::Object()
 {
 	clickable = true;
 	visible = true;
 	dragable = false;
 	hoverable = true;
+	borderVisibe = false;
 	clicked = false;
 	hover = false;
 	scale = 1;
@@ -14,12 +16,13 @@ object::object()
 	x = 0;
 	y = 0;
 }
-object::object(string name, int x, int y, int h, int w, double scale)
+Object::Object(string name, int x, int y, int h, int w, double scale)
 {
 	clickable = true;
 	visible = true;
 	dragable = false;
 	hoverable = true;
+	borderVisibe = false;
 	clicked = false;
 	hover = false;
 	this->scale = scale;
@@ -29,33 +32,27 @@ object::object(string name, int x, int y, int h, int w, double scale)
 	this->y = y;
 	this->name = name;
 }
-string
-object::click(int y, int x)
+
+string Object::click(int y, int x)
 {
 	if ( clickable == true )
 	{
 		//Check for x
-		if (this->x <= x  &&  x <= (this->x + scale*this->w))
+		if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 		{
-			//check for y
-			if (this->y <= y && y <= (this->y + scale* this->h))
-			{
-				clicked = true;
-				return this->name;
-			}
+			clicked = true;
+			return this->name;
 		}
 	}
 	return "";
 }
 
-void
-object::unClick(int y, int x)
+void Object::unClick(int y, int x)
 {
 	clicked = false;
 }
 
-bool
-object::overYou(int y, int x)
+bool Object::overYou(int y, int x)
 {
 		//Check for x
 		if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
@@ -71,8 +68,7 @@ object::overYou(int y, int x)
 			return false;
 		}
 }
-void
-object::drag(int y, int x)
+void Object::drag(int y, int x)
 {
 	if (dragable == true && clicked==true)
 	{
@@ -83,9 +79,9 @@ object::drag(int y, int x)
 
 
 
-void
-object::draw(Bitmap* target)
+void Object::draw(Bitmap* target)
 {
 	target->setTarget();
-	al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 10);
+	if(borderVisibe)
+		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
 }

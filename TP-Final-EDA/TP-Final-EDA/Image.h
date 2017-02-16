@@ -2,7 +2,7 @@
 
 #include "object.h"
 /*Class used to draw an image, it mantains the original aspect ratio*/
-class Image :public object {
+class Image :public Object {
 public:
 	Image(string& path);
 	/*Draws the image to the given bitmap*/

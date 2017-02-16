@@ -19,4 +19,7 @@ Image::draw(Bitmap* target)
 		im.drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scale*w, scale*h, 0);
 	else
 		im.drawScaled( 0, 0, w, h, x, y, scale* w, scale*h, 0);
+
+	if(borderVisibe)
+		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
 }

@@ -1,7 +1,7 @@
 #pragma once
-#include "object.h"
+#include "Object.h"
 
-class Button :public object
+class Button :public Object
 {
 public:
 	Button(string& n) { name = n; };

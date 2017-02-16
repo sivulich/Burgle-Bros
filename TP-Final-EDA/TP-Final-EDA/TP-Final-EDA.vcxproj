@@ -19,6 +19,56 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="alx\AllegroFile.hpp" />
+    <ClInclude Include="alx\AudioStream.hpp" />
+    <ClInclude Include="alx\Bitmap.hpp" />
+    <ClInclude Include="alx\Color.hpp" />
+    <ClInclude Include="alx\Condition.hpp" />
+    <ClInclude Include="alx\Config.hpp" />
+    <ClInclude Include="alx\ConfigEntryContainer.hpp" />
+    <ClInclude Include="alx\ConfigSectionContainer.hpp" />
+    <ClInclude Include="alx\Display.hpp" />
+    <ClInclude Include="alx\Event.hpp" />
+    <ClInclude Include="alx\EventQueue.hpp" />
+    <ClInclude Include="alx\EventSource.hpp" />
+    <ClInclude Include="alx\File.hpp" />
+    <ClInclude Include="alx\FileEntry.hpp" />
+    <ClInclude Include="alx\FilePath.hpp" />
+    <ClInclude Include="alx\Fixed.hpp" />
+    <ClInclude Include="alx\Font.hpp" />
+    <ClInclude Include="alx\Joystick.hpp" />
+    <ClInclude Include="alx\JoystickState.hpp" />
+    <ClInclude Include="alx\Keyboard.hpp" />
+    <ClInclude Include="alx\KeyboardState.hpp" />
+    <ClInclude Include="alx\Lock.hpp" />
+    <ClInclude Include="alx\Mixer.hpp" />
+    <ClInclude Include="alx\Mouse.hpp" />
+    <ClInclude Include="alx\MouseState.hpp" />
+    <ClInclude Include="alx\Mutex.hpp" />
+    <ClInclude Include="alx\NativeFileDialog.hpp" />
+    <ClInclude Include="alx\NativeTextLog.hpp" />
+    <ClInclude Include="alx\Point.hpp" />
+    <ClInclude Include="alx\Rect.hpp" />
+    <ClInclude Include="alx\Sample.hpp" />
+    <ClInclude Include="alx\SampleId.hpp" />
+    <ClInclude Include="alx\SampleInstance.hpp" />
+    <ClInclude Include="alx\Shared.hpp" />
+    <ClInclude Include="alx\Size.hpp" />
+    <ClInclude Include="alx\State.hpp" />
+    <ClInclude Include="alx\String.hpp" />
+    <ClInclude Include="alx\System.hpp" />
+    <ClInclude Include="alx\Thread.hpp" />
+    <ClInclude Include="alx\Timeout.hpp" />
+    <ClInclude Include="alx\Timer.hpp" />
+    <ClInclude Include="alx\Transform.hpp" />
+    <ClInclude Include="alx\UserEvent.hpp" />
+    <ClInclude Include="alx\UserEventSource.hpp" />
+    <ClInclude Include="alx\Util.hpp" />
+    <ClInclude Include="alx\Value.hpp" />
+    <ClInclude Include="alx\Vector2.hpp" />
+    <ClInclude Include="alx\Vector2Base.hpp" />
+    <ClInclude Include="alx\VertexDecl.hpp" />
+    <ClInclude Include="alx\Voice.hpp" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Configs.h" />
     <ClInclude Include="controller.h" />
@@ -26,8 +76,10 @@
     <ClInclude Include="object.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Textbox.h" />
+    <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -41,6 +93,51 @@
     <ClCompile Include="object.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Textbox.cpp" />
+    <ClCompile Include="Tile.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\Characters\Characters - The Acrobat.jpg" />
+    <Image Include="Images\Characters\Characters - The Hacker.jpg" />
+    <Image Include="Images\Characters\Characters - The Hawk.jpg" />
+    <Image Include="Images\Characters\Characters - The Peterman.jpg" />
+    <Image Include="Images\Characters\Characters - The Raven.jpg" />
+    <Image Include="Images\Characters\Characters - The Rigger.jpg" />
+    <Image Include="Images\Characters\Characters - The Rook.jpg" />
+    <Image Include="Images\Characters\Characters - The Spotter.jpg" />
+    <Image Include="Images\Characters\Characters.JPG" />
+    <Image Include="Images\Loot\Loot - Bust.jpg" />
+    <Image Include="Images\Loot\Loot - Chihuahua (2).jpg" />
+    <Image Include="Images\Loot\Loot - Chihuahua.jpg" />
+    <Image Include="Images\Loot\Loot - Cursed Goblet.jpg" />
+    <Image Include="Images\Loot\Loot - Gemstone.jpg" />
+    <Image Include="Images\Loot\Loot - Gold Bar.jpg" />
+    <Image Include="Images\Loot\Loot - Mirror.jpg" />
+    <Image Include="Images\Loot\Loot - Painting.jpg" />
+    <Image Include="Images\Loot\Loot - Persian Kitty.jpg" />
+    <Image Include="Images\Loot\Loot - Reverse.jpg" />
+    <Image Include="Images\Loot\Loot - Tiara.jpg" />
+    <Image Include="Images\Patrol cards\Tiles 3 - copia (5).jpg" />
+    <Image Include="Images\Tiles\Tile - Atrium.jpg" />
+    <Image Include="Images\Tiles\Tile - Camera.jpg" />
+    <Image Include="Images\Tiles\Tile - Computer Room (Fingerprint).jpg" />
+    <Image Include="Images\Tiles\Tile - Computer Room (Laser).jpg" />
+    <Image Include="Images\Tiles\Tile - Computer Room (Motion).jpg" />
+    <Image Include="Images\Tiles\Tile - Deadbolt.jpg" />
+    <Image Include="Images\Tiles\Tile - Detector.jpg" />
+    <Image Include="Images\Tiles\Tile - Fingerprint.jpg" />
+    <Image Include="Images\Tiles\Tile - Foyer.jpg" />
+    <Image Include="Images\Tiles\Tile - Keypad.jpg" />
+    <Image Include="Images\Tiles\Tile - Laboratory.jpg" />
+    <Image Include="Images\Tiles\Tile - Laser.jpg" />
+    <Image Include="Images\Tiles\Tile - Lavatory.jpg" />
+    <Image Include="Images\Tiles\Tile - Motion.jpg" />
+    <Image Include="Images\Tiles\Tile - Reverse.jpg" />
+    <Image Include="Images\Tiles\Tile - Safe.jpg" />
+    <Image Include="Images\Tiles\Tile - Secret Door.jpg" />
+    <Image Include="Images\Tiles\Tile - Service Duct.jpg" />
+    <Image Include="Images\Tiles\Tile - Stairs.jpg" />
+    <Image Include="Images\Tiles\Tile - Thermo.jpg" />
+    <Image Include="Images\Tiles\Tile - Walkway.jpg" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B67B3C83-A332-4386-A176-80658A8B6572}</ProjectGuid>
@@ -110,6 +207,17 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>D:\Google Drive\ITBA\3° Cuatrimestre\EDA\TP final\Source\TP-Final-EDA\TP-Final-EDA\packages\Allegro.5.2.2.0\build\native\include;$(IncludePath)</IncludePath>
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>D:\Google Drive\ITBA\3° Cuatrimestre\EDA\TP final\Source\TP-Final-EDA\TP-Final-EDA\packages\Allegro.5.2.2.0\build\native\include;$(IncludePath)</IncludePath>
