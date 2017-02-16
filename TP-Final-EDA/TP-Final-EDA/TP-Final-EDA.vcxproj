@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="actionNode.h" />
+    <ClInclude Include="actionsID.h" />
     <ClInclude Include="alx\AllegroFile.hpp" />
     <ClInclude Include="alx\AudioStream.hpp" />
     <ClInclude Include="alx\Bitmap.hpp" />
@@ -85,6 +87,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="actionNode.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Container.cpp" />
     <ClCompile Include="Image.cpp" />

@@ -24,3 +24,4 @@ using namespace std;
 using namespace alx;
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
+#define Coord pair<char, char>
