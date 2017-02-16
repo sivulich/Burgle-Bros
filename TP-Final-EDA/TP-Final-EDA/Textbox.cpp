@@ -14,7 +14,7 @@ Textbox::Textbox(int y, int x, string& path, int fSize,int max)
 	this->y = y;
 	this->x = x;
 	this->size = max;
-	w =10+size* font->getWidth("H");
+	w =10+size* font->getWidth("W");
 	h = 4 + font->getHeight();
 	scale = 1;
 	titilate = new Timer(0.5);
@@ -73,9 +73,9 @@ Textbox::draw(Bitmap* target)
 				
 		}
 	}
-	else queue.clear();
-
+	else
+		queue.clear();
 	font->draw(x + 5, y + 2, al_map_rgb(0, 0, 0), buffer.c_str());
 	if(clicked==true && titilate->getCount()%2==0)
-		al_draw_line(x + 10 + font->getWidth(buffer.c_str()), y + 2, x + 10 + font->getWidth(buffer.c_str()), y + 2 + font->getHeight(), al_map_rgb(0, 0, 0), 2);
+		al_draw_line(x + w / 2+5 + font->getWidth(buffer.c_str() )/2, y + 2, x + w / 2 + 5 + font->getWidth(buffer.c_str() )/2, y + 2 + font->getHeight(), al_map_rgb(0, 0, 0), 2);
 }
