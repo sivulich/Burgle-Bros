@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actionNode.h" />
-    <ClInclude Include="actionsID.h" />
     <ClInclude Include="alx\AllegroFile.hpp" />
     <ClInclude Include="alx\AudioStream.hpp" />
     <ClInclude Include="alx\Bitmap.hpp" />

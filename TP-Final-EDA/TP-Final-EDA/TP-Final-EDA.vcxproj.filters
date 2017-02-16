@@ -237,9 +237,6 @@
     <ClInclude Include="actionNode.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="actionsID.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
     <ClInclude Include="GuardDeck.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
