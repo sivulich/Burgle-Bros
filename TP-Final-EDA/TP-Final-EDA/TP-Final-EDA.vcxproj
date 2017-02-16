@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="actionNode.h" />
     <ClInclude Include="alx\AllegroFile.hpp" />
     <ClInclude Include="alx\AudioStream.hpp" />
     <ClInclude Include="alx\Bitmap.hpp" />
@@ -71,14 +72,18 @@
     <ClInclude Include="alx\Voice.hpp" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="FloorObserver.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="TileObserver.h" />
     <ClInclude Include="Configs.h" />
     <ClInclude Include="controller.h" />
-    <ClInclude Include="Floor.h" />
-    <ClInclude Include="GameModel.h" />
+    <ClInclude Include="Guard.h" />
+    <ClInclude Include="GuardDeck.h" />
     <ClInclude Include="localControler.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="Container.h" />
     <ClInclude Include="Image.h" />
+    <ClInclude Include="PatrolCard.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Textbox.h" />
@@ -89,16 +94,23 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="actionNode.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="FloorObserver.cpp" />
+    <ClCompile Include="Guard.cpp" />
+    <ClCompile Include="GuardDeck.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="localControler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="object.cpp" />
+    <ClCompile Include="PatrolCard.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\Characters\Characters - The Acrobat.jpg" />
