@@ -234,7 +234,10 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="PatrolCard.h">
+    <ClInclude Include="actionNode.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="actionsID.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="GuardDeck.h">
@@ -243,11 +246,8 @@
     <ClInclude Include="Guard.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="actionNode.h">
+    <ClInclude Include="PatrolCard.h">
       <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="actionsID.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -281,17 +281,20 @@
     <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="PatrolCard.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardDeck.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Guard.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="actionNode.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Guard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardDeck.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolCard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

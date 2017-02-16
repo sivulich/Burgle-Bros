@@ -5,8 +5,7 @@
 class Player
 {
 public:
-	Player(string name);
-	Player(string name, int id);
+	Player(string & playerName);
 	void setId();
 
 	vector<Coord> visibleFrom;
@@ -15,8 +14,6 @@ private:
 	string name;
 	int id;
 	Coord pos;
-	
-
 	int actionTokens;
 	int stealthTokens;
 	
