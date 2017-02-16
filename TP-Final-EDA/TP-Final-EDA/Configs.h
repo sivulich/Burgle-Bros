@@ -26,6 +26,12 @@ using namespace alx;
 #define Coord pair<int,int>	// <COL,FILA>
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
+/*CHARACTER SETTINGS*/
+#define NUMBER_STEALTH_TOKENS 3
+#define NUMBER_ACTION_TOKENS 4
+
+
+
 
 typedef enum {the_juicer=0x20, the_hacker, the_acrobat, the_spotter, the_hawk, the_raven, the_peterman } characterID;
 

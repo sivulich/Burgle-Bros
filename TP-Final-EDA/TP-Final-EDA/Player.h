@@ -6,13 +6,19 @@ class Player
 {
 public:
 	Player(string & playerName);
-	void setId();
+	void setId(characterID character);
+	void newTurn() { actionTokens = NUMBER_ACTION_TOKENS; };
+	void move(Coord & newPos);
+	void removeStealthToken() { stealthTokens--; };
+	void removeActionToken() { actionTokens--; };
+	int getStealthTokens() { return stealthTokens; };
+	int getActionTokens() { return actionTokens; };
 
 	vector<Coord> visibleFrom;
 	list <actionNode> actions;
 private:
 	string name;
-	int id;
+	characterID id;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;
