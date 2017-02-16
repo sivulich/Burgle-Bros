@@ -71,6 +71,7 @@
     <ClInclude Include="alx\VertexDecl.hpp" />
     <ClInclude Include="alx\Voice.hpp" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="FloorObserver.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="TileObserver.h" />
     <ClInclude Include="Configs.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="actionNode.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="FloorObserver.cpp" />
     <ClCompile Include="Guard.cpp" />
     <ClCompile Include="GuardDeck.cpp" />
     <ClCompile Include="Image.cpp" />

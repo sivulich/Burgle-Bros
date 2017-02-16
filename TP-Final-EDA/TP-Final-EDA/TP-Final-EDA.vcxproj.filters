@@ -258,6 +258,9 @@
     <ClInclude Include="actionNode.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="FloorObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -307,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="actionNode.cpp">
       <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
