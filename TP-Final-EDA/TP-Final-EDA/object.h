@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Configs.h"
-class object {
+class Object {
 public:
-	object();
-	object(string name, int x, int y, int h, int w, double scale);
+	Object();
+	Object(string name, int x, int y, int h, int w, double scale);
 	virtual void draw(Bitmap* target);
 	/*Sets the scale to draw the object (height*scale and width*scale)*/
 	void setScale(double s) { scale = s; };

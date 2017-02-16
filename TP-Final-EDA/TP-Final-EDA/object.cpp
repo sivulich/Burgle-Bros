@@ -1,6 +1,6 @@
-#include "object.h"
+#include "Object.h"
 
-object::object()
+Object::Object()
 {
 	clickable = true;
 	visible = true;
@@ -14,7 +14,7 @@ object::object()
 	x = 0;
 	y = 0;
 }
-object::object(string name, int x, int y, int h, int w, double scale)
+Object::Object(string name, int x, int y, int h, int w, double scale)
 {
 	clickable = true;
 	visible = true;
@@ -30,7 +30,7 @@ object::object(string name, int x, int y, int h, int w, double scale)
 	this->name = name;
 }
 string
-object::click(int y, int x)
+Object::click(int y, int x)
 {
 	if ( clickable == true )
 	{
@@ -49,13 +49,13 @@ object::click(int y, int x)
 }
 
 void
-object::unClick(int y, int x)
+Object::unClick(int y, int x)
 {
 	clicked = false;
 }
 
 bool
-object::overYou(int y, int x)
+Object::overYou(int y, int x)
 {
 		//Check for x
 		if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
@@ -72,7 +72,7 @@ object::overYou(int y, int x)
 		}
 }
 void
-object::drag(int y, int x)
+Object::drag(int y, int x)
 {
 	if (dragable == true && clicked==true)
 	{
@@ -84,7 +84,7 @@ object::drag(int y, int x)
 
 
 void
-object::draw(Bitmap* target)
+Object::draw(Bitmap* target)
 {
 	target->setTarget();
 	al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 10);

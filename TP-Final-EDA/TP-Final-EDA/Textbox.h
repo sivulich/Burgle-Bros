@@ -1,7 +1,7 @@
 #pragma once
-#include "object.h"
+#include "Object.h"
 
-class Textbox :public object {
+class Textbox :public Object {
 public:
 	Textbox(int x, int y, string& path, int fSize,int max);
 	void draw(Bitmap* target);

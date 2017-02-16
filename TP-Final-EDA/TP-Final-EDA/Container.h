@@ -1,9 +1,9 @@
 #pragma once
 
-#include "object.h"
+#include "Object.h"
 /*Class used to pack many objects to a closed form, all objects will be drawn with its position relative to parents position
 * and with the parents scale (pScale*cScale*size)*/
-class Container :public object {
+class Container :public Object {
 public:
 	/*This constructor should be used when setting a background to fill the container*/
 	Container(string& path);
@@ -16,12 +16,12 @@ public:
 	//Changes the properties of the background
 	void backgroundProperties(int offsetX, int offsetY, double bScale) { this->offsetX = offsetX; this->offsetY = offsetY; this->bScale = bScale; };
 
-	/*Adds an object to the parent container*/
-	void addObject(object* ob) { objects.insert(objects.begin(),ob); };
-	bool removeObject(object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; }
+	/*Adds an Object to the parent container*/
+	void addObject(Object* ob) { objects.insert(objects.begin(),ob); };
+	bool removeObject(Object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; }
 	/*Sets the size in pixels, within the parent container*/
 	void setSize(int h, int w) { this->h = h; this->w = w; };
-	/*returns the name of what you pressed, can be container or object within the container*/
+	/*returns the name of what you pressed, can be container or Object within the container*/
 	string click(int y, int x);
 	bool overYou(int y, int x);
 	void unClick(int y, int x);
@@ -38,5 +38,5 @@ private:
 	Bitmap* toDraw;// Que es?? Tobi:P
 
 	/*Child objects for the given container*/
-	vector<object*> objects;
+	vector<Object*> objects;
 };

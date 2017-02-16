@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Header Files\Graphics">
       <UniqueIdentifier>{5b96ed45-a52b-4ddd-819c-fcd97d81b71b}</UniqueIdentifier>
     </Filter>
@@ -25,11 +21,18 @@
     <Filter Include="Source Files\Controllers">
       <UniqueIdentifier>{b9c46c4a-31d4-4513-b11f-47759b27d3b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{0d717e52-3072-42e0-8a27-071d4d349cdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ALX">
+      <UniqueIdentifier>{f21c996a-aba6-49b5-82fc-ac0349be9a88}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Model">
       <UniqueIdentifier>{11281a75-b2ee-45fb-af84-779524414ab2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Model">
-      <UniqueIdentifier>{0d717e52-3072-42e0-8a27-071d4d349cdc}</UniqueIdentifier>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +63,162 @@
     <ClInclude Include="Textbox.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="alx\AllegroFile.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\AudioStream.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Bitmap.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Color.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Condition.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Config.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\ConfigEntryContainer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\ConfigSectionContainer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Display.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Event.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\EventQueue.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\EventSource.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\File.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\FileEntry.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\FilePath.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Fixed.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Font.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Joystick.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\JoystickState.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Keyboard.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\KeyboardState.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Lock.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mixer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mouse.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\MouseState.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mutex.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\NativeFileDialog.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\NativeTextLog.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Point.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Rect.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Sample.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\SampleId.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\SampleInstance.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Shared.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Size.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\State.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\String.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\System.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Thread.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Timeout.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Timer.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Transform.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\UserEvent.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\UserEventSource.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Util.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Value.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Vector2.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Vector2Base.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\VertexDecl.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Voice.hpp">
+      <Filter>Header Files\ALX</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -88,6 +247,9 @@
     </ClCompile>
     <ClCompile Include="Textbox.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
