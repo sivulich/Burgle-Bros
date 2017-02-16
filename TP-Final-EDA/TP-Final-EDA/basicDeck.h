@@ -10,6 +10,7 @@ public:
 	void addCard(T & card);
 	void discardTop();
 	void shuffleDeck();
+	vector<T>& getDeck() { return deck; };
 	T peekTop();
 
 private:
