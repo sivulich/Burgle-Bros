@@ -54,3 +54,10 @@ int  Player::getStealthTokens() {
 int  Player::getActionTokens() {
 	return actionTokens;
 }
+/**
+	Appends the action given to the front of the list of player actions.
+*/
+void Player::newAction(string & action) {
+	actionNode temp(action);
+	actions.push_front(temp);
+}

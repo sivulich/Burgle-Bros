@@ -7,12 +7,13 @@ class Player
 public:
 	Player(string & playerName);
 	void setId(characterID character);
-	void newTurn() { actionTokens = NUMBER_ACTION_TOKENS; };
+	void newTurn();
 	void move(Coord & newPos);
-	void removeStealthToken() { stealthTokens--; };
-	void removeActionToken() { actionTokens--; };
-	int getStealthTokens() { return stealthTokens; };
-	int getActionTokens() { return actionTokens; };
+	void newAction(string & action);
+	void removeStealthToken();
+	void removeActionToken();
+	int getStealthTokens();
+	int getActionTokens();
 
 	vector<Coord> visibleFrom;
 	list <actionNode> actions;

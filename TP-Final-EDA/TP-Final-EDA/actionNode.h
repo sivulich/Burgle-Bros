@@ -6,8 +6,6 @@ public:
 	string myAction;
 
 	actionNode(string & action);
-	~actionNode();
-
 	/**
 		Sets true to know the action was sent.
 	*/
