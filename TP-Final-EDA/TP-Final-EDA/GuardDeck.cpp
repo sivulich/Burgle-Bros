@@ -35,3 +35,14 @@ void reset()
 {
 
 }
+
+
+list<PatrolCard> & GetCards()
+{
+
+}
+
+list<PatrolCard> & GetGraveyard()
+{
+
+}

@@ -2,7 +2,7 @@
 
 
 
-PatrolCard::PatrolCard( pair<char,char> coord)
+PatrolCard::PatrolCard( COORD coord)
 {
 }
 
@@ -16,7 +16,7 @@ void flip()
 
 }
 
-pair<char, char> getCoord()
+COORD getCoord()
 {
 
 }

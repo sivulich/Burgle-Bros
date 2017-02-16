@@ -39,6 +39,16 @@ public:
 	*/
 	void reset();
 
+	/**
+
+	*/
+	list<PatrolCard> & GetCards();
+
+	/**
+
+	*/
+	list<PatrolCard> & GetGraveyard();
+
 private:
 	list<PatrolCard> cards;
 	list<PatrolCard> graveyard;

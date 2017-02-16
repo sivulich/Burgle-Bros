@@ -72,6 +72,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Configs.h" />
     <ClInclude Include="controller.h" />
+    <ClInclude Include="Guard.h" />
     <ClInclude Include="GuardDeck.h" />
     <ClInclude Include="localControler.h" />
     <ClInclude Include="object.h" />
@@ -89,6 +90,7 @@
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="Guard.cpp" />
     <ClCompile Include="GuardDeck.cpp" />
     <ClCompile Include="Image.cpp" />
     <ClCompile Include="localControler.cpp" />

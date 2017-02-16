@@ -18,14 +18,14 @@ public:
 	/**
 
 	*/
-	PatrolCard(pair<char , char> coord);
+	PatrolCard(COORD coord);
 	/**
 
 	*/
 	~PatrolCard();
 
 private:
-	pair<char, char> coord;
+	COORD coord;
 	bool flipped;
 };
 

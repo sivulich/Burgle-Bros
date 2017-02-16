@@ -22,5 +22,5 @@
 #include "alx\Size.hpp"
 using namespace std;
 using namespace alx;
-
+#define COORD pair<char,char>
 #define HOVER_TONE al_map_rgba(255,255,255,200)
