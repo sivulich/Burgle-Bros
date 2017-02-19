@@ -1,6 +1,7 @@
 #pragma once
 #include "Configs.h"
 #include "actionNode.h"
+#include "Loot.h"
 
 class Player
 {
@@ -65,6 +66,7 @@ public:
 		Appends the action given to the front of the list of player actions.
 	*/
 	list <actionNode> actions;
+	list <Loot> loots;
 private:
 	string name;
 	characterID id;
