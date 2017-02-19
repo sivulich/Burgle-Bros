@@ -14,8 +14,8 @@ public:
 			floor[i]->print();
 			cout << endl;
 		}
-			
 	};
+
 private:
 	Floor* floor[3];
 };
