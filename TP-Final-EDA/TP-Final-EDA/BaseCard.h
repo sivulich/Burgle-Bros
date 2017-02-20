@@ -12,10 +12,10 @@ public:
 	virtual void turnUp(bool b) { b == true ? turnUp() : turnDown(); };
 	virtual void turnDown() { faceUp = false; };
 	virtual void turnDown(bool b) { b == true ? turnDown() : turnUp(); };
-	void setDesctiption(std::string& s) { description = s; };
+	void setDescription(std::string& s) { description = s; };
 	std::string getDescription() { return description; };
 private:
-	bool  faceUp;
+	bool faceUp;
 	std::string description;
 };
 

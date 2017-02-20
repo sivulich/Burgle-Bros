@@ -3,7 +3,7 @@
 #include "BaseCard.h"
 #include "Enumerations.h"
 
-DEFINE_ENUM_WITH_CONVERSIONS(tileType,
+DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 (ATRIUM, 0x01)
 (CAMERA, 0x02)
 (COMPUTER_ROOM_F, 0x03)
@@ -41,21 +41,27 @@ public:
 	*/
 	Tile(int x, int y);
 	
+//////////////////////////////////////////////////////////////////////
 	/**
 		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
 	*/
-	virtual void peek(Player p); //=0!!!
+//	virtual void peek(Player p); //=0!!!
 
 	/**
 		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
 	*/
-	virtual bool moveTo(Player p); //=0!!!
-
+//	virtual bool moveTo(Player p); //=0!!!
+//////////////////////////////////////////////////////////////////////
 	/**
 		Returns the position of the tile in the floor.
 	*/
 	Coord getCoord() { return coord; };
-	
+
+	/**
+	Set the position of the tile in the floor.
+	*/
+	void setCoord(int x, int y);
+
 	/**
 		Returns the type of the tile.
 	*/
@@ -73,7 +79,7 @@ public:
 	/**
 		Checks if the tile is flipped.
 	*/
-	bool isFlipped();
+	bool isFlipped();	//DEBERIA TENER NOMBRE DISTINTO DE isFlipped() DE BASECARD
 
 	/**
 		Activate an alarm in the tile.
@@ -81,19 +87,14 @@ public:
 	void  setAlarm(bool b);
 
 	/**
-		Set the position of the tile in the floor.
+		DEBERIA SER VIRTUAL PURA? TIENE SENTIDO DEFINIRLA EN UN TILE GENERICO?
 	*/
-	void setCoord(int x, int y);
-	
-	/**
-		
-	*/
-	vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
+	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
 
 	/**
 
 	*/
-	bool doAction(string Action, Player p);
+	virtual bool doAction(string action, Player p);
 
 	/**
 		If flipped returns the safe number, else returns 0.
@@ -116,19 +117,30 @@ public:
 		for (auto t : adjacent)
 		{
 			if (t->getCoord() == b);
-				//adjacent.remove(t);
+			//adjacent.remove(t);
 		}
 	}
 
+	/**
+		Returns true if the tile given is adjacent
+	*/
+	bool isAdjacent(Coord t);
+
+	/**
+		Adds an action node to the player
+	*/
+	void addPlayerAction(Player p, string action);
+	
+
 	bool walls[4];
 
-private:
+protected:
 	Coord coord;
 	int floor;
 	bool alarm;
 	int safeNumber;
-	TileCard tileCard;
-	vector<Tile*> adjacent;
-	Coord coord;
 	int floor;
+	tileType type;
+	vector<Tile*> adjacent;
+	vector<string> actions;
 };

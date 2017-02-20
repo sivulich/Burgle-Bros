@@ -21,7 +21,10 @@ public:
 		Sets the ID of the player
 	*/
 	void setName(string & playerName);
-
+	/**
+		Returns the player's positions
+	*/
+	Coord getPosition() { return pos; };
 	/**
 
 	*/
@@ -38,7 +41,7 @@ public:
 	void move(Coord & newPos);
 	
 	/**
-	Appends the action given to the front of the list of player actions.
+		Appends the action given to the front of the list of player actions.
 	*/
 	void newAction(string & action);
 	
@@ -61,7 +64,7 @@ public:
 	*/
 	int getActionTokens();
 	/**
-	Simulates a die being thrown
+		Simulates a die being thrown
 	*/
 	int throwDice();
 
