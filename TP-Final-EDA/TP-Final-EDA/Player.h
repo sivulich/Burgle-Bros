@@ -21,9 +21,12 @@ public:
 		Sets the name of the player
 	*/
 	void setName(string & playerName);
-
 	/**
-		
+		Returns the player's positions
+	*/
+	Coord getPosition() { return pos; };
+	/**
+
 	*/
 	void setId(characterID character);
 	
@@ -36,9 +39,9 @@ public:
 		Sets the player position to the parameter given
 	*/
 	void move(Coord & newPos);
-
+	
 	/**
-
+		Appends the action given to the front of the list of player actions.
 	*/
 	void newAction(string & action);
 	
@@ -60,6 +63,10 @@ public:
 		Returns the amount of action tokens
 	*/
 	int getActionTokens();
+	/**
+		Simulates a die being thrown
+	*/
+	int throwDice();
 
 	//vector<> visibleFrom;
 

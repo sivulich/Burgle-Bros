@@ -1,4 +1,7 @@
 #pragma once
+#ifndef CONFIGS_H
+#define CONFIGS_H
+
 #include <cstdlib>
 #include <cmath>
 #include <string>
@@ -93,3 +96,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(lootID,
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
+typedef enum { TIARA = 0x30, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR } lootID;
+
+#endif //CONFIGS_H

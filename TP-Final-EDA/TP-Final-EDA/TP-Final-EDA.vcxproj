@@ -160,6 +160,7 @@
     <ClCompile Include="Thermo.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileFactory.cpp" />
+    <ClCompile Include="TileCard.cpp" />
     <ClCompile Include="TileObserver.cpp" />
     <ClCompile Include="Walkway.cpp" />
   </ItemGroup>
