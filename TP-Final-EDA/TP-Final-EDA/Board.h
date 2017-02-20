@@ -1,6 +1,8 @@
 #pragma once
-#include "Floor.h"
 #include "Configs.h"
+#include "Floor.h"
+#include "Player.h"
+#include "Loot.h"
 
 class Board
 {
@@ -18,5 +20,8 @@ public:
 	};
 private:
 	Floor* floor[3];
+	Player * players[2];
+	Loot loots[3];
+
 };
 

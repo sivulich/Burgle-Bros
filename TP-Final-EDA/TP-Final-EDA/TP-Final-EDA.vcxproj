@@ -77,6 +77,7 @@
     <ClInclude Include="basicDeck.h" />
     <ClInclude Include="Loot.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="TileCard.h" />
     <ClInclude Include="TileObserver.h" />
     <ClInclude Include="Configs.h" />
     <ClInclude Include="controller.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="basicDeck.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileCard.cpp" />
     <ClCompile Include="TileObserver.cpp" />
   </ItemGroup>
   <ItemGroup>

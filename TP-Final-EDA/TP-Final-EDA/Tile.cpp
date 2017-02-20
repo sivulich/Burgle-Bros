@@ -13,7 +13,7 @@ Tile::Tile(int x, int y, tileType t)
 	alarm = false;
 	coord.first = x;
 	coord.second = y;
-	type = t;
+	tileCard.setType(t);
 }
 
 
@@ -21,7 +21,8 @@ Tile::Tile(int x, int y, tileType t)
 */
 void Tile::peek(Player p)
 {
-	flipped = true;
+	if(p.getActionTokens > 0)
+		flipped = true;
 
 
 }
@@ -38,7 +39,7 @@ bool Tile::moveTo(Player p)
 */
 tileType Tile::getType()
 {
-	return type;
+	return tileCard.getType();;
 }
 
 /**
@@ -72,9 +73,14 @@ void Tile::setCoord(int x, int y)
 
 /**
 */
-vector<string>& Tile::getActions(Player p)
+vector<string>& Tile::getActions(Player p, Coord guardPos, Coord partnerPos)
 {
-	return actions;
+	tileCard.actions.clear();
+	if (p.getActionTokens() > 0 && flipped == false)
+		tileCard.actions.push_back("PEEK");
+
+
+	return tileCard.actions;
 }
 
 /**

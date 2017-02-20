@@ -1,4 +1,7 @@
 #pragma once
+#ifndef CONFIGS_H
+#define CONFIGS_H
+
 #include <cstdlib>
 #include <string>
 #include <list>
@@ -82,3 +85,5 @@ typedef enum{
 	KEYPAD,LABORATORY,LASER,LAVATORY,MOTION,SAFE,SCANNER,SECRET_DOOR,SERVICE_DUCT,STAIR,THERMO,WALKWAY} tileType;
 
 typedef enum { TIARA = 0x30, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR } lootID;
+
+#endif //CONFIGS_H

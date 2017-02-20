@@ -273,6 +273,9 @@
     <ClInclude Include="basicDeck.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="TileCard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -337,6 +340,9 @@
     </ClCompile>
     <ClCompile Include="basicDeck.cpp">
       <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCard.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

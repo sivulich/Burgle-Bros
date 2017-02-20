@@ -1,6 +1,8 @@
 #pragma once
 #include "Player.h"
 #include "Configs.h"
+#include "TileCard.h"
+
 class
 	Tile
 {
@@ -23,6 +25,7 @@ public:
 	*/
 	Coord getCoord() { return coord; };
 	/**
+
 	*/
 	tileType getType();
 
@@ -47,7 +50,7 @@ public:
 	/**
 
 	*/
-	vector<string>& getActions(Player p);
+	vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
 
 	/**
 
@@ -71,8 +74,7 @@ private:
 	bool flipped;
 	bool alarm;
 	int safeNumber;
-	tileType type;
-	vector<string> actions;
+	TileCard tileCard;
 	vector<Tile*> adjacent;
 	Coord coord;
 	int floor;
