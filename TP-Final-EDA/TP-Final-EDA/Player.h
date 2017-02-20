@@ -18,12 +18,12 @@ public:
 	Player(string & playerName);
 
 	/**
-		Sets the ID of the player
+		Sets the name of the player
 	*/
 	void setName(string & playerName);
 
 	/**
-
+		
 	*/
 	void setId(characterID character);
 	
@@ -66,13 +66,15 @@ public:
 	/**
 		Appends the action given to the front of the list of player actions.
 	*/
-	list <actionNode> actions;
-	list <Loot> loots;
+
+
 private:
 	string name;
 	characterID id;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;
+	list <actionNode> actions;
+	list <Loot> loots;
 	
 };

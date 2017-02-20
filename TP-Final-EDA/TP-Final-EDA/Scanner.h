@@ -1,7 +1,10 @@
 #pragma once
 #include "Tile.h"
-class Scanner :
-	public Tile
+
+/*
+
+*/
+class Scanner :	public Tile
 {
 public:
 	Scanner();
