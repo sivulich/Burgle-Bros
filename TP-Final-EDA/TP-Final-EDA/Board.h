@@ -16,8 +16,8 @@ public:
 			floor[i]->print();
 			cout << endl;
 		}
-			
 	};
+
 private:
 	Floor* floor[3];
 	Player * players[2];
