@@ -1,31 +1,16 @@
 #pragma once
+
+#include "BaseCard.h"
 #include "Configs.h"
-
-class PatrolCard
+class PatrolCard : public BaseCard
 {
-
 public:
-	/**
 
-	*/
-	void flip();
-
-	/**
-
-	*/
-	Coord getCoord();
-
-	/**
-
-	*/
-	PatrolCard(pair<int,int> coord);
-	/**
-
-	*/
-	~PatrolCard();
+	PatrolCard(Coord c) { coord = c; };
+	
+	Coord getCoord() { return coord };
 
 private:
-	pair<int,int> coord;
-	bool flipped;
+	Coord coord;
 };
 

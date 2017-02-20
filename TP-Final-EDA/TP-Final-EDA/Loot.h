@@ -5,7 +5,7 @@ class Loot
 public:
 	Loot();
 	~Loot();
-	lootID randomLoot();
+	lootID randomLoot() {};
 	
 private:
 	lootID ID;

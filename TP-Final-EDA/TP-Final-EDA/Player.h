@@ -2,6 +2,7 @@
 #include "Configs.h"
 #include "actionNode.h"
 #include "Loot.h"
+#include "Tile.h"
 
 class Player
 {
@@ -60,7 +61,7 @@ public:
 	*/
 	int getActionTokens();
 
-	vector<Coord> visibleFrom;
+	//vector<> visibleFrom;
 
 	/**
 		Appends the action given to the front of the list of player actions.

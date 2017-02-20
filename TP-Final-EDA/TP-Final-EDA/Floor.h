@@ -1,6 +1,6 @@
 #pragma once
 #include "Configs.h"
-#include "Tile.h"
+#include "TileFactory.h"
 //#include "Guard.h"
 //#include "GuardDeck.h"
 
@@ -10,20 +10,12 @@ public:
 	/**
 		Default constructor
 	*/
-	Floor() : tiles(4,vector<Tile*>(4,nullptr)) {};
-
-	/**
-		Construct floor with floor number
-	*/
-	Floor(int n) : floorNumber(n), tiles(4, vector<Tile*>(4, nullptr))
-	{
-		
-	};
+	Floor(int w, int h, int n) : tiles(w,vector<Tile*>(h,nullptr)), floorNumber(n) {};
 
 	/**
 		Acces a tile in coord (COL,ROW)
 	*/
-	Tile * Floor::tile(int i, int j)
+	Tile * tile(int i, int j)
 	{
 		return tiles[i][j];
 	};
@@ -34,16 +26,18 @@ public:
 	vector<Tile*>& operator[] (unsigned i)
 	{
 		return tiles[i];
-	}
+	};
 
 	/**
 		Set a specific tile of type t in coord (COL,ROW) 
 	*/
-	void setTile(int i, int j, tileType t)
+	void setTile(int x, int y, tileType t)
 	{
-		tiles[i][j] = new Tile(i,j,t);
 
-		if (i > 0 && tiles[i - 1][j] != nullptr)
+		tiles[x][y] = TileFactory().newTile(t);
+		tiles[x][y]->setCoord(x, y);
+
+		/*if (i > 0 && tiles[i - 1][j] != nullptr)
 		{
 			tiles[i][j]->setAdjacent(tiles[i - 1][j]);
 			tiles[i - 1][j]->setAdjacent(tiles[i][j]);
@@ -62,7 +56,7 @@ public:
 		{
 			tiles[i][j]->setAdjacent(tiles[i][j + 1]);
 			tiles[i][j + 1]->setAdjacent(tiles[i][j]);
-		}
+		}*/
 	};
 
 	/**
@@ -76,7 +70,7 @@ public:
 			for (int j = 0; j < 16; j++)
 				setTile(j % 4, j / 4, t[j]);
 		}		
-	}
+	};
 
 	/**
 
@@ -84,7 +78,7 @@ public:
 	int getNumber()
 	{
 		return floorNumber;
-	}
+	};
 
 	/**
 
@@ -96,7 +90,7 @@ public:
 			tiles[a.first][a.second]->deleteAdjacent(b);
 			tiles[b.first][b.second]->deleteAdjacent(a);
 		}*/
-	}
+	};
 
 	/**
 
@@ -121,7 +115,7 @@ public:
 				cout << toString(tiles[i][j]->getType()) << " ";
 			cout << endl;
 		}
-	}
+	};
 
 private:
 	vector<vector<Tile*>> tiles;

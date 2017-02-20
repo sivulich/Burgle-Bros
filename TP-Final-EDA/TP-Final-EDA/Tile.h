@@ -1,7 +1,34 @@
 #pragma once
 #include "Player.h"
-#include "Configs.h"
-class Tile
+#include "BaseCard.h"
+#include "Enumerations.h"
+
+DEFINE_ENUM_WITH_CONVERSIONS(tileType,
+(ATRIUM, 0x01)
+(CAMERA, 0x02)
+(COMPUTER_ROOM_F, 0x03)
+(COMPUTER_ROOM_L, 0x04)
+(COMPUTER_ROOM_M, 0x05)
+(DEADBOLT, 0x06)
+(FINGERPRINT, 0x07)
+(FOYER, 0x08)
+(KEYPAD, 0x09)
+(LABORATORY, 0x0A)
+(LASER, 0x0B)
+(LAVATORY, 0x0C)
+(MOTION, 0x0D)
+(SAFE, 0x0E)
+(SCANNER, 0x0F)
+(SECRET_DOOR, 0x10)
+(SERVICE_DUCT, 0x11)
+(STAIR, 0x12)
+(THERMO, 0x13)
+(WALKWAY, 0x14))
+
+/**
+
+*/
+class Tile : public BaseCard
 {
 public:
 	/**
@@ -12,17 +39,17 @@ public:
 	/**
 		Construct a tile with a position in the floor and a tileType.
 	*/
-	Tile(int x, int y, tileType type);
+	Tile(int x, int y);
 	
 	/**
 		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
 	*/
-	virtual void peek(Player p);
+	virtual void peek(Player p); //=0!!!
 
 	/**
 		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
 	*/
-	virtual bool moveTo(Player p);
+	virtual bool moveTo(Player p); //=0!!!
 
 	/**
 		Returns the position of the tile in the floor.
@@ -94,14 +121,12 @@ public:
 	}
 
 	bool walls[4];
+
 private:
-	bool flipped;
+	Coord coord;
+	int floor;
 	bool alarm;
 	int safeNumber;
 	tileType type;
-	vector<string> actions;
-	vector<Tile*> adjacent;
-	
-	Coord coord;
-	int floor;
+	vector<Tile*> adjacent;	
 };

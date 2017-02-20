@@ -42,7 +42,7 @@ Board::Board()
 		f[i].push_back(STAIR);
 		random_shuffle(f[i].begin(), f[i].end());
 
-		floor[i] = new Floor(i);
+		floor[i] = new Floor(4,4,i);
 		floor[i]->setTiles(f[i]);
 	}
 	
