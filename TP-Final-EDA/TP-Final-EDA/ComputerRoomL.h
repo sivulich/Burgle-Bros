@@ -10,16 +10,23 @@ class ComputerRoomL :
 	public Tile
 {
 public:
-	ComputerRoomL(int x, int y) : Tile(x, y) {};
+	ComputerRoomL(int floor, int col, int row) : Tile(floor, col, row) {};
 	~ComputerRoomL();
 
 	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
-	virtual void doAction(string action, Player p);
+	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
 
-	void removeToken() { hackToken = false; };
+	/**
+	Returns the amount of hack tokens in the tile
+	*/
+	unsigned int getHackTokens() { return hackToken; };
+	/**
+	Removes 1 hack token from the tile
+	*/
+	void removeToken() { --hackToken; };
 
 private:
-	void addToken() { hackToken = true; };
-	bool hackToken;
+	void addToken() { ++hackToken; };
+	unsigned int hackToken;
 };
 

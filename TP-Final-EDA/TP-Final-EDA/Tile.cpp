@@ -114,17 +114,17 @@ vector<string>& Tile::getActions(Player p, Coord guardPos, Coord partnerPos)
 	return actions;
 }
 
-void Tile::doAction(string action, Player p)
+void Tile::doAction(string action, Player p, Coord guardPos, Coord partnerPos)
 {
+	p.removeActionToken();
 	if (action == toString(PEEK))
 		peek(p);
 	else if (action == toString(MOVE))
-		moveTo(p);
+		enterTile(p);
 }
 
-void Tile::moveTo(Player p) {
+void Tile::enterTile(Player p) {
 	turnUp();				// show the card
-	p.removeActionToken();
 	p.move(getPos());		// move the player
 	updateVisibleFrom(p);	// add the tiles adjacent to the visible from list
 	addPlayerAction(p, toString(MOVE));
@@ -132,7 +132,6 @@ void Tile::moveTo(Player p) {
 }
 
 void Tile::peek(Player p) {
-	p.removeActionToken();
 	turnUp();
 	addPlayerAction(p, toString(PEEK));
 	DEBUG_MSG("Player peeked the " << toString(getType()) << getPos());
@@ -141,11 +140,15 @@ void Tile::peek(Player p) {
 bool Tile::canMove(Player p) {
 	if (p.getActionTokens > 0)
 		return true;
+	else
+		return false;
 }
 
 bool Tile::canPeek(Player p) {
 	if (p.getActionTokens > 0 && isFlipped() == false)
 		return true;
+	else
+		return false;
 }
 
 

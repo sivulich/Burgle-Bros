@@ -7,12 +7,12 @@ lose a Stealth
 class Atrium : public Tile
 {
 public:
-	Atrium(int x, int y) : Tile(x, y) {};
+	Atrium(int floor, int col, int row) : Tile(floor, col, row) {};
 	~Atrium();
 
 	/**
 		Moves the player to the atrium tile and adds the tile beneath and above it to the list of player visibleFrom tiles
 	*/
-	virtual void moveTo(Player p) override;	
+	virtual void enterTile(Player p) override;	
 };
 

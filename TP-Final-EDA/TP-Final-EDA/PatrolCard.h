@@ -6,9 +6,9 @@ class PatrolCard : public BaseCard
 {
 public:
 
-	PatrolCard(Coord c) { coord = c; };
+	PatrolCard(Coord c);
 	
-	Coord getCoord() { return coord };
+	Coord getCoord() { return coord; };
 
 private:
 	Coord coord;

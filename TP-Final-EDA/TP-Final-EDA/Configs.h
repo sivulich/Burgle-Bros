@@ -33,7 +33,7 @@
 #ifndef DEBUG
 #define DEBUG
 #endif // !DEBUG
-#define DEBUG_MSG_V(x)  cerr << x<<endl
+#define DEBUG_MSG_V(x)  cerr << x <<endl
 #else
 #define DEBUG_MSG_V(x)
 #endif

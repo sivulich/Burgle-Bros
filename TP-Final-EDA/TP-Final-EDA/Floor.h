@@ -2,7 +2,7 @@
 #include "Configs.h"
 #include "TileFactory.h"
 //#include "Guard.h"
-//#include "GuardDeck.h"
+#include "PatrolCardDeck.h"
 
 class Floor
 {
@@ -104,6 +104,8 @@ private:
 	vector<Coord> alarms;
 
 	//Adjacency map of the floor (only walls, no conection with other floors)
+	PatrolCardDeck guardDeck;
+
 	vector<Coord> adjacent[4][4];
 
 	// Position of the stair token

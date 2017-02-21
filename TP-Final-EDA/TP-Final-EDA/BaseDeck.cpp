@@ -31,7 +31,7 @@ void BaseDeck::shuffle()
 
 void BaseDeck::merge()
 {
-	for (auto c : discarded)
+	for (auto& c : discarded)
 		c->turnDown();
 
 	deck.insert(deck.begin(), discarded.begin(), discarded.end());
@@ -45,5 +45,5 @@ BaseCard* BaseDeck::top()
 }
 vector<BaseCard*> BaseDeck::getDiscarded()
 {
-
+	return discarded;
 }

@@ -9,10 +9,11 @@ class Deadbolt :
 	public Tile
 {
 public:
-	Deadbolt(int x, int y) : Tile(x, y) {};
+	Deadbolt(int floor, int col, int row) : Tile(floor, col, row) {};
 	~Deadbolt();
 
 	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
-	virtual void doAction(string action, Player p);
+	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
+
 };
 

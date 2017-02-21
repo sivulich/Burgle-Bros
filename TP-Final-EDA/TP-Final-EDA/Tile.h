@@ -62,6 +62,12 @@ public:
 	/**
 		Moves the player to the tile
 		@param p player who is moving
+
+	*/
+	virtual void enterTile(Player p);
+
+	/**
+		True if the player has an action token
 	*/
 	virtual void moveTo(Player p);
 
@@ -118,7 +124,7 @@ public:
 		@param action Action to execute
 		@param p Player who wants to do the action
 	*/
-	virtual void doAction(string action, Player p);
+	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
 
 	/**
 		If tile is flipped returns the safe number, else returns 0.

@@ -75,6 +75,9 @@ public:
 	*/
 	void drag(int y, int x);
 
+	/*Clear the object list*/
+	void clear() { objects.clear(); };
+
 	~Container() { delete toDraw; };
 private:
 
