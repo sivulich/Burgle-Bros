@@ -14,5 +14,6 @@ public:
 
 	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
 	virtual void doAction(string action, Player p);
+
 };
 

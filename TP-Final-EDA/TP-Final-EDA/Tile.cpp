@@ -105,11 +105,15 @@ void Tile::peek(Player p) {
 bool Tile::canMove(Player p) {
 	if (p.getActionTokens > 0)
 		return true;
+	else
+		return false;
 }
 
 bool Tile::canPeek(Player p) {
 	if (p.getActionTokens > 0 && isFlipped() == false)
 		return true;
+	else
+		return false;
 }
 
 

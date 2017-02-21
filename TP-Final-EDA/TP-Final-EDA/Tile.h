@@ -43,15 +43,22 @@ public:
 	Tile(int x, int y);
 	
 	/**
-		Peek the tile 
+		Peek the tile (Remove action, flip tile)
 	*/
 	virtual void peek(Player p);
+	/**
+		Checks if player has action token and tile is down
+	*/
 	virtual bool canPeek(Player p);
 
 	/**
 		Moves the player to the tile
 	*/
 	virtual void moveTo(Player p);
+
+	/**
+		True if the player has an action token
+	*/
 	virtual bool canMove(Player p);
 	/**
 		Returns the position of the tile in the floor.
@@ -104,6 +111,7 @@ public:
 	vector<Tile*>& getAdjacent();
 
 	/**
+		Returns the floor number
 	*/
 	int getFloor() { return floor; };
 
@@ -129,7 +137,7 @@ public:
 	void updateVisibleFrom(Player p);
 
 	/**
-		Adds an action node to the player
+		Commits an action to the player list of actions
 	*/
 	void addPlayerAction(Player p, string action);
 	
