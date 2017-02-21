@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actionNode.h" />
+    <ClInclude Include="Allegro.h" />
     <ClInclude Include="alx\AllegroFile.hpp" />
     <ClInclude Include="alx\AudioStream.hpp" />
     <ClInclude Include="alx\Bitmap.hpp" />
@@ -120,6 +121,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Allegro.cpp" />
     <ClCompile Include="Atrium.cpp" />
     <ClCompile Include="BaseCard.cpp" />
     <ClCompile Include="BaseDeck.cpp" />

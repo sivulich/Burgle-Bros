@@ -103,6 +103,8 @@ public:
 
 	virtual void drag(int y, int x);
 
+	bool wasInitOk() { return initOk; };
+
 protected:
 	/** 
 		Properties
@@ -121,6 +123,7 @@ protected:
 	int h, w;
 	double scale;
 	string name;
+	bool initOk;
 };
 
 
