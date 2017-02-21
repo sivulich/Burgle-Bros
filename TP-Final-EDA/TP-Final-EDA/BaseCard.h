@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 
+/*
+	Base class for a card. It can be flipped in different ways and has a description
+*/
 class BaseCard
 {
 public:
@@ -9,12 +12,10 @@ public:
 	bool isFlipped() { return faceUp; };
 	virtual void flip() { faceUp = !faceUp; };
 	virtual void turnUp() { faceUp = true; };
-	virtual void turnUp(bool b) { b == true ? turnUp() : turnDown(); };
 	virtual void turnDown() { faceUp = false; };
-	virtual void turnDown(bool b) { b == true ? turnDown() : turnUp(); };
 	void setDescription(std::string& s) { description = s; };
 	std::string getDescription() { return description; };
-private:
+protected:
 	bool faceUp;
 	std::string description;
 };

@@ -83,7 +83,12 @@ public:
 	*/
 	vector <Coord>& getVisibleFrom() { return visibleFrom; };
 
+	/**
+	Get player name
+	*/
 
+	string getName() { return name; };
+	characterID getId() { return id; };
 private:
 	string name;
 	characterID id;
