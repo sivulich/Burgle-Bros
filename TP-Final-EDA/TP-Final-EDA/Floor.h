@@ -31,32 +31,11 @@ public:
 	/**
 		Set a specific tile of type t in coord (COL,ROW) 
 	*/
-	void setTile(int x, int y, tileType t)
+	void setTile(int col, int row, tileType t)
 	{
 
-		tiles[x][y] = TileFactory().newTile(t);
-		tiles[x][y]->setCoord(x, y);
+		tiles[col][row] = TileFactory().newTile(t,col,row);
 
-		/*if (i > 0 && tiles[i - 1][j] != nullptr)
-		{
-			tiles[i][j]->setAdjacent(tiles[i - 1][j]);
-			tiles[i - 1][j]->setAdjacent(tiles[i][j]);
-		}
-		if (i < 3 && tiles[i + 1][j] != nullptr)
-		{
-			tiles[i][j]->setAdjacent(tiles[i + 1][j]);
-			tiles[i - 1][j]->setAdjacent(tiles[i][j]);
-		}
-		if (j > 0 && tiles[i][j - 1] != nullptr)
-		{
-			tiles[i][j]->setAdjacent(tiles[i][j - 1]);
-			tiles[i][j - 1]->setAdjacent(tiles[i][j]);
-		}
-		if (j < 3 && tiles[i][j + 1] != nullptr)
-		{
-			tiles[i][j]->setAdjacent(tiles[i][j + 1]);
-			tiles[i][j + 1]->setAdjacent(tiles[i][j]);
-		}*/
 	};
 
 	/**
@@ -80,17 +59,12 @@ public:
 		return floorNumber;
 	};
 
-	/**
-
-	*/
-	void setWall(Coord a, Coord b)
+	void setAdjacent(vector<Coord> a[4][4])
 	{
-		/*if (isAdjacent(a, b))
-		{
-			tiles[a.first][a.second]->deleteAdjacent(b);
-			tiles[b.first][b.second]->deleteAdjacent(a);
-		}*/
-	};
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				adjacent[i][j] = a[i][j];	
+	}
 
 	/**
 
@@ -123,5 +97,6 @@ private:
 	//Guard guard;
 	//GuardDeck guardDeck;
 	vector<Coord> alarmTokens;
+	vector<Coord> adjacent[4][4];
 	Coord stairToken;
 };

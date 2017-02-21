@@ -3,6 +3,7 @@
 #include "Floor.h"
 #include "Player.h"
 #include "Loot.h"
+#include "Tile.h"
 
 class Board
 {
@@ -10,19 +11,19 @@ public:
 	Board();
 	~Board();
 
-	void print()
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			floor[i]->print();
-			cout << endl;
-		}
-	};
+	/**
+		Returns the floor i
+	*/
+	Floor& operator[](size_t i) { return *(floor[i]); };
 
 private:
+
 	Floor* floor[3];
-	Player * players[2];
+	vector<Coord> adjacent[3][4][4];
+
 	Loot loots[3];
 
 };
+
+
 

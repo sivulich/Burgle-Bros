@@ -410,9 +410,6 @@
     <ClCompile Include="Loot.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="TileCard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BaseCard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

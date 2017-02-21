@@ -36,7 +36,20 @@
 
 using namespace std;
 using namespace alx;
-#define Coord pair<int,int>	// <COL,FILA>
+
+class Coord
+{
+public:
+	Coord();
+	Coord(unsigned f, unsigned c, unsigned r) : col(c), row(r), floor(f) {};
+	unsigned col, row, floor;
+	ostream& operator<<(ostream& os)
+	{
+		os << "Floor: " << floor << " Col: " << col << " Row: " << row << endl;
+		return os;
+	}
+};
+
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
 /*CHARACTER SETTINGS*/

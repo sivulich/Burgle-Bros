@@ -26,7 +26,7 @@ DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 (WALKWAY, 0x14))
 
 /**
-
+	Pure abstract class of a tile.
 */
 class Tile : public BaseCard
 {
@@ -39,28 +39,32 @@ public:
 	/**
 		Construct a tile with a position in the floor and a tileType.
 	*/
-	Tile(int x, int y);
+	Tile(unsigned floor, unsigned col, unsigned row);
 	
-//////////////////////////////////////////////////////////////////////
 	/**
-		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
+		Apart from turning up the card, sort the safe number
 	*/
-//	virtual void peek(Player p); //=0!!!
+	virtual void turnUp()override;
 
 	/**
-		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
+		
 	*/
-//	virtual bool moveTo(Player p); //=0!!!
-//////////////////////////////////////////////////////////////////////
+	virtual void peek(Player p); 
+
+	/**
+		
+	*/
+	virtual bool moveTo(Player p); 
+
 	/**
 		Returns the position of the tile in the floor.
 	*/
-	Coord getCoord() { return coord; };
+	Coord getPos() { return coord; };
 
 	/**
-	Set the position of the tile in the floor.
+		Set the position of the tile in the floor.
 	*/
-	void setCoord(int x, int y);
+	void setCoord(unsigned floor, unsigned col,unsigned row);
 
 	/**
 		Returns the type of the tile.
@@ -73,21 +77,12 @@ public:
 	bool hasAlarm();
 
 	/**
-		Flip the tile and sort the safe number.
-	*/
-	void flip();
-	/**
-		Checks if the tile is flipped.
-	*/
-	bool isFlipped();	//DEBERIA TENER NOMBRE DISTINTO DE isFlipped() DE BASECARD
-
-	/**
 		Activate an alarm in the tile.
 	*/
-	void  setAlarm(bool b);
+	void setAlarm(bool b);
 
 	/**
-		DEBERIA SER VIRTUAL PURA? TIENE SENTIDO DEFINIRLA EN UN TILE GENERICO?
+		
 	*/
 	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
 
@@ -102,45 +97,61 @@ public:
 	int getSafeNumber();
 
 	/**
-
+		Return a vector of Coords of adjacent tiles
 	*/
-	vector<Tile*>& getAdjacent();
+	vector<Coord>& getAdjacent();
 
 	/**
+		Return the floor number
 	*/
-	int getFloor() { return floor; };
+	int floor() { return coord.floor; };
 
-	void setAdjacent(Tile* t) { adjacent.push_back(t); };
+	/**
+		Return the col number
+	*/
+	int col() { return coord.col; };
 
-	void deleteAdjacent(Coord b)
-	{
-		for (auto t : adjacent)
-		{
-			if (t->getCoord() == b);
-			//adjacent.remove(t);
-		}
-	}
+	/**
+		Return the row number
+	*/
+	int row() { return coord.row; };
 
+	/**
+		Add a coord to the adjacent list
+	*/
+	void setAdjacent(Coord c);
+
+	/**
+		Delete a coord from the adjacent list
+	*/
+	void deleteAdjacent(Coord b);
+	
 	/**
 		Returns true if the tile given is adjacent
 	*/
-	bool isAdjacent(Coord t);
+	bool isAdjacent(Coord t)
+	{
+		return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
+	}
+	
+	/**
+		Return true if the tile is from the given type
+	*/
+	bool is(tileType t)
+	{
+		return t == getType();
+	}
 
 	/**
 		Adds an action node to the player
 	*/
 	void addPlayerAction(Player p, string action);
 	
-
-	bool walls[4];
-
 protected:
 	Coord coord;
-	int floor;
+	tileType type;
 	bool alarm;
 	int safeNumber;
-	int floor;
-	tileType type;
-	vector<Tile*> adjacent;
+	vector<Coord> adjacent;
 	vector<string> actions;
 };
