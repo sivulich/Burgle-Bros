@@ -1,9 +1,9 @@
 #include "FloorObserver.h"
 
-FloorObserver::FloorObserver(Floor* f, Container* p)
+FloorObserver::FloorObserver(Floor* f, Container* floors)
 {
 	floor = f;
-	parent = p;
+	parent = floors;
 	//400 es el height para probar , despues tenemos que definir alguna relacion con el container padre
 	floorGrid = new Container(double(parent->getHeight())/1.5, double(parent->getHeight()) / 1.5);
 	floorGrid->setName(string("Floor") + to_string(floor->getNumber()));
@@ -14,7 +14,8 @@ FloorObserver::FloorObserver(Floor* f, Container* p)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			tiles[i][j] = new TileObserver(floor->tile(i,j), floorGrid);
+			Floor& fl = *f;
+			tiles[i][j] = new TileObserver(fl[i][j], floorGrid);
 		}
 	}
 }

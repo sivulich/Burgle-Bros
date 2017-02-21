@@ -264,9 +264,6 @@
     <ClInclude Include="Loot.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="TileFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Atrium.h">
       <Filter>Header Files\Model\TileCards</Filter>
     </ClInclude>
@@ -369,6 +366,9 @@
     <ClInclude Include="Allegro.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="TileFactory.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -427,18 +427,6 @@
     </ClCompile>
     <ClCompile Include="Loot.cpp">
       <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PatrolCardDeck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TileFactory.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Atrium.cpp">
       <Filter>Source Files\Model\TileCards</Filter>
@@ -515,11 +503,20 @@
     <ClCompile Include="TileFactory.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="TileCard.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Allegro.cpp">
       <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseCard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolCardDeck.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TileFactory.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

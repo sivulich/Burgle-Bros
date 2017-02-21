@@ -27,11 +27,11 @@ TileObserver::TileObserver(Tile* t, Container* p)
 	tile = t;
 	front = new Image(imagesPath[tile->getType()]);
 	back = new Image(string("./Images/Tile - Reverse.jpg"));
-	Coord coord = tile->getCoord();
-	front->setName(to_string(coord.first + 'A') + to_string(coord.second) + string("F") + to_string(tile->getFloor()) + string(" front"));
-	back->setName(to_string(coord.first + 'A') + to_string(coord.second)+string("F")+to_string(tile->getFloor()) + string(" back"));
-	front->setPosition(coord.second*p->getHeight() / 4, coord.first*p->getWidth() / 4);
-	back->setPosition(coord.second*p->getHeight() / 4, coord.first*p->getWidth() / 4);
+	Coord coord = tile->getPos();
+	front->setName(to_string(coord.col + 'A') + to_string(coord.row) + string("F") + to_string(coord.floor) + string(" front"));
+	back->setName(to_string(coord.col + 'A') + to_string(coord.row)+string("F")+to_string(coord.floor) + string(" back"));
+	front->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
+	back->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
 	front->setScale(double(p->getWidth()) / 4.0 / double(front->getWidth()));
 	back->setScale(double(p->getWidth()) / 4.0 / double(back->getWidth()));
 	parent = p;
