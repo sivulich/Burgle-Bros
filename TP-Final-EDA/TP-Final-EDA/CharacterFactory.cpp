@@ -1,7 +1,7 @@
 #include "CharacterFactory.h"
 
 
-static Character * newCharacter(characterType type)
+Character * CharacterFactory::newCharacter(characterType type)
 {
 	switch (type)
 	{

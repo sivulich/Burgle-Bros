@@ -3,6 +3,7 @@
 #include "actionNode.h"
 #include "Loot.h"
 #include "Tile.h"
+#include "Character.h"
 
 class Player
 {
@@ -28,7 +29,7 @@ public:
 	/**
 
 	*/
-	void setId(characterID character);
+	void setCharacter(characterType type);
 	
 	/**
 		Reset the player action tokens
@@ -93,15 +94,15 @@ public:
 	*/
 
 	string getName() { return name; };
-	characterID getId() { return id; };
+	characterType getCharacterType() { return character->getType(); };
 private:
 	string name;
-	characterID id;
+	Character* character;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;
 	list <actionNode> actions;
-	vector <Loot> loots;
+	vector <Loot*> loots;
 	vector <Coord> visibleFrom;
 	
 };

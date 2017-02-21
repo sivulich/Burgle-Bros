@@ -11,8 +11,8 @@
 class CharacterFactory
 {
 public:
-	CharacterFactory();
-	~CharacterFactory();
+	CharacterFactory() {};
+
 	static Character * newCharacter(characterType type);
 };
 

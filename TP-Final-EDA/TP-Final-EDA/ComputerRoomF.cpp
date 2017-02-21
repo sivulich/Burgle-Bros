@@ -15,7 +15,7 @@ vector<string>& ComputerRoomF::getActions(Player p, Coord guardPos, Coord partne
 
 
 void ComputerRoomF::doAction(string action, Player p, Coord guardPos, Coord partnerPos) {
-	Tile::doAction(action, p);
+	Tile::doAction(action, p,guardPos,partnerPos);
 	if (action == toString(ADD_TOKEN))
 		addToken();
 }
