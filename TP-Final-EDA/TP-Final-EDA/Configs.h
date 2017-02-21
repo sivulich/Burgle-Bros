@@ -27,7 +27,7 @@
 #include "alx\Size.hpp"
 #include "Allegro.h"
 #define DEBUG
-#define DEBUG_V
+//#define DEBUG_V
 #ifdef DEBUG_V
 #ifndef DEBUG
 #define DEBUG
