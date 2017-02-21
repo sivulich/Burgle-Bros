@@ -51,17 +51,19 @@ public:
 		Checks if player has action token and tile is down
 	*/
 	virtual bool canPeek(Player p);
+
 	virtual void turnUp()override;
 
 	/**
-		Moves the player to the tile
+		Moves the player to the current tile
 	*/
-	virtual void moveTo(Player p);
+	virtual void enterTile(Player p);
 
 	/**
 		True if the player has an action token
 	*/
 	virtual bool canMove(Player p);
+
 	/**
 		Returns the position of the tile in the floor.
 	*/
@@ -90,12 +92,12 @@ public:
 	/**
 		Returns a vector of strings with the REGULAR actions the player can do (MOVE and PEEK only)
 	*/
-	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos) = 0;
+	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
 
 	/**
 		Applies the action given to the player (MOVE and PEEK only)
 	*/
-	virtual void doAction(string action, Player p);
+	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
 
 	/**
 		If flipped returns the safe number, else returns 0.

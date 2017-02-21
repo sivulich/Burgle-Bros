@@ -28,7 +28,7 @@ vector<string>& Deadbolt::getActions(Player p, Coord guardPos, Coord partnerPos)
 	}
 }
 
-void Deadbolt::doAction(string action, Player p) {
+void Deadbolt::doAction(string action, Player p, Coord guardPos, Coord partnerPos) {
 	if (action == toString(PEEK))
 		Tile::peek(p);
 	else if (action == toString(MOVE)) {
@@ -39,12 +39,31 @@ void Deadbolt::doAction(string action, Player p) {
 				turnUp();
 				DEBUG_MSG("This is a Deadbolt and you dont have enough action tokens to move here.");
 				p.removeActionToken();
-				addPlayerAction(p, )
+				addPlayerAction(p, toString(MOVE));
 			}
 			else
 			{
-				DEBUG_MSG("You used 3 action tokens to enter here.");
-				
+				turnUp();
+				DEBUG_MSG("You used 3 action tokens to enter the deadbolt.");
+				p.removeActionToken();		//remove 3 action tokens
+				p.removeActionToken();
+				p.removeActionToken();
+				enterTile(p);
+			}
+		}
+		else		//the tile is flipped up
+		{
+			if ((guardPos == getPos()) || (partnerPos == getPos())) {	//if someone is on the tile
+				p.removeActionToken();
+				enterTile(p);
+			}
+			else	//the tile is empty
+			{
+				DEBUG_MSG("You used 3 action tokens to enter the deadbolt.");
+				p.removeActionToken();		//remove 3 action tokens
+				p.removeActionToken();
+				p.removeActionToken();
+				enterTile(p);
 			}
 		}
 	}
