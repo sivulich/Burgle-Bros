@@ -7,11 +7,11 @@ PatrolCardDeck::PatrolCardDeck()
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			Coord c = { i,j };
-			cards.push_back(PatrolCard(c));
+			Coord c = { 0,i,j };
+			deck.push_back(new PatrolCard(c));
 		}
 	}
-	std::random_shuffle(cards.begin(), cards.end());
+	shuffle();
 }
 
 
@@ -19,25 +19,14 @@ PatrolCardDeck::~PatrolCardDeck()
 {
 }
 
-bool PatrolCardDeck::discardTop()
-{
-	if (!cards.empty())
-	{
-		discarded.push_front(cards.front());
-		cards.pop_front();
-		cards.front().turnUp();
-	}
-	
 
-	return cards.empty() 
+
+PatrolCard* PatrolCardDeck::getTop()
+{
+	return (PatrolCard*)discarded.back();
 }
 
-PatrolCard PatrolCardDeck::getTop()
-{
-	return cards.front();
-}
-
-PatrolCard PatrolCardDeck::getNext()
+PatrolCard* PatrolCardDeck::getNext()
 {
 	if(discardTop()==true)
 		return getTop();
@@ -48,16 +37,16 @@ PatrolCard PatrolCardDeck::getNext()
 
 void PatrolCardDeck::reset()
 {
-	cards.splice(cards.begin(),)
+	merge();
 }
 
-/*
-list<PatrolCard> & PatrolCardDeck::GetCards()
-{
 
+vector<BaseCard*> & PatrolCardDeck::GetCards()
+{
+	return deck;
 }
 
-list<PatrolCard> & PatrolCardDeck::GetGraveyard()
+vector<BaseCard*> & PatrolCardDeck::GetGraveyard()
 {
-
-}*/
+	return discarded;
+}

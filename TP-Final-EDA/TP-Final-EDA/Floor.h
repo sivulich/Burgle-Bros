@@ -2,7 +2,7 @@
 #include "Configs.h"
 #include "TileFactory.h"
 //#include "Guard.h"
-//#include "GuardDeck.h"
+#include "PatrolCardDeck.h"
 
 class Floor
 {
@@ -73,6 +73,7 @@ public:
 
 	/**
 
+	
 	*/
 	Coord stairPos() { return stairToken; };
 
@@ -81,6 +82,8 @@ public:
 	*/
 	vector<Coord>& getAlarms() { return alarmTokens; };
 
+
+	PatrolCardDeck& getPatrolDeck() { return guardDeck; };
 	void print()
 	{
 		for (size_t i = 0; i < 4; i++)
@@ -95,7 +98,7 @@ private:
 	vector<vector<Tile*>> tiles;
 	int floorNumber;
 	//Guard guard;
-	//GuardDeck guardDeck;
+	PatrolCardDeck guardDeck;
 	vector<Coord> alarmTokens;
 	vector<Coord> adjacent[4][4];
 	Coord stairToken;

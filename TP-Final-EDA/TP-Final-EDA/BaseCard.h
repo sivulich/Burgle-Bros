@@ -1,5 +1,5 @@
 #pragma once
-#include <string>
+#include "Configs.h"
 
 /*
 	Base class for a card. It can be flipped in different ways and has a description
