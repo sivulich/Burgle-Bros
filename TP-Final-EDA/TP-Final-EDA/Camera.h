@@ -10,7 +10,7 @@ class Camera :
 	public Tile
 {
 public:
-	Camera(int x, int y) : Tile(x, y) {};
+	Camera(int floor, int col, int row) : Tile(floor, col, row) {};
 	~Camera();
 
 };
