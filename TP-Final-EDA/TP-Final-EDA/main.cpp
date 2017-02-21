@@ -45,7 +45,7 @@ int main(void)
 		mainScreen.backgroundProperties(0, 0, 0.66666);
 		mainScreen.addObject(&tbox);
 		testCont.setDragable(true);
-
+		
 		Board b;
 		b.print();
 		localControler control(&mainScreen);

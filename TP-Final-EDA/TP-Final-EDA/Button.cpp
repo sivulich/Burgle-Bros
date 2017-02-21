@@ -63,15 +63,14 @@ Button::draw(Bitmap* target)
 		);
 
 }
-
-void
-Button::setImages(vector<string>& files)
+Button::Button(string& n, vector<string>& files)
 {
+	name = n;
 	for (auto& x : files)
 		bitmaps.push_back(new Bitmap(x.c_str()));
 	initOk = true;
 	for (auto& x : bitmaps)
-		if (x==nullptr || x->get() == nullptr)
+		if (x == nullptr || x->get() == nullptr)
 			initOk = false;
 	if (initOk == false)
 	{
