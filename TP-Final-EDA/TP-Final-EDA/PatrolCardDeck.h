@@ -1,7 +1,9 @@
 #pragma once
 #include "PatrolCard.h"
+#include "BaseDeck.h"
 #include <list>
-class PatrolCardDeck
+
+class PatrolCardDeck : public BaseDeck
 {
 public:
 	/**
@@ -46,7 +48,6 @@ public:
 	list<PatrolCard> & GetGraveyard();
 
 private:
-	list<PatrolCard> cards;
-	list<PatrolCard> discarded;
+	
 };
 

@@ -273,9 +273,6 @@
     <ClInclude Include="Loot.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="basicDeck.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
     <ClInclude Include="BaseCard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -348,6 +345,12 @@
     <ClInclude Include="Walkway.h">
       <Filter>Header Files\Model\TileCards</Filter>
     </ClInclude>
+    <ClInclude Include="BaseDeck.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -405,9 +408,6 @@
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="Loot.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="basicDeck.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="TileCard.cpp">
@@ -484,6 +484,9 @@
     </ClCompile>
     <ClCompile Include="Walkway.cpp">
       <Filter>Source Files\Model\TileCards</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseDeck.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -72,6 +72,7 @@
     <ClInclude Include="alx\Voice.hpp" />
     <ClInclude Include="Atrium.h" />
     <ClInclude Include="BaseCard.h" />
+    <ClInclude Include="BaseDeck.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
@@ -83,8 +84,8 @@
     <ClInclude Include="Fingerprint.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="FloorObserver.h" />
-    <ClInclude Include="basicDeck.h" />
     <ClInclude Include="Foyer.h" />
+    <ClInclude Include="GameModel.h" />
     <ClInclude Include="Keypad.h" />
     <ClInclude Include="Laboratory.h" />
     <ClInclude Include="Laser.h" />
@@ -121,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="Atrium.cpp" />
     <ClCompile Include="BaseCard.cpp" />
+    <ClCompile Include="BaseDeck.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="actionNode.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -152,7 +154,6 @@
     <ClCompile Include="Safe.cpp" />
     <ClCompile Include="Scanner.cpp" />
     <ClCompile Include="Screen.cpp" />
-    <ClCompile Include="basicDeck.cpp" />
     <ClCompile Include="SecretDoor.cpp" />
     <ClCompile Include="ServiceDuct.cpp" />
     <ClCompile Include="Stair.cpp" />
