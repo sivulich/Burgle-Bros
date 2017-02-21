@@ -36,13 +36,20 @@
 
 using namespace std;
 using namespace alx;
-#define Coord pair<int,int>	// <COL,FILA>
+class Coord{
+public:
+	unsigned col, row, floor;
+	ostream& operator<<(ostream& os)
+	{
+		os << "Floor: " << floor << " Col: " << col << " Row: " << row << endl;
+		return os;
+	}
+};
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
 /*CHARACTER SETTINGS*/
 #define NUMBER_STEALTH_TOKENS 3
 #define NUMBER_ACTION_TOKENS 4
-
 
 
 
@@ -91,8 +98,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (ERRO, 0xFF))
 
 
-DEFINE_ENUM_WITH_CONVERSIONS(lootID,
-(a)(g))
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 

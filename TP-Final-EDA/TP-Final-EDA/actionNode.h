@@ -3,7 +3,7 @@
 class actionNode
 {
 public:
-	int tilePos[3];		// column-row-floor number array from the tile the action occured 
+	Coord tilePos;		// column-row-floor number array from the tile the action occured 
 	string myAction;
 	/**
 		Creates an action node

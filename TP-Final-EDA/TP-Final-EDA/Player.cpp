@@ -50,9 +50,8 @@ int  Player::getActionTokens()
 	return actionTokens;
 }
 
-void Player::newAction(string & action) {
-	actionNode temp(action);
-	actions.push_front(temp);
+void Player::newAction(actionNode node) {
+	actions.push_front(node);
 }
 int Player::throwDice() {
 	return rand() % 6;

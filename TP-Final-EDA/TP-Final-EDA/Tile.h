@@ -25,6 +25,7 @@ DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 (THERMO, 0x13)
 (WALKWAY, 0x14))
 
+
 /**
 
 */
@@ -41,21 +42,21 @@ public:
 	*/
 	Tile(int x, int y);
 	
-//////////////////////////////////////////////////////////////////////
 	/**
-		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
+		Peek the tile 
 	*/
-//	virtual void peek(Player p); //=0!!!
+	virtual void peek(Player p);
+	virtual bool canPeek(Player p);
 
 	/**
-		//ESTO QUE LO HAGA LA CARTA O EL PLAYER??
+		Moves the player to the tile
 	*/
-//	virtual bool moveTo(Player p); //=0!!!
-//////////////////////////////////////////////////////////////////////
+	virtual void moveTo(Player p);
+	virtual bool canMove(Player p);
 	/**
 		Returns the position of the tile in the floor.
 	*/
-	Coord getCoord() { return coord; };
+	Coord getPos() { return coord; };
 
 	/**
 	Set the position of the tile in the floor.
@@ -76,10 +77,6 @@ public:
 		Flip the tile and sort the safe number.
 	*/
 	void flip();
-	/**
-		Checks if the tile is flipped.
-	*/
-	bool isFlipped();	//DEBERIA TENER NOMBRE DISTINTO DE isFlipped() DE BASECARD
 
 	/**
 		Activate an alarm in the tile.
@@ -87,14 +84,14 @@ public:
 	void  setAlarm(bool b);
 
 	/**
-		DEBERIA SER VIRTUAL PURA? TIENE SENTIDO DEFINIRLA EN UN TILE GENERICO?
+		Returns a vector of strings with the REGULAR actions the player can do (MOVE and PEEK only)
 	*/
-	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
+	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos) = 0;
 
 	/**
-
+		Applies the action given to the player (MOVE and PEEK only)
 	*/
-	virtual bool doAction(string action, Player p);
+	virtual void doAction(string action, Player p);
 
 	/**
 		If flipped returns the safe number, else returns 0.
@@ -127,6 +124,11 @@ public:
 	bool isAdjacent(Coord t);
 
 	/**
+		Adds the surrounding tile's coordinates to the player visible from
+	*/
+	void updateVisibleFrom(Player p);
+
+	/**
 		Adds an action node to the player
 	*/
 	void addPlayerAction(Player p, string action);
@@ -141,6 +143,6 @@ protected:
 	int safeNumber;
 	int floor;
 	tileType type;
-	vector<Tile*> adjacent;
+	vector<Coord> adjacent;
 	vector<string> actions;
 };

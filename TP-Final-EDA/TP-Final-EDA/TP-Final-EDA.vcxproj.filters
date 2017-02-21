@@ -63,9 +63,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Configs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -264,9 +261,6 @@
     <ClInclude Include="FloorObserver.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Floor.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
@@ -276,16 +270,7 @@
     <ClInclude Include="basicDeck.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enumerations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TileFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolCardDeck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Atrium.h">
@@ -348,6 +333,21 @@
     <ClInclude Include="Walkway.h">
       <Filter>Header Files\Model\TileCards</Filter>
     </ClInclude>
+    <ClInclude Include="Configs.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCardDeck.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enumerations.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCard.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -409,9 +409,6 @@
     </ClCompile>
     <ClCompile Include="basicDeck.cpp">
       <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="TileCard.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BaseCard.cpp">
       <Filter>Source Files</Filter>

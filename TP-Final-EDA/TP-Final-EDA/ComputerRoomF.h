@@ -9,7 +9,17 @@ class ComputerRoomF :
 	public Tile
 {
 public:
-	ComputerRoomF();
+	ComputerRoomF(int x, int y) : Tile(x, y) {};
 	~ComputerRoomF();
+
+
+	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
+	virtual void doAction(string action, Player p);
+
+	void removeToken() { hackToken = false; };
+
+private:
+	void addToken() { hackToken = true; };
+	bool hackToken;
 };
 
