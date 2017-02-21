@@ -15,7 +15,9 @@ public:
 	void removeActionToken();
 	int getStealthTokens();
 	int getActionTokens();
-
+	Coord getPos() { return pos; };
+	characterID getId() { return id; };
+	string& getName() { return name; };
 	vector<Coord> visibleFrom;
 	list <actionNode> actions;
 	list <Loot> loots;
