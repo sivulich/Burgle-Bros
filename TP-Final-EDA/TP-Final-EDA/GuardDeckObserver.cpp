@@ -1,6 +1,6 @@
 #include "GuardDeckObserver.h"
 
-GuardDeckOberver::GuardDeckOberver(Floor* f, Container* p)
+GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 {
 	
 	back = new Image(string("./Images/Patrol/PC R.jpg"));
@@ -27,4 +27,59 @@ GuardDeckOberver::GuardDeckOberver(Floor* f, Container* p)
 	back->setPosition(0, 0);
 	back->setScale(double(deckView->getHeight()) / double(back->getHeight()));
 	deckView->addObject(back);
+	empty = false;
+}
+
+void
+GuardDeckObserver::update()
+{
+	string des;
+	if (deck->GetGraveyard().empty()==true)
+	{
+		if (top != nullptr)
+		{
+			deckView->removeObject(top);
+			delete top;
+		}
+	}
+	else
+	{
+		des = deck->GetGraveyard().back()->getDescription();
+		if (des[0] - 'A' != topPos.col || des[1] - '0' != topPos.row)
+		{
+			topPos.col = des[0] - 'A';
+			topPos.row = des[1] - '0';
+			if (top != nullptr)
+			{
+				deckView->removeObject(top);
+				delete top;
+			}
+			top = new Image(string("./Images/Patrol/PC ") + des + string(".jpg"));
+			top->setScale(double(deckView->getHeight()) / double(top->getHeight()));
+			top->setPosition(0, top->getWidth() + 10);
+		}
+	}
+	if (deck->GetCards().empty() == true)
+	{
+		deckView->removeObject(back);
+		empty = true;
+	}
+	else
+	{
+		if (empty == true)
+			deckView->addObject(back);
+		empty = false;
+	}
+	if (top->isClicked() == true)
+	{
+		zoom->clear();
+		for (auto& card : deck->GetGraveyard())
+		{
+			des = card->getDescription();
+			zoom->addObject(cards[des[0] - 'A'][des[1] - '0']);
+		}
+		parent->addObject(zoom);
+	}
+	else
+		parent->removeObject(zoom);
 }
