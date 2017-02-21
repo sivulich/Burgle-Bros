@@ -249,9 +249,6 @@
     <ClInclude Include="TileObserver.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
     <ClInclude Include="PatrolCard.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
@@ -264,26 +261,11 @@
     <ClInclude Include="FloorObserver.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Floor.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="Loot.h">
       <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enumerations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TileFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolCardDeck.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Atrium.h">
       <Filter>Header Files\Model\TileCards</Filter>
@@ -345,11 +327,29 @@
     <ClInclude Include="Walkway.h">
       <Filter>Header Files\Model\TileCards</Filter>
     </ClInclude>
+    <ClInclude Include="BaseCard.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
     <ClInclude Include="BaseDeck.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Enumerations.h">
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="GameModel.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCardDeck.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="TileFactory.h">
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -409,21 +409,6 @@
     </ClCompile>
     <ClCompile Include="Loot.cpp">
       <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="TileCard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PatrolCardDeck.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TileFactory.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Atrium.cpp">
       <Filter>Source Files\Model\TileCards</Filter>
@@ -485,8 +470,23 @@
     <ClCompile Include="Walkway.cpp">
       <Filter>Source Files\Model\TileCards</Filter>
     </ClCompile>
+    <ClCompile Include="BaseCard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
     <ClCompile Include="BaseDeck.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolCardDeck.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TileFactory.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCard.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
