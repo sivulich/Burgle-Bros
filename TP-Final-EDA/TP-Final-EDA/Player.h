@@ -74,7 +74,12 @@ public:
 		Appends the action given to the front of the list of player actions.
 	*/
 
+	/**
+	Get player name
+	*/
 
+	string getName() { return name; };
+	characterID getId() { return id; };
 private:
 	string name;
 	characterID id;
