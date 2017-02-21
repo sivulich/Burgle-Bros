@@ -43,7 +43,7 @@ public:
 	/**
 		Appends the action given to the front of the list of player actions.
 	*/
-	void newAction(string & action);
+	void newAction(actionNode node);
 	
 	/**
 		Removes 1 stealth token if possible
@@ -71,10 +71,24 @@ public:
 	//vector<> visibleFrom;
 
 	/**
-		Appends the action given to the front of the list of player actions.
+		Clears the coordinates from where the player is visible from
+	*/
+	void clearVisibleFrom() { visibleFrom.clear(); };
+	/**
+		Adds a coordinate to the list of coordinates the player is visible from
+	*/
+	void addVisibleTile(Coord tile) { visibleFrom.push_back(tile); };
+	/**
+		Returns the vector with the coordinates the player is visible from
+	*/
+	vector <Coord>& getVisibleFrom() { return visibleFrom; };
+
+	/**
+	Get player name
 	*/
 
-
+	string getName() { return name; };
+	characterID getId() { return id; };
 private:
 	string name;
 	characterID id;
@@ -83,5 +97,6 @@ private:
 	int stealthTokens;
 	list <actionNode> actions;
 	list <Loot> loots;
+	vector <Coord> visibleFrom;
 	
 };

@@ -3,11 +3,6 @@
 
 Textbox::Textbox(int y, int x, string& path, int fSize,int max)
 {
-	al_init(); //ESTO ES RE CABEZA DESPUES CAMBIEMOSLOOO
-	al_init_primitives_addon();
-	al_install_keyboard();
-	al_init_font_addon();
-	al_init_ttf_addon();
 	font = new Font(path.c_str(), fSize, 0);
 	int point = path.find('.');
 	name = path.substr(0, point)+"-size:" + to_string(fSize) + "pos" + to_string(y) + ":" + to_string(x);
@@ -20,12 +15,32 @@ Textbox::Textbox(int y, int x, string& path, int fSize,int max)
 	titilate = new Timer(0.5);
 	queue << Keyboard::getEventSource();
 	fitToBox = false;
+	if (titilate != nullptr)
+	{
+		if (font != nullptr && font->get() != nullptr)
+		{
+			DEBUG_MSG_V("Correctly initialized textbox " << name);
+			initOk = true;
+		}
+		else
+			DEBUG_MSG("Error loading font for textbox " << name);
+	}
+	else
+		DEBUG_MSG("Error creating timer for textbox " << name);
+
 }
 string
 Textbox::click(int y, int x)
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to click on " << name << " that is no initialized correctly");
+		return "";
+	}
+
 	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
+		DEBUG_MSG_V("Clicking textbox " << name);
 		clicked = true;
 		titilate->start();
 		return name;
@@ -36,8 +51,15 @@ Textbox::click(int y, int x)
 void
 Textbox::unClick(int y, int x)
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to unclick on " << name << " that is no initialized correctly");
+		return ;
+	}
+	
 	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 		return;
+	DEBUG_MSG_V("Unclicking textbox " << name);
 	clicked = false;
 	titilate->stop();
 	return;
@@ -45,8 +67,14 @@ Textbox::unClick(int y, int x)
 bool
 Textbox::overYou(int y, int x)
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to hover on " << name << " that is no initialized correctly");
+		return false;
+	}
 	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
+		DEBUG_MSG_V("Hovering textbox " << name);
 		hover = true;
 		return true;
 	}
@@ -56,7 +84,19 @@ Textbox::overYou(int y, int x)
 void
 Textbox::draw(Bitmap* target)
 {
-	target->setTarget();
+	if (initOk == true && target != nullptr && target->get() != nullptr)
+		target->setTarget();
+	else if (initOk == true)
+	{
+		DEBUG_MSG("Error while drawing textbox " << name << " target was not initialized correctly");
+		return;
+	}
+	else
+	{
+		DEBUG_MSG("Trying to draw textbox when it was not initialized");
+		return;
+	}
+	DEBUG_MSG_V("Drawing textbox " << name);
 	al_draw_filled_rectangle(x, y, x + w, y + h, al_map_rgb(255, 255, 255));
 	if (clicked == true && queue.isEmpty() == false)
 	{

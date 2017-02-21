@@ -25,10 +25,20 @@
 #include "alx\Mouse.hpp"
 #include "alx\Keyboard.hpp"
 #include "alx\Size.hpp"
+#include "Allegro.h"
+#define DEBUG
+//#define DEBUG_V
+#ifdef DEBUG_V
+#ifndef DEBUG
+#define DEBUG
+#endif // !DEBUG
+#define DEBUG_MSG_V(x)  cerr << x<<endl
+#else
+#define DEBUG_MSG_V(x)
+#endif
 
-//#define DEBUG
 #ifdef DEBUG
-#define DEBUG_MSG(x) do { { cerr << x << endl; } } while (0)
+#define DEBUG_MSG(x)  cerr << x<<endl
 #else
 #define DEBUG_MSG(x)
 #endif
@@ -51,11 +61,11 @@ public:
 };
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
+#define PRESSED_TONE al_map_rgba(0,0,0,200)
 
 /*CHARACTER SETTINGS*/
 #define NUMBER_STEALTH_TOKENS 3
 #define NUMBER_ACTION_TOKENS 4
-
 
 
 
@@ -104,8 +114,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (ERRO, 0xFF))
 
 
-DEFINE_ENUM_WITH_CONVERSIONS(lootID,
-(a)(g))
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 

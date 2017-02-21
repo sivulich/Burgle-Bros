@@ -5,9 +5,9 @@ actionNode::actionNode() {
 
 void actionNode::setData(int col, int row, int floor, string action) {
 	sent = false;
-	tilePos[0] = col;
-	tilePos[1] = row;
-	tilePos[2] = floor;
+	tilePos.col = col;
+	tilePos.row = row;
+	tilePos.floor = floor;
 	myAction = action;
 }
 

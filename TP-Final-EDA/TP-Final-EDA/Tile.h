@@ -25,6 +25,7 @@ DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 (THERMO, 0x13)
 (WALKWAY, 0x14))
 
+
 /**
 	Pure abstract class of a tile.
 */
@@ -42,20 +43,18 @@ public:
 	Tile(unsigned floor, unsigned col, unsigned row);
 	
 	/**
+		Peek the tile 
 		Apart from turning up the card, sort the safe number
 	*/
+	virtual void peek(Player p);
+	virtual bool canPeek(Player p);
 	virtual void turnUp()override;
 
 	/**
-		
+		Moves the player to the tile
 	*/
-	virtual void peek(Player p); 
-
-	/**
-		
-	*/
-	virtual bool moveTo(Player p); 
-
+	virtual void moveTo(Player p);
+	virtual bool canMove(Player p);
 	/**
 		Returns the position of the tile in the floor.
 	*/
@@ -82,14 +81,14 @@ public:
 	void setAlarm(bool b);
 
 	/**
-		
+		Returns a vector of strings with the REGULAR actions the player can do (MOVE and PEEK only)
 	*/
-	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
+	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos) = 0;
 
 	/**
-
+		Applies the action given to the player (MOVE and PEEK only)
 	*/
-	virtual bool doAction(string action, Player p);
+	virtual void doAction(string action, Player p);
 
 	/**
 		If flipped returns the safe number, else returns 0.
@@ -141,6 +140,11 @@ public:
 	{
 		return t == getType();
 	}
+
+	/**
+		Adds the surrounding tile's coordinates to the player visible from
+	*/
+	void updateVisibleFrom(Player p);
 
 	/**
 		Adds an action node to the player

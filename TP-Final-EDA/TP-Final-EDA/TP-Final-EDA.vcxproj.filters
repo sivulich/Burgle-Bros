@@ -63,9 +63,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Configs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -249,9 +246,6 @@
     <ClInclude Include="TileObserver.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
     <ClInclude Include="PatrolCard.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
@@ -264,25 +258,13 @@
     <ClInclude Include="FloorObserver.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Floor.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="Loot.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="BaseCard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enumerations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TileFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolCardDeck.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Atrium.h">
@@ -345,11 +327,47 @@
     <ClInclude Include="Walkway.h">
       <Filter>Header Files\Model\TileCards</Filter>
     </ClInclude>
+    <ClInclude Include="Configs.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCardDeck.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Enumerations.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCard.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCard.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
     <ClInclude Include="BaseDeck.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Enumerations.h">
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="GameModel.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCardDeck.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="TileFactory.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Allegro.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -482,8 +500,26 @@
     <ClCompile Include="Walkway.cpp">
       <Filter>Source Files\Model\TileCards</Filter>
     </ClCompile>
+    <ClCompile Include="BaseCard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
     <ClCompile Include="BaseDeck.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="PatrolCardDeck.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TileFactory.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="TileCard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Allegro.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -610,7 +646,52 @@
     <Image Include="Images\Tiles\Tile - Walkway.jpg">
       <Filter>Resource Files\Images\Tiles</Filter>
     </Image>
-    <Image Include="Images\Patrol cards\Tiles 3 - copia (5).jpg">
+    <Image Include="Images\Patrol cards\PC A1.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC A2.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC A3.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC A4.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC B1.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC B2.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC B3.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC B4.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC C1.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC C2.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC C3.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC C4.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D1.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D2.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D3.jpg">
+      <Filter>Resource Files\Images\Patrol</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D4.jpg">
       <Filter>Resource Files\Images\Patrol</Filter>
     </Image>
   </ItemGroup>

@@ -5,9 +5,14 @@
 class Image :public Object {
 public:
 	Image(string& path);
-	/*Draws the image to the given bitmap*/
+	/** Draws the image to the given bitmap
+		@param target Target to draw the image in
+	*/
 	void draw(Bitmap* target);
-	/*Sets scale for the image to be drawn, it mantains aspect ratio*/
+
+	/** Sets scale for the image to be drawn, it mantains aspect ratio
+		@param s Scale
+	*/
 	void setScale(double s) { this->scale = s; };
 private:
 	Bitmap im;

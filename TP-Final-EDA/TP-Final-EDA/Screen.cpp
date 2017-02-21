@@ -3,31 +3,43 @@
 Screen::Screen(int h, int w, string& pathToBackground)
 {
 	initOk = false;
-	if (al_init() == true)
+	display = new Display(w, h);
+	toDraw = new Bitmap(w, h);
+	this->h = h;
+	this->w = w;
+	clickable = false;
+	hoverable = false;
+	offsetX = 0;
+	offsetY = 0;
+	bScale = 1;
+	background.load(pathToBackground.c_str());
+	if (background.get() != nullptr)
 	{
-		if (al_init_image_addon()==true && al_init_primitives_addon()==true )
+		if (toDraw != nullptr && toDraw->get() != nullptr)
 		{
-			display = new Display(w, h);
-			toDraw = new Bitmap(w, h);
-			this->h = h;
-			this->w = w;
-			clickable = false;
-			hoverable = false;
-			offsetX = 0;
-			offsetY = 0;
-			bScale = 1;
-			background.load(pathToBackground.c_str());
-			initOk = true;
+			if (display != nullptr && display->get() != nullptr)
+			{
+				DEBUG_MSG_V("Correctly initialized screen with background " << pathToBackground);
+				initOk = true;
+			}
+			else
+				DEBUG_MSG("Couldnt create Display for screen");
 		}
 		else
-			cout << "Couldnt init allegro addons" << endl;
+			DEBUG_MSG("Couldnt create toDraw in screen");
 	}
 	else
-		cout << "Couldnt init allegro" << endl;
+		DEBUG_MSG("Couldnt load background " << pathToBackground);
 }
 string
 Screen::click(int y, int x)
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to click screen when it was not initialized correctly");
+		return "";
+	}
+	DEBUG_MSG_V("Clicking on screen ");
 	for (auto& ob : objects)
 	{
 		if (ob->overYou(y, x ) == true)
@@ -39,6 +51,12 @@ Screen::click(int y, int x)
 void
 Screen::unClick(int y, int x)
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to unclick screen when its not initialized correctly");
+		return;
+	}
+	DEBUG_MSG_V("Unclicking screen");
 	for (auto& ob : objects)
 		ob->unClick(y,x);
 }
@@ -46,6 +64,12 @@ Screen::unClick(int y, int x)
 void
 Screen::draw()
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to draw screen when its not initialized correctly");
+		return;
+	}
+	DEBUG_MSG_V("Drawing screen");
 	toDraw->setTarget();
 	background.drawScaled( offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,
 		bScale*background.getWidth(), bScale* background.getHeight(), 0);
@@ -59,6 +83,12 @@ Screen::draw()
 bool
 Screen::overYou(int y, int x)
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to hover screen when it was not initialized correctly");
+		return false;
+	}
+	DEBUG_MSG_V("Hovering on screen");
 	for (auto& ob:objects)
 		ob->overYou(y, x);
 	return true;
@@ -66,6 +96,12 @@ Screen::overYou(int y, int x)
 void
 Screen::drag(int y, int x)
 {
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to drag on screen when it was not initialized correctly");
+		return ;
+	}
+	DEBUG_MSG_V("Draging on screen");
 	for (auto& ob : objects)
 		if(ob->overYou(y,x)==true)
 			ob->drag(y, x);
