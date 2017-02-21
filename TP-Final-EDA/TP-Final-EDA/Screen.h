@@ -67,6 +67,6 @@ private:
 	Bitmap* toDraw;
 	Bitmap background;
 	int offsetX, offsetY; //Used to offset the drawing of the background in the given container
-	double bScale; //Used to scale up or down the given backGround
+	double bScale; //Used to scale up or down the given background
 	vector<Object*> objects;
 };
