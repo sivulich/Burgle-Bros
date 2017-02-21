@@ -3,9 +3,16 @@
 class actionNode
 {
 public:
+	int tilePos[3];		// column-row-floor number array from the tile the action occured 
 	string myAction;
-
-	actionNode(string & action);
+	/**
+		Creates an action node
+	*/
+	actionNode();
+	/**
+		Set the action node data with the tile (COL-ROW-FLOOR) and action string
+	*/
+	void setData(int col, int row, int floor, string action);
 	/**
 		Sets true to know the action was sent.
 	*/

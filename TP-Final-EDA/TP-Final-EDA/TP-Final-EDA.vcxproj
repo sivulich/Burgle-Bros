@@ -70,18 +70,41 @@
     <ClInclude Include="alx\Vector2Base.hpp" />
     <ClInclude Include="alx\VertexDecl.hpp" />
     <ClInclude Include="alx\Voice.hpp" />
+    <ClInclude Include="Atrium.h" />
+    <ClInclude Include="BaseCard.h" />
+    <ClInclude Include="BaseDeck.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="ComputerRoomF.h" />
+    <ClInclude Include="ComputerRoomL.h" />
+    <ClInclude Include="ComputerRoomM.h" />
+    <ClInclude Include="Deadbolt.h" />
+    <ClInclude Include="Enumerations.h" />
+    <ClInclude Include="Fingerprint.h" />
     <ClInclude Include="Floor.h" />
     <ClInclude Include="FloorObserver.h" />
-    <ClInclude Include="basicDeck.h" />
+    <ClInclude Include="Foyer.h" />
+    <ClInclude Include="GameModel.h" />
+    <ClInclude Include="Keypad.h" />
+    <ClInclude Include="Laboratory.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="Lavatory.h" />
     <ClInclude Include="Loot.h" />
+    <ClInclude Include="Motion.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="Safe.h" />
+    <ClInclude Include="Scanner.h" />
+    <ClInclude Include="SecretDoor.h" />
+    <ClInclude Include="ServiceDuct.h" />
+    <ClInclude Include="Stair.h" />
+    <ClInclude Include="Thermo.h" />
+    <ClInclude Include="TileFactory.h" />
     <ClInclude Include="TileObserver.h" />
     <ClInclude Include="Configs.h" />
     <ClInclude Include="controller.h" />
     <ClInclude Include="Guard.h" />
-    <ClInclude Include="GuardDeck.h" />
+    <ClInclude Include="PatrolCardDeck.h" />
     <ClInclude Include="localControler.h" />
     <ClInclude Include="object.h" />
     <ClInclude Include="Container.h" />
@@ -91,31 +114,56 @@
     <ClInclude Include="Screen.h" />
     <ClInclude Include="Textbox.h" />
     <ClInclude Include="Tile.h" />
+    <ClInclude Include="Walkway.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Atrium.cpp" />
+    <ClCompile Include="BaseCard.cpp" />
+    <ClCompile Include="BaseDeck.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="actionNode.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ComputerRoomF.cpp" />
+    <ClCompile Include="ComputerRoomL.cpp" />
+    <ClCompile Include="ComputerRoomM.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="Deadbolt.cpp" />
+    <ClCompile Include="Fingerprint.cpp" />
+    <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FloorObserver.cpp" />
+    <ClCompile Include="Foyer.cpp" />
     <ClCompile Include="Guard.cpp" />
-    <ClCompile Include="GuardDeck.cpp" />
+    <ClCompile Include="PatrolCardDeck.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Keypad.cpp" />
+    <ClCompile Include="Laboratory.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="Lavatory.cpp" />
     <ClCompile Include="localControler.cpp" />
     <ClCompile Include="Loot.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Motion.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="PatrolCard.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Safe.cpp" />
+    <ClCompile Include="Scanner.cpp" />
     <ClCompile Include="Screen.cpp" />
-    <ClCompile Include="basicDeck.cpp" />
+    <ClCompile Include="SecretDoor.cpp" />
+    <ClCompile Include="ServiceDuct.cpp" />
+    <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Textbox.cpp" />
+    <ClCompile Include="Thermo.cpp" />
     <ClCompile Include="Tile.cpp" />
+    <ClCompile Include="TileFactory.cpp" />
+    <ClCompile Include="TileCard.cpp" />
     <ClCompile Include="TileObserver.cpp" />
+    <ClCompile Include="Walkway.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\Characters\Characters - The Acrobat.jpg" />
@@ -257,6 +305,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -290,6 +339,7 @@
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" />
     <Import Project="..\packages\Allegro.5.2.2.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" />
+    <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -297,5 +347,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets'))" />
     <Error Condition="!Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.0\build\native\Allegro.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
   </Target>
 </Project>

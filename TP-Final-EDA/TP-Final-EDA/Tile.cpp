@@ -2,99 +2,92 @@
 
 Tile::Tile()
 {
-	flipped = false;
+	turnDown();
 	alarm = false;
 
 }
 
-Tile::Tile(int x, int y, tileType t)
+Tile::Tile(int x, int y)
 {
-	flipped = false;
+	turnDown();
 	alarm = false;
 	coord.first = x;
 	coord.second = y;
-	type = t;
 }
 
-
-/**
-*/
 void Tile::peek(Player p)
 {
-	flipped = true;
-
-
+	if(p.getActionTokens > 0)
+		turnUp();
 }
 
-/**
-*/
 bool Tile::moveTo(Player p)
 {
 
 	return true;
 }
 
-/**
-*/
+
 tileType Tile::getType()
 {
-	return type;
+	return getType();;
 }
 
-/**
-*/
+
 bool Tile::hasAlarm()
 {
 	return alarm;
 }
 
-/**
-*/
-bool Tile::isFlipped()
+void Tile::flip()
 {
-	return true;
+	turnUp();
+	default_random_engine generator;
+	uniform_int_distribution<int> distribution(1, 6);
+	safeNumber = distribution(generator);
+}
+bool Tile::isFlipped()	
+{
+//	return isFlipped();
 }
 
-/**
-*/
+
 void  Tile::setAlarm(bool b)
 {
-
+	alarm = b;
 }
 
-/**
-*/
+
 void Tile::setCoord(int x, int y)
 {
 	coord.first = x;
 	coord.second = y;
 }
 
-/**
-*/
-vector<string>& Tile::getActions(Player p)
-{
-	return actions;
-}
 
-/**
-*/
-bool Tile::doAction(string Action, Player p)
+bool Tile::doAction(string action, Player p)
 {
 	return true;
 }
 
-/**
-*/
+
 int Tile::getSafeNumber()
 {
-	return safeNumber;
+	return isFlipped() ? safeNumber : 0;
 }
 
-/**
 
-*/
 vector<Tile*>& Tile::getAdjacent()
 {
 	return adjacent;
+}
+
+vector<string>& Tile::getActions(Player p, Coord guardPos, Coord partnerPos) {
+	
+}
+
+void Tile::addPlayerAction(Player p, string action) {
+	actionNode temp;
+	temp.setData(getCoord().first, getCoord().second, getFloor(), action);
+	p.actions.push_front(temp);
 }

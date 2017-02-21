@@ -16,7 +16,7 @@ void flip()
 
 }
 
-pair<int, int> getCoord()
+Coord getCoord()
 {
-
+	return make_pair(0, 0);
 }

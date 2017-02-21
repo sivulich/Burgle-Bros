@@ -2,30 +2,86 @@
 #include "Configs.h"
 #include "actionNode.h"
 #include "Loot.h"
+#include "Tile.h"
 
 class Player
 {
 public:
+	/**
+	
+	*/
+	Player(){};
+
+	/**
+
+	*/
 	Player(string & playerName);
+
+	/**
+		Sets the name of the player
+	*/
+	void setName(string & playerName);
+	/**
+		Returns the player's positions
+	*/
+	Coord getPosition() { return pos; };
+	/**
+
+	*/
 	void setId(characterID character);
+	
+	/**
+		Reset the player action tokens
+	*/
 	void newTurn();
+	
+	/**
+		Sets the player position to the parameter given
+	*/
 	void move(Coord & newPos);
+	
+	/**
+		Appends the action given to the front of the list of player actions.
+	*/
 	void newAction(string & action);
+	
+	/**
+		Removes 1 stealth token if possible
+	*/
 	void removeStealthToken();
+	
+	/**
+		Removes 1 action token if possible
+	*/
 	void removeActionToken();
+	/**
+		Returns the amount of stealth tokens
+	*/
 	int getStealthTokens();
+
+	/**
+		Returns the amount of action tokens
+	*/
 	int getActionTokens();
-	Coord getPos() { return pos; };
-	characterID getId() { return id; };
-	string& getName() { return name; };
-	vector<Coord> visibleFrom;
-	list <actionNode> actions;
-	list <Loot> loots;
+	/**
+		Simulates a die being thrown
+	*/
+	int throwDice();
+
+	//vector<> visibleFrom;
+
+	/**
+		Appends the action given to the front of the list of player actions.
+	*/
+
+
 private:
 	string name;
 	characterID id;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;
+	list <actionNode> actions;
+	list <Loot> loots;
 	
 };

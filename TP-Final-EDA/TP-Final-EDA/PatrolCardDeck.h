@@ -1,38 +1,36 @@
 #pragma once
-#include "Configs.h"
 #include "PatrolCard.h"
-class GuardDeck
+#include "BaseDeck.h"
+#include <list>
+
+class PatrolCardDeck : public BaseDeck
 {
 public:
 	/**
 
 	*/
-	GuardDeck();
+	PatrolCardDeck();
 
 	/**
 
 	*/
-	~GuardDeck();
+	~PatrolCardDeck();
 
 	/**
 
 	*/
-	void DiscardTop();
+	bool discardTop();
 
 	/**
 
 	*/
-	PatrolCard GetPatrolCard();
+	PatrolCard getTop();
 
 	/**
 
 	*/
-	PatrolCard FlipTopCard();
+	PatrolCard getNext();
 
-	/**
-
-	*/
-	void SendToBottom();
 
 	/**
 
@@ -50,7 +48,6 @@ public:
 	list<PatrolCard> & GetGraveyard();
 
 private:
-	list<PatrolCard> cards;
-	list<PatrolCard> graveyard;
+	
 };
 
