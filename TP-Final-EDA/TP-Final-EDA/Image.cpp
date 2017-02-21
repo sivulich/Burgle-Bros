@@ -8,7 +8,10 @@ Image::Image(string& path)
 	h = im.getHeight();
 	w = im.getWidth();
 	size_t pos = path.find('.');
-	name = path.substr(0, pos);
+	size_t pos2 = path.find_last_of('/');
+	if (pos2 == string::npos)
+		pos2 = 0;
+	name = path.substr(pos2+1, pos);
 
 }
 void
