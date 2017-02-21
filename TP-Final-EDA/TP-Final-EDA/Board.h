@@ -17,7 +17,6 @@ public:
 	Floor& operator[](size_t i) { return *(floor[i]); };
 
 private:
-
 	Floor* floor[3];
 	vector<Coord> adjacent[3][4][4];
 

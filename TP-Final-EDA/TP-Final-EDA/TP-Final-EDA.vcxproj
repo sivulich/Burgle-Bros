@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Acrobat.h" />
     <ClInclude Include="actionNode.h" />
     <ClInclude Include="Allegro.h" />
     <ClInclude Include="alx\AllegroFile.hpp" />
@@ -77,9 +78,13 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterFactory.h" />
+    <ClInclude Include="Chihuahua.h" />
     <ClInclude Include="ComputerRoomF.h" />
     <ClInclude Include="ComputerRoomL.h" />
     <ClInclude Include="ComputerRoomM.h" />
+    <ClInclude Include="CursedGoblet.h" />
     <ClInclude Include="Deadbolt.h" />
     <ClInclude Include="Enumerations.h" />
     <ClInclude Include="Fingerprint.h" />
@@ -87,19 +92,34 @@
     <ClInclude Include="FloorObserver.h" />
     <ClInclude Include="Foyer.h" />
     <ClInclude Include="GameModel.h" />
+    <ClInclude Include="Gemstone.h" />
+    <ClInclude Include="GoldBar.h" />
+    <ClInclude Include="Hacker.h" />
+    <ClInclude Include="Hawk.h" />
+    <ClInclude Include="Isotope.h" />
+    <ClInclude Include="Juicer.h" />
+    <ClInclude Include="Keycard.h" />
     <ClInclude Include="Keypad.h" />
     <ClInclude Include="Laboratory.h" />
     <ClInclude Include="Laser.h" />
     <ClInclude Include="Lavatory.h" />
     <ClInclude Include="Loot.h" />
+    <ClInclude Include="LootFactory.h" />
+    <ClInclude Include="Mirror.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="Painting.h" />
+    <ClInclude Include="PersianKitty.h" />
+    <ClInclude Include="Peterman.h" />
+    <ClInclude Include="Raven.h" />
     <ClInclude Include="Safe.h" />
     <ClInclude Include="Scanner.h" />
     <ClInclude Include="SecretDoor.h" />
     <ClInclude Include="ServiceDuct.h" />
+    <ClInclude Include="Spotter.h" />
     <ClInclude Include="Stair.h" />
     <ClInclude Include="Thermo.h" />
+    <ClInclude Include="Tiara.h" />
     <ClInclude Include="TileFactory.h" />
     <ClInclude Include="TileObserver.h" />
     <ClInclude Include="Configs.h" />
@@ -121,6 +141,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Acrobat.cpp" />
     <ClCompile Include="Allegro.cpp" />
     <ClCompile Include="Atrium.cpp" />
     <ClCompile Include="BaseCard.cpp" />
@@ -129,16 +150,30 @@
     <ClCompile Include="actionNode.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterFactory.cpp" />
+    <ClCompile Include="Chihuahua.cpp" />
     <ClCompile Include="ComputerRoomF.cpp" />
     <ClCompile Include="ComputerRoomL.cpp" />
     <ClCompile Include="ComputerRoomM.cpp" />
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="CursedGoblet.cpp" />
     <ClCompile Include="Deadbolt.cpp" />
     <ClCompile Include="Fingerprint.cpp" />
     <ClCompile Include="Floor.cpp" />
     <ClCompile Include="FloorObserver.cpp" />
     <ClCompile Include="Foyer.cpp" />
+    <ClCompile Include="Gemstone.cpp" />
+    <ClCompile Include="GoldBar.cpp" />
     <ClCompile Include="Guard.cpp" />
+    <ClCompile Include="Hacker.cpp" />
+    <ClCompile Include="Hawk.cpp" />
+    <ClCompile Include="Isotope.cpp" />
+    <ClCompile Include="Juicer.cpp" />
+    <ClCompile Include="Keycard.cpp" />
+    <ClCompile Include="LootFactory.cpp" />
+    <ClCompile Include="Mirror.cpp" />
+    <ClCompile Include="Painting.cpp" />
     <ClCompile Include="PatrolCardDeck.cpp" />
     <ClCompile Include="GameModel.cpp" />
     <ClCompile Include="Image.cpp" />
@@ -152,15 +187,20 @@
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="object.cpp" />
     <ClCompile Include="PatrolCard.cpp" />
+    <ClCompile Include="PersianKitty.cpp" />
+    <ClCompile Include="Peterman.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Raven.cpp" />
     <ClCompile Include="Safe.cpp" />
     <ClCompile Include="Scanner.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="SecretDoor.cpp" />
     <ClCompile Include="ServiceDuct.cpp" />
+    <ClCompile Include="Spotter.cpp" />
     <ClCompile Include="Stair.cpp" />
     <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="Thermo.cpp" />
+    <ClCompile Include="Tiara.cpp" />
     <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TileFactory.cpp" />
     <ClCompile Include="TileObserver.cpp" />

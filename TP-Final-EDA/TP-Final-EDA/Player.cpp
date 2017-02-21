@@ -24,9 +24,11 @@ void Player::newTurn()
 	actionTokens = NUMBER_ACTION_TOKENS;
 }
 
-void Player::move(Coord & newPos)
+void Player::move(Coord newPos)
 {
 	pos = newPos;
+	for (auto& loot : loots)
+		loot.setPos(newPos);
 }
 
 void Player::removeStealthToken()

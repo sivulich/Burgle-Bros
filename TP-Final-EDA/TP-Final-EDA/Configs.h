@@ -26,6 +26,7 @@
 #include "alx\Keyboard.hpp"
 #include "alx\Size.hpp"
 #include "Allegro.h"
+
 #define DEBUG
 //#define DEBUG_V
 #ifdef DEBUG_V
@@ -50,7 +51,7 @@ using namespace alx;
 class Coord
 {
 public:
-	Coord();
+	Coord() {};
 	Coord(unsigned f, unsigned c, unsigned r) : col(c), row(r), floor(f) {};
 	unsigned col, row, floor;
 	ostream& operator<<(ostream& os)
@@ -67,17 +68,6 @@ public:
 #define NUMBER_STEALTH_TOKENS 3
 #define NUMBER_ACTION_TOKENS 4
 
-
-
-DEFINE_ENUM_WITH_CONVERSIONS(characterID,
-
-(THE_JUICER, 0x20)
-(THE_HACKER, 0x21)
-(THE_ACROBAT, 0x22)
-(THE_SPOTTER, 0x23)
-(THE_HAWK, 0x24)
-(THE_RAVEN, 0x25)
-(THE_PETERMAN, 0x26))
 
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
@@ -117,6 +107,5 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
-typedef enum { TIARA = 0x30, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR } lootID;
 
 #endif //CONFIGS_H

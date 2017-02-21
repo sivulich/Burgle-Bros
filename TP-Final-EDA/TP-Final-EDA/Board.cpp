@@ -75,7 +75,7 @@ Board::Board()
 										{ ´,´,´,´,´,´,´ },
 										{ T,´,T,´,T,W,T }  }
 	};
-	ServiceDuct* duct1=nullptr, *duct2 = nullptr;
+	ServiceDuct* duct1 = nullptr;
 		for (int f = 0; f < 3; f++)
 		{
 			for (int row = 0; row < 4; row++)
@@ -90,6 +90,7 @@ Board::Board()
 					{
 						(*floor[f+1])[col][row]->setAdjacent(Coord(f, col, row));
 						(*floor[f])[col][row]->setAdjacent(Coord(f+1, col, row));
+						floor[f+1]->setStairToken(Coord(f+1, col, row));
 					}
 
 					// If there is a Service Duct tile
