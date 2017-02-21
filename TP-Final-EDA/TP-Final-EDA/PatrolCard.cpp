@@ -2,21 +2,13 @@
 
 
 
-PatrolCard::PatrolCard(pair<int, int> coord)
+PatrolCard::PatrolCard(Coord c)
 {
+	 coord = c; 
+	 description = to_string(c.col + 'A') + to_string(c.row);
 }
-
 
 PatrolCard::~PatrolCard()
 {
 }
 
-void flip()
-{
-
-}
-
-Coord getCoord()
-{
-	return make_pair(0, 0);
-}

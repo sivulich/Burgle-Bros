@@ -8,7 +8,7 @@ FloorObserver::FloorObserver(Floor* f, Container* floors)
 	floorGrid = new Container(double(parent->getHeight())/1.5, double(parent->getHeight()) / 1.5);
 	floorGrid->setName(string("Floor") + to_string(floor->getNumber()));
 	//Y ver la poscion dentro del board
-	floorGrid->setPosition(0, parent->getWidth()/3*floor->getNumber());
+	floorGrid->setPosition(0, double(parent->getWidth())/3.0*floor->getNumber());
 	parent->addObject(floorGrid);
 	for (int i = 0; i < 4; i++)
 	{

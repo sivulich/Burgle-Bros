@@ -24,12 +24,12 @@ public:
 	/**
 
 	*/
-	PatrolCard getTop();
+	PatrolCard* getTop();
 
 	/**
 
 	*/
-	PatrolCard getNext();
+	PatrolCard* getNext();
 
 
 	/**
@@ -40,12 +40,12 @@ public:
 	/**
 
 	*/
-	list<PatrolCard> & GetCards();
+	vector<BaseCard*> & GetCards();
 
 	/**
 
 	*/
-	list<PatrolCard> & GetGraveyard();
+	vector<BaseCard*> & GetGraveyard();
 
 private:
 	

@@ -91,6 +91,7 @@ public:
 		@param x Mouse X position
 	*/
 	virtual void drag(int y, int x);
+	virtual bool isClicked() { return clicked; };
 
 	bool wasInitOk() { return initOk; };
 
