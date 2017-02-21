@@ -9,8 +9,11 @@ Image::Image(string& path)
 	w = im.getWidth();
 	size_t pos = path.find('.');
 	size_t pos2 = path.find_last_of('/');
+	size_t pos3 = path.find_last_of('\\');
 	if (pos2 == string::npos)
 		pos2 = 0;
+	if (pos3 != string::npos)
+		pos2 = pos3;
 	name = path.substr(pos2+1, pos);
 
 }
