@@ -428,9 +428,6 @@
     <ClCompile Include="Loot.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="basicDeck.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="BaseCard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

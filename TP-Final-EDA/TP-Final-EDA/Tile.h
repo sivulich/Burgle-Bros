@@ -27,7 +27,7 @@ DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 
 
 /**
-
+	Pure abstract class of a tile.
 */
 class Tile : public BaseCard
 {
@@ -40,16 +40,18 @@ public:
 	/**
 		Construct a tile with a position in the floor and a tileType.
 	*/
-	Tile(int x, int y);
+	Tile(unsigned floor, unsigned col, unsigned row);
 	
 	/**
 		Peek the tile (Remove action, flip tile)
+		Apart from turning up the card, sort the safe number
 	*/
 	virtual void peek(Player p);
 	/**
 		Checks if player has action token and tile is down
 	*/
 	virtual bool canPeek(Player p);
+	virtual void turnUp()override;
 
 	/**
 		Moves the player to the tile
@@ -66,9 +68,9 @@ public:
 	Coord getPos() { return coord; };
 
 	/**
-	Set the position of the tile in the floor.
+		Set the position of the tile in the floor.
 	*/
-	void setCoord(int x, int y);
+	void setCoord(unsigned floor, unsigned col,unsigned row);
 
 	/**
 		Returns the type of the tile.
@@ -81,14 +83,9 @@ public:
 	bool hasAlarm();
 
 	/**
-		Flip the tile and sort the safe number.
-	*/
-	void flip();
-
-	/**
 		Activate an alarm in the tile.
 	*/
-	void  setAlarm(bool b);
+	void setAlarm(bool b);
 
 	/**
 		Returns a vector of strings with the REGULAR actions the player can do (MOVE and PEEK only)
@@ -106,30 +103,50 @@ public:
 	int getSafeNumber();
 
 	/**
-
+		Return a vector of Coords of adjacent tiles
 	*/
-	vector<Tile*>& getAdjacent();
+	vector<Coord>& getAdjacent();
 
 	/**
-		Returns the floor number
+		Return the floor number
 	*/
-	int getFloor() { return floor; };
+	int floor() { return coord.floor; };
 
-	void setAdjacent(Tile* t) { adjacent.push_back(t); };
+	/**
+		Return the col number
+	*/
+	int col() { return coord.col; };
 
-	void deleteAdjacent(Coord b)
-	{
-		for (auto t : adjacent)
-		{
-			if (t->getCoord() == b);
-			//adjacent.remove(t);
-		}
-	}
+	/**
+		Return the row number
+	*/
+	int row() { return coord.row; };
 
+	/**
+		Add a coord to the adjacent list
+	*/
+	void setAdjacent(Coord c);
+
+	/**
+		Delete a coord from the adjacent list
+	*/
+	void deleteAdjacent(Coord b);
+	
 	/**
 		Returns true if the tile given is adjacent
 	*/
-	bool isAdjacent(Coord t);
+	bool isAdjacent(Coord t)
+	{
+		return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
+	}
+	
+	/**
+		Return true if the tile is from the given type
+	*/
+	bool is(tileType t)
+	{
+		return t == getType();
+	}
 
 	/**
 		Adds the surrounding tile's coordinates to the player visible from
@@ -141,16 +158,11 @@ public:
 	*/
 	void addPlayerAction(Player p, string action);
 	
-
-	bool walls[4];
-
 protected:
 	Coord coord;
-	int floor;
+	tileType type;
 	bool alarm;
 	int safeNumber;
-	int floor;
-	tileType type;
 	vector<Coord> adjacent;
 	vector<string> actions;
 };

@@ -1,5 +1,33 @@
 #include "Tile.h"
 
+
+
+void Tile::setAdjacent(Coord c)
+{
+	adjacent.push_back(c);
+};
+
+
+void Tile::deleteAdjacent(Coord b)
+{
+	adjacent.erase(find(adjacent.begin(), adjacent.end(), b));
+}
+
+
+bool Tile::isAdjacent(Coord t)
+{
+	return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
+}
+
+/**
+	Return true if the tile is from the given type
+*/
+bool Tile::is(tileType t)
+{
+	return t == getType();
+}
+
+
 Tile::Tile()
 {
 	turnDown();
@@ -7,12 +35,12 @@ Tile::Tile()
 
 }
 
-Tile::Tile(int x, int y)
+Tile::Tile(unsigned floor, unsigned col, unsigned row)
 {
-	turnDown();
 	alarm = false;
-	coord.col = x;
-	coord.row = y;
+	coord.col = col;
+	coord.row = row;
+	coord.floor = floor;
 }
 
 
@@ -27,9 +55,10 @@ bool Tile::hasAlarm()
 	return alarm;
 }
 
-void Tile::flip()
+
+void Tile::turnUp()
 {
-	turnUp();
+	BaseCard::turnUp();
 	default_random_engine generator;
 	uniform_int_distribution<int> distribution(1, 6);
 	safeNumber = distribution(generator);
