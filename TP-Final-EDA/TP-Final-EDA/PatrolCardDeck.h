@@ -24,12 +24,12 @@ public:
 	/**
 
 	*/
-	PatrolCard* getTop();
+	BaseCard* getTop();
 
 	/**
 
 	*/
-	PatrolCard* getNext();
+	BaseCard* getNext();
 
 
 	/**

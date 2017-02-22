@@ -21,12 +21,12 @@ PatrolCardDeck::~PatrolCardDeck()
 
 
 
-PatrolCard* PatrolCardDeck::getTop()
+BaseCard* PatrolCardDeck::getTop()
 {
-	return (PatrolCard*)discarded.back();
+	return discarded.back();
 }
 
-PatrolCard* PatrolCardDeck::getNext()
+BaseCard* PatrolCardDeck::getNext()
 {
 	if(discardTop()==true)
 		return getTop();
