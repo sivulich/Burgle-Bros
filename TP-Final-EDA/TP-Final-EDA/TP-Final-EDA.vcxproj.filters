@@ -1,516 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Header Files\Graphics">
-      <UniqueIdentifier>{5b96ed45-a52b-4ddd-819c-fcd97d81b71b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Graphics">
-      <UniqueIdentifier>{1ef5168f-34b2-4dda-8dc8-5c7ae891a2d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Controllers">
-      <UniqueIdentifier>{e4fa0d2e-06c6-4929-86ff-4834a9b60813}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Controllers">
-      <UniqueIdentifier>{b9c46c4a-31d4-4513-b11f-47759b27d3b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Model">
-      <UniqueIdentifier>{0d717e52-3072-42e0-8a27-071d4d349cdc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\ALX">
-      <UniqueIdentifier>{f21c996a-aba6-49b5-82fc-ac0349be9a88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Model">
-      <UniqueIdentifier>{11281a75-b2ee-45fb-af84-779524414ab2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Resource Files\Images">
-      <UniqueIdentifier>{0fabdcbc-ac1d-4bd6-9175-38ec4366bae3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Images\Loot">
-      <UniqueIdentifier>{da740d30-85f9-4487-b9f6-f54fdc00f190}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Images\Characters">
-      <UniqueIdentifier>{131fe75d-5d62-4f96-9a0b-016d1dc2e1e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Images\Patrol">
-      <UniqueIdentifier>{9f6d876c-e3b2-46b8-9002-89994b0a01f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\Images\Tiles">
-      <UniqueIdentifier>{b258887e-4be6-43f0-b3e0-1ec84efd4eec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Observers">
-      <UniqueIdentifier>{5b103e09-9467-46a6-ba33-b4c7c5bf6dd0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Observers">
-      <UniqueIdentifier>{726a1589-35c5-4dc1-b86f-8b951673edef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Model\Tiles">
-      <UniqueIdentifier>{968581fc-e2f3-447e-a851-a0f44c177977}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Model\Loots">
-      <UniqueIdentifier>{300dd925-01d9-4eba-89f0-ef9fa1f548a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Model\Characters">
-      <UniqueIdentifier>{bc5abf4d-31aa-4ca2-8cc7-5b6a8ecbdb74}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Model\Loots">
-      <UniqueIdentifier>{b8732956-9fa2-450f-805d-418654eff486}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Model\Characters">
-      <UniqueIdentifier>{c58e9c31-e4be-4f09-b90c-655aed35ee45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Model\Tiles">
-      <UniqueIdentifier>{c6c7e7d2-be0c-48a4-b13f-babf0853c198}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Configs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Image.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="object.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Container.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Screen.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="localControler.h">
-      <Filter>Header Files\Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="controller.h">
-      <Filter>Header Files\Controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="Textbox.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\AllegroFile.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\AudioStream.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Bitmap.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Color.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Condition.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Config.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\ConfigEntryContainer.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\ConfigSectionContainer.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Display.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Event.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\EventQueue.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\EventSource.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\File.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\FileEntry.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\FilePath.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Fixed.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Font.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Joystick.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\JoystickState.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Keyboard.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\KeyboardState.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Lock.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Mixer.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Mouse.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\MouseState.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Mutex.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\NativeFileDialog.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\NativeTextLog.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Point.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Rect.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Sample.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\SampleId.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\SampleInstance.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Shared.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Size.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\State.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\String.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\System.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Thread.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Timeout.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Timer.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Transform.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\UserEvent.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\UserEventSource.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Util.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Value.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Vector2.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Vector2Base.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\VertexDecl.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="alx\Voice.hpp">
-      <Filter>Header Files\ALX</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="TileObserver.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolCard.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Guard.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="actionNode.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="FloorObserver.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="Floor.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Loot.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Enumerations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Atrium.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="ComputerRoomF.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="ComputerRoomL.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="ComputerRoomM.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Deadbolt.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Fingerprint.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Foyer.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Keypad.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Laboratory.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Laser.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Lavatory.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Motion.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Safe.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Scanner.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="SecretDoor.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="ServiceDuct.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Stair.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Thermo.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Walkway.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Allegro.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCard.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseDeck.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="GameModel.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolCardDeck.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="TileFactory.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files\Model\Tiles</Filter>
-    </ClInclude>
-    <ClInclude Include="Loot.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterFactory.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Chihuahua.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="CursedGoblet.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Gemstone.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="GoldBar.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Isotope.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Keycard.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Mirror.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Painting.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="PersianKitty.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Tiara.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="LootFactory.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Acrobat.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Hacker.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Hawk.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Juicer.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Peterman.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Raven.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Spotter.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="TileFactory.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Configs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolCardDeck.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCard.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Enumerations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardDeckObserver.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="GuardCardObserver.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="object.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Container.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Screen.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="localControler.cpp">
-      <Filter>Source Files\Controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="Textbox.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="TileObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="PatrolCard.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Board.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Guard.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="Acrobat.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
     </ClCompile>
     <ClCompile Include="actionNode.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="FloorObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="GameModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="Atrium.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="BaseCard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseDeck.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Board.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Allegro.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterFactory.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Chihuahua.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
     </ClCompile>
     <ClCompile Include="ComputerRoomF.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
@@ -521,16 +46,82 @@
     <ClCompile Include="ComputerRoomM.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="Container.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="CursedGoblet.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
     <ClCompile Include="Deadbolt.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Fingerprint.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="Gemstone.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="GoldBar.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="FloorObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameModel.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Guard.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardCardObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="GuardDeckObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Keypad.cpp">
+      <Filter>Source Files\Model\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Hawk.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Hacker.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Source Files\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="Juicer.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="localControler.cpp">
+      <Filter>Source Files\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="Mirror.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="LootFactory.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Loot.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Painting.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="PersianKitty.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Motion.cpp">
+      <Filter>Source Files\Model\Tiles</Filter>
+    </ClCompile>
     <ClCompile Include="Foyer.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="Keypad.cpp">
+    <ClCompile Include="Keycard.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Laboratory.cpp">
@@ -540,9 +131,6 @@
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Lavatory.cpp">
-      <Filter>Source Files\Model\Tiles</Filter>
-    </ClCompile>
-    <ClCompile Include="Motion.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Safe.cpp">
@@ -563,83 +151,32 @@
     <ClCompile Include="Thermo.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Model\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="TileFactory.cpp">
+      <Filter>Source Files\Model\Tiles</Filter>
+    </ClCompile>
     <ClCompile Include="Walkway.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="Allegro.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="object.cpp">
+      <Filter>Source Files\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCard.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseDeck.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor.cpp">
+    <ClCompile Include="PatrolCard.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="PatrolCardDeck.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="CursedGoblet.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Gemstone.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="GoldBar.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Isotope.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Keycard.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="LootFactory.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Mirror.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Painting.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="PersianKitty.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Tiara.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Chihuahua.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Loot.cpp">
-      <Filter>Source Files\Model\Loots</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Source Files\Model\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterFactory.cpp">
-      <Filter>Source Files\Model\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Acrobat.cpp">
-      <Filter>Source Files\Model\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Hacker.cpp">
-      <Filter>Source Files\Model\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Hawk.cpp">
-      <Filter>Source Files\Model\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="Juicer.cpp">
-      <Filter>Source Files\Model\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Peterman.cpp">
       <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Screen.cpp">
+      <Filter>Source Files\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="Raven.cpp">
       <Filter>Source Files\Model\Characters</Filter>
@@ -647,67 +184,411 @@
     <ClCompile Include="Spotter.cpp">
       <Filter>Source Files\Model\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="TileFactory.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="Tiara.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
     </ClCompile>
-    <ClCompile Include="Allegro.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="Textbox.cpp">
+      <Filter>Source Files\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="BaseCard.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="PatrolCardDeck.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="TileFactory.cpp">
-      <Filter>Source Files\Model</Filter>
-      <Filter>Source Files\Model\Tiles</Filter>
-    </ClCompile>
-    <ClCompile Include="GuardDeckObserver.cpp">
+    <ClCompile Include="TileObserver.cpp">
       <Filter>Source Files\Observers</Filter>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="GuardCardObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
+    <ClCompile Include="Isotope.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Images\Loot\Loot - Bust.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <ClInclude Include="Acrobat.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="actionNode.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Atrium.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCard.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseDeck.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Board.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Allegro.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\AllegroFile.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\AudioStream.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Bitmap.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterFactory.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Chihuahua.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Color.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputerRoomF.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputerRoomL.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputerRoomM.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Condition.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Config.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\ConfigEntryContainer.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Configs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\ConfigSectionContainer.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="controller.h">
+      <Filter>Header Files\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="CursedGoblet.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Deadbolt.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Display.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Event.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\EventQueue.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\EventSource.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\File.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\FileEntry.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\FilePath.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Fingerprint.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Fixed.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Floor.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="FloorObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Font.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Joystick.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\JoystickState.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Keyboard.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\KeyboardState.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Timeout.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Timer.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Transform.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\UserEvent.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\UserEventSource.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Util.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Value.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Vector2.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Vector2Base.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\VertexDecl.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Voice.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Walkway.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Thermo.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Stair.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="SecretDoor.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ServiceDuct.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Safe.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Motion.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Lavatory.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Laser.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Laboratory.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Keypad.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Foyer.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GameModel.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Guard.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardDeckObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="GuardCardObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="localControler.h">
+      <Filter>Header Files\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Lock.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Loot.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="LootFactory.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Mirror.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mixer.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mouse.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\MouseState.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Mutex.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\NativeFileDialog.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\NativeTextLog.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="object.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Painting.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCard.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="PatrolCardDeck.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Spotter.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Peterman.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Raven.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Rect.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Sample.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\SampleId.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\SampleInstance.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Shared.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Size.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\System.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\State.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\String.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiara.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="PersianKitty.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Scanner.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Point.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="alx\Thread.hpp">
+      <Filter>Header Files\Alx</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="TileFactory.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Screen.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="TileObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Textbox.h">
+      <Filter>Header Files\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Enumerations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\Patrol cards\PC A1.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Chihuahua (2).jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC A2.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Chihuahua.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC A3.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Cursed Goblet.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC A4.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Gemstone.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC B1.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Gold Bar.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC B2.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Mirror.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC B3.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Painting.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC B4.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Persian Kitty.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC C1.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Reverse.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC C2.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
-    <Image Include="Images\Loot\Loot - Tiara.jpg">
-      <Filter>Resource Files\Images\Loot</Filter>
+    <Image Include="Images\Patrol cards\PC C3.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC C4.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D1.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D2.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D3.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
+    </Image>
+    <Image Include="Images\Patrol cards\PC D4.jpg">
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
+    </Image>
+    <Image Include="Images\Characters\Characters.JPG">
+      <Filter>Resource Files\Images\Characters</Filter>
     </Image>
     <Image Include="Images\Characters\Characters - The Acrobat.jpg">
       <Filter>Resource Files\Images\Characters</Filter>
@@ -733,8 +614,41 @@
     <Image Include="Images\Characters\Characters - The Spotter.jpg">
       <Filter>Resource Files\Images\Characters</Filter>
     </Image>
-    <Image Include="Images\Characters\Characters.JPG">
-      <Filter>Resource Files\Images\Characters</Filter>
+    <Image Include="Images\Loot\Loot - Bust.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Chihuahua (2).jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Chihuahua.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Cursed Goblet.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Gemstone.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Gold Bar.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Mirror.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Painting.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Persian Kitty.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Reverse.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Loot\Loot - Tiara.jpg">
+      <Filter>Resource Files\Images\Loots</Filter>
+    </Image>
+    <Image Include="Images\Tiles\Tile - Walkway.jpg">
+      <Filter>Resource Files\Images\Tiles</Filter>
     </Image>
     <Image Include="Images\Tiles\Tile - Atrium.jpg">
       <Filter>Resource Files\Images\Tiles</Filter>
@@ -796,59 +710,82 @@
     <Image Include="Images\Tiles\Tile - Thermo.jpg">
       <Filter>Resource Files\Images\Tiles</Filter>
     </Image>
-    <Image Include="Images\Tiles\Tile - Walkway.jpg">
-      <Filter>Resource Files\Images\Tiles</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC A1.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC A2.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC A3.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC A4.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC B1.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC B2.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC B3.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC B4.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC C1.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC C2.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC C3.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC C4.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC D1.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC D2.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC D3.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
-    <Image Include="Images\Patrol cards\PC D4.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
-    </Image>
     <Image Include="Images\Patrol cards\PC R.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
+      <Filter>Resource Files\Images\Patrol Cards</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{ce7a569c-d6de-434c-87d6-a17cd8eb92b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images">
+      <UniqueIdentifier>{946f9de5-8c1b-4f5b-a247-16e4271e8d1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Patrol Cards">
+      <UniqueIdentifier>{248dda38-cf44-44ab-a087-be63575f5548}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Loots">
+      <UniqueIdentifier>{41e38b2c-13b8-486d-b8d6-c29818d459bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Characters">
+      <UniqueIdentifier>{27d777b2-784f-4f34-965c-e15519e7135b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Images\Tiles">
+      <UniqueIdentifier>{5959bd7a-4768-4e9b-a085-626135b0bce3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b53905d9-9942-4dbd-b4f7-a9ed48916681}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{e4ffcbda-924c-4377-a38c-a7d157984e8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphic">
+      <UniqueIdentifier>{65be11b5-8191-4704-b6bf-3aab1aac64e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Controller">
+      <UniqueIdentifier>{0c7c922e-aabd-40c2-bb2c-b926313840e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{41e0f0f7-b32a-4e80-8807-b2b98ab907ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Observers">
+      <UniqueIdentifier>{eb3c2625-f658-42f0-9a23-b0c9151662d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model\Characters">
+      <UniqueIdentifier>{93d40fa8-125a-4c00-aeb9-b998b3685580}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model\Tiles">
+      <UniqueIdentifier>{14466320-28f5-4a6c-a2fd-a065788c7f64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model\Loots">
+      <UniqueIdentifier>{910d3f7b-7d38-425e-96e6-2f0c298d19a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Alx">
+      <UniqueIdentifier>{a22804b0-2e2c-4a2e-bb46-609a8b293033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphic">
+      <UniqueIdentifier>{ac11ad62-7632-4943-b4cd-babf1b443fc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{4f8ca476-5bb3-4459-90d0-b9fd585805a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controllers">
+      <UniqueIdentifier>{851bc1e8-9b20-468d-bfc8-faa60bf51984}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{4f6d98e2-b9b0-457d-a24c-bff1a73b85e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Tiles">
+      <UniqueIdentifier>{0cd63c63-1ef4-4cf6-8d7b-c8bbc9148cd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Characters">
+      <UniqueIdentifier>{a687a670-0233-4e09-9f54-bd5eaa1b8817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Loots">
+      <UniqueIdentifier>{f56cfa59-4ff5-482d-9d2e-59cc02c97967}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

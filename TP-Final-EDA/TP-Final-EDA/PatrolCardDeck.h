@@ -17,37 +17,24 @@ public:
 	~PatrolCardDeck();
 
 	/**
-
+	function merges cards in discarded deck with main deck (discarded cards are turned down). Main deck is shuffled 
+	n amount of cards are discarded automatically to the discarded deck
+	@addparams n amount of cards to be discarded from deck 
+	@return if deck could be correctly reseted true is returned, else false. (problems could occur if n is a number higher than the total amount of cards found in both decks)
 	*/
-	bool discardTop();
+	bool reset(unsigned n);
+
+	/**
+	
+	*/
+	//vector<BaseCard*> & GetCards();
 
 	/**
 
 	*/
-	BaseCard* getTop();
-
-	/**
-
-	*/
-	BaseCard* getNext();
-
-
-	/**
-
-	*/
-	void reset();
-
-	/**
-
-	*/
-	vector<BaseCard*> & GetCards();
-
-	/**
-
-	*/
-	vector<BaseCard*> & GetGraveyard();
+	//vector<BaseCard*> & GetGraveyard();
 
 private:
-	
+
 };
 

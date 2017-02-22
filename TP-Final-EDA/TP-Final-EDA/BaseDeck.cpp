@@ -11,18 +11,24 @@ BaseDeck::~BaseDeck()
 {
 }
 
-void BaseDeck::discardTop()
+bool BaseDeck::discardTop()
 {
-	discarded.push_back(deck.back());
-	discarded.back()->turnUp();
-	deck.pop_back();
-	
+	if (!isEmpty())
+	{
+		discarded.push_back(deck.back());
+		discarded.back()->turnUp();
+		deck.pop_back();
+		return true;
+	}
+	else return false;
+
 }
 
 BaseCard* BaseDeck::next()
 {
-	discardTop();
-	return top();
+	if (discardTop() == true)
+		return activeCard();
+	else return NULL;
 }
 void BaseDeck::shuffle()
 {
@@ -37,13 +43,4 @@ void BaseDeck::merge()
 	deck.insert(deck.begin(), discarded.begin(), discarded.end());
 	discarded.clear();
 	shuffle();
-}
-
-BaseCard* BaseDeck::top()
-{
-	return discarded.back();
-}
-vector<BaseCard*> BaseDeck::getDiscarded()
-{
-	return discarded;
 }
