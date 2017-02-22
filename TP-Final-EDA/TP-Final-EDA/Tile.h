@@ -27,8 +27,9 @@ DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 
 
 /**
-	Pure abstract class of a tile.
+	
 */
+
 class Tile : public BaseCard
 {
 public:
@@ -39,30 +40,47 @@ public:
 
 	/**
 		Construct a tile with a position in the floor and a tileType.
+
+		@param floor floor of the tile
+		@param col column of the tile
+		@param row row of the tile
 	*/
 	Tile(unsigned floor, unsigned col, unsigned row);
 	
 	/**
-		Peek the tile (Remove action, flip tile)
-		Apart from turning up the card, sort the safe number
+		Peek the tile 
+		@param p player who is peeking
 	*/
 	virtual void peek(Player p);
+
 	/**
-		Checks if player has action token and tile is down
+		Return true if the player can peek the tile
+		@param p player who is peeking
 	*/
 	virtual bool canPeek(Player p);
 
-	virtual void turnUp()override;
-
 	/**
-		Moves the player to the current tile
+		Moves the player to the tile
+		@param p player who is moving
+
 	*/
 	virtual void enterTile(Player p);
 
 	/**
 		True if the player has an action token
 	*/
+	virtual void moveTo(Player p);
+
+	/**
+		Return true if the player can move to the tile
+		@param p player who is moving
+	*/
 	virtual bool canMove(Player p);
+
+	/**
+		Apart from turning up the card, sort the safe number
+	*/
+	virtual void turnUp()override;
 
 	/**
 		Returns the position of the tile in the floor.
@@ -71,6 +89,10 @@ public:
 
 	/**
 		Set the position of the tile in the floor.
+		
+		@param floor floor of the tile
+		@param col column of the tile
+		@param row row of the tile
 	*/
 	void setCoord(unsigned floor, unsigned col,unsigned row);
 
@@ -91,16 +113,21 @@ public:
 
 	/**
 		Returns a vector of strings with the REGULAR actions the player can do (MOVE and PEEK only)
+		@param p Player who wants to check the actions
+		@param guardPos position of the guard int the board
+		@partnerPos position of the other player in the board
 	*/
 	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
 
 	/**
 		Applies the action given to the player (MOVE and PEEK only)
+		@param action Action to execute
+		@param p Player who wants to do the action
 	*/
 	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
 
 	/**
-		If flipped returns the safe number, else returns 0.
+		If tile is flipped returns the safe number, else returns 0.
 	*/
 	int getSafeNumber();
 
@@ -115,7 +142,7 @@ public:
 	int floor() { return coord.floor; };
 
 	/**
-		Return the col number
+		Return the column number
 	*/
 	int col() { return coord.col; };
 
@@ -137,10 +164,7 @@ public:
 	/**
 		Returns true if the tile given is adjacent
 	*/
-	bool isAdjacent(Coord t)
-	{
-		return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
-	}
+	bool isAdjacent(Coord t);
 	
 	/**
 		Return true if the tile is from the given type
@@ -151,20 +175,29 @@ public:
 	}
 
 	/**
-		Adds the surrounding tile's coordinates to the player visible from
+		Adds the adjacent tile's coordinates to the player visible from list
 	*/
 	void updateVisibleFrom(Player p);
 
+	// CONSIDERAR PONER ESTA FUNCION PROTECTED; PORQUE NO SE VA A USAR DESDE AFUERA DE UN TILE O SI?
 	/**
-		Commits an action to the player list of actions
+		Adds an action node to the player
+		@param p player to add an action
+		@param action action to be added
 	*/
 	void addPlayerAction(Player p, string action);
 	
 protected:
+	// Coord containing floor, column and row of the tile
 	Coord coord;
+	// Type of tile
 	tileType type;
+	// If an alarm is ringing in the tile alarm=true
 	bool alarm;
+	// Number to crack the safe
 	int safeNumber;
+	// Vector with adjacent tiles (coords)
 	vector<Coord> adjacent;
+	// ESTO NO SE COMO COMENTARLO
 	vector<string> actions;
 };

@@ -55,14 +55,29 @@
     <Filter Include="Source Files\Observers">
       <UniqueIdentifier>{726a1589-35c5-4dc1-b86f-8b951673edef}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Model\TileCards">
+    <Filter Include="Header Files\Model\Tiles">
       <UniqueIdentifier>{968581fc-e2f3-447e-a851-a0f44c177977}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Model\TileCards">
+    <Filter Include="Header Files\Model\Loots">
+      <UniqueIdentifier>{300dd925-01d9-4eba-89f0-ef9fa1f548a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Model\Characters">
+      <UniqueIdentifier>{bc5abf4d-31aa-4ca2-8cc7-5b6a8ecbdb74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Loots">
+      <UniqueIdentifier>{b8732956-9fa2-450f-805d-418654eff486}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Characters">
+      <UniqueIdentifier>{c58e9c31-e4be-4f09-b90c-655aed35ee45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model\Tiles">
       <UniqueIdentifier>{c6c7e7d2-be0c-48a4-b13f-babf0853c198}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Configs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Image.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
@@ -237,13 +252,13 @@
     <ClInclude Include="alx\Voice.hpp">
       <Filter>Header Files\ALX</Filter>
     </ClInclude>
-    <ClInclude Include="Tile.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="TileObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
     <ClInclude Include="PatrolCard.h">
@@ -264,65 +279,71 @@
     <ClInclude Include="Loot.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="Enumerations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Atrium.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="ComputerRoomF.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="ComputerRoomL.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="ComputerRoomM.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Deadbolt.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Fingerprint.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Foyer.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Keypad.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Laboratory.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Laser.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Lavatory.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Motion.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Safe.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Scanner.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="SecretDoor.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="ServiceDuct.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Stair.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Thermo.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
     <ClInclude Include="Walkway.h">
-      <Filter>Header Files\Model\TileCards</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Allegro.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="BaseCard.h">
       <Filter>Header Files\Model</Filter>
@@ -333,9 +354,6 @@
     <ClInclude Include="Board.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Enumerations.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
     <ClInclude Include="GameModel.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
@@ -343,10 +361,73 @@
       <Filter>Header Files\Model</Filter>
     </ClInclude>
     <ClInclude Include="TileFactory.h">
-      <Filter>Header Files\Model</Filter>
+      <Filter>Header Files\Model\Tiles</Filter>
     </ClInclude>
-    <ClInclude Include="Allegro.h">
-      <Filter>Header Files\Graphics</Filter>
+    <ClInclude Include="Tile.h">
+      <Filter>Header Files\Model\Tiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Loot.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterFactory.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Chihuahua.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="CursedGoblet.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Gemstone.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="GoldBar.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Isotope.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Keycard.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Mirror.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Painting.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="PersianKitty.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Tiara.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="LootFactory.h">
+      <Filter>Header Files\Model\Loots</Filter>
+    </ClInclude>
+    <ClInclude Include="Acrobat.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Hacker.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Hawk.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Juicer.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Peterman.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Raven.h">
+      <Filter>Header Files\Model\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Spotter.h">
+      <Filter>Header Files\Model\Characters</Filter>
     </ClInclude>
     <ClInclude Include="TileFactory.h">
       <Filter>Header Files\Model</Filter>
@@ -392,9 +473,6 @@
     <ClCompile Include="Button.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Screen.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -403,9 +481,6 @@
     </ClCompile>
     <ClCompile Include="Textbox.cpp">
       <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files\Model</Filter>
     </ClCompile>
     <ClCompile Include="TileObserver.cpp">
       <Filter>Source Files\Observers</Filter>
@@ -431,68 +506,68 @@
     <ClCompile Include="GameModel.cpp">
       <Filter>Source Files\Model</Filter>
     </ClCompile>
-    <ClCompile Include="Loot.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
     <ClCompile Include="Atrium.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="ComputerRoomF.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="ComputerRoomL.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="ComputerRoomM.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Deadbolt.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Fingerprint.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Foyer.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Keypad.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Laboratory.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Laser.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Lavatory.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Motion.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Safe.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Scanner.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="SecretDoor.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="ServiceDuct.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Stair.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Thermo.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="Walkway.cpp">
-      <Filter>Source Files\Model\TileCards</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Allegro.cpp">
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="BaseCard.cpp">
       <Filter>Source Files\Model</Filter>
@@ -505,6 +580,72 @@
     </ClCompile>
     <ClCompile Include="PatrolCardDeck.cpp">
       <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="CursedGoblet.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Gemstone.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="GoldBar.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Isotope.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Keycard.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="LootFactory.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Mirror.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Painting.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="PersianKitty.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Tiara.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Chihuahua.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Loot.cpp">
+      <Filter>Source Files\Model\Loots</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterFactory.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Acrobat.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Hacker.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Hawk.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Juicer.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Peterman.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Raven.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Spotter.cpp">
+      <Filter>Source Files\Model\Characters</Filter>
     </ClCompile>
     <ClCompile Include="TileFactory.cpp">
       <Filter>Source Files\Model</Filter>
@@ -523,9 +664,12 @@
     </ClCompile>
     <ClCompile Include="TileFactory.cpp">
       <Filter>Source Files\Model</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="GuardDeckObserver.cpp">
       <Filter>Source Files\Observers</Filter>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="GuardCardObserver.cpp">
       <Filter>Source Files\Observers</Filter>

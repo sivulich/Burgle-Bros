@@ -8,98 +8,106 @@ class Floor
 {
 public:
 	/**
-		Default constructor
+		Constructor
+		@param w width of the floor
+		@param h height of the floor
+		@param n number of the floor
 	*/
 	Floor(int w, int h, int n) : tiles(w,vector<Tile*>(h,nullptr)), floorNumber(n) {};
 
 	/**
-		Acces a tile in coord (COL,ROW)
+		Access a specific tile
+		@param col Column of the tile
+		@param row Row of the tile
 	*/
-	Tile * tile(int i, int j)
-	{
-		return tiles[i][j];
-	};
+	Tile * tile(int col, int row);
+
 
 	/**
-		
+		Another way to access, with operator []
 	*/
-	vector<Tile*>& operator[] (unsigned i)
-	{
-		return tiles[i];
-	};
+	vector<Tile*>& operator[] (unsigned i);
 
 	/**
-		Set a specific tile of type t in coord (COL,ROW) 
+		Set a specific tile of type t in coord  
+		@param col Column of the tile
+		@param row Row of the tile
+		@param t type of the tile
 	*/
-	void setTile(int col, int row, tileType t)
-	{
-
-		tiles[col][row] = TileFactory().newTile(t,col,row);
-
-	};
+	void setTile(int col, int row, tileType t);
 
 	/**
-		Add tiles to floor
+		Add vector of tiles to floor
 		@param t Vector with the 16 tileTypes for the floor
+
 	*/
-	void setTiles(vector<tileType> t)
-	{
-		if (t.size() == 16)
-		{
-			for (int j = 0; j < 16; j++)
-				setTile(j % 4, j / 4, t[j]);
-		}		
-	};
+	void setTiles(vector<tileType> t);
+
+	/**
+		Returns the number of the floor
+	*/
+	int number();
+
+	/**
+		Receives a matrix of adjacency lists and copies it to the class
+		@param a Matrix of adjacency list
+	*/
+	void setAdjacent(vector<Coord> a[4][4]);
 
 	/**
 
 	*/
-	int getNumber()
-	{
-		return floorNumber;
-	};
+//	Coord guardPos() { return guard.getPos(); };
 
-	void setAdjacent(vector<Coord> a[4][4])
-	{
-		for (int i = 0; i < 4; i++)
-			for (int j = 0; j < 4; j++)
-				adjacent[i][j] = a[i][j];	
-	}
 
 	/**
-
+		Sets the position of the stair token
+		@param pos Position of the stair in the floor below
 	*/
-//	Coord guardPos() { return guard.position(); };
+	void setStairToken(Coord pos);
 
 	/**
-
-	
+		Return the position of the stair token
 	*/
 	Coord stairPos() { return stairToken; };
 
 	/**
-
+		Checks all tiles in the floor for an alarm ringin and
+		returns a vector with all the coordenates
 	*/
-	vector<Coord>& getAlarms() { return alarmTokens; };
+	vector<Coord>& getAlarms();
 
+	/**
+		Adds an alarm to a tile
+	*/
+	void addAlarm(Coord c);
 
-	PatrolCardDeck& getPatrolDeck() { return guardDeck; };
-	void print()
-	{
-		for (size_t i = 0; i < 4; i++)
-		{
-			for (size_t j = 0; j < 4; j++)
-				cout << toString(tiles[i][j]->getType()) << " ";
-			cout << endl;
-		}
-	};
+	/**
+		If debug verbose defined print the floor in console
+	*/
+	void print();
 
 private:
+	// Matrix of pointers to the base class Tile
 	vector<vector<Tile*>> tiles;
+
+	// Floor number
 	int floorNumber;
+
+	//
 	//Guard guard;
+
+	//
+	//GuardDeck guardDeck;
+
+	//Vector of alarms positions
+	vector<Coord> alarms;
+
+	//Adjacency map of the floor (only walls, no conection with other floors)
 	PatrolCardDeck guardDeck;
-	vector<Coord> alarmTokens;
+
 	vector<Coord> adjacent[4][4];
+
+	// Position of the stair token
 	Coord stairToken;
 };

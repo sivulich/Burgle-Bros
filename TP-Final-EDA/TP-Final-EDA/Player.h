@@ -3,6 +3,7 @@
 #include "actionNode.h"
 #include "Loot.h"
 #include "Tile.h"
+#include "Character.h"
 
 class Player
 {
@@ -28,7 +29,7 @@ public:
 	/**
 
 	*/
-	void setId(characterID character);
+	void setCharacter(characterType type);
 	
 	/**
 		Reset the player action tokens
@@ -38,7 +39,7 @@ public:
 	/**
 		Sets the player position to the parameter given
 	*/
-	void move(Coord & newPos);
+	void move(Coord newPos);
 	
 	/**
 		Appends the action given to the front of the list of player actions.
@@ -63,11 +64,16 @@ public:
 		Returns the amount of action tokens
 	*/
 	int getActionTokens();
+
 	/**
 		Simulates a die being thrown
 	*/
 	int throwDice();
 
+	/**
+	
+	*/
+	void addLoot(Loot * l) { loots.push_back(l); };
 	//vector<> visibleFrom;
 
 	/**
@@ -88,15 +94,15 @@ public:
 	*/
 
 	string getName() { return name; };
-	characterID getId() { return id; };
+	characterType getCharacterType() { return character->getType(); };
 private:
 	string name;
-	characterID id;
+	Character* character;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;
 	list <actionNode> actions;
-	list <Loot> loots;
+	vector <Loot*> loots;
 	vector <Coord> visibleFrom;
 	
 };

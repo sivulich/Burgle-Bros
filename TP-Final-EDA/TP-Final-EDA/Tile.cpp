@@ -1,6 +1,21 @@
 #include "Tile.h"
 
 
+Tile::Tile()
+{
+	turnDown();
+	alarm = false;
+
+}
+
+Tile::Tile(unsigned floor, unsigned col, unsigned row)
+{
+	alarm = false;
+	coord.col = col;
+	coord.row = row;
+	coord.floor = floor;
+}
+
 
 void Tile::setAdjacent(Coord c)
 {
@@ -19,29 +34,14 @@ bool Tile::isAdjacent(Coord t)
 	return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
 }
 
-/**
-	Return true if the tile is from the given type
-*/
+
 bool Tile::is(tileType t)
 {
 	return t == getType();
 }
 
 
-Tile::Tile()
-{
-	turnDown();
-	alarm = false;
 
-}
-
-Tile::Tile(unsigned floor, unsigned col, unsigned row)
-{
-	alarm = false;
-	coord.col = col;
-	coord.row = row;
-	coord.floor = floor;
-}
 
 
 tileType Tile::getType()
@@ -71,10 +71,11 @@ void  Tile::setAlarm(bool b)
 }
 
 
-void Tile::setCoord(int x, int y)
+void Tile::setCoord(unsigned floor, unsigned col, unsigned row)
 {
-	coord.col = x;
-	coord.row = y;
+	coord.col = col;
+	coord.row = row;
+	coord.floor = floor;
 }
 
 
@@ -84,9 +85,14 @@ int Tile::getSafeNumber()
 }
 
 
-vector<Tile*>& Tile::getAdjacent()
+vector<Coord>& Tile::getAdjacent()
 {
 	return adjacent;
+}
+
+bool Tile::isAdjacent(Coord t)
+{
+	return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
 }
 
 void Tile::addPlayerAction(Player p, string action) {
@@ -95,7 +101,8 @@ void Tile::addPlayerAction(Player p, string action) {
 	p.newAction(temp);
 }
 
-vector<string>& Tile::getActions(Player p, Coord guardPos, Coord partnerPos) {
+vector<string>& Tile::getActions(Player p, Coord guardPos, Coord partnerPos)
+{
 	actions.clear();
 	if (isAdjacent(p.getPosition()))	//if the player is adjacent to the tile, get the list of actions
 	{
