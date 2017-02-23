@@ -1,19 +1,60 @@
 #pragma once
 #include "BaseCard.h"
 #include "Configs.h"
-
+//Top of deck is represented by vector´s back
+//Top of discarded deck is considered to be active card
 class BaseDeck
 {
 public:
 	BaseDeck();
 	~BaseDeck();
+
+	/**
+	@return boolean value, true if deck is empty, otherwise it is false.
+	*/
 	bool isEmpty() { return deck.empty(); };
-	void discardTop();
+
+	/**
+	removes top card from deck and moves it to the top of discarded deck.
+	@return boolean value, true if card could be discarded, false if deck was empty
+	*/
+	bool discardTop();
+
+	/**
+	discards deck´s top card and returns following card value
+	@return BaseCard *, if deck is empty value is NULL
+	*/
 	BaseCard* next();
-	void merge();
+
+	/**
+	randomly changes position of all cards in main deck
+	*/
 	void shuffle();
-	BaseCard* top();
-	vector<BaseCard*> getDiscarded();
+
+	/**
+	removes cards from discarded deck, turns them down and adds them to main deck. main deck is then shuffled
+	*/
+	void merge();
+
+	/**
+	@return top of discarded deck (BaseCard*)
+	*/
+	BaseCard* activeCard() { return discarded.back(); };
+
+	/**
+	@return top of main deck (BaseCard*)
+	*/
+	BaseCard* topCard() { return deck.back(); };
+
+	/**
+	@returns main deck (vector<BaseCard*>)
+	*/
+	vector<BaseCard*> getDeck() { return deck; };
+
+	/**
+	@returns discarded deck (vector<BaseCard*>)
+	*/
+	vector<BaseCard*> getDiscarded() { return discarded; };
 
 protected:
 	vector<BaseCard*> deck;

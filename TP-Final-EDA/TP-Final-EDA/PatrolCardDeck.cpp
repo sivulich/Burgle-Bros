@@ -19,28 +19,20 @@ PatrolCardDeck::~PatrolCardDeck()
 {
 }
 
-
-
-PatrolCard* PatrolCardDeck::getTop()
+bool PatrolCardDeck::reset(unsigned n)
 {
-	return (PatrolCard*)discarded.back();
-}
-
-PatrolCard* PatrolCardDeck::getNext()
-{
-	if(discardTop()==true)
-		return getTop();
-}
-
-
-
-
-void PatrolCardDeck::reset()
-{
-	merge();
+	if (n < (deck.size() + discarded.size()))
+	{
+		merge();
+		for (unsigned i = 0; i < n; i++)
+			discardTop();
+		return true;
+	}
+	return false;
 }
 
 
+/*
 vector<BaseCard*> & PatrolCardDeck::GetCards()
 {
 	return deck;
@@ -49,4 +41,4 @@ vector<BaseCard*> & PatrolCardDeck::GetCards()
 vector<BaseCard*> & PatrolCardDeck::GetGraveyard()
 {
 	return discarded;
-}
+}*/

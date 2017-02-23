@@ -92,6 +92,7 @@
     <ClInclude Include="FloorObserver.h" />
     <ClInclude Include="Foyer.h" />
     <ClInclude Include="GameModel.h" />
+    <ClInclude Include="GuardCardObserver.h" />
     <ClInclude Include="GuardDeckObserver.h" />
     <ClInclude Include="Keypad.h" />
     <ClInclude Include="Laboratory.h" />
@@ -168,6 +169,7 @@
     <ClCompile Include="LootFactory.cpp" />
     <ClCompile Include="Mirror.cpp" />
     <ClCompile Include="Painting.cpp" />
+    <ClCompile Include="GuardCardObserver.cpp" />
     <ClCompile Include="GuardDeckObserver.cpp" />
     <ClCompile Include="PatrolCardDeck.cpp" />
     <ClCompile Include="GameModel.cpp" />

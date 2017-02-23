@@ -2,8 +2,6 @@
 
 GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 {
-	
-	back = new Image(string("./Images/Patrol/PC R.jpg"));
 	deck = &f->getPatrolDeck();
 	floor = f;
 	parent = p;
@@ -16,18 +14,15 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			cards[i][j] = new Image(string("./Images/Patrol/PC ") + to_string(i + 'A') + to_string(j) + string(".jpg"));
+			cards[i][j] = new Image(string("./Images/Patrol/PC ") + to_string(i + 'A') + to_string(j+1) + string(".jpg"));
 			cards[i][j]->setPosition(double(zoom->getHeight()) / 4.0*j, double(zoom->getHeight()) / 4.0*i);
 		}
 	}
-	topPos.col = -1;
-	topPos.row = -1;
-	topPos.floor = 0;
-	top = nullptr;
-	back->setPosition(0, 0);
-	back->setScale(double(deckView->getHeight()) / double(back->getHeight()));
-	deckView->addObject(back);
-	empty = false;
+	deckO = new GuardCardObserver(deckView, deck->GetCards().back());
+	graveO = new GuardCardObserver(deckView, deck->GetCards().back());
+	graveO->setOn(false);
+	deckO->setPos(0, 0);
+	graveO->setPos(0, deckView->getHeight() + 10);
 }
 
 void
@@ -36,50 +31,43 @@ GuardDeckObserver::update()
 	string des;
 	if (deck->GetGraveyard().empty()==true)
 	{
-		if (top != nullptr)
-		{
-			deckView->removeObject(top);
-			delete top;
-		}
+		graveO->setOn(false);
 	}
 	else
 	{
-		des = deck->GetGraveyard().back()->getDescription();
-		if (des[0] - 'A' != topPos.col || des[1] - '0' != topPos.row)
-		{
-			topPos.col = des[0] - 'A';
-			topPos.row = des[1] - '0';
-			if (top != nullptr)
-			{
-				deckView->removeObject(top);
-				delete top;
-			}
-			top = new Image(string("./Images/Patrol/PC ") + des + string(".jpg"));
-			top->setScale(double(deckView->getHeight()) / double(top->getHeight()));
-			top->setPosition(0, top->getWidth() + 10);
-		}
+		graveO->setOn(true);
+		graveO->setCard(deck->GetGraveyard().back());
 	}
 	if (deck->GetCards().empty() == true)
 	{
-		deckView->removeObject(back);
-		empty = true;
+		deckO->setOn(false);
 	}
 	else
 	{
-		if (empty == true)
-			deckView->addObject(back);
-		empty = false;
+		deckO->setOn(true);
+		deckO->setCard(deck->GetCards().back());
 	}
-	if (top->isClicked() == true)
+	if (graveO->isClicked() == true)
 	{
 		zoom->clear();
 		for (auto& card : deck->GetGraveyard())
 		{
 			des = card->getDescription();
-			zoom->addObject(cards[des[0] - 'A'][des[1] - '0']);
+			zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
 		}
 		parent->addObject(zoom);
 	}
 	else
 		parent->removeObject(zoom);
+	if (deckO->isClicked() == true && deck->GetCards().back()->isFlipped()==true)
+	{
+		zoom->clear();
+		des = deck->GetCards().back()->getDescription();
+		zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
+		cards[des[0] - 'A'][des[1] - '1']->setBorderVisible(true);
+	}
+	else
+	{
+		parent->removeObject(zoom);
+	}
 }
