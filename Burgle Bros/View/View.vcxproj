@@ -1,0 +1,263 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{590F7135-26AD-4377-BDB8-63707302669E}</ProjectGuid>
+    <RootNamespace>View</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgler Bros\Burgler Bros\Model\Header Files;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Header Files\ALX\AllegroFile.hpp" />
+    <ClInclude Include="..\Header Files\ALX\AudioStream.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Bitmap.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Color.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Condition.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Config.hpp" />
+    <ClInclude Include="..\Header Files\ALX\ConfigEntryContainer.hpp" />
+    <ClInclude Include="..\Header Files\ALX\ConfigSectionContainer.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Display.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Event.hpp" />
+    <ClInclude Include="..\Header Files\ALX\EventQueue.hpp" />
+    <ClInclude Include="..\Header Files\ALX\EventSource.hpp" />
+    <ClInclude Include="..\Header Files\ALX\File.hpp" />
+    <ClInclude Include="..\Header Files\ALX\FileEntry.hpp" />
+    <ClInclude Include="..\Header Files\ALX\FilePath.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Fixed.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Font.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Joystick.hpp" />
+    <ClInclude Include="..\Header Files\ALX\JoystickState.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Keyboard.hpp" />
+    <ClInclude Include="..\Header Files\ALX\KeyboardState.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Lock.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Mixer.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Mouse.hpp" />
+    <ClInclude Include="..\Header Files\ALX\MouseState.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Mutex.hpp" />
+    <ClInclude Include="..\Header Files\ALX\NativeFileDialog.hpp" />
+    <ClInclude Include="..\Header Files\ALX\NativeTextLog.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Point.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Rect.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Sample.hpp" />
+    <ClInclude Include="..\Header Files\ALX\SampleId.hpp" />
+    <ClInclude Include="..\Header Files\ALX\SampleInstance.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Shared.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Size.hpp" />
+    <ClInclude Include="..\Header Files\ALX\State.hpp" />
+    <ClInclude Include="..\Header Files\ALX\String.hpp" />
+    <ClInclude Include="..\Header Files\ALX\System.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Thread.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Timeout.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Timer.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Transform.hpp" />
+    <ClInclude Include="..\Header Files\ALX\UserEvent.hpp" />
+    <ClInclude Include="..\Header Files\ALX\UserEventSource.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Util.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Value.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Vector2.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Vector2Base.hpp" />
+    <ClInclude Include="..\Header Files\ALX\VertexDecl.hpp" />
+    <ClInclude Include="..\Header Files\ALX\Voice.hpp" />
+    <ClInclude Include="..\Header Files\Configs.h" />
+    <ClInclude Include="..\Header Files\Graphics\Allegro.h" />
+    <ClInclude Include="..\Header Files\Graphics\Button.h" />
+    <ClInclude Include="..\Header Files\Graphics\Container.h" />
+    <ClInclude Include="..\Header Files\Graphics\Image.h" />
+    <ClInclude Include="..\Header Files\Graphics\object.h" />
+    <ClInclude Include="..\Header Files\Graphics\Screen.h" />
+    <ClInclude Include="..\Header Files\Graphics\Textbox.h" />
+    <ClInclude Include="..\Header Files\Observers\FloorObserver.h" />
+    <ClInclude Include="..\Header Files\Observers\GuardDeckObserver.h" />
+    <ClInclude Include="..\Header Files\Observers\Observer.h" />
+    <ClInclude Include="..\Header Files\Observers\TileObserver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Acrobat.jpg" />
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Hacker.jpg" />
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Hawk.jpg" />
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Peterman.jpg" />
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Raven.jpg" />
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Rigger.jpg" />
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Rook.jpg" />
+    <Image Include="..\Resource Files\Images\Characters\Characters - The Spotter.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Bust.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Chihuahua (2).jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Chihuahua.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Cursed Goblet.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Gemstone.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Gold Bar.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Mirror.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Painting.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Persian Kitty.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Reverse.jpg" />
+    <Image Include="..\Resource Files\Images\Loot\Loot - Tiara.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC A1.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC A2.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC A3.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC A4.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC B1.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC B2.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC B3.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC B4.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC C1.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC C2.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC C3.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC C4.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC D1.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC D2.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC D3.jpg" />
+    <Image Include="..\Resource Files\Images\Patrol\PC D4.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Atrium.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Camera.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Computer Room (Fingerprint).jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Computer Room (Laser).jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Computer Room (Motion).jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Deadbolt.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Fingerprint.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Foyer.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Keypad.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Laboratory.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Laser.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Lavatory.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Motion.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Reverse.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Safe.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Secret Door.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Service Duct.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Stairs.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Thermo.jpg" />
+    <Image Include="..\Resource Files\Images\Tiles\Tile - Walkway.jpg" />
+    <Image Include="..\Resource Files\PC R.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source Files\Graphics\Allegro.cpp" />
+    <ClCompile Include="..\Source Files\Graphics\Button.cpp" />
+    <ClCompile Include="..\Source Files\Graphics\Container.cpp" />
+    <ClCompile Include="..\Source Files\Graphics\Image.cpp" />
+    <ClCompile Include="..\Source Files\Graphics\object.cpp" />
+    <ClCompile Include="..\Source Files\Graphics\Screen.cpp" />
+    <ClCompile Include="..\Source Files\Graphics\Textbox.cpp" />
+    <ClCompile Include="..\Source Files\GuardCardObserver.cpp" />
+    <ClCompile Include="..\Source Files\Observers\FloorObserver.cpp" />
+    <ClCompile Include="..\Source Files\Observers\GuardDeckObserver.cpp" />
+    <ClCompile Include="..\Source Files\Observers\TileObserver.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.2.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.0\build\native\Allegro.targets'))" />
+  </Target>
+</Project>
