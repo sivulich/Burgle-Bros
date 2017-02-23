@@ -1,8 +1,8 @@
-#include "GuardDeckObserver.h"
+#include "../../Header Files/Observers/GuardDeckObserver.h"
 
 GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 {
-	deck = &f->getPatrolDeck();
+	deck = f->getPatrolDeck();
 	floor = f;
 	parent = p;
 	deckView = new Container(double(p->getHeight())/3.0, double(p->getWidth()) / 3.0);

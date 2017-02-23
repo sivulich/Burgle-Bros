@@ -1,8 +1,8 @@
 #pragma once
 #include "Observer.h"
-#include "PatrolCard.h"
-#include "Image.h"
-#include "Container.h"
+#include "../Model/Header Files/PatrolCard.h"
+#include "../Image.h"
+#include "../Container.h"
 class GuardCardObserver:public Observer
 {
 public:

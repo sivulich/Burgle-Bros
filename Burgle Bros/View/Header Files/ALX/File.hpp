@@ -8,10 +8,10 @@
 #include <stdexcept>
 #include <tuple>
 #include <allegro5/allegro_memfile.h>
-#include "alx/String.hpp"
-#include "alx/FilePath.hpp"
-#include "alx/Util.hpp"
-#include "alx/AllegroFile.hpp"
+#include "String.hpp"
+#include "FilePath.hpp"
+#include "Util.hpp"
+#include "AllegroFile.hpp"
 
 
 #ifdef min

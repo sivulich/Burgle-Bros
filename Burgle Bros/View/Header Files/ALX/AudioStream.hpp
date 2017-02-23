@@ -3,8 +3,8 @@
 
 
 #include <allegro5/allegro_audio.h>
-#include "alx/EventSource.hpp"
-#include "alx/File.hpp"
+#include "EventSource.hpp"
+#include "File.hpp"
 
 
 namespace alx {

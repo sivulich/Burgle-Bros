@@ -3,7 +3,7 @@
 
 
 #include <allegro5/allegro.h>
-#include "alx/Shared.hpp"
+#include "Shared.hpp"
 
 
 namespace alx {

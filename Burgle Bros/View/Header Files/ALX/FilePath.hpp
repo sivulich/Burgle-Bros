@@ -3,8 +3,8 @@
 
 
 #include <allegro5/allegro.h>
-#include "alx/Shared.hpp"
-#include "alx/String.hpp"
+#include "Shared.hpp"
+#include "String.hpp"
 
 
 namespace alx {

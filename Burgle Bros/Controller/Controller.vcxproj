@@ -85,7 +85,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View;C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -101,10 +105,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View;C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,6 +132,9 @@
     <Import Project="..\packages\expat.2.1.0.4\build\native\expat.targets" Condition="Exists('..\packages\expat.2.1.0.4\build\native\expat.targets')" />
     <Import Project="..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets" Condition="Exists('..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets')" />
     <Import Project="..\packages\libapr.1.4.6.2\build\native\libapr.targets" Condition="Exists('..\packages\libapr.1.4.6.2\build\native\libapr.targets')" />
+    <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
+    <Import Project="..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.2.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -135,5 +144,8 @@
     <Error Condition="!Exists('..\packages\expat.2.1.0.4\build\native\expat.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\expat.2.1.0.4\build\native\expat.targets'))" />
     <Error Condition="!Exists('..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets'))" />
     <Error Condition="!Exists('..\packages\libapr.1.4.6.2\build\native\libapr.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libapr.1.4.6.2\build\native\libapr.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.0\build\native\Allegro.targets'))" />
   </Target>
 </Project>

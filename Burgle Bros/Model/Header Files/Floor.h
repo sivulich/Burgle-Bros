@@ -13,7 +13,7 @@ public:
 		@param h height of the floor
 		@param n number of the floor
 	*/
-	Floor(int w, int h, int n) : tiles(w,vector<Tile*>(h,nullptr)), floorNumber(n) {};
+	Floor(int w, int h, int n) : tiles(w,vector<Tile*>(h,nullptr)), floorNumber(n){};
 
 	/**
 		Access a specific tile
@@ -81,6 +81,8 @@ public:
 		Adds an alarm to a tile
 	*/
 	void addAlarm(Coord c);
+
+	PatrolCardDeck* getPatrolDeck() { return &guardDeck; };
 
 	/**
 		If debug verbose defined print the floor in console

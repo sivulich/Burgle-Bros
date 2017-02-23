@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Configs.h"
+#include "../Model/Header Files/Configs.h"
 class controller {
 public:
 	virtual string input() { return ""; };

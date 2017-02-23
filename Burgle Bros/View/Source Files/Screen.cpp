@@ -1,4 +1,4 @@
-#include "Screen.h"
+#include "../Header Files/Screen.h"
 
 Screen::Screen(int h, int w, string& pathToBackground)
 {

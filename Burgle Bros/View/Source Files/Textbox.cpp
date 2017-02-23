@@ -1,4 +1,4 @@
-#include "Textbox.h"
+#include "../Header Files/Textbox.h"
 #include <ctype.h>
 
 Textbox::Textbox(int y, int x, string& path, int fSize,int max)

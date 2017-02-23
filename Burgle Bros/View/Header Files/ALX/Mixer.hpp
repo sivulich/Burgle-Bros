@@ -5,8 +5,8 @@
 #include <functional>
 #include <list>
 #include <memory>
-#include "alx/SampleInstance.hpp"
-#include "alx/AudioStream.hpp"
+#include "SampleInstance.hpp"
+#include "AudioStream.hpp"
 
 
 namespace alx {

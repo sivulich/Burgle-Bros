@@ -1,7 +1,7 @@
 #include "../Header Files/PatrolCardDeck.h"
 #include "../Header Files/Configs.h"
 
-PatrolCardDeck::PatrolCardDeck(unsigned discarded)
+PatrolCardDeck::PatrolCardDeck()
 {
 	for (unsigned i = 0; i < 4; i++)
 	{
@@ -12,11 +12,8 @@ PatrolCardDeck::PatrolCardDeck(unsigned discarded)
 		}
 	}
 	shuffle();
-	if (discarded < 16)
-	{
-		for (unsigned k = 0; k < discarded; k++)
+		for (unsigned k = 0; k < 6; k++)
 			discardTop();
-	}
 }
 
 
