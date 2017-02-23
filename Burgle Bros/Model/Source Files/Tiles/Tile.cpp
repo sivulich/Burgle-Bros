@@ -29,9 +29,9 @@ void Tile::deleteAdjacent(Coord b)
 }
 
 
-bool Tile::isAdjacent(Coord t)
+bool Tile::isAdjacent(Coord b)
 {
-	return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
+	return find(adjacent.begin(), adjacent.end(), b) != adjacent.end();
 }
 
 
@@ -85,10 +85,12 @@ int Tile::getSafeNumber()
 }
 
 
-vector<Coord>& Tile::getAdjacent()
+vector<Coord>& Tile::getAdjacents()
 {
 	return adjacent;
 }
+
+
 
 Coord Tile::getPos() { return coord; };
 

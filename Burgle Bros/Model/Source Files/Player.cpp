@@ -25,11 +25,10 @@ void Player::resetStealthTokens()
 	actionTokens = NUMBER_ACTION_TOKENS;
 }
 
-void Player::move(Coord newPos)
+void Player::move(Tile* newPos)
 {
-	pos = newPos;
-	for (auto& loot : loots)
-		loot->setPos(newPos);
+	if (newPos->canMove(this))
+		newPos->moveTo(this);
 }
 
 Coord Player::getPosition()

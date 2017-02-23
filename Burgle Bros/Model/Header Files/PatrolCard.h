@@ -2,6 +2,7 @@
 
 #include "BaseCard.h"
 #include "Configs.h"
+
 class PatrolCard : public BaseCard
 {
 public:

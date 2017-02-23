@@ -52,31 +52,31 @@ public:
 		Peek the tile 
 		@param p player who is peeking
 	*/
-	virtual void peek(Player p);
+	virtual void peek(Player* p);
 
 	/**
 		Return true if the player can peek the tile
 		@param p player who is peeking
 	*/
-	virtual bool canPeek(Player p);
+	virtual bool canPeek(Player* p);
 
 	/**
 		Moves the player to the tile
 		@param p player who is moving
 
 	*/
-	virtual void enterTile(Player p);
+	virtual void enterTile(Player* p);
 
 	/**
 		True if the player has an action token
 	*/
-	virtual void moveTo(Player p);
+	virtual void moveTo(Player* p);
 
 	/**
 		Return true if the player can move to the tile
 		@param p player who is moving
 	*/
-	virtual bool canMove(Player p);
+	virtual bool canMove(Player* p);
 
 	/**
 		Apart from turning up the card, sort the safe number
@@ -135,8 +135,12 @@ public:
 	/**
 		Return a vector of Coords of adjacent tiles
 	*/
-	vector<Coord>& getAdjacent();
+	vector<Coord>& getAdjacents();
 
+	/*
+		Return a pointer to the tile in coord 
+	
+	Tile* Tile::getAdjacent(Coord b)*/
 	/**
 		Return the floor number
 	*/

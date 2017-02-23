@@ -79,6 +79,7 @@
     <ClInclude Include="Header Files\actionNode.h" />
     <ClInclude Include="Header Files\BaseCard.h" />
     <ClInclude Include="Header Files\BaseDeck.h" />
+    <ClInclude Include="Header Files\BaseModel.h" />
     <ClInclude Include="Header Files\Board.h" />
     <ClInclude Include="Header Files\Characters\Acrobat.h" />
     <ClInclude Include="Header Files\Characters\Character.h" />

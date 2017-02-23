@@ -3,7 +3,7 @@
 #include "./actionNode.h"
 
 #include "./Loots/Loot.h"
-//#include "./Tiles/Tile.h"
+#include "./Tiles/Tile.h"
 #include "./Characters/Character.h"
 
 class Player
@@ -38,9 +38,9 @@ public:
 	void resetStealthTokens();
 	
 	/**
-		Sets the player position to the parameter given
+		
 	*/
-	void move(Coord newPos);
+	void move(Tile* newPos);
 	
 	/**
 		Appends the action given to the front of the list of player actions.
@@ -99,6 +99,7 @@ public:
 private:
 	string name;
 	Character * character;
+	Tile * currentTile;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;
