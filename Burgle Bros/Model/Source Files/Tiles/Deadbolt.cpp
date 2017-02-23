@@ -14,7 +14,7 @@ vector<string>& Deadbolt::getActions(Player p, Coord guardPos, Coord partnerPos)
 			actions.push_back(toString(PEEK));
 		if (isFlipped() == false)		//if the card is flipped down
 		{		
-			if (canMove(p) == true)		//and the player has an action token
+			if (p.getActionTokens() > 0)		//and the player has an action token
 				actions.push_back(toString(MOVE));
 		}
 		else	//the tile is flipped up
