@@ -1,5 +1,7 @@
 #pragma once
 #include "Tile.h"
+#include "../Player.h"
+
 /*
 You may peek up or down from this tile. Guards can see into this tile from aboveot below, making you 
 lose a Stealth
@@ -11,8 +13,8 @@ public:
 	~Atrium();
 
 	/**
-		Moves the player to the atrium tile and adds the tile beneath and above it to the list of player visibleFrom tiles
+		Adds the tile beneath and above it to the list of player visibleFrom tiles
 	*/
-	virtual void enterTile(Player p) override;	
+	virtual void enterTile(void * player) override;
 };
 

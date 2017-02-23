@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "../Player.h"
 
 /*
 Players may spend an action here to put a token on it. Each time a player encouters a Fingerprint tile,
@@ -12,9 +13,9 @@ public:
 	ComputerRoomF(int floor, int col, int row) : Tile(floor, col, row) {};
 	~ComputerRoomF();
 
+	virtual vector<string>& getActions(void * player) override;
+	virtual void doAction(string action, void * player) override;
 
-	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
-	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
 	/**
 		Returns the amount of hack tokens in the tile
 	*/

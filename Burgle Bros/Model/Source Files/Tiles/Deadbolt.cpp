@@ -5,7 +5,31 @@ Deadbolt::~Deadbolt()
 {
 }
 
+bool Deadbolt::canMove(void * player) {
+	Player * p = (Player *)player;
 
+	if (p->getActionTokens() >= 3) {		//if the player has at least 3 action tokens
+		return true;
+	}
+	else {
+		DEBUG_MSG("You must have at least 3 action tokens to enter the deadbolt.");
+		return false;
+	}
+}
+
+void Deadbolt::enterTile(void * player) {
+	Player * p = (Player *)player;
+
+	if (p->getActionTokens() >= 3) {
+		p->removeActionToken();
+		p->removeActionToken();
+		p->removeActionToken();
+	}
+	else
+		DEBUG_MSG("UNEXPECTED ERROR IN DEADBOLT.");
+}
+
+/*
 vector<string>& Deadbolt::getActions(Player p, Coord guardPos, Coord partnerPos) {
 	actions.clear();
 
@@ -68,3 +92,4 @@ void Deadbolt::doAction(string action, Player p, Coord guardPos, Coord partnerPo
 		}
 	}
 }
+*/

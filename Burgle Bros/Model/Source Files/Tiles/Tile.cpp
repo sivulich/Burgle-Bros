@@ -41,9 +41,6 @@ bool Tile::is(tileType t)
 }
 
 
-
-
-
 tileType Tile::getType()
 {
 	return getType();;
@@ -100,66 +97,46 @@ int Tile::col() { return coord.col; };
 
 int Tile::row() { return coord.row; };
 
-void Tile::addPlayerAction(Player p, string action) {
-	actionNode temp;
-	temp.setData(col(), row(), floor(), action);
-	p.newAction(temp);
-}
 
-vector<string>& Tile::getActions(Player p, Coord guardPos, Coord partnerPos)
-{
-	actions.clear();
-	if (isAdjacent(p.getPosition()))	//if the player is adjacent to the tile, get the list of actions
-	{
-		if (canPeek(p))	//Check if the player can peek 
-			actions.push_back(toString(PEEK));
-		if (canMove(p))	//Check if the player can move
-			actions.push_back(to_string(MOVE));
-	}
-	return actions;
-}
-
-void Tile::doAction(string action, Player p, Coord guardPos, Coord partnerPos)
-{
-	p.removeActionToken();
-	if (action == toString(PEEK))
-		peek(p);
-	else if (action == toString(MOVE)) {
-		if (isFlipped() == false)	turnUp();
-		enterTile(p);
-	}
-}
-
-void Tile::enterTile(Player p) {
-	p.move(getPos());		// move the player
-	updateVisibleFrom(p);	// add the tiles adjacent to the visible from list
-	addPlayerAction(p, toString(MOVE));
-	DEBUG_MSG("Player moved to the " << toString(getType()) << getPos());
-}
-
-void Tile::peek(Player p) {
+void Tile::peek() {
 	turnUp();
-	addPlayerAction(p, toString(PEEK));
 	DEBUG_MSG("Player peeked the " << toString(getType()) << getPos());
 }
 
-bool Tile::canMove(Player p) {
-	if (p.getActionTokens() > 0)
+bool Tile::canMove(void * p) {
 		return true;
-	else
-		return false;
 }
 
-bool Tile::canPeek(Player p) {
-	if (p.getActionTokens() > 0 && isFlipped() == false)
-		return true;
-	else
-		return false;
+void Tile::enterTile(void * p) {
+	DEBUG_MSG("Player moved to the " << toString(getType()) << getPos());
 }
 
+vector<string>& Tile::getActions(void * p) {
 
-void Tile::updateVisibleFrom(Player p) {
-	p.clearVisibleFrom();		// clear the visible from list
+}
+
+void Tile::doAction(string action, void * p) {
+
+}
+
+vector<Coord> Tile::getVisibleFrom(void * p) {
+	vector<Coord> tempVisible;
 	for (auto i : adjacent)
-		p.addVisibleTile(i);	// add the adjacent tiles to the list
+		tempVisible.push_back(i);	// add the adjacent tiles to the list
 }
+
+
+void Tile::addPlayerAction(void * p, string action) {
+
+}
+
+/////////////////////////////////////////////////////
+/////////////////////////////////////////////////////
+/*
+bool Tile::canPeek(Player p) {
+if (p.getActionTokens() > 0 && isFlipped() == false)
+return true;
+else
+return false;
+}
+*/

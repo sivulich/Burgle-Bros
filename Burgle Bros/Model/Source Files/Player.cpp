@@ -25,10 +25,27 @@ void Player::resetStealthTokens()
 	actionTokens = NUMBER_ACTION_TOKENS;
 }
 
-void Player::move(Tile* newPos)
+bool Player::move(Tile * newTile)
 {
-	if (newPos->canMove(this))
-		newPos->moveTo(this);
+	if (newTile->isAdjacent(getPosition()))		//if the tile is adjacent to the player's position 
+	{
+		removeActionToken();
+		if (newTile->canMove(this)) {
+			changePos(newTile->getPos());
+			setVisibleFrom(newTile->getAdjacents());		// add the new position's adjacent tile coordinates
+			newAction(toString(MOVE), newTile->getPos());
+			newTile->enterTile(this);					// and enter the tile
+			return true;
+		}
+	}
+	
+	return false;
+}
+
+bool Player::peek(Tile * newTile) {
+	removeActionToken();
+	newAction(toString(PEEK), newTile->getPos());
+	newTile->peek();
 }
 
 Coord Player::getPosition()
@@ -57,16 +74,18 @@ int  Player::getActionTokens()
 	return actionTokens;
 }
 
-void Player::newAction(actionNode node) {
-	actions.push_front(node);
+void Player::newAction( string action, Coord tile) {
+	actionNode temp;
+	temp.setData(tile.col, tile.row, tile.floor, action);
+	actions.push_back(temp);
 }
 int Player::throwDice()
 {
 	default_random_engine generator;
 	uniform_int_distribution<int> distribution(1, 6);
-	int dieValue = distribution(generator);
-	dice.push_back(dieValue);
-	return dieValue;
+	unsigned int temp= distribution(generator);
+	dice.push_back(temp);
+	return temp;
 }
 
 void Player::addLoot(Loot * l) { loots.push_back(l); };
@@ -78,7 +97,11 @@ void Player::addVisibleTile(Coord tile) { visibleFrom.push_back(tile); };
 
 vector <Coord>& Player::getVisibleFrom() { return visibleFrom; };
 
-
+void Player::setVisibleFrom(vector <Coord> newCoords) {
+	clearVisibleFrom();			// erase the previous coordinates
+	for (auto i : newCoords)
+		addVisibleTile(i);		// add the new visible from tile coordinates
+}
 
 string Player::getName() { return name; };
 characterType Player::getCharacterType() { return character->getType(); };

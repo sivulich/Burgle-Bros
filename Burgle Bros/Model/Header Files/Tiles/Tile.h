@@ -1,5 +1,4 @@
 #pragma once
-#include "../Player.h"
 #include "../BaseCard.h"
 #include "../Enumerations.h"
 #include "../Configs.h"
@@ -52,37 +51,27 @@ public:
 		Peek the tile 
 		@param p player who is peeking
 	*/
-	virtual void peek(Player* p);
+	void peek();				
 
 	/**
 		Return true if the player can peek the tile
 		@param p player who is peeking
 	*/
-	virtual bool canPeek(Player* p);
+	// ES INUTIL?? EL PLAYER SIEMPRE VA A PODER PEEK A UNA TILE ADJACENTE, SIEMPRE EL GAME MODEL VA A OFRECER PEEK
+	//virtual bool canPeek(void * p);
 
 	/**
-		Return true if the player can move to the tile
+		Return true if the player can move to the tile	(Always true except on special cases where function will be overwritten)
 		@param p player who is moving
 	*/
-	virtual bool canMove(Player p);
+	virtual bool canMove(void * player);
 
 	/**
-		Moves the player to the tile
-		@param p player who is moving
-
-	*/
-	virtual void enterTile(Player* p);
-
-	/**
-		True if the player has an action token
-	*/
-	virtual void moveTo(Player* p);
-
-	/**
-		Return true if the player can move to the tile
+		Executes the tile's special actions, if any...
 		@param p player who is moving
 	*/
-	virtual bool canMove(Player* p);
+	virtual void enterTile(void * player);
+
 
 	/**
 		Apart from turning up the card, sort the safe number
@@ -119,19 +108,17 @@ public:
 	void setAlarm(bool b);
 
 	/**
-		Returns a vector of strings with the REGULAR actions the player can do (MOVE and PEEK only)
+		Returns a vector of strings with the actions the player can do on the tile they are on
 		@param p Player who wants to check the actions
-		@param guardPos position of the guard int the board
-		@partnerPos position of the other player in the board
 	*/
-	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
+	virtual vector<string>& getActions(void * player);
 
 	/**
-		Applies the action given to the player (MOVE and PEEK only)
+		Applies the action given to the player
 		@param action Action to execute
 		@param p Player who wants to do the action
 	*/
-	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
+	virtual void doAction(string action, void * player);
 
 	/**
 		If tile is flipped returns the safe number, else returns 0.
@@ -185,15 +172,7 @@ public:
 	/**
 		Adds the adjacent tile's coordinates to the player visible from list
 	*/
-	void updateVisibleFrom(Player p);
-
-	// CONSIDERAR PONER ESTA FUNCION PROTECTED; PORQUE NO SE VA A USAR DESDE AFUERA DE UN TILE O SI?
-	/**
-		Adds an action node to the player
-		@param p player to add an action
-		@param action action to be added
-	*/
-	void addPlayerAction(Player p, string action);
+	virtual vector<Coord> getVisibleFrom(void * player);
 	
 protected:
 	// Coord containing floor, column and row of the tile
@@ -206,6 +185,11 @@ protected:
 	int safeNumber;
 	// Vector with adjacent tiles (coords)
 	vector<Coord> adjacent;
-	// ESTO NO SE COMO COMENTARLO
-	vector<string> actions;
+
+	/**
+	Adds an action node to the player
+	@param p player to add an action
+	@param action action to be added
+	*/
+	virtual void addPlayerAction(void * player, string action);
 };

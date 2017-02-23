@@ -5,7 +5,25 @@ Keypad::~Keypad()
 {
 }
 
+bool Keypad::canMove(void * player) {
+	Player * p = (Player *)player;
+	
+	if (keyKnown == false)
+	{
+		for (int i = 0; i < attemptsThisTurn + 1 && keyKnown == false; i++)		// throw the dice attempts+1 times 
+		{
+			if (p->throwDice() == 6) 	// if the die thrown equals six
+				keyKnown = true;		// you may enter the tile
 
+			p->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
+		}
+		if (keyKnown == false) addAttempt();		// if you didnt open the keypad, increase the attempts made this turn
+	}
+	return keyKnown;
+}
+
+
+/*
 vector<string>& Keypad::getActions(Player p, Coord guardPos, Coord partnerPos)
 {
 	actions.clear();
@@ -51,13 +69,7 @@ void Keypad::doAction(string action, Player p, Coord guardPos, Coord partnerPos)
 	else if (action == toString(THROW_DICE))
 	{
 		p.removeActionToken();
-		for (int i = 0; i < attemptsThisTurn+1 && keyKnown == false; i++)		// throw the dice attempts+1 times
-		{
-			if (p.throwDice() == 6) {	// if the die thrown equals six
-				keyKnown = true;		// you may enter the tile
-				enterTile(p);
-			}
-		}
-		if(keyKnown == false) addAttempt();		// if you didnt open the tile, increase the attempts made this turn
+		
 	}
 }
+*/

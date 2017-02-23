@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "../Player.h"
 
 /*
 Players may spend an action here to put a token on it. Each time a player encouters a Motion tile,
@@ -13,8 +14,8 @@ public:
 	~ComputerRoomM();
 
 
-	virtual vector<string>& getActions(Player p, Coord guardPos, Coord partnerPos);
-	virtual void doAction(string action, Player p, Coord guardPos, Coord partnerPos);
+	virtual vector<string>& getActions(void * player) override;
+	virtual void doAction(string action, void * player) override;
 
 	/**
 	Returns the amount of hack tokens in the tile

@@ -14,6 +14,7 @@ public:
 	*/
 	Player(){};
 	~Player() {};
+
 	/**
 
 	*/
@@ -23,10 +24,12 @@ public:
 		Sets the name of the player
 	*/
 	void setName(string & playerName);
+
 	/**
 		Returns the player's positions
 	*/
 	Coord getPosition();
+
 	/**
 
 	*/
@@ -38,14 +41,22 @@ public:
 	void resetStealthTokens();
 	
 	/**
-		
+		Checks adjacency and tries to move to the tile, returns true if successfull
+		@params newPos pointer to the tile the player wants to move to
 	*/
-	void move(Tile* newPos);
+	bool move(Tile * newTile);
+
+	/**
+		Peek the tile in exchange of an action token
+	*/
+	bool peek(Tile * newTile);
 	
 	/**
-		Appends the action given to the front of the list of player actions.
+		Appends a new action to the action history
+		@params action the string of the action that occured
+		@params tile coordinate to the tile where the action happened
 	*/
-	void newAction(actionNode node);
+	void newAction(string action, Coord tile);
 	
 	/**
 		Removes 1 stealth token if possible
@@ -75,27 +86,32 @@ public:
 	
 	*/
 	void addLoot(Loot * l);
-	//vector<> visibleFrom;
 
 	/**
 		Clears the coordinates from where the player is visible from
 	*/
 	void clearVisibleFrom();
+
 	/**
 		Adds a coordinate to the list of coordinates the player is visible from
 	*/
 	void addVisibleTile(Coord tile);
+
 	/**
 		Returns the vector with the coordinates the player is visible from
 	*/
 	vector <Coord>& getVisibleFrom();
 
+	void setVisibleFrom(vector <Coord> newCoords);
+
 	/**
 	Get player name
 	*/
-
 	string getName();
+
 	characterType getCharacterType();
+
+	void changePos(Coord newPos) { pos = newPos; };
 private:
 	string name;
 	Character * character;
@@ -106,6 +122,7 @@ private:
 	list <actionNode> actions;
 	vector <Loot*> loots;
 	vector <Coord> visibleFrom;
-	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6)
+	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6) up to four dice
 									// POR QUE UN VECTOR???
+										// porque para el keypad necesito tirar el dado muchas veces sin salir de la tile, y es para que quede un registro de lo que salio
 };
