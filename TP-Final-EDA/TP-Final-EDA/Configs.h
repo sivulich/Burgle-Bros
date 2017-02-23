@@ -59,6 +59,9 @@ public:
 		os << "Floor: " << floor << " Col: " << col << " Row: " << row << endl;
 		return os;
 	}
+	bool operator==(Coord& cd) {
+		return ((col == cd.col) && (row == cd.row) && (floor == cd.floor));
+	}
 };
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
