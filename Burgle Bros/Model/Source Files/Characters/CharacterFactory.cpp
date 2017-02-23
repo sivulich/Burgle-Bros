@@ -1,4 +1,4 @@
-#include "CharacterFactory.h"
+#include "../../Header Files/Characters/CharacterFactory.h"
 
 
 Character * CharacterFactory::newCharacter(characterType type)

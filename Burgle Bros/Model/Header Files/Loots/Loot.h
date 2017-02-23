@@ -1,6 +1,6 @@
 #pragma once
-#include "Configs.h"
-#include "Player.h"
+#include "../Configs.h"
+
 
 DEFINE_ENUM_WITH_CONVERSIONS(lootType,
 (TIARA, 0x30)
@@ -26,13 +26,13 @@ public:
 	bool is(lootType t) { return t == type; };
 	bool isTaken() { return taken; };
 	void drop();
-	void pick(Player* p);
+	//void pick(Player* p); Lo comento porque si no hay circular dependencies, esto puede ir en la clase heredada
 	
 
 private:
 	lootType type;
 	Coord pos;
 	bool taken;
-	Player * owner;
+	//Player * owner; Lo comento porque si no hay circular dependencies, esto puede ir en la clase heredada
 };
 

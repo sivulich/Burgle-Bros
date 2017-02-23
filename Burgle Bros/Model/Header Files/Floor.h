@@ -1,8 +1,8 @@
 #pragma once
-#include "Configs.h"
-#include "TileFactory.h"
+#include "../Header Files/Configs.h"
+#include "../Header Files/Tiles/TileFactory.h"
 //#include "Guard.h"
-#include "PatrolCardDeck.h"
+#include "../Header Files/PatrolCardDeck.h"
 
 class Floor
 {

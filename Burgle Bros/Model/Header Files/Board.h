@@ -1,9 +1,9 @@
 #pragma once
-#include "Configs.h"
-#include "Floor.h"
-#include "Player.h"
-#include "Loot.h"
-#include "Tile.h"
+#include "../Header Files/Configs.h"
+#include "../Header Files/Floor.h"
+#include "../Header Files/Player.h"
+#include "../Header Files/Loots/Loot.h"
+#include "../Header Files/Tiles/Tile.h"
 
 class Board
 {

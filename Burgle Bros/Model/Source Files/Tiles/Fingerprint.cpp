@@ -1,4 +1,4 @@
-#include "Fingerprint.h"
+#include "../../Header Files/Tiles/Fingerprint.h"
 
 Fingerprint::~Fingerprint()
 {

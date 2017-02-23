@@ -1,9 +1,10 @@
 #pragma once
-#include "Configs.h"
-#include "actionNode.h"
-#include "Loot.h"
-#include "Tile.h"
-#include "Character.h"
+#include "./Configs.h"
+#include "./actionNode.h"
+
+#include "./Loots/Loot.h"
+//#include "./Tiles/Tile.h"
+#include "./Characters/Character.h"
 
 class Player
 {
@@ -12,7 +13,7 @@ public:
 	
 	*/
 	Player(){};
-
+	~Player() {};
 	/**
 
 	*/
@@ -25,7 +26,7 @@ public:
 	/**
 		Returns the player's positions
 	*/
-	Coord getPosition() { return pos; };
+	Coord getPosition();
 	/**
 
 	*/
@@ -34,7 +35,7 @@ public:
 	/**
 		Reset the player action tokens
 	*/
-	void newTurn();
+	void resetStealthTokens();
 	
 	/**
 		Sets the player position to the parameter given
@@ -73,31 +74,31 @@ public:
 	/**
 	
 	*/
-	void addLoot(Loot * l) { loots.push_back(l); };
+	void addLoot(Loot * l);
 	//vector<> visibleFrom;
 
 	/**
 		Clears the coordinates from where the player is visible from
 	*/
-	void clearVisibleFrom() { visibleFrom.clear(); };
+	void clearVisibleFrom();
 	/**
 		Adds a coordinate to the list of coordinates the player is visible from
 	*/
-	void addVisibleTile(Coord tile) { visibleFrom.push_back(tile); };
+	void addVisibleTile(Coord tile);
 	/**
 		Returns the vector with the coordinates the player is visible from
 	*/
-	vector <Coord>& getVisibleFrom() { return visibleFrom; };
+	vector <Coord>& getVisibleFrom();
 
 	/**
 	Get player name
 	*/
 
-	string getName() { return name; };
-	characterType getCharacterType() { return character->getType(); };
+	string getName();
+	characterType getCharacterType();
 private:
 	string name;
-	Character* character;
+	Character * character;
 	Coord pos;
 	int actionTokens;
 	int stealthTokens;
@@ -105,4 +106,5 @@ private:
 	vector <Loot*> loots;
 	vector <Coord> visibleFrom;
 	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6)
+									// POR QUE UN VECTOR???
 };

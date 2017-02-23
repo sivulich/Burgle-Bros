@@ -1,4 +1,4 @@
-#include "Loot.h"
+#include "../../Header Files/Loots/Loot.h"
 
 Loot::Loot()
 {
@@ -17,9 +17,9 @@ void Loot::drop()
 	owner = nullptr;
 };
 
-void Loot::pick(Player* p)
+/*void Loot::pick(Player* p)
 {
 	taken = true;
 	owner = p;
 	p->addLoot(this);
-};
+};*/
