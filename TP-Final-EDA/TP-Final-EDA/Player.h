@@ -104,5 +104,5 @@ private:
 	list <actionNode> actions;
 	vector <Loot*> loots;
 	vector <Coord> visibleFrom;
-	
+	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6)
 };

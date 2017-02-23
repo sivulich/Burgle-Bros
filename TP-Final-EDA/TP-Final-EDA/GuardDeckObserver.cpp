@@ -6,9 +6,9 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	floor = f;
 	parent = p;
 	deckView = new Container(double(p->getHeight())/3.0, double(p->getWidth()) / 3.0);
-	deckView->setPosition(double(p->getHeight()) / 1.5, double(p->getWidth())*double(f->getNumber()) / 3.0);
+	deckView->setPosition(double(p->getHeight()) / 1.5, double(p->getWidth())*double(f->number()) / 3.0);
 	zoom = new Container(double(p->getHeight()) / 1.5, double(p->getHeight()) / 1.5);
-	zoom->setPosition(0, double(parent->getWidth()) / 3.0 * floor->getNumber());
+	zoom->setPosition(0, double(parent->getWidth()) / 3.0 * floor->number());
 	p->addObject(deckView);
 	for (int i = 0; i < 4; i++)
 	{
@@ -18,8 +18,8 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 			cards[i][j]->setPosition(double(zoom->getHeight()) / 4.0*j, double(zoom->getHeight()) / 4.0*i);
 		}
 	}
-	deckO = new GuardCardObserver(deckView, deck->GetCards().back());
-	graveO = new GuardCardObserver(deckView, deck->GetCards().back());
+	deckO = new GuardCardObserver(deckView, deck->getDeck().back());
+	graveO = new GuardCardObserver(deckView, deck->getDeck().back());
 	graveO->setOn(false);
 	deckO->setPos(0, 0);
 	graveO->setPos(0, deckView->getHeight() + 10);
@@ -29,28 +29,28 @@ void
 GuardDeckObserver::update()
 {
 	string des;
-	if (deck->GetGraveyard().empty()==true)
+	if (deck->getDiscarded().empty()==true)
 	{
 		graveO->setOn(false);
 	}
 	else
 	{
 		graveO->setOn(true);
-		graveO->setCard(deck->GetGraveyard().back());
+		graveO->setCard(deck->getDiscarded().back());
 	}
-	if (deck->GetCards().empty() == true)
+	if (deck->getDeck().empty() == true)
 	{
 		deckO->setOn(false);
 	}
 	else
 	{
 		deckO->setOn(true);
-		deckO->setCard(deck->GetCards().back());
+		deckO->setCard(deck->getDeck().back());
 	}
 	if (graveO->isClicked() == true)
 	{
 		zoom->clear();
-		for (auto& card : deck->GetGraveyard())
+		for (auto& card : deck->getDeck())
 		{
 			des = card->getDescription();
 			zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
@@ -59,10 +59,10 @@ GuardDeckObserver::update()
 	}
 	else
 		parent->removeObject(zoom);
-	if (deckO->isClicked() == true && deck->GetCards().back()->isFlipped()==true)
+	if (deckO->isClicked() == true && deck->getDeck().back()->isFlipped()==true)
 	{
 		zoom->clear();
-		des = deck->GetCards().back()->getDescription();
+		des = deck->getDeck().back()->getDescription();
 		zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
 		cards[des[0] - 'A'][des[1] - '1']->setBorderVisible(true);
 	}
