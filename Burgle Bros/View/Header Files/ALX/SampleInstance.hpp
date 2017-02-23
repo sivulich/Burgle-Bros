@@ -2,7 +2,7 @@
 #define ALX_SAMPLEINSTANCE_HPP
 
 
-#include "alx/Sample.hpp"
+#include "Sample.hpp"
 
 
 namespace alx {

@@ -61,6 +61,12 @@ public:
 	virtual bool canPeek(Player* p);
 
 	/**
+		Return true if the player can move to the tile
+		@param p player who is moving
+	*/
+	virtual bool canMove(Player p);
+
+	/**
 		Moves the player to the tile
 		@param p player who is moving
 

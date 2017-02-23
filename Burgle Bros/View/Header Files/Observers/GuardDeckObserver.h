@@ -1,8 +1,8 @@
 #pragma once
 #include "Observer.h"
-#include "Floor.h"
-#include "Container.h"
-#include "Image.h"
+#include "../Model/Header Files/Floor.h"
+#include "../Container.h"
+#include "../Image.h"
 #include "GuardCardObserver.h"
 class GuardDeckObserver :public Observer {
 public:

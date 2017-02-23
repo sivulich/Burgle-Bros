@@ -9,7 +9,7 @@ public:
 	/**
 	@addparams amount of cards to discard when creating first deck
 	*/
-	PatrolCardDeck(unsigned discard);
+	PatrolCardDeck();
 
 	/**
 

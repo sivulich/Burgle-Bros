@@ -1,7 +1,8 @@
 #pragma once
-#include "Screen.h"
-#include "Configs.h"
+#include "../View/Header Files/Screen.h"
+#include "../Model/Header Files/Configs.h"
 #include "controller.h"
+#include "../View/Header Files/ALX/alx.hpp"
 class localControler :public controller {
 public:
 	localControler(Screen* source);

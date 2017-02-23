@@ -1,5 +1,5 @@
 
-#include "Image.h"
+#include "../Header Files/Image.h"
 
 
 Image::Image(string& path)

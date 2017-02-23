@@ -1,11 +1,12 @@
 
-#include "Screen.h"
-#include "Image.h"
-#include "Container.h"
-#include "Button.h"
-#include "localControler.h"
-#include "Textbox.h"
-#include "Board.h"
+#include "../Header Files/Screen.h"
+#include "../Header Files/Image.h"
+#include "../Header Files/Container.h"
+#include "../Header Files/Button.h"
+#include "../Controller/Header Files/localControler.h"
+#include "../Header Files/Textbox.h"
+#include "../Model/Header Files/Board.h"
+#include "../Header Files/Allegro.h"
 
 int main(void)
 {
@@ -47,7 +48,6 @@ int main(void)
 		testCont.setDragable(true);
 		
 		Board b;
-		b.print();
 		localControler control(&mainScreen);
 		string in;
 		Image* test = nullptr;

@@ -2,9 +2,9 @@
 #define ALX_VOICE_HPP
 
 
-#include "alx/AudioStream.hpp"
-#include "alx/Mixer.hpp"
-#include "alx/SampleInstance.hpp"
+#include "AudioStream.hpp"
+#include "Mixer.hpp"
+#include "SampleInstance.hpp"
 
 
 namespace alx {

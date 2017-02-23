@@ -10,8 +10,8 @@
 #include <initializer_list>
 #include <vector>
 #include <allegro5/allegro.h>
-#include "alx/Shared.hpp"
-#include "alx/Fixed.hpp"
+#include "Shared.hpp"
+#include "Fixed.hpp"
 
 
 namespace alx {

@@ -1,4 +1,4 @@
-#include "TileObserver.h"
+#include "../../Header Files/Observers/FloorObserver.h"
 
 
 map<tileType, string> imagesPath = {	{ATRIUM,"./Images/Tile - Atrium.jpg"},
