@@ -14,7 +14,7 @@ PatrolCardDeck::PatrolCardDeck(unsigned discarded)
 	shuffle();
 	if (discarded < 16)
 	{
-		for (unsigned k = 0; k < discarded; i++)
+		for (unsigned k = 0; k < discarded; k++)
 			discardTop();
 	}
 }

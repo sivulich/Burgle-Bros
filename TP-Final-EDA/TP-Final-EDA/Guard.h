@@ -6,9 +6,9 @@ class Guard
 {
 public:
 	/**
-	@addparams receives 2 pointers to each respective player, also receives a copy of a speficif floor map
+	@addparams receives 2 pointers to each respective player, receives a copy of a speficif floor map and a pointer to the guard deck
 	*/
-	Guard(vector<Coord> floor[4][4], Player * player1, Player * player2);
+	Guard(vector<Coord> floor[4][4], Player * player1, Player * player2, PatrolCardDeck * patroldeck);
 
 	/**
 
@@ -57,6 +57,8 @@ private:
 	vector<Coord> floor[4][4];
 	Player * player1;
 	Player * player2;
-	PatrolCardDeck patroldeck;
+	PatrolCardDeck * patroldeck;
+	Coord /*&*/ toCoord(unsigned index, Coord & coord) { coord.col = index % 4; coord.row = index / 4; };
+	unsigned /*&*/ toIndex(unsigned & index, Coord coord) { index = (coord.col * 4 + coord.row); };
 };
 

@@ -1,9 +1,10 @@
 #include "Guard.h"
 
-Guard::Guard(vector<Coord> floor[4][4], Player * player1, Player * player2)
+Guard::Guard(vector<Coord> floor[4][4], Player * player1, Player * player2, PatrolCardDeck * patroldeck)
 {
 	this->player1 = player1;
 	this->player2 = player2;
+	this->patroldeck = patroldeck;
 	for (unsigned i = 0; i < 4; i++)
 	{
 		for (unsigned j = 0; j < 4; j++) this->floor[i][j] = floor[i][j];
@@ -64,13 +65,13 @@ bool Guard::Move()
 		path.pop_front();
 		if (pos == target)
 		{
-			if (patroldeck.isEmpty())
+			if (patroldeck->isEmpty)
 			{
-				patroldeck.reset(6);
+				patroldeck->reset(6);
 					speed++;
 			}
-			patroldeck.discardTop();
-			BaseCard * ptr = patroldeck.activeCard();
+			patroldeck->discardTop();
+			BaseCard * ptr = patroldeck->activeCard();
 			PatrolCard * p = static_cast<PatrolCard*>(ptr);
 			target = p->getCoord();
 			FindPath(alarms, target);
