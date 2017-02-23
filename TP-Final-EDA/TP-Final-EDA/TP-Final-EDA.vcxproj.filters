@@ -276,9 +276,6 @@
     <ClInclude Include="Floor.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
-    <ClInclude Include="Loot.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
     <ClInclude Include="Enumerations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -381,18 +378,6 @@
     <ClInclude Include="CursedGoblet.h">
       <Filter>Header Files\Model\Loots</Filter>
     </ClInclude>
-    <ClInclude Include="Gemstone.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="GoldBar.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Isotope.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
-    <ClInclude Include="Keycard.h">
-      <Filter>Header Files\Model\Loots</Filter>
-    </ClInclude>
     <ClInclude Include="Mirror.h">
       <Filter>Header Files\Model\Loots</Filter>
     </ClInclude>
@@ -411,15 +396,6 @@
     <ClInclude Include="Acrobat.h">
       <Filter>Header Files\Model\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="Hacker.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Hawk.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="Juicer.h">
-      <Filter>Header Files\Model\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="Peterman.h">
       <Filter>Header Files\Model\Characters</Filter>
     </ClInclude>
@@ -429,28 +405,7 @@
     <ClInclude Include="Spotter.h">
       <Filter>Header Files\Model\Characters</Filter>
     </ClInclude>
-    <ClInclude Include="TileFactory.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Configs.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PatrolCardDeck.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Board.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseCard.h">
-      <Filter>Header Files\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="Enumerations.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GuardDeckObserver.h">
-      <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="Observer.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -645,28 +600,13 @@
       <Filter>Source Files\Model\Characters</Filter>
     </ClCompile>
     <ClCompile Include="TileFactory.cpp">
-      <Filter>Source Files\Model</Filter>
+      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
-    <ClCompile Include="Allegro.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseCard.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Floor.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="PatrolCardDeck.cpp">
-      <Filter>Source Files\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="TileFactory.cpp">
-      <Filter>Source Files\Model</Filter>
+    <ClCompile Include="Tile.cpp">
       <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
     <ClCompile Include="GuardDeckObserver.cpp">
       <Filter>Source Files\Observers</Filter>
-    <ClCompile Include="Tile.cpp">
-      <Filter>Source Files\Model\Tiles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -842,7 +782,7 @@
       <Filter>Resource Files\Images\Patrol</Filter>
     </Image>
     <Image Include="Images\Patrol cards\PC R.jpg">
-      <Filter>Resource Files\Images\Patrol</Filter>
+      <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
 </Project>
