@@ -1,5 +1,5 @@
-#include "PatrolCardDeck.h"
-#include "Configs.h"
+#include "../Header Files/PatrolCardDeck.h"
+#include "../Header Files/Configs.h"
 
 PatrolCardDeck::PatrolCardDeck(unsigned discarded)
 {

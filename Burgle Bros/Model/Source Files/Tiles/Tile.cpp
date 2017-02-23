@@ -1,4 +1,4 @@
-#include "Tile.h"
+#include "../../Header Files/Tiles/Tile.h"
 
 
 Tile::Tile()
@@ -90,10 +90,13 @@ vector<Coord>& Tile::getAdjacent()
 	return adjacent;
 }
 
-bool Tile::isAdjacent(Coord t)
-{
-	return find(adjacent.begin(), adjacent.end(), t) != adjacent.end();
-}
+Coord Tile::getPos() { return coord; };
+
+int Tile::floor() { return coord.floor; };
+
+int Tile::col() { return coord.col; };
+
+int Tile::row() { return coord.row; };
 
 void Tile::addPlayerAction(Player p, string action) {
 	actionNode temp;
@@ -139,14 +142,14 @@ void Tile::peek(Player p) {
 }
 
 bool Tile::canMove(Player p) {
-	if (p.getActionTokens > 0)
+	if (p.getActionTokens() > 0)
 		return true;
 	else
 		return false;
 }
 
 bool Tile::canPeek(Player p) {
-	if (p.getActionTokens > 0 && isFlipped() == false)
+	if (p.getActionTokens() > 0 && isFlipped() == false)
 		return true;
 	else
 		return false;

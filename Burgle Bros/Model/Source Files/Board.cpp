@@ -1,4 +1,4 @@
-﻿#include "Board.h"
+﻿#include "../Header Files/Board.h"
 
 // Defines for the hardcoded map
 #define T 0

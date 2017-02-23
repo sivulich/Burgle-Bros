@@ -18,6 +18,124 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source Files\actionNode.cpp" />
+    <ClCompile Include="Source Files\BaseCard.cpp" />
+    <ClCompile Include="Source Files\BaseDeck.cpp" />
+    <ClCompile Include="Source Files\Board.cpp" />
+    <ClCompile Include="Source Files\Characters\Acrobat.cpp" />
+    <ClCompile Include="Source Files\Characters\Character.cpp" />
+    <ClCompile Include="Source Files\Characters\CharacterFactory.cpp" />
+    <ClCompile Include="Source Files\Characters\Hacker.cpp" />
+    <ClCompile Include="Source Files\Characters\Hawk.cpp" />
+    <ClCompile Include="Source Files\Characters\Juicer.cpp" />
+    <ClCompile Include="Source Files\Characters\Peterman.cpp" />
+    <ClCompile Include="Source Files\Characters\Raven.cpp" />
+    <ClCompile Include="Source Files\Characters\Spotter.cpp" />
+    <ClCompile Include="Source Files\Coord.cpp" />
+    <ClCompile Include="Source Files\Floor.cpp" />
+    <ClCompile Include="Source Files\GameModel.cpp" />
+    <ClCompile Include="Source Files\Guard.cpp" />
+    <ClCompile Include="Source Files\Loots\Chihuahua.cpp" />
+    <ClCompile Include="Source Files\Loots\CursedGoblet.cpp" />
+    <ClCompile Include="Source Files\Loots\Gemstone.cpp" />
+    <ClCompile Include="Source Files\Loots\GoldBar.cpp" />
+    <ClCompile Include="Source Files\Loots\Isotope.cpp" />
+    <ClCompile Include="Source Files\Loots\Keycard.cpp" />
+    <ClCompile Include="Source Files\Loots\Loot.cpp" />
+    <ClCompile Include="Source Files\Loots\LootFactory.cpp" />
+    <ClCompile Include="Source Files\Loots\Mirror.cpp" />
+    <ClCompile Include="Source Files\Loots\Painting.cpp" />
+    <ClCompile Include="Source Files\Loots\PersianKitty.cpp" />
+    <ClCompile Include="Source Files\Loots\Tiara.cpp" />
+    <ClCompile Include="Source Files\main.cpp" />
+    <ClCompile Include="Source Files\PatrolCard.cpp" />
+    <ClCompile Include="Source Files\PatrolCardDeck.cpp" />
+    <ClCompile Include="Source Files\Player.cpp" />
+    <ClCompile Include="Source Files\Tiles\Atrium.cpp" />
+    <ClCompile Include="Source Files\Tiles\Camera.cpp" />
+    <ClCompile Include="Source Files\Tiles\ComputerRoomF.cpp" />
+    <ClCompile Include="Source Files\Tiles\ComputerRoomL.cpp" />
+    <ClCompile Include="Source Files\Tiles\ComputerRoomM.cpp" />
+    <ClCompile Include="Source Files\Tiles\Deadbolt.cpp" />
+    <ClCompile Include="Source Files\Tiles\Fingerprint.cpp" />
+    <ClCompile Include="Source Files\Tiles\Foyer.cpp" />
+    <ClCompile Include="Source Files\Tiles\Keypad.cpp" />
+    <ClCompile Include="Source Files\Tiles\Laboratory.cpp" />
+    <ClCompile Include="Source Files\Tiles\Laser.cpp" />
+    <ClCompile Include="Source Files\Tiles\Lavatory.cpp" />
+    <ClCompile Include="Source Files\Tiles\Motion.cpp" />
+    <ClCompile Include="Source Files\Tiles\Safe.cpp" />
+    <ClCompile Include="Source Files\Tiles\Scanner.cpp" />
+    <ClCompile Include="Source Files\Tiles\SecretDoor.cpp" />
+    <ClCompile Include="Source Files\Tiles\ServiceDuct.cpp" />
+    <ClCompile Include="Source Files\Tiles\Stair.cpp" />
+    <ClCompile Include="Source Files\Tiles\Thermo.cpp" />
+    <ClCompile Include="Source Files\Tiles\Tile.cpp" />
+    <ClCompile Include="Source Files\Tiles\TileFactory.cpp" />
+    <ClCompile Include="Source Files\Tiles\Walkway.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header Files\actionNode.h" />
+    <ClInclude Include="Header Files\BaseCard.h" />
+    <ClInclude Include="Header Files\BaseDeck.h" />
+    <ClInclude Include="Header Files\Board.h" />
+    <ClInclude Include="Header Files\Characters\Acrobat.h" />
+    <ClInclude Include="Header Files\Characters\Character.h" />
+    <ClInclude Include="Header Files\Characters\CharacterFactory.h" />
+    <ClInclude Include="Header Files\Characters\Hacker.h" />
+    <ClInclude Include="Header Files\Characters\Hawk.h" />
+    <ClInclude Include="Header Files\Characters\Juicer.h" />
+    <ClInclude Include="Header Files\Characters\Peterman.h" />
+    <ClInclude Include="Header Files\Characters\Raven.h" />
+    <ClInclude Include="Header Files\Characters\Spotter.h" />
+    <ClInclude Include="Header Files\Configs.h" />
+    <ClInclude Include="Header Files\Coord.h" />
+    <ClInclude Include="Header Files\Enumerations.h" />
+    <ClInclude Include="Header Files\Floor.h" />
+    <ClInclude Include="Header Files\GameModel.h" />
+    <ClInclude Include="Header Files\Guard.h" />
+    <ClInclude Include="Header Files\Loots\Chihuahua.h" />
+    <ClInclude Include="Header Files\Loots\CursedGoblet.h" />
+    <ClInclude Include="Header Files\Loots\Gemstone.h" />
+    <ClInclude Include="Header Files\Loots\GoldBar.h" />
+    <ClInclude Include="Header Files\Loots\Isotope.h" />
+    <ClInclude Include="Header Files\Loots\Keycard.h" />
+    <ClInclude Include="Header Files\Loots\Loot.h" />
+    <ClInclude Include="Header Files\Loots\LootFactory.h" />
+    <ClInclude Include="Header Files\Loots\Mirror.h" />
+    <ClInclude Include="Header Files\Loots\Painting.h" />
+    <ClInclude Include="Header Files\Loots\PersianKitty.h" />
+    <ClInclude Include="Header Files\Loots\Tiara.h" />
+    <ClInclude Include="Header Files\PatrolCard.h" />
+    <ClInclude Include="Header Files\PatrolCardDeck.h" />
+    <ClInclude Include="Header Files\Player.h" />
+    <ClInclude Include="Header Files\Tiles\Atrium.h" />
+    <ClInclude Include="Header Files\Tiles\Camera.h" />
+    <ClInclude Include="Header Files\Tiles\ComputerRoomF.h" />
+    <ClInclude Include="Header Files\Tiles\ComputerRoomL.h" />
+    <ClInclude Include="Header Files\Tiles\ComputerRoomM.h" />
+    <ClInclude Include="Header Files\Tiles\Deadbolt.h" />
+    <ClInclude Include="Header Files\Tiles\Fingerprint.h" />
+    <ClInclude Include="Header Files\Tiles\Foyer.h" />
+    <ClInclude Include="Header Files\Tiles\Keypad.h" />
+    <ClInclude Include="Header Files\Tiles\Laboratory.h" />
+    <ClInclude Include="Header Files\Tiles\Laser.h" />
+    <ClInclude Include="Header Files\Tiles\Lavatory.h" />
+    <ClInclude Include="Header Files\Tiles\Motion.h" />
+    <ClInclude Include="Header Files\Tiles\Safe.h" />
+    <ClInclude Include="Header Files\Tiles\Scanner.h" />
+    <ClInclude Include="Header Files\Tiles\SecretDoor.h" />
+    <ClInclude Include="Header Files\Tiles\ServiceDuct.h" />
+    <ClInclude Include="Header Files\Tiles\Stair.h" />
+    <ClInclude Include="Header Files\Tiles\Thermo.h" />
+    <ClInclude Include="Header Files\Tiles\Tile.h" />
+    <ClInclude Include="Header Files\Tiles\TileFactory.h" />
+    <ClInclude Include="Header Files\Tiles\Walkway.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{58E7878C-7A74-4307-9642-8D5473D9F256}</ProjectGuid>
     <RootNamespace>Model</RootNamespace>
@@ -109,114 +227,14 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Header Files\actionNode.h" />
-    <ClInclude Include="..\Header Files\BaseCard.h" />
-    <ClInclude Include="..\Header Files\BaseDeck.h" />
-    <ClInclude Include="..\Header Files\Board.h" />
-    <ClInclude Include="..\Header Files\Characters\Acrobat.h" />
-    <ClInclude Include="..\Header Files\Characters\Character.h" />
-    <ClInclude Include="..\Header Files\Characters\CharacterFactory.h" />
-    <ClInclude Include="..\Header Files\Characters\Peterman.h" />
-    <ClInclude Include="..\Header Files\Characters\Raven.h" />
-    <ClInclude Include="..\Header Files\Characters\Spotter.h" />
-    <ClInclude Include="..\Header Files\Configs.h" />
-    <ClInclude Include="..\Header Files\Enumerations.h" />
-    <ClInclude Include="..\Header Files\Floor.h" />
-    <ClInclude Include="..\Header Files\GameModel.h" />
-    <ClInclude Include="..\Header Files\Guard.h" />
-    <ClInclude Include="..\Header Files\GuardCardObserver.h" />
-    <ClInclude Include="..\Header Files\Loots\Chihuahua.h" />
-    <ClInclude Include="..\Header Files\Loots\CursedGoblet.h" />
-    <ClInclude Include="..\Header Files\Loots\Loot.h" />
-    <ClInclude Include="..\Header Files\Loots\LootFactory.h" />
-    <ClInclude Include="..\Header Files\Loots\Mirror.h" />
-    <ClInclude Include="..\Header Files\Loots\Painting.h" />
-    <ClInclude Include="..\Header Files\Loots\PersianKitty.h" />
-    <ClInclude Include="..\Header Files\Loots\Tiara.h" />
-    <ClInclude Include="..\Header Files\PatrolCard.h" />
-    <ClInclude Include="..\Header Files\PatrolCardDeck.h" />
-    <ClInclude Include="..\Header Files\Player.h" />
-    <ClInclude Include="..\Header Files\Tiles\Atrium.h" />
-    <ClInclude Include="..\Header Files\Tiles\Camera.h" />
-    <ClInclude Include="..\Header Files\Tiles\ComputerRoomF.h" />
-    <ClInclude Include="..\Header Files\Tiles\ComputerRoomL.h" />
-    <ClInclude Include="..\Header Files\Tiles\ComputerRoomM.h" />
-    <ClInclude Include="..\Header Files\Tiles\Deadbolt.h" />
-    <ClInclude Include="..\Header Files\Tiles\Fingerprint.h" />
-    <ClInclude Include="..\Header Files\Tiles\Foyer.h" />
-    <ClInclude Include="..\Header Files\Tiles\Keypad.h" />
-    <ClInclude Include="..\Header Files\Tiles\Laboratory.h" />
-    <ClInclude Include="..\Header Files\Tiles\Laser.h" />
-    <ClInclude Include="..\Header Files\Tiles\Lavatory.h" />
-    <ClInclude Include="..\Header Files\Tiles\Motion.h" />
-    <ClInclude Include="..\Header Files\Tiles\Safe.h" />
-    <ClInclude Include="..\Header Files\Tiles\Scanner.h" />
-    <ClInclude Include="..\Header Files\Tiles\SecretDoor.h" />
-    <ClInclude Include="..\Header Files\Tiles\ServiceDuct.h" />
-    <ClInclude Include="..\Header Files\Tiles\Stair.h" />
-    <ClInclude Include="..\Header Files\Tiles\Thermo.h" />
-    <ClInclude Include="..\Header Files\Tiles\Tile.h" />
-    <ClInclude Include="..\Header Files\Tiles\TileFactory.h" />
-    <ClInclude Include="..\Header Files\Tiles\Walkway.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Source Files\main.cpp" />
-    <ClCompile Include="..\Source Files\Model\actionNode.cpp" />
-    <ClCompile Include="..\Source Files\Model\BaseCard.cpp" />
-    <ClCompile Include="..\Source Files\Model\BaseDeck.cpp" />
-    <ClCompile Include="..\Source Files\Model\Board.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Acrobat.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Character.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\CharacterFactory.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Hacker.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Hawk.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Juicer.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Peterman.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Raven.cpp" />
-    <ClCompile Include="..\Source Files\Model\Characters\Spotter.cpp" />
-    <ClCompile Include="..\Source Files\Model\Floor.cpp" />
-    <ClCompile Include="..\Source Files\Model\GameModel.cpp" />
-    <ClCompile Include="..\Source Files\Model\Guard.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Chihuahua.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\CursedGoblet.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Gemstone.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\GoldBar.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Isotope.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Keycard.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Loot.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\LootFactory.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Mirror.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Painting.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\PersianKitty.cpp" />
-    <ClCompile Include="..\Source Files\Model\Loots\Tiara.cpp" />
-    <ClCompile Include="..\Source Files\Model\PatrolCard.cpp" />
-    <ClCompile Include="..\Source Files\Model\PatrolCardDeck.cpp" />
-    <ClCompile Include="..\Source Files\Model\Player.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Atrium.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Camera.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\ComputerRoomF.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\ComputerRoomL.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\ComputerRoomM.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Deadbolt.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Fingerprint.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Foyer.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Keypad.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Laboratory.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Laser.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Lavatory.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Motion.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Safe.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Scanner.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\SecretDoor.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\ServiceDuct.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Stair.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Thermo.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Tile.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\TileFactory.cpp" />
-    <ClCompile Include="..\Source Files\Model\Tiles\Walkway.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
+  </Target>
 </Project>

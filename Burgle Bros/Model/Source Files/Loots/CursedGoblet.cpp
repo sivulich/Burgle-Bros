@@ -1,4 +1,4 @@
-#include "CursedGoblet.h"
+#include "../../Header Files/Loots/CursedGoblet.h"
 
 
 

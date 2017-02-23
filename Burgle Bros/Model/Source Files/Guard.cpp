@@ -1,4 +1,4 @@
-#include "Guard.h"
+#include "../Header Files/Guard.h"
 
 Guard::Guard(vector<Coord> floor[4][4], Player * player1, Player * player2, PatrolCardDeck * patroldeck)
 {
@@ -40,14 +40,14 @@ void Guard::GuardCheck()
 
 void Guard::FindPath(list<Coord> alarms, Coord dest)
 {
-	vector<
+	
 }
 
 bool Guard::RemoveAlarm(Coord coord)
 {
 	if (find(alarms.begin(), alarms.end(), coord) != alarms.end())
 	{
-		alarms.erase(std::remove(alarms.begin(), alarms.end(), coord), alarms.end());
+		alarms.erase(remove(alarms.begin(), alarms.end(), coord), alarms.end());
 		return true;
 	}
 	else return false;
@@ -65,7 +65,7 @@ bool Guard::Move()
 		path.pop_front();
 		if (pos == target)
 		{
-			if (patroldeck->isEmpty)
+			if (patroldeck->isEmpty())
 			{
 				patroldeck->reset(6);
 					speed++;

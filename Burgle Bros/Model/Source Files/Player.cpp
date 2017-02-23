@@ -1,10 +1,9 @@
 #pragma once
-#include "Player.h"
-#include "CharacterFactory.h"
+#include "../Header Files/Player.h"
+#include "../Header Files/Characters/CharacterFactory.h"
 
 Player::Player(string & playerName) {
 	name = playerName;
-	pos = { 0,0 };
 	//actionTokens = 0; POR QUE LOS SETEABAN EN 0???????????????'
 	//stealthTokens = 0;
 	stealthTokens = NUMBER_STEALTH_TOKENS;
@@ -21,7 +20,7 @@ void Player::setCharacter(characterType type)
 	character = CharacterFactory().newCharacter(type);
 }
 
-void Player::newTurn()
+void Player::resetStealthTokens()
 {
 	actionTokens = NUMBER_ACTION_TOKENS;
 }
@@ -32,6 +31,11 @@ void Player::move(Coord newPos)
 	for (auto& loot : loots)
 		loot->setPos(newPos);
 }
+
+Coord Player::getPosition()
+{
+	return pos;
+};
 
 void Player::removeStealthToken()
 {
@@ -65,3 +69,17 @@ int Player::throwDice()
 	dice.push_back(dieValue);
 	return dieValue;
 }
+
+void Player::addLoot(Loot * l) { loots.push_back(l); };
+
+
+void Player::clearVisibleFrom() { visibleFrom.clear(); };
+
+void Player::addVisibleTile(Coord tile) { visibleFrom.push_back(tile); };
+
+vector <Coord>& Player::getVisibleFrom() { return visibleFrom; };
+
+
+
+string Player::getName() { return name; };
+characterType Player::getCharacterType() { return character->getType(); };

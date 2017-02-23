@@ -1,4 +1,4 @@
-#include "Keypad.h"
+#include "../../Header Files/Tiles/Keypad.h"
 
 
 Keypad::~Keypad()
@@ -6,7 +6,8 @@ Keypad::~Keypad()
 }
 
 
-vector<string>& Keypad::getActions(Player p, Coord guardPos, Coord partnerPos) {
+vector<string>& Keypad::getActions(Player p, Coord guardPos, Coord partnerPos)
+{
 	actions.clear();
 	if (isAdjacent(p.getPosition())) 
 	{
@@ -20,6 +21,7 @@ vector<string>& Keypad::getActions(Player p, Coord guardPos, Coord partnerPos) {
 				actions.push_back(toString(MOVE));
 		}
 	}
+	return actions;
 }
 
 void Keypad::doAction(string action, Player p, Coord guardPos, Coord partnerPos) {

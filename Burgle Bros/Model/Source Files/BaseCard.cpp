@@ -1,12 +1,3 @@
-#include "BaseCard.h"
+#include "../Header Files/BaseCard.h"
 
 
-
-BaseCard::BaseCard()
-{
-}
-
-
-BaseCard::~BaseCard()
-{
-}

@@ -15,17 +15,7 @@
 #include <algorithm>
 #include <random>
 #include "Enumerations.h"
-#include "alx.hpp"
-#include "alx\Bitmap.hpp"
-#include "alx\Color.hpp"
-#include "alx\Display.hpp"
-#include "alx\EventQueue.hpp"
-#include "alx\Event.hpp"
-#include "alx\EventSource.hpp"
-#include "alx\Mouse.hpp"
-#include "alx\Keyboard.hpp"
-#include "alx\Size.hpp"
-#include "Allegro.h"
+#include "Coord.h"
 
 #define DEBUG
 //#define DEBUG_V
@@ -46,23 +36,12 @@
 
 
 using namespace std;
-using namespace alx;
 
-class Coord
-{
-public:
-	Coord() {};
-	Coord(unsigned f, unsigned c, unsigned r) : col(c), row(r), floor(f) {};
-	unsigned col, row, floor;
-	ostream& operator<<(ostream& os)
-	{
-		os << "Floor: " << floor << " Col: " << col << " Row: " << row << endl;
-		return os;
-	}
-};
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 #define PRESSED_TONE al_map_rgba(0,0,0,200)
+#define HOVER_TONE al_map_rgba(255,255,255,200)
+
 
 /*CHARACTER SETTINGS*/
 #define NUMBER_STEALTH_TOKENS 3
@@ -70,7 +49,6 @@ public:
 
 
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
-
 (ACK, 0x01)
 (AGREE, 0x02)
 (DISAGREE, 0x03)
@@ -105,7 +83,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 
 
-#define HOVER_TONE al_map_rgba(255,255,255,200)
 
 
 #endif //CONFIGS_H

@@ -1,7 +1,8 @@
 #pragma once
-#include "Player.h"
-#include "BaseCard.h"
-#include "Enumerations.h"
+#include "../Player.h"
+#include "../BaseCard.h"
+#include "../Enumerations.h"
+#include "../Configs.h"
 
 DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 (ATRIUM, 0x01)
@@ -85,7 +86,7 @@ public:
 	/**
 		Returns the position of the tile in the floor.
 	*/
-	Coord getPos() { return coord; };
+	Coord getPos();
 
 	/**
 		Set the position of the tile in the floor.
@@ -139,17 +140,17 @@ public:
 	/**
 		Return the floor number
 	*/
-	int floor() { return coord.floor; };
+	int floor();
 
 	/**
 		Return the column number
 	*/
-	int col() { return coord.col; };
+	int col();
 
 	/**
 		Return the row number
 	*/
-	int row() { return coord.row; };
+	int row();
 
 	/**
 		Add a coord to the adjacent list
@@ -169,10 +170,7 @@ public:
 	/**
 		Return true if the tile is from the given type
 	*/
-	bool is(tileType t)
-	{
-		return t == getType();
-	}
+	bool is(tileType t);
 
 	/**
 		Adds the adjacent tile's coordinates to the player visible from list
