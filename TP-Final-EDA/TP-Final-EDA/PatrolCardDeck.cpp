@@ -1,22 +1,32 @@
 #include "PatrolCardDeck.h"
 #include "Configs.h"
 
-PatrolCardDeck::PatrolCardDeck()
+PatrolCardDeck::PatrolCardDeck(unsigned discarded)
 {
-	for (int i = 0; i < 4; i++)
+	for (unsigned i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (unsigned j = 0; j < 4; j++)
 		{
 			Coord c = { 0,i,j };
 			deck.push_back(new PatrolCard(c));
 		}
 	}
 	shuffle();
+	if (discarded < 16)
+	{
+		for (unsigned k = 0; k < discarded; i++)
+			discardTop();
+	}
 }
 
 
 PatrolCardDeck::~PatrolCardDeck()
 {
+	merge();
+	for (auto &it : deck)
+	{
+		delete it;
+	}
 }
 
 bool PatrolCardDeck::reset(unsigned n)
@@ -30,15 +40,3 @@ bool PatrolCardDeck::reset(unsigned n)
 	}
 	return false;
 }
-
-
-/*
-vector<BaseCard*> & PatrolCardDeck::GetCards()
-{
-	return deck;
-}
-
-vector<BaseCard*> & PatrolCardDeck::GetGraveyard()
-{
-	return discarded;
-}*/

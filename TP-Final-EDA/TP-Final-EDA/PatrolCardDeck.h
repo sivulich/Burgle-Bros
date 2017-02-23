@@ -7,9 +7,9 @@ class PatrolCardDeck : public BaseDeck
 {
 public:
 	/**
-
+	@addparams amount of cards to discard when creating first deck
 	*/
-	PatrolCardDeck();
+	PatrolCardDeck(unsigned discard);
 
 	/**
 

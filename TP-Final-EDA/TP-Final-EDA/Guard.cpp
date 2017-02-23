@@ -39,47 +39,48 @@ void Guard::GuardCheck()
 
 void Guard::FindPath(list<Coord> alarms, Coord dest)
 {
+	vector<
+}
 
+bool Guard::RemoveAlarm(Coord coord)
+{
+	if (find(alarms.begin(), alarms.end(), coord) != alarms.end())
+	{
+		alarms.erase(std::remove(alarms.begin(), alarms.end(), coord), alarms.end());
+		return true;
+	}
+	else return false;
 }
 
 bool Guard::Move()
 {
 	if (currsteps > 0)
 	{
-		if (path.empty())
+		/*if (path.empty()) 
 		{
 			FindPath(alarms, target);
-		}
+		}*/ //este if creo q esta de mas
 		pos = path.front();
 		path.pop_front();
 		if (pos == target)
 		{
-			//saco carta del patroldeck y lo pongo como nuevo target
+			if (patroldeck.isEmpty())
+			{
+				patroldeck.reset(6);
+					speed++;
+			}
+			patroldeck.discardTop();
+			BaseCard * ptr = patroldeck.activeCard();
+			PatrolCard * p = static_cast<PatrolCard*>(ptr);
+			target = p->getCoord();
+			FindPath(alarms, target);
 		}
-		if (find(alarms.begin(), alarms.end(), pos) != alarms.end())
+		if(RemoveAlarm(pos))
 		{
-			alarms.erase(std::remove(alarms.begin(), alarms.end(), pos), alarms.end());
+			FindPath(alarms, target);
 		}
 		currsteps--;
 		return true;
 	}
 	else return false;
-	/*
-	if (currsteps > 0)
-	{
-	if (path.empty())
-	{
-
-	FindPath(alarms, target);
-
-	}
-	pos = path.front();
-	path.pop_front();
-	currsteps--;
-	return true;
-	}
-	else
-	{
-	currsteps = speed + alarms.size();//sumar cantidad de merges del mazo
-	}*/
 }
