@@ -58,7 +58,15 @@ private:
 	Player * player1;
 	Player * player2;
 	PatrolCardDeck * patroldeck;
+
+	/**
+	
+	*/
 	Coord /*&*/ toCoord(unsigned index, Coord & coord) { coord.col = index % 4; coord.row = index / 4; };
+	
+	/**
+	
+	*/
 	unsigned /*&*/ toIndex(unsigned & index, Coord coord) { index = (coord.col * 4 + coord.row); };
 };
 
