@@ -6,11 +6,9 @@ ComputerRoomF::~ComputerRoomF()
 }
 
 vector<string>& ComputerRoomF::getActions(Player p, Coord guardPos, Coord partnerPos) {
-	Tile::getActions(p, guardPos, partnerPos);		// check if the MOVE or PEEK are possible
-	if ( (p.getPosition() == getPos()) && isFlipped()==true) {		
-		if (p.getActionTokens() > 0)				// if the player is on this tile, allow him to put a hack token
+	Tile::getActions(p, guardPos, partnerPos);		// check if MOVE or PEEK are possible
+	if ( (p.getPosition() == getPos()) && p.getActionTokens() > 0)		// if the player is on this tile, allow him to put a hack token
 			actions.push_back(toString(ADD_TOKEN));
-	}
 }
 
 

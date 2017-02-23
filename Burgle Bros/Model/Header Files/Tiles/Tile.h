@@ -61,22 +61,18 @@ public:
 	virtual bool canPeek(Player p);
 
 	/**
+		Return true if the player can move to the tile
+		@param p player who is moving
+	*/
+	virtual bool canMove(Player p);
+
+	/**
 		Moves the player to the tile
 		@param p player who is moving
 
 	*/
 	virtual void enterTile(Player p);
 
-	/**
-		True if the player has an action token
-	*/
-	virtual void moveTo(Player p);
-
-	/**
-		Return true if the player can move to the tile
-		@param p player who is moving
-	*/
-	virtual bool canMove(Player p);
 
 	/**
 		Apart from turning up the card, sort the safe number
