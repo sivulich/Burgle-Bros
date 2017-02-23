@@ -119,12 +119,13 @@ void Tile::doAction(string action, Player p, Coord guardPos, Coord partnerPos)
 	p.removeActionToken();
 	if (action == toString(PEEK))
 		peek(p);
-	else if (action == toString(MOVE))
+	else if (action == toString(MOVE)) {
+		if (isFlipped() == false)	turnUp();
 		enterTile(p);
+	}
 }
 
 void Tile::enterTile(Player p) {
-	turnUp();				// show the card
 	p.move(getPos());		// move the player
 	updateVisibleFrom(p);	// add the tiles adjacent to the visible from list
 	addPlayerAction(p, toString(MOVE));

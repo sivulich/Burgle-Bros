@@ -61,5 +61,7 @@ int Player::throwDice()
 {
 	default_random_engine generator;
 	uniform_int_distribution<int> distribution(1, 6);
-	return distribution(generator);
+	int dieValue = distribution(generator);
+	dice.push_back(dieValue);
+	return dieValue;
 }
