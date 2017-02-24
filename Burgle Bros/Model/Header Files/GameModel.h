@@ -18,7 +18,7 @@ public:
 	/**
 		
 	*/
-		move
+
 	/**
 
 	*/
@@ -52,4 +52,3 @@ private:
 	Player player2;
 	Player* currentPlayer;
 };
-

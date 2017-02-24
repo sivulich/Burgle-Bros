@@ -24,6 +24,8 @@ public:
 	*/
 	bool reset(unsigned n);
 
+
+
 	/**
 	
 	*/

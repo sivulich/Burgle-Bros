@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+//falta hacer
 
 /*
 Guards on a Camera tile see all the other revealed tiles that are cameras, on any floor.

@@ -38,10 +38,10 @@ public:
 	/**
 		Reset the player action tokens
 	*/
-	void resetStealthTokens();
+	void resetActionTokens();
 	
 	/**
-		Checks adjacency and tries to move to the tile, returns true if successfull
+		Checks adjacency and tries to move to the tile, returns true if successful
 		@params newPos pointer to the tile the player wants to move to
 	*/
 	bool move(Tile * newTile);
@@ -107,6 +107,9 @@ public:
 	*/
 	vector <Coord>& getVisibleFrom();
 
+	/**
+	
+	*/
 	void setVisibleFrom(vector <Coord> newCoords);
 
 	/**
@@ -114,9 +117,16 @@ public:
 	*/
 	string getName();
 
+	/**
+	
+	*/
 	characterType getCharacterType();
 
+	/**
+	
+	*/
 	void changePos(Coord newPos) { pos = newPos; };
+
 private:
 	string name;
 	Character * character;
