@@ -2,6 +2,8 @@
 #include "Configs.h"
 #include "Player.h"
 #include "PatrolCardDeck.h"
+
+// OJO con punteros players y patrol deck (se deberia chequear q no sean null)
 class Guard
 {
 public:
@@ -20,7 +22,7 @@ public:
 	@addparams receives the coords of a triggered alarm
 	*/
 	void AddNextAlarm(Coord coord) { alarms.push_front(coord); }
-	
+
 	/**
 	@addparams coordinate of alarm to turn off
 	@return boolean value, true if alarm was succesfully turned off, else false is returned
@@ -46,7 +48,7 @@ public:
 	/**
 
 	*/
-	void FindPath(list<Coord> alarms, Coord dest);
+	void FindPath(Coord const coord);
 
 private:
 	unsigned speed, currsteps;
@@ -60,13 +62,17 @@ private:
 	PatrolCardDeck * patroldeck;
 
 	/**
-	
+
 	*/
-	Coord /*&*/ toCoord(unsigned index, Coord & coord) { coord.col = index % 4; coord.row = index / 4; };
-	
-	/**
-	
-	*/
-	unsigned /*&*/ toIndex(unsigned & index, Coord coord) { index = (coord.col * 4 + coord.row); };
+	Coord toCoord(unsigned index) { return Coord(1, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
+
+																			  /**
+
+																			  */
+	unsigned toIndex(Coord coord) { return(coord.col * 4 + coord.row); };
+
+	void shortestPath(int const &startNode, int const &endNode, int* parent);
+
+	unsigned closest(unsigned * distances);
 };
 
