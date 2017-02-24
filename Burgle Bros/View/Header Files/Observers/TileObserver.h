@@ -8,6 +8,9 @@ class TileObserver :public Observer {
 public:
 	TileObserver(Tile* t,Container* p );
 	void update();
+	void setGuard();
+	void setPlayer(int pNum);
+	void setAlarm();
     ~TileObserver();
 private:
 	Image* back;
@@ -15,4 +18,6 @@ private:
 	Container* parent;
 	Tile* tile;
 	bool set;
+	bool guard, alarm;
+	int player;
 };

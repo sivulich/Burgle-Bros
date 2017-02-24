@@ -150,6 +150,7 @@
     <ClCompile Include="Source Files\Image.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\object.cpp" />
+    <ClCompile Include="Source Files\Observers\BoardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Header Files\Container.h" />
     <ClInclude Include="Header Files\Image.h" />
     <ClInclude Include="Header Files\object.h" />
+    <ClInclude Include="Header Files\Observers\BoardObserver.h" />
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />

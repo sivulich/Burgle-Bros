@@ -14,7 +14,7 @@ public:
 	/**
 		Returns the floor i
 	*/
-	Floor& operator[](size_t i) { return *(floor[i]); };
+	Floor* operator[](size_t i) { return (floor[i]); };
 
 private:
 	Floor* floor[3];
