@@ -62,6 +62,8 @@ void Player::removeStealthToken()
 void Player::removeActionToken() {
 	if (actionTokens > 0)
 		actionTokens--;
+	else
+		DEBUG_MSG("UNEXPECTED ERROR. COULD NOT REMOVE ACTION TOKEN.");
 }
 
 int  Player::getStealthTokens()
