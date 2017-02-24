@@ -22,7 +22,7 @@ void Fingerprint::doAction(string action, void * player) {
 	Player * p = (Player *)player;
 
 	if (p->getActionTokens() > 0 && action == toString(USE_TOKEN)) {
-		p->removeActionToken();
 		setAlarm(false);
+		p->newAction(toString(USE_TOKEN), getPos());
 	}
 }

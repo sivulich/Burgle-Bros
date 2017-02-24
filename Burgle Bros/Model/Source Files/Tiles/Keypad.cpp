@@ -12,8 +12,10 @@ bool Keypad::canMove(void * player) {
 	{
 		for (int i = 0; i < attemptsThisTurn + 1 && keyKnown == false; i++)		// throw the dice attempts+1 times 
 		{
-			if (p->throwDice() == 6) 	// if the die thrown equals six
+			if (p->throwDice() == 6) { 	// if the die thrown equals six
 				keyKnown = true;		// you may enter the tile
+				DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
+			}
 
 			p->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
 		}

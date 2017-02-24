@@ -90,6 +90,12 @@ int Player::throwDice()
 
 void Player::addLoot(Loot * l) { loots.push_back(l); };
 
+bool Player::hasLoot() {
+	if (loots.empty())
+		return false;
+	else
+		return true;
+}
 
 void Player::clearVisibleFrom() { visibleFrom.clear(); };
 

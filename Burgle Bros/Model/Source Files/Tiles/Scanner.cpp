@@ -2,11 +2,13 @@
 
 
 
-Scanner::Scanner()
+Scanner::~Scanner()
 {
 }
 
+void Scanner::enterTile(void * player) {
+	Player * p = (Player*)player;
 
-Scanner::~Scanner()
-{
+	if (p->hasLoot())	// if the player has any loots
+		setAlarm(true);
 }

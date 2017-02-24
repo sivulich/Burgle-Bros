@@ -88,6 +88,11 @@ public:
 	void addLoot(Loot * l);
 
 	/**
+		Returns true if the player has at least one loot.
+	*/
+	bool hasLoot();
+
+	/**
 		Clears the coordinates from where the player is visible from
 	*/
 	void clearVisibleFrom();
