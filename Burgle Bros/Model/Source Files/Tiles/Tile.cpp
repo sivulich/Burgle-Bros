@@ -125,11 +125,6 @@ vector<Coord> Tile::getVisibleFrom(void * p) {
 		tempVisible.push_back(i);	// add the adjacent tiles to the list
 }
 
-
-void Tile::addPlayerAction(void * p, string action) {
-
-}
-
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////
 /*

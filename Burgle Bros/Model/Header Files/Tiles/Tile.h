@@ -134,6 +134,7 @@ public:
 		Return a pointer to the tile in coord 
 	
 	Tile* Tile::getAdjacent(Coord b)*/
+
 	/**
 		Return the floor number
 	*/
@@ -186,10 +187,4 @@ protected:
 	// Vector with adjacent tiles (coords)
 	vector<Coord> adjacent;
 
-	/**
-	Adds an action node to the player
-	@param p player to add an action
-	@param action action to be added
-	*/
-	virtual void addPlayerAction(void * player, string action);
 };
