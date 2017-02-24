@@ -234,6 +234,7 @@
     <Image Include="Images\Characters\Characters - The Rook.jpg" />
     <Image Include="Images\Characters\Characters - The Spotter.jpg" />
     <Image Include="Images\CrackToken.png" />
+    <Image Include="Images\CrowToken.png" />
     <Image Include="Images\Loot\Loot - Bust.jpg" />
     <Image Include="Images\Loot\Loot - Chihuahua (2).jpg" />
     <Image Include="Images\Loot\Loot - Chihuahua.jpg" />
