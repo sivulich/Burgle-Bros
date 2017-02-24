@@ -7,6 +7,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <queue>
 #include <iostream>
 #include <iomanip>
 #include <bitset>
