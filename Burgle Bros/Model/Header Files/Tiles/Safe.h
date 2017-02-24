@@ -7,6 +7,9 @@ Safes are the goal. Roll the combination to open them. When opened, draw a Loot,
 movement die by one on this floor and all those below it.
 */
 
+//	CUANDO SALGA DE LA SAFE TILE, EL MODELO DEBE CHECKEAR EN LAS TILES (que esten boca arriba) DE LA FILA Y LA COLUMNA. 
+//	SI EL NUMERO DE LA TILE NO APARECE EN LA COMBINATION, ES PORQUE ESTA "CRACKED"
+
 class Safe : public Tile
 {
 public:
@@ -30,11 +33,11 @@ public:
 		Adds a number to the combination needed to crack the safe.
 		@params tileNumber the number another tile adds to the safe combination.
 	*/
-	void addCombination(unsigned int tileNumber) { combination.push_back(tileNumber); };
+	void addCombination( int tileNumber) { combination.push_back(tileNumber); };
 
 public:
 	unsigned int tokens;
-	vector <unsigned int> combination;
+	vector <int> combination;
 	unsigned int tilesCracked;
 	bool cracked;
 
@@ -44,9 +47,10 @@ public:
 	unsigned int getTokens() { return tokens; };
 
 	/**
-		Checks if the number given is one of the combination numbers. If so, removes that number from the list and returns true.
+		Checks if the number given is one of the combination numbers. If so, removes that number from the list and returns the amount of
+		numbers removed from the vector.
 		@params number you want to try 
 	*/
-	bool trySafeNumber(unsigned int number);
+	int trySafeNumber(int number);
 };
 

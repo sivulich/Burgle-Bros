@@ -129,5 +129,5 @@ private:
 	vector <Coord> visibleFrom;
 	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6) up to four dice
 									// POR QUE UN VECTOR???
-										// porque para el keypad necesito tirar el dado muchas veces sin salir de la tile, y es para que quede un registro de lo que salio
+										// porque para el keypad y el safe necesito tirar el dado muchas veces sin salir de la tile, y es para que quede un registro de lo que salio
 };

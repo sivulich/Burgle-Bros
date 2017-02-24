@@ -31,10 +31,10 @@ bool Player::move(Tile * newTile)
 	{
 		removeActionToken();
 		if (newTile->canMove(this)) {
-			changePos(newTile->getPos());
+			changePos(newTile->getPos());					// move to that tile
 			setVisibleFrom(newTile->getAdjacents());		// add the new position's adjacent tile coordinates
 			newAction(toString(MOVE), newTile->getPos());
-			newTile->enterTile(this);					// and enter the tile
+			newTile->enterTile(this);						// and enter the tile
 			return true;
 		}
 	}
@@ -87,6 +87,7 @@ int Player::throwDice()
 	uniform_int_distribution<int> distribution(1, 6);
 	unsigned int temp= distribution(generator);
 	dice.push_back(temp);
+	DEBUG_MSG("You rolled the dice and got a " << temp);
 	return temp;
 }
 

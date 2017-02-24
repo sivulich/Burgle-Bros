@@ -108,6 +108,7 @@ bool Tile::canMove(void * p) {
 }
 
 void Tile::enterTile(void * p) {
+	if (isFlipped() == false) turnUp();	// reveal the card if necessary
 	DEBUG_MSG("Player moved to the " << toString(getType()) << getPos());
 }
 
