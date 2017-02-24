@@ -150,6 +150,7 @@
     <ClCompile Include="Source Files\Image.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\object.cpp" />
+    <ClCompile Include="Source Files\Observers\BoardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Header Files\Container.h" />
     <ClInclude Include="Header Files\Image.h" />
     <ClInclude Include="Header Files\object.h" />
+    <ClInclude Include="Header Files\Observers\BoardObserver.h" />
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />
@@ -223,6 +225,7 @@
     <ClInclude Include="Header Files\Textbox.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Images\AlarmToken.png" />
     <Image Include="Images\Characters\Characters - The Acrobat.jpg" />
     <Image Include="Images\Characters\Characters - The Hacker.jpg" />
     <Image Include="Images\Characters\Characters - The Hawk.jpg" />
@@ -232,6 +235,8 @@
     <Image Include="Images\Characters\Characters - The Rigger.jpg" />
     <Image Include="Images\Characters\Characters - The Rook.jpg" />
     <Image Include="Images\Characters\Characters - The Spotter.jpg" />
+    <Image Include="Images\CrackToken.png" />
+    <Image Include="Images\CrowToken.png" />
     <Image Include="Images\Loot\Loot - Bust.jpg" />
     <Image Include="Images\Loot\Loot - Chihuahua (2).jpg" />
     <Image Include="Images\Loot\Loot - Chihuahua.jpg" />

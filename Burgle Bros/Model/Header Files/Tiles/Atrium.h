@@ -1,7 +1,7 @@
 #pragma once
 #include "Tile.h"
 #include "../Player.h"
-
+//faltaria ver casos de peek hacia arriba o abajo
 /*
 You may peek up or down from this tile. Guards can see into this tile from aboveot below, making you 
 lose a Stealth

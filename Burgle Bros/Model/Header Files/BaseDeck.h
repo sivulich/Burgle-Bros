@@ -21,6 +21,11 @@ public:
 	bool discardTop();
 
 	/**
+	removes top card of deck from main deck and moves it to the bottom of it
+	*/
+	void topToBottom() { deck.insert(deck.begin(), topCard()); deck.pop_back(); };
+
+	/**
 	discards deck´s top card and returns following card value
 	@return BaseCard *, if deck is empty value is NULL
 	*/

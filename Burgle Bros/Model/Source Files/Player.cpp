@@ -20,7 +20,7 @@ void Player::setCharacter(characterType type)
 	character = CharacterFactory().newCharacter(type);
 }
 
-void Player::resetStealthTokens()
+void Player::resetActionTokens()
 {
 	actionTokens = NUMBER_ACTION_TOKENS;
 }

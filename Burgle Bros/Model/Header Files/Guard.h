@@ -50,6 +50,7 @@ public:
 	*/
 	void FindPath(Coord const coord);
 
+	Coord getPos() { return pos; };
 private:
 	unsigned speed, currsteps;
 	Coord pos;
