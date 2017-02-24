@@ -34,6 +34,9 @@ TileObserver::TileObserver(Tile* t, Container* p)
 	back->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
 	front->setScale(double(p->getWidth()) / 4.0 / double(front->getWidth()));
 	back->setScale(double(p->getWidth()) / 4.0 / double(back->getWidth()));
+	alarm = false;
+	guard = false;
+	player = 0;	
 	parent = p;
 	if (tile->isFlipped() == true)
 	{

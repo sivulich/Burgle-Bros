@@ -50,7 +50,6 @@ public:
 	*/
 	void FindPath(Coord const coord);
 
-
 	Coord getPos() { return pos; };
 private:
 	unsigned speed, currsteps;
@@ -68,19 +67,13 @@ private:
 	*/
 	Coord toCoord(unsigned index) { return Coord(1, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
 
-    /**
-	
-	*/
+																			  /**
+
+																			  */
 	unsigned toIndex(Coord coord) { return(coord.col * 4 + coord.row); };
 
-	/**
-
-	*/
 	void shortestPath(int const &startNode, int const &endNode, int* parent);
 
-	/**
-
-	*/
 	unsigned closest(unsigned * distances);
 };
 
