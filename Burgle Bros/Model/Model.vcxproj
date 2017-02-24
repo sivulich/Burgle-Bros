@@ -110,7 +110,6 @@
     <ClInclude Include="Header Files\Loots\Tiara.h" />
     <ClInclude Include="Header Files\PatrolCard.h" />
     <ClInclude Include="Header Files\PatrolCardDeck.h" />
-    <ClInclude Include="Header Files\Player.h" />
     <ClInclude Include="Header Files\Tiles\Atrium.h" />
     <ClInclude Include="Header Files\Tiles\Camera.h" />
     <ClInclude Include="Header Files\Tiles\ComputerRoomF.h" />
