@@ -5,10 +5,10 @@ Deadbolt::~Deadbolt()
 {
 }
 
-bool Deadbolt::canMove(void * player) {
-	Player * p = (Player *)player;
+bool Deadbolt::canMove(PlayerInterface * player) {
+	
 
-	if (p->getActionTokens() >= 3) {		//if the player has at least 3 action tokens
+	if (player->getActionTokens() >= 3) {		//if the player has at least 3 action tokens
 		return true;
 	}
 	else {
@@ -17,13 +17,13 @@ bool Deadbolt::canMove(void * player) {
 	}
 }
 
-void Deadbolt::enterTile(void * player) {
-	Player * p = (Player *)player;
+void Deadbolt::enterTile(PlayerInterface * player) {
+	
 
-	if (p->getActionTokens() >= 3) {
-		p->removeActionToken();
-		p->removeActionToken();
-		p->removeActionToken();
+	if (player->getActionTokens() >= 3) {
+		player->removeActionToken();
+		player->removeActionToken();
+		player->removeActionToken();
 	}
 	else
 		DEBUG_MSG("UNEXPECTED ERROR IN DEADBOLT.");

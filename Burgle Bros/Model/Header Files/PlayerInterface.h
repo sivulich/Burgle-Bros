@@ -3,8 +3,8 @@
 class PlayerInterface
 {
 public:
-	PlayerInterface();
-	~PlayerInterface();
+	PlayerInterface() {};
+	~PlayerInterface() {};
 
 	/**
 		Get player name
@@ -17,9 +17,13 @@ public:
 	virtual Coord getPosition() = 0;
 
 	/**
+	
+	*/
+	virtual void setPosition(Coord c) = 0;
+	/**
 
 	*/
-	virtual characterType getCharacterType() = 0;
+	//virtual characterType getCharacterType() = 0;
 
 	/**
 		Reset the player action tokens
@@ -55,6 +59,10 @@ public:
 	*/
 	virtual bool hasLoot() = 0;
 
+	/**
+	Retrun true if the guard can see the player from that position
+	*/
+	virtual bool isVisibleFrom(Coord c)=0;
 
 	/**
 		Adds a coordinate to the list of coordinates the player is visible from
@@ -71,10 +79,14 @@ public:
 	*/
 	virtual void setVisibleFrom(vector <Coord> newCoords) = 0;
 
-	/**
 
+
+	/**
+	Appends a new action to the action history
+	@params action the string of the action that occured
+	@params tile coordinate to the tile where the action happened
 	*/
-	virtual void changePos(Coord newPos) = 0;
+	virtual void newAction(string action, Coord tile)=0;
 
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include "../Player.h"
+#include "../PlayerInterface.h"
 
 /*
 	If a player (or Guard) is not on this tile, it takes 3 actions to enter. 
@@ -18,8 +18,8 @@ public:
 	Deadbolt(int floor, int col, int row) : Tile(floor, col, row) {};
 	~Deadbolt();
 
-	virtual bool canMove(void * player) override;
-	virtual void enterTile(void * player) override;
+	virtual bool canMove(PlayerInterface * player) override;
+	virtual void enterTile(PlayerInterface * player) override;
 
 private:
 	bool isOccupied;

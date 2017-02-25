@@ -51,7 +51,7 @@ public:
 	bool Move();
 
 	/**
-	checks if guard sees a player. if it is the case a stealth token is removed from the player
+	checks if guard sees a PlayerInterface. if it is the case a stealth token is removed from the PlayerInterface
 	*/
 	void GuardCheck();
 

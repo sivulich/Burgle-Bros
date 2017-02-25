@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Model/Header Files/Configs.h"
+#include "../../Model/Header Files/Configs.h"
 #include "../Header Files/ALX/alx.hpp"
 using namespace alx;
 class Object {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "../PlayerInterface.h"
 //falta hacer
 
 /*

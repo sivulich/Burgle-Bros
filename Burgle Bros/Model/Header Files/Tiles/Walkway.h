@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include "../Player.h"
+#include "../PlayerInterface.h"
 /*
 If  this  tile  is  revealed  by  moving  into  it,  that player falls 1 floor. When falling, 
 it does not count as entering that tile. If you are on the bottom floor, nothing happens.
@@ -23,13 +23,13 @@ public:
 		Executes the tile's special actions, if any...
 		@param p player who is moving
 	*/
-	virtual void enterTile(void * player) override;
+	virtual void enterTile(PlayerInterface * player) override;
 
 	/**
 		Makes the player fall to the tile beneath him, if possible
 		@param p player
 	*/
-	bool fallDown(Player * p);
+	bool fallDown(PlayerInterface * p);
 
 private:
 };

@@ -160,6 +160,7 @@
     <ClCompile Include="Source Files\Textbox.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Model\Header Files\Observer.h" />
     <ClInclude Include="Header Files\Allegro.h" />
     <ClInclude Include="Header Files\ALX\AllegroFile.hpp" />
     <ClInclude Include="Header Files\ALX\alx.hpp" />
@@ -220,7 +221,6 @@
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />
-    <ClInclude Include="Header Files\Observers\Observer.h" />
     <ClInclude Include="Header Files\Observers\TileObserver.h" />
     <ClInclude Include="Header Files\Screen.h" />
     <ClInclude Include="Header Files\Textbox.h" />

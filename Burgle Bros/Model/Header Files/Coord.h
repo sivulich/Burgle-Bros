@@ -13,7 +13,11 @@ public:
 		return (col==other.col && row==other.row && floor==other.floor);
 	}
 
-	friend std::ostream& operator<< (std::ostream &os, const Coord &c);
+	friend std::ostream& operator<< (std::ostream &os, const Coord &c)
+	{
+		os << "Floor: " << c.floor << " Col: " << c.col << " Row: " << c.row << std::endl;
+		return os;
+	}
 };
 
 

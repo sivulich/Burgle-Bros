@@ -17,6 +17,10 @@ Tile::Tile(unsigned floor, unsigned col, unsigned row)
 }
 
 
+void Tile::setLoot(Loot * l)
+{
+	loot = l;
+}
 void Tile::setAdjacent(Coord c)
 {
 	adjacent.push_back(c);
@@ -43,13 +47,18 @@ bool Tile::is(tileType t)
 
 tileType Tile::getType()
 {
-	return getType();;
+	return type;
 }
 
 
 bool Tile::hasAlarm()
 {
 	return alarm;
+}
+
+bool Tile::hasLoot()
+{
+	return loot == nullptr ? false : true;
 }
 
 
@@ -98,34 +107,37 @@ int Tile::col() { return coord.col; };
 int Tile::row() { return coord.row; };
 
 
-void Tile::peek() {
+void Tile::peek()
+{
 	turnUp();
-	DEBUG_MSG("Player peeked the " << toString(getType()) << getPos());
+	DEBUG_MSG("Player peeked the " << toString(getType()) << " at " << getPos());
 }
 
-bool Tile::canMove(PlayerInterface * p) {
+bool Tile::canMove(PlayerInterface * p)
+{
 		return true;
 }
 
-void Tile::enterTile(PlayerInterface * p) {
-	if (isFlipped() == false)
+void Tile::enterTile(PlayerInterface * p)
+{
+	if (!isFlipped())
 		turnUp();
-	DEBUG_MSG("Player moved to the " << toString(getType()) << getPos());
+	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
 }
 
-vector<string>& Tile::getActions(void * p) {
+vector<string>& Tile::getActions(PlayerInterface * p)
+{
+	vector<string> actions;
+	if (this->isAdjacent(p->getPosition()))
+		actions.push_back("PEEK");
+	return actions;
+}
+
+void Tile::doAction(string action, PlayerInterface * p) {
 
 }
 
-void Tile::doAction(string action, void * p) {
 
-}
-
-vector<Coord> Tile::getVisibleFrom(void * p) {
-	vector<Coord> tempVisible;
-	for (auto i : adjacent)
-		tempVisible.push_back(i);	// add the adjacent tiles to the list
-}
 
 /////////////////////////////////////////////////////
 /////////////////////////////////////////////////////

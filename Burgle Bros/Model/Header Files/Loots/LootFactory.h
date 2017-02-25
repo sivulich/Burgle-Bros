@@ -5,6 +5,6 @@ class LootFactory
 {
 public:
 
-	static Loot * newTile(lootType type);
+	static Loot * newLoot(lootType type);
 };
 

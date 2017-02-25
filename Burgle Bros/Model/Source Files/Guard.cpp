@@ -1,9 +1,5 @@
 #include "../Header Files/Guard.h"
 
-Guard::Guard()
-{
-}
-
 Guard::~Guard()
 {
 
@@ -78,7 +74,7 @@ bool Guard::Move()
 		path.pop_front();
 		if (pos == target)
 		{
-			if (patroldeck->isEmpty)
+			if (patroldeck->isEmpty())
 			{
 				patroldeck->reset(6);
 				speed++;
@@ -130,7 +126,7 @@ void Guard::FindPath(Coord const coord)
 			}
 		}
 	}
-	shortestPath(toIndex(coord), closest(), parent);
+	shortestPath(toIndex(coord), closest((unsigned *)dist), parent);
 	delete dist, parent;
 }
 
@@ -147,15 +143,15 @@ void Guard::shortestPath(int const &start, int const &end, int* parent)
 
 unsigned Guard::closest(unsigned * distances)
 {
-	list<Coord>::iterator it;
+
 	unsigned closest = distances[toIndex(target)];
 	unsigned destination = toIndex(target);
-	for (it = alarms.begin(); it != alarms.end(); it++)
+	for (auto& al:alarms)
 	{
-		if (distances[toIndex(*it)] < closest)
+		if (distances[toIndex(al)] < closest)
 		{
-			closest = distances[toIndex(*it)];
-			destination = toIndex(*it);
+			closest = distances[toIndex(al)];
+			destination = toIndex(al);
 
 		}//faltaria chequear lo de las izquierdas
 	}
