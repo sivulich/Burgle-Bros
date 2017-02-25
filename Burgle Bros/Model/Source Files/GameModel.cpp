@@ -36,11 +36,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 
 
-GameModel::GameModel()
-{
-	currState = INPUT_1;
-}
-
 
 
 
@@ -84,10 +79,10 @@ static bool checkParam(string& s)
 	return false;
 }
 
-void
-GameModel::runStep()
+void GameModel::runStep()
 {
-	switch (currTurn) {
+	switch (currTurn)
+	{
 		case LOOT_1:
 			currentPlayer = &player1;
 			//DO LOOT STUFF

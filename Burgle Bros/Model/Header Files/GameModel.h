@@ -5,8 +5,9 @@
 #include "Player.h"
 #include "Configs.h"
 
-DEFINE_ENUM_WITH_CONVERSIONS(state, (INPUT_1, 0)(INPUT_2, 1)(INPUT_3, 2)(RUN, 3));
-DEFINE_ENUM_WITH_CONVERSIONS(turn, (LOOT_1, 0)(PLAYER_1, 1)(GUARD_1, 2)(LOOT_2, 3)(PLAYER_2, 4)(GUARD_2, 5));
+DEFINE_ENUM_WITH_CONVERSIONS(state, (INPUT_1)(INPUT_2)(INPUT_3)(RUN));
+DEFINE_ENUM_WITH_CONVERSIONS(turn, (LOOT_1)(PLAYER_1)(GUARD_1)(LOOT_2)(PLAYER_2)(GUARD_2));
+
 class GameModel : public BaseModel
 {
 public:
@@ -14,6 +15,8 @@ public:
 	{
 		for (int i = 0; i < 3; i++)
 			board[i]->getGuard()->setPlayers(&player1, &player2);
+
+		currState = INPUT_1;
 		
 	};
 
@@ -21,36 +24,31 @@ public:
 		Returns true if game is over
 	*/
 	bool gameOver();
-	
-	
+
 	/**
 		Debug funcion to test in console
 	*/
 	pair<action_ID, string> getInput();
+
 	/**
 
 	*/
 	void input(string& in);
+
 	/**
 
 	*/
-	void setPlayer1Name(string& name);
-	/**
-
-	*/
-	void setPlayer2Name(string& name);
-	/**
-
-	*/
-
+	void runStep();
 
 	Board board;
-	/*Player info*/
+
 	Player player1;
 	Player player2;
 
 private:
 	Player* currentPlayer;
+	Player* otherPlayer;
+
 	/*Input params*/
 	void resetInput() { command = parameter = confirmation = ""; currState = INPUT_1; };
 	string command;
@@ -60,6 +58,6 @@ private:
 	/*Fsm for input*/
 	state currState;
 	turn  currTurn;
-	Player* otherPlayer;
+
 };
 

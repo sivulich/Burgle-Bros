@@ -128,6 +128,11 @@ public:
 	void setAlarm(bool b);
 
 	/**
+		
+	*/
+	void setLoot(Loot * l);
+
+	/**
 		Returns a vector of strings with the actions the player can do on the tile they are on
 		@param p Player who wants to check the actions
 	*/

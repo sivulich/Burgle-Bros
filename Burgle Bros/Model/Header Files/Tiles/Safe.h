@@ -1,7 +1,7 @@
 #pragma once
 #include "Tile.h"
 #include "../PlayerInterface.h"
-
+#include "../Loots/LootFactory.h"
 /*
 Safes are the goal. Roll the combination to open them. When opened, draw a Loot, and increase the Guard's 
 movement die by one on this floor and all those below it.
@@ -16,6 +16,10 @@ public:
 	Safe(int floor, int col, int row) : Tile(floor, col, row) { tokens = 0; tilesCracked = 0; cracked = false; };
 	~Safe();
 
+	void setLoot(lootType l)
+	{
+		loot = LootFactory().newLoot(l);
+	}
 	/**
 		Returns a vector of strings with the actions the player can do on the tile they are on
 		@param p Player who wants to check the actions

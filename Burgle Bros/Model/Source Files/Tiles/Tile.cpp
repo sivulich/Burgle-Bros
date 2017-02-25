@@ -17,6 +17,10 @@ Tile::Tile(unsigned floor, unsigned col, unsigned row)
 }
 
 
+void Tile::setLoot(Loot * l)
+{
+	loot = l;
+}
 void Tile::setAdjacent(Coord c)
 {
 	adjacent.push_back(c);

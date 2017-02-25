@@ -6,6 +6,7 @@
 #include "./Characters/Character.h"
 #include "./PlayerInterface.h"
 #include "./Board.h"
+
 class Player : public PlayerInterface
 {
 public:
@@ -13,6 +14,7 @@ public:
 	
 	*/
 	Player(Board * b);
+
 	~Player() {};
 
 	/**
@@ -26,12 +28,12 @@ public:
 	virtual Coord getPosition()override;
 
 	/**
-	
+		Set player position with a coord
 	*/
 	virtual void setPosition(Coord c)override;
 
 	/**
-		Sets the player's positions
+		Sets the player's position with a tile pointer
 	*/
 	void setPosition(Tile* c);
 	
