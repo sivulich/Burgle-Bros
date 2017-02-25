@@ -76,6 +76,7 @@
     <ClCompile Include="Source Files\Tiles\Walkway.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FSM_Template.h" />
     <ClInclude Include="Header Files\actionNode.h" />
     <ClInclude Include="Header Files\BaseCard.h" />
     <ClInclude Include="Header Files\BaseDeck.h" />
