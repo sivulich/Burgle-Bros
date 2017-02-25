@@ -83,11 +83,11 @@ void GameModel::runStep()
 {
 	switch (currTurn)
 	{
-		case LOOT_1:
+		case LOOT:
 			currentPlayer = &player1;
 			//DO LOOT STUFF
 			break;
-		case PLAYER_1:
+		case PLAYER:
 			currentPlayer = &player1;
 			if (command == "")
 			{

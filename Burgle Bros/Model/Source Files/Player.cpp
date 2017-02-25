@@ -13,10 +13,13 @@ Player::Player(Board * b)
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
+	DEBUG_MSG("Player "<< name <<" is on " << tile->getPos());
 }
+
 void Player::setPosition(Coord c)
 {
 	currentTile = board->getTile(c);
+	DEBUG_MSG("Player " << name << " is on " << currentTile->getPos());
 }
 
 void Player::setName(string & playerName)
@@ -51,12 +54,11 @@ bool Player::move(Tile * newTile)
 		removeActionToken();
 		if (newTile->canMove(this))
 		{
-			currentTile = newTile;
-			
-			newAction("MOVE", newTile->getPos());
+			setPosition(newTile);
+			newAction("MOVE", getPosition());
 			newTile->enterTile(this);
 			// Update from where the guard can see the player
-			setVisibleFrom(newTile->getAdjacents());
+			updateVisibleFrom();
 			// Update all loots
 			for (auto & t : loots)
 				t->update();
@@ -140,7 +142,7 @@ void Player::addVisibleTile(Coord tile)
 	visibleFrom.push_back(tile);
 };
 
-vector <Coord>& Player::getVisibleFrom()
+vector <Coord> Player::getVisibleFrom()
 {
 	return visibleFrom;
 };
@@ -150,7 +152,7 @@ bool Player::isVisibleFrom(Coord c)
 	return find(visibleFrom.begin(), visibleFrom.end(), c) != visibleFrom.end() ? true : false;
 }
 
-void Player::setVisibleFrom()
+void Player::updateVisibleFrom()
 {
 	visibleFrom.clear();
 	// Add the player position
