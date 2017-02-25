@@ -58,6 +58,7 @@ private:
 	Board board;
 	Player player1;
 	Player player2;
+private:
 	Player* currentPlayer;
 };
 
