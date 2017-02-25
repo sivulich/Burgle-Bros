@@ -4,13 +4,12 @@
 int main(void)
 {
 	GameModel model;
-
-	model.player1.setName(string("Robertito"));
-	model.player2.setName(string("Elsa"));
-
-	
-	Coord c(1, 4, 5);
-
-	cout << c << endl;
+	string s1;
+	while (1)
+	{
+		cin >> s1;
+		model.input(s1);
+		model.runStep();
+	}
 	return 0;
 }

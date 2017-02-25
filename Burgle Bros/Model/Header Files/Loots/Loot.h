@@ -24,6 +24,7 @@ public:
 	void setPos(Coord p) { pos = p; };
 	lootType getType() { return  type; };
 	bool is(lootType t) { return t == type; };
+	virtual int  input(string& s1) { return 0; };
 	bool isTaken() { return taken; };
 	void drop();
 	//void pick(Player* p); Lo comento porque si no hay circular dependencies, esto puede ir en la clase heredada

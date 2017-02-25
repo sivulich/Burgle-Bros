@@ -59,14 +59,6 @@ bool GameModel::gameOver()
 
 
 
-pair<action_ID, string> GameModel::getInput()
-{
-	string command, param;
-
-	cin >> command >> param;
-
-	return make_pair(toEnum_action_ID((char*)command.c_str()), param);
-}
 
 static bool checkParam(string& s)
 {
@@ -83,14 +75,21 @@ void GameModel::runStep()
 {
 	switch (currTurn)
 	{
-		case LOOT_1:
-			currentPlayer = &player1;
-			//DO LOOT STUFF
+		case LOOT:
+			for (auto& loot : currentPlayer->getLoots())
+			{
+				currState =(state) loot->input(command);
+			}
+			if (currState == RUN)
+			{
+				currTurn = PLAYER;
+				currState = INPUT_1;
+			}
 			break;
-		case PLAYER_1:
-			currentPlayer = &player1;
+		case PLAYER:
 			if (command == "")
 			{
+				cout << "Wating for parameter" << endl;
 				currState = INPUT_1;
 				break;
 			}
@@ -106,23 +105,22 @@ void GameModel::runStep()
 						int col = parameter[0] - 'A';
 						int row = parameter[1] - '1';
 						int floor = parameter[3] - '1';
-						/*if((*(board[floor]))[col][row]->needsConfirmation(currentPlayer)==true)
+						if(confirmation=="")
+						//if((*(board[floor]))[col][row]->needsConfirmation(currentPlayer)==true)
 						{
 							currState=INPUT_3;
 							break;
 						}
-						else*/
+						else
 							confirmation="YES";
 						
 						if (confirmation == "YES")
 						{
-							(*(board[floor]))[col][row]->enterTile(currentPlayer);
+							cout << "Moving to " << parameter << endl;
+							//(*(board[floor]))[col][row]->enterTile(currentPlayer);
 						}
-						else
-							resetInput();
 					}
-					else
-						resetInput();
+					resetInput();
 					break;
 				case PEEK:
 					if (parameter == "")
@@ -140,6 +138,17 @@ void GameModel::runStep()
 					else
 						resetInput();
 					break;
+				case GUARD:
+					Coord pos = currentPlayer->getPosition();
+					Guard* guard = board[pos.floor]->getGuard();
+					if (guard->Move() == false)
+					{
+						currTurn = LOOT;
+						swap(currentPlayer, otherPlayer);
+					}
+					else
+						currState = RUN;
 			};
+		
 	}
 }

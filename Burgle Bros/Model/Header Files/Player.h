@@ -134,6 +134,7 @@ public:
 	*/
 	characterType getCharacterType();
 
+	vector<Loot*>& getLoots() { return loots; };
 private:
 	string name;
 	Character * character;
