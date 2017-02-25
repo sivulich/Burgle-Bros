@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Header Files/Configs.h"
 class PlayerInterface
 {
 public:
@@ -49,6 +50,10 @@ public:
 	*/
 	virtual int getActionTokens() = 0;
 
+	/**
+		Return true if player has the loot type
+	*/
+	bool has(lootType l);
 	/**
 		Simulates a die being thrown
 	*/

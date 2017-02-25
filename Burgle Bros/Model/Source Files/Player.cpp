@@ -28,6 +28,15 @@ void Player::setCharacter(characterType type)
 	character = CharacterFactory().newCharacter(type);
 }
 
+
+bool Player::has(lootType l)
+{
+	for (auto& loot : loots)
+		if (l == loot->getType())
+			return true;
+	return false;
+}
+
 void Player::resetActionTokens()
 {
 	actionTokens = NUMBER_ACTION_TOKENS;
