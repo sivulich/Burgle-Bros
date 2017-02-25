@@ -16,22 +16,26 @@ public:
 	bool gameOver();
 	
 	/**
-		
+		FSM that receives input
 	*/
-	void setPlayer1Name(string& name);
+	void input();
 	
 	/**
-
-	*/
-	void setPlayer2Name(string& name);
 	
-	/**
-
 	*/
-	void startGame();
-	
-	/**
+	void runStep()
+	{
+		if (input.state() == RUN)
+		{
+			switch (input.command())
+			{
 
+			}
+		}
+	}
+
+	/**
+		Debug funcion to test in console
 	*/
 	pair<action_ID, string> getInput();
 	/**

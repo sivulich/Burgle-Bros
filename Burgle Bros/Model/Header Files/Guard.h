@@ -46,6 +46,13 @@ public:
 	void SetCurrSteps() { currsteps = speed + alarms.size(); };
 
 	/**
+	
+	*/
+	bool decSteps() {
+		if (currsteps > 0) { currsteps--; return true; }
+		else return false; };
+
+	/**
 
 	*/
 	void FindPath(Coord const coord);
@@ -67,9 +74,9 @@ private:
 	*/
 	Coord toCoord(unsigned index) { return Coord(1, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
 
-																			  /**
+	/**
 
-																			  */
+	*/
 	unsigned toIndex(Coord coord) { return(coord.col * 4 + coord.row); };
 
 	void shortestPath(int const &startNode, int const &endNode, int* parent);

@@ -5,8 +5,8 @@ int main(void)
 {
 	GameModel model;
 
-	model.setPlayer1Name("Robertito");
-	model.setPlayer2Name("Elsa");
+	model.setPlayer1Name(string("Robertito"));
+	model.setPlayer2Name(string("Elsa"));
 
 	model.startGame();
 		
