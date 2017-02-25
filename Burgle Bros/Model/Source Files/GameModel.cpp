@@ -1,6 +1,5 @@
 #include "../Header Files/GameModel.h"
 #include "../Header Files/Enumerations.h"
-
 /*
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (ACK, 0x01)
@@ -37,8 +36,25 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 
 
+GameModel::GameModel()
+{
+	currState = INPUT_1;
+}
 
 
+
+
+
+void
+GameModel::input(string& in)
+{
+	if (currState == INPUT_1)
+		command = in;
+	else if (currState == INPUT_2)
+		parameter = in;
+	else if (currState == INPUT_3)
+		confirmation = in;
+}
 
 
 bool GameModel::gameOver()
@@ -55,4 +71,80 @@ pair<action_ID, string> GameModel::getInput()
 	cin >> command >> param;
 
 	return make_pair(toEnum_action_ID((char*)command.c_str()), param);
+}
+
+static bool checkParam(string& s)
+{
+	if (s.size() != 4)
+		return false;
+	if (s[2] != 'F')
+		return false;
+	if (s[0] - 'A' >= 0 && s[0] - 'A' <= 3 && s[1] - '1' >= 0 && s[1] - '1' <= 3 && s[3] - '1' >= 0 && s[3] - '1' <= 3)
+		return true;
+	return false;
+}
+
+void
+GameModel::runStep()
+{
+	switch (currTurn) {
+		case LOOT_1:
+			currentPlayer = &player1;
+			//DO LOOT STUFF
+			break;
+		case PLAYER_1:
+			currentPlayer = &player1;
+			if (command == "")
+			{
+				currState = INPUT_1;
+				break;
+			}
+			switch (toEnum_action_ID((char *)command.c_str())) {
+				case MOVE:
+					if (parameter == "")
+					{
+						currState = INPUT_2;
+						break;
+					}
+					if (checkParam(parameter))
+					{
+						int col = parameter[0] - 'A';
+						int row = parameter[1] - '1';
+						int floor = parameter[3] - '1';
+						/*if((*(board[floor]))[col][row]->needsConfirmation(currentPlayer)==true)
+						{
+							currState=INPUT_3;
+							break;
+						}
+						else*/
+							confirmation="YES";
+						
+						if (confirmation == "YES")
+						{
+							(*(board[floor]))[col][row]->enterTile(currentPlayer);
+						}
+						else
+							resetInput();
+					}
+					else
+						resetInput();
+					break;
+				case PEEK:
+					if (parameter == "")
+					{
+						currState = INPUT_2;
+						break;
+					}
+					if (checkParam(parameter))
+					{
+						int col = parameter[0] - 'A';
+						int row = parameter[1] - '1';
+						int floor = parameter[3] - '1';
+						(*(board[floor]))[col][row]->peek();
+					}
+					else
+						resetInput();
+					break;
+			};
+	}
 }
