@@ -10,7 +10,7 @@ Guard::~Guard()
 }
 
 
-void Guard::setPlayers(Player * p1, Player * p2)
+void Guard::setPlayers(PlayerInterface * p1, PlayerInterface * p2)
 {
 	player1 = p1;
 	player2 = p2; 

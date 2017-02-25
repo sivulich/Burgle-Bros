@@ -1,6 +1,6 @@
 #pragma once
 #include "Configs.h"
-#include "Player.h"
+#include "PlayerInterface.h"
 #include "PatrolCardDeck.h"
 
 // OJO con punteros players y patrol deck (se deberia chequear q no sean null)
@@ -21,7 +21,7 @@ public:
 	/**
 		Point the guard to the players
 	*/
-	void setPlayers(Player * p1, Player * p2);
+	void setPlayers(PlayerInterface * p1, PlayerInterface * p2);
 
 	/**
 		Add the map of the floor
@@ -80,8 +80,8 @@ private:
 	Coord target;
 	list<Coord> path;
 	vector<Coord> floor[4][4];
-	Player * player1;
-	Player * player2;
+	PlayerInterface * player1;
+	PlayerInterface * player2;
 	PatrolCardDeck * patroldeck;
 
 	/**
