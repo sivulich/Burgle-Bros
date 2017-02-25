@@ -65,6 +65,7 @@ vector<Coord>& Floor::getAlarms()
 void Floor::addAlarm(Coord c)
 {
 	tiles[c.col][c.row]->setAlarm(true);
+	guard.AddNextAlarm(c);
 }
 
 

@@ -2,7 +2,7 @@
 
 #include "../../Model/Header Files/Coord.h"
 int main(void)
-{
+{/*
 	GameModel model;
 	string s1;
 	while (1)
@@ -11,5 +11,8 @@ int main(void)
 		model.input(s1);
 		model.runStep();
 	}
-	return 0;
+	return 0;*/
+	Board b;
+	b[1]->addAlarm(Coord(1, 2, 2));
+	b[1]->getGuard()->Move();
 }

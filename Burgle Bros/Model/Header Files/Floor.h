@@ -18,6 +18,7 @@ public:
 	{
 		floorNumber = n;
 		guard.setDeck(&guardDeck);
+		guard.setAlarms(&alarms);
 	};
 
 	/**

@@ -10,7 +10,7 @@ public:
 	/**
 	@addparams Receives a pointer to the guard deck
 	*/
-	Guard() {};
+	Guard() {pos = NPOS; };
 
 	/**
 
@@ -32,11 +32,17 @@ public:
 	
 	*/
 	void setDeck(PatrolCardDeck * patroldeck);
+	
+	/**
+	
+	*/
+	void setAlarms(vector<Coord> * alarms) { this->alarms = alarms; };
 	/**
 	adds triggered alarm to alarm list
 	@addparams receives the coords of a triggered alarm
+
 	*/
-	void AddNextAlarm(Coord coord) { alarms.push_front(coord); }
+	void AddNextAlarm(Coord coord) { alarms->push_back(coord); }
 
 	/**
 	@addparams coordinate of alarm to turn off
@@ -58,7 +64,7 @@ public:
 	/**
 	sets amount of steps the guard has during his turn
 	*/
-	void SetCurrSteps() { currsteps = speed + alarms.size(); };
+	void SetCurrSteps() { currsteps = speed + alarms->size(); };
 
 	/**
 	
@@ -75,10 +81,12 @@ public:
 	bool FindPath(Coord const coord);
 
 	Coord getPos() { return pos; };
+
+	void setPos(Coord coord) { pos = coord; }
 private:
 	unsigned speed, currsteps;
 	Coord pos;
-	list<Coord> alarms;
+	vector<Coord> * alarms;
 	Coord target;
 	list<Coord> path;
 	vector<Coord> floor[4][4];

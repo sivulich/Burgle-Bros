@@ -2,7 +2,6 @@
 
 Guard::~Guard()
 {
-
 }
 
 
@@ -54,33 +53,38 @@ void Guard::GuardCheck()
 
 bool Guard::RemoveAlarm(Coord coord)
 {
-	if (find(alarms.begin(), alarms.end(), coord) != alarms.end())
+	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
-		alarms.erase(std::remove(alarms.begin(), alarms.end(), coord), alarms.end());
+		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
+		DEBUG_MSG("alarm removed from floor %d col %d row %d \n", coord.floor, coord.col, coord.row);
 		return true;
 	}
-	else return false;
+	else
+	{
+		DEBUG_MSG("there was no alarm in floor %d col %d row %d \n", coord.floor, coord.col, coord.row);
+		return false;
+	}
 }
 
 bool Guard::Move()
 {
-	if (currsteps == 0) SetCurrSteps();
-		/*if (path.empty())
-		{
-		FindPath(pos);
-		}*/ //este if creo q esta de mas
-		pos = path.front();
-		path.pop_front();
-		if (pos == target)
+	BaseCard * ptr;
+	PatrolCard * p;
+	if (pos == NPOS)
+	{
+		ptr = patroldeck->next();
+		p = static_cast<PatrolCard*>(ptr);
+		pos = p->getCoord();
+		DEBUG_MSG("guard start pos: floor %d, col %d, row %d", pos.floor, pos.col, pos.row);
+	}
 		{
 			if (patroldeck->isEmpty())
 			{
 				patroldeck->reset(6);
 				speed++;
 			}
-			patroldeck->discardTop();
-			BaseCard * ptr = patroldeck->activeCard();
-			PatrolCard * p = static_cast<PatrolCard*>(ptr);
+			ptr = patroldeck->next();
+			p = static_cast<PatrolCard*>(ptr);
 			target = p->getCoord();
 			FindPath(pos);
 		}
@@ -90,7 +94,10 @@ bool Guard::Move()
 		}
 		currsteps--;
 		if (currsteps == 0)
+		{
+			DEBUG_MSG("guard turn has ended");
 			return false;
+		}
 		else return true;
 }
 
@@ -122,6 +129,7 @@ bool Guard::FindPath(Coord const coord)
 			}
 		}
 		shortestPath(toIndex(coord), closestTarget(dist), parent);
+		DEBUG_MSG("Path is:");
 		return true;
 	}
 	return false;
@@ -131,11 +139,11 @@ bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> p
 {
 	if (start < parent.size() && end < parent.size())
 	{
-		if (start == end || end == -1) {
+		if (start == end || end == -1);
 			//path.push_front(toCoord(start));//es la direccion actual
-		}
 		else {
 			shortestPath(start, parent[end], parent);
+			DEBUG_MSG("floor %d col %d row %d \n", toCoord(end).floor, toCoord(end).col, toCoord(end).row);
 			path.push_back(toCoord(end));
 		}
 		return true;
@@ -148,7 +156,7 @@ unsigned Guard::closestTarget(vector<unsigned> distances)
 
 	unsigned closest = distances[toIndex(target)];
 	unsigned destination = toIndex(target);
-	for (auto& al:alarms)
+	for (auto& al: *alarms)
 	{
 		if (distances[toIndex(al)] < closest)
 		{
@@ -157,5 +165,6 @@ unsigned Guard::closestTarget(vector<unsigned> distances)
 
 		}//faltaria chequear lo de las izquierdas
 	}
+	DEBUG_MSG("closest target is in floor %d, col %d, row %d", toCoord(closest).floor,toCoord(closest).col,toCoord(closes).row);
 	return closest;
 }
