@@ -10,7 +10,7 @@
 #include "../../Header Files/Loots/PersianKitty.h"
 #include "../../Header Files/Loots/Tiara.h"
 
-Loot* LootFactory::newTile(lootType type)
+Loot* LootFactory::newLoot(lootType type)
 {
 	switch (type)
 	{

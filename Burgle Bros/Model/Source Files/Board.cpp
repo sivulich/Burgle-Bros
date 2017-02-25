@@ -47,7 +47,7 @@ Board::Board()
 
 		floor[i] = new Floor(4, 4, i);
 
-		for (int j = 0; j < f[i].size(); j++)
+		for (unsigned int j = 0; j < f[i].size(); j++)
 			floor[i]->setTile(j % 4, j / 4, f[i][j]);
 
 		//floor[i]->setTiles(f[i]);
