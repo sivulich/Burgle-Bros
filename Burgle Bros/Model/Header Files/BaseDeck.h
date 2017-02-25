@@ -26,7 +26,7 @@ public:
 	void topToBottom() { deck.insert(deck.begin(), topCard()); deck.pop_back(); };
 
 	/**
-	discards deck´s top card and returns following card value
+	discards deck´s top card and returns cards value
 	@return BaseCard *, if deck is empty value is NULL
 	*/
 	BaseCard* next();

@@ -2,7 +2,7 @@
 
 #include "../../Model/Header Files/Coord.h"
 int main(void)
-{
+{/*
 	GameModel model;
 	model.player1.setPosition(Coord(0, 0, 0));
 	model.player1.setName(string("Pepe"));
@@ -23,5 +23,10 @@ int main(void)
 		model.runStep();
 		model.print();
 	}
-	return 0;
+	return 0;*/
+	int hola;
+	Board b;
+	b[1]->addAlarm(Coord(1, 2, 2));
+	b[1]->getGuard()->Move();
+	while (1);
 }

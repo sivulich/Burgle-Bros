@@ -1,6 +1,7 @@
 #pragma once
 #include <ostream>
 
+#define NPOS Coord(5,5,5)
 class Coord
 {
 public:
