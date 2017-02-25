@@ -25,7 +25,7 @@
 //			}																													//
 //******************************************************************************************************************************//
 
-
+#define NOT_IN_ENUM 4096
 
 // Auxiliar macro to form the switch cases in toString function
 #define X_DEFINE_ENUM_WITH_CONVERSIONS_TOSTRING_CASE(r, data, elem)					\
@@ -86,5 +86,5 @@
 			enumerators														  		\
 			)                                                                 		\
 		std::cout<<"["<<v<<" is not in "<<BOOST_PP_STRINGIZE(name)"]"<<std::endl;	\
-		return (name)4096;														  	\
+		return (name)NOT_IN_ENUM;														  	\
 	}

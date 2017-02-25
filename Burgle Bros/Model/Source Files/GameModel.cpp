@@ -1,6 +1,5 @@
 #include "../Header Files/GameModel.h"
 #include "../Header Files/Enumerations.h"
-
 /*
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (ACK, 0x01)
@@ -39,6 +38,7 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 GameModel::GameModel()
 {
+	currState = INPUT_1;
 }
 
 
@@ -46,6 +46,18 @@ GameModel::~GameModel()
 {
 }
 
+
+
+void
+GameModel::input(string& in)
+{
+	if (currState == INPUT_1)
+		command = in;
+	else if (currState == INPUT_2)
+		parameter = in;
+	else if (currState == INPUT_3)
+		confirmation = in;
+}
 
 
 bool GameModel::gameOver()
@@ -73,146 +85,79 @@ pair<action_ID, string> GameModel::getInput()
 
 	return make_pair(toEnum_action_ID((char*)command.c_str()), param);
 }
-void GameModel::startGame()
+
+static bool checkParam(string& s)
 {
-	DEBUG_MSG("Game has started");
+	if (s.size() != 4)
+		return false;
+	if (s[2] != 'F')
+		return false;
+	if (s[0] - 'A' >= 0 && s[0] - 'A' <= 3 && s[1] - '1' >= 0 && s[1] - '1' <= 3 && s[3] - '1' >= 0 && s[3] - '1' <= 3)
+		return true;
+	return false;
+}
 
-	while (!gameOver())
-	{
-		DEBUG_MSG("Make your move!!!!");
-
-		pair<action_ID, string> command = getInput();
-
-		switch (command.first)
-		{
-		case ACK:
-
+void
+GameModel::runStep()
+{
+	switch (currTurn) {
+		case LOOT_1:
+			currentPlayer = &player1;
+			//DO LOOT STUFF
 			break;
-
-		case AGREE:
-
-			break;
-
-		case DISAGREE:
-
-			break;
-
-		case NAME:
-
-			break;
-
-		case NAME_IS:
-
-			break;
-
-		case I_AM:
-
-			break;
-
-		case INITIAL_G_POS:
-
-			break;
-
-		case START_INFO:
-
-			break;
-
-		case YOU_START:
-
-			break;
-
-		case I_START:
-
-			break;
-
-		case PEEK:
-
-			break;
-
-		case MOVE:
-
-			break;
-
-		case SPENT_OK:
-
-			break;
-
-		case ADD_TOKEN:
-
-			break;
-
-		case USE_TOKEN:
-
-			break;
-
-		case THROW_DICE:
-
-			break;
-
-		case SAFE_OPENED:
-
-			break;
-
-		case CREATE_ALARM:
-
-			break;
-
-		case SPY_PATROL:
-
-			break;
-
-		case PLACE_CROW:
-
-			break;
-
-		case OFFER_LOOT:
-
-			break;
-
-		case REQUEST_LOOT:
-
-			break;
-
-		case PICK_UP_LOOT:
-
-			break;
-
-		case PASS:
-
-			break;
-
-		case ROLL_DICE_FOR_LOOT:
-
-			break;
-
-		case GUARD_MOVEMENT:
-
-			break;
-
-		case WE_WON:
-
-			break;
-
-		case WE_LOST:
-
-			break;
-
-		case GAME_OVER:
-
-			break;
-
-		case QUIT:
-
-			break;
-
-		case ERRO:
-
-			break;
-
-		default:
-
-			break;
-		}
-
+		case PLAYER_1:
+			currentPlayer = &player1;
+			if (command == "")
+			{
+				currState = INPUT_1;
+				break;
+			}
+			switch (toEnum_action_ID((char *)command.c_str())) {
+				case MOVE:
+					if (parameter == "")
+					{
+						currState = INPUT_2;
+						break;
+					}
+					if (checkParam(parameter))
+					{
+						int col = parameter[0] - 'A';
+						int row = parameter[1] - '1';
+						int floor = parameter[3] - '1';
+						/*if((*(board[floor]))[col][row]->needsConfirmation(currentPlayer)==true)
+						{
+							currState=INPUT_3;
+							break;
+						}
+						else*/
+							confirmation="YES";
+						
+						if (confirmation == "YES")
+						{
+							(*(board[floor]))[col][row]->enterTile(currentPlayer);
+						}
+						else
+							resetInput();
+					}
+					else
+						resetInput();
+					break;
+				case PEEK:
+					if (parameter == "")
+					{
+						currState = INPUT_2;
+						break;
+					}
+					if (checkParam(parameter))
+					{
+						int col = parameter[0] - 'A';
+						int row = parameter[1] - '1';
+						int floor = parameter[3] - '1';
+						(*(board[floor]))[col][row]->peek();
+					}
+					else
+						resetInput();
+					break;
+			};
 	}
 }
