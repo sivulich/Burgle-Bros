@@ -143,15 +143,15 @@ void Guard::shortestPath(int const &start, int const &end, int* parent)
 
 unsigned Guard::closest(unsigned * distances)
 {
-	list<Coord>::iterator it;
+
 	unsigned closest = distances[toIndex(target)];
 	unsigned destination = toIndex(target);
-	for (it = alarms.begin(); it != alarms.end(); it++)
+	for (auto& al:alarms)
 	{
-		if (distances[toIndex(*it)] < closest)
+		if (distances[toIndex(al)] < closest)
 		{
-			closest = distances[toIndex(*it)];
-			destination = toIndex(*it);
+			closest = distances[toIndex(al)];
+			destination = toIndex(al);
 
 		}//faltaria chequear lo de las izquierdas
 	}
