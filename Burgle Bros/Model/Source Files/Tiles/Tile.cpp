@@ -91,7 +91,14 @@ int Tile::getSafeNumber()
 }
 
 
-vector<Coord>& Tile::getAdjacents()
+
+vector<Coord> Tile::whereCanIMove()
+{
+	return adjacent;
+}
+
+
+vector<Coord> Tile::whereCanIPeek()
 {
 	return adjacent;
 }

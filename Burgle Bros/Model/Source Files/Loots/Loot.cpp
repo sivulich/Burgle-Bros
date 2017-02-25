@@ -10,16 +10,10 @@ Loot::~Loot()
 {
 }
 
-
-void Loot::drop()
+void Loot::update()
 {
-	taken = false;
-	owner = nullptr;
-};
-
-/*void Loot::pick(Player* p)
-{
-	taken = true;
-	owner = p;
-	p->addLoot(this);
-};*/
+	if (owner != nullptr)
+	{
+		pos = owner->getPosition();
+	}
+}

@@ -13,15 +13,17 @@ public:
 	void setPos(Coord p) { pos = p; };
 	lootType getType() { return  type; };
 	bool is(lootType t) { return t == type; };
-	bool isTaken() { return taken; };
-	void drop();
-	//void pick(Player* p); Lo comento porque si no hay circular dependencies, esto puede ir en la clase heredada
-	
+	bool isTaken() { return owner == nullptr? false : true; };
+	void drop() { owner = nullptr; };
+	void pick(PlayerInterface* p) { owner = p;};
+	/**
+		Function called each time player moves to a new tile
+	*/
+	void update();
 
 private:
 	lootType type;
 	Coord pos;
-	bool taken;
 	PlayerInterface * owner;
 };
 
