@@ -54,11 +54,10 @@ public:
 
 	*/
 
+private:
 	Board board;
 	Player player1;
 	Player player2;
-	FSM input;
-private:
 	Player* currentPlayer;
 };
 
