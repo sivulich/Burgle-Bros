@@ -8,18 +8,33 @@ class Guard
 {
 public:
 	/**
-	@addparams receives 2 pointers to each respective player, receives a copy of a specific floor map and a pointer to the guard deck
+	@addparams Receives a pointer to the guard deck
 	*/
-	Guard(vector<Coord> floor[4][4], Player * player1, Player * player2, PatrolCardDeck * patroldeck);
+	Guard() {};
 
 	/**
 
 	*/
 	~Guard();
 
+
+	/**
+		Point the guard to the players
+	*/
+	void setPlayers(Player * p1, Player * p2);
+
+	/**
+		Add the map of the floor
+	*/
+	void setFloorMap(vector<Coord> floor[4][4]);
+
+	/**
+	
+	*/
+	void setDeck(PatrolCardDeck * patroldeck);
 	/**
 	adds triggered alarm to alarm list
-	@param coord coordinate for triggered alarm
+	@addparams receives the coords of a triggered alarm
 	*/
 	void AddNextAlarm(Coord coord) { alarms.push_front(coord); }
 

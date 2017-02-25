@@ -2,6 +2,7 @@
 #include "../BaseCard.h"
 #include "../Enumerations.h"
 #include "../Configs.h"
+#include "../PlayerInterface.h"
 
 DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 (ATRIUM, 0x01)
@@ -54,23 +55,16 @@ public:
 	void peek();				
 
 	/**
-		Return true if the player can peek the tile
-		@param p player who is peeking
-	*/
-	// ES INUTIL?? EL PLAYER SIEMPRE VA A PODER PEEK A UNA TILE ADJACENTE, SIEMPRE EL GAME MODEL VA A OFRECER PEEK
-	//virtual bool canPeek(void * p);
-
-	/**
 		Return true if the player can move to the tile	(Always true except on special cases where function will be overwritten)
 		@param p player who is moving
 	*/
-	virtual bool canMove(void * player);
+	virtual bool canMove(PlayerInterface * player);
 
 	/**
 		Executes the tile's special actions, if any...
 		@param p player who is moving
 	*/
-	virtual void enterTile(void * player);
+	virtual void enterTile(PlayerInterface * player);
 
 
 	/**
@@ -111,7 +105,7 @@ public:
 		Returns a vector of strings with the actions the player can do on the tile they are on
 		@param p Player who wants to check the actions
 	*/
-	virtual vector<string>& getActions(void * player);
+	virtual vector<string>& getActions(PlayerInterface * player);
 
 	/**
 		Applies the action given to the player

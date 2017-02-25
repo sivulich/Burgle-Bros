@@ -9,7 +9,7 @@ public:
 	/**
 	@addparams amount of cards to discard when creating first deck
 	*/
-	PatrolCardDeck();
+	PatrolCardDeck(unsigned floor);
 
 	/**
 
@@ -24,7 +24,12 @@ public:
 	*/
 	bool reset(unsigned n);
 
-private:
+	/**
+		Returns the floor of the patrol card deck
+	*/
+	unsigned floor() { return floorNumber; };
 
+private:
+	unsigned floorNumber;
 };
 

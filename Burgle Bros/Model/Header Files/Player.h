@@ -5,8 +5,9 @@
 #include "./Loots/Loot.h"
 #include "./Tiles/Tile.h"
 #include "./Characters/Character.h"
+#include "./PlayerInterface.h"
 
-class Player
+class Player : public PlayerInterface
 {
 public:
 	/**
@@ -140,4 +141,5 @@ private:
 	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6) up to four dice
 									// POR QUE UN VECTOR???
 										// porque para el keypad y el safe necesito tirar el dado muchas veces sin salir de la tile, y es para que quede un registro de lo que salio
+											// AHhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh la re puta madre, porque no lo comentas???!!
 };

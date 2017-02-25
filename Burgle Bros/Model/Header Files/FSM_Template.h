@@ -17,7 +17,7 @@ public:
 		ACTION  action;
 		STATE  nextState;
 	} StateCell;
-
+	
 	// Construct the FSM with its initial state
 	FSM(const StateCell *table, STATE initialState, STATE numberOfStates, EVENT numberOfEvents)
 	{

@@ -7,7 +7,13 @@
 class GameModel : public BaseModel
 {
 public:
-	GameModel();
+	GameModel()
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			board[i]->getGuard()->setPlayers(&player,player2)
+		}
+	};
 	~GameModel();
 
 	/**
@@ -58,6 +64,9 @@ private:
 	Board board;
 	Player player1;
 	Player player2;
+
+private:
 	Player* currentPlayer;
+	Player* otherPlayer;
 };
 

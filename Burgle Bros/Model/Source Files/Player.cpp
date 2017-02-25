@@ -30,7 +30,8 @@ bool Player::move(Tile * newTile)
 	if (newTile->isAdjacent(getPosition()))		//if the tile is adjacent to the player's position 
 	{
 		removeActionToken();
-		if (newTile->canMove(this)) {
+		if (newTile->canMove(this))
+		{
 			changePos(newTile->getPos());					// move to that tile
 			setVisibleFrom(newTile->getAdjacents());		// add the new position's adjacent tile coordinates
 			newAction(toString(MOVE), newTile->getPos());
