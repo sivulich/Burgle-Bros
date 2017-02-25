@@ -24,18 +24,6 @@ public:
 	*/
 	bool reset(unsigned n);
 
-
-
-	/**
-	
-	*/
-	//vector<BaseCard*> & GetCards();
-
-	/**
-
-	*/
-	//vector<BaseCard*> & GetGraveyard();
-
 private:
 
 };
