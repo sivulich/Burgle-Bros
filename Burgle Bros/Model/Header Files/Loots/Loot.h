@@ -1,6 +1,6 @@
 #pragma once
 #include "../Configs.h"
-
+#include "../PlayerInterface.h"
 
 DEFINE_ENUM_WITH_CONVERSIONS(lootType,
 (TIARA, 0x30)
@@ -33,6 +33,6 @@ private:
 	lootType type;
 	Coord pos;
 	bool taken;
-	//Player * owner; Lo comento porque si no hay circular dependencies, esto puede ir en la clase heredada
+	PlayerInterface * owner;
 };
 

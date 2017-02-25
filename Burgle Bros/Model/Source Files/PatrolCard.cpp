@@ -8,7 +8,3 @@ PatrolCard::PatrolCard(Coord c)
 	 description = to_string(c.col + 'A') + to_string(c.row+1);
 }
 
-PatrolCard::~PatrolCard()
-{
-}
-

@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PlayerInterface.cpp" />
     <ClCompile Include="Source Files\actionNode.cpp" />
     <ClCompile Include="Source Files\BaseCard.cpp" />
     <ClCompile Include="Source Files\BaseDeck.cpp" />
@@ -113,6 +112,7 @@
     <ClInclude Include="Header Files\PatrolCard.h" />
     <ClInclude Include="Header Files\PatrolCardDeck.h" />
     <ClInclude Include="Header Files\Player.h" />
+    <ClInclude Include="Header Files\PlayerInterface.h" />
     <ClInclude Include="Header Files\Tiles\Atrium.h" />
     <ClInclude Include="Header Files\Tiles\Camera.h" />
     <ClInclude Include="Header Files\Tiles\ComputerRoomF.h" />
@@ -135,7 +135,6 @@
     <ClInclude Include="Header Files\Tiles\Tile.h" />
     <ClInclude Include="Header Files\Tiles\TileFactory.h" />
     <ClInclude Include="Header Files\Tiles\Walkway.h" />
-    <ClInclude Include="PlayerInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

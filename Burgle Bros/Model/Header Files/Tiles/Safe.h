@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include "../Player.h"
+#include "../PlayerInterface.h"
 
 /*
 Safes are the goal. Roll the combination to open them. When opened, draw a Loot, and increase the Guard's 
@@ -20,14 +20,14 @@ public:
 		Returns a vector of strings with the actions the player can do on the tile they are on
 		@param p Player who wants to check the actions
 	*/
-	virtual vector<string>& getActions(void * player) override;
+	virtual vector<string>& getActions(PlayerInterface * player) override;
 
 	/**
 		Applies the action given to the player
 		@param action Action to execute
 		@param p Player who wants to do the action
 	*/
-	virtual void doAction(string action, void * player) override;
+	virtual void doAction(string action, PlayerInterface * player) override;
 
 	/**
 		Adds a number to the combination needed to crack the safe.

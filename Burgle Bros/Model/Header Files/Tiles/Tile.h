@@ -3,6 +3,7 @@
 #include "../Enumerations.h"
 #include "../Configs.h"
 #include "../PlayerInterface.h"
+#include "../Loots/Loot.h"
 
 DEFINE_ENUM_WITH_CONVERSIONS (tileType,
 (ATRIUM, 0x01)
@@ -50,12 +51,12 @@ public:
 	
 	/**
 		Peek the tile 
-		@param p player who is peeking
 	*/
 	void peek();				
 
 	/**
-		Return true if the player can move to the tile	(Always true except on special cases where function will be overwritten)
+		Return true if the player can move to the tile
+		(Always true except on special cases where function will be overwritten)
 		@param p player who is moving
 	*/
 	virtual bool canMove(PlayerInterface * player);
@@ -78,6 +79,21 @@ public:
 	Coord getPos();
 
 	/**
+	Return the floor number
+	*/
+	int floor();
+
+	/**
+	Return the column number
+	*/
+	int col();
+
+	/**
+	Return the row number
+	*/
+	int row();
+
+	/**
 		Set the position of the tile in the floor.
 		
 		@param floor floor of the tile
@@ -92,9 +108,19 @@ public:
 	tileType getType();
 
 	/**
+		Return true if the tile is from the given type
+	*/
+	bool is(tileType t);
+
+	/**
 		Checks if there is an alarm activated in the tile.
 	*/
 	bool hasAlarm();
+
+	/**
+		Checks if there is a loop on tile.
+	*/
+	bool hasLoot();
 
 	/**
 		Activate an alarm in the tile.
@@ -112,7 +138,7 @@ public:
 		@param action Action to execute
 		@param p Player who wants to do the action
 	*/
-	virtual void doAction(string action, void * player);
+	virtual void doAction(string action, PlayerInterface * player);
 
 	/**
 		If tile is flipped returns the safe number, else returns 0.
@@ -123,26 +149,6 @@ public:
 		Return a vector of Coords of adjacent tiles
 	*/
 	vector<Coord>& getAdjacents();
-
-	/*
-		Return a pointer to the tile in coord 
-	
-	Tile* Tile::getAdjacent(Coord b)*/
-
-	/**
-		Return the floor number
-	*/
-	int floor();
-
-	/**
-		Return the column number
-	*/
-	int col();
-
-	/**
-		Return the row number
-	*/
-	int row();
 
 	/**
 		Add a coord to the adjacent list
@@ -158,27 +164,20 @@ public:
 		Returns true if the tile given is adjacent
 	*/
 	bool isAdjacent(Coord t);
-	
-	/**
-		Return true if the tile is from the given type
-	*/
-	bool is(tileType t);
 
-	/**
-		Adds the adjacent tile's coordinates to the player visible from list
-	*/
-	virtual vector<Coord> getVisibleFrom(void * player);
-	
+
 protected:
 	// Coord containing floor, column and row of the tile
 	Coord coord;
 	// Type of tile
 	tileType type;
-	// If an alarm is ringing in the tile alarm=true
+	// If an alarm is ringing in the tile alarm is true
 	bool alarm;
 	// Number to crack the safe
 	int safeNumber;
 	// Vector with adjacent tiles (coords)
 	vector<Coord> adjacent;
+	// A tile can have a loot (a safe tile or a loot has been dropped)
+	Loot * loot;
 
 };

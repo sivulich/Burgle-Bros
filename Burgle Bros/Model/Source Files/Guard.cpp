@@ -1,16 +1,12 @@
 #include "../Header Files/Guard.h"
 
-Guard::Guard()
-{
-}
-
 Guard::~Guard()
 {
 
 }
 
 
-void Guard::setPlayers(Player * p1, Player * p2)
+void Guard::setPlayers(PlayerInterface * p1, PlayerInterface * p2)
 {
 	player1 = p1;
 	player2 = p2; 
@@ -78,7 +74,7 @@ bool Guard::Move()
 		path.pop_front();
 		if (pos == target)
 		{
-			if (patroldeck->isEmpty)
+			if (patroldeck->isEmpty())
 			{
 				patroldeck->reset(6);
 				speed++;
@@ -130,7 +126,7 @@ void Guard::FindPath(Coord const coord)
 			}
 		}
 	}
-	shortestPath(toIndex(coord), closest(), parent);
+	shortestPath(toIndex(coord), closest((unsigned *)dist), parent);
 	delete dist, parent;
 }
 

@@ -5,40 +5,41 @@ Safe::~Safe()
 {
 }
 
-vector<string>& Safe::getActions(void * player) {
-	Player * p = (Player *)player;
-
+vector<string>& Safe::getActions(PlayerInterface * player) {
+	
+	vector<string> tempActions;
 	if (safeIsOpen() == false)		// if the safe is closed
 	{		
-		vector<string> tempActions;
-		if (tokens < 6 && p->getActionTokens() >= 2)	tempActions.push_back(toString(ADD_TOKEN));
-		if (tokens > 0 && p->getActionTokens() >= 1)	tempActions.push_back(toString(THROW_DICE));
+		
+		if (tokens < 6 && player->getActionTokens() >= 2)	tempActions.push_back(toString(ADD_TOKEN));
+		if (tokens > 0 && player->getActionTokens() >= 1)	tempActions.push_back(toString(THROW_DICE));
 	}
+	return tempActions;
 }
 
-void Safe::doAction(string action, void * player) {
-	Player * p = (Player *)player;
+void Safe::doAction(string action, PlayerInterface * player) {
+	
 
 	if (action == "ADD_TOKEN")
 	{
-		p->removeActionToken();
-		p->removeActionToken();
+		player->removeActionToken();
+		player->removeActionToken();
 		addToken();
-		p->newAction(toString(ADD_TOKEN), getPos());
+		player->newAction(toString(ADD_TOKEN), getPos());
 		DEBUG_MSG("You added a new dice to this safe.");
 	}
 	else if (action == "THROW_DICE")
 	{
-		p->removeActionToken();		// remove an action
+		player->removeActionToken();		// remove an action
 		int tilesUCracked = 0;
 		for (int i = 0; i < tokens && !safeIsOpen(); i++)		// while the safe remains closed, throw all the dice you have
 		{
-			tilesUCracked = trySafeNumber(p->throwDice());			// check how many tiles you cracked throwing one die	
-			p->newAction(toString(THROW_DICE), getPos());			// tell the player what you did
+			tilesUCracked = trySafeNumber(player->throwDice());			// check how many tiles you cracked throwing one die	
+			player->newAction(toString(THROW_DICE), getPos());			// tell the player what you did
 
 			if ((tilesCracked += tilesUCracked) == 6) {		// add it to the already cracked tiles, and check if you got all of them
 				cracked = true;								// if so, you opened the safe
-				p->newAction("SAFE_OPENED", getPos());
+				player->newAction("SAFE_OPENED", getPos());
 			}
 		}
 		DEBUG_MSG("You managed to crack " << tilesCracked << " tiles so far.");

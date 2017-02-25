@@ -38,21 +38,6 @@
 
 using namespace std;
 
-class Coord
-{
-public:
-	Coord() {};
-	Coord(unsigned f, unsigned c, unsigned r) : col(c), row(r), floor(f) {};
-	unsigned col, row, floor;
-	ostream& operator<<(ostream& os)
-	{
-		os << "Floor: " << floor << " Col: " << col << " Row: " << row << endl;
-		return os;
-	}
-	bool operator==(Coord& cd) {
-		return ((col == cd.col) && (row == cd.row) && (floor == cd.floor));
-	}
-};
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 #define PRESSED_TONE al_map_rgba(0,0,0,200)

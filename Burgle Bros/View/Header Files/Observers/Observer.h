@@ -1,5 +1,5 @@
 #pragma once
-#include "../Model/Header Files/Configs.h"
+#include "../../../Model/Header Files/Configs.h"
 #include "../../Header Files/object.h"
 class Observer {
 public:

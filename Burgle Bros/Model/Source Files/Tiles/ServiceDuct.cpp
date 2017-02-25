@@ -2,9 +2,6 @@
 
 
 
-ServiceDuct::ServiceDuct()
-{
-}
 
 
 ServiceDuct::~ServiceDuct()

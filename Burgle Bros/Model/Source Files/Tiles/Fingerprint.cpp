@@ -5,24 +5,25 @@ Fingerprint::~Fingerprint()
 }
 
 
-void Fingerprint::enterTile(void * player) {
-	Player * p = (Player *)player;
+void Fingerprint::enterTile(PlayerInterface * player) {
+	
 	setAlarm(true);
 }
 
-vector<string>& Fingerprint::getActions(void * player) {
-	Player * p = (Player *)player;
+vector<string>& Fingerprint::getActions(PlayerInterface * player) {
+	
 
 	vector<string> actions;
-	if (p->getActionTokens() > 0)
+	if (player->getActionTokens() > 0)
 		actions.push_back(toString(USE_TOKEN));		// if you have an action, you can use a token to turn off the alarm
+	return actions;
 }
 
-void Fingerprint::doAction(string action, void * player) {
-	Player * p = (Player *)player;
+void Fingerprint::doAction(string action, PlayerInterface * player) {
+	
 
-	if (p->getActionTokens() > 0 && action == toString(USE_TOKEN)) {
+	if (player->getActionTokens() > 0 && action == toString(USE_TOKEN)) {
 		setAlarm(false);
-		p->newAction(toString(USE_TOKEN), getPos());
+		player->newAction(toString(USE_TOKEN), getPos());
 	}
 }

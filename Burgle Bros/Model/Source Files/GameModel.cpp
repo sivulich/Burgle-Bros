@@ -37,33 +37,16 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 
 
-GameModel::GameModel()
-{
-}
 
-
-GameModel::~GameModel()
-{
-}
 
 
 
 bool GameModel::gameOver()
 {
-
+	return player1.getStealthTokens() == 0 || player2.getStealthTokens() == 0;
 }
 
 
-void GameModel::setPlayer1Name(string& name)
-{
-
-}
-
-
-void GameModel::setPlayer2Name(string& name)
-{
-
-}
 
 pair<action_ID, string> GameModel::getInput()
 {
@@ -72,147 +55,4 @@ pair<action_ID, string> GameModel::getInput()
 	cin >> command >> param;
 
 	return make_pair(toEnum_action_ID((char*)command.c_str()), param);
-}
-void GameModel::startGame()
-{
-	DEBUG_MSG("Game has started");
-
-	while (!gameOver())
-	{
-		DEBUG_MSG("Make your move!!!!");
-
-		pair<action_ID, string> command = getInput();
-
-		switch (command.first)
-		{
-		case ACK:
-
-			break;
-
-		case AGREE:
-
-			break;
-
-		case DISAGREE:
-
-			break;
-
-		case NAME:
-
-			break;
-
-		case NAME_IS:
-
-			break;
-
-		case I_AM:
-
-			break;
-
-		case INITIAL_G_POS:
-
-			break;
-
-		case START_INFO:
-
-			break;
-
-		case YOU_START:
-
-			break;
-
-		case I_START:
-
-			break;
-
-		case PEEK:
-
-			break;
-
-		case MOVE:
-
-			break;
-
-		case SPENT_OK:
-
-			break;
-
-		case ADD_TOKEN:
-
-			break;
-
-		case USE_TOKEN:
-
-			break;
-
-		case THROW_DICE:
-
-			break;
-
-		case SAFE_OPENED:
-
-			break;
-
-		case CREATE_ALARM:
-
-			break;
-
-		case SPY_PATROL:
-
-			break;
-
-		case PLACE_CROW:
-
-			break;
-
-		case OFFER_LOOT:
-
-			break;
-
-		case REQUEST_LOOT:
-
-			break;
-
-		case PICK_UP_LOOT:
-
-			break;
-
-		case PASS:
-
-			break;
-
-		case ROLL_DICE_FOR_LOOT:
-
-			break;
-
-		case GUARD_MOVEMENT:
-
-			break;
-
-		case WE_WON:
-
-			break;
-
-		case WE_LOST:
-
-			break;
-
-		case GAME_OVER:
-
-			break;
-
-		case QUIT:
-
-			break;
-
-		case ERRO:
-
-			break;
-
-		default:
-
-			break;
-		}
-
-	}
 }

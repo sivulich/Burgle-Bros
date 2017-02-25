@@ -2,11 +2,3 @@
 
 
 
-Stair::Stair()
-{
-}
-
-
-Stair::~Stair()
-{
-}

@@ -46,7 +46,11 @@ Board::Board()
 		random_shuffle(f[i].begin(), f[i].end());
 
 		floor[i] = new Floor(4, 4, i);
-		floor[i]->setTiles(f[i]);
+		
+		for (int j = 0; j < f[i].size(); j++)
+			floor[i]->setTile(j % 4, j / 4, f[i][j]);
+		
+		//floor[i]->setTiles(f[i]);
 	}
 
 	// Create the map with the walls
@@ -136,7 +140,10 @@ Board::Board()
 		}
 }
 
-
+Tile * Board::getTile(Coord c)
+{
+	return (*floor[c.floor])[c.col][c.row];
+}
 
 Board::~Board()
 {

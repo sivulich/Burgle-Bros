@@ -14,10 +14,9 @@ public:
 		@param h height of the floor
 		@param n number of the floor
 	*/
-	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr))
+	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
 	{
 		floorNumber = n;
-		guardDeck.setFloor(n);
 		guard.setDeck(&guardDeck);
 	};
 
@@ -58,7 +57,7 @@ public:
 		Receives a matrix of adjacency lists and copies it to the class
 		@param a Matrix of adjacency list
 	*/
-	void setAdjacent(vector<Coord> a[4][4]);
+	void setMap(vector<Coord> a[4][4]);
 
 	/**
 
@@ -82,7 +81,7 @@ public:
 	Coord stairPos() { return stairToken; };
 
 	/**
-		Checks all tiles in the floor for an alarm ringin and
+		Checks all tiles in the floor for an alarm ringing and
 		returns a vector with all the coordenates
 	*/
 	vector<Coord>& getAlarms();
@@ -106,18 +105,16 @@ private:
 	// Floor number
 	int floorNumber;
 
-	//
+	// Guar patrolling on the floor
 	Guard guard;
 
-	//
-	GuardDeck guardDeck;
+	// Deck with patrol cards
+	PatrolCardDeck guardDeck;
 
-	//Vector of alarms positions
+	//Vector with alarms positions
 	vector<Coord> alarms;
 
 	//Adjacency map of the floor (only walls, no conection with other floors)
-	PatrolCardDeck guardDeck;
-
 	vector<Coord> adjacent[4][4];
 
 	// Position of the stair token

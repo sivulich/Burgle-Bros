@@ -15,7 +15,7 @@ vector<Tile*>& Floor::operator[] (unsigned i)
 
 void Floor::setTile(int col, int row, tileType t)
 {
-	tiles[col][row] = TileFactory().newTile(t, col, row);
+	tiles[col][row] = TileFactory().newTile(t,floorNumber,col, row);
 };
 
 
@@ -35,7 +35,7 @@ int Floor::number()
 };
 
 
-void Floor::setAdjacent(vector<Coord> a[4][4])
+void Floor::setMap(vector<Coord> a[4][4])
 {
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)

@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include "../Player.h"
+#include "../PlayerInterface.h"
 /*
 
 */
@@ -15,7 +15,7 @@ public:
 	Executes the tile's special actions, if any...
 	@param p player who is moving
 	*/
-	virtual void enterTile(void * player) override;
+	virtual void enterTile(PlayerInterface * player) override;
 
 };
 
