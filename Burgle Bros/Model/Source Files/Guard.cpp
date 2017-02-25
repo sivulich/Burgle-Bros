@@ -64,8 +64,7 @@ bool Guard::RemoveAlarm(Coord coord)
 
 bool Guard::Move()
 {
-	if (currsteps > 0)
-	{
+	if (currsteps == 0) SetCurrSteps();
 		/*if (path.empty())
 		{
 		FindPath(pos);
@@ -90,58 +89,61 @@ bool Guard::Move()
 			FindPath(pos);
 		}
 		currsteps--;
-		return true;
-	}
-	else return false;
+		if (currsteps == 0)
+			return false;
+		else return true;
 }
 
 
-void Guard::FindPath(Coord const coord)
+bool Guard::FindPath(Coord const coord)
+
 {
-
-	int *dist = new int[16];
-	int *parent = new int[16];
-
-	for (int v = 0; v < 16; ++v)
+	if ((coord.col) < 4 && (coord.row < 4))
 	{
-		dist[v] = 45;
-		parent[v] = -1;
-	}
-	dist[toIndex(coord)] = 0;
-	queue<int> Q;
-	Q.push(toIndex(coord));
+		vector<unsigned> dist(16, 45);
+		vector<int> parent(16, -1);
+		dist[toIndex(coord)] = 0;
+		queue<int> Q;
+		Q.push(toIndex(coord));
 
-	while (!Q.empty())
-	{
-		int index = Q.front();
-		Q.pop();
-		vector<Coord>::iterator it;
-
-		for (it = floor[toCoord(index).col][toCoord(index).row].begin(); it != floor[toCoord(index).col][toCoord(index).row].end(); ++it)
+		while (!Q.empty())
 		{
-			if (dist[toIndex(*it)] == 45) {
-				Q.push(toIndex(*it));
-				dist[toIndex(*it)] = dist[index] + 1;
-				parent[toIndex(*it)] = index;
+			int index = Q.front();
+			Q.pop();
+			vector<Coord>::iterator it;
+
+			for (it = floor[toCoord(index).col][toCoord(index).row].begin(); it != floor[toCoord(index).col][toCoord(index).row].end(); ++it)
+			{
+				if (dist[toIndex(*it)] == 45) {
+					Q.push(toIndex(*it));
+					dist[toIndex(*it)] = dist[index] + 1;
+					parent[toIndex(*it)] = index;
+				}
 			}
 		}
+		shortestPath(toIndex(coord), closestTarget(dist), parent);
+		return true;
 	}
-	shortestPath(toIndex(coord), closest((unsigned *)dist), parent);
-	delete dist, parent;
+	return false;
 }
 
-void Guard::shortestPath(int const &start, int const &end, int* parent)
+bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> parent)
 {
-	if (start == end || end == -1) {
-		//path.push_front(toCoord(start));//es la direccion actual
+	if (start < parent.size() && end < parent.size())
+	{
+		if (start == end || end == -1) {
+			//path.push_front(toCoord(start));//es la direccion actual
+		}
+		else {
+			shortestPath(start, parent[end], parent);
+			path.push_back(toCoord(end));
+		}
+		return true;
 	}
-	else {
-		shortestPath(start, parent[end], parent);
-		path.push_back(toCoord(end));
-	}
+	return false;
 }
 
-unsigned Guard::closest(unsigned * distances)
+unsigned Guard::closestTarget(vector<unsigned> distances)
 {
 
 	unsigned closest = distances[toIndex(target)];

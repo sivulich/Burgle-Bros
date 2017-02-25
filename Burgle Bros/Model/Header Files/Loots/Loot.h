@@ -2,17 +2,6 @@
 #include "../Configs.h"
 #include "../PlayerInterface.h"
 
-DEFINE_ENUM_WITH_CONVERSIONS(lootType,
-(TIARA, 0x30)
-(PERSIAN_KITTY)
-(PAINTING)
-(MIRROR)
-(KEYCARD)
-(ISOTOPE)
-(GEMSTONE)
-(CURSED_GOBLET)
-(CHIHUAHUA)
-(GOLD_BAR))
 
 class Loot
 {
