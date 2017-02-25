@@ -1,25 +1,25 @@
 #include "../../Header Files/Observers/FloorObserver.h"
 
 
-map<tileType, string> imagesPath = {	{ATRIUM,"./Images/Tile - Atrium.jpg"},
-										{CAMERA,"./Images/Tile - Camera.jpg"},
-										{COMPUTER_ROOM_F,"./Images/Tile - Computer Room (Fingerprint).jpg"},
-										{COMPUTER_ROOM_L,"./Images/Tile - Computer Room (Laser).jpg"},
-										{COMPUTER_ROOM_M,"./Images/Tile - Computer Room (Motion).jpg"},
-										{DEADBOLT,"./Images/Tile - Deadbolt.jpg"},
-										{FINGERPRINT,"./Images/Tile - Fingerprint.jpg"},
-										{FOYER,"./Images/Tile - Foyer.jpg"},
-										{KEYPAD,"./Images/Tile - Keypad.jpg"},
-										{LABORATORY,"./Images/Tile - Laboratory.jpg"},
-										{LASER,"./Images/Tile - Laser.jpg"},
-										{LAVATORY,"./Images/Tile - Lavatory.jpg"},
-										{MOTION,"./Images/Tile - Motion.jpg"},
-										{SAFE,"./Images/Tile - Scanner.jpg"},
-										{SECRET_DOOR,"./Images/Tile - Secret Door.jpg"},
-										{SERVICE_DUCT,"./Images/Tile - Service Duct.jpg"},
-										{STAIR,"./Images/Tile - Stair.jpg"},
-										{THERMO,"./Images/Tile - Thermo.jpg"},
-										{WALKWAY,"./Images/Tile - Walkway.jpg"}
+map<tileType, string> imagesPath = {	{ATRIUM,"../../Images/Tiles/Tile - Atrium.jpg"},
+										{CAMERA,"../../Images/Tiles/Tile - Camera.jpg"},
+										{COMPUTER_ROOM_F,"../../Images/Tiles/Tile - Computer Room (Fingerprint).jpg"},
+										{COMPUTER_ROOM_L,"../../Images/Tiles/Tile - Computer Room (Laser).jpg"},
+										{COMPUTER_ROOM_M,"../../Images/Tiles/Tile - Computer Room (Motion).jpg"},
+										{DEADBOLT,"../../Images/Tiles/Tile - Deadbolt.jpg"},
+										{FINGERPRINT,"../../Images/Tiles/Tile - Fingerprint.jpg"},
+										{FOYER,"../../Images/Tiles/Tile - Foyer.jpg"},
+										{KEYPAD,"../../Images/Tiles/Tile - Keypad.jpg"},
+										{LABORATORY,"../../Images/Tiles/Tile - Laboratory.jpg"},
+										{LASER,"../../Images/Tiles/Tile - Laser.jpg"},
+										{LAVATORY,"../../Images/Tiles/Tile - Lavatory.jpg"},
+										{MOTION,"../../Images/Tiles/Tile - Motion.jpg"},
+										{SAFE,"../../Images/Tiles/Tile - Scanner.jpg"},
+										{SECRET_DOOR,"../../Images/Tiles/Tile - Secret Door.jpg"},
+										{SERVICE_DUCT,"../../Images/Tiles/Tile - Service Duct.jpg"},
+										{STAIR,"../../Images/Tiles/Tile - Stair.jpg"},
+										{THERMO,"../../Images/Tiles/Tile - Thermo.jpg"},
+										{WALKWAY,"../../Images/Tiles/Tile - Walkway.jpg"}
 };
 
 TileObserver::TileObserver(Tile* t, Container* p)

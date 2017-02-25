@@ -5,7 +5,8 @@ Laser::~Laser()
 {
 }
 
-void Laser::enterTile(void * player) {
+void Laser::enterTile(void * player) 
+{
 	setAlarm(true);
 }
 
