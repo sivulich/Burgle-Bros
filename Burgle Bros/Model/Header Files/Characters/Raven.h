@@ -4,7 +4,7 @@ class Raven :
 	public Character
 {
 public:
-	Raven();
+	Raven() : Character(RAVEN) {};
 	~Raven();
 };
 

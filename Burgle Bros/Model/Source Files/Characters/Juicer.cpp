@@ -2,9 +2,7 @@
 
 
 
-Juicer::Juicer()
-{
-}
+
 
 
 Juicer::~Juicer()

@@ -2,9 +2,7 @@
 
 
 
-Raven::Raven()
-{
-}
+
 
 
 Raven::~Raven()

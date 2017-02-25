@@ -2,9 +2,6 @@
 
 
 
-Peterman::Peterman()
-{
-}
 
 
 Peterman::~Peterman()

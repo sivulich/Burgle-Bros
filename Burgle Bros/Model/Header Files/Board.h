@@ -10,6 +10,7 @@ public:
 	Board();
 	~Board();
 
+	void print();
 	/**
 		Returns the floor i
 	*/
@@ -19,8 +20,6 @@ private:
 	Floor* floor[3];
 	// MAPA: QUIZAS AL PEDO EN EL BOARD VER SI SE PUEDE BORRAR
 	vector<Coord> adjacent[3][4][4];
-	Loot loots[3];
-
 };
 
 

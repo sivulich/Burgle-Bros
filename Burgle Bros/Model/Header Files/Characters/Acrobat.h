@@ -1,10 +1,9 @@
 #pragma once
 #include "Character.h"
-class Acrobat :
-	public Character
+class Acrobat :	public Character
 {
 public:
-	Acrobat();
+	Acrobat() : Character(ACROBAT) {};;
 	~Acrobat();
 };
 

@@ -26,7 +26,7 @@ public:
 		@param col column of the tile
 		@param row row of the tile
 	*/
-	Tile(unsigned floor, unsigned col, unsigned row);
+	Tile(tileType t, unsigned floor, unsigned col, unsigned row);
 	
 	/**
 		Peek the tile 

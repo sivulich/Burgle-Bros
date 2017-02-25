@@ -13,7 +13,7 @@ you use a hack token from the Motion Computer Room.
 class Motion : 	public Tile
 {
 public:
-	Motion(int floor, int col, int row) : Tile(floor, col, row) {};
+	Motion(int floor, int col, int row) : Tile(MOTION,floor, col, row) {};
 	~Motion();
 
 	/**

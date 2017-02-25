@@ -8,9 +8,10 @@ Tile::Tile()
 
 }
 
-Tile::Tile(unsigned floor, unsigned col, unsigned row)
+Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row) 
 {
 	alarm = false;
+	type = t;
 	coord.col = col;
 	coord.row = row;
 	coord.floor = floor;

@@ -2,10 +2,6 @@
 
 
 
-Spotter::Spotter()
-{
-}
-
 
 Spotter::~Spotter()
 {

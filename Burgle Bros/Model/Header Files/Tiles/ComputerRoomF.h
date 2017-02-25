@@ -10,7 +10,7 @@ class ComputerRoomF :
 	public Tile
 {
 public:
-	ComputerRoomF(int floor, int col, int row) : Tile(floor, col, row) {};
+	ComputerRoomF(int floor, int col, int row) : Tile(COMPUTER_ROOM_F,floor, col, row) {};
 	~ComputerRoomF();
 
 	virtual vector<string>& getActions(PlayerInterface * player) override;
