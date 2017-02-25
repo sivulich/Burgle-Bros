@@ -19,7 +19,6 @@ public:
 private:
 	Floor* floor[3];
 	vector<Coord> adjacent[3][4][4];
-
 	Loot loots[3];
 
 };

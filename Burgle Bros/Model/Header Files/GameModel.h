@@ -10,7 +10,13 @@ DEFINE_ENUM_WITH_CONVERSIONS(turn, (LOOT_1, 0)(PLAYER_1, 1)(GUARD_1, 2)(LOOT_2, 
 class GameModel : public BaseModel
 {
 public:
-	GameModel();
+	GameModel()
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			board[i]->getGuard()->setPlayers(&player,player2)
+		}
+	};
 	~GameModel();
 
 	/**
@@ -49,6 +55,8 @@ private:
 	/*Player info*/
 	Player player1;
 	Player player2;
+
+private:
 	Player* currentPlayer;
 	/*Input params*/
 	void resetInput() { command = parameter = confirmation = ""; currState = INPUT_1; };
@@ -59,5 +67,6 @@ private:
 	/*Fsm for input*/
 	state currState;
 	turn  currTurn;
+	Player* otherPlayer;
 };
 

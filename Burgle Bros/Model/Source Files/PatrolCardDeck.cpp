@@ -1,19 +1,19 @@
 #include "../Header Files/PatrolCardDeck.h"
 #include "../Header Files/Configs.h"
 
-PatrolCardDeck::PatrolCardDeck()
+PatrolCardDeck::PatrolCardDeck(unsigned floor) : floorNumber(floor)
 {
 	for (unsigned i = 0; i < 4; i++)
 	{
 		for (unsigned j = 0; j < 4; j++)
 		{
-			Coord c = { 0,i,j };
+			Coord c = { floor,i,j };
 			deck.push_back(new PatrolCard(c));
 		}
 	}
 	shuffle();
-		for (unsigned k = 0; k < 6; k++)
-			discardTop();
+	for (unsigned k = 0; k < 6; k++)
+		discardTop();
 }
 
 
@@ -21,9 +21,7 @@ PatrolCardDeck::~PatrolCardDeck()
 {
 	merge();
 	for (auto &it : deck)
-	{
 		delete it;
-	}
 }
 
 bool PatrolCardDeck::reset(unsigned n)
