@@ -18,13 +18,14 @@ public:
 	virtual Coord getPosition() = 0;
 
 	/**
-	
+		Sets the player position
 	*/
 	virtual void setPosition(Coord c) = 0;
+	
 	/**
 
 	*/
-	//virtual characterType getCharacterType() = 0;
+	virtual characterType getCharacterType() = 0;
 
 	/**
 		Reset the player action tokens
@@ -50,10 +51,7 @@ public:
 	*/
 	virtual int getActionTokens() = 0;
 
-	/**
-		Return true if player has the loot type
-	*/
-	bool has(lootType l);
+
 	/**
 		Simulates a die being thrown
 	*/
@@ -65,7 +63,12 @@ public:
 	virtual bool hasLoot() = 0;
 
 	/**
-	Retrun true if the guard can see the player from that position
+		Returns true if the player has this loot type
+	*/
+	virtual bool has(lootType l)=0;
+
+	/**
+		Retrun true if the guard can see the player from that position
 	*/
 	virtual bool isVisibleFrom(Coord c)=0;
 
@@ -77,13 +80,12 @@ public:
 	/**
 		Returns the vector with the coordinates the player is visible from
 	*/
-	virtual vector <Coord>& getVisibleFrom() = 0;
+	virtual vector <Coord> getVisibleFrom() = 0;
 
 	/**
 
 	*/
-	virtual void setVisibleFrom(vector <Coord> newCoords) = 0;
-
+	virtual void updateVisibleFrom()=0;
 
 
 	/**
@@ -94,6 +96,5 @@ public:
 	virtual void newAction(string action, Coord tile)=0;
 
 
-	virtual vector<Loot*>& getLoots() = 0;
 };
 

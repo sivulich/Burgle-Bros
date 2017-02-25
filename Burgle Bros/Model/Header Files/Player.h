@@ -11,7 +11,7 @@ class Player : public PlayerInterface
 {
 public:
 	/**
-	
+		
 	*/
 	Player(Board * b);
 
@@ -121,12 +121,12 @@ public:
 	/**
 		Returns the vector with the coordinates the player is visible from
 	*/
-	virtual vector <Coord>& getVisibleFrom()override;
+	virtual vector <Coord> getVisibleFrom()override;
 
 	/**
-	
+		
 	*/
-	virtual void setVisibleFrom(vector <Coord> newCoords)override;
+	virtual void updateVisibleFrom()override;
 
 	/**
 	Get player name
@@ -148,8 +148,7 @@ private:
 	int stealthTokens;
 	vector<actionNode> actions;
 	vector <Loot*> loots;
-	// Coord from where the guard can see the player
-	// (player position normally, unless special cases)
+	// Coord from where the guard can see the player (player position normally, unless special cases)
 	vector <Coord> visibleFrom;
 	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6) up to four dice
 									// POR QUE UN VECTOR???

@@ -40,8 +40,7 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 
 
-void
-GameModel::input(string& in)
+void GameModel::input(string& in)
 {
 	if (currState == INPUT_1)
 		command = in;
@@ -77,9 +76,7 @@ void GameModel::runStep()
 	{
 		case LOOT:
 			for (auto& loot : currentPlayer->getLoots())
-			{
 				currState =(state) loot->input(command);
-			}
 			if (currState == RUN)
 			{
 				currTurn = PLAYER;
@@ -89,14 +86,16 @@ void GameModel::runStep()
 		case PLAYER:
 			if (command == "")
 			{
-				cout << "Wating for parameter" << endl;
+				DEBUG_MSG("Wating for command");
 				currState = INPUT_1;
 				break;
 			}
-			switch (toEnum_action_ID((char *)command.c_str())) {
+			switch (toEnum_action_ID((char *)command.c_str()))
+			{
 				case MOVE:
 					if (parameter == "")
 					{
+						DEBUG_MSG("Wating for parameter");
 						currState = INPUT_2;
 						break;
 					}
@@ -109,6 +108,7 @@ void GameModel::runStep()
 						//if((*(board[floor]))[col][row]->needsConfirmation(currentPlayer)==true)
 						{
 							currState=INPUT_3;
+							DEBUG_MSG("Wating for confirmation");
 							break;
 						}
 						else
@@ -148,7 +148,7 @@ void GameModel::runStep()
 					}
 					else
 						currState = RUN;
-			};
+			}
 		
 	}
 }

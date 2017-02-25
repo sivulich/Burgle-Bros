@@ -5,6 +5,7 @@
 Player::Player(Board * b)
 {
 	board = b;
+
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	actionTokens = NUMBER_ACTION_TOKENS;
 }
@@ -12,10 +13,13 @@ Player::Player(Board * b)
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
+	DEBUG_MSG("Player "<< name <<" is on " << tile->getPos());
 }
+
 void Player::setPosition(Coord c)
 {
 	currentTile = board->getTile(c);
+	DEBUG_MSG("Player " << name << " is on " << currentTile->getPos());
 }
 
 void Player::setName(string & playerName)
@@ -50,16 +54,18 @@ bool Player::move(Tile * newTile)
 		removeActionToken();
 		if (newTile->canMove(this))
 		{
-			currentTile = newTile;
-			// visibleFrom no es la adyacencia de la tile! Que entertile modifique 
-			// desde donde ve el guardia al jugador dependiendo el tipo de tile
-			//setVisibleFrom(newTile->getAdjacents());
-			newAction("MOVE", newTile->getPos());
-			newTile->enterTile(this);						
+			setPosition(newTile);
+			newAction("MOVE", getPosition());
+			newTile->enterTile(this);
+			// Update from where the guard can see the player
+			updateVisibleFrom();
+			// Update all loots
+			for (auto & t : loots)
+				t->update();
 			return true;
 		}
+		//return false??
 	}
-	
 	return false;
 }
 
@@ -136,7 +142,7 @@ void Player::addVisibleTile(Coord tile)
 	visibleFrom.push_back(tile);
 };
 
-vector <Coord>& Player::getVisibleFrom()
+vector <Coord> Player::getVisibleFrom()
 {
 	return visibleFrom;
 };
@@ -146,11 +152,12 @@ bool Player::isVisibleFrom(Coord c)
 	return find(visibleFrom.begin(), visibleFrom.end(), c) != visibleFrom.end() ? true : false;
 }
 
-void Player::setVisibleFrom(vector <Coord> newCoords)
+void Player::updateVisibleFrom()
 {
-	clearVisibleFrom();			// erase the previous coordinates
-	for (auto i : newCoords)
-		addVisibleTile(i);		// add the new visible from tile coordinates
+	visibleFrom.clear();
+	// Add the player position
+	visibleFrom.push_back(getPosition());
+
 }
 
 string Player::getName()

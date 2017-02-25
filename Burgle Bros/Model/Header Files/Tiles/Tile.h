@@ -130,9 +130,14 @@ public:
 	int getSafeNumber();
 
 	/**
-		Return a vector of Coords of adjacent tiles
+		Return a vector of Coords where player can moove
 	*/
-	vector<Coord>& getAdjacents();
+	vector<Coord> whereCanIMove();
+
+	/**
+		Return a vector of Coords where player can Peek
+	*/
+	vector<Coord> whereCanIPeek();
 
 	/**
 		Add a coord to the adjacent list
