@@ -95,5 +95,7 @@ public:
 	*/
 	virtual void newAction(string action, Coord tile)=0;
 
+
+	virtual vector<Loot*>& getLoots() = 0;
 };
 

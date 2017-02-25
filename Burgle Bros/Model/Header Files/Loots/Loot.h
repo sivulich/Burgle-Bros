@@ -20,6 +20,9 @@ public:
 		Function called each time player moves to a new tile
 	*/
 	void update();
+	virtual int  input(string& s1) { return 0; };
+	
+	
 
 private:
 	lootType type;

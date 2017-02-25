@@ -63,14 +63,16 @@ public:
 	/**
 	
 	*/
-	bool decSteps() {
+	bool decSteps() 
+	{
 		if (currsteps > 0) { currsteps--; return true; }
-		else return false; };
+		else return false; 
+	};
 
 	/**
 
 	*/
-	void FindPath(Coord const coord);
+	bool FindPath(Coord const coord);
 
 	Coord getPos() { return pos; };
 private:
@@ -94,8 +96,14 @@ private:
 	*/
 	unsigned toIndex(Coord coord) { return(coord.col * 4 + coord.row); };
 
-	void shortestPath(int const &startNode, int const &endNode, int* parent);
+	/**
 
-	unsigned closest(unsigned * distances);
+	*/
+	bool shortestPath(unsigned const startNode, unsigned const endNode, vector<int> parent);
+
+	/**
+
+	*/
+	unsigned closestTarget(vector<unsigned> distances);
 };
 
