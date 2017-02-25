@@ -1,21 +1,39 @@
 #include "../Header Files/Guard.h"
 
-Guard::Guard(vector<Coord> floor[4][4], Player * player1, Player * player2, PatrolCardDeck * patroldeck)
+Guard::Guard()
 {
-	this->player1 = player1;
-	this->player2 = player2;
-	this->patroldeck = patroldeck;
-	for (unsigned i = 0; i < 4; i++)
-	{
-		for (unsigned j = 0; j < 4; j++) this->floor[i][j] = floor[i][j];
-	}
-	speed = 2 + floor[1][1].front().floor;
 }
 
 Guard::~Guard()
 {
 
 }
+
+
+void Guard::setPlayers(Player * p1, Player * p2)
+{
+	player1 = p1;
+	player2 = p2; 
+}
+
+
+void Guard::setFloorMap(vector<Coord> floor[4][4])
+{
+	for (unsigned i = 0; i < 4; i++)
+	{
+		for (unsigned j = 0; j < 4; j++)
+			this->floor[i][j] = floor[i][j];
+	}
+}
+
+/**
+	
+*/
+void Guard::setDeck(PatrolCardDeck * patroldeck)
+{
+	this->patroldeck = patroldeck;
+	speed = 2 + patroldeck->floor();
+};
 
 // guard checks if his current position 
 void Guard::GuardCheck()

@@ -19,7 +19,7 @@ vector<string>& Safe::getActions(void * player) {
 void Safe::doAction(string action, void * player) {
 	Player * p = (Player *)player;
 
-	if (action == toString(ADD_TOKEN))
+	if (action == "ADD_TOKEN")
 	{
 		p->removeActionToken();
 		p->removeActionToken();
@@ -27,7 +27,7 @@ void Safe::doAction(string action, void * player) {
 		p->newAction(toString(ADD_TOKEN), getPos());
 		DEBUG_MSG("You added a new dice to this safe.");
 	}
-	else if (action == toString(THROW_DICE))
+	else if (action == "THROW_DICE")
 	{
 		p->removeActionToken();		// remove an action
 		int tilesUCracked = 0;
@@ -38,7 +38,7 @@ void Safe::doAction(string action, void * player) {
 
 			if ((tilesCracked += tilesUCracked) == 6) {		// add it to the already cracked tiles, and check if you got all of them
 				cracked = true;								// if so, you opened the safe
-				p->newAction(toString(SAFE_OPENED), getPos());
+				p->newAction("SAFE_OPENED", getPos());
 			}
 		}
 		DEBUG_MSG("You managed to crack " << tilesCracked << " tiles so far.");

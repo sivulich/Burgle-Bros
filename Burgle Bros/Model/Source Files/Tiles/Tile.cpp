@@ -103,12 +103,13 @@ void Tile::peek() {
 	DEBUG_MSG("Player peeked the " << toString(getType()) << getPos());
 }
 
-bool Tile::canMove(void * p) {
+bool Tile::canMove(PlayerInterface * p) {
 		return true;
 }
 
-void Tile::enterTile(void * p) {
-	if (isFlipped() == false) turnUp();	// reveal the card if necessary
+void Tile::enterTile(PlayerInterface * p) {
+	if (isFlipped() == false)
+		turnUp();
 	DEBUG_MSG("Player moved to the " << toString(getType()) << getPos());
 }
 

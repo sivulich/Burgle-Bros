@@ -1,8 +1,9 @@
 #pragma once
-#include "../Header Files/Configs.h"
-#include "../Header Files/Tiles/TileFactory.h"
-//#include "Guard.h"
-#include "../Header Files/PatrolCardDeck.h"
+#include "Configs.h"
+#include "Tiles/TileFactory.h"
+#include "Guard.h"
+#include "PatrolCardDeck.h"
+
 
 class Floor
 {
@@ -13,7 +14,12 @@ public:
 		@param h height of the floor
 		@param n number of the floor
 	*/
-	Floor(int w, int h, int n) : tiles(w,vector<Tile*>(h,nullptr)), floorNumber(n){};
+	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr))
+	{
+		floorNumber = n;
+		guardDeck.setFloor(n);
+		guard.setDeck(&guardDeck);
+	};
 
 	/**
 		Access a specific tile
@@ -57,8 +63,12 @@ public:
 	/**
 
 	*/
-//	Coord guardPos() { return guard.getPos(); };
+	Coord guardPos() { return guard.getPos(); };
 
+	/**
+		Returns the guard of the floor
+	*/
+	Guard* getGuard() { return &guard; };
 
 	/**
 		Sets the position of the stair token
@@ -97,10 +107,10 @@ private:
 	int floorNumber;
 
 	//
-	//Guard guard;
+	Guard guard;
 
 	//
-	//GuardDeck guardDeck;
+	GuardDeck guardDeck;
 
 	//Vector of alarms positions
 	vector<Coord> alarms;
