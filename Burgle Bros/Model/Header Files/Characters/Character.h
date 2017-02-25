@@ -1,15 +1,5 @@
 #pragma once
-#include "../Enumerations.h"
-
-DEFINE_ENUM_WITH_CONVERSIONS(characterType,
-(JUICER, 0x20)
-(HACKER)
-(ACROBAT)
-(SPOTTER)
-(HAWK)
-(RAVEN)
-(PETERMAN))
-
+#include "../Configs.h"
 
 class Character
 {

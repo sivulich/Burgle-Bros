@@ -95,6 +95,10 @@ public:
 	void addLoot(Loot * l);
 
 	/**
+
+	*/
+	bool has(lootType l);
+	/**
 		Returns true if the player has at least one loot.
 	*/
 	virtual bool hasLoot()override;
