@@ -15,7 +15,9 @@ int main(void)
 		model.runStep();
 	}
 	return 0;*/
+	int hola;
 	Board b;
 	b[1]->addAlarm(Coord(1, 2, 2));
 	b[1]->getGuard()->Move();
+	while (1);
 }

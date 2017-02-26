@@ -42,7 +42,7 @@ public:
 	@addparams receives the coords of a triggered alarm
 
 	*/
-	void AddNextAlarm(Coord coord) { alarms->push_back(coord); }
+	void AddNextAlarm(Coord coord) { DEBUG_MSG("alarm:"<<coord); alarms->push_back(coord); }
 
 	/**
 	@addparams coordinate of alarm to turn off
@@ -102,7 +102,7 @@ private:
 	/**
 
 	*/
-	unsigned toIndex(Coord coord) { return(coord.col * 4 + coord.row); };
+	unsigned toIndex(Coord coord) { return(coord.row * 4 + coord.col); };
 
 	/**
 
@@ -112,6 +112,6 @@ private:
 	/**
 
 	*/
-	unsigned closestTarget(vector<unsigned> distances);
+	unsigned closestTarget(vector<int> distances);
 };
 
