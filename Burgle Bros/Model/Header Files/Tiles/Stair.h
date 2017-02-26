@@ -14,7 +14,7 @@ class Stair :
 	public Tile
 {
 public:
-	Stair(int floor, int col, int row) : Tile(floor, col, row) {};
+	Stair(int floor, int col, int row) : Tile(STAIR,floor, col, row) {};
 	~Stair();
 };
 

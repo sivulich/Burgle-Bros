@@ -13,13 +13,13 @@ Player::Player(Board * b)
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
-	DEBUG_MSG("Player "<< name <<" is on " << tile->getPos());
+	
 }
 
 void Player::setPosition(Coord c)
 {
 	currentTile = board->getTile(c);
-	DEBUG_MSG("Player " << name << " is on " << currentTile->getPos());
+
 }
 
 void Player::setName(string & playerName)
@@ -81,6 +81,27 @@ Coord Player::getPosition()
 	return currentTile->getPos();
 };
 
+
+void Player::print()
+{
+	cout << name << " at " << currentTile->getPos() << " --> " << toString(currentTile->getType()) << endl;
+	cout << "Action tokens " << getActionTokens() << endl;
+	cout << "Stealth tokens " << getStealthTokens() << endl;
+	
+	cout << "Visible from: ";
+	for (auto c : visibleFrom)
+		cout << c << " ";
+	cout << endl;
+
+	cout << "Loots : ";
+	for (auto c : loots)
+		cout << toString(c->getType()) << " ";
+	cout << endl;
+
+	cout << "Character " << toString(character->getType()) << endl;
+	cout << endl;
+	
+}
 void Player::removeStealthToken()
 {
 	if (stealthTokens > 0)

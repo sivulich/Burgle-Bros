@@ -14,7 +14,7 @@ class Laser :
 	public Tile
 {
 public:
-	Laser(int floor, int col, int row) : Tile(floor, col, row) {};
+	Laser(int floor, int col, int row) : Tile(LASER,floor, col, row) {};
 	~Laser();
 
 	/**

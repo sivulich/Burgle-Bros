@@ -4,7 +4,7 @@
 class Character
 {
 public:
-	Character();
+	Character(characterType t) :type(t) {};
 	~Character();
 
 	characterType getType() { return  type; };

@@ -1,8 +1,6 @@
 #include "../../Header Files/Tiles/Atrium.h"
 
-Atrium::~Atrium()
-{
-}
+
 
 void Atrium::enterTile(PlayerInterface * player) {
 	

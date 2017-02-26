@@ -16,7 +16,7 @@ class Walkway :
 	public Tile
 {
 public:
-	Walkway(int floor, int col, int row) : Tile(floor, col, row) { };
+	Walkway(int floor, int col, int row) : Tile(WALKWAY,floor, col, row) { };
 	~Walkway();
 
 	/**

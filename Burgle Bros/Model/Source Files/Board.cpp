@@ -47,10 +47,10 @@ Board::Board()
 
 		floor[i] = new Floor(4, 4, i);
 
-		for (unsigned int j = 0; j < f[i].size(); j++)
-			floor[i]->setTile(j % 4, j / 4, f[i][j]);
+		//for (unsigned int j = 0; j < f[i].size(); j++)
+			//floor[i]->setTile(j % 4, j / 4, f[i][j]);
 
-		//floor[i]->setTiles(f[i]);
+		floor[i]->setTiles(f[i]);
 	}
 
 	// Create the map with the walls
@@ -151,7 +151,16 @@ Board::Board()
 
 			}
 		}
+		//floor[f]->setMap(adjacent[f]);
+		floor[f]->getGuard()->setFloorMap(adjacent[f]);
 	}
+}
+
+void Board::print()
+{
+	cout << "                                   |BOARD|" << endl;
+	for (int i = 0; i < 3; i++)
+		floor[i]->print();
 }
 
 Tile * Board::getTile(Coord c)

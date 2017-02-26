@@ -14,7 +14,7 @@ class Thermo :
 	public Tile
 {
 public:
-	Thermo(int floor, int col, int row) : Tile(floor, col, row) { };
+	Thermo(int floor, int col, int row) : Tile(THERMO,floor, col, row) { };
 	~Thermo();
 };
 

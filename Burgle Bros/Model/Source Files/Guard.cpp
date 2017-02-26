@@ -17,7 +17,7 @@ void Guard::setFloorMap(vector<Coord> floor[4][4])
 	for (unsigned i = 0; i < 4; i++)
 	{
 		for (unsigned j = 0; j < 4; j++)
-			this->floor[i][j] = floor[i][j];
+			this->floor[j][i] = floor[j][i];
 	}
 }
 

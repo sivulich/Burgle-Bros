@@ -13,7 +13,7 @@ movement die by one on this floor and all those below it.
 class Safe : public Tile
 {
 public:
-	Safe(int floor, int col, int row) : Tile(floor, col, row) { tokens = 0; tilesCracked = 0; cracked = false; };
+	Safe(int floor, int col, int row) : Tile(SAFE,floor, col, row) { tokens = 0; tilesCracked = 0; cracked = false; };
 	~Safe();
 
 	void setLoot(lootType l)

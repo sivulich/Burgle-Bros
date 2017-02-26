@@ -17,6 +17,29 @@ void Floor::setTile(int col, int row, tileType t)
 {
 	tiles[col][row] = TileFactory().newTile(t,floorNumber,col, row);
 };
+void Floor::print()
+{
+	cout << "Floor " << floorNumber << ":" << endl;
+
+	char c = 'A';
+
+	cout << "__|";
+	for (int j = 0; j < 4; j++)
+		cout << string(8, '_') << char(c+j) << string(9, '_')<< "|";
+	cout << endl;
+	for (int i = 0; i < 4; i++)
+	{
+		cout << i+1 << " |";
+		for (int j = 0; j < 4; j++)
+		{
+			string name = toString(tiles[j][i]->getType());
+			int spaces = 18 - name.length();
+			cout << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << "|";
+		}	
+		cout << endl;
+	}
+	cout << endl;
+}
 
 
 void Floor::setTiles(vector<tileType> t)
@@ -25,6 +48,15 @@ void Floor::setTiles(vector<tileType> t)
 	{
 		for (int j = 0; j < 16; j++)
 			setTile(j % 4, j / 4, t[j]);
+	}
+	else
+	{
+		DEBUG_MSG("ERROR: Set tiles received less than 16 tiles");
+#ifdef DEBUG
+		for (auto& c : t)
+			cout << toString(c) << " ";
+		cout << endl;
+#endif
 	}
 };
 
@@ -69,14 +101,3 @@ void Floor::addAlarm(Coord c)
 }
 
 
-void Floor::print()
-{
-#ifdef DEBUG_V
-	for (size_t i = 0; i < 4; i++)
-	{
-		for (size_t j = 0; j < 4; j++)
-			cout << toString(tiles[i][j]->getType()) << " ";
-		cout << endl;
-	}
-#endif
-};

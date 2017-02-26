@@ -2,9 +2,7 @@
 
 
 
-Character::Character()
-{
-}
+
 
 
 Character::~Character()

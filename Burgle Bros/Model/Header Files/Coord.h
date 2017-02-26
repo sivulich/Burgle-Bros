@@ -16,7 +16,7 @@ public:
 
 	friend std::ostream& operator<< (std::ostream &os, const Coord &c)
 	{
-		os << "Floor: " << c.floor << " Col: " << c.col << " Row: " << c.row << std::endl;
+		os << "(" << c.floor+1 <<","<< char('A'+c.col)  << c.row+1 << ")";
 		return os;
 	}
 };

@@ -38,7 +38,23 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 
 
 
+void GameModel::print()
+{
+#ifdef DEBUG
+	system("CLS");
+	cout << "______________________________________________________________________________" << endl;
 
+	board.print();
+	cout << "Current Player:" << endl;
+	currentPlayer->print();
+
+	cout << "Other Player:" << endl;
+	otherPlayer->print();
+	cout << "______________________________________________________________________________" << endl;
+
+#endif
+
+}
 
 void GameModel::input(string& in)
 {
@@ -117,7 +133,7 @@ void GameModel::runStep()
 						if (confirmation == "YES")
 						{
 							cout << "Moving to " << parameter << endl;
-							//(*(board[floor]))[col][row]->enterTile(currentPlayer);
+							currentPlayer->move((*(board[floor]))[col][row]);
 						}
 					}
 					resetInput();

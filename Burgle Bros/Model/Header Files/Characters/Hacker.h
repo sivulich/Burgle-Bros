@@ -1,10 +1,9 @@
 #pragma once
 #include "Character.h"
-class Hacker :
-	public Character
+class Hacker :	public Character
 {
 public:
-	Hacker();
+	Hacker() : Character(HACKER) {};
 	~Hacker();
 };
 

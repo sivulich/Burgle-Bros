@@ -10,7 +10,7 @@ they can spend one of these tokens to prevent an Alarm from triggering.
 class ComputerRoomM : public Tile
 {
 public:
-	ComputerRoomM(int floor, int col, int row) : Tile(floor, col, row) {};
+	ComputerRoomM(int floor, int col, int row) : Tile(COMPUTER_ROOM_M, floor, col, row) {};
 	~ComputerRoomM();
 
 

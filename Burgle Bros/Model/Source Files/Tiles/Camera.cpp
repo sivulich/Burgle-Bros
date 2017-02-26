@@ -2,5 +2,6 @@
 
 Camera::~Camera()
 {
+	
 }
 

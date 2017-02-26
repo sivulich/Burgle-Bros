@@ -10,7 +10,7 @@ players.
 class Lavatory : public Tile
 {
 public:
-	Lavatory(int floor, int col, int row) : Tile(floor, col, row) { stealthTokens = 3; };
+	Lavatory(int floor, int col, int row) : Tile(LAVATORY,floor, col, row) { stealthTokens = 3; };
 	~Lavatory();
 
 	/**

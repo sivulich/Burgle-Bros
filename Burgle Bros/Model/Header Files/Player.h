@@ -23,6 +23,10 @@ public:
 	void setName(string & playerName);
 
 	/**
+		Print player in console;
+	*/
+	void print();
+	/**
 		Returns the player's positions
 	*/
 	virtual Coord getPosition()override;

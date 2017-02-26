@@ -4,7 +4,7 @@ class Juicer :
 	public Character
 {
 public:
-	Juicer();
+	Juicer() : Character(JUICER) {};
 	~Juicer();
 };
 

@@ -5,7 +5,7 @@
 class ServiceDuct : public Tile
 {
 public:
-	ServiceDuct (int floor, int col, int row) : Tile(floor, col, row) {};
+	ServiceDuct(int floor, int col, int row) : Tile(SERVICE_DUCT, floor, col, row) {};
 	~ServiceDuct();
 
 	/**
