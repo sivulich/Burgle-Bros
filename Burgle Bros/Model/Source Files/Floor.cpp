@@ -72,6 +72,7 @@ void Floor::setTiles(vector<tileType> t)
 		cout << endl;
 #endif
 	}
+
 };
 
 
@@ -86,6 +87,7 @@ void Floor::setMap(vector<Coord> a[4][4])
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
 			adjacent[i][j] = a[i][j];
+	guard.setFloorMap(a);
 }
 
 
