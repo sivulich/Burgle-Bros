@@ -119,22 +119,18 @@ bool Guard::FindPath(Coord const coord)
 			int index = Q.front();
 			DEBUG_MSG(index);
 			Q.pop();
-			vector<Coord>::iterator it;
-			if (floor[toCoord(index).col][toCoord(index).row].empty()) DEBUG_MSG("SAOSJIAODNEUOFEBUOFBIF");
 			for (auto &it: floor[toCoord(index).col][toCoord(index).row])
 			{
-				DEBUG_MSG("kk " <<dist[toIndex(it)]);
 				if (dist[toIndex(it)] == 45) 
 				{
 					Q.push(toIndex(it));
 					dist[toIndex(it)] = dist[index] + 1;
 					parent[toIndex(it)] = index;
-					DEBUG_MSG("PRUEBA " << parent[toIndex(it)]);
 				}
 			}
 		}
 		shortestPath(toIndex(coord), closestTarget(dist), parent);
-		DEBUG_MSG("Path is:");
+		//DEBUG_MSG("Path is:");
 		for (auto & a : dist)
 			DEBUG_MSG(a << "\n");
 		DEBUG_MSG("OLIMAR");
