@@ -5,7 +5,7 @@
 #include "PatrolCardDeck.h"
 
 
-class Floor
+class Floor, public BaseModel
 {
 public:
 	/**

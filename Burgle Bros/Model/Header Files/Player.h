@@ -6,12 +6,13 @@
 #include "./Characters/Character.h"
 #include "./PlayerInterface.h"
 #include "./Board.h"
+#include "./BaseModel.h"
 
-class Player : public PlayerInterface
+class Player : public PlayerInterface, public BaseModel
 {
 public:
 	/**
-		
+		Construct a player with access to the board
 	*/
 	Player(Board * b);
 

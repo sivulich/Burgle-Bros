@@ -11,7 +11,7 @@
 	
 */
 
-class Tile : public BaseCard
+class Tile : public BaseCard, public BaseModel
 {
 public:
 	/**
