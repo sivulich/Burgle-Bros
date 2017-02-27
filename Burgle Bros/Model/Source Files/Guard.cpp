@@ -81,9 +81,11 @@ bool Guard::Move()
 		ptr = patroldeck->next();
 		p = static_cast<PatrolCard*>(ptr);
 		//target = p->getCoord();
-		target = Coord(1, 3, 3);
+		//ESTO ES DEBUG
+		target = Coord(1, 3, 0);
 		DEBUG_MSG("First guard target " << target << "\n");
 	}
+
 		FindPath(pos);
 		if (pos == target)
 		{
@@ -115,7 +117,7 @@ bool Guard::FindPath(Coord const coord)
 {
 	if ((coord.col) < 4 && (coord.row < 4))
 	{
-		vector<int> dist(16, 45);
+		vector<int> dist(16, INT_MAX);
 		vector<int> parent(16, -1);
 		dist[toIndex(coord)] = 0;
 		queue<int> Q;
@@ -123,16 +125,10 @@ bool Guard::FindPath(Coord const coord)
 		while (!Q.empty())
 		{
 			int index = Q.front();
-			DEBUG_MSG(index);
 			Q.pop();
-			DEBUG_MSG(toIndex(Coord(1, 2, 3)) <<"caca\n");
-			for (auto &it : floor[2][3])
-			{
-				DEBUG_MSG(toIndex(it));
-			}
 			for (auto &it: floor[toCoord(index).col][toCoord(index).row])
 			{
-				if (dist[toIndex(it)] == 45) 
+				if (dist[toIndex(it)] == INT_MAX) 
 				{
 					Q.push(toIndex(it));
 					dist[toIndex(it)] = dist[index] + 1;
@@ -141,11 +137,14 @@ bool Guard::FindPath(Coord const coord)
 			}
 		}
 		shortestPath(toIndex(coord), closestTarget(dist), parent);
-		//DEBUG_MSG("Path is:");
+		DEBUG_MSG("Distances to each room\n");
 		for (auto & a : dist)
 			DEBUG_MSG(a << "\n");
-		DEBUG_MSG("OLIMAR");
+		DEBUG_MSG("Room connections from start pos:\n");
 		for (auto & a : parent)
+			DEBUG_MSG(a << "\n");
+		DEBUG_MSG("Path is:\n");
+		for (auto& a : path)
 			DEBUG_MSG(a << "\n");
 		return true;
 	}
@@ -160,7 +159,6 @@ bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> p
 			//path.push_front(toCoord(start));//es la direccion actual
 		else {
 			shortestPath(start, parent[end], parent);
-			DEBUG_MSG(toCoord(end) << "\n");
 			path.push_back(toCoord(end));
 		}
 		return true;

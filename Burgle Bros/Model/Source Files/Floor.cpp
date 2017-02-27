@@ -19,7 +19,7 @@ void Floor::setTile(int col, int row, tileType t)
 };
 void Floor::print()
 {
-	cout << "Floor " << floorNumber << ":" << endl;
+	cout << "Floor " << floorNumber + 1 << ":" << endl;
 
 	char c = 'A';
 
@@ -34,8 +34,22 @@ void Floor::print()
 		{
 			string name = toString(tiles[j][i]->getType());
 			int spaces = 18 - name.length();
-			cout << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << "|";
+			cout << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ');
+			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j + 1, i)) != adjacent[j][i].end())
+			{
+				cout << " ";
+			}
+			else cout << "|";
 		}	
+		cout << endl << "   ";
+		for (int j = 0; j < 4; j++)
+		{
+			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j, i+1)) != adjacent[j][i].end())
+			{
+				cout << "                  ";
+			}
+			else cout << "__________________";
+		}
 		cout << endl;
 	}
 	cout << endl;

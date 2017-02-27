@@ -25,7 +25,8 @@ int main(void)
 	}
 	return 0;*/
 	Board b;
-	b[1]->addAlarm(Coord(1, 0, 3));
+	b.print();
+	b[1]->addAlarm(Coord(1, 2, 3));
 	b[1]->getGuard()->Move();
 	while (1);
 }
