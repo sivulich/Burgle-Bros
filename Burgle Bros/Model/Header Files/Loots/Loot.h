@@ -2,8 +2,8 @@
 #include "../Configs.h"
 #include "../PlayerInterface.h"
 #include "../BaseCard.h"
-
-class Loot, public BaseCard, public BaseModel
+#include "../BaseModel.h"
+class Loot: public BaseCard, public BaseModel
 {
 public:
 	Loot();

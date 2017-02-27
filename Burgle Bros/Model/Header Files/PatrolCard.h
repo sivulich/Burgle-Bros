@@ -1,5 +1,5 @@
 #pragma once
-
+#include "BaseModel.h"
 #include "BaseCard.h"
 #include "Configs.h"
 

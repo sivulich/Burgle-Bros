@@ -1,7 +1,9 @@
 #pragma once
 #include "../Configs.h"
+#include "../BaseCard.h"
+#include "../BaseModel.h"
 
-class Character, public BaseCard, public BaseModel
+class Character: public BaseCard, public BaseModel
 {
 public:
 	Character(characterType t) :type(t) {};

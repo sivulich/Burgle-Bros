@@ -78,7 +78,7 @@ void Player::peek(Tile * newTile)
 
 Coord Player::getPosition()
 {
-	return currentTile->getPos();
+	return currentTile == nullptr ? NPOS : currentTile->getPos();
 };
 
 
@@ -152,11 +152,6 @@ bool Player::hasLoot()
 {
 	return !loots.empty();
 }
-
-void Player::clearVisibleFrom()
-{
-	visibleFrom.clear();
-};
 
 void Player::addVisibleTile(Coord tile)
 {

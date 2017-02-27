@@ -4,7 +4,7 @@
 #include "PatrolCardDeck.h"
 
 // OJO con punteros players y patrol deck (se deberia chequear q no sean null)
-class Guard, public BaseModel
+class Guard: public BaseModel
 {
 public:
 	/**
