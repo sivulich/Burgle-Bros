@@ -1,9 +1,10 @@
 #pragma once
 #include "BaseCard.h"
 #include "Configs.h"
+#include "BaseModel.h"
 //Top of deck is represented by vector´s back
 //Top of discarded deck is considered to be active card
-class BaseDeck
+class BaseDeck:public BaseModel
 {
 public:
 	BaseDeck();

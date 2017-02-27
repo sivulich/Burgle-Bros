@@ -41,7 +41,7 @@ void Floor::print()
 			}
 			else cout << "|";
 		}	
-		cout << endl << "   ";
+		cout << endl << "  |";
 		for (int j = 0; j < 4; j++)
 		{
 			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j, i+1)) != adjacent[j][i].end())
@@ -50,7 +50,7 @@ void Floor::print()
 			}
 			else cout << "__________________";
 		}
-		cout << endl;
+		cout << "|" <<endl;
 	}
 	cout << endl;
 }

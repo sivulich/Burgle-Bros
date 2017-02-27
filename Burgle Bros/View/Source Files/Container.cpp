@@ -25,6 +25,7 @@ Container::Container(string& path)
 		DEBUG_MSG("Error in container initialization couldnt create toDraw");
 	offsetX = offsetY = 0;
 	bScale = 1;
+	onlyClickMe = false;
 }
 Container::Container(int h, int w)
 {
@@ -49,6 +50,7 @@ Container::Container(int h, int w)
 	}
 	else
 		DEBUG_MSG("Error in container initialization couldnt create toDraw");
+	onlyClickMe = false;
 }
 
 void
@@ -102,10 +104,13 @@ Container::click(int y, int x)
 		return "";
 	}
 	DEBUG_MSG_V("Clicking on container " << name);
-	for (auto& ob : objects)
+	if (onlyClickMe == false)
 	{
-		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
-			return ob->click((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+		for (auto& ob : objects)
+		{
+			if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
+				return ob->click((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+		}
 	}
 	if (clickable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{

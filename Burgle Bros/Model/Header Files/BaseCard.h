@@ -1,10 +1,10 @@
 #pragma once
 #include "Configs.h"
-
+#include "BaseModel.h"
 /*
 	Base class for a card. It can be flipped in different ways and has a description
 */
-class BaseCard
+class BaseCard:public BaseModel
 {
 public:
 	BaseCard() : faceUp(false) {};

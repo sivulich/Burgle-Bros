@@ -3,7 +3,7 @@
 #include "BaseDeck.h"
 #include <list>
 
-class PatrolCardDeck : public BaseDeck, public BaseModel
+class PatrolCardDeck : public BaseDeck
 {
 public:
 	/**

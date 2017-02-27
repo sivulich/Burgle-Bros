@@ -16,6 +16,7 @@ GuardCardObserver::GuardCardObserver(Container* p,BaseCard* card)
 	front->setScale(double(parent->getHeight()) / double(front->getHeight()));
 	p->addObject(back);
 	on = true;
+	card->attach(this);
 }
 void
 GuardCardObserver::setOn(bool b)
