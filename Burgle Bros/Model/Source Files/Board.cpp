@@ -55,7 +55,7 @@ Board::Board()
 
 	// Create the map with the walls
 	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
-		{ { T,W,T,´,T,´,T },
+	  { { T,W,T,´,T,´,T },
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,W,T },
 		{ W,´,W,´,´,´,´ },
@@ -63,7 +63,7 @@ Board::Board()
 		{ ´,´,´,´,´,´,W },
 		{ T,W,T,W,T,´,T } },
 
-		{ { T,W,T,W,T,W,T },
+	  { { T,W,T,W,T,W,T },
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,´,T },
 		{ ´,´,W,´,W,´,´ },
@@ -71,7 +71,7 @@ Board::Board()
 		{ ´,´,´,´,´,´,´ },
 		{ T,W,T,W,T,W,T } },
 
-		{ { T,´,T,´,T,´,T },
+	  { { T,´,T,´,T,´,T },
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,W,T },
 		{ W,´,´,´,W,´,´ },
@@ -100,26 +100,26 @@ Board::Board()
 				// Adjacent with tile above
 				if (row > 0 && walls[f][i - 1][j] != W)
 				{
-					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
-					tile->setAdjacent(Coord(f, col - 1, row));
+					adjacent[f][col][row].push_back(Coord(f, col, row - 1));
+					tile->setAdjacent(Coord(f, col, row - 1));
 				}
 				// Adjacent with tile below
 				if (row < 3 && walls[f][i + 1][j] != W)
 				{
-					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
-					tile->setAdjacent(Coord(f, col + 1, row));
+					adjacent[f][col][row].push_back(Coord(f, col, row + 1));
+					tile->setAdjacent(Coord(f, col, row + 1));
 				}
 				// Adjacent with the left tile
 				if (col > 0 && walls[f][i][j - 1] != W)
 				{
-					adjacent[f][col][row].push_back(Coord(f, col, row - 1));
-					tile->setAdjacent(Coord(f, col, row - 1));
+					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
+					tile->setAdjacent(Coord(f, col - 1, row));
 				}
 				// Adjacent with the right tile
 				if (col < 3 && walls[f][i][j + 1] != W)
 				{
-					adjacent[f][col][row].push_back(Coord(f, col, row + 1));
-					tile->setAdjacent(Coord(f, col, row + 1));
+					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
+					tile->setAdjacent(Coord(f, col + 1, row));
 				}
 			}
 		}
