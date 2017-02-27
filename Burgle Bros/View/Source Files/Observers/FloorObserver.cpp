@@ -18,18 +18,13 @@ FloorObserver::FloorObserver(Floor* f, Container* floors)
 			tiles[i][j] = new TileObserver(fl[i][j], floorGrid);
 		}
 	}
+	floor->attach(this);
 	deck = new GuardDeckObserver(f, floors);
+
 }
 
 void
 FloorObserver::update()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			tiles[i][j]->update();
-		}
-	}
-	deck->update();
+	
 }

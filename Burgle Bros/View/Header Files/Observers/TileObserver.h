@@ -13,11 +13,8 @@ public:
 	void setAlarm();
     ~TileObserver();
 private:
-	Image* back;
-	Image* front;
 	Container* parent;
+	Container* toDraw;
 	Tile* tile;
 	bool set;
-	bool guard, alarm;
-	int player;
 };

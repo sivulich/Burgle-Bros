@@ -75,6 +75,13 @@ public:
 	*/
 	void drag(int y, int x);
 
+	/** Set if the container overrides the click function of the objects inside it
+	*/
+	void onlyMe(bool b) { onlyClickMe = b; };
+	
+	bool contains(Object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) return true; return false; };
+
+
 	/*Clear the object list*/
 	void clear() { objects.clear(); };
 
@@ -87,7 +94,10 @@ private:
 	double bScale; //Used to scale up or down the given backGround
 
 	/*Container utility*/
-	Bitmap* toDraw;// Que es?? Tobi:P
+	Bitmap* toDraw;
+
+	/*Container properties*/
+	bool onlyClickMe;
 
 	/*Child objects for the given container*/
 	vector<Object*> objects;

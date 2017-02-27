@@ -23,6 +23,7 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	graveO->setOn(false);
 	deckO->setPos(0, 0);
 	graveO->setPos(0, deckView->getHeight() + 10);
+	deck->attach(this);
 }
 
 void

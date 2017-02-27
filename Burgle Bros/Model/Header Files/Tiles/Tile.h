@@ -11,7 +11,7 @@
 	
 */
 
-class Tile : public BaseCard, public BaseModel
+class Tile : public BaseCard
 {
 public:
 	/**
@@ -27,11 +27,11 @@ public:
 		@param row row of the tile
 	*/
 	Tile(tileType t, unsigned floor, unsigned col, unsigned row);
-	
+
 	/**
-		Peek the tile 
+		Peek the tile
 	*/
-	void peek();				
+	void peek();
 
 	/**
 		Return true if the player can move to the tile
@@ -74,12 +74,12 @@ public:
 
 	/**
 		Set the position of the tile in the floor.
-		
+
 		@param floor floor of the tile
 		@param col column of the tile
 		@param row row of the tile
 	*/
-	void setCoord(unsigned floor, unsigned col,unsigned row);
+	void setCoord(unsigned floor, unsigned col, unsigned row);
 
 	/**
 		Returns the type of the tile.
@@ -107,7 +107,7 @@ public:
 	void setAlarm(bool b);
 
 	/**
-		
+
 	*/
 	void setLoot(Loot * l);
 
@@ -148,13 +148,15 @@ public:
 		Delete a coord from the adjacent list
 	*/
 	void deleteAdjacent(Coord b);
-	
+
 	/**
 		Returns true if the tile given is adjacent
 	*/
 	bool isAdjacent(Coord t);
 
+	bool hasCrackToken(){ return crackToken; };
 
+	bool hasCrowToken() { return crowToken; };
 protected:
 	// Coord containing floor, column and row of the tile
 	Coord coord;
@@ -168,5 +170,7 @@ protected:
 	vector<Coord> adjacent;
 	// A tile can have a loot (a safe tile or a loot has been dropped)
 	Loot * loot;
+	//
+	bool crackToken, crowToken;
 
 };

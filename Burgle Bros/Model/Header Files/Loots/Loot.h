@@ -3,7 +3,7 @@
 #include "../PlayerInterface.h"
 #include "../BaseCard.h"
 #include "../BaseModel.h"
-class Loot: public BaseCard, public BaseModel
+class Loot: public BaseCard
 {
 public:
 	Loot();
