@@ -154,17 +154,17 @@ void GameModel::runStep()
 					else
 						resetInput();
 					break;
-				case GUARD:
-					Coord pos = currentPlayer->getPosition();
-					Guard* guard = board[pos.floor]->getGuard();
-					if (guard->Move() == false)
-					{
-						currTurn = LOOT;
-						swap(currentPlayer, otherPlayer);
-					}
-					else
-						currState = RUN;
 			}
-		
+			break;
+		case GUARD:
+			Coord pos = currentPlayer->getPosition();
+			Guard* guard = board[pos.floor]->getGuard();
+			if (guard->Move() == false)
+			{
+				currTurn = LOOT;
+				swap(currentPlayer, otherPlayer);
+			}
+			else
+				currState = RUN;
 	}
 }

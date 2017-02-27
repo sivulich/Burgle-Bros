@@ -4,7 +4,7 @@
 #include "../Header Files/Loots/Loot.h"
 #include "../Header Files/Tiles/Tile.h"
 
-class Board
+class Board, public BaseModel
 {
 public:
 	Board();

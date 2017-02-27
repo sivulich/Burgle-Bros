@@ -18,23 +18,9 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="GameFSM.cpp" />
-    <ClCompile Include="Source Files\localControler.cpp" />
-    <ClCompile Include="Source Files\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Model\Header Files\FSM_Template.h" />
-    <ClInclude Include="GameFSM.h" />
-    <ClInclude Include="Header Files\controller.h" />
-    <ClInclude Include="Header Files\localControler.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9B5E20A1-F6D7-4781-8D4F-FB938EFD17FA}</ProjectGuid>
-    <RootNamespace>Controller</RootNamespace>
+    <ProjectGuid>{3783E227-9FD0-420C-9A98-98DB41D82C89}</ProjectGuid>
+    <RootNamespace>ConsoleView</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -88,11 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View;C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -108,12 +90,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View;C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,26 +109,15 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="ConsoleColors.h" />
+    <ClInclude Include="ConsoleView.h" />
+    <ClInclude Include="Observer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ConsoleView.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\expat.redist.2.1.0.4\build\native\expat.redist.targets" Condition="Exists('..\packages\expat.redist.2.1.0.4\build\native\expat.redist.targets')" />
-    <Import Project="..\packages\expat.2.1.0.4\build\native\expat.targets" Condition="Exists('..\packages\expat.2.1.0.4\build\native\expat.targets')" />
-    <Import Project="..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets" Condition="Exists('..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets')" />
-    <Import Project="..\packages\libapr.1.4.6.2\build\native\libapr.targets" Condition="Exists('..\packages\libapr.1.4.6.2\build\native\libapr.targets')" />
-    <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
-    <Import Project="..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" />
-    <Import Project="..\packages\Allegro.5.2.2.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" />
   </ImportGroup>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\expat.redist.2.1.0.4\build\native\expat.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\expat.redist.2.1.0.4\build\native\expat.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\expat.2.1.0.4\build\native\expat.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\expat.2.1.0.4\build\native\expat.targets'))" />
-    <Error Condition="!Exists('..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets'))" />
-    <Error Condition="!Exists('..\packages\libapr.1.4.6.2\build\native\libapr.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libapr.1.4.6.2\build\native\libapr.targets'))" />
-    <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
-    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets'))" />
-    <Error Condition="!Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.0\build\native\Allegro.targets'))" />
-  </Target>
 </Project>
