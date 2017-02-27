@@ -17,6 +17,7 @@
 #include <random>
 #include "Enumerations.h"
 #include "Coord.h"
+#include <climits>
 
 #define DEBUG
 //#define DEBUG_V

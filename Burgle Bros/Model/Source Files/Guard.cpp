@@ -56,12 +56,12 @@ bool Guard::RemoveAlarm(Coord coord)
 	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
 		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
-		DEBUG_MSG("alarm removed from tile "<< coord);
+		DEBUG_MSG("alarm removed from tile "<< coord << "\n");
 		return true;
 	}
 	else
 	{
-		DEBUG_MSG("there was no alarm in tile " << coord);
+		DEBUG_MSG("there was no alarm in tile " << coord << "\n");
 		return false;
 	}
 }
@@ -73,22 +73,31 @@ bool Guard::Move()
 	if (pos == NPOS)
 	{
 		SetCurrSteps();
-		DEBUG_MSG(currsteps);
+		DEBUG_MSG("Current steps " << currsteps<<"\n");
 		ptr = patroldeck->next();
 		p = static_cast<PatrolCard*>(ptr);
 		pos = p->getCoord();
-		DEBUG_MSG("guard start pos "<< pos);
+		DEBUG_MSG("Guard start pos "<< pos << "\n");
 		ptr = patroldeck->next();
 		p = static_cast<PatrolCard*>(ptr);
-		target = p->getCoord();
-		DEBUG_MSG("guard target " << target);
+		//target = p->getCoord();
+		//ESTO ES DEBUG
+		target = Coord(1, 3, 0);
+		DEBUG_MSG("First guard target " << target << "\n");
 	}
+
 		FindPath(pos);
-		if (patroldeck->isEmpty())
+		if (pos == target)
 		{
-			patroldeck->reset(6);
-			speed++;
-		}	
+			if (patroldeck->isEmpty())
+			{
+				patroldeck->reset(6);
+				speed++;
+			}
+			ptr = patroldeck->next();
+			p = static_cast<PatrolCard*>(ptr);
+			target = p->getCoord();
+		}
 		if (RemoveAlarm(pos))
 		{
 			FindPath(pos);
@@ -96,7 +105,7 @@ bool Guard::Move()
 		currsteps--;
 		if (currsteps == 0)
 		{
-			DEBUG_MSG("guard turn has ended");
+			DEBUG_MSG("Guard turn has ended\n");
 			return false;
 		}
 		else return true;
@@ -108,37 +117,34 @@ bool Guard::FindPath(Coord const coord)
 {
 	if ((coord.col) < 4 && (coord.row < 4))
 	{
-		vector<int> dist(16, 45);
+		vector<int> dist(16, INT_MAX);
 		vector<int> parent(16, -1);
 		dist[toIndex(coord)] = 0;
 		queue<int> Q;
 		Q.push(toIndex(coord));
-
 		while (!Q.empty())
 		{
 			int index = Q.front();
-			DEBUG_MSG(index);
 			Q.pop();
-			vector<Coord>::iterator it;
-			if (floor[toCoord(index).col][toCoord(index).row].empty()) DEBUG_MSG("SAOSJIAODNEUOFEBUOFBIF");
 			for (auto &it: floor[toCoord(index).col][toCoord(index).row])
 			{
-				DEBUG_MSG("kk " <<dist[toIndex(it)]);
-				if (dist[toIndex(it)] == 45) 
+				if (dist[toIndex(it)] == INT_MAX) 
 				{
 					Q.push(toIndex(it));
 					dist[toIndex(it)] = dist[index] + 1;
 					parent[toIndex(it)] = index;
-					DEBUG_MSG("PRUEBA " << parent[toIndex(it)]);
 				}
 			}
 		}
 		shortestPath(toIndex(coord), closestTarget(dist), parent);
-		DEBUG_MSG("Path is:");
+		DEBUG_MSG("Distances to each room\n");
 		for (auto & a : dist)
 			DEBUG_MSG(a << "\n");
-		DEBUG_MSG("OLIMAR");
+		DEBUG_MSG("Room connections from start pos:\n");
 		for (auto & a : parent)
+			DEBUG_MSG(a << "\n");
+		DEBUG_MSG("Path is:\n");
+		for (auto& a : path)
 			DEBUG_MSG(a << "\n");
 		return true;
 	}
@@ -153,7 +159,6 @@ bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> p
 			//path.push_front(toCoord(start));//es la direccion actual
 		else {
 			shortestPath(start, parent[end], parent);
-			DEBUG_MSG(toCoord(end));
 			path.push_back(toCoord(end));
 		}
 		return true;
@@ -175,6 +180,6 @@ unsigned Guard::closestTarget(vector<int> distances)
 
 		}//faltaria chequear lo de las izquierdas
 	}
-	DEBUG_MSG(" closest target is in floor " << toCoord(destination));
+	DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
 	return closest;
 }

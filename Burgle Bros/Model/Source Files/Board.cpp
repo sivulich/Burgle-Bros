@@ -55,7 +55,7 @@ Board::Board()
 
 	// Create the map with the walls
 	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
-		{ { T,W,T,´,T,´,T },
+	  { { T,W,T,´,T,´,T },
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,W,T },
 		{ W,´,W,´,´,´,´ },
@@ -63,17 +63,17 @@ Board::Board()
 		{ ´,´,´,´,´,´,W },
 		{ T,W,T,W,T,´,T } },
 
-		{ { T,W,T,W,T,W,T },
-		{ ´,´,´,´,W,´,´ },
+	  { { T,W,T,W,T,W,T },
+		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,´,T },
 		{ ´,´,W,´,W,´,´ },
 		{ T,´,T,´,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,W,T,W,T,W,T } },
 
-		{ { T,´,T,´,T,´,T },
+	  { { T,´,T,´,T,´,T },
 		{ ´,´,´,´,W,´,´ },
-		{ T,´,T,´,T,W,T },
+		{ T,W,T,´,T,W,T },
 		{ W,´,´,´,W,´,´ },
 		{ T,W,T,W,T,´,T },
 		{ ´,´,´,´,´,´,´ },
@@ -93,37 +93,37 @@ Board::Board()
 		{
 			for (int col = 0; col < 4; col++)
 			{
-				int i = row * 2 + 1;
-				int j = col * 2 + 1;
+				int i = row * 2;
+				int j = col * 2;
 				Tile * tile = (*floor[f])[col][row];
 
 				// Adjacent with tile above
-				if (row > 0 && walls[f][i - 1][j] != W)
-				{
-					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
-					tile->setAdjacent(Coord(f, col - 1, row));
-				}
-				// Adjacent with tile below
-				if (row < 3 && walls[f][i + 1][j] != W)
-				{
-					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
-					tile->setAdjacent(Coord(f, col + 1, row));
-				}
-				// Adjacent with the left tile
-				if (col > 0 && walls[f][i][j - 1] != W)
+				if (row > 0 && (walls[f][i - 1][j] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row - 1));
 					tile->setAdjacent(Coord(f, col, row - 1));
 				}
-				// Adjacent with the right tile
-				if (col < 3 && walls[f][i][j + 1] != W)
+				// Adjacent with tile below
+				if (row < 3 && (walls[f][i + 1][j] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row + 1));
 					tile->setAdjacent(Coord(f, col, row + 1));
 				}
+				// Adjacent with the left tile
+				if (col > 0 && (walls[f][i][j - 1] != W))
+				{
+					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
+					tile->setAdjacent(Coord(f, col - 1, row));
+				}
+				// Adjacent with the right tile
+				if (col < 3 && (walls[f][i][j + 1] != W))
+				{
+					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
+					tile->setAdjacent(Coord(f, col + 1, row));
+				}
 			}
 		}
-		//floor[f]->setMap(adjacent[f]);
+		floor[f]->setMap(adjacent[f]);
 		floor[f]->getGuard()->setFloorMap(adjacent[f]);
 	}
 
