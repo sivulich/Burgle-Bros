@@ -15,6 +15,8 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 	coord.col = col;
 	coord.row = row;
 	coord.floor = floor;
+	crowToken = false;
+	crackToken = false;
 }
 
 

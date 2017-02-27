@@ -24,12 +24,5 @@ FloorObserver::FloorObserver(Floor* f, Container* floors)
 void
 FloorObserver::update()
 {
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			tiles[i][j]->update();
-		}
-	}
-	deck->update();
+	
 }

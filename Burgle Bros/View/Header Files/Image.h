@@ -14,6 +14,11 @@ public:
 		@param s Scale
 	*/
 	void setScale(double s) { this->scale = s; };
+
+	/** Sets new image
+		@param path
+	*/
+	void load(string& s);
 private:
 	Bitmap im;
 };

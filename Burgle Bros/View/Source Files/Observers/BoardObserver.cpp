@@ -16,6 +16,5 @@ BoardObserver::BoardObserver(Board* b, Container* c)
 void
 BoardObserver::update()
 {
-	for (auto& f : floors)
-		f->update();
+	
 }
