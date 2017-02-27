@@ -51,7 +51,7 @@ TileObserver::TileObserver(Tile* t, Container* p)
 		else
 			tokens[i].setPosition( toDraw->getHeight() - tokens[i].getWidth(),0);
 	}
-
+	tile->attach(this);
 }
 void
 TileObserver::update()

@@ -3,7 +3,7 @@
 #include "BaseCard.h"
 #include "Configs.h"
 
-class PatrolCard : public BaseCard, public BaseModel
+class PatrolCard : public BaseCard
 {
 public:
 

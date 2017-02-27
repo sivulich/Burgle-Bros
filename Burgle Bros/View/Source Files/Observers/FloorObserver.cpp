@@ -18,7 +18,9 @@ FloorObserver::FloorObserver(Floor* f, Container* floors)
 			tiles[i][j] = new TileObserver(fl[i][j], floorGrid);
 		}
 	}
+	floor->attach(this);
 	deck = new GuardDeckObserver(f, floors);
+
 }
 
 void

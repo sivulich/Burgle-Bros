@@ -11,6 +11,7 @@ BoardObserver::BoardObserver(Board* b, Container* c)
 		floors[i] = new FloorObserver((*b)[i], toDraw);
 	}
 	parent->addObject(toDraw);
+	board->attach(this);
 }
 
 void
