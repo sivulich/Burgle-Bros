@@ -21,7 +21,6 @@ public:
 		Sets the player position
 	*/
 	virtual void setPosition(Coord c) = 0;
-	
 	/**
 
 	*/

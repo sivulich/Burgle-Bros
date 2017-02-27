@@ -9,7 +9,7 @@ public:
 	void detach(Observer* o) { observers.remove(o); } 
 
 protected:
-	void update()
+	void notify()
 	{
 		for(auto& obs : observers)
 			obs->update();

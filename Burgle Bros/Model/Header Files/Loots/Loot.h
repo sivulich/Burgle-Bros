@@ -1,9 +1,9 @@
 #pragma once
 #include "../Configs.h"
 #include "../PlayerInterface.h"
-
-
-class Loot
+#include "../BaseCard.h"
+#include "../BaseModel.h"
+class Loot: public BaseCard, public BaseModel
 {
 public:
 	Loot();

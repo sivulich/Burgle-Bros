@@ -4,7 +4,7 @@
 #include "PatrolCardDeck.h"
 
 // OJO con punteros players y patrol deck (se deberia chequear q no sean null)
-class Guard
+class Guard: public BaseModel
 {
 public:
 	/**
@@ -42,7 +42,7 @@ public:
 	@addparams receives the coords of a triggered alarm
 
 	*/
-	void AddNextAlarm(Coord coord) { DEBUG_MSG("alarm:"<<coord); alarms->push_back(coord); }
+	void AddNextAlarm(Coord coord) { DEBUG_MSG("alarm set in:"<<coord); alarms->push_back(coord); }
 
 	/**
 	@addparams coordinate of alarm to turn off

@@ -4,7 +4,7 @@
 #include "../Header Files/Loots/Loot.h"
 #include "../Header Files/Tiles/Tile.h"
 
-class Board
+class Board: public BaseModel
 {
 public:
 	Board();
@@ -15,7 +15,20 @@ public:
 		Returns the floor i
 	*/
 	Floor* operator[](size_t i) { return floor[i]; };
+	/**
+		Return the a tile in the board
+	*/
 	Tile * getTile(Coord c);
+
+	/**
+		Sets board randomly
+	*/
+	void setBoard();
+
+	/**
+		Sets board with defined tiles (order un vector (1,A1) (1,B1) (1,C1) ... (2,A1) (2,B1) (2,C1))
+	*/
+	void setBoard(vector<tileType> tiles);
 private:
 	Floor* floor[3];
 	// MAPA: QUIZAS AL PEDO EN EL BOARD VER SI SE PUEDE BORRAR

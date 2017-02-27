@@ -46,25 +46,17 @@ void GameModel::print()
 
 	board.print();
 	cout << "Current Player:" << endl;
-	currentPlayer->print();
+	currentPlayer()->print();
 
 	cout << "Other Player:" << endl;
-	otherPlayer->print();
+	otherPlayer()->print();
 	cout << "______________________________________________________________________________" << endl;
 
 #endif
 
 }
 
-void GameModel::input(string& in)
-{
-	if (currState == INPUT_1)
-		command = in;
-	else if (currState == INPUT_2)
-		parameter = in;
-	else if (currState == INPUT_3)
-		confirmation = in;
-}
+
 
 
 bool GameModel::gameOver()
@@ -84,87 +76,4 @@ static bool checkParam(string& s)
 	if (s[0] - 'A' >= 0 && s[0] - 'A' <= 3 && s[1] - '1' >= 0 && s[1] - '1' <= 3 && s[3] - '1' >= 0 && s[3] - '1' <= 3)
 		return true;
 	return false;
-}
-
-void GameModel::runStep()
-{
-	switch (currTurn)
-	{
-		case LOOT:
-			for (auto& loot : currentPlayer->getLoots())
-				currState =(state) loot->input(command);
-			if (currState == RUN)
-			{
-				currTurn = PLAYER;
-				currState = INPUT_1;
-			}
-			break;
-		case PLAYER:
-			if (command == "")
-			{
-				DEBUG_MSG("Wating for command");
-				currState = INPUT_1;
-				break;
-			}
-			switch (toEnum_action_ID((char *)command.c_str()))
-			{
-				case MOVE:
-					if (parameter == "")
-					{
-						DEBUG_MSG("Wating for parameter");
-						currState = INPUT_2;
-						break;
-					}
-					if (checkParam(parameter))
-					{
-						int col = parameter[0] - 'A';
-						int row = parameter[1] - '1';
-						int floor = parameter[3] - '1';
-						if(confirmation=="")
-						//if((*(board[floor]))[col][row]->needsConfirmation(currentPlayer)==true)
-						{
-							currState=INPUT_3;
-							DEBUG_MSG("Wating for confirmation");
-							break;
-						}
-						else
-							confirmation="YES";
-						
-						if (confirmation == "YES")
-						{
-							cout << "Moving to " << parameter << endl;
-							currentPlayer->move((*(board[floor]))[col][row]);
-						}
-					}
-					resetInput();
-					break;
-				case PEEK:
-					if (parameter == "")
-					{
-						currState = INPUT_2;
-						break;
-					}
-					if (checkParam(parameter))
-					{
-						int col = parameter[0] - 'A';
-						int row = parameter[1] - '1';
-						int floor = parameter[3] - '1';
-						(*(board[floor]))[col][row]->peek();
-					}
-					else
-						resetInput();
-					break;
-				case GUARD:
-					Coord pos = currentPlayer->getPosition();
-					Guard* guard = board[pos.floor]->getGuard();
-					if (guard->Move() == false)
-					{
-						currTurn = LOOT;
-						swap(currentPlayer, otherPlayer);
-					}
-					else
-						currState = RUN;
-			}
-		
-	}
 }

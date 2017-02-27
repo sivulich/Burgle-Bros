@@ -4,14 +4,14 @@
 #include "../Configs.h"
 #include "../PlayerInterface.h"
 #include "../Loots/Loot.h"
-
+#include "../BaseModel.h"
 
 
 /**
 	
 */
 
-class Tile : public BaseCard
+class Tile : public BaseCard, public BaseModel
 {
 public:
 	/**
