@@ -121,21 +121,21 @@ bool Guard::FindPath(Coord const coord)
 	path.clear();
 	if ((coord.col) < 4 && (coord.row < 4))
 	{
-		vector<int> dist(16, INT_MAX);
-		vector<int> parent(16, -1);
-		dist[toIndex(coord)] = 0;
+		vector<int> dist(16, INT_MAX);//vector that contains the distance required to go to any point in floor from current pos
+		vector<int> parent(16, -1);// vector that contains prior room to be accessed following a path from current pos
+		dist[toIndex(coord)] = 0;//set distance to current pos = 0
 		queue<int> Q;
 		Q.push(toIndex(coord));
 		while (!Q.empty())
 		{
 			int index = Q.front();
 			Q.pop();
-			for (auto &it: floor[toCoord(index).col][toCoord(index).row])
+			for (auto &it: floor[toCoord(index).col][toCoord(index).row])//search for all adjacents rooms to current one
 			{
-				if (dist[toIndex(it)] == INT_MAX) 
+				if (dist[toIndex(it)] == INT_MAX) //if room was not visited
 				{
-					Q.push(toIndex(it));
-					dist[toIndex(it)] = dist[index] + 1;
+					Q.push(toIndex(it));//add to queue
+					dist[toIndex(it)] = dist[index] + 1;//and set distance equal to distance to parent room + 1
 					parent[toIndex(it)] = index;
 				}
 			}
@@ -158,12 +158,12 @@ bool Guard::FindPath(Coord const coord)
 
 bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> parent)
 {
-	if (start < parent.size() && end < parent.size())
+	if (start < parent.size() && end < parent.size())//check if end position is inside floor
 	{
-		if (start == end || end == -1);
+		if (start == end || end == -1);//if destination and source are the same, target was reached
 			//path.push_front(toCoord(start));//es la direccion actual
 		else {
-			shortestPath(start, parent[end], parent);
+			shortestPath(start, parent[end], parent);//if destination was not found, try again but with adjacent room from before
 			path.push_back(toCoord(end));
 		}
 		return true;

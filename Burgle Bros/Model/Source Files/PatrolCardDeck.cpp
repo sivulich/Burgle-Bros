@@ -1,7 +1,11 @@
 #include "../Header Files/PatrolCardDeck.h"
 #include "../Header Files/Configs.h"
 
-PatrolCardDeck::PatrolCardDeck(unsigned floor) : floorNumber(floor)
+PatrolCardDeck::PatrolCardDeck()
+{
+}
+
+bool PatrolCardDeck::setDeck(unsigned floor)
 {
 	for (unsigned i = 0; i < 4; i++)
 	{
@@ -14,8 +18,8 @@ PatrolCardDeck::PatrolCardDeck(unsigned floor) : floorNumber(floor)
 	shuffle();
 	for (unsigned k = 0; k < 6; k++)
 		discardTop();
+	return true;
 }
-
 
 PatrolCardDeck::~PatrolCardDeck()
 {
