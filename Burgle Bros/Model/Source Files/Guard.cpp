@@ -56,12 +56,12 @@ bool Guard::RemoveAlarm(Coord coord)
 	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
 		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
-		DEBUG_MSG("alarm removed from tile "<< coord << "\n");
+		DEBUG_MSG("alarm removed from tile "<< coord << endl);
 		return true;
 	}
 	else
 	{
-		DEBUG_MSG("there was no alarm in tile " << coord << "\n");
+		DEBUG_MSG("there was no alarm in tile " << coord << endl);
 		return false;
 	}
 }
@@ -73,20 +73,22 @@ bool Guard::Move()
 	if (pos == NPOS)
 	{
 		SetCurrSteps();
-		DEBUG_MSG("Current steps " << currsteps<<"\n");
+		DEBUG_MSG("Current steps " << currsteps<< endl);
 		ptr = patroldeck->next();
 		p = static_cast<PatrolCard*>(ptr);
 		pos = p->getCoord();
-		DEBUG_MSG("Guard start pos "<< pos << "\n");
+		DEBUG_MSG("Guard start pos " << pos << endl);
 		ptr = patroldeck->next();
 		p = static_cast<PatrolCard*>(ptr);
 		//target = p->getCoord();
 		//ESTO ES DEBUG
 		target = Coord(1, 3, 0);
-		DEBUG_MSG("First guard target " << target << "\n");
+		DEBUG_MSG("First guard target " << target << endl);
 	}
-
 		FindPath(pos);
+		pos = path.front();
+		path.pop_front();
+		DEBUG_MSG("Guard has moved to" << pos << endl);
 		if (pos == target)
 		{
 			if (patroldeck->isEmpty())
@@ -103,6 +105,7 @@ bool Guard::Move()
 			FindPath(pos);
 		}
 		currsteps--;
+		DEBUG_MSG("Remaining steps " << currsteps);
 		if (currsteps == 0)
 		{
 			DEBUG_MSG("Guard turn has ended\n");
@@ -115,6 +118,7 @@ bool Guard::Move()
 bool Guard::FindPath(Coord const coord)
 
 {
+	path.clear();
 	if ((coord.col) < 4 && (coord.row < 4))
 	{
 		vector<int> dist(16, INT_MAX);
@@ -137,15 +141,16 @@ bool Guard::FindPath(Coord const coord)
 			}
 		}
 		shortestPath(toIndex(coord), closestTarget(dist), parent);
-		DEBUG_MSG("Distances to each room\n");
+		/*DEBUG_MSG("Distances to each room" << endl);
 		for (auto & a : dist)
-			DEBUG_MSG(a << "\n");
-		DEBUG_MSG("Room connections from start pos:\n");
+			DEBUG_MSG(a << endl);
+		DEBUG_MSG("Room connections from start pos:" << endl);
 		for (auto & a : parent)
-			DEBUG_MSG(a << "\n");
-		DEBUG_MSG("Path is:\n");
+			DEBUG_MSG(a << endl);*/
+		DEBUG_MSG("Path is:" << endl);
 		for (auto& a : path)
-			DEBUG_MSG(a << "\n");
+			DEBUG_MSG(a <<" ");
+		cout << endl;
 		return true;
 	}
 	return false;
@@ -169,17 +174,17 @@ bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> p
 unsigned Guard::closestTarget(vector<int> distances)
 {
 
-	unsigned closest = distances[toIndex(target)];
+	unsigned shortDist = distances[toIndex(target)];
 	unsigned destination = toIndex(target);
 	for (auto& al: *alarms)
 	{
-		if (distances[toIndex(al)] < closest)
+		if (distances[toIndex(al)] < shortDist)
 		{
-			closest = distances[toIndex(al)];
+			shortDist = distances[toIndex(al)];
 			destination = toIndex(al);
 
 		}//faltaria chequear lo de las izquierdas
 	}
 	DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
-	return closest;
+	return destination;
 }
