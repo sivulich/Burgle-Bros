@@ -5,64 +5,43 @@
 #include "Player.h"
 #include "Configs.h"
 
-DEFINE_ENUM_WITH_CONVERSIONS(state, (RUN)(INPUT_1)(INPUT_2)(INPUT_3))
-DEFINE_ENUM_WITH_CONVERSIONS(turn, (LOOT)(PLAYER)(GUARD))
-
 class GameModel : public BaseModel
 {
 public:
 	GameModel() : player1(&board), player2(&board)
 	{
+		// Let the guard know the players
 		for (int i = 0; i < 3; i++)
 			board[i]->getGuard()->setPlayers(&player1, &player2);
-		currentPlayer = &player1;
-		otherPlayer = &player2;
-		currState = INPUT_1;
-		resetInput();
-		currTurn = PLAYER;
 	};
 
 	/**
 		Print game model in console
 	*/
 	void print();
+
 	/**
 		Returns true if game is over
 	*/
 	bool gameOver();
 
+	/**
+	
+	*/
+	Player * currentPlayer() { return currentPlayer_; };
 
 	/**
 
 	*/
-	void input(string& in);
+	Player * otherPlayer() { return otherPlayer_; };
 
-	/**
-
-	*/
-	void runStep();
 
 	Player player1;
 	Player player2;
-
-	state currState;
-private:
 	Board board;
 
-	
-
-	Player* currentPlayer;
-	Player* otherPlayer;
-
-	/*Input params*/
-	void resetInput() { command = parameter = confirmation = ""; currState = INPUT_1; };
-	string command;
-	string parameter;
-	string confirmation;
-
-	/*Fsm for input*/
-//	state currState;
-	turn  currTurn;
-
+private:	
+	Player* currentPlayer_;
+	Player* otherPlayer_;
 };
 

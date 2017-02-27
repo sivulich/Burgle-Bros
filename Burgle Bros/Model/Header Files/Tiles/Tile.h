@@ -4,7 +4,7 @@
 #include "../Configs.h"
 #include "../PlayerInterface.h"
 #include "../Loots/Loot.h"
-
+#include "../BaseModel.h"
 
 
 /**

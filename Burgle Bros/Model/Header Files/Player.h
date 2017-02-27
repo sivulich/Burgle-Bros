@@ -22,7 +22,10 @@ public:
 		Sets the name of the player
 	*/
 	void setName(string & playerName);
-
+	/**
+		Get player name
+	*/
+	virtual string getName()override;
 	/**
 		Print player in console;
 	*/
@@ -31,38 +34,36 @@ public:
 		Returns the player's positions
 	*/
 	virtual Coord getPosition()override;
-
 	/**
 		Set player position with a coord
 	*/
 	virtual void setPosition(Coord c)override;
-
 	/**
 		Sets the player's position with a tile pointer
 	*/
 	void setPosition(Tile* c);
-	
 	/**
 		Sets the character the player will use
 	*/
 	void setCharacter(characterType type);
-	
+	/**
+
+	*/
+	characterType getCharacterType();
+
 	/**
 		Reset the player action tokens
 	*/
 	virtual void resetActionTokens()override;
-	
 	/**
 		Checks adjacency and tries to move to the tile, returns true if successful
 		@params newTile pointer to the tile the player wants to move to
 	*/
 	bool move(Tile * newTile);
-
 	/**
 		Peek the tile in exchange of an action token
 	*/
 	void peek(Tile * newTile);
-	
 	/**
 		Appends a new action to the action history
 		@params action the string of the action that occured
@@ -93,16 +94,14 @@ public:
 		Simulates a die being thrown
 	*/
 	virtual  int throwDice()override;
-
 	/**
 	
 	*/
 	void addLoot(Loot * l);
-
 	/**
 
 	*/
-	bool has(lootType l);
+	virtual bool has(lootType l)override;
 	/**
 		Returns true if the player has at least one loot.
 	*/
@@ -112,36 +111,19 @@ public:
 		Retrun true if the guard can see the player from that position
 	*/
 	virtual bool isVisibleFrom(Coord c)override;
-
-	/**
-		Clears the coordinates from where the player is visible from
-	*/
-	void clearVisibleFrom();
-
 	/**
 		Adds a coordinate to the list of coordinates the player is visible from
 	*/
 	virtual void addVisibleTile(Coord tile)override;
-
 	/**
 		Returns the vector with the coordinates the player is visible from
 	*/
 	virtual vector <Coord> getVisibleFrom()override;
-
 	/**
 		
 	*/
 	virtual void updateVisibleFrom()override;
 
-	/**
-	Get player name
-	*/
-	virtual string getName()override;
-
-	/**
-	
-	*/
-	characterType getCharacterType();
 
 	vector<Loot*>& getLoots() { return loots; };
 private:
@@ -155,8 +137,5 @@ private:
 	vector <Loot*> loots;
 	// Coord from where the guard can see the player (player position normally, unless special cases)
 	vector <Coord> visibleFrom;
-	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6) up to four dice
-									// POR QUE UN VECTOR???
-										// porque para el keypad y el safe necesito tirar el dado muchas veces sin salir de la tile, y es para que quede un registro de lo que salio
-											// AHhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh la re puta madre, porque no lo comentas???!!
+	vector <unsigned int> dice;	
 };
