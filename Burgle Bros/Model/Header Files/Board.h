@@ -21,15 +21,25 @@ public:
 	Tile * getTile(Coord c);
 
 	/**
-		Sets board randomly
+		Sets board tiles randomly
 	*/
 	void setBoard();
 
 	/**
-		Sets board with defined tiles (order un vector (1,A1) (1,B1) (1,C1) ... (2,A1) (2,B1) (2,C1))
+		Sets board with defined tiles (order In vector (1,A1) (1,B1) (1,C1) ... (2,A1) (2,B1) (2,C1))
 	*/
 	void setBoard(vector<tileType> tiles);
+
+	/**
+		Set adjacency between tiles
+	*/
+	void setWalls();
+
+
 private:
+	// Parse the board and set things in tiles depending on its type. Should be called after setting the board and walls
+	void parseBoard();
+
 	Floor* floor[3];
 	// MAPA: QUIZAS AL PEDO EN EL BOARD VER SI SE PUEDE BORRAR
 	vector<Coord> adjacent[3][4][4];

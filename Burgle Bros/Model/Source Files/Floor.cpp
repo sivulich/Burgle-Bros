@@ -41,7 +41,7 @@ void Floor::print()
 			}
 			else cout << "|";
 		}	
-		cout << endl << "   ";
+		cout << endl << "  |";
 		for (int j = 0; j < 4; j++)
 		{
 			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j, i+1)) != adjacent[j][i].end())
@@ -50,7 +50,7 @@ void Floor::print()
 			}
 			else cout << "__________________";
 		}
-		cout << endl;
+		cout << "|" <<endl;
 	}
 	cout << endl;
 }
@@ -72,6 +72,7 @@ void Floor::setTiles(vector<tileType> t)
 		cout << endl;
 #endif
 	}
+
 };
 
 
@@ -86,6 +87,7 @@ void Floor::setMap(vector<Coord> a[4][4])
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++)
 			adjacent[i][j] = a[i][j];
+	guard.setFloorMap(a);
 }
 
 
