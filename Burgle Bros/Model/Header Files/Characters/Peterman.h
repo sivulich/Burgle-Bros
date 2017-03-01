@@ -4,7 +4,7 @@ class Peterman :
 	public Character
 {
 public:
-	Peterman();
+	Peterman() : Character(PETERMAN) {};
 	~Peterman();
 };
 

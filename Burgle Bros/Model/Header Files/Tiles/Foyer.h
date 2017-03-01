@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include "../Player.h"
+#include "../PlayerInterface.h"
 
 /*
 Guards can see into this tile from adjacent tiles, but not through walls. You will lose a Stealth if a Guard 
@@ -10,14 +10,14 @@ class Foyer :
 	public Tile
 {
 public:
-	Foyer(int floor, int col, int row) : Tile(floor, col, row) {};
+	Foyer(int floor, int col, int row) : Tile(FOYER,floor, col, row) {};
 	~Foyer();
 
 	/**
 	Executes the tile's special actions, if any...
 	@param p player who is moving
 	*/
-	virtual void enterTile(void * player) override;
+	virtual void enterTile(PlayerInterface * player) override;
 
 };
 

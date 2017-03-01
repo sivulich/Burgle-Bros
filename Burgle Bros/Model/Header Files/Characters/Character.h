@@ -1,20 +1,12 @@
 #pragma once
-#include "../Enumerations.h"
+#include "../Configs.h"
+#include "../BaseCard.h"
+#include "../BaseModel.h"
 
-DEFINE_ENUM_WITH_CONVERSIONS(characterType,
-(JUICER, 0x20)
-(HACKER)
-(ACROBAT)
-(SPOTTER)
-(HAWK)
-(RAVEN)
-(PETERMAN))
-
-
-class Character
+class Character: public BaseCard
 {
 public:
-	Character();
+	Character(characterType t) :type(t) {};
 	~Character();
 
 	characterType getType() { return  type; };

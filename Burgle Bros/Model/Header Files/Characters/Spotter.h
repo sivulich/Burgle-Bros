@@ -4,7 +4,7 @@ class Spotter :
 	public Character
 {
 public:
-	Spotter();
+	Spotter() : Character(SPOTTER) {};
 	~Spotter();
 };
 

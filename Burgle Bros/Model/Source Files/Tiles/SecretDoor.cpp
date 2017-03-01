@@ -2,11 +2,4 @@
 
 
 
-SecretDoor::SecretDoor()
-{
-}
 
-
-SecretDoor::~SecretDoor()
-{
-}

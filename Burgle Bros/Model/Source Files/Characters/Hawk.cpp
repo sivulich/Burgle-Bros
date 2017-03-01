@@ -2,10 +2,6 @@
 
 
 
-Hawk::Hawk()
-{
-}
-
 
 Hawk::~Hawk()
 {

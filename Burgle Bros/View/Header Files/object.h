@@ -1,9 +1,10 @@
 #pragma once
 
-#include "../Model/Header Files/Configs.h"
+#include "../../Model/Header Files/Configs.h"
 #include "../Header Files/ALX/alx.hpp"
 using namespace alx;
-class Object {
+class Object
+{
 public:
 	/** Default constructor*/
 	Object();
@@ -20,6 +21,7 @@ public:
 
 	/** Returns a nullptr it can be overloaded for diferent pruposes*/
 	virtual Bitmap* getTarget() { return nullptr; };
+
 	/** Draws the object to the given target
 		@param target Target to draw the object on
 	*/
@@ -59,7 +61,7 @@ public:
 	void setName(string& s) { name = s; };
 
 	/** Returns the position of the object*/
-	pair<int, int> getPos() { pair<int, int> pos(x, y); return pos; };
+	pair<int, int> getPos() { return pair<int, int>(x,y); };
 	
 	/** Returns the width of the object*/
 	int getWidth() { return w; };
@@ -93,6 +95,10 @@ public:
 		@param x Mouse X position
 	*/
 	virtual void drag(int y, int x);
+
+	/** 
+	
+	*/
 	virtual bool isClicked() { return clicked; };
 
 	bool wasInitOk() { return initOk; };

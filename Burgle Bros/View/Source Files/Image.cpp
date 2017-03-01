@@ -21,7 +21,7 @@ Image::Image(string& path)
 		initOk = true;
 	}
 	else
-		DEBUG_MSG("Error while loading image at path " << path);
+		DEBUG_MSG("Error while loading image at path " << path); 
 }
 void
 Image::draw(Bitmap* target)
@@ -46,4 +46,19 @@ Image::draw(Bitmap* target)
 
 	if(borderVisibe)
 		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
+}
+
+void
+Image::load(string& path)
+{
+	size_t pos = path.find('.');
+	size_t pos2 = path.find_last_of('/');
+	size_t pos3 = path.find_last_of('\\');
+	if (pos2 == string::npos)
+		pos2 = 0;
+	if (pos3 != string::npos)
+		pos2 = pos3;
+	name = path.substr(pos2 + 1, pos);
+	im.load(path.c_str());
+	scale = w / im.getWidth();
 }

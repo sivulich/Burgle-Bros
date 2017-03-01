@@ -1,20 +1,9 @@
 #pragma once
 #include "../Configs.h"
-
-
-DEFINE_ENUM_WITH_CONVERSIONS(lootType,
-(TIARA, 0x30)
-(PERSIAN_KITTY)
-(PAINTING)
-(MIRROR)
-(KEYCARD)
-(ISOTOPE)
-(GEMSTONE)
-(CURSED_GOBLET)
-(CHIHUAHUA)
-(GOLD_BAR))
-
-class Loot
+#include "../PlayerInterface.h"
+#include "../BaseCard.h"
+#include "../BaseModel.h"
+class Loot: public BaseCard
 {
 public:
 	Loot();
@@ -24,15 +13,20 @@ public:
 	void setPos(Coord p) { pos = p; };
 	lootType getType() { return  type; };
 	bool is(lootType t) { return t == type; };
-	bool isTaken() { return taken; };
-	void drop();
-	//void pick(Player* p); Lo comento porque si no hay circular dependencies, esto puede ir en la clase heredada
+	bool isTaken() { return owner == nullptr? false : true; };
+	void drop() { owner = nullptr; };
+	void pick(PlayerInterface* p) { owner = p;};
+	/**
+		Function called each time player moves to a new tile
+	*/
+	void update();
+	virtual int  input(string& s1) { return 0; };
+	
 	
 
 private:
 	lootType type;
 	Coord pos;
-	bool taken;
-	//Player * owner; Lo comento porque si no hay circular dependencies, esto puede ir en la clase heredada
+	PlayerInterface * owner;
 };
 

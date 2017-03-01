@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-#include "../Player.h"
+#include "../PlayerInterface.h"
 
 /*
 It takes two actions to enter this tile. If you can't or you don't want to spend the extra action, an Alarm 
@@ -14,27 +14,27 @@ class Laser :
 	public Tile
 {
 public:
-	Laser(int floor, int col, int row) : Tile(floor, col, row) {};
+	Laser(int floor, int col, int row) : Tile(LASER,floor, col, row) {};
 	~Laser();
 
 	/**
 	Executes the tile's special actions, if any...
 	@param p player who is moving
 	*/
-	virtual void enterTile(void * player) override;
+	virtual void enterTile(PlayerInterface * player) override;
 
 	/**
 	Returns a vector of strings with the actions the player can do on the tile they are on
 	@param p Player who wants to check the actions
 	*/
-	virtual vector<string>& getActions(void * player) override;
+	virtual vector<string>& getActions(PlayerInterface * player) override;
 
 	/**
 	Applies the action given to the player
 	@param action Action to execute
 	@param p Player who wants to do the action
 	*/
-	virtual void doAction(string action, void * player) override;
+	virtual void doAction(string action, PlayerInterface * player) override;
 
 };
 

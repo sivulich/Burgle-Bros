@@ -2,10 +2,6 @@
 
 
 
-Hacker::Hacker()
-{
-}
-
 
 Hacker::~Hacker()
 {

@@ -1,143 +1,141 @@
 #pragma once
 #include "./Configs.h"
 #include "./actionNode.h"
-
 #include "./Loots/Loot.h"
 #include "./Tiles/Tile.h"
 #include "./Characters/Character.h"
+#include "./PlayerInterface.h"
+#include "./Board.h"
+#include "./BaseModel.h"
 
-class Player
+class Player : public PlayerInterface, public BaseModel
 {
 public:
 	/**
-	
+		Construct a player with access to the board
 	*/
-	Player(){};
+	Player(Board * b);
+
 	~Player() {};
-
-	/**
-
-	*/
-	Player(string & playerName);
 
 	/**
 		Sets the name of the player
 	*/
 	void setName(string & playerName);
-
+	/**
+		Get player name
+	*/
+	virtual string getName()override;
+	/**
+		Print player in console;
+	*/
+	void print();
 	/**
 		Returns the player's positions
 	*/
-	Coord getPosition();
-
+	virtual Coord getPosition()override;
+	/**
+		Set player position with a coord
+	*/
+	virtual void setPosition(Coord c)override;
+	/**
+		Sets the player's position with a tile pointer
+	*/
+	void setPosition(Tile* c);
+	/**
+		Sets the character the player will use
+	*/
+	void setCharacter(characterType type);
 	/**
 
 	*/
-	void setCharacter(characterType type);
-	
+	characterType getCharacterType();
+
 	/**
 		Reset the player action tokens
 	*/
-	void resetActionTokens();
-	
+	virtual void resetActionTokens()override;
 	/**
 		Checks adjacency and tries to move to the tile, returns true if successful
-		@params newPos pointer to the tile the player wants to move to
+		@params newTile pointer to the tile the player wants to move to
 	*/
 	bool move(Tile * newTile);
-
 	/**
 		Peek the tile in exchange of an action token
 	*/
-	bool peek(Tile * newTile);
-	
+	void peek(Tile * newTile);
 	/**
 		Appends a new action to the action history
 		@params action the string of the action that occured
 		@params tile coordinate to the tile where the action happened
 	*/
-	void newAction(string action, Coord tile);
+	virtual void newAction(string action, Coord tile)override;
 	
 	/**
 		Removes 1 stealth token if possible
 	*/
-	void removeStealthToken();
+	virtual void removeStealthToken()override;
 	
 	/**
 		Removes 1 action token if possible
 	*/
-	void removeActionToken();
+	virtual void removeActionToken()override;
 	/**
 		Returns the amount of stealth tokens
 	*/
-	int getStealthTokens();
+	virtual int getStealthTokens()override;
 
 	/**
 		Returns the amount of action tokens
 	*/
-	int getActionTokens();
+	virtual int getActionTokens()override;
 
 	/**
 		Simulates a die being thrown
 	*/
-	int throwDice();
-
+	virtual  int throwDice()override;
 	/**
 	
 	*/
 	void addLoot(Loot * l);
+	/**
 
+	*/
+	virtual bool has(lootType l)override;
 	/**
 		Returns true if the player has at least one loot.
 	*/
-	bool hasLoot();
+	virtual bool hasLoot()override;
 
 	/**
-		Clears the coordinates from where the player is visible from
+		Retrun true if the guard can see the player from that position
 	*/
-	void clearVisibleFrom();
-
+	virtual bool isVisibleFrom(Coord c)override;
 	/**
 		Adds a coordinate to the list of coordinates the player is visible from
 	*/
-	void addVisibleTile(Coord tile);
-
+	virtual void addVisibleTile(Coord tile)override;
 	/**
 		Returns the vector with the coordinates the player is visible from
 	*/
-	vector <Coord>& getVisibleFrom();
-
+	virtual vector <Coord> getVisibleFrom()override;
 	/**
-	
+		
 	*/
-	void setVisibleFrom(vector <Coord> newCoords);
+	virtual void updateVisibleFrom()override;
 
-	/**
-	Get player name
-	*/
-	string getName();
 
-	/**
-	
-	*/
-	characterType getCharacterType();
-
-	/**
-	
-	*/
-	void changePos(Coord newPos) { pos = newPos; };
-
+	vector<Loot*>& getLoots() { return loots; };
 private:
 	string name;
 	Character * character;
 	Tile * currentTile;
-	Coord pos;
+	Board * board;
 	int actionTokens;
 	int stealthTokens;
-	list <actionNode> actions;
+	vector<actionNode> actions;
 	vector <Loot*> loots;
+	// Coord from where the guard can see the player (player position normally, unless special cases)
 	vector <Coord> visibleFrom;
-	vector <unsigned int> dice;	//holds the value of the dice thrown in the players turn (from 1 to 6) up to four dice
-									// POR QUE UN VECTOR???
-										// porque para el keypad y el safe necesito tirar el dado muchas veces sin salir de la tile, y es para que quede un registro de lo que salio
+	vector <unsigned int> dice;	
 };

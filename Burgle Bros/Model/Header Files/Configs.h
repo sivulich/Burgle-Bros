@@ -17,6 +17,7 @@
 #include <random>
 #include "Enumerations.h"
 #include "Coord.h"
+#include <climits>
 
 #define DEBUG
 //#define DEBUG_V
@@ -38,21 +39,6 @@
 
 using namespace std;
 
-class Coord
-{
-public:
-	Coord() {};
-	Coord(unsigned f, unsigned c, unsigned r) : col(c), row(r), floor(f) {};
-	unsigned col, row, floor;
-	ostream& operator<<(ostream& os)
-	{
-		os << "Floor: " << floor << " Col: " << col << " Row: " << row << endl;
-		return os;
-	}
-	bool operator==(Coord& cd) {
-		return ((col == cd.col) && (row == cd.row) && (floor == cd.floor));
-	}
-};
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 #define PRESSED_TONE al_map_rgba(0,0,0,200)
@@ -97,8 +83,48 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (QUIT, 0xFE)
 (ERRO, 0xFF))
 
+DEFINE_ENUM_WITH_CONVERSIONS(lootType,
+(TIARA, 0x30)
+(PERSIAN_KITTY)
+(PAINTING)
+(MIRROR)
+(KEYCARD)
+(ISOTOPE)
+(GEMSTONE)
+(CURSED_GOBLET)
+(CHIHUAHUA)
+(GOLD_BAR))
 
+DEFINE_ENUM_WITH_CONVERSIONS(tileType,
+(ATRIUM, 0x01)
+(CAMERA, 0x02)
+(COMPUTER_ROOM_F, 0x03)
+(COMPUTER_ROOM_L, 0x04)
+(COMPUTER_ROOM_M, 0x05)
+(DEADBOLT, 0x06)
+(FINGERPRINT, 0x07)
+(FOYER, 0x08)
+(KEYPAD, 0x09)
+(LABORATORY, 0x0A)
+(LASER, 0x0B)
+(LAVATORY, 0x0C)
+(MOTION, 0x0D)
+(SAFE, 0x0E)
+(SCANNER, 0x0F)
+(SECRET_DOOR, 0x10)
+(SERVICE_DUCT, 0x11)
+(STAIR, 0x12)
+(THERMO, 0x13)
+(WALKWAY, 0x14))
 
+DEFINE_ENUM_WITH_CONVERSIONS(characterType,
+(JUICER, 0x20)
+(HACKER)
+(ACROBAT)
+(SPOTTER)
+(HAWK)
+(RAVEN)
+(PETERMAN))
 
 
 #endif //CONFIGS_H

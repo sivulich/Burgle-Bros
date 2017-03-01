@@ -1,6 +1,7 @@
 #pragma once
 #include <ostream>
 
+#define NPOS Coord(5,5,5)
 class Coord
 {
 public:
@@ -13,7 +14,11 @@ public:
 		return (col==other.col && row==other.row && floor==other.floor);
 	}
 
-	friend std::ostream& operator<< (std::ostream &os, const Coord &c);
+	friend std::ostream& operator<< (std::ostream &os, const Coord &c)
+	{
+		os << "(" << c.floor+1 <<","<< char('A'+c.col)  << c.row+1 << ")";
+		return os;
+	}
 };
 
 

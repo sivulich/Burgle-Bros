@@ -1,10 +1,11 @@
 #pragma once
-#include "../Header Files/Configs.h"
-#include "../Header Files/Tiles/TileFactory.h"
-//#include "Guard.h"
-#include "../Header Files/PatrolCardDeck.h"
+#include "Configs.h"
+#include "Tiles/TileFactory.h"
+#include "Guard.h"
+#include "PatrolCardDeck.h"
 
-class Floor
+
+class Floor: public BaseModel
 {
 public:
 	/**
@@ -13,7 +14,12 @@ public:
 		@param h height of the floor
 		@param n number of the floor
 	*/
-	Floor(int w, int h, int n) : tiles(w,vector<Tile*>(h,nullptr)), floorNumber(n){};
+	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
+	{
+		floorNumber = n;
+		guard.setDeck(&guardDeck);
+		guard.setAlarms(&alarms);
+	};
 
 	/**
 		Access a specific tile
@@ -21,6 +27,7 @@ public:
 		@param row Row of the tile
 	*/
 	Tile * tile(int col, int row);
+
 
 
 	/**
@@ -52,13 +59,17 @@ public:
 		Receives a matrix of adjacency lists and copies it to the class
 		@param a Matrix of adjacency list
 	*/
-	void setAdjacent(vector<Coord> a[4][4]);
+	void setMap(vector<Coord> a[4][4]);
 
 	/**
 
 	*/
-//	Coord guardPos() { return guard.getPos(); };
+	Coord guardPos() { return guard.getPos(); };
 
+	/**
+		Returns the guard of the floor
+	*/
+	Guard* getGuard() { return &guard; };
 
 	/**
 		Sets the position of the stair token
@@ -72,7 +83,7 @@ public:
 	Coord stairPos() { return stairToken; };
 
 	/**
-		Checks all tiles in the floor for an alarm ringin and
+		Checks all tiles in the floor for an alarm ringing and
 		returns a vector with all the coordenates
 	*/
 	vector<Coord>& getAlarms();
@@ -96,18 +107,16 @@ private:
 	// Floor number
 	int floorNumber;
 
-	//
-	//Guard guard;
+	// Guar patrolling on the floor
+	Guard guard;
 
-	//
-	//GuardDeck guardDeck;
+	// Deck with patrol cards
+	PatrolCardDeck guardDeck;
 
-	//Vector of alarms positions
+	//Vector with alarms positions
 	vector<Coord> alarms;
 
 	//Adjacency map of the floor (only walls, no conection with other floors)
-	PatrolCardDeck guardDeck;
-
 	vector<Coord> adjacent[4][4];
 
 	// Position of the stair token

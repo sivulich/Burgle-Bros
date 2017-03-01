@@ -2,9 +2,7 @@
 
 
 
-Acrobat::Acrobat()
-{
-}
+
 
 
 Acrobat::~Acrobat()

@@ -1,6 +1,6 @@
 #pragma once
 #include "Tile.h"
-
+#include "../PlayerInterface.h"
 /*
 Stairs allow you to move directly up one oor. Put
 a Downstairs token on the corresponding tile one oor up
@@ -14,7 +14,7 @@ class Stair :
 	public Tile
 {
 public:
-	Stair(int floor, int col, int row) : Tile(floor, col, row) {};
+	Stair(int floor, int col, int row) : Tile(STAIR,floor, col, row) {};
 	~Stair();
 };
 

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Tile.h"
-
+#include "../PlayerInterface.h"
 class ServiceDuct : public Tile
 {
 public:
-	ServiceDuct();
+	ServiceDuct(int floor, int col, int row) : Tile(SERVICE_DUCT, floor, col, row) {};
 	~ServiceDuct();
 
 	/**

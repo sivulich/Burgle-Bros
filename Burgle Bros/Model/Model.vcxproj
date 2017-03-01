@@ -111,6 +111,7 @@
     <ClInclude Include="Header Files\PatrolCard.h" />
     <ClInclude Include="Header Files\PatrolCardDeck.h" />
     <ClInclude Include="Header Files\Player.h" />
+    <ClInclude Include="Header Files\PlayerInterface.h" />
     <ClInclude Include="Header Files\Tiles\Atrium.h" />
     <ClInclude Include="Header Files\Tiles\Camera.h" />
     <ClInclude Include="Header Files\Tiles\ComputerRoomF.h" />
@@ -135,7 +136,11 @@
     <ClInclude Include="Header Files\Tiles\Walkway.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Input Flow Chart.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{58E7878C-7A74-4307-9642-8D5473D9F256}</ProjectGuid>
