@@ -5,31 +5,32 @@
 Player::Player(Board * b)
 {
 	board = b;
-
+	resetActionTokens();
 	stealthTokens = NUMBER_STEALTH_TOKENS;
-	actionTokens = NUMBER_ACTION_TOKENS;
 }
 
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
-	
+	notify();
 }
 
 void Player::setPosition(Coord c)
 {
 	currentTile = board->getTile(c);
-
+	notify();
 }
 
 void Player::setName(string & playerName)
 {
 	name = playerName;
+	notify();
 }
 
 void Player::setCharacter(characterType type)
 {
 	character = CharacterFactory().newCharacter(type);
+	notify();
 }
 
 
@@ -41,39 +42,59 @@ bool Player::has(lootType l)
 	return false;
 }
 
+bool Player::needConfirmationToMove(Coord c)
+{
+	tileType t = board->getTile(c)->getType();
+	if (t == DEADBOLT)
+		return true;
+}
 void Player::resetActionTokens()
 {
 	actionTokens = NUMBER_ACTION_TOKENS;
+	notify();
+}
+
+bool Player::move(Coord c)
+{
+	Tile * t = board->getTile(c);
+	return move(t);
 }
 
 bool Player::move(Tile * newTile)
 {
-	// If the tile is adjacent to the player's position 
-	if (newTile->isAdjacent(getPosition()))
+	if (newTile->canMove(this))
 	{
 		removeActionToken();
-		if (newTile->canMove(this))
-		{
-			setPosition(newTile);
-			newAction("MOVE", getPosition());
-			newTile->enterTile(this);
-			// Update from where the guard can see the player
-			updateVisibleFrom();
-			// Update all loots
-			for (auto & t : loots)
-				t->update();
-			return true;
-		}
-		//return false??
+		setPosition(newTile);
+		newAction("MOVE", getPosition());
+		newTile->enterTile(this);
+		// Update from where the guard can see the player
+		updateVisibleFrom();
+		// Update all loots
+		for (auto & t : loots)
+			t->update();
+		notify();
+		return true;
 	}
 	return false;
+	
+}
+
+void Player::peek(Coord c)
+{
+	Tile * t = board->getTile(c);
+	peek(t);
 }
 
 void Player::peek(Tile * newTile)
 {
-	removeActionToken();
-	newAction("PEEK", newTile->getPos());
-	newTile->peek();
+	if (newTile->isAdjacent(getPosition()))
+	{
+		removeActionToken();
+		newAction("PEEK", newTile->getPos());
+		newTile->peek();
+		notify();
+	}
 }
 
 Coord Player::getPosition()
@@ -81,7 +102,15 @@ Coord Player::getPosition()
 	return currentTile == nullptr ? NPOS : currentTile->getPos();
 };
 
+vector<string> Player::getActions()
+{
+	return currentTile->getActions(this);
+}
 
+bool Player::isOnRoof()
+{
+	return getPosition() == ROOF;
+}
 void Player::print()
 {
 	cout << name << " at " << currentTile->getPos() << " --> " << toString(currentTile->getType()) << endl;
@@ -108,6 +137,7 @@ void Player::removeStealthToken()
 		stealthTokens--;
 	else
 		DEBUG_MSG("NO STEALTH TOKENS LEFT, YOU ARE DEADDDDD");
+	notify();
 }
 
 void Player::removeActionToken()
@@ -116,6 +146,7 @@ void Player::removeActionToken()
 		actionTokens--;
 	else
 		DEBUG_MSG("UNEXPECTED ERROR. COULD NOT REMOVE ACTION TOKEN.");
+	notify();
 }
 
 int  Player::getStealthTokens()
@@ -141,11 +172,13 @@ int Player::throwDice()
 	dice.push_back(temp);
 	DEBUG_MSG("You rolled the dice and got a " << temp);
 	return temp;
+	notify();
 }
 
 void Player::addLoot(Loot * l)
 {
 	loots.push_back(l);
+	notify();
 };
 
 bool Player::hasLoot()

@@ -1,21 +1,26 @@
-#include "../Header Files/GameModel.h"
+#include "../../Model/Header Files/GameModel.h"
 #include "../../ConsoleView/ConsoleView.h"
 #include "../../Controller/Header Files/controller.h"
-
+#include "../../Model/Header Files/Player.h"
 
 int main(void)
 {
 	GameModel model;
-
-	model.player1.setPosition(Coord(0, 0, 0));
-	model.player1.setName(string("Pepe"));
-	model.player1.setCharacter(RAVEN);
-
-	model.player2.setPosition(Coord(0, 0, 0));
-	model.player2.setName(string("Gabriela"));
-	model.player2.setCharacter(PETERMAN);
-
 	ConsoleView view(&model);
+	model.setBoard();
+
+	
+	model.currentPlayer()->setPosition(Coord(0, 0, 0));
+	model.currentPlayer()->setName(string("Pepe"));
+	model.currentPlayer()->setCharacter(RAVEN);
+
+	model.otherPlayer()->setPosition(Coord(0, 0, 0));
+	model.otherPlayer()->setName(string("Gabriela"));
+	model.otherPlayer()->setCharacter(PETERMAN);
+
+	model.print();
+
+
 	Controller controller(&model, &view);
 
 	controller.startGame();

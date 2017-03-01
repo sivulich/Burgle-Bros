@@ -1,5 +1,6 @@
 #include "../Header Files/GameModel.h"
 #include "../Header Files/Enumerations.h"
+#include "../Header Files/Configs.h"
 /*
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (ACK, 0x01)
@@ -64,16 +65,38 @@ bool GameModel::gameOver()
 	return player1.getStealthTokens() == 0 || player2.getStealthTokens() == 0;
 }
 
-
-
-
-static bool checkParam(string& s)
+/**
+Called after guard movement, it changes the turn
+*/
+void GameModel::changeTurn()
 {
-	if (s.size() != 4)
-		return false;
-	if (s[2] != 'F')
-		return false;
-	if (s[0] - 'A' >= 0 && s[0] - 'A' <= 3 && s[1] - '1' >= 0 && s[1] - '1' <= 3 && s[3] - '1' >= 0 && s[3] - '1' <= 3)
-		return true;
-	return false;
+	swap(currentPlayer_, otherPlayer_);
+}
+
+bool GameModel::guardIsMoving()
+{
+	return guardIsMoving_;
+}
+
+void GameModel::moveGuard()
+{
+	int floor = currentPlayer_->getPosition().floor;
+
+	guardIsMoving_ = board[floor]->moveGuard();
+}
+
+bool GameModel::win()
+{
+	return player1.isOnRoof() && player2.isOnRoof() && player1.getLoots().size() + player2.getLoots().size() == 3;
+}
+
+void GameModel::setBoard()
+{
+	board.setBoard();
+	board.setWalls();
+}
+void GameModel::setBoard(vector<tileType> tiles)
+{
+	board.setBoard(tiles);
+	board.setWalls();
 }

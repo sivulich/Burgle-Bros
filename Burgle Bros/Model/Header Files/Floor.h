@@ -56,6 +56,10 @@ public:
 	int number();
 
 	/**
+		Moves the guard of the floor
+	*/
+	bool moveGuard();
+	/**
 		Receives a matrix of adjacency lists and copies it to the class
 		@param a Matrix of adjacency list
 	*/
@@ -67,7 +71,7 @@ public:
 	Coord guardPos() { return guard.getPos(); };
 
 	/**
-		Returns the guard of the floor
+		Returns the guard of the floor // Fijar
 	*/
 	Guard* getGuard() { return &guard; };
 

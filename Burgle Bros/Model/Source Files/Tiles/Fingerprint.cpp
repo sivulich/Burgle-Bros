@@ -10,10 +10,11 @@ void Fingerprint::enterTile(PlayerInterface * player) {
 	setAlarm(true);
 }
 
-vector<string>& Fingerprint::getActions(PlayerInterface * player) {
+vector<string> Fingerprint::getActions(PlayerInterface * player)
+{
 	
+	vector<string> actions(Tile::getActions(player));
 
-	vector<string> actions;
 	if (player->getActionTokens() > 0)
 		actions.push_back(toString(USE_TOKEN));		// if you have an action, you can use a token to turn off the alarm
 	return actions;

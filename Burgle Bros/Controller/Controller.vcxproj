@@ -32,6 +32,66 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\Model\Debug\Acrobat.obj" />
+    <Object Include="..\Model\Debug\actionNode.obj" />
+    <Object Include="..\Model\Debug\Atrium.obj" />
+    <Object Include="..\Model\Debug\BaseCard.obj" />
+    <Object Include="..\Model\Debug\BaseDeck.obj" />
+    <Object Include="..\Model\Debug\Board.obj" />
+    <Object Include="..\Model\Debug\Camera.obj" />
+    <Object Include="..\Model\Debug\Character.obj" />
+    <Object Include="..\Model\Debug\CharacterFactory.obj" />
+    <Object Include="..\Model\Debug\Chihuahua.obj" />
+    <Object Include="..\Model\Debug\ComputerRoomF.obj" />
+    <Object Include="..\Model\Debug\ComputerRoomL.obj" />
+    <Object Include="..\Model\Debug\ComputerRoomM.obj" />
+    <Object Include="..\Model\Debug\Coord.obj" />
+    <Object Include="..\Model\Debug\CursedGoblet.obj" />
+    <Object Include="..\Model\Debug\Deadbolt.obj" />
+    <Object Include="..\Model\Debug\Fingerprint.obj" />
+    <Object Include="..\Model\Debug\Floor.obj" />
+    <Object Include="..\Model\Debug\Foyer.obj" />
+    <Object Include="..\Model\Debug\GameModel.obj" />
+    <Object Include="..\Model\Debug\Gemstone.obj" />
+    <Object Include="..\Model\Debug\GoldBar.obj" />
+    <Object Include="..\Model\Debug\Guard.obj" />
+    <Object Include="..\Model\Debug\Hacker.obj" />
+    <Object Include="..\Model\Debug\Hawk.obj" />
+    <Object Include="..\Model\Debug\Isotope.obj" />
+    <Object Include="..\Model\Debug\Juicer.obj" />
+    <Object Include="..\Model\Debug\Keycard.obj" />
+    <Object Include="..\Model\Debug\Keypad.obj" />
+    <Object Include="..\Model\Debug\Laboratory.obj" />
+    <Object Include="..\Model\Debug\Laser.obj" />
+    <Object Include="..\Model\Debug\Lavatory.obj" />
+    <Object Include="..\Model\Debug\Loot.obj" />
+    <Object Include="..\Model\Debug\LootFactory.obj" />
+    <Object Include="..\Model\Debug\Mirror.obj" />
+    <Object Include="..\Model\Debug\Motion.obj" />
+    <Object Include="..\Model\Debug\Painting.obj" />
+    <Object Include="..\Model\Debug\PatrolCard.obj" />
+    <Object Include="..\Model\Debug\PatrolCardDeck.obj" />
+    <Object Include="..\Model\Debug\PersianKitty.obj" />
+    <Object Include="..\Model\Debug\Peterman.obj" />
+    <Object Include="..\Model\Debug\Player.obj" />
+    <Object Include="..\Model\Debug\Raven.obj" />
+    <Object Include="..\Model\Debug\Safe.obj" />
+    <Object Include="..\Model\Debug\Scanner.obj" />
+    <Object Include="..\Model\Debug\SecretDoor.obj" />
+    <Object Include="..\Model\Debug\ServiceDuct.obj" />
+    <Object Include="..\Model\Debug\Spotter.obj" />
+    <Object Include="..\Model\Debug\Stair.obj" />
+    <Object Include="..\Model\Debug\Thermo.obj" />
+    <Object Include="..\Model\Debug\Tiara.obj" />
+    <Object Include="..\Model\Debug\Tile.obj" />
+    <Object Include="..\Model\Debug\TileFactory.obj" />
+    <Object Include="..\Model\Debug\Walkway.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Model\Debug\Model.Build.CppClean.log" />
+    <Text Include="..\Model\Debug\Model.log" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9B5E20A1-F6D7-4781-8D4F-FB938EFD17FA}</ProjectGuid>
     <RootNamespace>Controller</RootNamespace>
@@ -91,7 +151,7 @@
       <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View;C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\Model\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

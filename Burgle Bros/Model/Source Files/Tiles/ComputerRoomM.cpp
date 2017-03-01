@@ -5,12 +5,14 @@ ComputerRoomM::~ComputerRoomM()
 {
 }
 
-vector<string>& ComputerRoomM::getActions(PlayerInterface * player) {
+vector<string> ComputerRoomM::getActions(PlayerInterface * player)
+{
 	
-	vector<string> posible;
+	vector<string> actions(Tile::getActions(player));
+
 	if ((player->getPosition() == getPos()) && player->getActionTokens() > 0)	// if the player is on this tile, allow him to put a hack token
-		posible.push_back(toString(ADD_TOKEN));
-	return posible;
+		actions.push_back(toString(ADD_TOKEN));
+	return actions;
 }
 
 

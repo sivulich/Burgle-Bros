@@ -4,13 +4,12 @@
 Tile::Tile()
 {
 	turnDown();
-	alarm = false;
-
+	alarmToken = false;
 }
 
 Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row) 
 {
-	alarm = false;
+	alarmToken = false;
 	type = t;
 	coord.col = col;
 	coord.row = row;
@@ -22,46 +21,42 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 
 void Tile::setLoot(Loot * l)
 {
-	loot = l;
+	loot.push_back(l);
 }
-void Tile::setAdjacent(Coord c)
+
+void Tile::addAdjacent(Coord c)
 {
 	adjacent.push_back(c);
 };
-
 
 void Tile::deleteAdjacent(Coord b)
 {
 	adjacent.erase(find(adjacent.begin(), adjacent.end(), b));
 }
 
-
 bool Tile::isAdjacent(Coord b)
 {
 	return find(adjacent.begin(), adjacent.end(), b) != adjacent.end();
 }
-
 
 bool Tile::is(tileType t)
 {
 	return t == getType();
 }
 
-
 tileType Tile::getType()
 {
 	return type;
 }
 
-
 bool Tile::hasAlarm()
 {
-	return alarm;
+	return alarmToken;
 }
 
 bool Tile::hasLoot()
 {
-	return loot == nullptr ? false : true;
+	return loot.empty() ? false : true;
 }
 
 
@@ -73,40 +68,30 @@ void Tile::turnUp()
 	safeNumber = distribution(generator);
 }
 
-
-void  Tile::setAlarm(bool b)
+void Tile::setAlarm(bool b)
 {
-	alarm = b;
+	alarmToken = b;
 }
 
-
-void Tile::setCoord(unsigned floor, unsigned col, unsigned row)
+void Tile::setCoord(Coord c)
 {
-	coord.col = col;
-	coord.row = row;
-	coord.floor = floor;
+	coord = c;
 }
-
 
 int Tile::getSafeNumber()
 {
 	return isFlipped() ? safeNumber : 0;
 }
 
-
-
 vector<Coord> Tile::whereCanIMove()
 {
 	return adjacent;
 }
 
-
 vector<Coord> Tile::whereCanIPeek()
 {
 	return adjacent;
 }
-
-
 
 Coord Tile::getPos() { return coord; };
 
@@ -116,7 +101,6 @@ int Tile::col() { return coord.col; };
 
 int Tile::row() { return coord.row; };
 
-
 void Tile::peek()
 {
 	turnUp();
@@ -125,7 +109,7 @@ void Tile::peek()
 
 bool Tile::canMove(PlayerInterface * p)
 {
-		return true;
+	return isAdjacent(p->getPosition());
 }
 
 void Tile::enterTile(PlayerInterface * p)
@@ -135,27 +119,17 @@ void Tile::enterTile(PlayerInterface * p)
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
 }
 
-vector<string>& Tile::getActions(PlayerInterface * p)
+vector<string> Tile::getActions(PlayerInterface * p)
 {
 	vector<string> actions;
-	if (this->isAdjacent(p->getPosition()))
-		actions.push_back("PEEK");
+	actions.push_back("PEEK");
+	actions.push_back("MOVE");
 	return actions;
 }
 
-void Tile::doAction(string action, PlayerInterface * p) {
+void Tile::doAction(string action, PlayerInterface * p)
+{
 
 }
 
 
-
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////
-/*
-bool Tile::canPeek(Player p) {
-if (p.getActionTokens() > 0 && isFlipped() == false)
-return true;
-else
-return false;
-}
-*/

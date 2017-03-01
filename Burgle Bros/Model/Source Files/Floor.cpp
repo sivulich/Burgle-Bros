@@ -1,5 +1,5 @@
 #include "../Header Files/Floor.h"
-
+#include "../../ConsoleView/ConsoleColors.h"
 
 Tile * Floor::tile(int col, int row)
 {
@@ -20,13 +20,11 @@ void Floor::setTile(int col, int row, tileType t)
 void Floor::print()
 {
 	cout << "Floor " << floorNumber + 1 << ":" << endl;
-
-	char c = 'A';
-
 	cout << "__|";
 	for (int j = 0; j < 4; j++)
-		cout << string(8, '_') << char(c+j) << string(9, '_')<< "|";
+		cout << string(8, '_') << char('A'+j) << string(9, '_')<< "|";
 	cout << endl;
+
 	for (int i = 0; i < 4; i++)
 	{
 		cout << i+1 << " |";
@@ -34,23 +32,32 @@ void Floor::print()
 		{
 			string name = toString(tiles[j][i]->getType());
 			int spaces = 18 - name.length();
-			cout << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ');
+
+			if(tiles[j][i]->isFlipped())
+				cout << eku::green << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ');
+			else
+				cout << eku::red << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ');
+			
 			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j + 1, i)) != adjacent[j][i].end())
-			{
 				cout << " ";
-			}
-			else cout << "|";
+			else
+				cout << "|";
 		}	
 		cout << endl << "  |";
-		for (int j = 0; j < 4; j++)
+		if (i < 3)
 		{
-			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j, i+1)) != adjacent[j][i].end())
+			for (int j = 0; j < 4; j++)
 			{
-				cout << "                  ";
+				if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j, i + 1)) != adjacent[j][i].end())
+					cout << "                  ";
+				else
+					cout << "------------------";
+				//cout << "__________________";
+				if (j < 3)cout << " ";
 			}
-			else cout << "__________________";
+			cout << "|" << endl;
 		}
-		cout << "|" <<endl;
+		else cout << "  |__________________ __________________ __________________ __________________|" << endl;
 	}
 	cout << endl;
 }
@@ -81,6 +88,10 @@ int Floor::number()
 	return floorNumber;
 };
 
+bool Floor::moveGuard()
+{
+	return guard.move();
+}
 
 void Floor::setMap(vector<Coord> a[4][4])
 {
