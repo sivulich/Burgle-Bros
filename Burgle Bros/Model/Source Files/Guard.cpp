@@ -66,7 +66,7 @@ bool Guard::RemoveAlarm(Coord coord)
 	}
 }
 
-bool Guard::Move()
+bool Guard::move()
 {
 	BaseCard * ptr;
 	PatrolCard * p;

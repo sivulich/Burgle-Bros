@@ -54,7 +54,7 @@ public:
 	moves the guard one position, if the guard steps on the current target a new one is added (if the patrol deck has to be reseted guard base speed increases)
 	if the guard steps over an alarm it is turned off
 	*/
-	bool Move();
+	bool move();
 
 	/**
 	checks if guard sees a PlayerInterface. if it is the case a stealth token is removed from the PlayerInterface

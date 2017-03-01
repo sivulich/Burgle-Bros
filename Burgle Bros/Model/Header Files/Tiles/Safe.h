@@ -18,13 +18,13 @@ public:
 
 	void setLoot(lootType l)
 	{
-		loot = LootFactory().newLoot(l);
+		loot.push_back(LootFactory().newLoot(l));
 	}
 	/**
 		Returns a vector of strings with the actions the player can do on the tile they are on
 		@param p Player who wants to check the actions
 	*/
-	virtual vector<string>& getActions(PlayerInterface * player) override;
+	virtual vector<string> getActions(PlayerInterface * player) override;
 
 	/**
 		Applies the action given to the player
