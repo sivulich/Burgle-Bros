@@ -13,6 +13,7 @@ public:
 	void setAlarm();
     ~TileObserver();
 private:
+
 	Container* parent;
 	Container* toDraw;
 	Tile* tile;

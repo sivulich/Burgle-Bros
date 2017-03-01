@@ -6,6 +6,7 @@
 class BoardObserver:public Observer{
 public:
 	BoardObserver(Board* b, Container* c);
+	Container* getFloor(int i) { return floors[i]->getFloorGrid(); };
 	void update();
 private:
 	FloorObserver* floors[3];
