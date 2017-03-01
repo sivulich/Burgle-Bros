@@ -34,7 +34,7 @@ public:
 	void peek();
 
 	/**
-		Return true if the player can move to the tile
+		Return true if the player can move to the tile (check adjancency on base tile)
 		(Always true except on special cases where function will be overwritten)
 		@param p player who is moving
 	*/
@@ -79,7 +79,7 @@ public:
 		@param col column of the tile
 		@param row row of the tile
 	*/
-	void setCoord(unsigned floor, unsigned col, unsigned row);
+	void setCoord(Coord c);
 
 	/**
 		Returns the type of the tile.
@@ -112,10 +112,11 @@ public:
 	void setLoot(Loot * l);
 
 	/**
-		Returns a vector of strings with the actions the player can do on the tile they are on
+		Returns a vector of strings with the actions the player can do on the tile they are on.
+		Actions PEEK and MOVE are always valid. On each tileType overload the function
 		@param p Player who wants to check the actions
 	*/
-	virtual vector<string>& getActions(PlayerInterface * player);
+	virtual vector<string> getActions(PlayerInterface * player);
 
 	/**
 		Applies the action given to the player
@@ -142,7 +143,7 @@ public:
 	/**
 		Add a coord to the adjacent list
 	*/
-	void setAdjacent(Coord c);
+	void addAdjacent(Coord c);
 
 	/**
 		Delete a coord from the adjacent list
@@ -162,15 +163,13 @@ protected:
 	Coord coord;
 	// Type of tile
 	tileType type;
-	// If an alarm is ringing in the tile alarm is true
-	bool alarm;
 	// Number to crack the safe
 	int safeNumber;
 	// Vector with adjacent tiles (coords)
 	vector<Coord> adjacent;
 	// A tile can have a loot (a safe tile or a loot has been dropped)
-	Loot * loot;
-	//
-	bool crackToken, crowToken;
+	vector<Loot*> loot;
+	// 
+	bool crackToken, crowToken, stairToken, alarmToken;
 
 };

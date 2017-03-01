@@ -54,25 +54,25 @@ void Board::setWalls()
 				if (row > 0 && (walls[f][i - 1][j] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row - 1));
-					tile->setAdjacent(Coord(f, col, row - 1));
+					tile->addAdjacent(Coord(f, col, row - 1));
 				}
 				// Adjacent with tile below
 				if (row < 3 && (walls[f][i + 1][j] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row + 1));
-					tile->setAdjacent(Coord(f, col, row + 1));
+					tile->addAdjacent(Coord(f, col, row + 1));
 				}
 				// Adjacent with the left tile
 				if (col > 0 && (walls[f][i][j - 1] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
-					tile->setAdjacent(Coord(f, col - 1, row));
+					tile->addAdjacent(Coord(f, col - 1, row));
 				}
 				// Adjacent with the right tile
 				if (col < 3 && (walls[f][i][j + 1] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
-					tile->setAdjacent(Coord(f, col + 1, row));
+					tile->addAdjacent(Coord(f, col + 1, row));
 				}
 			}
 		}
@@ -163,8 +163,8 @@ void Board::parseBoard()
 				{
 					case STAIR:
 						// If there is a Stair tile add adjacency with next floor
-						(*floor[f + 1])[col][row]->setAdjacent(Coord(f, col, row));
-						tile->setAdjacent(Coord(f + 1, col, row));
+						(*floor[f + 1])[col][row]->addAdjacent(Coord(f, col, row));
+						tile->addAdjacent(Coord(f + 1, col, row));
 						floor[f + 1]->setStairToken(Coord(f + 1, col, row));
 					break;
 

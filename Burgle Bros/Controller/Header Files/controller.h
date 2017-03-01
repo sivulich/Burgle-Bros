@@ -4,6 +4,20 @@
 #include "../../ConsoleView/ConsoleView.h"
 #include "../GameFSM.h"
 
+DEFINE_ENUM_WITH_CONVERSIONS(gameState,
+(ROLL_FOR_LOOT)
+(PLAYER_TURN)
+(GUARD_TURN)
+(GAMEOVER)
+(EXIT))
+
+DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
+(Move)
+(Peek)
+(Add_token)
+(Throw_dice)
+(Move_guard)
+(No_event))
 
 
 /**
@@ -20,21 +34,117 @@ public:
 		view = v;
 	}
 
+
+
 	void startGame()
 	{
-		gameEvent event = NO_EVENT;
+		gameState status = PLAYER_TURN;
 
-		while (FSM.status() != EXIT)
+		while (status != EXIT)
 		{
-			vector<string> actions = model->currentPlayer()->getActions();
+			model->print();
 
-			gameEvent event = getInput();
-			if (event != NO_EVENT)
+			if (status == PLAYER_TURN)
 			{
-				FSM.run(event);
-				view->draw();
+				cout << "Available actions: ";
+				vector<string> actions = model->currentPlayer()->getActions();
+				for (auto& s : actions)
+					cout << s << " ";
+				cout << endl;
 			}
+			string command,coord;
+			cin >> command;
+			gameEvent event = toEnum_gameEvent(command.c_str());
 
+			bool move;
+			switch (status)
+			{
+				case PLAYER_TURN:
+				{
+					switch (event)
+					{
+					case Move:
+					{
+						cin >> coord;
+						Coord c(coord[0]-'0'-1, coord[1] - 'A', coord[2] - '0' - 1);
+
+						move = true;
+						if (model->currentPlayer()->needConfirmationToMove(c))
+						{
+							cout << "Are you sure you want to move? (YES/NO)" << endl;
+							string g;
+							cin >> g;
+							if (g == "NO")
+								move = false;
+						}
+
+						if (move)
+						{
+							model->currentPlayer()->move(c);
+
+							if (model->gameOver() == true)
+								status = GAMEOVER;
+							else if (model->currentPlayer()->getActionTokens() == 0)
+								status = GUARD_TURN;
+							else if (model->win())
+								cout << "YOU WIN" << endl;
+						}
+					}
+					break;
+
+					case PEEK:
+					{
+						cin >> coord;
+						Coord c(coord[0] - 1, coord[1] - 'A', coord[2] - 1);
+
+						model->currentPlayer()->peek(c);
+						if (model->currentPlayer()->getActionTokens() == 0)
+							status = GUARD_TURN;
+					}
+					break;
+
+					case Add_token:
+					{
+
+					}
+					break;
+
+					case Throw_dice:
+					{
+
+					}
+					break;
+					}
+				}
+				break;
+
+				case GUARD_TURN:
+				{
+					switch (event)
+					{
+					case Move_guard:
+					{
+						model->moveGuard();
+
+						if (model->gameOver())
+							status = GAMEOVER;
+						else if (model->guardIsMoving())
+						{
+							model->changeTurn();
+							status = PLAYER_TURN;
+						}
+					}
+					break;
+					}
+				}
+				break;
+
+				case EXIT:
+				{
+
+				}
+				break;
+			}
 		}
 	}
 
@@ -48,15 +158,6 @@ private:
 		// Si sono algun timer (para dibujar, o el del movimiento del guardia), traducir a evento
 		// Si llego paquete de jugador remoto, traducir a evento :)))))))))) MIERDA
 
-		string input1, input2;
-		cin >> input1 >> input2;
-		ev = toEnum_gameEvent(input1.c_str());
-		if (ev != NOT_IN_ENUM)
-		{
-			param = input2;
-			return ev;
-		}
-		return NO_EVENT;	
 	};
 
 	gameEvent ev;

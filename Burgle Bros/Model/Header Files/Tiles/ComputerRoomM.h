@@ -14,7 +14,7 @@ public:
 	~ComputerRoomM();
 
 
-	virtual vector<string>& getActions(PlayerInterface * player) override;
+	virtual vector<string> getActions(PlayerInterface * player) override;
 	virtual void doAction(string action, PlayerInterface * player) override;
 
 	/**

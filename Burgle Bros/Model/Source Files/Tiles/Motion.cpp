@@ -10,9 +10,10 @@ void Motion::enterTile(PlayerInterface * player) {
 	arm();
 }
 
-vector<string>& Motion::getActions(PlayerInterface * player)
+vector<string> Motion::getActions(PlayerInterface * player)
 {
-	vector<string> actions;
+	vector<string> actions(Tile::getActions(player));
+
 	if (player->getActionTokens() > 0)
 		actions.push_back(toString(USE_TOKEN));		// if you have an action, you can use a token to disarm the system
 	return actions;

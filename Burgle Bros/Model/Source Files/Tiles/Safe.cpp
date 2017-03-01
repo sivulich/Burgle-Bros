@@ -5,7 +5,7 @@ Safe::~Safe()
 {
 }
 
-vector<string>& Safe::getActions(PlayerInterface * player) {
+vector<string> Safe::getActions(PlayerInterface * player) {
 	
 	vector<string> tempActions;
 	if (safeIsOpen() == false)		// if the safe is closed

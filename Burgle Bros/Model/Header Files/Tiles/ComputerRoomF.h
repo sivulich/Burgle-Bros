@@ -13,7 +13,7 @@ public:
 	ComputerRoomF(int floor, int col, int row) : Tile(COMPUTER_ROOM_F,floor, col, row) {};
 	~ComputerRoomF();
 
-	virtual vector<string>& getActions(PlayerInterface * player) override;
+	virtual vector<string> getActions(PlayerInterface * player) override;
 	virtual void doAction(string action, PlayerInterface * player) override;
 
 	/**

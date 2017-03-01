@@ -12,10 +12,12 @@ class Player : public PlayerInterface, public BaseModel
 {
 public:
 	/**
-		Construct a player with access to the board
+		Construct a player (with access to the board)
 	*/
 	Player(Board * b);
-
+	/**
+		Hay que destruir el caracter... algo mas?
+	*/
 	~Player() {};
 
 	/**
@@ -35,6 +37,14 @@ public:
 	*/
 	virtual Coord getPosition()override;
 	/**
+		Return true if the player is on the roof of the building 
+	*/
+	bool isOnRoof();
+	/**
+	
+	*/
+	vector<string> getActions();
+	/**
 		Set player position with a coord
 	*/
 	virtual void setPosition(Coord c)override;
@@ -42,28 +52,35 @@ public:
 		Sets the player's position with a tile pointer
 	*/
 	void setPosition(Tile* c);
+
 	/**
 		Sets the character the player will use
 	*/
 	void setCharacter(characterType type);
 	/**
-
+		Get character type
 	*/
 	characterType getCharacterType();
 
+	/**
+	
+	*/
+	bool needConfirmationToMove(Coord c);
 	/**
 		Reset the player action tokens
 	*/
 	virtual void resetActionTokens()override;
 	/**
-		Checks adjacency and tries to move to the tile, returns true if successful
+		Move the player to the tile
 		@params newTile pointer to the tile the player wants to move to
 	*/
 	bool move(Tile * newTile);
+	bool move(Coord c);
 	/**
 		Peek the tile in exchange of an action token
 	*/
 	void peek(Tile * newTile);
+	void peek(Coord c);
 	/**
 		Appends a new action to the action history
 		@params action the string of the action that occured
@@ -135,6 +152,8 @@ private:
 	int stealthTokens;
 	vector<actionNode> actions;
 	vector <Loot*> loots;
+
+	
 	// Coord from where the guard can see the player (player position normally, unless special cases)
 	vector <Coord> visibleFrom;
 	vector <unsigned int> dice;	
