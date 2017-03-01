@@ -1,9 +1,10 @@
 #pragma once
 #include "BaseCard.h"
 #include "Configs.h"
+#include "BaseModel.h"
 //Top of deck is represented by vector´s back
 //Top of discarded deck is considered to be active card
-class BaseDeck
+class BaseDeck:public BaseModel
 {
 public:
 	BaseDeck();
@@ -21,12 +22,12 @@ public:
 	bool discardTop();
 
 	/**
-	removes top card of deck from main deck and moves it to the bottom of it
+		Removes top card of deck from main deck and moves it to the bottom of it
 	*/
 	void topToBottom() { deck.insert(deck.begin(), topCard()); deck.pop_back(); };
 
 	/**
-	discards deck´s top card and returns following card value
+	discards deck´s top card and returns cards value
 	@return BaseCard *, if deck is empty value is NULL
 	*/
 	BaseCard* next();
