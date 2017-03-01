@@ -80,9 +80,7 @@ bool Guard::Move()
 		DEBUG_MSG("Guard start pos " << pos << endl);
 		ptr = patroldeck->next();
 		p = static_cast<PatrolCard*>(ptr);
-		//target = p->getCoord();
-		//ESTO ES DEBUG
-		target = Coord(1, 3, 0);
+		target = p->getCoord();
 		DEBUG_MSG("First guard target " << target << endl);
 	}
 		FindPath(pos);
