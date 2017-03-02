@@ -20,6 +20,9 @@ void Foyer::enterTile(PlayerInterface * player) {
 	if (!(temp.col == 3))	// if its not the last column
 		player->addVisibleTile(Coord(temp.floor, temp.col + 1, temp.row));
 
-	DEBUG_MSG("Careful, now you can be seen from adjacent tiles.");
+	DEBUG_LN_MSG("Careful, now you can be seen tiles: ");
+	for (auto i : player->getVisibleFrom()) {
+		DEBUG_LN_MSG(i << " - ");
+	}
 
 }

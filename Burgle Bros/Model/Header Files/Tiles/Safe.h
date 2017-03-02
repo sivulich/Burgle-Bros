@@ -13,7 +13,7 @@ movement die by one on this floor and all those below it.
 class Safe : public Tile
 {
 public:
-	Safe(int floor, int col, int row) : Tile(SAFE,floor, col, row) { tokens = 0; tilesCracked = 0; cracked = false; };
+	Safe(int floor, int col, int row) : Tile(SAFE,floor, col, row) { tokens = 0; safeCracked = false; };
 	~Safe();
 
 	void setLoot(lootType l)
@@ -34,18 +34,18 @@ public:
 	virtual void doAction(string action, PlayerInterface * player) override;
 
 	/**
-		Adds a number to the combination needed to crack the safe.
-		@params tileNumber the number another tile adds to the safe combination.
+		Adds a tile to the combination of tiles needed to crack the safe.
+		@params t the tile added to the safe combination.
 	*/
-	void addCombination( int tileNumber) { combination.push_back(tileNumber); };
+	void addCrackTile( Tile * t) { combinationTiles.push_back(t); };
 
-public:
+
+private:
 	unsigned int tokens;
-	vector <int> combination;
-	unsigned int tilesCracked;
-	bool cracked;
+	vector <Tile *> combinationTiles;
+	bool safeCracked;
 
-	bool safeIsOpen() { return cracked; };
+	bool safeIsOpen() { return safeCracked; };
 	void addToken() { if(tokens<6)	tokens++; };
 	void removeToken() { if(tokens>0)	tokens--; };
 	unsigned int getTokens() { return tokens; };
@@ -55,6 +55,12 @@ public:
 		numbers removed from the vector.
 		@params number you want to try 
 	*/
-	int trySafeNumber(int number);
+	void trySafeNumber(int number);
+
+	/**
+	Returns true if the tile given can be cracked
+	*/
+	bool canCrack(Tile * t, int number);
+
 };
 

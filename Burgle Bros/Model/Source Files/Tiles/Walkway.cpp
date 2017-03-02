@@ -19,7 +19,7 @@ bool Walkway::fallDown(PlayerInterface * player)
 {
 	if (floor() != 0) {			// if not on the bottom floor
 		player->setPosition(Coord(floor() - 1, col(), row()));		//move the player to the floor beneath it
-		player->updateVisibleFrom();
+		updateVisibleFrom(player);
 		DEBUG_MSG("You stepped into a walkway and fell down a floor.");
 		return true; 
 	}

@@ -15,7 +15,11 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
 (Move)
 (Peek)
 (Add_token)
+(Use_token)
 (Throw_dice)
+(A_action)
+(R_action)
+(R_stealth)
 (Move_guard)
 (No_event))
 
@@ -66,10 +70,10 @@ public:
 					case Move:
 					{
 						cin >> coord;
-						Coord c(coord[0]-'0'-1, coord[1] - 'A', coord[2] - '0' - 1);
+						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
 
 						move = true;
-						if (model->currentPlayer()->needConfirmationToMove(c) )
+						if (model->currentPlayer()->needConfirmationToMove(c))
 						{
 							cout << "Are you sure you want to move? (YES/NO)" << endl;
 							string g;
@@ -105,13 +109,34 @@ public:
 
 					case Add_token:
 					{
-
+						model->currentPlayer()->wantsToAddToken();
 					}
 					break;
 
 					case Throw_dice:
 					{
+						model->currentPlayer()->wantsToThrowDice();
+					}
+					break;
+					case Use_token:
+					{
+						model->currentPlayer()->wantsToUseToken();
+					}
+					break;
+					case A_action:
+					{
+						model->currentPlayer()->setActionTokens(model->currentPlayer()->getActionTokens()+4);
+					}
+					break;
+					case R_action:
+					{
+						model->currentPlayer()->removeActionToken();
+					}
+					break;
 
+					case R_stealth:
+					{
+						model->currentPlayer()->removeStealthToken();
 					}
 					break;
 					}

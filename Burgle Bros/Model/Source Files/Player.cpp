@@ -66,20 +66,20 @@ bool Player::move(Coord c)
 bool Player::move(Tile * newTile)
 {
 	removeActionToken();
-//	if (newTile->canMove(this))
-//	{
+	if (newTile->canMove(this))
+	{
 		newAction("MOVE", getPosition());
 		currentTile->exitTile(this);
 		setPosition(newTile);
 		newTile->enterTile(this);
 		// Update from where the guard can see the player
-		updateVisibleFrom();
+		newTile->updateVisibleFrom(this);
 		// Update all loots
 		for (auto & t : loots)
 			t->update();
 		notify();
 		return true;
-	//}
+	}
 //	return false;
 	
 }
@@ -122,9 +122,11 @@ void Player::print()
 	cout << "Stealth tokens " << getStealthTokens() << endl;
 	
 	cout << "Visible from: ";
-	for (auto c : visibleFrom)
+	for (auto c : getVisibleFrom())
 		cout << c << " ";
 	cout << endl;
+
+	cout << "Tile number : " << currentTile->getSafeNumber() << endl;
 
 	cout << "Loots : ";
 	for (auto c : loots)
@@ -139,7 +141,7 @@ void Player::removeStealthToken()
 {
 	if(currentTile->tryToHide() == false)	// try to hide from the guard (for the LAVATORY)
 		stealthTokens--;					// if that fails, remove a stealth tokens
-	else
+	if(stealthTokens==0)
 		DEBUG_MSG("NO STEALTH TOKENS LEFT, YOU ARE DEADDDDD");
 	notify();
 }
@@ -170,13 +172,16 @@ void Player::newAction( string action, Coord tile)
 
 int Player::throwDice()
 {
-	default_random_engine generator;
+	default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
 	uniform_int_distribution<int> distribution(1, 6);
 	unsigned int temp = distribution(generator);
 	dice.push_back(temp);
+	newAction(toString(THROW_DICE), currentTile->getPos());
+
 	DEBUG_MSG("You rolled the dice and got a " << temp);
-	return temp;
+
 	notify();
+	return temp;
 }
 
 void Player::addLoot(Loot * l)
@@ -205,13 +210,6 @@ bool Player::isVisibleFrom(Coord c)
 	return find(visibleFrom.begin(), visibleFrom.end(), c) != visibleFrom.end() ? true : false;
 }
 
-void Player::updateVisibleFrom()
-{
-	visibleFrom.clear();
-	// Add the player position
-	visibleFrom.push_back(getPosition());
-
-}
 
 string Player::getName()
 { 
@@ -223,3 +221,9 @@ characterType Player::getCharacterType()
 	return character->getType();
 };
 
+/**
+Clears the visibleFrom list
+*/
+void Player::clearVisibleFrom() {
+	visibleFrom.clear();
+}

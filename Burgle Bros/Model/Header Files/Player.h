@@ -11,6 +11,13 @@
 class Player : public PlayerInterface, public BaseModel
 {
 public:
+#ifdef DEBUG
+	/**
+		Add the amount of action tokens you want
+	*/
+	void setActionTokens(int i) { actionTokens = i; };
+#endif
+
 	/**
 		Construct a player (with access to the board)
 	*/
@@ -137,12 +144,28 @@ public:
 	*/
 	virtual vector <Coord> getVisibleFrom()override;
 	/**
-		
+		Clears the visibleFrom list
 	*/
-	virtual void updateVisibleFrom()override;
+	virtual void clearVisibleFrom() override;
 
 
 	vector<Loot*>& getLoots() { return loots; };
+
+	/**
+		Tells the tile the player wants to add a token
+	*/
+	void wantsToAddToken() { currentTile->doAction(toString(ADD_TOKEN), this); };
+
+	/**
+		Tells the tile the player wants use an action to throw the dice
+	*/
+	void wantsToThrowDice() { currentTile->doAction(toString(THROW_DICE), this); };
+
+	/**
+		Tells the tile the player wants use a token
+	*/
+	void wantsToUseToken() { currentTile->doAction(toString(USE_TOKEN), this); };
+
 private:
 	string name;
 	Character * character;
