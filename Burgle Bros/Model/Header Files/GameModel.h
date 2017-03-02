@@ -11,8 +11,11 @@ public:
 	GameModel() : player1(&board), player2(&board)
 	{
 		// Let the guard know the players
-		///for (int i = 0; i < 3; i++)
-		//	board[i]->getGuard()->setPlayers(&player1, &player2);
+		for (int i = 0; i < 3; i++)
+		{
+			board[i].setNumber(i);
+			board[i].getGuard()->setPlayers(&player1, &player2);
+		}
 		srand(time(NULL));
 		currentPlayer_ = &player1;
 		otherPlayer_ = &player2;

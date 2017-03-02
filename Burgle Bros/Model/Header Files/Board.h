@@ -17,7 +17,7 @@ public:
 	/**
 		Returns the floor i
 	*/
-	Floor* operator[](size_t i) { return floor[i]; };
+	Floor& operator[](size_t i) { return floor[i]; };
 	/**
 		Return the a tile in the board
 	*/
@@ -43,7 +43,7 @@ private:
 	// Parse the board and set things in tiles depending on its type. Should be called after setting the board and walls
 	void parseBoard();
 
-	Floor* floor[3];
+	Floor floor[3];
 	// MAPA: QUIZAS AL PEDO EN EL BOARD VER SI SE PUEDE BORRAR
 	vector<Coord> adjacent[3][4][4];
 };

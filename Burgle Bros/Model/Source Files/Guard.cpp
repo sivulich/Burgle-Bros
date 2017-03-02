@@ -51,42 +51,53 @@ void Guard::GuardCheck()
 	}
 }
 
+void Guard::print()
+{
+	DEBUG_MSG("Current guard position: " << pos);
+	DEBUG_MSG("Steps to finish turn: " << currsteps);
+	DEBUG_MSG("Active patrol card: " << patroldeck->activeCard()->getDescription());
+	DEBUG_MSG("Current path:");
+	for (auto& a : path)
+	{
+		DEBUG_MSG(a);
+	}
+
+}
+
 bool Guard::RemoveAlarm(Coord coord)
 {
 	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
 		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
-		DEBUG_MSG("alarm removed from tile "<< coord << endl);
+		//DEBUG_MSG("alarm removed from tile "<< coord << endl);
 		return true;
 	}
 	else
 	{
-		DEBUG_MSG("there was no alarm in tile " << coord << endl);
+		//DEBUG_MSG("there was no alarm in tile " << coord << endl);
 		return false;
 	}
 }
 
 bool Guard::move()
 {
-	BaseCard * ptr;
 	PatrolCard * p;
 	if (pos == NPOS)
 	{
 		SetCurrSteps();
-		DEBUG_MSG("Current steps " << currsteps<< endl);
-		ptr = patroldeck->next();
-		p = static_cast<PatrolCard*>(ptr);
+		//DEBUG_MSG("Current steps " << currsteps<< endl);
+		p = static_cast<PatrolCard*>(patroldeck->next());
 		pos = p->getCoord();
-		DEBUG_MSG("Guard start pos " << pos << endl);
-		ptr = patroldeck->next();
-		p = static_cast<PatrolCard*>(ptr);
+		//DEBUG_MSG("Guard start pos " << pos << endl);
+		p = static_cast<PatrolCard*>(patroldeck->next());
 		target = p->getCoord();
-		DEBUG_MSG("First guard target " << target << endl);
+		//DEBUG_MSG("First guard target " << target << endl);
 	}
 		FindPath(pos);
 		pos = path.front();
 		path.pop_front();
-		DEBUG_MSG("Guard has moved to" << pos << endl);
+		GuardCheck();
+		//DEBUG_MSG("Guard has moved to" << pos << endl);
 		if (pos == target)
 		{
 			if (patroldeck->isEmpty())
@@ -94,8 +105,7 @@ bool Guard::move()
 				patroldeck->reset(6);
 				speed++;
 			}
-			ptr = patroldeck->next();
-			p = static_cast<PatrolCard*>(ptr);
+			p = static_cast<PatrolCard*>(patroldeck->next());
 			target = p->getCoord();
 		}
 		if (RemoveAlarm(pos))
@@ -103,10 +113,10 @@ bool Guard::move()
 			FindPath(pos);
 		}
 		currsteps--;
-		DEBUG_MSG("Remaining steps " << currsteps);
+		//DEBUG_MSG("Remaining steps " << currsteps);
 		if (currsteps == 0)
 		{
-			DEBUG_MSG("Guard turn has ended\n");
+			//DEBUG_MSG("Guard turn has ended\n");
 			return false;
 		}
 		else return true;
@@ -145,9 +155,9 @@ bool Guard::FindPath(Coord const coord)
 		DEBUG_MSG("Room connections from start pos:" << endl);
 		for (auto & a : parent)
 			DEBUG_MSG(a << endl);*/
-		DEBUG_MSG("Path is:" << endl);
+		//DEBUG_MSG("Path is:" << endl);
 		for (auto& a : path)
-			DEBUG_MSG(a <<" ");
+			//DEBUG_MSG(a <<" ");
 		cout << endl;
 		return true;
 	}
@@ -183,6 +193,6 @@ unsigned Guard::closestTarget(vector<int> distances)
 
 		}//faltaria chequear lo de las izquierdas
 	}
-	DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
+	//DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
 	return destination;
 }

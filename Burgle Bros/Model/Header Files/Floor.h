@@ -14,13 +14,19 @@ public:
 		@param h height of the floor
 		@param n number of the floor
 	*/
-	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
+	Floor() :tiles(4,vector<Tile *>(4,nullptr))
 	{
-		floorNumber = n;
-		guardDeck.setDeck(n);
 		guard.setDeck(&guardDeck);
 		guard.setAlarms(&alarms);
 	};
+	/*
+	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
+	{
+		floorNumber = n;
+		guardDeck.createDeck(n);
+		guard.setDeck(&guardDeck);
+		guard.setAlarms(&alarms);
+	};*/
 
 	/**
 		Access a specific tile
@@ -29,8 +35,14 @@ public:
 	*/
 	Tile * tile(int col, int row);
 
-
-
+	/**
+	
+	*/
+	void setNumber(int n)
+	{
+		floorNumber = n;
+		guardDeck.createDeck(n);
+	}
 	/**
 		Another way to access, with operator []
 	*/
