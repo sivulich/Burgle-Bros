@@ -46,6 +46,7 @@ public:
 
 			if (status == PLAYER_TURN)
 			{
+				cout << model->currentPlayer()->getName() << "'s turn." << endl;
 				cout << "Available actions: ";
 				vector<string> actions = model->currentPlayer()->getActions();
 				for (auto& s : actions)
@@ -69,7 +70,7 @@ public:
 						Coord c(coord[0]-'0'-1, coord[1] - 'A', coord[2] - '0' - 1);
 
 						move = true;
-						if (model->currentPlayer()->needConfirmationToMove(c))
+						if (model->currentPlayer()->needConfirmationToMove(c) )
 						{
 							cout << "Are you sure you want to move? (YES/NO)" << endl;
 							string g;

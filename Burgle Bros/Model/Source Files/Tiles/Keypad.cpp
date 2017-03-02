@@ -16,6 +16,8 @@ bool Keypad::canMove(PlayerInterface * player) {
 				keyKnown = true;		// you may enter the tile
 				DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
 			}
+			else
+				DEBUG_MSG("You threw the dice but you couldn't open the keypad.");
 
 			player->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
 		}
