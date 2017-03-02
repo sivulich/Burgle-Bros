@@ -10,7 +10,7 @@ public:
 	void update();
 private:
 	FloorObserver* floors[3];
-	Container* toDraw;
+	Container* toDraw[3];
 	Board* board;
 	Container* parent;
 };

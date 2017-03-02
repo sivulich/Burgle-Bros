@@ -17,5 +17,7 @@ private:
 	vector<Image> tokens;
 	Image* reverseTile;
 	Image* front;
+	Image* wallLeft;
+	Image* wallDown;
 	bool set;
 };

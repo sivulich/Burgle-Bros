@@ -103,6 +103,9 @@ public:
 
 	bool wasInitOk() { return initOk; };
 
+	string getName() { return name; };
+
+	void setHoverable(bool b) { hoverable = b; };
 	double getScale() { return scale; };
 protected:
 	/** 

@@ -5,11 +5,11 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	deck = f->getPatrolDeck();
 	floor = f;
 	parent = p;
-	deckView = new Container(double(p->getHeight())*3/16.0, double(p->getWidth())/3);
-	deckView->setPosition(double(p->getHeight()) *13.0 / 16.0, double(p->getWidth())*double(f->number()) / 3.0);
+	deckView = new Container(p->getHeight()/5, p->getWidth());
+	deckView->setPosition(p->getHeight() *4.0/ 5, 0);
 	deckView->setName(string("Deck from floor ") + to_string(floor->number()));
-	zoom = new Container(double(p->getHeight()) *13.0 / 16.0, double(p->getWidth())/3 );
-	zoom->setPosition(0, double(parent->getWidth()) / 3.0 * floor->number());
+	zoom = new Container(p->getWidth(),p->getWidth() );
+	zoom->setPosition(0, 0);
 	p->addObject(deckView);
 	for (int i = 0; i < 4; i++)
 	{
@@ -25,7 +25,7 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	deckO = new GuardCardObserver(deckView, deck->getDeck().back());
 	graveO = new GuardCardObserver(deckView, deck->getDiscarded().back());
 	deckO->setPos(0, 0);
-	graveO->setPos(0, deckView->getHeight() + 10);
+	graveO->setPos(0, deckView->getWidth()/4 );
 	deck->attach(this);
 }
 

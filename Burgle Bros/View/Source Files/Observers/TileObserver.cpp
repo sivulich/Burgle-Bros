@@ -54,6 +54,32 @@ TileObserver::TileObserver(Tile* t, Container* p)
 		else
 			tokens[i].setPosition(front->getPos().first+front->getScale()*( front->getHeight() - tokens[i].getWidth()),front->getPos().second);
 	}
+	Coord pos = tile->getPos();
+	if (pos.col < 3)
+	{
+		if (tile->isAdjacent(Coord(pos.floor, pos.col + 1, pos.row)) == false)
+		{
+			wallLeft = new Image(string("../View/Images/wallV.png"));
+			wallLeft->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4 + 0.9*p->getWidth() / 4);
+			wallLeft->setScale(0.1*p->getHeight() / 4/wallLeft->getWidth());
+			wallLeft->setClickable(false);
+			wallLeft->setHoverable(false);
+			parent->addObject(wallLeft);
+		}
+
+	}
+	if (pos.row < 3)
+	{
+		if (tile->isAdjacent(Coord(pos.floor, pos.col , pos.row+1)) == false)
+		{
+			wallDown = new Image(string("../View/Images/wallH.png"));
+			wallDown->setPosition(coord.row*p->getHeight() / 4 + 0.9*p->getHeight() / 4, coord.col*p->getWidth() / 4 );
+			wallDown->setScale(0.1*p->getHeight() / 4 / wallDown->getHeight());
+			wallDown->setClickable(false);
+			wallDown->setHoverable(false);
+			parent->addObject(wallDown);
+		}
+	}
 	tile->attach(this);
 }
 void
@@ -102,5 +128,19 @@ TileObserver::~TileObserver()
 	{
 		parent->removeObject(reverseTile);
 		delete reverseTile;
+	}
+	if (wallDown != nullptr)
+	{
+		parent->removeObject(wallDown);
+		delete wallDown;
+	}
+	if (wallLeft != nullptr)
+	{
+		parent->removeObject(wallLeft);
+		delete wallLeft;
+	}
+	for (auto& ob : tokens)
+	{
+			parent->removeObject(&ob);
 	}
 }

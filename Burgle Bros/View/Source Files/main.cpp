@@ -55,10 +55,12 @@ int main(void)
 			if (in != "")
 			{
 				cout << "Input " << in << endl;
-				if (in == "PC R")
-					board[0].getPatrolDeck()->discardTop();
-				else if (board[0].getPatrolDeck()->isEmpty() == true)
-					board[0].getPatrolDeck()->reset(6);
+				if (in.substr(0,4) == "PC R")
+					board[in[5]-'0'].getPatrolDeck()->discardTop();
+				else
+					for (int i = 0; i < 3; i++)
+						if (board[i].getPatrolDeck()->isEmpty() == true)
+							board[i].getPatrolDeck()->reset(6);
 				if (isCoord(in))
 				{
 					if (board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->isFlipped() == false)

@@ -13,7 +13,7 @@ Board::Board()
 void Board::setWalls()
 {
 	// Create the map with the walls
-	/*bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
+	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
 	   {{ T,W,T,´,T,´,T},
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,W,T },
@@ -37,8 +37,8 @@ void Board::setWalls()
 		{ T,W,T,W,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,W,T } }
-	};*/
-	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
+	};
+	/*bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
 	  { { T,´,T,´,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,´,T },
@@ -62,7 +62,7 @@ void Board::setWalls()
 		{ T,´,T,´,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,´,T } }
-	};
+	};*/
 
 
 	for (int f = 0; f < 3; f++)

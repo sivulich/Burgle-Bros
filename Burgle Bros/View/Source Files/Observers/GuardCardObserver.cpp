@@ -8,11 +8,12 @@ GuardCardObserver::GuardCardObserver(Container* p,BaseCard* card)
 	y = x = 0;
 	back = new Image(string("../View/Images/Patrol/PC R.png"));
 	back->setPosition(y, x);
-	back->setScale(double(parent->getHeight()) / double(back->getHeight()));
+	back->setName(back->getName() + 'F' + to_string(((PatrolCard*)card)->getCoord().floor));
+	back->setScale(0.9* double(parent->getHeight()) / double(back->getHeight()));
 	this->card = card;
 	front = new Image(string("../View/Images/Patrol/PC ") + card->getDescription() + ".png");
 	front->setPosition(y, x);
-	front->setScale(double(parent->getHeight()) / double(front->getHeight()));
+	front->setScale(0.9* double(parent->getHeight()) / double(front->getHeight()));
 	if (card->isFlipped() == false)
 		p->addObject(back);
 	else
@@ -74,7 +75,7 @@ GuardCardObserver::setCard(BaseCard* card)
 		delete front;
 	front = new Image(string("./Images/Patrol/PC ") + card->getDescription() + ".png");
 	front->setPosition(y, x);
-	front->setScale(double(parent->getHeight()) / double(front->getHeight()));	
+	front->setScale(0.9* double(parent->getHeight()) / double(front->getHeight()));	
 	if (card->isFlipped() == true)
 		parent->addObject(front);
 	else
