@@ -1,0 +1,12 @@
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C1
+Current path:
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:

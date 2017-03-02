@@ -2,9 +2,9 @@
 #include "../Header Files/Image.h"
 #include "../Header Files/Container.h"
 #include "../Header Files/Button.h"
-#include "../Controller/Header Files/localControler.h"
+#include "../../Controller/Header Files/localControler.h"
 #include "../Header Files/Textbox.h"
-#include "../Model/Header Files/Board.h"
+#include "../../Model/Header Files/Board.h"
 #include "../Header Files/Allegro.h"
 #include "../Header Files/Observers/BoardObserver.h"
 int main(void)

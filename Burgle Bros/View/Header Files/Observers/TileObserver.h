@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Observer.h"
-#include "../Model/Header Files/Tiles/Tile.h"
+//#include "../Model/Header Files/Tiles/Tile.h"
+#include "../../../Model/Header Files//Tiles/Tile.h"
 #include "../Image.h"
 #include "../Container.h"
 class TileObserver :public Observer {
