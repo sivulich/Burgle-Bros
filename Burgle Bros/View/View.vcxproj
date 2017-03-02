@@ -141,6 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\Model\Debug\vc140.idb" />
+    <None Include="..\Model\Debug\vc140.pdb" />
     <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
@@ -289,6 +291,66 @@
     <Image Include="Images\Tiles\Tile - Stairs.png" />
     <Image Include="Images\Tiles\Tile - Thermo.png" />
     <Image Include="Images\Tiles\Tile - Walkway.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\Controller\Debug\localControler.obj" />
+    <Object Include="..\Model\Debug\Acrobat.obj" />
+    <Object Include="..\Model\Debug\actionNode.obj" />
+    <Object Include="..\Model\Debug\Atrium.obj" />
+    <Object Include="..\Model\Debug\BaseCard.obj" />
+    <Object Include="..\Model\Debug\BaseDeck.obj" />
+    <Object Include="..\Model\Debug\Board.obj" />
+    <Object Include="..\Model\Debug\Camera.obj" />
+    <Object Include="..\Model\Debug\Character.obj" />
+    <Object Include="..\Model\Debug\CharacterFactory.obj" />
+    <Object Include="..\Model\Debug\Chihuahua.obj" />
+    <Object Include="..\Model\Debug\ComputerRoomF.obj" />
+    <Object Include="..\Model\Debug\ComputerRoomL.obj" />
+    <Object Include="..\Model\Debug\ComputerRoomM.obj" />
+    <Object Include="..\Model\Debug\Coord.obj" />
+    <Object Include="..\Model\Debug\CursedGoblet.obj" />
+    <Object Include="..\Model\Debug\Deadbolt.obj" />
+    <Object Include="..\Model\Debug\Fingerprint.obj" />
+    <Object Include="..\Model\Debug\Floor.obj" />
+    <Object Include="..\Model\Debug\Foyer.obj" />
+    <Object Include="..\Model\Debug\GameModel.obj" />
+    <Object Include="..\Model\Debug\Gemstone.obj" />
+    <Object Include="..\Model\Debug\GoldBar.obj" />
+    <Object Include="..\Model\Debug\Guard.obj" />
+    <Object Include="..\Model\Debug\Hacker.obj" />
+    <Object Include="..\Model\Debug\Hawk.obj" />
+    <Object Include="..\Model\Debug\Isotope.obj" />
+    <Object Include="..\Model\Debug\Juicer.obj" />
+    <Object Include="..\Model\Debug\Keycard.obj" />
+    <Object Include="..\Model\Debug\Keypad.obj" />
+    <Object Include="..\Model\Debug\Laboratory.obj" />
+    <Object Include="..\Model\Debug\Laser.obj" />
+    <Object Include="..\Model\Debug\Lavatory.obj" />
+    <Object Include="..\Model\Debug\Loot.obj" />
+    <Object Include="..\Model\Debug\LootFactory.obj" />
+    <Object Include="..\Model\Debug\Mirror.obj" />
+    <Object Include="..\Model\Debug\Motion.obj" />
+    <Object Include="..\Model\Debug\Painting.obj" />
+    <Object Include="..\Model\Debug\PatrolCard.obj" />
+    <Object Include="..\Model\Debug\PatrolCardDeck.obj" />
+    <Object Include="..\Model\Debug\PersianKitty.obj" />
+    <Object Include="..\Model\Debug\Peterman.obj" />
+    <Object Include="..\Model\Debug\Player.obj" />
+    <Object Include="..\Model\Debug\Raven.obj" />
+    <Object Include="..\Model\Debug\Safe.obj" />
+    <Object Include="..\Model\Debug\Scanner.obj" />
+    <Object Include="..\Model\Debug\SecretDoor.obj" />
+    <Object Include="..\Model\Debug\ServiceDuct.obj" />
+    <Object Include="..\Model\Debug\Spotter.obj" />
+    <Object Include="..\Model\Debug\Stair.obj" />
+    <Object Include="..\Model\Debug\Thermo.obj" />
+    <Object Include="..\Model\Debug\Tiara.obj" />
+    <Object Include="..\Model\Debug\Tile.obj" />
+    <Object Include="..\Model\Debug\TileFactory.obj" />
+    <Object Include="..\Model\Debug\Walkway.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Model\Debug\Model.log" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

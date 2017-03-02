@@ -7,11 +7,11 @@ GuardCardObserver::GuardCardObserver(Container* p,BaseCard* card)
 	parent = p;
 	y = x = 0;
 	drawFront = false;
-	back = new Image(string("./Images/Patrol/PC R.jpg"));
+	back = new Image(string("../View/Images/Patrol/PC R.jpg"));
 	back->setPosition(y, x);
-	back->setScale(double(parent->getHeight()) / double(parent->getHeight()));
+	back->setScale(double(parent->getHeight()) / double(back->getHeight()));
 	this->card = card;
-	front = new Image(string("./Images/Patrol/PC ") + card->getDescription() + ".jpg");
+	front = new Image(string("../View/Images/Patrol/PC ") + card->getDescription() + ".jpg");
 	front->setPosition(y, x);
 	front->setScale(double(parent->getHeight()) / double(front->getHeight()));
 	p->addObject(back);

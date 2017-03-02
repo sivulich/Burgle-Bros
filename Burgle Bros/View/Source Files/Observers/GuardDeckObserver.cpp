@@ -7,6 +7,7 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	parent = p;
 	deckView = new Container(double(p->getHeight())/3.0, double(p->getWidth()) / 3.0);
 	deckView->setPosition(double(p->getHeight()) / 1.5, double(p->getWidth())*double(f->number()) / 3.0);
+	deckView->setName(string("Deck from floor ") + to_string(floor->number()));
 	zoom = new Container(double(p->getHeight()) / 1.5, double(p->getHeight()) / 1.5);
 	zoom->setPosition(0, double(parent->getWidth()) / 3.0 * floor->number());
 	p->addObject(deckView);
@@ -14,7 +15,10 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			cards[i][j] = new Image(string("./Images/Patrol/PC ") + to_string(i + 'A') + to_string(j+1) + string(".jpg"));
+			string des = string("A") + to_string(j + 1) + string(".jpg");
+			des[0] += i;
+			cards[i][j] = new Image(string("../View/Images/Patrol/PC ") +des);
+			cards[i][j]->setScale(0.9*double(zoom->getHeight()) / 4.0 / cards[i][j]->getHeight());
 			cards[i][j]->setPosition(double(zoom->getHeight()) / 4.0*j, double(zoom->getHeight()) / 4.0*i);
 		}
 	}

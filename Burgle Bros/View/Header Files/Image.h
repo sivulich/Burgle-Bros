@@ -4,6 +4,7 @@
 /*Class used to draw an image, it mantains the original aspect ratio*/
 class Image :public Object {
 public:
+	Image() {};
 	Image(string& path);
 	/** Draws the image to the given bitmap
 		@param target Target to draw the image in

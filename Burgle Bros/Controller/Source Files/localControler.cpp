@@ -1,5 +1,5 @@
 #include "../Header Files/localControler.h"
-/**
+
 localControler::localControler(Screen* source)
 {
 	this->source = source;
@@ -55,4 +55,4 @@ localControler::input()
 		}
 	}
 	return "";
-}*/
+}
