@@ -16,6 +16,7 @@ public:
 
 		currentPlayer_ = &player1;
 		otherPlayer_ = &player2;
+		srand(time(NULL));
 	};
 
 	/**

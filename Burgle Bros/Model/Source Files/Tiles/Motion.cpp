@@ -7,6 +7,7 @@ Motion::~Motion()
 
 
 void Motion::enterTile(PlayerInterface * player) {
+	Tile::enterTile(player);
 	arm();
 }
 

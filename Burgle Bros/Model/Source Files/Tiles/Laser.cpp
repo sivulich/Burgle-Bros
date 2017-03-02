@@ -7,6 +7,7 @@ Laser::~Laser()
 
 void Laser::enterTile(PlayerInterface * player) 
 {
+	Tile::enterTile(player);
 	setAlarm(true);
 }
 

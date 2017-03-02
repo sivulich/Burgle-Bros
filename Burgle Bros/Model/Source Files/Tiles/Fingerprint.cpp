@@ -6,7 +6,7 @@ Fingerprint::~Fingerprint()
 
 
 void Fingerprint::enterTile(PlayerInterface * player) {
-	
+	Tile::enterTile(player);
 	setAlarm(true);
 }
 

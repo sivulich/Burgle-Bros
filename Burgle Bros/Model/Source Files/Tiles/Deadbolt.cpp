@@ -19,7 +19,7 @@ bool Deadbolt::canMove(PlayerInterface * player) {
 
 void Deadbolt::enterTile(PlayerInterface * player) {
 	
-
+	Tile::enterTile(player);
 	if (player->getActionTokens() >= 3) {
 		player->removeActionToken();
 		player->removeActionToken();

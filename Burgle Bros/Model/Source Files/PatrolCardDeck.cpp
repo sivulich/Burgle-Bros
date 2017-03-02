@@ -1,8 +1,9 @@
 #include "../Header Files/PatrolCardDeck.h"
 #include "../Header Files/Configs.h"
 
-PatrolCardDeck::PatrolCardDeck()
+PatrolCardDeck::PatrolCardDeck(int floor)
 {
+	this->floorNumber = floor;
 }
 
 bool PatrolCardDeck::setDeck(unsigned floor)

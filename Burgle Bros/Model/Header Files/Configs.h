@@ -18,6 +18,7 @@
 #include "Enumerations.h"
 #include "Coord.h"
 #include <climits>
+#include "ConsoleColor.h"
 
 #define DEBUG
 //#define DEBUG_V

@@ -42,7 +42,6 @@ public:
 
 		while (status != EXIT)
 		{
-			model->print();
 
 			if (status == PLAYER_TURN)
 			{
@@ -145,7 +144,9 @@ public:
 				}
 				break;
 			}
+			model->print();
 		}
+		
 	}
 
 

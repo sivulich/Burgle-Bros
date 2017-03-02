@@ -8,7 +8,7 @@ class PatrolCardDeck : public BaseDeck
 public:
 	/**
 	*/
-	PatrolCardDeck();
+	PatrolCardDeck(int f);
 
 	/**
 

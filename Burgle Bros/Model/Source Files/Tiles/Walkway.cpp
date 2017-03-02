@@ -7,6 +7,7 @@ Walkway::~Walkway()
 
 void Walkway::enterTile(PlayerInterface * player)
 {
+	Tile::enterTile(player);
 	if (isFlipped() == false) {
 		if (floor() != 0) {		// if the card is flipped down and not the first floor
 			this->turnUp();
