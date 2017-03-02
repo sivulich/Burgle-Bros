@@ -1,4 +1,6 @@
 #include "../../Header Files/Tiles/Laser.h"
+#include "../../Header Files/Tiles/ComputerRoomL.h"
+
 
 
 Laser::~Laser()
@@ -30,6 +32,7 @@ void Laser::doAction(string action, PlayerInterface * player) {
 		DEBUG_MSG("You decided to use two action tokens to turn off the alarm.");
 	}
 	else if (action == toString(USE_TOKEN)) {
+		((ComputerRoomL *)myComputerRoom)->removeToken();
 		setAlarm(false);
 		player->newAction(toString(USE_TOKEN), getPos());
 	}

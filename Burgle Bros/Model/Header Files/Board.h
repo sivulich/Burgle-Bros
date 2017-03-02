@@ -43,6 +43,9 @@ private:
 	// Parse the board and set things in tiles depending on its type. Should be called after setting the board and walls
 	void parseBoard();
 
+	// Sets the vector of tiles the safe needs to be cracked 
+	void prepSafeTile(Safe * safe);
+
 	Floor floor[3];
 	// MAPA: QUIZAS AL PEDO EN EL BOARD VER SI SE PUEDE BORRAR
 	vector<Coord> adjacent[3][4][4];

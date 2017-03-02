@@ -16,6 +16,7 @@ vector<string> ComputerRoomL::getActions(PlayerInterface * player)
 
 void ComputerRoomL::doAction(string action, PlayerInterface * player) {
 	if (action == toString(ADD_TOKEN)) {
+		player->removeActionToken();
 		addToken();
 		DEBUG_MSG("You added a token to " << getPos());
 	}

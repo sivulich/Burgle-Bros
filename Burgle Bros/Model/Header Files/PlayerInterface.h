@@ -82,9 +82,9 @@ public:
 	virtual vector <Coord> getVisibleFrom() = 0;
 
 	/**
-
+		Clears the visibleFrom list
 	*/
-	virtual void updateVisibleFrom()=0;
+	virtual void clearVisibleFrom() =0;
 
 
 	/**
@@ -93,7 +93,6 @@ public:
 	@params tile coordinate to the tile where the action happened
 	*/
 	virtual void newAction(string action, Coord tile)=0;
-
 
 };
 

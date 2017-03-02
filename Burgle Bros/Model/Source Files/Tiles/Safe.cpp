@@ -24,34 +24,50 @@ void Safe::doAction(string action, PlayerInterface * player)
 		player->removeActionToken();
 		addToken();
 		player->newAction(toString(ADD_TOKEN), getPos());
-		DEBUG_MSG("You added a new dice to this safe.");
+		DEBUG_MSG("You added a new dice to this safe. You can now throw " << tokens << " dice.");
 	}
 	else if (action == "THROW_DICE")
 	{
 		player->removeActionToken();		// remove an action
-		int tilesUCracked = 0;
 		for (int i = 0; i < tokens && !safeIsOpen(); i++)		// while the safe remains closed, throw all the dice you have
 		{
-			tilesUCracked = trySafeNumber(player->throwDice());			// check how many tiles you cracked throwing one die	
-			player->newAction(toString(THROW_DICE), getPos());			// tell the player what you did
+			trySafeNumber(player->throwDice());			// check how many tiles you cracked throwing one die
 
-			if ((tilesCracked += tilesUCracked) == 6) {		// add it to the already cracked tiles, and check if you got all of them
-				cracked = true;								// if so, you opened the safe
+			if (combinationTiles.size() == 0) {		//  if the vector is empty, then all the tiles were cracked
+				safeCracked = true;								// if so, you opened the safe
 				player->newAction("SAFE_OPENED", getPos());
 			}
 		}
-		DEBUG_MSG("You managed to crack " << tilesCracked << " tiles so far.");
+		DEBUG_MSG("You managed to crack " << (6-combinationTiles.size()) << " tiles so far.");
 	}
 
 }
 
-int Safe::trySafeNumber(int number) {
-	int retValue = 0;
-	for (auto it = combination.begin(); it != combination.end(); ++it) {		// iterate through the array of combination numbers
-		if (*it == number) {					// if it matches the number you tried, erase it from the vector
-			combination.erase(it);
-			++retValue;
-		}
+void Safe::trySafeNumber(int number) {
+	if (combinationTiles.size() != 0) 
+	{
+		vector<Tile *> tempTiles;
+		for (vector<Tile *>::iterator it = combinationTiles.begin(); it != combinationTiles.end(); it++) 
+			if (!canCrack(*it, number)) tempTiles.push_back(*it);		// if you can't crack them, place them in another vector
+
+		combinationTiles = tempTiles;
+
+		DEBUG_LN_MSG("Tiles remaining to crack: ");
+			for (auto i : combinationTiles)
+				DEBUG_LN_MSG(i->getPos() << " - ");
+			DEBUG_MSG(endl);
+		
 	}
-	return retValue;
+}
+
+// if getSafeNumber equals diceThrown, then the tile will be cracked for the tile will always be uncracked when it arrives here
+// and getSafeNumber returns a 0 if the tile is flipped down
+bool Safe::canCrack(Tile * t, int number) {	
+	if (t->getSafeNumber() == number)		// check if the tile can be cracked
+	{
+		t->crackTile();
+		return true;
+	}
+	else
+		return false;
 }
