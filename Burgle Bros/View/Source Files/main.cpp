@@ -1,3 +1,5 @@
+
+
 #include "../Header Files/Screen.h"
 #include "../Header Files/Image.h"
 #include "../Header Files/Container.h"
@@ -21,6 +23,11 @@ int main(void)
 		board.setWalls();
 		for (int i = 0; i < 3; i++)
 		{
+			board[i].setNumber(i);
+			board[i].getPatrolDeck()->createDeck(i);
+		}
+		for (int i = 0; i < 3; i++)
+		{
 			for (int j = 0; j < 4; j++)
 			{
 				for (int k = 0; k < 4; k++)
@@ -31,10 +38,25 @@ int main(void)
 		BoardObserver obs(&board, &cont);
 		screen.addObject(&cont);
 		string in;
+		Timer time(1.0 / 30.0);
+		time.start();
+		long long c=time.getCount();
+		board[0].getPatrolDeck()->discardTop();
+		board[0].getPatrolDeck()->discardTop();
 		while (in != "exit")
 		{
 			in = control.input();
-			screen.draw();
+			if (in != "")
+			{
+				cout << "Input " << in << endl;
+				
+			}
+			if (c < time.getCount())
+			{
+				c = time.getCount();
+				obs.update();
+				screen.draw();
+			}
 		}
 			
 	}

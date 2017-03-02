@@ -8,14 +8,13 @@ class TileObserver :public Observer {
 public:
 	TileObserver(Tile* t,Container* p );
 	void update();
-	void setGuard();
-	void setPlayer(int pNum);
-	void setAlarm();
     ~TileObserver();
 private:
 
 	Container* parent;
-	Container* toDraw;
 	Tile* tile;
+	vector<Image> tokens;
+	Image* reverseTile;
+	Image* front;
 	bool set;
 };
