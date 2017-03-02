@@ -242,13 +242,13 @@ void Board::parseBoard()
 						break;
 					case SECRET_DOOR:
 						if (col != 0)	// if its not in the first column
-							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col - 1][row]);
+							((SecretDoor *)tile)->addSecretDoor(floor[f][col - 1][row]);
 						if (col != 3)	// if its not in the last column
-							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col + 1][row]);
+							((SecretDoor *)tile)->addSecretDoor(floor[f][col + 1][row]);
 						if (row != 0)	// if its not in the first row
-							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col][row - 1]);
+							((SecretDoor *)tile)->addSecretDoor(floor[f][col][row - 1]);
 						if (row != 3)	// if its not in the last row
-							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col][row + 1]);
+							((SecretDoor *)tile)->addSecretDoor(floor[f][col][row + 1]);
 						break;
 
 						
