@@ -155,6 +155,7 @@
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
+    <ClCompile Include="Source Files\Observers\PlayerObserver.cpp" />
     <ClCompile Include="Source Files\Observers\TileObserver.cpp" />
     <ClCompile Include="Source Files\Screen.cpp" />
     <ClCompile Include="Source Files\Textbox.cpp" />
@@ -221,6 +222,8 @@
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />
+    <ClInclude Include="Header Files\Observers\Observer.h" />
+    <ClInclude Include="Header Files\Observers\PlayerObserver.h" />
     <ClInclude Include="Header Files\Observers\TileObserver.h" />
     <ClInclude Include="Header Files\Screen.h" />
     <ClInclude Include="Header Files\Textbox.h" />

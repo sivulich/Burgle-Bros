@@ -45,8 +45,11 @@ bool Player::has(lootType l)
 bool Player::needConfirmationToMove(Coord c)
 {
 	tileType t = board->getTile(c)->getType();
+	return false;
 	if (t == DEADBOLT)
 		return true;
+	else
+		return false;
 }
 void Player::resetActionTokens()
 {

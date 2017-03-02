@@ -10,6 +10,10 @@ Image::Image(string& path)
 	size_t pos = path.find('.');
 	size_t pos2 = path.find_last_of('/');
 	size_t pos3 = path.find_last_of('\\');
+	clickable = true;
+	hoverable = true;
+	x = 0;
+	y = 0;
 	if (pos2 == string::npos)
 		pos2 = 0;
 	if (pos3 != string::npos)
@@ -23,6 +27,7 @@ Image::Image(string& path)
 	else
 		DEBUG_MSG("Error while loading image at path " << path); 
 }
+
 void
 Image::draw(Bitmap* target)
 {

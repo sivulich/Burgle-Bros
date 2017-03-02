@@ -19,6 +19,7 @@ public:
 		@param path
 	*/
 	void load(string& s);
+
 private:
 	Bitmap im;
 };
