@@ -5,7 +5,6 @@
 
 int main(void)
 {
-	cout << "hola" << endl;
 	GameModel model;
 	ConsoleView view(&model);
 	model.setBoard();

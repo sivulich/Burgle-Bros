@@ -51,6 +51,12 @@ void GameModel::print()
 
 	cout << "Other Player:" << endl;
 	otherPlayer()->print();
+
+	cout << "Guard" << endl;
+	for (int i = 0; i < 3; i++)
+	{
+		board[i].getGuard()->print();
+	}
 	cout << "______________________________________________________________________________" << endl;
 
 #endif
@@ -82,7 +88,7 @@ void GameModel::moveGuard()
 {
 	int floor = currentPlayer_->getPosition().floor;
 
-	guardIsMoving_ = board[floor]->moveGuard();
+	guardIsMoving_ = board[floor].moveGuard();
 }
 
 bool GameModel::win()

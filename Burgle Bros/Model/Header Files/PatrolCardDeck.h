@@ -8,7 +8,8 @@ class PatrolCardDeck : public BaseDeck
 public:
 	/**
 	*/
-	PatrolCardDeck(int f);
+	PatrolCardDeck() {};
+
 
 	/**
 
@@ -18,7 +19,7 @@ public:
 	/**
 	
 	*/
-	bool setDeck(unsigned floor);
+	bool createDeck(unsigned floor);
 	
 	/**
 	function merges cards in discarded deck with main deck (discarded cards are turned down). Main deck is shuffled 
