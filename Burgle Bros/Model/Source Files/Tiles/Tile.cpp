@@ -73,6 +73,7 @@ void Tile::turnUp()
 void Tile::setAlarm(bool b)
 {
 	alarmToken = b;
+	notify();
 }
 
 void Tile::setCoord(Coord c)
@@ -107,6 +108,7 @@ void Tile::peek()
 {
 	turnUp();
 	DEBUG_MSG("Player peeked the " << toString(getType()) << " at " << getPos());
+	notify();
 }
 
 bool Tile::canMove(PlayerInterface * p)
@@ -120,6 +122,7 @@ void Tile::enterTile(PlayerInterface * p)
 		turnUp();
 	p->updateVisibleFrom();
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
+	notify();
 }
 
 vector<string> Tile::getActions(PlayerInterface * p)

@@ -29,14 +29,16 @@ GuardCardObserver::setOn(bool b)
 	{
 		parent->removeObject(back);
 		parent->removeObject(front);
-		on = b;
+		on = false;
 	}
 	else
 	{
-		if (card->isFlipped() == true)
+
+		if (card->isFlipped() == true && parent->contains(front)==false)
 			parent->addObject(front);
-		else
+		else if (parent->contains(back) == false)
 			parent->addObject(back);
+		on = true;
 	}
 }
 void

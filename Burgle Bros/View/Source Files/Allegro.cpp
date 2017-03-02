@@ -6,12 +6,12 @@ Allegro::Allegro()
 {
 	if (al_init() == true)
 	{
-		if (al_init_primitives_addon() == true &&
+		if (al_init_image_addon() == true &&
+			al_init_primitives_addon() == true &&
 			al_install_keyboard() == true &&
 			al_init_font_addon() == true &&
-			al_init_ttf_addon() == true &&
-			al_init_image_addon() == true &&
-			al_init_primitives_addon() == true)
+			al_init_ttf_addon() == true 
+			 )
 		{
 			initOk = true;
 			DEBUG_MSG_V("Correctly initialized allegro");

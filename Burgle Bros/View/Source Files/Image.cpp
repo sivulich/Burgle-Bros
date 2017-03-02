@@ -4,6 +4,7 @@
 
 Image::Image(string& path)
 {
+	//Turbiada, si lo sacas la queda
 	al_init();
 	al_init_image_addon();
 	im.load(path.c_str());

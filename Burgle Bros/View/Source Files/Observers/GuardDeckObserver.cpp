@@ -32,15 +32,15 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 void
 GuardDeckObserver::update()
 {
-	string des;
 	if (deck->getDiscarded().empty()==true)
 	{
 		graveO->setOn(false);
 	}
 	else
 	{
-		graveO->setOn(true);
 		graveO->setCard(deck->getDiscarded().back());
+		graveO->setOn(true);
+		
 	}
 	if (deck->getDeck().empty() == true)
 	{
@@ -48,29 +48,22 @@ GuardDeckObserver::update()
 	}
 	else
 	{
-		deckO->setOn(true);
 		deckO->setCard(deck->getDeck().back());
+		deckO->setOn(true);
+		
 	}
-	if (graveO->isClicked() == true)
+	if (graveO->isClicked() == true && parent->contains(zoom) == false)
 	{
 		zoom->clear();
 		for (auto& card : deck->getDiscarded())
 		{
+			string des;
 			des = card->getDescription();
 			zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
 		}
 		parent->addObject(zoom);
 	}
-	else
-		parent->removeObject(zoom);
-	if (deckO->isClicked() == true && deck->getDeck().back()->isFlipped()==true)
-	{
-		zoom->clear();
-		des = deck->getDeck().back()->getDescription();
-		zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
-		cards[des[0] - 'A'][des[1] - '1']->setBorderVisible(true);
-	}
-	else
+	else if(graveO->isClicked()==false)
 	{
 		parent->removeObject(zoom);
 	}

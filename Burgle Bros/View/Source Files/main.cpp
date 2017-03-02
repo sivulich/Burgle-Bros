@@ -9,36 +9,44 @@
 #include "../../Model/Header Files/Board.h"
 #include "../Header Files/Allegro.h"
 #include "../Header Files/Observers/BoardObserver.h"
+
+bool isCoord(string& s)
+{
+
+	if (s[0]<'A' || s[0]>'D')
+		return false;
+	if (s[1]<'1' || s[1]>'4')
+		return false;
+	if (s[2] != 'F')
+		return false;
+	if (s[3] < '0' || s[3]>'2')
+		return false;
+	return true;
+}
 int main(void)
 {
 	Allegro al;
+	al_rest(0.1);
 	if (al.wasInitOk() == true)
 	{
-		Screen screen(720, 1280, string("../View/Images/BackGround.jpg"));
-		screen.backgroundProperties(0, 0, 720.0 / 1080.0);
-		Container cont(720, 1280);
+		Screen screen(720,720* 1280.0/720.0, string("../View/Images/BackGround.jpg"),false);
+		Container cont(720, 720 * 1280.0 / 720.0);
 		Board board;
 		localControler control(&screen);
-		board.setBoard();
-		board.setWalls();
+		
 		for (int i = 0; i < 3; i++)
 		{
 			board[i].setNumber(i);
 			board[i].getPatrolDeck()->createDeck(i);
 		}
-		for (int i = 0; i < 3; i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
-				for (int k = 0; k < 4; k++)
-					board.getTile(Coord(i, j, k))->flip();
-			}
-		}
 		
+		board.setBoard();
+		board.setWalls();
+
 		BoardObserver obs(&board, &cont);
 		screen.addObject(&cont);
 		string in;
-		Timer time(1.0 / 30.0);
+		Timer time(1.0 / 10.0);
 		time.start();
 		long long c=time.getCount();
 		while (in != "exit")
@@ -47,8 +55,21 @@ int main(void)
 			if (in != "")
 			{
 				cout << "Input " << in << endl;
-				if(in == "PC R")
+				if (in == "PC R")
 					board[0].getPatrolDeck()->discardTop();
+				else if (board[0].getPatrolDeck()->isEmpty() == true)
+					board[0].getPatrolDeck()->reset(6);
+				if (isCoord(in))
+				{
+					if (board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->isFlipped() == false)
+						board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->turnUp();
+					else
+						if(board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->hasAlarm()==false)
+							board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->setAlarm(true);
+						else
+							board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->setAlarm(false);
+				}
+				
 			}
 			if (c < time.getCount())
 			{

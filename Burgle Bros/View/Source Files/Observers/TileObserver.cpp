@@ -70,14 +70,14 @@ TileObserver::update()
 		}
 		
 	}
-/*	if (tile->hasAlarm() == true && toDraw->contains(&tokens[0])==false)
+	if (tile->hasAlarm() == true && parent->contains(&tokens[0])==false)
 	{
-		toDraw->addObject(&tokens[0]);
+		parent->addObject(&tokens[0]);
 	}
 	else if(tile->hasAlarm() == false)
-		toDraw->removeObject(&tokens[0]);
+		parent->removeObject(&tokens[0]);
 
-	if (tile->hasCrackToken() == true && toDraw->contains(&tokens[1])==false)
+	/*if (tile->hasCrackToken() == true && toDraw->contains(&tokens[1])==false)
 	{
 		toDraw->addObject(&tokens[1]);
 	}

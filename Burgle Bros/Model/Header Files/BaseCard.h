@@ -9,9 +9,9 @@ class BaseCard:public BaseModel
 public:
 	BaseCard() : faceUp(false) {};
 	bool isFlipped() { return faceUp; };
-	virtual void flip() { faceUp = !faceUp; };
-	virtual void turnUp() { faceUp = true; };
-	virtual void turnDown() { faceUp = false; };
+	virtual void flip() { faceUp = !faceUp; notify(); };
+	virtual void turnUp() { faceUp = true; notify(); };
+	virtual void turnDown() { faceUp = false; notify(); };
 	void setDescription(string& s) { description = s; };
 	string getDescription() { return description; };
 protected:
