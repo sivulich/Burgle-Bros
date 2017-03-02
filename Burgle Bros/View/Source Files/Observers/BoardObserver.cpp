@@ -9,7 +9,7 @@ BoardObserver::BoardObserver(Board* b, Container* c)
 	toDraw->setPosition(parent->getHeight() / 12.0, 0);
 	for (int i = 0; i < 3; i++)
 	{
-		floors[i] = new FloorObserver((*b)[i], toDraw);
+		floors[i] = new FloorObserver(&(*b)[i], toDraw);
 	}
 	parent->addObject(toDraw);
 	board->attach(this);

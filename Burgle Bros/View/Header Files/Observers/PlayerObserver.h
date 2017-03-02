@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Observer.h"
-#include "../Model/Header Files/Player.h"
+#include "../../../Model/Header Files/Player.h"
 #include "BoardObserver.h"
 #include "../Button.h"
 

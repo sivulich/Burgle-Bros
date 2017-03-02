@@ -2,13 +2,15 @@
 #include "../../ConsoleView/ConsoleView.h"
 #include "../../Controller/Header Files/controller.h"
 #include "../../Model/Header Files/Player.h"
-/*
+
+#pragma warning(disable:4996)
 int main(void)
 {
 	GameModel model;
 	ConsoleView view(&model);
 	model.setBoard();
-
+	
+	freopen("debugMSG.txt", "w+", stderr);
 	
 	model.currentPlayer()->setPosition(Coord(0, 0, 0));
 	model.currentPlayer()->setName(string("Pepe"));
@@ -25,10 +27,5 @@ int main(void)
 
 	controller.startGame();
 
-	return 0;
-}*/
-
-int main()
-{
 	return 0;
 }
