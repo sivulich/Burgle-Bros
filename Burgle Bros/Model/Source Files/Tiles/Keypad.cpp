@@ -7,7 +7,6 @@ Keypad::~Keypad()
 
 bool Keypad::canMove(PlayerInterface * player) {
 	
-	
 	if (keyKnown == false)
 	{
 		for (int i = 0; i < attemptsThisTurn + 1 && keyKnown == false; i++)		// throw the dice attempts+1 times 

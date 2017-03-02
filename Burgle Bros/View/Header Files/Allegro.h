@@ -1,5 +1,5 @@
 #pragma once
-#include "../Model/Header Files/Configs.h"
+#include "../../Model/Header Files/Configs.h"
 #include "ALX\alx.hpp"
 class Allegro
 {

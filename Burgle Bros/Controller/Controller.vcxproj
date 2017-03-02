@@ -89,7 +89,6 @@
     <Object Include="..\Model\Debug\Tile.obj" />
     <Object Include="..\Model\Debug\TileFactory.obj" />
     <Object Include="..\Model\Debug\Walkway.obj" />
-    <Object Include="..\View\Debug\Allegro.obj" />
     <Object Include="..\View\Debug\BoardObserver.obj" />
     <Object Include="..\View\Debug\Button.obj" />
     <Object Include="..\View\Debug\Container.obj" />

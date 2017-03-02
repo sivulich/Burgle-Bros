@@ -18,15 +18,16 @@ bool Deadbolt::canMove(PlayerInterface * player) {
 }
 
 void Deadbolt::enterTile(PlayerInterface * player) {
-	
 	Tile::enterTile(player);
+
 	if (player->getActionTokens() >= 3) {
 		player->removeActionToken();
 		player->removeActionToken();
 		player->removeActionToken();
+		DEBUG_MSG("You spent three actions to enter the deadbolt");
 	}
 	else
-		DEBUG_MSG("UNEXPECTED ERROR IN DEADBOLT.");
+		cout << "UNEXPECTED ERROR IN DEADBOLT." << endl;
 }
 
 /*
