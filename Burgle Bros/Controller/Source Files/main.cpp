@@ -2,7 +2,7 @@
 #include "../../ConsoleView/ConsoleView.h"
 #include "../../Controller/Header Files/controller.h"
 #include "../../Model/Header Files/Player.h"
-
+/*
 int main(void)
 {
 	cout << "hola" << endl;
@@ -26,5 +26,10 @@ int main(void)
 
 	controller.startGame();
 
+	return 0;
+}*/
+
+int main()
+{
 	return 0;
 }

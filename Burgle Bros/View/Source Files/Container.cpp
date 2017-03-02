@@ -34,7 +34,7 @@ Container::Container(int h, int w)
 	offsetX = offsetY = 0;
 	bScale = 5;
 	toDraw = new Bitmap(w, h);
-	background.load("transparent.png");
+	background.load("../View/Images/transparent.png");
 	if (toDraw != nullptr && toDraw->get() != nullptr)
 	{
 		if (background.get() != nullptr)

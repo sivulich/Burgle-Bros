@@ -5,6 +5,7 @@
 PatrolCard::PatrolCard(Coord c)
 {
 	 coord = c; 
-	 description = to_string(c.col + 'A') + to_string(c.row+1);
+	 description = string("A") + to_string(c.row+1);
+	 description[0] += coord.col;
 }
 

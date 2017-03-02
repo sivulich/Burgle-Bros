@@ -17,6 +17,7 @@ public:
 	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
 	{
 		floorNumber = n;
+		guardDeck.setDeck(n);
 		guard.setDeck(&guardDeck);
 		guard.setAlarms(&alarms);
 	};
