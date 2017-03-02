@@ -103,6 +103,7 @@ public:
 
 	bool wasInitOk() { return initOk; };
 
+	double getScale() { return scale; };
 protected:
 	/** 
 		Properties

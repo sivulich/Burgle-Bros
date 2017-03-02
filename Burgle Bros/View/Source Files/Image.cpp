@@ -22,7 +22,7 @@ Image::Image(string& path)
 		y = 0;
 		if (pos2 == string::npos)
 			pos2 = 0;
-		name = path.substr(pos2 + 1, pos);
+		name = path.substr(pos2 + 1, pos-pos2-1);
 		DEBUG_MSG_V("Init ok on image " << name);
 	}
 	else

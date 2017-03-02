@@ -6,15 +6,17 @@ GuardCardObserver::GuardCardObserver(Container* p,BaseCard* card)
 {
 	parent = p;
 	y = x = 0;
-	drawFront = false;
-	back = new Image(string("../View/Images/Patrol/PC R.jpg"));
+	back = new Image(string("../View/Images/Patrol/PC R.png"));
 	back->setPosition(y, x);
 	back->setScale(double(parent->getHeight()) / double(back->getHeight()));
 	this->card = card;
-	front = new Image(string("../View/Images/Patrol/PC ") + card->getDescription() + ".jpg");
+	front = new Image(string("../View/Images/Patrol/PC ") + card->getDescription() + ".png");
 	front->setPosition(y, x);
 	front->setScale(double(parent->getHeight()) / double(front->getHeight()));
-	p->addObject(back);
+	if (card->isFlipped() == false)
+		p->addObject(back);
+	else
+		p->addObject(front);
 	on = true;
 	card->attach(this);
 }
@@ -31,8 +33,7 @@ GuardCardObserver::setOn(bool b)
 	}
 	else
 	{
-		drawFront = card->isFlipped();
-		if (drawFront == true)
+		if (card->isFlipped() == true)
 			parent->addObject(front);
 		else
 			parent->addObject(back);
@@ -43,17 +44,17 @@ GuardCardObserver::update()
 {
 	if (on == false)
 	{
+		parent->removeObject(front);
+		parent->removeObject(back);
 		return;
 	}
-	else if (card->isFlipped() == true && drawFront == false)
+	else if (card->isFlipped() == true && parent->contains(front)==false)
 	{
-		drawFront = true;
 		parent->removeObject(back);
 		parent->addObject(front);
 	}
-	else if (card->isFlipped() == false && drawFront == true)
+	else if (card->isFlipped() == false && parent->contains(back) == false)
 	{
-		drawFront = false;
 		parent->removeObject(front);
 		parent->addObject(back);
 	}
@@ -63,20 +64,19 @@ GuardCardObserver::setCard(BaseCard* card)
 {
 	if (card == this->card)
 	{
-		drawFront = card->isFlipped();
 		return;
 	}
-	if (drawFront == true)
-	{
-		parent->removeObject(front);
-		parent->addObject(back);
-	}	
+	parent->removeObject(front);
+	parent->removeObject(back);
 	if (front != nullptr)
 		delete front;
-	front = new Image(string("./Images/Patrol/PC ") + card->getDescription() + ".jpg");
+	front = new Image(string("./Images/Patrol/PC ") + card->getDescription() + ".png");
 	front->setPosition(y, x);
 	front->setScale(double(parent->getHeight()) / double(front->getHeight()));	
-	drawFront = false;
+	if (card->isFlipped() == true)
+		parent->addObject(front);
+	else
+		parent->addObject(back);
 	this->card = card;
 }
 
