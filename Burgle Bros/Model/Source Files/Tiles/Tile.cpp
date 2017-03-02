@@ -75,6 +75,7 @@ void Tile::setAlarm(bool b)
 	if(b) DEBUG_MSG("The alarm went off at " << getPos());
 	else  DEBUG_MSG("The alarm was shut down at " << getPos());
 	alarmToken = b;
+	notify();
 }
 
 void Tile::setCoord(Coord c)
@@ -109,6 +110,7 @@ void Tile::peek()
 {
 	turnUp();
 	DEBUG_MSG("Player peeked the " << toString(getType()) << " at " << getPos());
+	notify();
 }
 
 bool Tile::canMove(PlayerInterface * p)
@@ -122,6 +124,7 @@ void Tile::enterTile(PlayerInterface * p)
 		turnUp();
 	updateVisibleFrom(p);
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
+	notify();
 }
 
 vector<string> Tile::getActions(PlayerInterface * p)

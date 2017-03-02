@@ -8,8 +8,9 @@ public:
 		@param height Height for the transparent container
 		@param width Width for the transparent container
 		@param pathToBackground Path to the background file
+		@param sets fullscreen
 	*/
-	Screen(int h, int w, string& pathToBackground);
+	Screen(int h, int w, string& pathToBackground,bool b);
 
 	/** Draws the screen with all the child objects inside to the display*/
 	void draw();
@@ -61,6 +62,9 @@ public:
 	*/
 	void drag(int y, int x);
 
+	/** Sets the screen to Fullscreen
+	*/
+	void fullscreen();
 	~Screen() { delete toDraw; delete display; };
 private:
 	Display* display;

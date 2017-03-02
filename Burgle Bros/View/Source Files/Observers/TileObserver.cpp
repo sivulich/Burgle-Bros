@@ -1,58 +1,58 @@
 #include "../../Header Files/Observers/FloorObserver.h"
 
-static map<tileType, Image> images = {	{ATRIUM,Image(string("../View/Images/Tiles/Tile - Atrium.jpg"))},
-										{CAMERA,Image(string("../View/Images/Tiles/Tile - Camera.jpg")) },
-										{COMPUTER_ROOM_F,Image(string("../View/Images/Tiles/Tile - Computer Room (Fingerprint).jpg")) },
-										{COMPUTER_ROOM_L,Image(string("../View/Images/Tiles/Tile - Computer Room (Laser).jpg")) },
-										{COMPUTER_ROOM_M,Image(string("../View/Images/Tiles/Tile - Computer Room (Motion).jpg")) },
-										{DEADBOLT,Image(string("../View/Images/Tiles/Tile - Deadbolt.jpg")) },
-										{FINGERPRINT,Image(string("../View/Images/Tiles/Tile - Fingerprint.jpg")) },
-										{FOYER,Image(string("../View/Images/Tiles/Tile - Foyer.jpg")) },
-										{KEYPAD,Image(string("../View/Images/Tiles/Tile - Keypad.jpg")) },
-										{LABORATORY,Image(string("../View/Images/Tiles/Tile - Laboratory.jpg")) },
-										{LASER,Image(string("../View/Images/Tiles/Tile - Laser.jpg")) },
-										{LAVATORY,Image(string("../View/Images/Tiles/Tile - Lavatory.jpg")) },
-										{MOTION,Image(string("../View/Images/Tiles/Tile - Motion.jpg")) },
-										{SAFE,Image(string("../View/Images/Tiles/Tile - Scanner.jpg")) },
-										{SECRET_DOOR,Image(string("../View/Images/Tiles/Tile - Secret Door.jpg")) },
-										{SERVICE_DUCT,Image(string("../View/Images/Tiles/Tile - Service Duct.jpg")) },
-										{STAIR,Image(string("../View/Images/Tiles/Tile - Stairs.jpg")) },
-										{THERMO,Image(string("../View/Images/Tiles/Tile - Thermo.jpg")) },
-										{WALKWAY,Image(string("../View/Images/Tiles/Tile - Walkway.jpg")) }
+static map<tileType, Image> images = {	{ATRIUM,string("../View/Images/Tiles/Tile - Atrium.png")},
+										{CAMERA,string("../View/Images/Tiles/Tile - Camera.png") },
+										{COMPUTER_ROOM_F,string("../View/Images/Tiles/Tile - Computer Room (Fingerprint).png") },
+										{COMPUTER_ROOM_L,string("../View/Images/Tiles/Tile - Computer Room (Laser).png") },
+										{COMPUTER_ROOM_M,string("../View/Images/Tiles/Tile - Computer Room (Motion).png") },
+										{DEADBOLT,string("../View/Images/Tiles/Tile - Deadbolt.png") },
+										{FINGERPRINT,string("../View/Images/Tiles/Tile - Fingerprint.png") },
+										{FOYER,string("../View/Images/Tiles/Tile - Foyer.png") },
+										{KEYPAD,string("../View/Images/Tiles/Tile - Keypad.png") },
+										{LABORATORY,string("../View/Images/Tiles/Tile - Laboratory.png") },
+										{LASER,string("../View/Images/Tiles/Tile - Laser.png") },
+										{LAVATORY,string("../View/Images/Tiles/Tile - Lavatory.png") },
+										{MOTION,string("../View/Images/Tiles/Tile - Motion.png") },
+										{SAFE,string("../View/Images/Tiles/Tile - Safe.png") },
+										{SCANNER,string("../View/Images/Tiles/Tile - Scanner.png")},
+										{SECRET_DOOR,string("../View/Images/Tiles/Tile - Secret Door.png") },
+										{SERVICE_DUCT,string("../View/Images/Tiles/Tile - Service Duct.png") },
+										{STAIR,string("../View/Images/Tiles/Tile - Stairs.png") },
+										{THERMO,string("../View/Images/Tiles/Tile - Thermo.png") },
+										{WALKWAY,string("../View/Images/Tiles/Tile - Walkway.png") }
 };
 
-static vector<Image> tokens = { Image(string("../View/Images/AlarmToken.png")),Image(string("../View/Images/CrackToken.png")) ,Image(string("../View/Images/CrowToken.png")) };
-static Image reverseTile(string("../View/Images/Tiles/Tile - Reverse.jpg"));
 
 TileObserver::TileObserver(Tile* t, Container* p)
 {
 	tile = t;
-	Coord coord = tile->getPos();
-	toDraw = new Container(700, 700);
-	string des = string("A") + to_string(coord.row + 1) + string("F") + to_string(coord.floor);
-	des[0] + coord.col;
-	toDraw->setName(des);
-	toDraw->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
-	toDraw->setScale(double(p->getWidth()) / 4.0 / double(toDraw->getWidth()));
 	parent = p;
-	parent->addObject(toDraw);
-	images[tile->getType()].setScale(0.9*double(toDraw->getWidth()) / images[tile->getType()].getWidth());
-	reverseTile.setScale(0.9*double(toDraw->getWidth()) / reverseTile.getWidth());
-	toDraw->onlyMe(true);
+	tokens = { Image(string("../View/Images/AlarmToken.png")),Image(string("../View/Images/CrackToken.png")) ,Image(string("../View/Images/CrowToken.png")) };
+	reverseTile = new Image(string("../View/Images/Tiles/Tile - Reverse.png"));
+	front = new Image(images[tile->getType()]);
+	Coord coord = tile->getPos();
+	string des = string("A") + to_string(coord.row + 1) + string("F") + to_string(coord.floor);
+	des[0] += coord.col;
+	front->setName(des);
+	front->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
+	front->setScale(0.9* double(p->getWidth()) / 4.0 / double(front->getWidth()));
+	reverseTile->setName(des);
+	reverseTile->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
+	reverseTile->setScale(0.9* double(p->getWidth()) / 4.0 / double(reverseTile->getWidth()));
 	if (tile->isFlipped() == true)
-		toDraw->addObject(&images[tile->getType()]);
+		parent->addObject(front);
 	else
-		toDraw->addObject(&reverseTile);
+		parent->addObject(reverseTile);
 
 	for (int i = 0; i < 3; i++)
 	{
-		tokens[i].setScale(150 / tokens[0].getWidth());
+		tokens[i].setScale(front->getScale() * 150 / tokens[0].getWidth());
 		if (i == 0)
-			tokens[i].setPosition(0, 0);
+			tokens[i].setPosition(front->getPos().first, front->getPos().second);
 		else if (i == 1)
-			tokens[i].setPosition(0, toDraw->getWidth() - tokens[i].getWidth());
+			tokens[i].setPosition(front->getPos().first, front->getPos().second +front->getScale()*(front->getWidth() - tokens[i].getWidth()));
 		else
-			tokens[i].setPosition( toDraw->getHeight() - tokens[i].getWidth(),0);
+			tokens[i].setPosition(front->getPos().first+front->getScale()*( front->getHeight() - tokens[i].getWidth()),front->getPos().second);
 	}
 	tile->attach(this);
 }
@@ -61,21 +61,23 @@ TileObserver::update()
 {
 	if (tile->isFlipped() == true)
 	{
-		if (toDraw->contains(&images[tile->getType()]) == false)
+		if (parent->contains(front) == false)
 		{
-			toDraw->clear();
-			toDraw->addObject(&images[tile->getType()]);
+			parent->removeObject(reverseTile);
+			for (auto& x : tokens)
+				parent->removeObject(&x);
+			parent->addObject(front);
 		}
 		
 	}
-	if (tile->hasAlarm() == true && toDraw->contains(&tokens[0])==false)
+	if (tile->hasAlarm() == true && parent->contains(&tokens[0])==false)
 	{
-		toDraw->addObject(&tokens[0]);
+		parent->addObject(&tokens[0]);
 	}
 	else if(tile->hasAlarm() == false)
-		toDraw->removeObject(&tokens[0]);
+		parent->removeObject(&tokens[0]);
 
-	if (tile->hasCrackToken() == true && toDraw->contains(&tokens[1])==false)
+	/*if (tile->hasCrackToken() == true && toDraw->contains(&tokens[1])==false)
 	{
 		toDraw->addObject(&tokens[1]);
 	}
@@ -87,14 +89,18 @@ TileObserver::update()
 		toDraw->addObject(&tokens[2]);
 	}
 	else if(tile->hasCrowToken() == false)
-		toDraw->removeObject(&tokens[2]);
+		toDraw->removeObject(&tokens[2]);*/
 }
 TileObserver::~TileObserver()
 {
-	if (toDraw != nullptr)
+	if (front != nullptr)
 	{
-		toDraw->clear();
-		parent->removeObject(toDraw);
-		delete toDraw;
+		parent->removeObject(front);
+		delete front;
+	}
+	if (reverseTile != nullptr)
+	{
+		parent->removeObject(reverseTile);
+		delete reverseTile;
 	}
 }
