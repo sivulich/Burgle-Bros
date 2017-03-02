@@ -41,15 +41,14 @@ int main(void)
 		Timer time(1.0 / 30.0);
 		time.start();
 		long long c=time.getCount();
-		board[0].getPatrolDeck()->discardTop();
-		board[0].getPatrolDeck()->discardTop();
 		while (in != "exit")
 		{
 			in = control.input();
 			if (in != "")
 			{
 				cout << "Input " << in << endl;
-				
+				if(in == "PC R")
+					board[0].getPatrolDeck()->discardTop();
 			}
 			if (c < time.getCount())
 			{

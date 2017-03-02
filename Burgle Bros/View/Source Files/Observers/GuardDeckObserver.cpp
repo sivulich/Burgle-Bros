@@ -54,7 +54,7 @@ GuardDeckObserver::update()
 	if (graveO->isClicked() == true)
 	{
 		zoom->clear();
-		for (auto& card : deck->getDeck())
+		for (auto& card : deck->getDiscarded())
 		{
 			des = card->getDescription();
 			zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
