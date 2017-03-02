@@ -29,11 +29,11 @@
 
 // Auxiliar macro to form the switch cases in toString function
 #define X_DEFINE_ENUM_WITH_CONVERSIONS_TOSTRING_CASE(r, data, elem)					\
-	case elem : return BOOST_PP_STRINGIZE(elem);
+	case BOOST_PP_TUPLE_ELEM(0, elem) : return BOOST_PP_STRINGIZE(BOOST_PP_TUPLE_ELEM(0, elem));
 
 // Auxiliar macro to compare the given string to each elemen int enum in template function toEnum
 #define X_DEFINE_ENUM_WITH_CONVERSIONS_TOENUM(r,string, elem)						\
-	if(!strcmp(string,BOOST_PP_STRINGIZE(elem))) return elem;
+	if(!strcmp(string,BOOST_PP_STRINGIZE(BOOST_PP_TUPLE_ELEM(0, elem)))) return BOOST_PP_TUPLE_ELEM(0, elem);
 
 // Auxiliar macro to expand enumeration and check if default value has been set
 //
@@ -72,7 +72,7 @@
 			BOOST_PP_SEQ_FOR_EACH(                                            		\
 				X_DEFINE_ENUM_WITH_CONVERSIONS_TOSTRING_CASE,          				\
 				name,                                                         		\
-				enumerators                                                   		\
+				BOOST_PP_VARIADIC_SEQ_TO_SEQ(enumerators)                           \
 			)                                                                 		\
 			default: return "[Unknown " BOOST_PP_STRINGIZE(name) "]";         		\
 		}                                                                     		\
@@ -83,7 +83,7 @@
 		BOOST_PP_SEQ_FOR_EACH(												  		\
 			X_DEFINE_ENUM_WITH_CONVERSIONS_TOENUM,					  				\
 			v,															      		\
-			enumerators														  		\
+			BOOST_PP_VARIADIC_SEQ_TO_SEQ(enumerators)								\
 			)                                                                 		\
 		std::cout<<"["<<v<<" is not in "<<BOOST_PP_STRINGIZE(name)"]"<<std::endl;	\
 		return (name)NOT_IN_ENUM;														  	\
