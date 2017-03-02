@@ -3,8 +3,8 @@
 
 
 void Atrium::enterTile(PlayerInterface * player) {
-	
 
+	Tile::enterTile(player);
 	Coord tempCoord;
 	tempCoord.col = col();				//set the new tile to the same positition as the atrium tile
 	tempCoord.row = row();

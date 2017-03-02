@@ -4,25 +4,26 @@
 
 Image::Image(string& path)
 {
+	al_init();
+	al_init_image_addon();
 	im.load(path.c_str());
-	h = im.getHeight();
-	w = im.getWidth();
-	size_t pos = path.find('.');
-	size_t pos2 = path.find_last_of('/');
-	size_t pos3 = path.find_last_of('\\');
-	clickable = true;
-	hoverable = true;
-	x = 0;
-	y = 0;
-	if (pos2 == string::npos)
-		pos2 = 0;
-	if (pos3 != string::npos)
-		pos2 = pos3;
-	name = path.substr(pos2+1, pos);
+	
 	if (im.get() != nullptr)
 	{
-		DEBUG_MSG_V("Init ok on image " << name);
+		
 		initOk = true;
+		h = im.getHeight();
+		w = im.getWidth();
+		size_t pos = path.find_last_of(".");
+		size_t pos2 = path.find_last_of("/");
+		clickable = true;
+		hoverable = true;
+		x = 0;
+		y = 0;
+		if (pos2 == string::npos)
+			pos2 = 0;
+		name = path.substr(pos2 + 1, pos);
+		DEBUG_MSG_V("Init ok on image " << name);
 	}
 	else
 		DEBUG_MSG("Error while loading image at path " << path); 
@@ -40,7 +41,7 @@ Image::draw(Bitmap* target)
 	}
 	else
 	{
-		DEBUG_MSG("Trying to draw image when it was not initialized");
+		DEBUG_MSG("Trying to draw image "<<name<< " when it was not initialized");
 		return;
 	}
 	DEBUG_MSG_V("Drawing image " << name);

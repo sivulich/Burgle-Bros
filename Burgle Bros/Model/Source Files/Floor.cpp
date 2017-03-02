@@ -19,6 +19,8 @@ void Floor::setTile(int col, int row, tileType t)
 };
 void Floor::print()
 {
+	
+	eku::concolinit();
 	cout << "Floor " << floorNumber + 1 << ":" << endl;
 	cout << "__|";
 	for (int j = 0; j < 4; j++)
@@ -33,10 +35,14 @@ void Floor::print()
 			string name = toString(tiles[j][i]->getType());
 			int spaces = 18 - name.length();
 
-			if(tiles[j][i]->isFlipped())
-				cout << eku::green << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ');
+			if (tiles[j][i]->isFlipped())
+			{
+				cout << eku::green << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << eku::white;
+			}
 			else
-				cout << eku::red << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ');
+			{
+				cout << eku::red << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << eku::white;
+			}
 			
 			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j + 1, i)) != adjacent[j][i].end())
 				cout << " ";
@@ -57,7 +63,7 @@ void Floor::print()
 			}
 			cout << "|" << endl;
 		}
-		else cout << "  |__________________ __________________ __________________ __________________|" << endl;
+		else cout << "__________________ __________________ __________________ __________________|" << endl;
 	}
 	cout << endl;
 }

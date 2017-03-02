@@ -30,6 +30,8 @@
     <ClInclude Include="Header Files\localControler.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\View\Debug\vc140.idb" />
+    <None Include="..\View\Debug\vc140.pdb" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -87,10 +89,24 @@
     <Object Include="..\Model\Debug\Tile.obj" />
     <Object Include="..\Model\Debug\TileFactory.obj" />
     <Object Include="..\Model\Debug\Walkway.obj" />
+    <Object Include="..\View\Debug\Allegro.obj" />
+    <Object Include="..\View\Debug\BoardObserver.obj" />
+    <Object Include="..\View\Debug\Button.obj" />
+    <Object Include="..\View\Debug\Container.obj" />
+    <Object Include="..\View\Debug\FloorObserver.obj" />
+    <Object Include="..\View\Debug\GuardCardObserver.obj" />
+    <Object Include="..\View\Debug\GuardDeckObserver.obj" />
+    <Object Include="..\View\Debug\Image.obj" />
+    <Object Include="..\View\Debug\object.obj" />
+    <Object Include="..\View\Debug\PlayerObserver.obj" />
+    <Object Include="..\View\Debug\Screen.obj" />
+    <Object Include="..\View\Debug\Textbox.obj" />
+    <Object Include="..\View\Debug\TileObserver.obj" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Model\Debug\Model.Build.CppClean.log" />
     <Text Include="..\Model\Debug\Model.log" />
+    <Text Include="..\View\Debug\View.log" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9B5E20A1-F6D7-4781-8D4F-FB938EFD17FA}</ProjectGuid>
@@ -142,16 +158,41 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View;C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Model\;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\View\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\Model\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\Model\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -168,12 +209,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View;C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Model\;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\View\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\TP-Final-EDA\Burgle Bros\View\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

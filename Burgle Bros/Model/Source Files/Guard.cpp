@@ -51,44 +51,53 @@ void Guard::GuardCheck()
 	}
 }
 
+void Guard::print()
+{
+	DEBUG_MSG("Current guard position: " << pos);
+	DEBUG_MSG("Steps to finish turn: " << currsteps);
+	DEBUG_MSG("Active patrol card: " << patroldeck->activeCard()->getDescription());
+	DEBUG_MSG("Current path:");
+	for (auto& a : path)
+	{
+		DEBUG_MSG(a);
+	}
+
+}
+
 bool Guard::RemoveAlarm(Coord coord)
 {
 	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
 		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
-		DEBUG_MSG("alarm removed from tile "<< coord << endl);
+		//DEBUG_MSG("alarm removed from tile "<< coord << endl);
 		return true;
 	}
 	else
 	{
-		DEBUG_MSG("there was no alarm in tile " << coord << endl);
+		//DEBUG_MSG("there was no alarm in tile " << coord << endl);
 		return false;
 	}
 }
 
 bool Guard::move()
 {
-	BaseCard * ptr;
 	PatrolCard * p;
 	if (pos == NPOS)
 	{
 		SetCurrSteps();
-		DEBUG_MSG("Current steps " << currsteps<< endl);
-		ptr = patroldeck->next();
-		p = static_cast<PatrolCard*>(ptr);
+		//DEBUG_MSG("Current steps " << currsteps<< endl);
+		p = static_cast<PatrolCard*>(patroldeck->next());
 		pos = p->getCoord();
-		DEBUG_MSG("Guard start pos " << pos << endl);
-		ptr = patroldeck->next();
-		p = static_cast<PatrolCard*>(ptr);
-		//target = p->getCoord();
-		//ESTO ES DEBUG
-		target = Coord(1, 3, 0);
-		DEBUG_MSG("First guard target " << target << endl);
+		//DEBUG_MSG("Guard start pos " << pos << endl);
+		p = static_cast<PatrolCard*>(patroldeck->next());
+		target = p->getCoord();
+		//DEBUG_MSG("First guard target " << target << endl);
 	}
 		FindPath(pos);
 		pos = path.front();
 		path.pop_front();
-		DEBUG_MSG("Guard has moved to" << pos << endl);
+		GuardCheck();
+		//DEBUG_MSG("Guard has moved to" << pos << endl);
 		if (pos == target)
 		{
 			if (patroldeck->isEmpty())
@@ -96,8 +105,7 @@ bool Guard::move()
 				patroldeck->reset(6);
 				speed++;
 			}
-			ptr = patroldeck->next();
-			p = static_cast<PatrolCard*>(ptr);
+			p = static_cast<PatrolCard*>(patroldeck->next());
 			target = p->getCoord();
 		}
 		if (RemoveAlarm(pos))
@@ -105,10 +113,10 @@ bool Guard::move()
 			FindPath(pos);
 		}
 		currsteps--;
-		DEBUG_MSG("Remaining steps " << currsteps);
+		//DEBUG_MSG("Remaining steps " << currsteps);
 		if (currsteps == 0)
 		{
-			DEBUG_MSG("Guard turn has ended\n");
+			//DEBUG_MSG("Guard turn has ended\n");
 			return false;
 		}
 		else return true;
@@ -121,21 +129,21 @@ bool Guard::FindPath(Coord const coord)
 	path.clear();
 	if ((coord.col) < 4 && (coord.row < 4))
 	{
-		vector<int> dist(16, INT_MAX);
-		vector<int> parent(16, -1);
-		dist[toIndex(coord)] = 0;
+		vector<int> dist(16, INT_MAX);//vector that contains the distance required to go to any point in floor from current pos
+		vector<int> parent(16, -1);// vector that contains prior room to be accessed following a path from current pos
+		dist[toIndex(coord)] = 0;//set distance to current pos = 0
 		queue<int> Q;
 		Q.push(toIndex(coord));
 		while (!Q.empty())
 		{
 			int index = Q.front();
 			Q.pop();
-			for (auto &it: floor[toCoord(index).col][toCoord(index).row])
+			for (auto &it: floor[toCoord(index).col][toCoord(index).row])//search for all adjacents rooms to current one
 			{
-				if (dist[toIndex(it)] == INT_MAX) 
+				if (dist[toIndex(it)] == INT_MAX) //if room was not visited
 				{
-					Q.push(toIndex(it));
-					dist[toIndex(it)] = dist[index] + 1;
+					Q.push(toIndex(it));//add to queue
+					dist[toIndex(it)] = dist[index] + 1;//and set distance equal to distance to parent room + 1
 					parent[toIndex(it)] = index;
 				}
 			}
@@ -147,9 +155,9 @@ bool Guard::FindPath(Coord const coord)
 		DEBUG_MSG("Room connections from start pos:" << endl);
 		for (auto & a : parent)
 			DEBUG_MSG(a << endl);*/
-		DEBUG_MSG("Path is:" << endl);
+		//DEBUG_MSG("Path is:" << endl);
 		for (auto& a : path)
-			DEBUG_MSG(a <<" ");
+			//DEBUG_MSG(a <<" ");
 		cout << endl;
 		return true;
 	}
@@ -158,12 +166,12 @@ bool Guard::FindPath(Coord const coord)
 
 bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> parent)
 {
-	if (start < parent.size() && end < parent.size())
+	if (start < parent.size() && end < parent.size())//check if end position is inside floor
 	{
-		if (start == end || end == -1);
+		if (start == end || end == -1);//if destination and source are the same, target was reached
 			//path.push_front(toCoord(start));//es la direccion actual
 		else {
-			shortestPath(start, parent[end], parent);
+			shortestPath(start, parent[end], parent);//if destination was not found, try again but with adjacent room from before
 			path.push_back(toCoord(end));
 		}
 		return true;
@@ -185,6 +193,6 @@ unsigned Guard::closestTarget(vector<int> distances)
 
 		}//faltaria chequear lo de las izquierdas
 	}
-	DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
+	//DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
 	return destination;
 }

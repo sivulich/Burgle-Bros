@@ -13,7 +13,7 @@ Board::Board()
 void Board::setWalls()
 {
 	// Create the map with the walls
-	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
+	/*bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
 	   {{ T,W,T,´,T,´,T},
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,W,T },
@@ -37,6 +37,31 @@ void Board::setWalls()
 		{ T,W,T,W,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,W,T } }
+	};*/
+	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
+	  { { T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T } },
+
+	  { { T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T } },
+
+	  { { T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T },
+		{ ´,´,´,´,´,´,´ },
+		{ T,´,T,´,T,´,T } }
 	};
 
 
@@ -48,7 +73,7 @@ void Board::setWalls()
 			{
 				int i = row * 2;
 				int j = col * 2;
-				Tile * tile = (*floor[f])[col][row];
+				Tile * tile = floor[f][col][row];
 
 				// Adjacent with tile above
 				if (row > 0 && (walls[f][i - 1][j] != W))
@@ -77,7 +102,7 @@ void Board::setWalls()
 			}
 		}
 		//Pass the map to each floor (and each floor to its guard)
-		floor[f]->setMap(adjacent[f]);
+		floor[f].setMap(adjacent[f]);
 	}
 }
 
@@ -120,10 +145,7 @@ void Board::setBoard()
 		f[i].push_back(SAFE);
 		f[i].push_back(STAIR);
 		random_shuffle(f[i].begin(), f[i].end());
-
-		floor[i] = new Floor(4, 4, i);
-
-		floor[i]->setTiles(f[i]);
+		floor[i].setTiles(f[i]);
 	}
 }
 
@@ -135,8 +157,7 @@ void Board::setBoard(vector<tileType> tiles)
 		for (int i = 0; i < 3; i++)
 		{
 			f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / 3 * i, tiles.begin() + tiles.size() / 3 * (i + 1));
-			floor[i] = new Floor(4, 4, i);
-			floor[i]->setTiles(f[i]);
+			floor[i].setTiles(f[i]);
 		}
 	}
 }
@@ -160,15 +181,15 @@ void Board::parseBoard()
 		{
 			for (int col = 0; col < 4; col++)
 			{
-				Tile * tile = (*floor[f])[col][row];
+				Tile * tile = floor[f][col][row];
 
 				switch (tile->getType())
 				{
 					case STAIR:
 						// If there is a Stair tile add adjacency with next floor
-						(*floor[f + 1])[col][row]->addAdjacent(Coord(f, col, row));
+						floor[f + 1][col][row]->addAdjacent(Coord(f, col, row));
 						tile->addAdjacent(Coord(f + 1, col, row));
-						floor[f + 1]->setStairToken(Coord(f + 1, col, row));
+						floor[f + 1].setStairToken(Coord(f + 1, col, row));
 					break;
 
 					case SAFE:
@@ -248,12 +269,12 @@ void Board::print()
 {
 	cout << "                                   |BOARD|" << endl;
 	for (int i = 0; i < 3; i++)
-		floor[i]->print();
+		floor[i].print();
 }
 
 Tile * Board::getTile(Coord c)
 {
-	return (*floor[c.floor])[c.col][c.row];
+	return floor[c.floor][c.col][c.row];
 }
 
 Board::~Board()

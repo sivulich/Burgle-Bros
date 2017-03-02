@@ -62,6 +62,11 @@ public:
 	void GuardCheck();
 
 	/**
+
+	*/
+	void print();
+
+	/**
 	sets amount of steps the guard has during his turn
 	*/
 	void SetCurrSteps() { currsteps = speed + alarms->size(); };

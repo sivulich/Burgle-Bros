@@ -7,15 +7,20 @@ class PatrolCardDeck : public BaseDeck
 {
 public:
 	/**
-	@addparams amount of cards to discard when creating first deck
 	*/
-	PatrolCardDeck(unsigned floor);
+	PatrolCardDeck() {};
+
 
 	/**
 
 	*/
 	~PatrolCardDeck();
 
+	/**
+	
+	*/
+	bool createDeck(unsigned floor);
+	
 	/**
 	function merges cards in discarded deck with main deck (discarded cards are turned down). Main deck is shuffled 
 	n amount of cards are discarded automatically to the discarded deck
@@ -25,7 +30,7 @@ public:
 	bool reset(unsigned n);
 
 	/**
-		Returns the floor of the patrol card deck
+	Returns the floor of the patrol card deck
 	*/
 	unsigned floor() { return floorNumber; };
 

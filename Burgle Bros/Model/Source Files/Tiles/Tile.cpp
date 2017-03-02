@@ -5,6 +5,8 @@ Tile::Tile()
 {
 	turnDown();
 	alarmToken = false;
+	crackToken = false;
+	crowToken = false;
 }
 
 Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row) 

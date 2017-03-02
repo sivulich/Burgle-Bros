@@ -42,7 +42,6 @@ public:
 
 		while (status != EXIT)
 		{
-			model->print();
 
 			if (status == PLAYER_TURN)
 			{
@@ -93,7 +92,7 @@ public:
 					}
 					break;
 
-					case PEEK:
+					case Peek:
 					{
 						cin >> coord;
 						Coord c(coord[0] - 1, coord[1] - 'A', coord[2] - 1);
@@ -121,6 +120,7 @@ public:
 
 				case GUARD_TURN:
 				{
+					DEBUG_MSG("Guard turn:");
 					switch (event)
 					{
 					case Move_guard:
@@ -129,7 +129,7 @@ public:
 
 						if (model->gameOver())
 							status = GAMEOVER;
-						else if (model->guardIsMoving())
+						else if (!model->guardIsMoving())
 						{
 							model->changeTurn();
 							status = PLAYER_TURN;
@@ -146,7 +146,9 @@ public:
 				}
 				break;
 			}
+			model->print();
 		}
+		
 	}
 
 
