@@ -18,5 +18,7 @@ void Atrium::enterTile(PlayerInterface * player) {
 		player->addVisibleTile(tempCoord);
 	}
 
-
+	DEBUG_LN_MSG("Now you can be seen from: ");
+	for (auto i : player->getVisibleFrom())
+		DEBUG_LN_MSG(i << " - " << endl);
 }

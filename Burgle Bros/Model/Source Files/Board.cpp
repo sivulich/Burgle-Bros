@@ -144,6 +144,9 @@ void Board::setBoard(vector<tileType> tiles)
 void Board::parseBoard()
 {
 	ServiceDuct* duct1 = nullptr;
+	vector<Tile *> cameras;
+	Tile * computerRoomF, * computerRoomM, * computerRoomL;
+	vector<Tile *> fingerprints, motions, lasers;
 
 	lootType l[] = { TIARA, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR, GOLD_BAR };
 	vector<lootType>loots(l, l + 10);
@@ -184,9 +187,59 @@ void Board::parseBoard()
 							((ServiceDuct*)tile)->setOtherSide(duct1);
 						}
 					break;
+					case CAMERA:
+						cameras.push_back(tile);
+						if (cameras.size() == 4) 
+						{
+							for (int i = 0;	i < 4; i++)
+							{
+								for (int j = 0; j < 4; j++)
+								{
+									if (i != j)
+										((Camera *)cameras[i])->addCamera(cameras[j]);
+								}
+							}
+						}
+						break;
+					case COMPUTER_ROOM_F:
+						computerRoomF = tile;
+						break;
+					case COMPUTER_ROOM_L:
+						computerRoomL = tile;
+						break;
+					case COMPUTER_ROOM_M:
+						computerRoomM = tile;
+						break;
+					case FINGERPRINT:
+						fingerprints.push_back(tile);
+						break;
+					case LASER:
+						lasers.push_back(tile);
+						break;
+					case MOTION:
+						motions.push_back(tile);
+						break;
+					case SECRET_DOOR:
+						if (col != 0)	// if its not in the first column
+							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col - 1][row]);
+						if (col != 3)	// if its not in the last column
+							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col + 1][row]);
+						if (row != 0)	// if its not in the first row
+							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col][row - 1]);
+						if (row != 3)	// if its not in the last row
+							((SecretDoor *)tile)->addSecretDoor((*floor[f])[col][row + 1]);
+						break;
+
+						
 				}
 			}
 		}
+	}
+	for (size_t i = 0; i < 3; i++)
+	{
+		((Fingerprint *)fingerprints[i])->setComputerRoom(computerRoomF);
+		((Motion *)motions[i])->setComputerRoom(computerRoomM);
+		((Laser *)lasers[i])->setComputerRoom(computerRoomL);
 	}
 }
 	

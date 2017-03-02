@@ -19,7 +19,7 @@ public:
 	/**
 		Returns the amount of hack tokens in the tile
 	*/
-	unsigned int getHackTokens() { return hackToken; };
+	int getHackTokens() override { return hackToken; };
 	/**
 		Removes 1 hack token from the tile
 	*/
@@ -27,6 +27,6 @@ public:
 
 private:
 	void addToken() { ++hackToken; };
-	unsigned int hackToken;
+	int hackToken;
 };
 

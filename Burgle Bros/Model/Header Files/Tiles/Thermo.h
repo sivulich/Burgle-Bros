@@ -3,7 +3,7 @@
 #include "../PlayerInterface.h"
 
 /*
-If you end your actions on a Thermo tile an alarm will go off. If you are moved here during other turns,
+If you end your actions on a Thermo tile an alarm will go off. If you are moved here during other turns,
 it does not trigger.
 */
 

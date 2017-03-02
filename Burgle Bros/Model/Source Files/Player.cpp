@@ -65,11 +65,12 @@ bool Player::move(Coord c)
 
 bool Player::move(Tile * newTile)
 {
-	if (newTile->canMove(this))
-	{
-		removeActionToken();
-		setPosition(newTile);
+	removeActionToken();
+//	if (newTile->canMove(this))
+//	{
 		newAction("MOVE", getPosition());
+		currentTile->exitTile(this);
+		setPosition(newTile);
 		newTile->enterTile(this);
 		// Update from where the guard can see the player
 		updateVisibleFrom();
@@ -78,8 +79,8 @@ bool Player::move(Tile * newTile)
 			t->update();
 		notify();
 		return true;
-	}
-	return false;
+	//}
+//	return false;
 	
 }
 
@@ -136,8 +137,8 @@ void Player::print()
 }
 void Player::removeStealthToken()
 {
-	if (stealthTokens > 0)
-		stealthTokens--;
+	if(currentTile->tryToHide() == false)	// try to hide from the guard (for the LAVATORY)
+		stealthTokens--;					// if that fails, remove a stealth tokens
 	else
 		DEBUG_MSG("NO STEALTH TOKENS LEFT, YOU ARE DEADDDDD");
 	notify();
@@ -221,3 +222,4 @@ characterType Player::getCharacterType()
 {
 	return character->getType();
 };
+

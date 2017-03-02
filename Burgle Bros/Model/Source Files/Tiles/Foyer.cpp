@@ -6,7 +6,7 @@ Foyer::~Foyer()
 }
 
 void Foyer::enterTile(PlayerInterface * player) {
-	
+	Tile::enterTile(player);
 
 	Coord temp(floor(), col(), row());
 

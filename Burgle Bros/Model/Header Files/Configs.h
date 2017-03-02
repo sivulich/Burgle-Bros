@@ -36,6 +36,12 @@
 #define DEBUG_MSG(x)
 #endif
 
+#ifdef DEBUG
+#define DEBUG_LN_MSG(x)  cerr << x
+#else
+#define DEBUG_LN_MSG(x)
+#endif
+
 
 using namespace std;
 

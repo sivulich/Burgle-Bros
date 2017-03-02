@@ -9,10 +9,6 @@ a single turn you would roll 4 dice, but the next turn you would start back at 1
 or fall into this room, you may leave but must open it to get back in.
 */
 
-//////////////////////////////////////////////////////////////////////////////////////////
-/* EL JUEGO VA A TENER QUE RESETEAR LOS ATTEMPTS CADA VEZ QUE UN PLAYER TERMINA UN TURNO */
-//////////////////////////////////////////////////////////////////////////////////////////
-
 class Keypad : public Tile
 {
 public:
@@ -23,11 +19,11 @@ public:
 	@param p player who is moving
 	*/
 	virtual bool canMove(PlayerInterface * player) override;
+	void clearAttempts() { attemptsThisTurn = 0; };
 
 private:
 	unsigned int getAttempts() { return attemptsThisTurn; };
 	void addAttempt() { ++attemptsThisTurn; };
-	void clearAttempts() { attemptsThisTurn = 0; };
 
 	bool keyKnown;
 	unsigned int attemptsThisTurn;

@@ -45,7 +45,10 @@ public:
 		@param p player who is moving
 	*/
 	virtual void enterTile(PlayerInterface * player);
-
+	/**
+		Executes any special action when leaving the tile
+	*/
+	virtual void exitTile(PlayerInterface * player) {};
 
 	/**
 		Apart from turning up the card, sort the safe number
@@ -158,6 +161,12 @@ public:
 	bool hasCrackToken(){ return crackToken; };
 
 	bool hasCrowToken() { return crowToken; };
+
+	virtual int getHackTokens() { return 0; };
+	/**
+		Returns true if you could hide from the guard. Used for Lavatory.
+	*/
+	virtual bool tryToHide() { return false; };
 protected:
 	// Coord containing floor, column and row of the tile
 	Coord coord;

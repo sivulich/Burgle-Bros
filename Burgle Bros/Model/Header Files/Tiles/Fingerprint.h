@@ -32,5 +32,10 @@ public:
 		@param p player who is moving
 	*/
 	virtual void enterTile(PlayerInterface * player) override;
+
+	void setComputerRoom(Tile * cRoom) { myComputerRoom = cRoom;  };
+
+private:
+	Tile * myComputerRoom;
 };
 

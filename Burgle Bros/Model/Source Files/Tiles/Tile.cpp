@@ -116,6 +116,7 @@ void Tile::enterTile(PlayerInterface * p)
 {
 	if (!isFlipped())
 		turnUp();
+	p->updateVisibleFrom();
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
 }
 

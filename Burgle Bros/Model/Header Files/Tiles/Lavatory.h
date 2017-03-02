@@ -14,9 +14,9 @@ public:
 	~Lavatory();
 
 	/**
-		Try to hide in the bathroom stalls. Returns true if you succeded.
+		Returns true if you could hide from the guard. Used for Lavatory.
 	*/
-	bool hide();
+	bool tryToHide() override;
 private:
 	unsigned int stealthTokens;
 };
