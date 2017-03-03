@@ -258,8 +258,6 @@ void Board::parseBoard()
 						if (row != 3)	// if its not in the last row
 							((SecretDoor *)tile)->addSecretDoor(floor[f][col][row + 1]);
 						break;
-
-						
 				}
 			}
 		}

@@ -8,7 +8,7 @@ Screen::Screen(int h, int w, string& pathToBackground,bool b)
 		ALLEGRO_DISPLAY_MODE   disp_data;
 		al_get_display_mode(al_get_num_display_modes() - 1, &disp_data);
 		display = new Display(disp_data.width, disp_data.height);
-		display->setFlagEnabled(ALLEGRO_FULLSCREEN_WINDOW, true);
+		display->setFlagEnabled(ALLEGRO_FULLSCREEN_WINDOW,true);
 		this->w = disp_data.width;
 		this->h = disp_data.height;
 	}
@@ -17,7 +17,7 @@ Screen::Screen(int h, int w, string& pathToBackground,bool b)
 		this->h = h;
 		this->w = w;
 	}
-	display = new Display(this->w, this->h);
+	display= new Display(this->w, this->h);
 	toDraw = new Bitmap(this->w, this->h);
 	
 	clickable = false;

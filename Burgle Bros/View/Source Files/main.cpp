@@ -8,8 +8,8 @@
 #include "../Header Files/Textbox.h"
 #include "../../Model/Header Files/Board.h"
 #include "../Header Files/Allegro.h"
-#include "../Header Files/Observers/BoardObserver.h"
-
+#include "../Header Files/BoardObserver.h"
+#include "../Header Files/object.h"
 bool isCoord(string& s)
 {
 
@@ -46,7 +46,7 @@ int main(void)
 		BoardObserver obs(&board, &cont);
 		screen.addObject(&cont);
 		string in;
-		Timer time(1.0 / 10.0);
+		Timer time(1.0 / 30.0);
 		time.start();
 		long long c=time.getCount();
 		while (in != "exit")

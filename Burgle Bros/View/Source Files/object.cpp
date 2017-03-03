@@ -11,6 +11,7 @@ Object::Object()
 	clicked = false;
 	hover = false;
 	initOk = false;
+	animation = nullptr;
 	scale = 1;
 	h = 0;
 	w = 0;
@@ -32,6 +33,7 @@ Object::Object(string name, int x, int y, int h, int w, double scale)
 	this->x = x;
 	this->y = y;
 	this->name = name;
+	animation = nullptr;
 }
 
 string Object::click(int y, int x)
@@ -101,8 +103,10 @@ void Object::drag(int y, int x)
 
 void Object::draw(Bitmap* target)
 {
-	if(initOk==true && target!=nullptr && target->get()!=nullptr)
+	if (initOk == true && target != nullptr && target->get() != nullptr)
+	{
 		target->setTarget();
+	}
 	else
 	{
 		if (initOk == true)

@@ -1,4 +1,4 @@
-#include "../../Header Files/Observers/BoardObserver.h"
+#include "../Header Files/BoardObserver.h"
 
 BoardObserver::BoardObserver(Board* b, Container* c)
 {

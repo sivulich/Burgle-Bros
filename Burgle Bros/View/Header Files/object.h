@@ -2,8 +2,11 @@
 
 #include "../../Model/Header Files/Configs.h"
 #include "../Header Files/ALX/alx.hpp"
+#include "../Header Files/ObjectInterface.h"
+#include "../Animation.h"
+
 using namespace alx;
-class Object
+class Object : public ObjectInterface
 {
 public:
 	/** Default constructor*/
@@ -60,6 +63,16 @@ public:
 	*/
 	void setName(string& s) { name = s; };
 
+	/**
+	
+	*/
+	void setAlpha(int a) { alpha = a; };
+
+	/**
+	
+	*/
+	int getAlpha() { return alpha; };
+
 	/** Returns the position of the object*/
 	pair<int, int> getPos() { return pair<int, int>(y,x); };
 	
@@ -107,6 +120,12 @@ public:
 
 	void setHoverable(bool b) { hoverable = b; };
 	double getScale() { return scale; };
+
+	bool hasAnimation() { return animation == nullptr ? false : true; };
+	// To add an animaion call this function with a new animation. When animation ends object deletes it
+	void addAnimation(Animation* a) { animation = a; };
+	void deleteAnimation() { if (animation != nullptr) { delete animation; animation = nullptr; } };
+
 protected:
 	/** 
 		Properties
@@ -123,9 +142,11 @@ protected:
 	*/	
 	int y, x;  //Y vertical, X horizontal position
 	int h, w;
+	int alpha;
 	double scale;
 	string name;
 	bool initOk;
+	Animation* animation;
 };
 
 

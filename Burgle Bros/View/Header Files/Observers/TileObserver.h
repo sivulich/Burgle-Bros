@@ -5,6 +5,7 @@
 #include "../../../Model/Header Files//Tiles/Tile.h"
 #include "../Image.h"
 #include "../Container.h"
+
 class TileObserver :public Observer {
 public:
 	TileObserver(Tile* t,Container* p );
