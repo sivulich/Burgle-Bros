@@ -2,7 +2,8 @@
 
 #include "Object.h"
 
-class Screen :public Object {
+class Screen :public Object
+{
 public:
 	/** This constructor sets a fixed size to where the background will be drawn with the given offsets
 		@param height Height for the transparent container

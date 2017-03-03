@@ -143,7 +143,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="MoveAnimation.cpp" />
     <ClCompile Include="Source Files\Allegro.cpp" />
     <ClCompile Include="Source Files\BoardObserver.cpp" />

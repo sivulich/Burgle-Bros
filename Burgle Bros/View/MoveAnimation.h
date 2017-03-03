@@ -1,9 +1,11 @@
 #pragma once
 #include "Animation.h"
+#include "../Model/Header Files/Configs.h"
+
 class MoveAnimation :public Animation
 {
 public:
-	MoveAnimation(int currentX, int currentY, int xTg, int yTg, double dur);
+	MoveAnimation(pair<int, int> current, pair<int, int> target, double dur);
 	~MoveAnimation();
 	virtual void play(ObjectInterface* object)override;
 private:

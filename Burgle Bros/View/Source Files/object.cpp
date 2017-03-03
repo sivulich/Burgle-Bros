@@ -106,12 +106,6 @@ void Object::draw(Bitmap* target)
 	if (initOk == true && target != nullptr && target->get() != nullptr)
 	{
 		target->setTarget();
-		if (hasAnimation())
-		{
-			animation->play(this);
-			if (animation->hasEnded())
-				delete animation;
-		}		
 	}
 	else
 	{

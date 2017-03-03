@@ -46,7 +46,7 @@ int main(void)
 		BoardObserver obs(&board, &cont);
 		screen.addObject(&cont);
 		string in;
-		Timer time(1.0 / 10.0);
+		Timer time(1.0 / 30.0);
 		time.start();
 		long long c=time.getCount();
 		while (in != "exit")

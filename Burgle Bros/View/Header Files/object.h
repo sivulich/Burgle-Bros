@@ -124,6 +124,8 @@ public:
 	bool hasAnimation() { return animation == nullptr ? false : true; };
 	// To add an animaion call this function with a new animation. When animation ends object deletes it
 	void addAnimation(Animation* a) { animation = a; };
+	void deleteAnimation() { if (animation != nullptr) { delete animation; animation = nullptr; } };
+
 protected:
 	/** 
 		Properties
