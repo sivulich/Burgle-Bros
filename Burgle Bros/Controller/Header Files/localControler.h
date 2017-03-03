@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "../View/Header Files/Screen.h"
 #include "../Model/Header Files/Configs.h"
 #include "controller.h"
@@ -15,4 +15,4 @@ private:
 	ALLEGRO_EVENT_QUEUE* events;
 	ALLEGRO_EVENT event;
 	bool mPressed;
-};
+};*/

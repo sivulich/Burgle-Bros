@@ -5,13 +5,9 @@
 bool PatrolCardDeck::createDeck(unsigned floor)
 {
 	for (unsigned i = 0; i < 4; i++)
-	{
 		for (unsigned j = 0; j < 4; j++)
-		{
-			Coord c = { floor,i,j };
-			deck.push_back(new PatrolCard(c));
-		}
-	}
+			deck.push_back(new PatrolCard(Coord(floor,i,j)));
+
 	shuffle();
 	for (unsigned k = 0; k < 6; k++)
 		discardTop();
