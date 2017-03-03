@@ -2,7 +2,7 @@
 
 #include "Observer.h"
 #include "../../../Model/Header Files/Player.h"
-#include "BoardObserver.h"
+#include "../BoardObserver.h"
 #include "../Button.h"
 
 class PlayerObserver :public Observer {

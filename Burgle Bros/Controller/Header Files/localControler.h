@@ -15,4 +15,4 @@ private:
 	ALLEGRO_EVENT_QUEUE* events;
 	ALLEGRO_EVENT event;
 	bool mPressed;
-};*/
+};

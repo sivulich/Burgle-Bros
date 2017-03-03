@@ -8,8 +8,8 @@
 #include "../Header Files/Textbox.h"
 #include "../../Model/Header Files/Board.h"
 #include "../Header Files/Allegro.h"
-#include "../Header Files/Observers/BoardObserver.h"
-
+#include "../Header Files/BoardObserver.h"
+#include "../Header Files/object.h"
 bool isCoord(string& s)
 {
 

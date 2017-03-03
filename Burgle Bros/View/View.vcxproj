@@ -80,6 +80,7 @@
     <Allegro_AddonFont>true</Allegro_AddonFont>
     <Allegro_AddonColor>true</Allegro_AddonColor>
     <Allegro_AddonVideo>true</Allegro_AddonVideo>
+    <IncludePath>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\Model\Header Files;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Allegro_AddonImage>true</Allegro_AddonImage>
@@ -101,9 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Controller;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Model;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Model\Source Files\Loots;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Model\Source Files\Tiles;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Model\Source Files\;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Model\Source Files\Characters;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\Controller\Source Files;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\View\Source Files\Observers;C:\Users\Santi\Source\Repos\Burgle-Bros\Burgle Bros\View\Source Files;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Link>
+    <Link />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -141,19 +140,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="..\Model\Debug\vc140.idb" />
-    <None Include="..\Model\Debug\vc140.pdb" />
-    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="MoveAnimation.cpp" />
     <ClCompile Include="Source Files\Allegro.cpp" />
+    <ClCompile Include="Source Files\BoardObserver.cpp" />
     <ClCompile Include="Source Files\Button.cpp" />
     <ClCompile Include="Source Files\Container.cpp" />
     <ClCompile Include="Source Files\Image.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
     <ClCompile Include="Source Files\object.cpp" />
-    <ClCompile Include="Source Files\Observers\BoardObserver.cpp" />
+    <ClCompile Include="Source Files\ObjectInterface.cpp" />
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
@@ -164,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Model\Header Files\Observer.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Header Files\Allegro.h" />
     <ClInclude Include="Header Files\ALX\AllegroFile.hpp" />
     <ClInclude Include="Header Files\ALX\alx.hpp" />
@@ -216,11 +216,12 @@
     <ClInclude Include="Header Files\ALX\Vector2Base.hpp" />
     <ClInclude Include="Header Files\ALX\VertexDecl.hpp" />
     <ClInclude Include="Header Files\ALX\Voice.hpp" />
+    <ClInclude Include="Header Files\BoardObserver.h" />
     <ClInclude Include="Header Files\Button.h" />
     <ClInclude Include="Header Files\Container.h" />
     <ClInclude Include="Header Files\Image.h" />
     <ClInclude Include="Header Files\object.h" />
-    <ClInclude Include="Header Files\Observers\BoardObserver.h" />
+    <ClInclude Include="Header Files\ObjectInterface.h" />
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />
@@ -229,9 +230,9 @@
     <ClInclude Include="Header Files\Observers\TileObserver.h" />
     <ClInclude Include="Header Files\Screen.h" />
     <ClInclude Include="Header Files\Textbox.h" />
+    <ClInclude Include="MoveAnimation.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Images\AlarmToken.png" />
     <Image Include="Images\Characters\Characters - The Acrobat.png" />
     <Image Include="Images\Characters\Characters - The Hacker.png" />
     <Image Include="Images\Characters\Characters - The Hawk.png" />
@@ -241,8 +242,6 @@
     <Image Include="Images\Characters\Characters - The Rigger.png" />
     <Image Include="Images\Characters\Characters - The Rook.png" />
     <Image Include="Images\Characters\Characters - The Spotter.png" />
-    <Image Include="Images\CrackToken.png" />
-    <Image Include="Images\CrowToken.png" />
     <Image Include="Images\Loot\Loot - Bust.png" />
     <Image Include="Images\Loot\Loot - Chihuahua.png" />
     <Image Include="Images\Loot\Loot - Cursed Goblet.png" />
@@ -253,46 +252,50 @@
     <Image Include="Images\Loot\Loot - Persian Kitty.png" />
     <Image Include="Images\Loot\Loot - Reverse.png" />
     <Image Include="Images\Loot\Loot - Tiara.png" />
-    <Image Include="Images\Patrol\PC A1.png" />
-    <Image Include="Images\Patrol\PC A2.png" />
-    <Image Include="Images\Patrol\PC A3.png" />
-    <Image Include="Images\Patrol\PC A4.png" />
-    <Image Include="Images\Patrol\PC B1.png" />
-    <Image Include="Images\Patrol\PC B2.png" />
-    <Image Include="Images\Patrol\PC B3.png" />
-    <Image Include="Images\Patrol\PC B4.png" />
-    <Image Include="Images\Patrol\PC C1.png" />
-    <Image Include="Images\Patrol\PC C2.png" />
-    <Image Include="Images\Patrol\PC C3.png" />
-    <Image Include="Images\Patrol\PC C4.png" />
-    <Image Include="Images\Patrol\PC D1.png" />
-    <Image Include="Images\Patrol\PC D2.png" />
-    <Image Include="Images\Patrol\PC D3.png" />
-    <Image Include="Images\Patrol\PC D4.png" />
-    <Image Include="Images\Patrol\PC R.png" />
-    <Image Include="Images\Tiles\Tile - Atrium.png" />
-    <Image Include="Images\Tiles\Tile - Camera.png" />
-    <Image Include="Images\Tiles\Tile - Computer Room (Fingerprint).png" />
-    <Image Include="Images\Tiles\Tile - Computer Room (Laser).png" />
-    <Image Include="Images\Tiles\Tile - Computer Room (Motion).png" />
-    <Image Include="Images\Tiles\Tile - Deadbolt.png" />
-    <Image Include="Images\Tiles\Tile - Fingerprint.png" />
-    <Image Include="Images\Tiles\Tile - Foyer.png" />
-    <Image Include="Images\Tiles\Tile - Keypad.png" />
-    <Image Include="Images\Tiles\Tile - Laboratory.png" />
-    <Image Include="Images\Tiles\Tile - Laser.png" />
-    <Image Include="Images\Tiles\Tile - Lavatory.png" />
-    <Image Include="Images\Tiles\Tile - Motion.png" />
-    <Image Include="Images\Tiles\Tile - Reverse.png" />
-    <Image Include="Images\Tiles\Tile - Safe.png" />
-    <Image Include="Images\Tiles\Tile - Scanner.png" />
-    <Image Include="Images\Tiles\Tile - Secret Door.png" />
-    <Image Include="Images\Tiles\Tile - Service Duct.png" />
-    <Image Include="Images\Tiles\Tile - Stairs.png" />
-    <Image Include="Images\Tiles\Tile - Thermo.png" />
-    <Image Include="Images\Tiles\Tile - Walkway.png" />
+    <Image Include="Images\Patrol Card\PC A1.png" />
+    <Image Include="Images\Patrol Card\PC A2.png" />
+    <Image Include="Images\Patrol Card\PC A3.png" />
+    <Image Include="Images\Patrol Card\PC A4.png" />
+    <Image Include="Images\Patrol Card\PC B1.png" />
+    <Image Include="Images\Patrol Card\PC B2.png" />
+    <Image Include="Images\Patrol Card\PC B3.png" />
+    <Image Include="Images\Patrol Card\PC B4.png" />
+    <Image Include="Images\Patrol Card\PC C1.png" />
+    <Image Include="Images\Patrol Card\PC C2.png" />
+    <Image Include="Images\Patrol Card\PC C3.png" />
+    <Image Include="Images\Patrol Card\PC C4.png" />
+    <Image Include="Images\Patrol Card\PC D1.png" />
+    <Image Include="Images\Patrol Card\PC D2.png" />
+    <Image Include="Images\Patrol Card\PC D3.png" />
+    <Image Include="Images\Patrol Card\PC D4.png" />
+    <Image Include="Images\Patrol Card\PC R.png" />
+    <Image Include="Images\Tile\Tile - Atrium.png" />
+    <Image Include="Images\Tile\Tile - Camera.png" />
+    <Image Include="Images\Tile\Tile - Computer Room (Fingerprint).png" />
+    <Image Include="Images\Tile\Tile - Computer Room (Laser).png" />
+    <Image Include="Images\Tile\Tile - Computer Room (Motion).png" />
+    <Image Include="Images\Tile\Tile - Deadbolt.png" />
+    <Image Include="Images\Tile\Tile - Fingerprint.png" />
+    <Image Include="Images\Tile\Tile - Foyer.png" />
+    <Image Include="Images\Tile\Tile - Keypad.png" />
+    <Image Include="Images\Tile\Tile - Laboratory.png" />
+    <Image Include="Images\Tile\Tile - Laser.png" />
+    <Image Include="Images\Tile\Tile - Lavatory.png" />
+    <Image Include="Images\Tile\Tile - Motion.png" />
+    <Image Include="Images\Tile\Tile - Reverse.png" />
+    <Image Include="Images\Tile\Tile - Safe.png" />
+    <Image Include="Images\Tile\Tile - Scanner.png" />
+    <Image Include="Images\Tile\Tile - Secret Door.png" />
+    <Image Include="Images\Tile\Tile - Service Duct.png" />
+    <Image Include="Images\Tile\Tile - Stairs.png" />
+    <Image Include="Images\Tile\Tile - Thermo.png" />
+    <Image Include="Images\Tile\Tile - Walkway.png" />
+    <Image Include="Images\Tokens\AlarmToken.png" />
+    <Image Include="Images\Tokens\CrackToken.png" />
+    <Image Include="Images\Tokens\CrowToken.png" />
   </ItemGroup>
   <ItemGroup>
+    <Object Include="..\Controller\Debug\GameFSM.obj" />
     <Object Include="..\Controller\Debug\localControler.obj" />
     <Object Include="..\Model\Debug\Acrobat.obj" />
     <Object Include="..\Model\Debug\actionNode.obj" />
@@ -348,9 +351,6 @@
     <Object Include="..\Model\Debug\Tile.obj" />
     <Object Include="..\Model\Debug\TileFactory.obj" />
     <Object Include="..\Model\Debug\Walkway.obj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\Model\Debug\Model.log" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

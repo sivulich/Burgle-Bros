@@ -30,10 +30,14 @@ Image::Image(string& path)
 		DEBUG_MSG("Error while loading image at path " << path); 
 }
 
-void
-Image::draw(Bitmap* target)
+void Image::draw(Bitmap* target)
 {
-	if(initOk==true && target!=nullptr && target->get()!=nullptr)
+	Object::draw(target);
+	// Lo comento porque en object draw llamo al update de la animacion
+	// lo que esta comentado se chequea siempre, se podria hacer en object draw y que devuelva un bool
+
+
+	/**if(initOk==true && target!=nullptr && target->get()!=nullptr)
 		target->setTarget();
 	else if (initOk == true)
 	{
@@ -44,7 +48,7 @@ Image::draw(Bitmap* target)
 	{
 		DEBUG_MSG("Trying to draw image "<<name<< " when it was not initialized");
 		return;
-	}
+	}**/
 	DEBUG_MSG_V("Drawing image " << name);
 	if(hover==true)
 		im.drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scale*w, scale*h, 0);
