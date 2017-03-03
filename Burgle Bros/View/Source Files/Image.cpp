@@ -10,8 +10,8 @@ Image::Image(string& path)
 	im.load(path.c_str());
 	
 	if (im.get() != nullptr)
-	{
-		
+	{	
+		scale = scaleY = scaleX = 1;
 		initOk = true;
 		h = im.getHeight();
 		w = im.getWidth();
@@ -62,12 +62,12 @@ void Image::draw(Bitmap* target)
 	}
 
 	if(hover==true)
-		im.drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scale*w, scale*h, 0);
+		im.drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
 	else
-		im.drawScaled( 0, 0, w, h, x, y, scale* w, scale*h, 0);
+		im.drawScaled( 0, 0, w, h, x, y, scaleX* w, scaleY*h, 0);
 
 	if(borderVisibe)
-		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
+		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
 }
 
 void
@@ -82,5 +82,5 @@ Image::load(string& path)
 		pos2 = pos3;
 	name = path.substr(pos2 + 1, pos);
 	im.load(path.c_str());
-	scale = w / im.getWidth();
+	scale=scaleX=scaleY = w / im.getWidth();
 }

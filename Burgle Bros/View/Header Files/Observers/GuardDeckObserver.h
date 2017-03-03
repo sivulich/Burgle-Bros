@@ -16,5 +16,5 @@ private:
 	Container* deckView;
 	GuardCardObserver* deckO,*graveO;
 	Image* cards[4][4];
-
+	bool startedRetraction;
 };

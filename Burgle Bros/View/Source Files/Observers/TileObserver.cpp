@@ -91,10 +91,12 @@ TileObserver::update()
 	{
 		if (parent->contains(front) == false)
 		{
+			front->deleteAnimation();
 			parent->removeObject(reverseTile);
 			for (auto& x : tokens)
 				parent->removeObject(&x);
 			parent->addObject(front);
+			front->addAnimation(new FlipAnimation(front, 0.2));
 		}
 		
 	}

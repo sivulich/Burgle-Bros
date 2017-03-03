@@ -143,15 +143,16 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MoveAnimation.cpp" />
     <ClCompile Include="Source Files\Allegro.cpp" />
-    <ClCompile Include="Source Files\BoardObserver.cpp" />
     <ClCompile Include="Source Files\Button.cpp" />
     <ClCompile Include="Source Files\Container.cpp" />
+    <ClCompile Include="Source Files\FlipAnimation.cpp" />
     <ClCompile Include="Source Files\Image.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
+    <ClCompile Include="Source Files\MoveAnimation.cpp" />
     <ClCompile Include="Source Files\object.cpp" />
     <ClCompile Include="Source Files\ObjectInterface.cpp" />
+    <ClCompile Include="Source Files\Observers\BoardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
@@ -162,7 +163,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Model\Header Files\Observer.h" />
-    <ClInclude Include="Animation.h" />
     <ClInclude Include="Header Files\Allegro.h" />
     <ClInclude Include="Header Files\ALX\AllegroFile.hpp" />
     <ClInclude Include="Header Files\ALX\alx.hpp" />
@@ -215,12 +215,15 @@
     <ClInclude Include="Header Files\ALX\Vector2Base.hpp" />
     <ClInclude Include="Header Files\ALX\VertexDecl.hpp" />
     <ClInclude Include="Header Files\ALX\Voice.hpp" />
-    <ClInclude Include="Header Files\BoardObserver.h" />
+    <ClInclude Include="Header Files\Animation.h" />
     <ClInclude Include="Header Files\Button.h" />
     <ClInclude Include="Header Files\Container.h" />
+    <ClInclude Include="Header Files\FlipAnimation.h" />
     <ClInclude Include="Header Files\Image.h" />
+    <ClInclude Include="Header Files\MoveAnimation.h" />
     <ClInclude Include="Header Files\object.h" />
     <ClInclude Include="Header Files\ObjectInterface.h" />
+    <ClInclude Include="Header Files\Observers\BoardObserver.h" />
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />
@@ -229,7 +232,6 @@
     <ClInclude Include="Header Files\Observers\TileObserver.h" />
     <ClInclude Include="Header Files\Screen.h" />
     <ClInclude Include="Header Files\Textbox.h" />
-    <ClInclude Include="MoveAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\Characters\Characters - The Acrobat.png" />

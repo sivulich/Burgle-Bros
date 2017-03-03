@@ -1,8 +1,8 @@
 #pragma once
-#include "../../Model/Header Files/Board.h"
-#include "../Header Files/Container.h"
-#include "../Header Files/Observers/FloorObserver.h"
-#include "../Header Files/Observers/observer.h"
+#include "../Model/Header Files/Board.h"
+#include "../Container.h"
+#include "FloorObserver.h"
+#include "observer.h"
 
 class BoardObserver:public Observer{
 public:

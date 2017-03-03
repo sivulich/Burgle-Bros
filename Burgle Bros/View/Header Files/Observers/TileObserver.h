@@ -3,6 +3,7 @@
 #include "Observer.h"
 //#include "../Model/Header Files/Tiles/Tile.h"
 #include "../../../Model/Header Files//Tiles/Tile.h"
+#include "../FlipAnimation.h"
 #include "../Image.h"
 #include "../Container.h"
 
@@ -14,7 +15,6 @@ public:
 	void setClickable(bool b) { front->setClickable(b); reverseTile->setClickable(b); };
     ~TileObserver();
 private:
-
 	Container* parent;
 	Tile* tile;
 	vector<Image> tokens;

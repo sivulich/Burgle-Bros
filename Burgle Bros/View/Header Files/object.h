@@ -3,7 +3,7 @@
 #include "../../Model/Header Files/Configs.h"
 #include "../Header Files/ALX/alx.hpp"
 #include "../Header Files/ObjectInterface.h"
-#include "../Animation.h"
+#include "Animation.h"
 
 using namespace alx;
 class Object : public ObjectInterface
@@ -33,8 +33,19 @@ public:
 	/** Sets the scale to draw the object 
 		@param s Scale
 	*/
-	void setScale(double s) { scale = s; };
+	void setScale(double s) { scale=scaleX=scaleY = s; };
 
+	/** Sets the scale for the width
+		@param s scaleX
+	*/
+	void setScaleX(double s) { scaleX = s; };
+
+	/** Sets the scale for the heught
+	@param s scaleY
+	*/
+	void setScaleY(double s) { scaleY = s; };
+
+	pair<double, double> getScales() { return pair<double,double>(scaleY, scaleX); }
 	/** Set position for the object
 		@param y Y position
 		@param x X position
@@ -121,11 +132,12 @@ public:
 	void setHoverable(bool b) { hoverable = b; };
 	double getScale() { return scale; };
 
-	bool hasAnimation() { return animation == nullptr ? false : true; };
+	bool hasAnimation() { return (animation == nullptr ? false : true); };
 	// To add an animaion call this function with a new animation. When animation ends object deletes it
 	void addAnimation(Animation* a) { animation = a; };
-	void deleteAnimation() { if (animation != nullptr) { delete animation; animation = nullptr; } };
+	void deleteAnimation() { if (animation != nullptr) delete animation; animation = nullptr;};
 
+	bool animationFinished() { if (animation != nullptr) return animation->hasEnded(); return true; };
 protected:
 	/** 
 		Properties
@@ -143,7 +155,7 @@ protected:
 	int y, x;  //Y vertical, X horizontal position
 	int h, w;
 	int alpha;
-	double scale;
+	double scale,scaleX,scaleY;
 	string name;
 	bool initOk;
 	Animation* animation;

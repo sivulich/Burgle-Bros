@@ -3,6 +3,7 @@
 
 Object::Object()
 {
+	animation = nullptr;
 	clickable = true;
 	visible = true;
 	dragable = false;
@@ -12,7 +13,7 @@ Object::Object()
 	hover = false;
 	initOk = false;
 	animation = nullptr;
-	scale = 1;
+	scale=scaleY=scaleX = 1;
 	h = 0;
 	w = 0;
 	x = 0;
@@ -27,7 +28,7 @@ Object::Object(string name, int x, int y, int h, int w, double scale)
 	borderVisibe = false;
 	clicked = false;
 	hover = false;
-	this->scale = scale;
+	this->scale=scaleX=scaleY = scale;
 	this->h = h;
 	this->w = w;
 	this->x = x;

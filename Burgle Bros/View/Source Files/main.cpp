@@ -8,7 +8,7 @@
 #include "../Header Files/Textbox.h"
 #include "../../Model/Header Files/Board.h"
 #include "../Header Files/Allegro.h"
-#include "../Header Files/BoardObserver.h"
+#include "../Header Files/Observers/BoardObserver.h"
 #include "../Header Files/object.h"
 bool isCoord(string& s)
 {
@@ -72,7 +72,8 @@ int main(void)
 						vector<Coord> adjacent = board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->whereCanIPeek();
 						for (auto& c : adjacent)
 						{
-							obs[c.floor][c.col][c.row]->setHoverable(true);
+							if(c.floor<=2)
+								obs[c.floor][c.col][c.row]->setHoverable(true);
 						}
 				}
 				

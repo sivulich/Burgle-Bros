@@ -1,5 +1,6 @@
 #pragma once
 #include <utility>
+#include <cmath>
 /* Interface implemented for a graphic object. Used by animations to modify an object*/
 class ObjectInterface
 {
@@ -37,6 +38,17 @@ public:
 	@param s Scale
 	*/
 	virtual void setScale(double s) = 0;
+	/** Sets the scale for the width
+	@param s scaleX
+	*/
+	virtual void setScaleX(double s) =0;
+
+	/** Sets the scale for the heught
+	@param s scaleY
+	*/
+	virtual void setScaleY(double s)=0;
+
+	virtual std::pair<double, double> getScales() = 0;
 	/*	*/
 	virtual double getScale() = 0;
 
