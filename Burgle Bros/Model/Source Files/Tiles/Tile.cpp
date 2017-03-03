@@ -65,14 +65,17 @@ bool Tile::hasLoot()
 void Tile::turnUp()
 {
 	BaseCard::turnUp();
-	default_random_engine generator;
+	default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
 	uniform_int_distribution<int> distribution(1, 6);
 	safeNumber = distribution(generator);
 }
 
 void Tile::setAlarm(bool b)
 {
+	if(b) DEBUG_MSG("The alarm went off at " << getPos());
+	else  DEBUG_MSG("The alarm was shut down at " << getPos());
 	alarmToken = b;
+	notify();
 }
 
 void Tile::setCoord(Coord c)
@@ -107,6 +110,7 @@ void Tile::peek()
 {
 	turnUp();
 	DEBUG_MSG("Player peeked the " << toString(getType()) << " at " << getPos());
+	notify();
 }
 
 bool Tile::canMove(PlayerInterface * p)
@@ -118,8 +122,9 @@ void Tile::enterTile(PlayerInterface * p)
 {
 	if (!isFlipped())
 		turnUp();
-	p->updateVisibleFrom();
+	updateVisibleFrom(p);
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
+	notify();
 }
 
 vector<string> Tile::getActions(PlayerInterface * p)
@@ -135,4 +140,7 @@ void Tile::doAction(string action, PlayerInterface * p)
 
 }
 
-
+void Tile::updateVisibleFrom(PlayerInterface * player) {
+	player->clearVisibleFrom();
+	player->addVisibleTile(getPos());
+}

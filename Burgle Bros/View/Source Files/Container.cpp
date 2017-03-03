@@ -104,17 +104,17 @@ Container::click(int y, int x)
 		return "";
 	}
 	DEBUG_MSG_V("Clicking on container " << name);
-	if (onlyClickMe == false)
-	{
-		for (auto& ob : objects)
-		{
-			if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
-				return ob->click((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
-		}
-	}
+	
 	if (clickable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
-		
+		if (onlyClickMe == false)
+		{
+			for (auto& ob : objects)
+			{
+				if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
+					return ob->click((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+			}
+		}
 		clicked = true;
 		return name;
 	}
@@ -143,10 +143,9 @@ Container::overYou(int y, int x)
 		return false;
 	}
 	DEBUG_MSG_V("Unclicking on container " << name);
-	for (auto& ob:objects)
-		if (ob->overYou((y - this->y)*(1.0/scale), (x - this->x)*(1.0/scale)) == true)
+	for (auto& ob : objects)
+		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
 			return true;
-
 	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
 		return true;
@@ -164,14 +163,15 @@ Container::drag(int y, int x)
 	}
 	DEBUG_MSG_V("Draging on container " << name);
 
-	for (auto& ob : objects)
-		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
-		{
-			ob->drag((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
-			return;
-		}
+	
 	if (dragable==true &&this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
+		for (auto& ob : objects)
+			if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
+			{
+				ob->drag((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+				return;
+			}
 		DEBUG_MSG_V("Draging container " << name);
 		this->x = x - scale*w / 2;
 		this->y = y - scale*h / 2;

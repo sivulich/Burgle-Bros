@@ -1,4 +1,5 @@
 #include "../../Header Files/Tiles/Motion.h"
+#include "../../Header Files/Tiles/ComputerRoomM.h"
 
 
 Motion::~Motion()
@@ -30,7 +31,8 @@ vector<string> Motion::getActions(PlayerInterface * player)
 void Motion::doAction(string action, PlayerInterface * player) {
 	
 	if (player->getActionTokens() > 0 && action == toString(USE_TOKEN)) {
-		disarm();		
+		((ComputerRoomM *)myComputerRoom)->removeToken();
+		disarm();
 		setAlarm(false);
 		player->newAction(toString(USE_TOKEN), getPos());
 	}

@@ -61,7 +61,7 @@ public:
 	void setName(string& s) { name = s; };
 
 	/** Returns the position of the object*/
-	pair<int, int> getPos() { return pair<int, int>(x,y); };
+	pair<int, int> getPos() { return pair<int, int>(y,x); };
 	
 	/** Returns the width of the object*/
 	int getWidth() { return w; };
@@ -103,6 +103,10 @@ public:
 
 	bool wasInitOk() { return initOk; };
 
+	string getName() { return name; };
+
+	void setHoverable(bool b) { hoverable = b; };
+	double getScale() { return scale; };
 protected:
 	/** 
 		Properties

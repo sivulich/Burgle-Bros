@@ -5,10 +5,10 @@ FloorObserver::FloorObserver(Floor* f, Container* floors)
 	floor = f;
 	parent = floors;
 	//400 es el height para probar , despues tenemos que definir alguna relacion con el container padre
-	floorGrid = new Container(double(parent->getHeight())/1.5, double(parent->getHeight()) / 1.5);
+	floorGrid = new Container(parent->getWidth(), parent->getWidth());
 	floorGrid->setName(string("Floor") + to_string(floor->number()));
 	//Y ver la poscion dentro del board
-	floorGrid->setPosition(0, double(parent->getWidth())/3.0*floor->number());
+	floorGrid->setPosition(0, 0);
 	parent->addObject(floorGrid);
 	for (int i = 0; i < 4; i++)
 	{
@@ -26,5 +26,5 @@ FloorObserver::FloorObserver(Floor* f, Container* floors)
 void
 FloorObserver::update()
 {
-	
+	deck->update();
 }

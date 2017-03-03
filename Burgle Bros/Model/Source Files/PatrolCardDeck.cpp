@@ -4,6 +4,8 @@
 
 bool PatrolCardDeck::createDeck(unsigned floor)
 {
+	deck.clear();
+	discarded.clear();
 	for (unsigned i = 0; i < 4; i++)
 		for (unsigned j = 0; j < 4; j++)
 			deck.push_back(new PatrolCard(Coord(floor,i,j)));

@@ -49,7 +49,7 @@ void GameModel::print()
 	cout << "Current Player:" << endl;
 	currentPlayer()->print();
 
-	cout << "Other Player:" << endl;
+/*	cout << "Other Player:" << endl;
 	otherPlayer()->print();
 
 	cout << "Guard" << endl;
@@ -57,7 +57,7 @@ void GameModel::print()
 	{
 		board[i].getGuard()->print();
 	}
-	cout << "______________________________________________________________________________" << endl;
+*/	cout << "______________________________________________________________________________" << endl;
 
 #endif
 

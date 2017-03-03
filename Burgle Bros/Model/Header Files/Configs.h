@@ -15,6 +15,7 @@
 #include <utility>
 #include <algorithm>
 #include <random>
+#include <chrono>
 #include "Enumerations.h"
 #include "Coord.h"
 #include <climits>

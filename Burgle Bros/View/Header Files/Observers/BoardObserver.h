@@ -1,5 +1,5 @@
 #pragma once
-#include "../Model/Header Files/Board.h"
+#include "../../../Model/Header Files/Board.h"
 #include "../Container.h"
 #include "FloorObserver.h"
 #include "Observer.h"
@@ -10,7 +10,7 @@ public:
 	void update();
 private:
 	FloorObserver* floors[3];
-	Container* toDraw;
+	Container* toDraw[3];
 	Board* board;
 	Container* parent;
 };

@@ -1,9 +1,9 @@
 #pragma once
-/*
-#include "../View/Header Files/Screen.h"
-#include "../Model/Header Files/Configs.h"
+
+#include "../../View/Header Files/Screen.h"
+#include "../../Model/Header Files/Configs.h"
 #include "controller.h"
-#include "../View/Header Files/ALX/alx.hpp"
+#include "../../View/Header Files/ALX/alx.hpp"
 
 class localControler {
 public:
