@@ -10,6 +10,7 @@ public:
 	FloorObserver(Floor* f,Container* p);
 	void update();
 	Container* getFloorGrid() { return floorGrid; };
+	TileObserver** operator[](size_t i) { return tiles[i]; };
 private:
 	GuardDeckObserver* deck;
 	TileObserver* tiles[4][4];

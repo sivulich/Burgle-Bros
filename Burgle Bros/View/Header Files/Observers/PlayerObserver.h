@@ -3,14 +3,15 @@
 #include "Observer.h"
 #include "../../../Model/Header Files/Player.h"
 #include "BoardObserver.h"
+#include "../Image.h"
 #include "../Button.h"
 
 class PlayerObserver :public Observer {
 public:
-	//PlayerObserver( BoardObserver* po, Player* p, Container* pa);
+	PlayerObserver( BoardObserver* po, Player* p, Container* pa);
 	void update();
 private:
-	Player* player;
+	Player* currPlayer;
 	BoardObserver* playOn;
 	Container* parent;	
 	Container* toDraw;

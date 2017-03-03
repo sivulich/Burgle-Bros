@@ -42,7 +42,7 @@ int main(void)
 		
 		board.setBoard();
 		board.setWalls();
-
+		board.parseBoard();
 		BoardObserver obs(&board, &cont);
 		screen.addObject(&cont);
 		string in;
@@ -55,6 +55,10 @@ int main(void)
 			if (in != "")
 			{
 				cout << "Input " << in << endl;
+				for (int i = 0; i < 3; i++)
+					for (int j = 0; j < 4; j++)
+						for (int k = 0; k < 4; k++)
+							obs[i][j][k]->setHoverable(false);
 				if (in.substr(0,4) == "PC R")
 					board[in[5]-'0'].getPatrolDeck()->discardTop();
 				else
@@ -65,11 +69,11 @@ int main(void)
 				{
 					if (board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->isFlipped() == false)
 						board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->turnUp();
-					else
-						if(board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->hasAlarm()==false)
-							board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->setAlarm(true);
-						else
-							board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->setAlarm(false);
+						vector<Coord> adjacent = board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->whereCanIPeek();
+						for (auto& c : adjacent)
+						{
+							obs[c.floor][c.col][c.row]->setHoverable(true);
+						}
 				}
 				
 			}

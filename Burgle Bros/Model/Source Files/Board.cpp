@@ -193,6 +193,7 @@ void Board::parseBoard()
 							floor[f + 1][col][row]->addAdjacent(Coord(f, col, row));
 							tile->addAdjacent(Coord(f + 1, col, row));
 							floor[f + 1].setStairToken(Coord(f + 1, col, row));
+							floor[f + 1][col][row]->setStairToken(true);
 						}
 						else
 							tile->addAdjacent(ROOF);

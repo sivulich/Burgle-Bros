@@ -27,7 +27,7 @@ TileObserver::TileObserver(Tile* t, Container* p)
 {
 	tile = t;
 	parent = p;
-	tokens = { Image(string("../View/Images/AlarmToken.png")),Image(string("../View/Images/CrackToken.png")) ,Image(string("../View/Images/CrowToken.png")) };
+	tokens = { Image(string("../View/Images/AlarmToken.png")),Image(string("../View/Images/CrackToken.png")) ,Image(string("../View/Images/CrowToken.png")),Image(string("../View/Images/StairToken.png")) };
 	reverseTile = new Image(string("../View/Images/Tiles/Tile - Reverse.png"));
 	front = new Image(images[tile->getType()]);
 	Coord coord = tile->getPos();
@@ -44,15 +44,17 @@ TileObserver::TileObserver(Tile* t, Container* p)
 	else
 		parent->addObject(reverseTile);
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		tokens[i].setScale(front->getScale() * 150 / tokens[0].getWidth());
 		if (i == 0)
 			tokens[i].setPosition(front->getPos().first, front->getPos().second);
 		else if (i == 1)
-			tokens[i].setPosition(front->getPos().first, front->getPos().second +front->getScale()*(front->getWidth() - tokens[i].getWidth()));
+			tokens[i].setPosition(front->getPos().first, front->getPos().second + front->getScale()*(front->getWidth() - tokens[i].getWidth()));
+		else if (i == 2)
+			tokens[i].setPosition(front->getPos().first + front->getScale()*(front->getHeight() - tokens[i].getWidth()), front->getPos().second);
 		else
-			tokens[i].setPosition(front->getPos().first+front->getScale()*( front->getHeight() - tokens[i].getWidth()),front->getPos().second);
+			tokens[i].setPosition(front->getPos().first + front->getScale()*(front->getHeight() - tokens[i].getWidth()), front->getPos().second + front->getScale()*(front->getWidth() - tokens[i].getWidth()));
 	}
 	Coord pos = tile->getPos();
 	if (pos.col < 3)
@@ -103,19 +105,26 @@ TileObserver::update()
 	else if(tile->hasAlarm() == false)
 		parent->removeObject(&tokens[0]);
 
-	/*if (tile->hasCrackToken() == true && toDraw->contains(&tokens[1])==false)
+	if (tile->hasCrackToken() == true && parent->contains(&tokens[1])==false)
 	{
-		toDraw->addObject(&tokens[1]);
+		parent->addObject(&tokens[1]);
 	}
 	else if(tile->hasCrackToken() == false)
-		toDraw->removeObject(&tokens[1]);
+		parent->removeObject(&tokens[1]);
 
-	if (tile->hasCrowToken() == true && toDraw->contains(&tokens[2])==false)
+	if (tile->hasCrowToken() == true && parent->contains(&tokens[2])==false)
 	{
-		toDraw->addObject(&tokens[2]);
+		parent->addObject(&tokens[2]);
 	}
 	else if(tile->hasCrowToken() == false)
-		toDraw->removeObject(&tokens[2]);*/
+		parent->removeObject(&tokens[2]);
+
+	if (tile->isFlipped()==true && tile->hasStairToken() == true && parent->contains(&tokens[3]) == false)
+	{
+		parent->addObject(&tokens[3]);
+	}
+	else if (tile->hasStairToken() == false)
+		parent->removeObject(&tokens[3]);
 }
 TileObserver::~TileObserver()
 {
