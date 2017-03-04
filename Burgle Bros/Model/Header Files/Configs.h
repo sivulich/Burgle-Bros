@@ -20,8 +20,7 @@
 #include <climits>
 #include "ConsoleColor.h"
 
-//#define DEBUG_V
-//#define DEBUG_V
+#define DEBUG_V
 #ifdef DEBUG_V
 #ifndef DEBUG
 #define DEBUG

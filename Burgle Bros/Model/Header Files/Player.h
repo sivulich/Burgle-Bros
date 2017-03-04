@@ -141,6 +141,16 @@ public:
 	*/
 	virtual void updateVisibleFrom()override;
 
+	virtual unsigned currentTurn()override {return turns;};
+
+	virtual void incTurn() { this->turns++; };
+
+	virtual bool createAlarm(Coord coord);
+
+	void setCrowToken(Coord c) { CrowToken = c;};
+
+	bool isCrowToken(Coord c) { if (CrowToken == c) return true; else return false;};
+
 
 	vector<Loot*>& getLoots() { return loots; };
 private:
@@ -152,7 +162,8 @@ private:
 	int stealthTokens;
 	vector<actionNode> actions;
 	vector <Loot*> loots;
-
+	unsigned turns;
+	Coord CrowToken;
 	
 	// Coord from where the guard can see the player (player position normally, unless special cases)
 	vector <Coord> visibleFrom;

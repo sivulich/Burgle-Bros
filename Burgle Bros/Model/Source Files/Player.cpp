@@ -4,8 +4,10 @@
 
 Player::Player(Board * b)
 {
+	turns = 0;
 	board = b;
 	resetActionTokens();
+	setCrowToken(Coord(6, 6, 6));
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 }
 
@@ -108,7 +110,9 @@ Coord Player::getPosition()
 
 vector<string> Player::getActions()
 {
-	return currentTile->getActions(this);
+	vector<string> actions = currentTile->getActions(this);
+	actions.push_back(character->getAction(this));
+	return (actions);
 }
 
 bool Player::isOnRoof()
@@ -222,4 +226,15 @@ characterType Player::getCharacterType()
 {
 	return character->getType();
 };
+	
+bool Player::createAlarm(Coord coord)
+{
+	if (character->is(JUICER) && currentTile->isAdjacent(coord))
+	{
+		board->getTile(coord)->setAlarm(true);
+		return true;
+	}
+	return false;
+}
+
 

@@ -94,6 +94,10 @@ public:
 	*/
 	virtual void newAction(string action, Coord tile)=0;
 
+	virtual unsigned currentTurn() = 0;
 
+	virtual void setCrowToken(Coord c) = 0;
+
+	virtual bool isCrowToken(Coord c) = 0;
 };
 
