@@ -10,6 +10,8 @@
 #include "../Header Files/Allegro.h"
 #include "../Header Files/Observers/BoardObserver.h"
 #include "../Header Files/object.h"
+#include "../Header Files/Observers/LocalPlayerObserver.h"
+
 bool isCoord(string& s)
 {
 
@@ -33,6 +35,7 @@ int main(void)
 		screen.backgroundProperties(0, 0, 720.0 / 1080.0);
 		Container cont(720, 720 * 1280.0 / 720.0);
 		Board board;
+		
 		localControler control(&screen);
 		
 		for (int i = 0; i < 3; i++)
@@ -44,7 +47,15 @@ int main(void)
 		board.setBoard();
 		board.setWalls();
 		board.parseBoard();
+		Player player(&board);
 		BoardObserver obs(&board, &cont);
+		player.setPosition(board[0][0][0]);
+		player.setCharacter(JUICER);
+		player.setActionTokens(100000);
+		LocalPlayerObserver pobs(&player, &obs, &cont);
+		
+		board[0][0][0]->flip();
+		player.setPosition(board[0][0][0]);
 		screen.addObject(&cont);
 		string in;
 		Timer time(1.0 / 30.0);
@@ -56,9 +67,15 @@ int main(void)
 			if (in != "")
 			{
 				cout << "Input " << in << endl;
+
 				if (isCoord(in))
 				{
 					board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
+					player.move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
+				}
+				else if (in.substr(0, 5) == "PC RF")
+				{
+					board[in[5] - '0'].getPatrolDeck()->discardTop();
 				}
 					
 				

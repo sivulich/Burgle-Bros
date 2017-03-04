@@ -18,6 +18,7 @@ bool BaseDeck::discardTop()
 		discarded.push_back(deck.back());
 		discarded.back()->turnUp();
 		deck.pop_back();
+		notify();
 		return true;
 	}
 	else return false;
@@ -26,6 +27,7 @@ bool BaseDeck::discardTop()
 
 BaseCard* BaseDeck::next()
 {
+	notify();
 	if (discardTop() == true)
 		return activeCard();
 	else return NULL;
@@ -33,6 +35,7 @@ BaseCard* BaseDeck::next()
 void BaseDeck::shuffle()
 {
 	random_shuffle(deck.begin(), deck.end());
+	notify();
 }
 
 void BaseDeck::merge()
@@ -43,4 +46,5 @@ void BaseDeck::merge()
 	deck.insert(deck.begin(), discarded.begin(), discarded.end());
 	discarded.clear();
 	shuffle();
+	notify();
 }

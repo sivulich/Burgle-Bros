@@ -101,7 +101,4 @@ void GuardDeckObserver::update()
 		startedRetraction = true;
 		
 	}
-	
-	deckO->update();
-	graveO->update();
 }

@@ -30,6 +30,7 @@ bool PatrolCardDeck::reset(unsigned n)
 		merge();
 		for (unsigned i = 0; i < n; i++)
 			discardTop();
+		notify();
 		return true;
 	}
 	return false;
