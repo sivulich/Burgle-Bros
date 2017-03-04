@@ -1,6 +1,6 @@
 #pragma once
 #include "Animation.h"
-#include "../Model/Header Files/Configs.h"
+#include "../../Model/Header Files/Configs.h"
 
 class MoveAnimation :public Animation
 {

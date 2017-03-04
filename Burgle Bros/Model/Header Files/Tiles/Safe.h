@@ -10,6 +10,7 @@ movement die by one on this floor and all those below it.
 //	CUANDO SALGA DE LA SAFE TILE, EL MODELO DEBE CHECKEAR EN LAS TILES (que esten boca arriba) DE LA FILA Y LA COLUMNA. 
 //	SI EL NUMERO DE LA TILE NO APARECE EN LA COMBINATION, ES PORQUE ESTA "CRACKED"
 
+
 class Safe : public Tile
 {
 public:
@@ -59,8 +60,9 @@ private:
 
 	/**
 	Returns true if the tile given can be cracked
-	*/
-	bool canCrack(Tile * t, int number);
+	*/	
+	bool Safe::canCrack( Tile * t, int dice);
+
 
 };
 
