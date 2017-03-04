@@ -9,6 +9,7 @@ class localControler {
 public:
 	localControler(Screen* source);
 	string input();
+	bool empty() { return al_is_event_queue_empty(events); };
 	~localControler();
 private:
 	Screen* source;

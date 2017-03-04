@@ -93,6 +93,7 @@
     <Object Include="..\View\Debug\BoardObserver.obj" />
     <Object Include="..\View\Debug\Button.obj" />
     <Object Include="..\View\Debug\Container.obj" />
+    <Object Include="..\View\Debug\FlipAnimation.obj" />
     <Object Include="..\View\Debug\FloorObserver.obj" />
     <Object Include="..\View\Debug\GuardCardObserver.obj" />
     <Object Include="..\View\Debug\GuardDeckObserver.obj" />

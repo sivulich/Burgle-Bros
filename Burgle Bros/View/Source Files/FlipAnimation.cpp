@@ -7,7 +7,7 @@ FlipAnimation::FlipAnimation(ObjectInterface* ob, double duration)
 	std::pair<double, double> scales = ob->getScales();
 	rate = 2.0*scales.first / framesLeft;
 	startPos = ob->getPos();
-	midPos= std::pair<int, int>(ob->getPos().first , ob->getPos().second + ob->getScale()*ob->getSize().second / 2);
+	midPos= std::pair<int, int>(ob->getPos().first , ob->getPos().second + ob->getScale()*ob->getSize().second *0.5);
 	move = new MoveAnimation(ob->getPos(), midPos, duration / 2.0);
 	middle = false;
 }
