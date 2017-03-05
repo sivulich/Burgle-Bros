@@ -17,9 +17,10 @@ LocalPlayerObserver::LocalPlayerObserver(Player* p, BoardObserver* bo, Container
 	hud = new Container(pa->getHeight() *9.0 / 30.0, pa->getWidth());
 	playerCard = new Image(images[p->getCharacterType()]);
 	playerCard->setPosition(0, 0);
-	playerCard->setScale(hud->getHeight() / playerCard->getHeight());
+	playerCard->setScale(double(hud->getHeight()) / playerCard->getHeight());
 	hud->addObject(playerCard);
 	hud->setPosition(pa->getHeight() *21.0 / 30.0, 0);
+	//hud->setPosition(0, 0);
 	parent->addObject(hud);
 	token = new Image(string("../View/Images/char.png"));
 	BoardObserver& b = *board;
