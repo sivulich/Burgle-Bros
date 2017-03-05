@@ -19,44 +19,40 @@ public:
 		srand(time(NULL));
 		currentPlayer_ = &player1;
 		otherPlayer_ = &player2;
-		srand(time(NULL));
 	};
-
 	/**
 		Print game model in console
 	*/
 	void print();
-
 	/**
 		Returns true if game is over
 	*/
 	bool gameOver();
-
 	/**
 		Returns true if the burglars have won
 	*/
 	bool win();
-
 	/**
 		Sets the board randomly // defined tiles
 	*/
 	void setBoard();
 	void setBoard(vector<tileType> tiles);
 	/**
+	
+	*/
+	Board& getBoard() { return board; };
+	/**
 		Move guard one step
 	*/
 	void moveGuard();
-
 	/**
 		Return true if guard is still moving
 	*/
 	bool guardIsMoving();
-	
 	/**
 		Called after guard movement, it changes the turn
 	*/
 	void changeTurn();
-
 	/**
 	
 	*/
@@ -66,9 +62,12 @@ public:
 
 	*/
 	Player * otherPlayer() { return otherPlayer_; };
+	/**
+	
+	*/
+	PatrolCard * getPatrolTop(unsigned floor) { return (PatrolCard *)(this->board[floor].getPatrolDeck()->topCard()); };
 
-
-
+	void topToBottom(unsigned floor) { board[floor].getPatrolDeck()->topToBottom(); }
 
 private:	
 	Player* currentPlayer_;

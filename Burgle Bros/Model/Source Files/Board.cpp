@@ -276,6 +276,17 @@ void Board::print()
 	cout << "                                   |BOARD|" << endl;
 	for (int i = 0; i < 3; i++)
 		floor[i].print();
+	
+	for (int i = 0; i < 3; i++)
+	{
+		cout << "Alarms in floor " << i << endl;
+		for (auto& a : floor[i].getAlarms())
+		{
+			cout << a << endl;
+		}
+	}
+	
+	
 }
 
 Tile * Board::getTile(Coord c)

@@ -20,6 +20,8 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
 (A_action)
 (R_action)
 (R_stealth)
+(Create_Alarm)
+(Spy_Patrol)
 (Move_guard)
 (No_event))
 
@@ -106,7 +108,6 @@ public:
 							status = GUARD_TURN;
 					}
 					break;
-
 					case Add_token:
 					{
 						model->currentPlayer()->wantsToAddToken();
@@ -133,10 +134,34 @@ public:
 						model->currentPlayer()->removeActionToken();
 					}
 					break;
-
 					case R_stealth:
 					{
 						model->currentPlayer()->removeStealthToken();
+					}
+					break;
+					case Create_Alarm:
+					{
+						cin >> coord;
+						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
+						if ((model->currentPlayer()->createAlarm(c)))
+						{
+							model->currentPlayer()->updateChar();
+						}
+					}
+					break;
+					case Spy_Patrol:
+					{
+						model->currentPlayer()->updateChar();
+						PatrolCard * p;
+						//no entiendo que es lo que esta mal
+						p =(PatrolCard *)model->getBoard()[model->currentPlayer()->getPosition().floor].getPatrolDeck()->topCard();
+						cout << "Top Card is: " << p->getCoord() << endl;
+						cout << "Do you want to send it to the bottom of the deck? (YES/NO)" << endl;
+						string g;
+						cin >> g;
+						if (g == "YES")
+							//no entiendo que es lo que esta mal
+							model->getBoard()[model->currentPlayer()->getPosition().floor].getPatrolDeck()->topToBottom();
 					}
 					break;
 					}

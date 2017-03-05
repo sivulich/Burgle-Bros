@@ -11,7 +11,7 @@ you use a hack token from the Motion Computer Room.
 class Motion : 	public Tile
 {
 public:
-	Motion(int floor, int col, int row) : Tile(MOTION,floor, col, row) {};
+	Motion(int floor, int col, int row) : Tile(MOTION, floor, col, row) { armed = false; hackerhere = false; };
 	~Motion();
 
 	/**
@@ -47,5 +47,6 @@ public:
 private:
 	Tile * myComputerRoom;
 	bool armed;		// if true, player may not leave without triggering the alarm
+	bool hackerhere; // if true there is a hacker on this tile
 };
 

@@ -1,15 +1,10 @@
 #include "../../Header Files/Characters/Raven.h"
 
-Raven::~Raven()
-{
-	lastTurnUsed = INT_MAX;
-}
-
 string Raven::getAction(PlayerInterface * player)
 {
-	if (player->currentTurn() != lastTurnUsed)
+	if (player->currentTurn() != lastTurnUsed())
 	{
-		lastTurnUsed = player->currentTurn();
+		setLastTurnUsed(player->currentTurn());
 		return "CREATE_ALARM";
 	}
 	else

@@ -7,20 +7,35 @@
 class Character: public BaseCard
 {
 public:
-	Character(characterType t) :type(t) { lastTurnUsed = INT_MAX; };
-	~Character();
-
-	characterType getType() { return  type; };
-	bool is(characterType t) { return t == type; };
-
 	/**
-	Returns a vector of strings with the actions the player can do on the tile they are on.
-	Actions PEEK and MOVE are always valid. On each tileType overload the function
-	@param p Player who wants to check the actions
+
+	*/
+	Character(characterType t) :type(t) { lastTimeUsed = INT_MAX; };
+	~Character();
+	/**
+		Returns player´s character type
+	*/
+	characterType getType() { return  type; };
+	/**
+		Returns true if player is requested character
+		@param t Character type that is to be checked
+	*/
+	bool is(characterType t) { return t == type; };
+	/**
+		Returns a string with the action the player can do due to their character choice
+		@param p Player who wants to check the actions
 	*/
 	virtual string getAction(PlayerInterface * player);
-	unsigned lastTurnUsed;
+	/**
+		Returns the last turn character ability was used, if INT_MAX is returned means that ability was never used
+	*/
+	unsigned lastTurnUsed() { return lastTimeUsed; };
+	/**
+	
+	*/
+	void setLastTurnUsed(unsigned l) { lastTimeUsed = l; };
 private:
 	characterType type;
+	unsigned lastTimeUsed;
 };
 

@@ -37,6 +37,7 @@ void Guard::GuardCheck()
 	{
 		if (it == pos)
 		{
+			if(myTurn || player1->getCharacterType() != ACROBAT)
 			player1->removeStealthToken();
 			break;
 		}
@@ -45,6 +46,7 @@ void Guard::GuardCheck()
 	{
 		if (it == pos)
 		{
+			if (myTurn || player2->getCharacterType() != ACROBAT)
 			player2->removeStealthToken();
 			break;
 		}

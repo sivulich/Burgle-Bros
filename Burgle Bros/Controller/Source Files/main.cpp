@@ -14,14 +14,13 @@ int main(void)
 	
 	model.currentPlayer()->setPosition(Coord(0, 0, 0));
 	model.currentPlayer()->setName(string("Pepe"));
-	model.currentPlayer()->setCharacter(JUICER);
+	model.currentPlayer()->setCharacter(SPOTTER);
 
 	model.otherPlayer()->setPosition(Coord(0, 0, 0));
 	model.otherPlayer()->setName(string("Gabriela"));
 	model.otherPlayer()->setCharacter(PETERMAN);
 
 	model.print();
-
 
 	Controller controller(&model, &view);
 

@@ -9,14 +9,23 @@ Motion::~Motion()
 
 void Motion::enterTile(PlayerInterface * player) {
 	Tile::enterTile(player);
-	arm();
+	if (player->getCharacterType() == HACKER)
+	{
+		hackerhere = true;
+		disarm();
+	}
+	else  if (hackerhere) disarm(); else arm();
 }
 
 void Motion::exitTile(PlayerInterface * player) {
-	if (isArmed()) {
-		setAlarm(true);
-		disarm();
+	if (!hackerhere)
+	{
+		if (isArmed()) {
+			setAlarm(true);
+			disarm();
+		}
 	}
+	else if (player->getCharacterType() == HACKER) hackerhere = false;
 }
 
 vector<string> Motion::getActions(PlayerInterface * player)
