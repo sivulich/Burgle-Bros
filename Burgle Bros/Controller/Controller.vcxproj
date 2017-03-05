@@ -25,6 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Model\Header Files\FSM_Template.h" />
+    <ClInclude Include="EventsFSM.h" />
     <ClInclude Include="GameFSM.h" />
     <ClInclude Include="Header Files\controller.h" />
     <ClInclude Include="Header Files\localControler.h" />
@@ -93,6 +94,7 @@
     <Object Include="..\View\Debug\BoardObserver.obj" />
     <Object Include="..\View\Debug\Button.obj" />
     <Object Include="..\View\Debug\Container.obj" />
+    <Object Include="..\View\Debug\FlipAnimation.obj" />
     <Object Include="..\View\Debug\FloorObserver.obj" />
     <Object Include="..\View\Debug\GuardCardObserver.obj" />
     <Object Include="..\View\Debug\GuardDeckObserver.obj" />
