@@ -87,7 +87,9 @@ bool Object::overYou(int y, int x)
 	}
 	else
 		DEBUG_MSG("Trying to hover object " << name << " when is not initialized correctly");
+	return false;
 }
+
 void Object::drag(int y, int x)
 {
 	if (initOk == true && dragable == true && clicked == true)

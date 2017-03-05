@@ -19,6 +19,8 @@ Image::Image(string& path)
 		size_t pos2 = path.find_last_of("/");
 		clickable = true;
 		hoverable = true;
+		hoverTone = HOVER_TONE;
+		normalTone = al_map_rgba(255, 255, 255, 255);
 		x = 0;
 		y = 0;
 		if (pos2 == string::npos)
@@ -62,9 +64,9 @@ void Image::draw(Bitmap* target)
 	}
 
 	if(hover==true)
-		im.drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
+		im.drawTintedScaled(hoverTone, 0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
 	else
-		im.drawScaled( 0, 0, w, h, x, y, scaleX* w, scaleY*h, 0);
+		im.drawTintedScaled(normalTone, 0, 0, w, h, x, y, scaleX* w, scaleY*h, 0);
 
 	if(borderVisibe)
 		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
