@@ -38,7 +38,6 @@ void Safe::doAction(string action, PlayerInterface * player)
 				player->newAction("SAFE_OPENED", getPos());
 			}
 		}
-		DEBUG_MSG("You managed to crack " << (6-combinationTiles.size()) << " tiles so far.");
 	}
 
 }
@@ -46,11 +45,11 @@ void Safe::doAction(string action, PlayerInterface * player)
 void Safe::trySafeNumber(int number) {
 	if (combinationTiles.size() != 0) 
 	{
-		vector<Tile *> tempTiles;
-		for (vector<Tile *>::iterator it = combinationTiles.begin(); it != combinationTiles.end(); it++) 
-			if (!canCrack(*it, number)) tempTiles.push_back(*it);		// if you can't crack them, place them in another vector
+		vector<Tile *>::iterator pbegin = combinationTiles.begin();
+		vector<Tile *>::iterator pend = combinationTiles.end();
 
-		combinationTiles = tempTiles;
+
+		combinationTiles.erase(remove_if(pbegin, pend, [&](Tile * t) { return canCrack(t, number); }), combinationTiles.end());
 
 		DEBUG_LN_MSG("Tiles remaining to crack: ");
 			for (auto i : combinationTiles)
@@ -62,10 +61,11 @@ void Safe::trySafeNumber(int number) {
 
 // if getSafeNumber equals diceThrown, then the tile will be cracked for the tile will always be uncracked when it arrives here
 // and getSafeNumber returns a 0 if the tile is flipped down
-bool Safe::canCrack(Tile * t, int number) {	
-	if (t->getSafeNumber() == number)		// check if the tile can be cracked
+bool Safe::canCrack( Tile * t, int dice) {	
+	if (t->getSafeNumber() == dice)		// check if the tile can be cracked
 	{
 		t->crackTile();
+		DEBUG_MSG("You cracked tile " << t->getPos());
 		return true;
 	}
 	else

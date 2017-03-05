@@ -156,7 +156,7 @@
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
-    <ClCompile Include="Source Files\Observers\PlayerObserver.cpp" />
+    <ClCompile Include="Source Files\Observers\LocalPlayerObserver.cpp" />
     <ClCompile Include="Source Files\Observers\TileObserver.cpp" />
     <ClCompile Include="Source Files\Screen.cpp" />
     <ClCompile Include="Source Files\Textbox.cpp" />
@@ -227,22 +227,22 @@
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />
+    <ClInclude Include="Header Files\Observers\LocalPlayerObserver.h" />
     <ClInclude Include="Header Files\Observers\Observer.h" />
-    <ClInclude Include="Header Files\Observers\PlayerObserver.h" />
     <ClInclude Include="Header Files\Observers\TileObserver.h" />
     <ClInclude Include="Header Files\Screen.h" />
     <ClInclude Include="Header Files\Textbox.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Images\Characters\Characters - The Acrobat.png" />
-    <Image Include="Images\Characters\Characters - The Hacker.png" />
-    <Image Include="Images\Characters\Characters - The Hawk.png" />
-    <Image Include="Images\Characters\Characters - The Juicer.png" />
-    <Image Include="Images\Characters\Characters - The Peterman.png" />
-    <Image Include="Images\Characters\Characters - The Raven.png" />
-    <Image Include="Images\Characters\Characters - The Rigger.png" />
-    <Image Include="Images\Characters\Characters - The Rook.png" />
-    <Image Include="Images\Characters\Characters - The Spotter.png" />
+    <Image Include="Images\Characters\The Acrobat.png" />
+    <Image Include="Images\Characters\The Hacker.png" />
+    <Image Include="Images\Characters\The Hawk.png" />
+    <Image Include="Images\Characters\The Juicer.png" />
+    <Image Include="Images\Characters\The Peterman.png" />
+    <Image Include="Images\Characters\The Raven.png" />
+    <Image Include="Images\Characters\The Rigger.png" />
+    <Image Include="Images\Characters\The Rook.png" />
+    <Image Include="Images\Characters\The Spotter.png" />
     <Image Include="Images\Loot\Loot - Bust.png" />
     <Image Include="Images\Loot\Loot - Chihuahua.png" />
     <Image Include="Images\Loot\Loot - Cursed Goblet.png" />

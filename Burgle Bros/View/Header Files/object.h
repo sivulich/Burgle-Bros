@@ -129,7 +129,7 @@ public:
 
 	string getName() { return name; };
 
-	void setHoverable(bool b) { hoverable = b; };
+	void setHoverable(bool b) { hoverable = b; hover = false; };
 	double getScale() { return scale; };
 
 	bool hasAnimation() { return (animation == nullptr ? false : true); };

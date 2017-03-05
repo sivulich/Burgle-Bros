@@ -24,7 +24,7 @@ public:
 	/**
 		Removes top card of deck from main deck and moves it to the bottom of it
 	*/
-	void topToBottom() { deck.insert(deck.begin(), topCard()); deck.pop_back(); };
+	void topToBottom() { deck.insert(deck.begin(), topCard()); deck.pop_back(); notify(); };
 
 	/**
 	discards deck´s top card and returns cards value

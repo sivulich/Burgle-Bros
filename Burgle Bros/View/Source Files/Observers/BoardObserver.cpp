@@ -7,7 +7,7 @@ BoardObserver::BoardObserver(Board* b, Container* c)
 	for (int i=0;i<3;i++)
 	{
 		toDraw[i]= new Container(c->getHeight()*2.0 / 3.0, c->getHeight() * 2.0 / 3.0 * 4.0 / 5.0);
-		toDraw[i]->setPosition(c->getHeight() / 16, c->getWidth() / 50 + i*c->getWidth() / 3);
+		toDraw[i]->setPosition(c->getHeight() / 30, c->getWidth() / 50 + i*c->getWidth() / 3);
 	}
 	for (int i = 0; i < 3; i++)
 	{
@@ -21,6 +21,6 @@ BoardObserver::BoardObserver(Board* b, Container* c)
 void
 BoardObserver::update()
 {
-	for (auto & f : floors)
+	for (auto& f : floors)
 		f->update();
 }

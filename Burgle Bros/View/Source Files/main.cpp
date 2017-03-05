@@ -10,6 +10,8 @@
 #include "../Header Files/Allegro.h"
 #include "../Header Files/Observers/BoardObserver.h"
 #include "../Header Files/object.h"
+#include "../Header Files/Observers/LocalPlayerObserver.h"
+
 bool isCoord(string& s)
 {
 
@@ -30,8 +32,10 @@ int main(void)
 	if (al.wasInitOk() == true)
 	{
 		Screen screen(720,720* 1280.0/720.0, string("../View/Images/BackGround.jpg"),false);
+		screen.backgroundProperties(0, 0, 720.0 / 1080.0);
 		Container cont(720, 720 * 1280.0 / 720.0);
 		Board board;
+		
 		localControler control(&screen);
 		
 		for (int i = 0; i < 3; i++)
@@ -43,7 +47,15 @@ int main(void)
 		board.setBoard();
 		board.setWalls();
 		board.parseBoard();
+		Player player(&board);
 		BoardObserver obs(&board, &cont);
+		player.setPosition(board[0][0][0]);
+		player.setCharacter(JUICER);
+		player.setActionTokens(100000);
+		LocalPlayerObserver pobs(&player, &obs, &cont);
+		
+		board[0][0][0]->flip();
+		player.setPosition(board[0][0][0]);
 		screen.addObject(&cont);
 		string in;
 		Timer time(1.0 / 30.0);
@@ -55,30 +67,20 @@ int main(void)
 			if (in != "")
 			{
 				cout << "Input " << in << endl;
-				for (int i = 0; i < 3; i++)
-					for (int j = 0; j < 4; j++)
-						for (int k = 0; k < 4; k++)
-							obs[i][j][k]->setHoverable(false);
-				if (in.substr(0,4) == "PC R")
-					board[in[5]-'0'].getPatrolDeck()->discardTop();
-				else
-					for (int i = 0; i < 3; i++)
-						if (board[i].getPatrolDeck()->isEmpty() == true)
-							board[i].getPatrolDeck()->reset(6);
+
 				if (isCoord(in))
 				{
-					if (board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->isFlipped() == false)
-						board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->turnUp();
-						vector<Coord> adjacent = board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->whereCanIPeek();
-						for (auto& c : adjacent)
-						{
-							if(c.floor<=2)
-								obs[c.floor][c.col][c.row]->setHoverable(true);
-						}
+					board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
+					player.move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
 				}
+				else if (in.substr(0, 5) == "PC RF")
+				{
+					board[in[5] - '0'].getPatrolDeck()->discardTop();
+				}
+					
 				
 			}
-			if (c < time.getCount())
+			if (c < time.getCount()&& control.empty()==true )
 			{
 				c = time.getCount();
 				obs.update();
