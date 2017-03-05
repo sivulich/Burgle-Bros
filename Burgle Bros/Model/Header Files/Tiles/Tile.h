@@ -159,14 +159,21 @@ public:
 	bool isAdjacent(Coord t);
 
 	bool hasCrackToken(){ return crackToken; };
-
+	void crackTile() { crackToken = true; };
+	bool hasStairToken() { return stairToken; };
 	bool hasCrowToken() { return crowToken; };
-
+	void setStairToken(bool b) { stairToken = b; };
 	virtual int getHackTokens() { return 0; };
 	/**
 		Returns true if you could hide from the guard. Used for Lavatory.
 	*/
 	virtual bool tryToHide() { return false; };
+
+	/**
+	Clears visible from and adds the current tile to visibleFrom
+	*/
+	virtual void updateVisibleFrom(PlayerInterface * player);
+
 protected:
 	// Coord containing floor, column and row of the tile
 	Coord coord;

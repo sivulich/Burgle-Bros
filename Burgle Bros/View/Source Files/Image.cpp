@@ -4,13 +4,14 @@
 
 Image::Image(string& path)
 {
+	//Turbiada, si lo sacas la queda
 	al_init();
 	al_init_image_addon();
 	im.load(path.c_str());
 	
 	if (im.get() != nullptr)
-	{
-		
+	{	
+		scale = scaleY = scaleX = 1;
 		initOk = true;
 		h = im.getHeight();
 		w = im.getWidth();
@@ -29,9 +30,13 @@ Image::Image(string& path)
 		DEBUG_MSG("Error while loading image at path " << path); 
 }
 
-void
-Image::draw(Bitmap* target)
+void Image::draw(Bitmap* target)
 {
+	
+	// Lo comento porque en object draw llamo al update de la animacion
+	// lo que esta comentado se chequea siempre, se podria hacer en object draw y que devuelva un bool
+
+
 	if(initOk==true && target!=nullptr && target->get()!=nullptr)
 		target->setTarget();
 	else if (initOk == true)
@@ -45,13 +50,24 @@ Image::draw(Bitmap* target)
 		return;
 	}
 	DEBUG_MSG_V("Drawing image " << name);
+	if (hasAnimation())
+	{
+		animation->play(this);
+		if (animation->hasEnded())
+		{
+			delete animation;
+			animation = nullptr;
+		}
+
+	}
+
 	if(hover==true)
-		im.drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scale*w, scale*h, 0);
+		im.drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
 	else
-		im.drawScaled( 0, 0, w, h, x, y, scale* w, scale*h, 0);
+		im.drawScaled( 0, 0, w, h, x, y, scaleX* w, scaleY*h, 0);
 
 	if(borderVisibe)
-		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
+		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
 }
 
 void
@@ -66,5 +82,5 @@ Image::load(string& path)
 		pos2 = pos3;
 	name = path.substr(pos2 + 1, pos);
 	im.load(path.c_str());
-	scale = w / im.getWidth();
+	scale=scaleX=scaleY = w / im.getWidth();
 }

@@ -13,7 +13,7 @@ Board::Board()
 void Board::setWalls()
 {
 	// Create the map with the walls
-	/*bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
+	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
 	   {{ T,W,T,´,T,´,T},
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,W,T },
@@ -37,8 +37,8 @@ void Board::setWalls()
 		{ T,W,T,W,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,W,T } }
-	};*/
-	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
+	};
+	/*bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
 	  { { T,´,T,´,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,´,T },
@@ -62,7 +62,7 @@ void Board::setWalls()
 		{ T,´,T,´,T,´,T },
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,´,T } }
-	};
+	};*/
 
 
 	for (int f = 0; f < 3; f++)
@@ -147,6 +147,7 @@ void Board::setBoard()
 		random_shuffle(f[i].begin(), f[i].end());
 		floor[i].setTiles(f[i]);
 	}
+	parseBoard();
 }
 
 void Board::setBoard(vector<tileType> tiles)
@@ -165,6 +166,7 @@ void Board::setBoard(vector<tileType> tiles)
 void Board::parseBoard()
 {
 	ServiceDuct* duct1 = nullptr;
+	vector<Tile *> crackSafeTiles;
 	vector<Tile *> cameras;
 	Tile * computerRoomF, * computerRoomM, * computerRoomL;
 	vector<Tile *> fingerprints, motions, lasers;
@@ -187,15 +189,21 @@ void Board::parseBoard()
 				{
 					case STAIR:
 						// If there is a Stair tile add adjacency with next floor
-						floor[f + 1][col][row]->addAdjacent(Coord(f, col, row));
-						tile->addAdjacent(Coord(f + 1, col, row));
-						floor[f + 1].setStairToken(Coord(f + 1, col, row));
+						if (f < 2) {
+							floor[f + 1][col][row]->addAdjacent(Coord(f, col, row));
+							tile->addAdjacent(Coord(f + 1, col, row));
+							floor[f + 1].setStairToken(Coord(f + 1, col, row));
+							floor[f + 1][col][row]->setStairToken(true);
+						}
+						else
+							tile->addAdjacent(ROOF);
 					break;
 
 					case SAFE:
 						//If there is a safe set a loot
 						((Safe*)tile)->setLoot(loots.back());
 						loots.pop_back();
+						prepSafeTile((Safe *)tile);
 					break;
 
 					case SERVICE_DUCT:
@@ -250,8 +258,6 @@ void Board::parseBoard()
 						if (row != 3)	// if its not in the last row
 							((SecretDoor *)tile)->addSecretDoor(floor[f][col][row + 1]);
 						break;
-
-						
 				}
 			}
 		}
@@ -280,4 +286,15 @@ Tile * Board::getTile(Coord c)
 Board::~Board()
 {
 	//DESTRUIR  LOS PISOS!!!
+}
+
+
+void Board::prepSafeTile(Safe * safe) {
+	for (int index = 0; index < 4; index++)		
+	{
+		if (index != safe->col())		// if index is not the safe's column
+			safe->addCrackTile(floor[safe->floor()][index][safe->row()]);	// add the tile in that floor, row and i column
+		if (index != safe->row())		// if index is not the safe's row
+			safe->addCrackTile(floor[safe->floor()][safe->col()][index]);	// add the tile in that floor, row and i column
+	}
 }

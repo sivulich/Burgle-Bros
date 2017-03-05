@@ -21,9 +21,12 @@ bool ServiceDuct::isOpen()
 
 void ServiceDuct::enterTile(PlayerInterface * player) {
 	Tile::enterTile(player);
-	if (isOpen()) {
+	if (isOpen() && isConnected == false ) {
 		addAdjacent(otherSide->getPos());
 		otherSide->addAdjacent(getPos());
+		otherSide->isConnected = true;
+		isConnected = true;
 		DEBUG_MSG("Now you can move to the tile " << otherSide->getPos());
+
 	}
 }

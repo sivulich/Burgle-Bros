@@ -15,12 +15,14 @@
 #include <utility>
 #include <algorithm>
 #include <random>
+#include <chrono>
 #include "Enumerations.h"
 #include "Coord.h"
 #include <climits>
 #include "ConsoleColor.h"
 
-#define DEBUG_V
+#define DEBUG
+//#define DEBUG_V
 #ifdef DEBUG_V
 #ifndef DEBUG
 #define DEBUG

@@ -1,15 +1,17 @@
 #include "../../Header Files/Observers/GuardDeckObserver.h"
+#include "../../Header Files/MoveAnimation.h"
 
 GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 {
 	deck = f->getPatrolDeck();
 	floor = f;
 	parent = p;
-	deckView = new Container(double(p->getHeight())*3/16.0, double(p->getWidth())/3);
-	deckView->setPosition(double(p->getHeight()) *13.0 / 16.0, double(p->getWidth())*double(f->number()) / 3.0);
+	startedRetraction = false;
+	deckView = new Container(p->getHeight()/5, p->getWidth());
+	deckView->setPosition(p->getHeight() *4.0/ 5, 0);
 	deckView->setName(string("Deck from floor ") + to_string(floor->number()));
-	zoom = new Container(double(p->getHeight()) *13.0 / 16.0, double(p->getWidth())/3 );
-	zoom->setPosition(0, double(parent->getWidth()) / 3.0 * floor->number());
+	zoom = new Container(p->getWidth(),p->getWidth() );
+	zoom->setPosition(0, 0);
 	p->addObject(deckView);
 	for (int i = 0; i < 4; i++)
 	{
@@ -25,22 +27,21 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 	deckO = new GuardCardObserver(deckView, deck->getDeck().back());
 	graveO = new GuardCardObserver(deckView, deck->getDiscarded().back());
 	deckO->setPos(0, 0);
-	graveO->setPos(0, deckView->getHeight() + 10);
+	graveO->setPos(0, deckView->getWidth()/4 );
 	deck->attach(this);
 }
 
-void
-GuardDeckObserver::update()
+void GuardDeckObserver::update()
 {
-	string des;
 	if (deck->getDiscarded().empty()==true)
 	{
 		graveO->setOn(false);
 	}
 	else
 	{
-		graveO->setOn(true);
 		graveO->setCard(deck->getDiscarded().back());
+		graveO->setOn(true);
+		
 	}
 	if (deck->getDeck().empty() == true)
 	{
@@ -48,32 +49,59 @@ GuardDeckObserver::update()
 	}
 	else
 	{
-		deckO->setOn(true);
 		deckO->setCard(deck->getDeck().back());
+		deckO->setOn(true);
+		
 	}
-	if (graveO->isClicked() == true)
+
+	
+	// If the discarded deck is clicked and the animation is not running, start animation
+	if (graveO->isClicked() == true && parent->contains(zoom) == false)
 	{
 		zoom->clear();
+		pair<int, int> discardedPos(parent->getHeight() *4.0 / 5, parent->getWidth() / 4.0);
 		for (auto& card : deck->getDiscarded())
 		{
-			des = card->getDescription();
-			zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
+			int i = card->getDescription()[0] - 'A';
+			int j = card->getDescription()[1] - '1';
+			cards[i][j]->deleteAnimation();
+			pair<int, int> cardPos(j*double(parent->getWidth()) / 4.0, i*double(parent->getWidth()) / 4.0);
+			cards[i][j]->setPosition(zoom->getHeight(), double(zoom->getWidth()) / 4.0);
+			cards[i][j]->addAnimation(new MoveAnimation(discardedPos, cardPos, 0.3));
+			zoom->addObject(cards[i][j]);
 		}
+		startedRetraction = false;
 		parent->addObject(zoom);
 	}
-	else
-		parent->removeObject(zoom);
-	if (deckO->isClicked() == true && deck->getDeck().back()->isFlipped()==true)
+	// If the discarded deck is not clicked and the animation is running, stop the animation
+	else if(graveO->isClicked()==false && parent->contains(zoom) == true)
 	{
-		zoom->clear();
-		des = deck->getDeck().back()->getDescription();
-		zoom->addObject(cards[des[0] - 'A'][des[1] - '1']);
-		cards[des[0] - 'A'][des[1] - '1']->setBorderVisible(true);
+		pair<int, int> discardedPos(parent->getHeight() *4.0 / 5, parent->getWidth() / 4.0);
+		for (auto& card : deck->getDiscarded())
+		{
+			int i = card->getDescription()[0] - 'A';
+			int j = card->getDescription()[1] - '1';
+			if (startedRetraction == false)
+			{
+				cards[i][j]->deleteAnimation();
+			}
+			
+			if (cards[i][j]->hasAnimation() == false && startedRetraction==false)
+			{
+				cards[i][j]->addAnimation(new MoveAnimation(cards[i][j]->getPos(), discardedPos, 0.3));
+			}
+			else if (cards[i][j]->animationFinished() == true)
+			{
+				startedRetraction = false;
+				cards[i][j]->deleteAnimation();
+				parent->removeObject(zoom);
+				zoom->clear();
+			}
+		}
+		startedRetraction = true;
+		
 	}
-	else
-	{
-		parent->removeObject(zoom);
-	}
+	
 	deckO->update();
 	graveO->update();
 }

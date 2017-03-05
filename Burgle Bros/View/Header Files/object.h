@@ -2,8 +2,11 @@
 
 #include "../../Model/Header Files/Configs.h"
 #include "../Header Files/ALX/alx.hpp"
+#include "../Header Files/ObjectInterface.h"
+#include "Animation.h"
+
 using namespace alx;
-class Object
+class Object : public ObjectInterface
 {
 public:
 	/** Default constructor*/
@@ -30,8 +33,19 @@ public:
 	/** Sets the scale to draw the object 
 		@param s Scale
 	*/
-	void setScale(double s) { scale = s; };
+	void setScale(double s) { scale=scaleX=scaleY = s; };
 
+	/** Sets the scale for the width
+		@param s scaleX
+	*/
+	void setScaleX(double s) { scaleX = s; };
+
+	/** Sets the scale for the heught
+	@param s scaleY
+	*/
+	void setScaleY(double s) { scaleY = s; };
+
+	pair<double, double> getScales() { return pair<double,double>(scaleY, scaleX); }
 	/** Set position for the object
 		@param y Y position
 		@param x X position
@@ -60,8 +74,18 @@ public:
 	*/
 	void setName(string& s) { name = s; };
 
+	/**
+	
+	*/
+	void setAlpha(int a) { alpha = a; };
+
+	/**
+	
+	*/
+	int getAlpha() { return alpha; };
+
 	/** Returns the position of the object*/
-	pair<int, int> getPos() { return pair<int, int>(x,y); };
+	pair<int, int> getPos() { return pair<int, int>(y,x); };
 	
 	/** Returns the width of the object*/
 	int getWidth() { return w; };
@@ -103,7 +127,17 @@ public:
 
 	bool wasInitOk() { return initOk; };
 
+	string getName() { return name; };
+
+	void setHoverable(bool b) { hoverable = b; hover = false; };
 	double getScale() { return scale; };
+
+	bool hasAnimation() { return (animation == nullptr ? false : true); };
+	// To add an animaion call this function with a new animation. When animation ends object deletes it
+	void addAnimation(Animation* a) { animation = a; };
+	void deleteAnimation() { if (animation != nullptr) delete animation; animation = nullptr;};
+
+	bool animationFinished() { if (animation != nullptr) return animation->hasEnded(); return true; };
 protected:
 	/** 
 		Properties
@@ -120,9 +154,11 @@ protected:
 	*/	
 	int y, x;  //Y vertical, X horizontal position
 	int h, w;
-	double scale;
+	int alpha;
+	double scale,scaleX,scaleY;
 	string name;
 	bool initOk;
+	Animation* animation;
 };
 
 

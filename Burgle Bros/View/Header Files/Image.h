@@ -11,10 +11,6 @@ public:
 	*/
 	void draw(Bitmap* target);
 
-	/** Sets scale for the image to be drawn, it mantains aspect ratio
-		@param s Scale
-	*/
-	void setScale(double s) { this->scale = s; };
 
 	/** Sets new image
 		@param path
