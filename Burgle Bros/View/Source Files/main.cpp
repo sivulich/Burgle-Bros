@@ -31,9 +31,9 @@ int main(void)
 	al_rest(0.1);
 	if (al.wasInitOk() == true)
 	{
-		Screen screen(1000,1000* 1280.0/720.0, string("../View/Images/BackGround.jpg"),false);
-		screen.backgroundProperties(0, 0, 1000.0 / 1080.0);
-		Container cont(1000, 1000 * 1280.0 / 720.0);
+		Screen screen(720, 720 * 1280.0/720.0, string("../View/Images/BackGround.jpg"),false);
+		screen.backgroundProperties(0, 0, 720.0 / 1080.0);
+		Container cont(720, 720 * 1280.0 / 720.0);
 		Board board;
 		
 		localControler control(&screen);

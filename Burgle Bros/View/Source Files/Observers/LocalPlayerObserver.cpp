@@ -32,7 +32,7 @@ LocalPlayerObserver::LocalPlayerObserver(Player* p, BoardObserver* bo, Container
 	Coord pos = player->getPosition();
 	b[pos.floor].getFloorGrid()->addObject(token);
 	token->setPosition(pos.row*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.9* 1.0 / 3.0* b[pos.floor].getFloorGrid()->getWidth() / 4, pos.col*b[pos.floor].getFloorGrid()->getWidth() / 4);
-	actions = new ActionObserver(p, 10, 5, hud);
+	actions = new ActionObserver(p, 20, 5, hud);
 
 }
 void
