@@ -1,12 +1,1 @@
-#include "GameFSM.h"
-
-
-
-GameFSM::GameFSM()
-{
-}
-
-
-GameFSM::~GameFSM()
-{
-}
+#include "../Controller/GameFSM.h"
