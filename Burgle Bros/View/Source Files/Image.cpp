@@ -69,7 +69,7 @@ void Image::draw(Bitmap* target)
 		im.drawTintedScaled(normalTone, 0, 0, w, h, x, y, scaleX* w, scaleY*h, 0);
 
 	if(borderVisibe)
-		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
+		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(0, 0, 0), 3);
 }
 
 void

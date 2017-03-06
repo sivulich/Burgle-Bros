@@ -13,14 +13,16 @@ LocalPlayerObserver::LocalPlayerObserver(Player* p, BoardObserver* bo, Container
 	board = bo;
 	player = p;
 	parent = pa;
-
-	hud = new Container(pa->getHeight() *9.0 / 30.0, pa->getWidth());
+	hud = new Container(string("../View/Images/hudTest.png"));
+	hud->setScale(double(pa->getWidth()) / hud->getWidth());
+	//hud = new Container(pa->getHeight() *9.0 / 30.0, pa->getWidth());
+	//hud->setPosition(pa->getHeight() *21.0 / 30.0, 0);
+	hud->setPosition(pa->getHeight() - hud->getScale()*hud->getHeight(), 0);
 	playerCard = new Image(images[p->getCharacterType()]);
-	playerCard->setPosition(0, 0);
-	playerCard->setScale(double(hud->getHeight()) / playerCard->getHeight());
+	playerCard->setPosition(100,30);
+	playerCard->setScale(0.7*double(hud->getHeight()) / playerCard->getHeight());
 	hud->addObject(playerCard);
-	hud->setPosition(pa->getHeight() *21.0 / 30.0, 0);
-	//hud->setPosition(0, 0);
+	
 	parent->addObject(hud);
 	token = new Image(string("../View/Images/char.png"));
 	BoardObserver& b = *board;
@@ -30,6 +32,7 @@ LocalPlayerObserver::LocalPlayerObserver(Player* p, BoardObserver* bo, Container
 	Coord pos = player->getPosition();
 	b[pos.floor].getFloorGrid()->addObject(token);
 	token->setPosition(pos.row*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.9* 1.0 / 3.0* b[pos.floor].getFloorGrid()->getWidth() / 4, pos.col*b[pos.floor].getFloorGrid()->getWidth() / 4);
+	actions = new ActionObserver(p, 10, 5, hud);
 
 }
 void
@@ -51,4 +54,5 @@ LocalPlayerObserver::update() {
 			token->addAnimation(new MoveAnimation(token->getPos(), target, 0.4));
 		}
 	}
+	actions->update();
 }

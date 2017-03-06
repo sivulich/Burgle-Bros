@@ -12,7 +12,8 @@ public:
 	*/
 	void draw(Bitmap* target);
 
-
+	void setNormalTone(Color n) { normalTone = n; };
+	void setHoverTone(Color n) { hoverTone = n; };
 	/** Sets new image
 		@param path
 	*/

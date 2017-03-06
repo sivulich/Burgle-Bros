@@ -5,6 +5,8 @@
 #include "../Container.h"
 #include "../Model/Header Files/Configs.h"
 #include "../MoveAnimation.h"
+#include "ActionObserver.h"
+
 class LocalPlayerObserver :public Observer {
 public:
 	LocalPlayerObserver(Player* p, BoardObserver* bo, Container* pa);
@@ -13,6 +15,7 @@ private:
 	Player* player;
 	Container* parent;
 	BoardObserver* board;
+	ActionObserver* actions;
 	Container* hud;
 	Image* playerCard;
 	Image* token;
