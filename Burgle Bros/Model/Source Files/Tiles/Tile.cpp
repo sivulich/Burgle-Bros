@@ -132,6 +132,10 @@ vector<string> Tile::getActions(PlayerInterface * p)
 	vector<string> actions;
 	actions.push_back("PEEK");
 	actions.push_back("MOVE");
+	if (p->getCharacterType() == JUICER)
+		actions.push_back("CREATE_ALARM");
+	else if (p->getCharacterType() == RAVEN)
+		actions.push_back("PLACE_CROW");
 	return actions;
 }
 

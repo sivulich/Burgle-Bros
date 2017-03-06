@@ -22,6 +22,8 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 			cards[i][j] = new Image(string("../View/Images/Patrol/PC ") +des);
 			cards[i][j]->setScale(0.9*double(zoom->getHeight()) / 4.0 / cards[i][j]->getHeight());
 			cards[i][j]->setPosition(double(zoom->getHeight()) / 4.0*j, double(zoom->getHeight()) / 4.0*i);
+			cards[i][j]->setHoverable(false);
+			cards[i][j]->setClickable(false);
 		}
 	}
 	deckO = new GuardCardObserver(deckView, deck->getDeck().back());
@@ -101,7 +103,4 @@ void GuardDeckObserver::update()
 		startedRetraction = true;
 		
 	}
-	
-	deckO->update();
-	graveO->update();
 }

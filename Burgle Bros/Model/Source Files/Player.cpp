@@ -18,6 +18,7 @@ void Player::setPosition(Tile * tile)
 void Player::setPosition(Coord c)
 {
 	currentTile = board->getTile(c);
+	currentTile->turnUp();
 	notify();
 }
 
