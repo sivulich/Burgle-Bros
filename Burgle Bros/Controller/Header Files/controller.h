@@ -99,7 +99,7 @@ public:
 					case Peek:
 					{
 						cin >> coord;
-						Coord c(coord[0] - 1, coord[1] - 'A', coord[2] - 1);
+						Coord c(coord[0] - '1', coord[1] - 'A', coord[2] - '1');
 
 						model->currentPlayer()->peek(c);
 						if (model->currentPlayer()->getActionTokens() == 0)
