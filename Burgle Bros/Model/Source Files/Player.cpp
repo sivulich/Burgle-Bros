@@ -81,7 +81,7 @@ bool Player::move(Tile * newTile)
 		notify();
 		return true;
 	}
-//	return false;
+	return false;
 	
 }
 

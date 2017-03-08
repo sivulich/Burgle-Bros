@@ -51,7 +51,8 @@ LocalPlayerObserver::update() {
 			b[i].getFloorGrid()->removeObject(token);
 			b[i].getFloorGrid()->addObject(token);
 			pair<int, int> target(pos.row*b[i].getFloorGrid()->getWidth() / 4 + 0.9* 1.0 / 3.0* b[i].getFloorGrid()->getWidth() / 4, pos.col*b[i].getFloorGrid()->getWidth() / 4);
-			token->addAnimation(new MoveAnimation(token->getPos(), target, 0.4));
+			if(token->hasAnimation() ==false ||  ((MoveAnimation*)token->getAnimation())->getTarget()!=target )
+				token->addAnimation(new MoveAnimation(token->getPos(), target, 0.4));
 		}
 	}
 	actions->update();

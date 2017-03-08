@@ -20,11 +20,13 @@ FloorObserver::FloorObserver(Floor* f, Container* floors)
 	}
 	floor->attach(this);
 	deck = new GuardDeckObserver(f, floors);
-
+	guard = new GuardObserver(floor->getGuard(), floorGrid);
 }
 
 void
 FloorObserver::update()
 {
 	deck->update();
+	//guard->reset();
+	//guard->update();
 }

@@ -7,7 +7,7 @@ Walkway::~Walkway()
 
 void Walkway::enterTile(PlayerInterface * player)
 {
-	if (isFlipped() == true && floor() != 0) //ANDA CON ESTO, NO SE QUE ONDA, ARREGLENLO PERROS
+	if (isFlipped() == false && floor() != 0) //ANDA CON ESTO, NO SE QUE ONDA, ARREGLENLO PERROS
 	{		// if the card is flipped down and not the first floor
 		turnUp();
 		fallDown(player);		// throw the player to the tile beneath

@@ -70,8 +70,11 @@ int main(void)
 
 				if (isCoord(in))
 				{
-					board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
+					//board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
 					player.move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
+					board[in[3] - '0'].getGuard()->move();
+					board[in[3] - '0'].getGuard()->print();
+					obs.update();
 				}
 				else if (in.substr(0, 5) == "PC RF")
 				{

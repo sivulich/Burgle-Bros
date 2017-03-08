@@ -10,7 +10,7 @@ public:
 	/**
 	@addparams Receives a pointer to the guard deck
 	*/
-	Guard() {pos = NPOS; };
+	Guard() { pos = NPOS; player1 = player2 = nullptr; };
 
 	/**
 
@@ -87,7 +87,7 @@ public:
 
 	Coord getPos() { return pos; };
 
-	void setPos(Coord coord) { pos = coord; }
+	void setPos(Coord coord) { pos = coord; };
 private:
 	unsigned speed, currsteps;
 	Coord pos;

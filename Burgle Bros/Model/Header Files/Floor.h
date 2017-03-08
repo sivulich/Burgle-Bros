@@ -16,8 +16,7 @@ public:
 	*/
 	Floor() :tiles(4,vector<Tile *>(4,nullptr))
 	{
-		guard.setDeck(&guardDeck);
-		guard.setAlarms(&alarms);
+		
 	};
 	/*
 	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
@@ -42,6 +41,8 @@ public:
 	{
 		floorNumber = n;
 		guardDeck.createDeck(n);
+		guard.setDeck(&guardDeck);
+		guard.setAlarms(&alarms);
 	}
 	/**
 		Another way to access, with operator []
