@@ -40,7 +40,7 @@ public:
 	/**
 	
 	*/
-	Board& getBoard() { return board; };
+	Board getBoard() { return this->board; };
 	/**
 		Move guard one step
 	*/
