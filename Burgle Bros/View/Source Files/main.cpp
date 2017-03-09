@@ -31,7 +31,7 @@ int main(void)
 	al_rest(0.1);
 	if (al.wasInitOk() == true)
 	{
-		Screen screen(720,720* 1280.0/720.0, string("../View/Images/BackGround.jpg"),false);
+		Screen screen(720, 720 * 1280.0/720.0, string("../View/Images/BackGround.jpg"),false);
 		screen.backgroundProperties(0, 0, 720.0 / 1080.0);
 		Container cont(720, 720 * 1280.0 / 720.0);
 		Board board;
@@ -70,8 +70,11 @@ int main(void)
 
 				if (isCoord(in))
 				{
-					board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
+					//board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
 					player.move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
+					board[in[3] - '0'].getGuard()->move();
+					board[in[3] - '0'].getGuard()->print();
+					obs.update();
 				}
 				else if (in.substr(0, 5) == "PC RF")
 				{

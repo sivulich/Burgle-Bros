@@ -115,7 +115,7 @@ void Tile::peek()
 
 bool Tile::canMove(PlayerInterface * p)
 {
-	return true; // isAdjacent(p->getPosition());
+	return isAdjacent(p->getPosition());
 }
 
 void Tile::enterTile(PlayerInterface * p)
@@ -132,6 +132,10 @@ vector<string> Tile::getActions(PlayerInterface * p)
 	vector<string> actions;
 	actions.push_back("PEEK");
 	actions.push_back("MOVE");
+	if (p->getCharacterType() == JUICER)
+		actions.push_back("CREATE_ALARM");
+	else if (p->getCharacterType() == RAVEN)
+		actions.push_back("PLACE_CROW");
 	return actions;
 }
 

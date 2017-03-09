@@ -46,15 +46,15 @@ TileObserver::TileObserver(Tile* t, Container* p)
 
 	for (int i = 0; i < 4; i++)
 	{
-		tokens[i].setScale(front->getScale() * 150 / tokens[0].getWidth());
+		tokens[i].setScale(front->getScale()*front->getWidth()*0.3 / tokens[i].getWidth());
 		if (i == 0)
 			tokens[i].setPosition(front->getPos().first, front->getPos().second);
 		else if (i == 1)
-			tokens[i].setPosition(front->getPos().first, front->getPos().second + front->getScale()*(front->getWidth() - tokens[i].getWidth()));
+			tokens[i].setPosition(front->getPos().first, front->getPos().second + front->getScale()*front->getWidth() - tokens[i].getScale()*tokens[i].getWidth());
 		else if (i == 2)
-			tokens[i].setPosition(front->getPos().first + front->getScale()*(front->getHeight() - tokens[i].getWidth()), front->getPos().second);
+			tokens[i].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[i].getScale()*tokens[i].getWidth(), front->getPos().second);
 		else
-			tokens[i].setPosition(front->getPos().first + front->getScale()*(front->getHeight() - tokens[i].getWidth()), front->getPos().second + front->getScale()*(front->getWidth() - tokens[i].getWidth()));
+			tokens[i].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[i].getScale()*tokens[i].getWidth(), front->getPos().second + front->getScale()*front->getWidth() - tokens[i].getScale()*tokens[i].getWidth());
 	}
 	Coord pos = tile->getPos();
 	if (pos.col < 3)
@@ -66,6 +66,7 @@ TileObserver::TileObserver(Tile* t, Container* p)
 			wallLeft->setScale(0.1*p->getHeight() / 4/wallLeft->getWidth());
 			wallLeft->setClickable(false);
 			wallLeft->setHoverable(false);
+			wallLeft->setNormalTone(Color(0.8f, 0.8f, 0.8f, 1.0f));
 			parent->addObject(wallLeft);
 		}
 
@@ -79,6 +80,7 @@ TileObserver::TileObserver(Tile* t, Container* p)
 			wallDown->setScale(0.1*p->getHeight() / 4 / wallDown->getHeight());
 			wallDown->setClickable(false);
 			wallDown->setHoverable(false);
+			wallDown->setNormalTone(Color(0.8f, 0.8f, 0.8f, 1.0f));
 			parent->addObject(wallDown);
 		}
 	}

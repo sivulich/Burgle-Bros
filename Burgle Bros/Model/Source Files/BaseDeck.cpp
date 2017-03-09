@@ -27,9 +27,12 @@ bool BaseDeck::discardTop()
 
 BaseCard* BaseDeck::next()
 {
-	notify();
 	if (discardTop() == true)
+	{
+		notify();
 		return activeCard();
+	}
+		
 	else return NULL;
 }
 void BaseDeck::shuffle()

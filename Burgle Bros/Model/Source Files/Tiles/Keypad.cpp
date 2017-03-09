@@ -6,22 +6,28 @@ Keypad::~Keypad()
 }
 
 bool Keypad::canMove(PlayerInterface * player) {
-	
-	if (keyKnown == false)
+	if (player->getActionTokens() >= 1)
 	{
-		for (int i = 0; i < attemptsThisTurn + 1 && keyKnown == false; i++)		// throw the dice attempts+1 times 
+		player->removeActionToken();
+		turnUp();
+		if (keyKnown == false)
 		{
-			if (player->throwDice() == 6) { 	// if the die thrown equals six
-				keyKnown = true;		// you may enter the tile
-				DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
-			}
-			else
-				DEBUG_MSG("You threw the dice but you couldn't open the keypad.");
+			for (int i = 0; i < attemptsThisTurn + 1 && keyKnown == false; i++)		// throw the dice attempts+1 times 
+			{
+				if (player->throwDice() == 6) { 	// if the die thrown equals six
+					keyKnown = true;		// you may enter the tile
+					DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
+				}
+				else
+					DEBUG_MSG("You threw the dice but you couldn't open the keypad.");
 
-			player->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
+				player->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
+			}
+			if (keyKnown == false) addAttempt();		// if you didnt open the keypad, increase the attempts made this turn
 		}
-		if (keyKnown == false) addAttempt();		// if you didnt open the keypad, increase the attempts made this turn
 	}
+
+	
 	return keyKnown;
 }
 

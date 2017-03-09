@@ -26,29 +26,45 @@ void Guard::setFloorMap(vector<Coord> floor[4][4])
 */
 void Guard::setDeck(PatrolCardDeck * patroldeck)
 {
+	PatrolCard * p;
 	this->patroldeck = patroldeck;
 	speed = 2 + patroldeck->floor();
+	if (patroldeck->floor() == 0)
+	{
+		p = static_cast<PatrolCard*>(patroldeck->next());
+		this->pos = p->getCoord();
+		p= static_cast<PatrolCard*>(patroldeck->next());
+		this->target = p->getCoord();
+	}
+	else
+	{
+		pos = NPOS;
+	}
+	//Esto es temporal es para probar
+	//p=static_cast<PatrolCard*>(patroldeck->getDiscarded().back());
+	//this->pos = p->getCoord();
 };
 
 // guard checks if his current position 
 void Guard::GuardCheck()
 {
-	for (auto &it : player1->getVisibleFrom())
+	if (player1 != nullptr && player2 != nullptr)
 	{
-		if (it == pos)
+		for (auto &it : player1->getVisibleFrom())
 		{
-			if(myTurn || player1->getCharacterType() != ACROBAT)
-			player1->removeStealthToken();
-			break;
+			if (it == pos)
+			{
+				player1->removeStealthToken();
+				break;
+			}
 		}
-	}
-	for (auto &it : player2->getVisibleFrom())
-	{
-		if (it == pos)
+		for (auto &it : player2->getVisibleFrom())
 		{
-			if (myTurn || player2->getCharacterType() != ACROBAT)
-			player2->removeStealthToken();
-			break;
+			if (it == pos)
+			{
+				player2->removeStealthToken();
+				break;
+			}
 		}
 	}
 }
@@ -64,7 +80,7 @@ void Guard::print()
 	{
 		DEBUG_MSG(a);
 	}
-	*/
+	DEBUG_MSG("\n");
 }
 
 bool Guard::RemoveAlarm(Coord coord)
@@ -73,11 +89,13 @@ bool Guard::RemoveAlarm(Coord coord)
 	{
 		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
 		//DEBUG_MSG("alarm removed from tile "<< coord << endl);
+		notify();
 		return true;
 	}
 	else
 	{
 		//DEBUG_MSG("there was no alarm in tile " << coord << endl);
+		notify();
 		return false;
 	}
 }
@@ -97,11 +115,7 @@ bool Guard::move()
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
 		FindPath(pos);
-		pos = path.front();
-		path.pop_front();
-		GuardCheck();
-		//DEBUG_MSG("Guard has moved to" << pos << endl);
-		if (pos == target)
+		if (path.empty() || pos == target)
 		{
 			if (patroldeck->isEmpty())
 			{
@@ -110,13 +124,21 @@ bool Guard::move()
 			}
 			p = static_cast<PatrolCard*>(patroldeck->next());
 			target = p->getCoord();
+			FindPath(pos);
+				
 		}
+		pos = path.front();
+		path.pop_front();
+		GuardCheck();
+		//DEBUG_MSG("Guard has moved to" << pos << endl);
+		
 		if (RemoveAlarm(pos))
 		{
 			FindPath(pos);
 		}
 		currsteps--;
 		//DEBUG_MSG("Remaining steps " << currsteps);
+		notify();
 		if (currsteps == 0)
 		{
 			//DEBUG_MSG("Guard turn has ended\n");

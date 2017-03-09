@@ -152,10 +152,12 @@
     <ClCompile Include="Source Files\MoveAnimation.cpp" />
     <ClCompile Include="Source Files\object.cpp" />
     <ClCompile Include="Source Files\ObjectInterface.cpp" />
+    <ClCompile Include="Source Files\Observers\ActionObserver.cpp" />
     <ClCompile Include="Source Files\Observers\BoardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
+    <ClCompile Include="Source Files\Observers\GuardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\LocalPlayerObserver.cpp" />
     <ClCompile Include="Source Files\Observers\TileObserver.cpp" />
     <ClCompile Include="Source Files\Screen.cpp" />
@@ -227,6 +229,8 @@
     <ClInclude Include="Header Files\Observers\FloorObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardCardObserver.h" />
     <ClInclude Include="Header Files\Observers\GuardDeckObserver.h" />
+    <ClInclude Include="Header Files\Observers\ActionObserver.h" />
+    <ClInclude Include="Header Files\Observers\GuardObserver.h" />
     <ClInclude Include="Header Files\Observers\LocalPlayerObserver.h" />
     <ClInclude Include="Header Files\Observers\Observer.h" />
     <ClInclude Include="Header Files\Observers\TileObserver.h" />

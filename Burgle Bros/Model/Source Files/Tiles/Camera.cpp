@@ -7,7 +7,6 @@ Camera::~Camera()
 
 void Camera::enterTile(PlayerInterface * player) {
 	Tile::enterTile(player);
-	DEBUG_MSG("Known camera count: " << otherCameras.size());
 	for (int i = 0; i < otherCameras.size(); i++)
 	{
 		if (otherCameras[i]->isFlipped() == true) {			// if the other camera is flipped up

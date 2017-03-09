@@ -23,7 +23,7 @@ public:
 	/** Sets the background for the given container
 		@param path Path to the background
 	*/
-	void setBackground(string& path) { background.load(path.c_str()); if (background.get() == nullptr) initOk = false; };
+	void setBackground(string& path) { background.load(path.c_str()); if (background.get() == nullptr) initOk = false;  };
 
 	/** Changes the properties of the background 
 		@param offsetX Offset in the x coordinate for the background

@@ -20,6 +20,7 @@ void Player::setPosition(Tile * tile)
 void Player::setPosition(Coord c)
 {
 	currentTile = board->getTile(c);
+	currentTile->turnUp();
 	notify();
 }
 
@@ -82,7 +83,7 @@ bool Player::move(Tile * newTile)
 		notify();
 		return true;
 	}
-//	return false;
+	return false;
 	
 }
 
