@@ -1,9 +1,8 @@
 #include "../Header Files/BaseDeck.h"
 
-
-
 BaseDeck::BaseDeck()
 {
+
 }
 
 
@@ -15,13 +14,9 @@ bool BaseDeck::discardTop()
 {
 	if (!isEmpty())
 	{
-		cout << deck.size() << endl;
 		discarded.push_back(deck.back());
+		discarded.back()->turnUp();
 		deck.pop_back();
-		if (discarded.back() != nullptr)
-		{
-			discarded.back()->turnUp();
-		}
 		notify();
 		return true;
 	}
@@ -37,7 +32,8 @@ BaseCard* BaseDeck::next()
 		return activeCard();
 	}
 		
-	else return nullptr;
+	else
+		return nullptr;
 }
 void BaseDeck::shuffle()
 {

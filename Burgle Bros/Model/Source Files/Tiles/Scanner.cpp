@@ -6,9 +6,9 @@ Scanner::~Scanner()
 {
 }
 
-void Scanner::enterTile(PlayerInterface * player) 
+void Scanner::enter(PlayerInterface * player) 
 {
-	Tile::enterTile(player);
+	Tile::enter(player);
 	if (player->hasLoot())
 		setAlarm(true);
 }

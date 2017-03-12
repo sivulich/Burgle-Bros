@@ -17,88 +17,139 @@ public:
 	*/
 	void setActionTokens(int i) { actionTokens = i; };
 #endif
+
 	/**
-		Construct a player (with access to the board)
+		Construct a player
 	*/
-	Player(Board * b);
+	Player(Board * b, Player * p);
+
 	/**
 		Hay que destruir el caracter... algo mas?
 	*/
 	~Player() {};
+
 	/**
 		Sets the name of the player
 	*/
 	void setName(string & playerName);
+
 	/**
 		Get player name
 	*/
 	virtual string getName()override;
+
 	/**
 		Print player in console;
 	*/
 	void print();
-	/**
-		Returns the player's positions
-	*/
-	virtual Coord getPosition()override;
-	/**
-		Return true if the player is on the roof of the building 
-	*/
-	bool isOnRoof();
-	/**
-		Returns a vector of strings containing possible player actions
-	*/
-	vector<string> getActions();
+	
 	/**
 		Set player position with a coord
 	*/
 	virtual void setPosition(Coord c)override;
+
+	/**
+		Returns the player's positions
+	*/
+	virtual Coord getPosition()override;
+	
+	/**
+		Return true if the player is on the roof of the building 
+	*/
+	bool isOnRoof();
+	
+	/**
+		Retrun a vector of strings with the actions the player can do
+	*/
+	vector<string> getActions();
+	
+	/**
+		Update the actions the player can do
+	*/
+	void updateActions();
+	
+	
 	/**
 		Sets the player's position with a tile pointer
 	*/
 	void setPosition(Tile* c);
+
 	/**
 		Sets the character the player will use
 	*/
 	void setCharacter(characterType type);
+	
 	/**
 		Get character type
 	*/
 	characterType getCharacterType();
+
 	/**
-	
+		???
 	*/
-	Character * getCharacter() { return this->character; };
-	/**
-	
-	*/
-	void updateChar() { getCharacter()->setLastTurnUsed(this->currentTurn()); };
 	bool needConfirmationToMove(Coord c);
+	
 	/**
 		Reset the player action tokens
 	*/
 	virtual void resetActionTokens()override;
+	
+
+
+	//--------------ACTIONS-----------------//
 	/**
 		Move the player to the tile
 		@params newTile pointer to the tile the player wants to move to
 	*/
 	bool move(Tile * newTile);
 	bool move(Coord c);
+	
 	/**
 		Peek the tile in exchange of an action token
 	*/
 	void peek(Tile * newTile);
 	void peek(Coord c);
+	
+	/**
+		Creates an alarm in the specified coord (if player is ________)
+	*/
+	void createAlarm(Coord c);
+	
+	/**
+		Place a crow token in the specified coord (if player is ________)
+	*/
+	void placeCrow(Coord c);
+	
+	/**
+		Use a token from a Computer Room or 
+	*/
+	void useToken();
+
+	/**
+		Add a token to a Computer Room or a die to a Safe
+	*/
+	void addToken();
+
+	/**
+	Simulates a die being thrown
+	*/
+	virtual  int throwDice()override;
+
+
+
+
 	/**
 		Appends a new action to the action history
 		@params action the string of the action that occured
 		@params tile coordinate to the tile where the action happened
 	*/
 	virtual void newAction(string action, Coord tile)override;
+	
 	/**
 		Removes 1 stealth token if possible
 	*/
 	virtual void removeStealthToken()override;
+	
 	/**
 		Removes 1 action token if possible
 	*/
@@ -107,26 +158,26 @@ public:
 		Returns the amount of stealth tokens
 	*/
 	virtual int getStealthTokens()override;
+
 	/**
 		Returns the amount of action tokens
 	*/
 	virtual int getActionTokens()override;
+
+	
 	/**
-		Simulates a die being thrown
-	*/
-	virtual  int throwDice()override;
-	/**
-		Appends a specific loot to the player
+	
 	*/
 	void addLoot(Loot * l);
 	/**
-		Returns true if the player has loot received by parameter
+
 	*/
 	virtual bool has(lootType l)override;
 	/**
 		Returns true if the player has at least one loot.
 	*/
 	virtual bool hasLoot()override;
+
 	/**
 		Retrun true if the guard can see the player from that position
 	*/
@@ -143,38 +194,37 @@ public:
 		Clears the visibleFrom list
 	*/
 	virtual void clearVisibleFrom() override;
-	/**
-		Returns current player turn
-	*/
-	virtual unsigned currentTurn()override {return turns;};
-	/**
-		Increases player turn counter
-	*/
-	virtual void incTurn() { this->turns++; };
-	/**
-		Creates and alarm in given coord
-	*/
-	virtual bool createAlarm(Coord coord);
-	/**
-		Sets a crow token in given coord
-	*/
-	void setCrowToken(Coord c) { CrowToken = c;};
-	/**
-		Returns true if crow token is in requested coord
-	*/
-	bool isCrowToken(Coord c) { if (CrowToken == c) return true; else return false;};
-	/**
-		Returns a vector of current player loots
-	*/
+
+
 	vector<Loot*>& getLoots() { return loots; };
+
+	/**
+		
+	*/
+	vector<Coord> whereCanIMove();
+
+	/**
+
+	*/
+	vector<Coord> whereCanIPeek();
+
+
+
+
+
+
+
+	/////////// ??????????????? :O
 	/**
 		Tells the tile the player wants to add a token
 	*/
 	void wantsToAddToken() { currentTile->doAction(toString(ADD_TOKEN), this); };
+
 	/**
 		Tells the tile the player wants use an action to throw the dice
 	*/
 	void wantsToThrowDice() { currentTile->doAction(toString(THROW_DICE), this); };
+
 	/**
 		Tells the tile the player wants use a token
 	*/
@@ -184,15 +234,14 @@ private:
 	string name;
 	Character * character;
 	Tile * currentTile;
+	Player * otherPlayer;
 	Board * board;
 	int actionTokens;
 	int stealthTokens;
 	vector<actionNode> actions;
 	vector <Loot*> loots;
-	unsigned turns;
-	Coord CrowToken;
-	
 	// Coord from where the guard can see the player (player position normally, unless special cases)
 	vector <Coord> visibleFrom;
+	vector <string> possibleActions;
 	vector <unsigned int> dice;	
 };

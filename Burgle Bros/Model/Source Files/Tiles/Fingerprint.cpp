@@ -6,17 +6,16 @@ Fingerprint::~Fingerprint()
 }
 
 
-void Fingerprint::enterTile(PlayerInterface * player) {
-	Tile::enterTile(player);
-	if (player->getCharacterType() == HACKER) hackerhere = true;
-	if(!hackerhere) setAlarm(true);
+void Fingerprint::enter(PlayerInterface * player) {
+	Tile::enter(player);
+	setAlarm(true);
 }
 
 vector<string> Fingerprint::getActions(PlayerInterface * player)
 {
 	vector<string> actions(Tile::getActions(player));
-	if (myComputerRoom->getHackTokens() > 0 && hasAlarm())
-		actions.push_back(toString(USE_TOKEN));		// if you have an action, you can use a token to turn off the alarm
+	if (computerRoom->getHackTokens() > 0 && hasAlarm())
+		actions.push_back("USE_TOKEN");		// if you have an action, you can use a token to turn off the alarm
 	
 	return actions;
 }
@@ -24,14 +23,9 @@ vector<string> Fingerprint::getActions(PlayerInterface * player)
 void Fingerprint::doAction(string action, PlayerInterface * player) 
 {
 	if (action == toString(USE_TOKEN)) {
-		((ComputerRoomF *)myComputerRoom)->removeToken();
+		computerRoom->removeToken();
 		setAlarm(false);
 		player->newAction(toString(USE_TOKEN), getPos());
 		DEBUG_MSG("You used a HACK_TOKEN to turn off the alarm");
 	}
-}
-
-void Fingerprint::exitTile(PlayerInterface * player) 
-{
-	if (player->getCharacterType() == HACKER) hackerhere = false;
 }

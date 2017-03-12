@@ -96,7 +96,11 @@ int Floor::number()
 
 bool Floor::moveGuard()
 {
-	return guard.move();
+	// Update the list of alarms in the floor
+	getAlarms();
+	bool ret = guard.move();
+	tiles[guard.getPos().col][guard.getPos().row]->setAlarm(false);
+	return ret;
 }
 
 void Floor::setMap(vector<Coord> a[4][4])
@@ -126,19 +130,7 @@ vector<Coord>& Floor::getAlarms()
 	}
 	return alarms;
 }
-
-void Floor::checkAlarms()
-{
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			if (find(alarms.begin(), alarms.end(), tiles[i][j]->getPos()) != alarms.end()) tiles[i][j]->setAlarm(true);
-			else tiles[i][j]->setAlarm(false);
-		}
-	}
-}
-
+// Esta funcion no la usa nadie creo, se agregan las alarmas directamenta al tile
 void Floor::addAlarm(Coord c)
 {
 	tiles[c.col][c.row]->setAlarm(true);

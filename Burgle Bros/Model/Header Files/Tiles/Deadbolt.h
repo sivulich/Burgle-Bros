@@ -19,7 +19,7 @@ public:
 	~Deadbolt();
 
 	virtual bool canMove(PlayerInterface * player) override;
-	virtual void enterTile(PlayerInterface * player) override;
+	virtual void enter(PlayerInterface * player) override;
 
 private:
 	bool isOccupied;

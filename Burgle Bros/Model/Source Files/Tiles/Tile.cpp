@@ -78,10 +78,6 @@ void Tile::setAlarm(bool b)
 	notify();
 }
 
-void Tile::setCoord(Coord c)
-{
-	coord = c;
-}
 
 int Tile::getSafeNumber()
 {
@@ -95,6 +91,7 @@ vector<Coord> Tile::whereCanIMove()
 
 vector<Coord> Tile::whereCanIPeek()
 {
+
 	return adjacent;
 }
 
@@ -115,13 +112,14 @@ void Tile::peek()
 
 bool Tile::canMove(PlayerInterface * p)
 {
-	return isAdjacent(p->getPosition());
+	return p->getActionTokens()>1 && isAdjacent(p->getPosition());
 }
 
-void Tile::enterTile(PlayerInterface * p)
+void Tile::enter(PlayerInterface * p)
 {
 	if (!isFlipped())
 		turnUp();
+	p->setPosition(getPos());
 	updateVisibleFrom(p);
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
 	notify();
@@ -132,10 +130,6 @@ vector<string> Tile::getActions(PlayerInterface * p)
 	vector<string> actions;
 	actions.push_back("PEEK");
 	actions.push_back("MOVE");
-	if (p->getCharacterType() == JUICER)
-		actions.push_back("CREATE_ALARM");
-	else if (p->getCharacterType() == RAVEN)
-		actions.push_back("PLACE_CROW");
 	return actions;
 }
 

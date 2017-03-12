@@ -2,18 +2,28 @@
 #include "../Header Files/Configs.h"
 
 
-bool PatrolCardDeck::createDeck(unsigned floor)
+void PatrolCardDeck::createDeck()
 {
+	for (auto& it : deck)
+		delete it;
+
+	for (auto& it : discarded)
+		delete it;
+
 	deck.clear();
 	discarded.clear();
 	for (unsigned i = 0; i < 4; i++)
 		for (unsigned j = 0; j < 4; j++)
-			deck.push_back(new PatrolCard(Coord(floor,i,j)));
-	this->floorNumber = floor;
+			deck.push_back(new PatrolCard(Coord(floorNumber,i,j)));
 	shuffle();
+
+	// Discard 6 cards 
 	for (unsigned k = 0; k < 6; k++)
-		discardTop();
-	return true;
+	{
+		delete deck.back();
+		deck.pop_back();
+	}
+	
 }
 
 PatrolCardDeck::~PatrolCardDeck()
@@ -23,15 +33,9 @@ PatrolCardDeck::~PatrolCardDeck()
 		delete it;
 }
 
-bool PatrolCardDeck::reset(unsigned n)
+void PatrolCardDeck::reset()
 {
-	if (n < (deck.size() + discarded.size()))
-	{
-		merge();
-		for (unsigned i = 0; i < n; i++)
-			discardTop();
-		notify();
-		return true;
-	}
-	return false;
+	createDeck();
+
+	notify();
 }

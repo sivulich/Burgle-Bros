@@ -5,9 +5,10 @@
 #define W 1
 #define	´ 0
 
-Board::Board()
+Board::Board(PlayerInterface* p1, PlayerInterface* p2)
 {
-	
+	for (int i = 0; i < 3; i++)
+		floor[i] = new Floor(i, p1, p2);
 }
 
 void Board::setWalls()
@@ -73,7 +74,7 @@ void Board::setWalls()
 			{
 				int i = row * 2;
 				int j = col * 2;
-				Tile * tile = floor[f][col][row];
+				Tile * tile = getTile(Coord(f,col,row));
 
 				// Adjacent with tile above
 				if (row > 0 && (walls[f][i - 1][j] != W))
@@ -102,7 +103,7 @@ void Board::setWalls()
 			}
 		}
 		//Pass the map to each floor (and each floor to its guard)
-		floor[f].setMap(adjacent[f]);
+		floor[f]->setMap(adjacent[f]);
 	}
 }
 
@@ -145,7 +146,7 @@ void Board::setBoard()
 		f[i].push_back(SAFE);
 		f[i].push_back(STAIR);
 		random_shuffle(f[i].begin(), f[i].end());
-		floor[i].setTiles(f[i]);
+		floor[i]->setTiles(f[i]);
 	}
 	parseBoard();
 }
@@ -158,18 +159,22 @@ void Board::setBoard(vector<tileType> tiles)
 		for (int i = 0; i < 3; i++)
 		{
 			f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / 3 * i, tiles.begin() + tiles.size() / 3 * (i + 1));
-			floor[i].setTiles(f[i]);
+			floor[i]->setTiles(f[i]);
 		}
 	}
 }
 
 void Board::parseBoard()
 {
-	ServiceDuct* duct1 = nullptr;
 	vector<Tile *> crackSafeTiles;
 	vector<Tile *> cameras;
-	Tile * computerRoomF, * computerRoomM, * computerRoomL;
-	vector<Tile *> fingerprints, motions, lasers;
+	ServiceDuct * duct1 = nullptr;
+	ComputerRoomF * computerRoomF;
+	ComputerRoomM * computerRoomM;
+	ComputerRoomL * computerRoomL;
+	vector<Fingerprint *> fingerprints;
+	vector<Motion *> motions;
+	vector<Laser *> lasers;
 
 	lootType l[] = { TIARA, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR, GOLD_BAR };
 	vector<lootType>loots(l, l + 10);
@@ -183,17 +188,18 @@ void Board::parseBoard()
 		{
 			for (int col = 0; col < 4; col++)
 			{
-				Tile * tile = floor[f][col][row];
+				Tile * tile = getTile(Coord(f, col, row));
 
 				switch (tile->getType())
 				{
 					case STAIR:
 						// If there is a Stair tile add adjacency with next floor
-						if (f < 2) {
-							floor[f + 1][col][row]->addAdjacent(Coord(f, col, row));
+						if (f < 2)
+						{
+							getTile(Coord(f+1, col, row))->addAdjacent(Coord(f, col, row));
 							tile->addAdjacent(Coord(f + 1, col, row));
-							floor[f + 1].setStairToken(Coord(f + 1, col, row));
-							floor[f + 1][col][row]->setStairToken(true);
+							//floor[f + 1]->setStairToken(Coord(f + 1, col, row));
+							getTile(Coord(f+1, col, row))->setStairToken(true);
 						}
 						else
 							tile->addAdjacent(ROOF);
@@ -231,32 +237,32 @@ void Board::parseBoard()
 						}
 						break;
 					case COMPUTER_ROOM_F:
-						computerRoomF = tile;
+						computerRoomF = (ComputerRoomF *)tile;
 						break;
 					case COMPUTER_ROOM_L:
-						computerRoomL = tile;
+						computerRoomL = (ComputerRoomL *)tile;
 						break;
 					case COMPUTER_ROOM_M:
-						computerRoomM = tile;
+						computerRoomM = (ComputerRoomM *)tile;
 						break;
 					case FINGERPRINT:
-						fingerprints.push_back(tile);
+						fingerprints.push_back((Fingerprint*)tile);
 						break;
 					case LASER:
-						lasers.push_back(tile);
+						lasers.push_back((Laser*)tile);
 						break;
 					case MOTION:
-						motions.push_back(tile);
+						motions.push_back((Motion*)tile);
 						break;
 					case SECRET_DOOR:
-						if (col != 0)	// if its not in the first column
-							((SecretDoor *)tile)->addSecretDoor(floor[f][col - 1][row]);
+						if (col != 0)	// if its not in the first column	
+							((SecretDoor *)tile)->addSecretDoor(getTile(Coord(f, col-1, row)));
 						if (col != 3)	// if its not in the last column
-							((SecretDoor *)tile)->addSecretDoor(floor[f][col + 1][row]);
+							((SecretDoor *)tile)->addSecretDoor(getTile(Coord(f, col+1, row)));
 						if (row != 0)	// if its not in the first row
-							((SecretDoor *)tile)->addSecretDoor(floor[f][col][row - 1]);
+							((SecretDoor *)tile)->addSecretDoor(getTile(Coord(f, col, row-1)));
 						if (row != 3)	// if its not in the last row
-							((SecretDoor *)tile)->addSecretDoor(floor[f][col][row + 1]);
+							((SecretDoor *)tile)->addSecretDoor(getTile(Coord(f, col, row+1)));
 						break;
 				}
 			}
@@ -264,9 +270,9 @@ void Board::parseBoard()
 	}
 	for (size_t i = 0; i < 3; i++)
 	{
-		((Fingerprint *)fingerprints[i])->setComputerRoom(computerRoomF);
-		((Motion *)motions[i])->setComputerRoom(computerRoomM);
-		((Laser *)lasers[i])->setComputerRoom(computerRoomL);
+		fingerprints[i]->setComputerRoom(computerRoomF);
+		motions[i]->setComputerRoom(computerRoomM);
+		lasers[i]->setComputerRoom(computerRoomL);
 	}
 }
 	
@@ -275,23 +281,12 @@ void Board::print()
 {
 	cout << "                                   |BOARD|" << endl;
 	for (int i = 0; i < 3; i++)
-		floor[i].print();
-	
-	for (int i = 0; i < 3; i++)
-	{
-		cout << "Alarms in floor " << i << endl;
-		for (auto& a : floor[i].getAlarms())
-		{
-			cout << a << endl;
-		}
-	}
-	
-	
+		floor[i]->print();
 }
 
 Tile * Board::getTile(Coord c)
 {
-	return floor[c.floor][c.col][c.row];
+	return (*floor[c.floor])[c.col][c.row];
 }
 
 Board::~Board()
@@ -304,8 +299,8 @@ void Board::prepSafeTile(Safe * safe) {
 	for (int index = 0; index < 4; index++)		
 	{
 		if (index != safe->col())		// if index is not the safe's column
-			safe->addCrackTile(floor[safe->floor()][index][safe->row()]);	// add the tile in that floor, row and i column
+			safe->addCrackTile(getTile(Coord(safe->floor(),index,safe->row())));	// add the tile in that floor, row and i column
 		if (index != safe->row())		// if index is not the safe's row
-			safe->addCrackTile(floor[safe->floor()][safe->col()][index]);	// add the tile in that floor, row and i column
+			safe->addCrackTile(getTile(Coord(safe->floor(),safe->col(),index)));	// add the tile in that floor, row and i column
 	}
 }

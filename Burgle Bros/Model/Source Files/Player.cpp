@@ -2,38 +2,38 @@
 #include "../Header Files/Player.h"
 #include "../Header Files/Characters/CharacterFactory.h"
 
-Player::Player(Board * b)
+Player::Player(Board * b, Player * p)
 {
-	turns = 0;
 	board = b;
+	otherPlayer = p;
 	resetActionTokens();
-	setCrowToken(Coord(6, 6, 6));
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 }
 
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
+	currentTile->turnUp();
 	notify();
 }
 
 void Player::setPosition(Coord c)
 {
-	currentTile = board->getTile(c);
-	currentTile->turnUp();
-	notify();
+	setPosition(board->getTile(c));
 }
 
 void Player::setName(string & playerName)
 {
 	name = playerName;
-	notify();
+	//notify(); creo que no hace falta llamar el update de la vista porque el
+	//           nombre se setea antes de que se vea la pantalla de juego
 }
 
 void Player::setCharacter(characterType type)
 {
 	character = CharacterFactory().newCharacter(type);
-	notify();
+	//notify(); creo que no hace falta llamar el update de la vista porque el
+	//           caracter se setea antes de que se vea la pantalla de juego
 }
 
 
@@ -48,7 +48,6 @@ bool Player::has(lootType l)
 bool Player::needConfirmationToMove(Coord c)
 {
 	tileType t = board->getTile(c)->getType();
-	return false;
 	if (t == DEADBOLT)
 		return true;
 	else
@@ -62,21 +61,43 @@ void Player::resetActionTokens()
 
 bool Player::move(Coord c)
 {
-	Tile * t = board->getTile(c);
-	return move(t);
+	return move(board->getTile(c));
+}
+
+vector<Coord> Player::whereCanIMove()
+{
+	vector<Coord> v = currentTile->whereCanIMove();
+	// Remove the ones where I cant move
+	for (auto& t : v)
+		if (board->getTile(t)->canMove(this)==false)
+			v.erase(remove(v.begin(), v.end(), t));
+	return v;
+}
+
+vector<Coord> Player::whereCanIPeek()
+{
+	vector<Coord> v = currentTile->whereCanIPeek();
+	// VER COMO HACER CON EL ACROBAT UNA VEZ POR TURNO PARA HACER PEEK EN UNA NO ADYACENTE 
+	// Remove the flipped ones
+	for (auto& t : v)
+		if (board->getTile(t)->isFlipped())
+			v.erase(remove(v.begin(),v.end(),t));
+	return v;
+
 }
 
 bool Player::move(Tile * newTile)
 {
-	removeActionToken();
+	// Siempre hay que sacar un action token?
+	removeActionToken(); 
 	if (newTile->canMove(this))
 	{
-		newAction("MOVE", getPosition());
-		currentTile->exitTile(this);
-		setPosition(newTile);
-		newTile->enterTile(this);
-		// Update from where the guard can see the player
-		newTile->updateVisibleFrom(this);
+		newAction("MOVE", newTile->getPos());
+		// Exit the current tile
+		currentTile->exit(this);
+		// And enter the next tile
+		newTile->enter(this);
+
 		// Update all loots
 		for (auto & t : loots)
 			t->update();
@@ -89,19 +110,46 @@ bool Player::move(Tile * newTile)
 
 void Player::peek(Coord c)
 {
-	Tile * t = board->getTile(c);
-	peek(t);
+	peek(board->getTile(c));
 }
 
 void Player::peek(Tile * newTile)
 {
-	if (newTile->isAdjacent(getPosition()))
+	if (newTile->isFlipped()==false && newTile->isAdjacent(getPosition()))
 	{
 		removeActionToken();
 		newAction("PEEK", newTile->getPos());
-		newTile->peek();
+		newTile->turnUp();
 		notify();
 	}
+}
+
+
+void Player::createAlarm(Coord c)
+{
+	if (getCharacterType() == JUICER && currentTile->isAdjacent(c))
+		board->getTile(c)->setAlarm(true);
+}
+
+void Player::placeCrow(Coord c)
+{
+	if (getCharacterType() == RAVEN)
+	{
+		
+	}
+		board->getTile(c)->setAlarm(true);
+}
+
+
+void Player::useToken()
+{
+
+}
+
+
+void Player::addToken()
+{
+
 }
 
 Coord Player::getPosition()
@@ -111,9 +159,35 @@ Coord Player::getPosition()
 
 vector<string> Player::getActions()
 {
-	vector<string> actions = currentTile->getActions(this);
-	actions.push_back(character->getAction(this));
-	return (actions);
+	updateActions();
+	return possibleActions;
+}
+
+void Player::updateActions()
+{
+	possibleActions.clear();
+	possibleActions = currentTile->getActions(this);
+
+	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
+	if (getCharacterType() == JUICER)
+		possibleActions.push_back("CREATE_ALARM");
+	else if (getCharacterType() == RAVEN)
+		possibleActions.push_back("PLACE_CROW");
+	else if (getCharacterType() == SPOTTER)
+		possibleActions.push_back("SPY_PATROL_DECK_CARD");
+	// REEMPLAZar con un character->getAction();!!
+	
+
+	if(currentTile->hasLoot())
+		possibleActions.push_back("PICK_UP_LOOT");
+
+	if (otherPlayer->getPosition() == getPosition())
+	{
+		if (hasLoot())
+			possibleActions.push_back("OFFER_LOOT");
+		if (otherPlayer->hasLoot())
+			possibleActions.push_back("REQUEST_LOOT");
+	}
 }
 
 bool Player::isOnRoof()
@@ -144,8 +218,10 @@ void Player::print()
 }
 void Player::removeStealthToken()
 {
-	if(currentTile->tryToHide() == false)	// try to hide from the guard (for the LAVATORY)
-		stealthTokens--;					// if that fails, remove a stealth tokens
+	// Lo del lavatory es una mierda, hay que preguntar al jugador si quiere usar un token o no..
+
+	//if(currentTile->tryToHide() == false)	// try to hide from the guard (for the LAVATORY)
+	stealthTokens--;					// if that fails, remove a stealth tokens
 	if(stealthTokens==0)
 		DEBUG_MSG("NO STEALTH TOKENS LEFT, YOU ARE DEADDDDD");
 	notify();
@@ -225,21 +301,11 @@ characterType Player::getCharacterType()
 {
 	return character->getType();
 };
-	
-bool Player::createAlarm(Coord coord)
-{
-	if (character->is(JUICER) && currentTile->isAdjacent(coord))
-	{
-		board->getTile(coord)->setAlarm(true);
-		return true;
-	}
-	return false;
-}
-
 
 /**
 Clears the visibleFrom list
 */
-void Player::clearVisibleFrom() {
+void Player::clearVisibleFrom()
+{
 	visibleFrom.clear();
 }

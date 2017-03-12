@@ -5,8 +5,8 @@ Camera::~Camera()
 	
 }
 
-void Camera::enterTile(PlayerInterface * player) {
-	Tile::enterTile(player);
+void Camera::enter(PlayerInterface * player) {
+	Tile::enter(player);
 	for (int i = 0; i < otherCameras.size(); i++)
 	{
 		if (otherCameras[i]->isFlipped() == true) {			// if the other camera is flipped up

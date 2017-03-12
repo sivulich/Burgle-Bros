@@ -10,28 +10,20 @@ public:
 	/**
 	@addparams Receives a pointer to the guard deck
 	*/
-	Guard() { target = pos = NPOS; patroldeck = nullptr; alarms = nullptr; player1 = player2 = nullptr; speed = currsteps = 0; myturn = false; };
+	Guard(unsigned n,PatrolCardDeck*p, PlayerInterface * p1, PlayerInterface* p2) : pos(NPOS), floorNumber(n), player1(p1), player2(p2), patroldeck(p)
+	{
+		speed = 2 + n;
+	};
 
 	/**
 
 	*/
 	~Guard();
 
-
-	/**
-		Point the guard to the players
-	*/
-	void setPlayers(PlayerInterface * p1, PlayerInterface * p2);
-
 	/**
 		Add the map of the floor
 	*/
 	void setFloorMap(vector<Coord> floor[4][4]);
-
-	/**
-	
-	*/
-	void setDeck(PatrolCardDeck * patroldeck);
 	
 	/**
 	
@@ -55,10 +47,7 @@ public:
 	if the guard steps over an alarm it is turned off
 	*/
 	bool move();
-	/**
-	
-	*/
-	//bool prepareGuard();
+
 	/**
 	checks if guard sees a PlayerInterface. if it is the case a stealth token is removed from the PlayerInterface
 	*/
@@ -91,11 +80,8 @@ public:
 	Coord getPos() { return pos; };
 
 	void setPos(Coord coord) { pos = coord; };
-
-	void isMyTurn(bool b) { myturn = b; };
 private:
-	unsigned speed, currsteps;
-	bool myturn;
+	unsigned speed, currsteps,floorNumber;
 	Coord pos;
 	vector<Coord> * alarms;
 	Coord target;
@@ -108,7 +94,7 @@ private:
 	/**
 
 	*/
-	Coord toCoord(unsigned index) { return Coord(getPos().floor, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
+	Coord toCoord(unsigned index) { return Coord(1, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
 
 	/**
 

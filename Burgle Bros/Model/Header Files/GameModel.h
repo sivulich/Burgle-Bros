@@ -5,69 +5,70 @@
 #include "Player.h"
 #include "Guard.h"
 
+
 class GameModel : public BaseModel
 {
 public:
-	GameModel() : player1(&board), player2(&board)
+	GameModel() : player1(&board,&player2), player2(&board, &player1), board(&player1, &player2)
 	{
-		// Let the guard know the players
-		for (int i = 0; i < 3; i++)
-		{
-			board[i].setNumber(i);
-			board[i].getGuard()->setPlayers(&player1, &player2);
-		}
+		currentPlayer_  =  &player1;
+		otherPlayer_    =  &player2;
+
 		srand(time(NULL));
-		currentPlayer_ = &player1;
-		otherPlayer_ = &player2;
 	};
+
 	/**
 		Print game model in console
 	*/
 	void print();
+
 	/**
 		Returns true if game is over
 	*/
 	bool gameOver();
+
 	/**
 		Returns true if the burglars have won
 	*/
 	bool win();
+
 	/**
-		Sets the board randomly // defined tiles
+		Sets the board, sorting te tiles randomly
 	*/
 	void setBoard();
-	void setBoard(vector<tileType> tiles);
+
 	/**
-	
+		Sets the board, with defined tiles
 	*/
-	Board getBoard() { return this->board; };
+	void setBoard(vector<tileType> tiles);
+
 	/**
-		Move guard one step
+		Move the correspongin guard one step
 	*/
 	void moveGuard();
+
 	/**
 		Return true if guard is still moving
 	*/
 	bool guardIsMoving();
+	
 	/**
-		Called after guard movement, it changes the turn
+		Called after guard movement, it changes the turn of the player
 	*/
 	void changeTurn();
+
 	/**
-	
+		Access to the current player
 	*/
 	Player * currentPlayer() { return currentPlayer_; };
 
 	/**
-
+		Access to the other player
 	*/
 	Player * otherPlayer() { return otherPlayer_; };
-	/**
-	
-	*/
-	PatrolCard * getPatrolTop(unsigned floor) { return (PatrolCard *)(this->board[floor].getPatrolDeck()->topCard()); };
 
-	void topToBottom(unsigned floor) { board[floor].getPatrolDeck()->topToBottom(); }
+
+
 
 private:	
 	Player* currentPlayer_;

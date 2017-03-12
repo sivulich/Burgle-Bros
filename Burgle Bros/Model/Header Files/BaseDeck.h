@@ -45,12 +45,12 @@ public:
 	/**
 	@return top of discarded deck (BaseCard*)
 	*/
-	BaseCard* activeCard() { return discarded.back(); };
+	BaseCard* activeCard() { return discarded.empty()? nullptr : discarded.back(); };
 
 	/**
 	@return top of main deck (BaseCard*)
 	*/
-	BaseCard* topCard() { return deck.back(); };
+	BaseCard* topCard() { return deck.empty()? nullptr:deck.back(); };
 
 	/**
 	@returns main deck (vector<BaseCard*>)
