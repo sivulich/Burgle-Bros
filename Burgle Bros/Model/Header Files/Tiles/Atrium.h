@@ -15,6 +15,8 @@ public:
 	/**
 		Adds the tile beneath and above it to the list of player visibleFrom tiles
 	*/
-	virtual void enterTile(PlayerInterface * player) override;
+	void updateVisibleFrom(PlayerInterface * player)override;
+
+	vector<Coord> whereCanIPeek()override;
 };
 

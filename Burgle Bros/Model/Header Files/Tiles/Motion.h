@@ -1,5 +1,6 @@
 #pragma once
 #include "Tile.h"
+#include "ComputerRoomM.h"
 #include "../PlayerInterface.h"
 /*
 You cannot enter AND leave this tile in one turn. You must stop here. If you don't, you trigger an alarm unless 
@@ -21,31 +22,31 @@ public:
 	virtual vector<string> getActions(PlayerInterface * player) override;
 
 	/**
-	Applies the action given to the player
-	@param action Action to execute
-	@param p Player who wants to do the action
+		Applies the action given to the player
+		@param action Action to execute
+		@param p Player who wants to do the action
 	*/
 	virtual void doAction(string action, PlayerInterface * player) override;
 
 	/**
-	Executes the tile's special actions, if any...
-	@param p player who is moving
+		Executes the tile's special actions, if any...
+		@param p player who is moving
 	*/
-	virtual void enterTile(PlayerInterface * player) override;
+	virtual void enter(PlayerInterface * player) override;
 
 	/**
-	Executes any special action when leaving the tile
+		Executes any special action when leaving the tile
 	*/
-	virtual void exitTile(PlayerInterface * player) override;
+	virtual void exit(PlayerInterface * player) override;
 
 
 	void arm() { armed = true; };
 	void disarm() { armed = false; };
 	bool isArmed() { return armed; };
-	void setComputerRoom(Tile * cRoom) { myComputerRoom = cRoom; };
+	void setComputerRoom(ComputerRoomM * c) { computerRoom = c; };
 
 private:
-	Tile * myComputerRoom;
+	ComputerRoomM * computerRoom;
 	bool armed;		// if true, player may not leave without triggering the alarm
 };
 

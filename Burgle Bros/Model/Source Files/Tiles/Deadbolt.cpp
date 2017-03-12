@@ -5,22 +5,20 @@ Deadbolt::~Deadbolt()
 {
 }
 
-bool Deadbolt::canMove(PlayerInterface * player) {
-	
-
-	if (player->getActionTokens() >= 3) {		//if the player has at least 3 action tokens
-		return true;
-	}
-	else {
-		DEBUG_MSG("You must have at least 3 action tokens to enter the deadbolt.");
+bool Deadbolt::canMove(PlayerInterface * player)
+{
+	// If tile is revealed but player has less than three tokens, cant move
+	if (isFlipped()==true && player->getActionTokens() < 3)
 		return false;
-	}
+	else
+		return true;
 }
 
-void Deadbolt::enterTile(PlayerInterface * player) {
-	Tile::enterTile(player);
-
-	if (player->getActionTokens() >= 3) {
+void Deadbolt::enter(PlayerInterface * player)
+{
+	Tile::enter(player);
+	if (player->getActionTokens() >= 3)
+	{
 		player->removeActionToken();
 		player->removeActionToken();
 		player->removeActionToken();
@@ -73,14 +71,14 @@ void Deadbolt::doAction(string action, Player p, Coord guardPos, Coord partnerPo
 				p.removeActionToken();		//remove 3 action tokens
 				p.removeActionToken();
 				p.removeActionToken();
-				enterTile(p);
+				enter(p);
 			}
 		}
 		else		//the tile is flipped up
 		{
 			if ((guardPos == getPos()) || (partnerPos == getPos())) {	//if someone is on the tile
 				p.removeActionToken();
-				enterTile(p);
+				enter(p);
 			}
 			else	//the tile is empty
 			{
@@ -88,7 +86,7 @@ void Deadbolt::doAction(string action, Player p, Coord guardPos, Coord partnerPo
 				p.removeActionToken();		//remove 3 action tokens
 				p.removeActionToken();
 				p.removeActionToken();
-				enterTile(p);
+				enter(p);
 			}
 		}
 	}

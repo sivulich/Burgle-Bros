@@ -1,9 +1,8 @@
 #include "../Header Files/BaseDeck.h"
 
-
-
 BaseDeck::BaseDeck()
 {
+
 }
 
 
@@ -33,7 +32,8 @@ BaseCard* BaseDeck::next()
 		return activeCard();
 	}
 		
-	else return NULL;
+	else
+		return nullptr;
 }
 void BaseDeck::shuffle()
 {

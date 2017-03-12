@@ -5,8 +5,8 @@ Foyer::~Foyer()
 {
 }
 
-void Foyer::enterTile(PlayerInterface * player) {
-	Tile::enterTile(player);
+void Foyer::enter(PlayerInterface * player) {
+	Tile::enter(player);
 
 	Coord temp(floor(), col(), row());
 

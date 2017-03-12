@@ -34,8 +34,7 @@ public:
 	void peek();
 
 	/**
-		Return true if the player can move to the tile (check adjancency on base tile)
-		(Always true except on special cases where function will be overwritten)
+		Return true if the player can move to the tile, checking adjacency. On child classes check specific conditions.
 		@param p player who is moving
 	*/
 	virtual bool canMove(PlayerInterface * player);
@@ -44,11 +43,11 @@ public:
 		Executes the tile's special actions, if any...
 		@param p player who is moving
 	*/
-	virtual void enterTile(PlayerInterface * player);
+	virtual void enter(PlayerInterface * player);
 	/**
 		Executes any special action when leaving the tile
 	*/
-	virtual void exitTile(PlayerInterface * player) {};
+	virtual void exit(PlayerInterface * player) {};
 
 	/**
 		Apart from turning up the card, sort the safe number
@@ -74,15 +73,6 @@ public:
 	Return the row number
 	*/
 	int row();
-
-	/**
-		Set the position of the tile in the floor.
-
-		@param floor floor of the tile
-		@param col column of the tile
-		@param row row of the tile
-	*/
-	void setCoord(Coord c);
 
 	/**
 		Returns the type of the tile.
@@ -136,12 +126,12 @@ public:
 	/**
 		Return a vector of Coords where player can moove
 	*/
-	vector<Coord> whereCanIMove();
+	virtual vector<Coord> whereCanIMove();
 
 	/**
 		Return a vector of Coords where player can Peek
 	*/
-	vector<Coord> whereCanIPeek();
+	virtual vector<Coord> whereCanIPeek();
 
 	/**
 		Add a coord to the adjacent list
@@ -162,8 +152,9 @@ public:
 	void crackTile() { crackToken = true; };
 	bool hasStairToken() { return stairToken; };
 	bool hasCrowToken() { return crowToken; };
+	void setCrowToken(bool b) { crowToken = b; };
 	void setStairToken(bool b) { stairToken = b; };
-	virtual int getHackTokens() { return 0; };
+
 	/**
 		Returns true if you could hide from the guard. Used for Lavatory.
 	*/

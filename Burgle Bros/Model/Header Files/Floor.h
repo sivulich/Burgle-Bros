@@ -3,25 +3,24 @@
 #include "Tiles/TileFactory.h"
 #include "Guard.h"
 #include "PatrolCardDeck.h"
-
+#include "PlayerInterface.h"
 
 class Floor: public BaseModel
 {
 public:
 	/**
 		Constructor
-		@param w width of the floor
-		@param h height of the floor
 		@param n number of the floor
 	*/
-	Floor() :tiles(4,vector<Tile *>(4,nullptr))
+	Floor(int n, PlayerInterface * p1, PlayerInterface * p2) :tiles(4,vector<Tile *>(4,nullptr)), guardDeck(n), guard(n,&guardDeck,p1,p2)
 	{
-		
+		floorNumber = n;
+
 	};
 	/*
 	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
 	{
-		floorNumber = n;
+		
 		guardDeck.createDeck(n);
 		guard.setDeck(&guardDeck);
 		guard.setAlarms(&alarms);
@@ -40,8 +39,8 @@ public:
 	void setNumber(int n)
 	{
 		floorNumber = n;
-		guardDeck.createDeck(n);
-		guard.setDeck(&guardDeck);
+		
+		//guard.setDeck(&guardDeck);
 		guard.setAlarms(&alarms);
 	}
 	/**

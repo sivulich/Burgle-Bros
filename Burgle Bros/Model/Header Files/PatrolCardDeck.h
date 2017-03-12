@@ -7,8 +7,12 @@ class PatrolCardDeck : public BaseDeck
 {
 public:
 	/**
+		Construct a patrol card deck with its floor number
 	*/
-	PatrolCardDeck() {};
+	PatrolCardDeck(unsigned n) : floorNumber(n)
+	{
+		createDeck();
+	};
 
 
 	/**
@@ -17,20 +21,17 @@ public:
 	~PatrolCardDeck();
 
 	/**
-	
+		Create all patrol cards, shuffle and delete 6 of them
 	*/
-	bool createDeck(unsigned floor);
+	void createDeck();
 	
 	/**
-	function merges cards in discarded deck with main deck (discarded cards are turned down). Main deck is shuffled 
-	n amount of cards are discarded automatically to the discarded deck
-	@addparams n amount of cards to be discarded from deck 
-	@return if deck could be correctly reseted true is returned, else false. (problems could occur if n is a number higher than the total amount of cards found in both decks)
+		Function merges cards in discarded deck with main deck (discarded cards are turned down). Main deck is shuffled 
 	*/
-	bool reset(unsigned n);
+	void reset();
 
 	/**
-	Returns the floor of the patrol card deck
+		Returns the floor of the patrol card deck
 	*/
 	unsigned floor() { return floorNumber; };
 

@@ -19,8 +19,8 @@ bool ServiceDuct::isOpen()
 	return otherSide->isFlipped();
 }
 
-void ServiceDuct::enterTile(PlayerInterface * player) {
-	Tile::enterTile(player);
+void ServiceDuct::enter(PlayerInterface * player) {
+	Tile::enter(player);
 	if (isOpen() && isConnected == false ) {
 		addAdjacent(otherSide->getPos());
 		otherSide->addAdjacent(getPos());

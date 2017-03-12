@@ -40,6 +40,7 @@ public:
 		Removes 1 action token if possible
 	*/
 	virtual void removeActionToken() = 0;
+	
 	/**
 		Returns the amount of stealth tokens
 	*/
@@ -49,12 +50,6 @@ public:
 		Returns the amount of action tokens
 	*/
 	virtual int getActionTokens() = 0;
-
-
-	/**
-		Simulates a die being thrown
-	*/
-	virtual int throwDice() = 0;
 
 	/**
 		Returns true if the player has at least one loot.
@@ -86,6 +81,10 @@ public:
 	*/
 	virtual void clearVisibleFrom() =0;
 
+	/**
+		Simulates a die being thrown
+	*/
+	virtual int throwDice() = 0;
 
 	/**
 	Appends a new action to the action history

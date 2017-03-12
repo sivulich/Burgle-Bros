@@ -10,28 +10,20 @@ public:
 	/**
 	@addparams Receives a pointer to the guard deck
 	*/
-	Guard() { pos = NPOS; player1 = player2 = nullptr; };
+	Guard(unsigned n,PatrolCardDeck*p, PlayerInterface * p1, PlayerInterface* p2) : pos(NPOS), floorNumber(n), player1(p1), player2(p2), patroldeck(p)
+	{
+		speed = 2 + n;
+	};
 
 	/**
 
 	*/
 	~Guard();
 
-
-	/**
-		Point the guard to the players
-	*/
-	void setPlayers(PlayerInterface * p1, PlayerInterface * p2);
-
 	/**
 		Add the map of the floor
 	*/
 	void setFloorMap(vector<Coord> floor[4][4]);
-
-	/**
-	
-	*/
-	void setDeck(PatrolCardDeck * patroldeck);
 	
 	/**
 	
@@ -89,7 +81,7 @@ public:
 
 	void setPos(Coord coord) { pos = coord; };
 private:
-	unsigned speed, currsteps;
+	unsigned speed, currsteps,floorNumber;
 	Coord pos;
 	vector<Coord> * alarms;
 	Coord target;
