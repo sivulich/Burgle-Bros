@@ -127,6 +127,18 @@ vector<Coord>& Floor::getAlarms()
 	return alarms;
 }
 
+void Floor::checkAlarms()
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			if (find(alarms.begin(), alarms.end(), tiles[i][j]->getPos()) != alarms.end()) tiles[i][j]->setAlarm(true);
+			else tiles[i][j]->setAlarm(false);
+		}
+	}
+}
+
 void Floor::addAlarm(Coord c)
 {
 	tiles[c.col][c.row]->setAlarm(true);

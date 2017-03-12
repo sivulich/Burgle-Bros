@@ -63,9 +63,6 @@ void GameModel::print()
 
 }
 
-
-
-
 bool GameModel::gameOver()
 {
 	return player1.getStealthTokens() == 0 || player2.getStealthTokens() == 0;

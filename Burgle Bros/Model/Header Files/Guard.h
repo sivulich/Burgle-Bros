@@ -10,7 +10,7 @@ public:
 	/**
 	@addparams Receives a pointer to the guard deck
 	*/
-	Guard() { pos = NPOS; player1 = player2 = nullptr; };
+	Guard() { target = pos = NPOS; patroldeck = nullptr; alarms = nullptr; player1 = player2 = nullptr; speed = currsteps = 0; myturn = false; };
 
 	/**
 
@@ -55,7 +55,10 @@ public:
 	if the guard steps over an alarm it is turned off
 	*/
 	bool move();
-
+	/**
+	
+	*/
+	//bool prepareGuard();
 	/**
 	checks if guard sees a PlayerInterface. if it is the case a stealth token is removed from the PlayerInterface
 	*/
@@ -88,8 +91,11 @@ public:
 	Coord getPos() { return pos; };
 
 	void setPos(Coord coord) { pos = coord; };
+
+	void isMyTurn(bool b) { myturn = b; };
 private:
 	unsigned speed, currsteps;
+	bool myturn;
 	Coord pos;
 	vector<Coord> * alarms;
 	Coord target;
@@ -102,7 +108,7 @@ private:
 	/**
 
 	*/
-	Coord toCoord(unsigned index) { return Coord(1, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
+	Coord toCoord(unsigned index) { return Coord(getPos().floor, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
 
 	/**
 

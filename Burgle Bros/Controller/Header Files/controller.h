@@ -44,7 +44,7 @@ public:
 
 	void startGame()
 	{
-		gameState status = PLAYER_TURN;
+		gameState status = GUARD_TURN;
 
 		while (status != EXIT)
 		{
@@ -176,6 +176,7 @@ public:
 					case Move_guard:
 					{
 						model->moveGuard();
+						model->getBoard()[model->currentPlayer()->getPosition().floor].checkAlarms();
 
 						if (model->gameOver())
 							status = GAMEOVER;
@@ -216,7 +217,7 @@ private:
 	gameEvent ev;
 	string param;
 
-	GameFSM FSM;
+//	GameFSM FSM;
 	GameModel * model;
 	ConsoleView * view;
 	

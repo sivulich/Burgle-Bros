@@ -26,10 +26,10 @@ void Guard::setFloorMap(vector<Coord> floor[4][4])
 */
 void Guard::setDeck(PatrolCardDeck * patroldeck)
 {
-	PatrolCard * p;
+	PatrolCard * p = nullptr;
 	this->patroldeck = patroldeck;
 	speed = 2 + patroldeck->floor();
-	if (patroldeck->floor() == 0)
+	/*if (patroldeck->floor() == 0)
 	{
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		this->pos = p->getCoord();
@@ -39,7 +39,7 @@ void Guard::setDeck(PatrolCardDeck * patroldeck)
 	else
 	{
 		pos = NPOS;
-	}
+	}*/
 	//Esto es temporal es para probar
 	//p=static_cast<PatrolCard*>(patroldeck->getDiscarded().back());
 	//this->pos = p->getCoord();
@@ -71,21 +71,21 @@ void Guard::GuardCheck()
 
 void Guard::print()
 {
-	/*
-	DEBUG_MSG("Current guard position: " << pos);
-	DEBUG_MSG("Steps to finish turn: " << currsteps);
-	DEBUG_MSG("Active patrol card: " << patroldeck->activeCard()->getDescription());
-	DEBUG_MSG("Current path:");
+	cout << "Current guard position: " << pos << endl;
+	cout << "Steps to finish turn: " << currsteps << endl;
+	cout << "active patrol card" << target << endl;
+	//cout << "Active patrol card: " << patroldeck->activeCard()->getDescription() << endl;
+	cout << "Current path:" << endl;
 	for (auto& a : path)
 	{
-		DEBUG_MSG(a);
+		cout << a << endl;
 	}
-	DEBUG_MSG("\n");
+	cout << endl;
 }
 
 bool Guard::RemoveAlarm(Coord coord)
 {
-	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
+	if (!(alarms->empty()) && find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
 		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
 		//DEBUG_MSG("alarm removed from tile "<< coord << endl);
@@ -100,45 +100,70 @@ bool Guard::RemoveAlarm(Coord coord)
 	}
 }
 
+/*bool Guard::prepareGuard()
+{
+	PatrolCard * p = nullptr;
+	if (pos == NPOS)
+	{
+		SetCurrSteps();
+	    //DEBUG_MSG("Current steps " << currsteps<< endl);
+		p = static_cast<PatrolCard*>(patroldeck->next());
+		if (p != nullptr)
+		{
+			pos = p->getCoord();
+			//DEBUG_MSG("Guard start pos " << pos << endl);
+			p = static_cast<PatrolCard*>(patroldeck->next());
+			target = p->getCoord();
+			//DEBUG_MSG("First guard target " << target << endl);
+		}
+		else return false;
+	}
+	return true;
+}*/
 bool Guard::move()
 {
-	PatrolCard * p;
+	PatrolCard * p = nullptr;
 	if (pos == NPOS)
 	{
 		SetCurrSteps();
 		//DEBUG_MSG("Current steps " << currsteps<< endl);
 		p = static_cast<PatrolCard*>(patroldeck->next());
-		pos = p->getCoord();
-		//DEBUG_MSG("Guard start pos " << pos << endl);
-		p = static_cast<PatrolCard*>(patroldeck->next());
-		target = p->getCoord();
-		//DEBUG_MSG("First guard target " << target << endl);
-	}
-		FindPath(pos);
-		if (path.empty() || pos == target)
+		if (p != nullptr)
 		{
-			if (patroldeck->isEmpty())
-			{
-				patroldeck->reset(6);
-				speed++;
-			}
+			pos = p->getCoord();
+			//DEBUG_MSG("Guard start pos " << pos << endl);
 			p = static_cast<PatrolCard*>(patroldeck->next());
 			target = p->getCoord();
-			FindPath(pos);
-				
+			//DEBUG_MSG("First guard target " << target << endl);
 		}
-		pos = path.front();
-		path.pop_front();
-		GuardCheck();
-		//DEBUG_MSG("Guard has moved to" << pos << endl);
-		
-		if (RemoveAlarm(pos))
+		else return false;
+	}
+	if (currsteps == 0) SetCurrSteps();
+		FindPath(pos);
+		if (!path.empty())
 		{
-			FindPath(pos);
+			pos = path.front();
+			path.pop_front();
+			GuardCheck();
+			//DEBUG_MSG("Guard has moved to" << pos << endl);
+			if (RemoveAlarm(pos))
+			{
+				FindPath(pos);
+			}
+			if (pos == target)
+			{
+				if (patroldeck->isEmpty())
+				{
+					patroldeck->reset(6);
+					this->speed++;
+				}
+				p = static_cast<PatrolCard*>(patroldeck->next());
+				target = p->getCoord();
+			}
+			currsteps--;
+			//DEBUG_MSG("Remaining steps " << currsteps);
+			notify();
 		}
-		currsteps--;
-		//DEBUG_MSG("Remaining steps " << currsteps);
-		notify();
 		if (currsteps == 0)
 		{
 			//DEBUG_MSG("Guard turn has ended\n");
@@ -221,3 +246,4 @@ unsigned Guard::closestTarget(vector<int> distances)
 	//DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
 	return destination;
 }
+

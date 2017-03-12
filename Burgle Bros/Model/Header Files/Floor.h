@@ -68,7 +68,6 @@ public:
 		Returns the number of the floor
 	*/
 	int number();
-
 	/**
 		Moves the guard of the floor
 	*/
@@ -105,7 +104,10 @@ public:
 		returns a vector with all the coordenates
 	*/
 	vector<Coord>& getAlarms();
-
+	/**
+	
+	*/
+	void Floor::checkAlarms();
 	/**
 		Adds an alarm to a tile
 	*/
