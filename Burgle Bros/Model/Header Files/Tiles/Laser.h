@@ -1,7 +1,7 @@
 #pragma once
 #include "Tile.h"
 #include "../PlayerInterface.h"
-
+#include "ComputerRoomL.h"
 /*
 It takes two actions to enter this tile. If you can't or you don't want to spend the extra action, an Alarm 
 goes off unless you us a Hack token from the Laser Computer Room
@@ -21,7 +21,7 @@ public:
 	Executes the tile's special actions, if any...
 	@param p player who is moving
 	*/
-	virtual void enterTile(PlayerInterface * player) override;
+	virtual void enter(PlayerInterface * player) override;
 
 	/**
 	Returns a vector of strings with the actions the player can do on the tile they are on
@@ -37,9 +37,9 @@ public:
 	virtual void doAction(string action, PlayerInterface * player) override;
 
 
-	void setComputerRoom(Tile * cRoom) { myComputerRoom = cRoom; };
+	void setComputerRoom(ComputerRoomL * c) { computerRoom = c; };
 
 private:
-	Tile * myComputerRoom;
+	ComputerRoomL * computerRoom;
 };
 

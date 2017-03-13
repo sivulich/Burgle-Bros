@@ -5,9 +5,11 @@ Keypad::~Keypad()
 {
 }
 
-bool Keypad::canMove(PlayerInterface * player) {
+bool Keypad::canMove(PlayerInterface * player)
+{
 	if (player->getActionTokens() >= 1)
 	{
+		// Player::move() ya le saca un action token, hay que sacar otro?
 		player->removeActionToken();
 		turnUp();
 		if (keyKnown == false)
@@ -27,7 +29,6 @@ bool Keypad::canMove(PlayerInterface * player) {
 		}
 	}
 
-	
 	return keyKnown;
 }
 
@@ -66,13 +67,13 @@ void Keypad::doAction(string action, Player p, Coord guardPos, Coord partnerPos)
 			if (p.throwDice() == 6)		// then you can enter the tile
 			{
 				keyKnown = true;
-				enterTile(p);
+				enter(p);
 			}
 		}
 		else		// if the tile is flipped up and you could MOVE, then you know the key
 		{
 			p.removeActionToken();
-			enterTile(p);
+			enter(p);
 		}	
 	}
 	else if (action == toString(THROW_DICE))

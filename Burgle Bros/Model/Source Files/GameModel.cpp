@@ -100,9 +100,11 @@ void GameModel::setBoard()
 {
 	board.setBoard();
 	board.setWalls();
+	board.parseBoard();
 }
 void GameModel::setBoard(vector<tileType> tiles)
 {
 	board.setBoard(tiles);
 	board.setWalls();
+	board.parseBoard();
 }

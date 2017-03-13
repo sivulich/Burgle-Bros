@@ -5,11 +5,7 @@ Guard::~Guard()
 }
 
 
-void Guard::setPlayers(PlayerInterface * p1, PlayerInterface * p2)
-{
-	player1 = p1;
-	player2 = p2; 
-}
+
 
 
 void Guard::setFloorMap(vector<Coord> floor[4][4])
@@ -21,25 +17,12 @@ void Guard::setFloorMap(vector<Coord> floor[4][4])
 	}
 }
 
-/**
-	
-*/
-void Guard::setDeck(PatrolCardDeck * patroldeck)
-{
-	PatrolCard * p;
-	this->patroldeck = patroldeck;
-	speed = 2 + patroldeck->floor();
-	pos = NPOS;
-	//Esto es temporal es para probar
-	//p=static_cast<PatrolCard*>(patroldeck->getDiscarded().back());
-	//this->pos = p->getCoord();
-};
+
 
 // guard checks if his current position 
 void Guard::GuardCheck()
 {
-	if (player1 != nullptr && player2 != nullptr)
-	{
+
 		for (auto &it : player1->getVisibleFrom())
 		{
 			if (it == pos)
@@ -56,15 +39,14 @@ void Guard::GuardCheck()
 				break;
 			}
 		}
-	}
 }
 
 void Guard::print()
 {
-	/*
+	
 	DEBUG_MSG("Current guard position: " << pos);
 	DEBUG_MSG("Steps to finish turn: " << currsteps);
-	DEBUG_MSG("Active patrol card: " << patroldeck->activeCard()->getDescription());
+	if(patroldeck->activeCard() != nullptr) DEBUG_MSG("Active patrol card: " << patroldeck->activeCard()->getDescription());
 	DEBUG_MSG("Current path:");
 	for (auto& a : path)
 	{
@@ -112,7 +94,7 @@ bool Guard::move()
 		{
 			if (patroldeck->isEmpty())
 			{
-				patroldeck->reset(6);
+				patroldeck->reset();
 				speed++;
 			}
 			p = static_cast<PatrolCard*>(patroldeck->next());
@@ -121,7 +103,7 @@ bool Guard::move()
 				
 		}
 		pos = path.front();
-		path.pop_front();
+		path.pop_front();// Para que el pop si siempre que se llama a move se genera de nuevo el camino?
 		GuardCheck();
 		//DEBUG_MSG("Guard has moved to" << pos << endl);
 		
@@ -142,7 +124,6 @@ bool Guard::move()
 
 
 bool Guard::FindPath(Coord const coord)
-
 {
 	path.clear();
 	if ((coord.col) < 4 && (coord.row < 4))
@@ -176,7 +157,7 @@ bool Guard::FindPath(Coord const coord)
 		//DEBUG_MSG("Path is:" << endl);
 		for (auto& a : path)
 			//DEBUG_MSG(a <<" ");
-		cout << endl;*/
+		cout << endl;
 		return true;
 	}
 	return false;
