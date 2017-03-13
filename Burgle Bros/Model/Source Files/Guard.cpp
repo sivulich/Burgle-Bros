@@ -29,17 +29,7 @@ void Guard::setDeck(PatrolCardDeck * patroldeck)
 	PatrolCard * p;
 	this->patroldeck = patroldeck;
 	speed = 2 + patroldeck->floor();
-	if (patroldeck->floor() == 0)
-	{
-		p = static_cast<PatrolCard*>(patroldeck->next());
-		this->pos = p->getCoord();
-		p= static_cast<PatrolCard*>(patroldeck->next());
-		this->target = p->getCoord();
-	}
-	else
-	{
-		pos = NPOS;
-	}
+	pos = NPOS;
 	//Esto es temporal es para probar
 	//p=static_cast<PatrolCard*>(patroldeck->getDiscarded().back());
 	//this->pos = p->getCoord();
@@ -80,14 +70,17 @@ void Guard::print()
 	{
 		DEBUG_MSG(a);
 	}
+	
 	DEBUG_MSG("\n");
+	*/
 }
 
 bool Guard::RemoveAlarm(Coord coord)
 {
 	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
-		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
+		//alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
+		std::remove(alarms->begin(), alarms->end(), coord);
 		//DEBUG_MSG("alarm removed from tile "<< coord << endl);
 		notify();
 		return true;
@@ -109,13 +102,13 @@ bool Guard::move()
 		//DEBUG_MSG("Current steps " << currsteps<< endl);
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		pos = p->getCoord();
-		//DEBUG_MSG("Guard start pos " << pos << endl);
-		p = static_cast<PatrolCard*>(patroldeck->next());
-		target = p->getCoord();
+		target = pos;
+		notify();
+		return true;
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
-		FindPath(pos);
-		if (path.empty() || pos == target)
+	FindPath(pos);
+	if (path.empty() || pos == target)
 		{
 			if (patroldeck->isEmpty())
 			{
@@ -179,11 +172,11 @@ bool Guard::FindPath(Coord const coord)
 			DEBUG_MSG(a << endl);
 		DEBUG_MSG("Room connections from start pos:" << endl);
 		for (auto & a : parent)
-			DEBUG_MSG(a << endl);*/
+			DEBUG_MSG(a << endl);
 		//DEBUG_MSG("Path is:" << endl);
 		for (auto& a : path)
 			//DEBUG_MSG(a <<" ");
-		cout << endl;
+		cout << endl;*/
 		return true;
 	}
 	return false;

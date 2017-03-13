@@ -10,7 +10,7 @@ class FloorObserver :public Observer {
 public:
 	FloorObserver(Floor* f,Container* p);
 	void update();
-	Container* getFloorGrid() { return floorGrid; };
+	Container* getFloorGrid() { return secondGrid; };
 	TileObserver** operator[](size_t i) { return tiles[i]; };
 private:
 	GuardDeckObserver* deck;
@@ -18,5 +18,6 @@ private:
 	TileObserver* tiles[4][4];
 	Container* parent;
 	Container* floorGrid;
+	Container* secondGrid;
 	Floor* floor;
 };

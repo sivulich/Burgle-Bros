@@ -88,6 +88,9 @@ public:
 	Coord getPos() { return pos; };
 
 	void setPos(Coord coord) { pos = coord; };
+
+	unsigned getSpeed() { return speed; };
+	Coord getTarget() { return target; };
 private:
 	unsigned speed, currsteps;
 	Coord pos;

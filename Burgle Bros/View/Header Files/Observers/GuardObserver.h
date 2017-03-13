@@ -14,5 +14,7 @@ public:
 private:
 	Container* parent;
 	Image* guardIm;
+	vector<Image*> dices;
+	unsigned lastSpeed;
 	Guard* guard;
 };

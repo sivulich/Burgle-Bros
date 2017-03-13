@@ -247,6 +247,12 @@
     <Image Include="Images\Characters\The Rigger.png" />
     <Image Include="Images\Characters\The Rook.png" />
     <Image Include="Images\Characters\The Spotter.png" />
+    <Image Include="Images\Dices\White 1.png" />
+    <Image Include="Images\Dices\White 2.png" />
+    <Image Include="Images\Dices\White 3.png" />
+    <Image Include="Images\Dices\White 4.png" />
+    <Image Include="Images\Dices\White 5.png" />
+    <Image Include="Images\Dices\White 6.png" />
     <Image Include="Images\Loot\Loot - Bust.png" />
     <Image Include="Images\Loot\Loot - Chihuahua.png" />
     <Image Include="Images\Loot\Loot - Cursed Goblet.png" />
