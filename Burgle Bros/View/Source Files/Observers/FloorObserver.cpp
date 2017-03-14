@@ -32,6 +32,5 @@ void
 FloorObserver::update()
 {
 	deck->update();
-	//guard->reset();
-	//guard->update();
+
 }

@@ -90,7 +90,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 			{
 				std::cout << "Mooving" << typeid(FSM).name() << std::endl;
-				fsm.model->currentPlayer()->move(source.c);
+//				fsm.model->currentPlayer()->move(source.c);
 			}
 		};
 
@@ -225,7 +225,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 
 		struct chooseTile : public msm::front::state<>
 		{
-			Coord c;
+//			Coord c;
 			template <class EVT, class FSM>
 			void on_entry(EVT const&  event, FSM& fsm)
 			{
@@ -235,7 +235,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			template <class EVT, class FSM>
 			void on_exit(EVT const&  event, FSM& fsm)
 			{
-				c = event.c;
+//				c = event.c;
 			}
 
 

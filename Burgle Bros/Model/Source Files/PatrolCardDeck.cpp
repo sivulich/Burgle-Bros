@@ -5,11 +5,12 @@
 void PatrolCardDeck::createDeck()
 {
 	for (auto& it : deck)
-		delete it;
+		if(it!=nullptr)
+			delete it;
 
 	for (auto& it : discarded)
-		delete it;
-
+		if (it != nullptr)
+			delete it;
 	deck.clear();
 	discarded.clear();
 	for (unsigned i = 0; i < 4; i++)
@@ -23,14 +24,15 @@ void PatrolCardDeck::createDeck()
 		delete deck.back();
 		deck.pop_back();
 	}
-	
+	notify();
 }
 
 PatrolCardDeck::~PatrolCardDeck()
 {
 	merge();
 	for (auto &it : deck)
-		delete it;
+		if(it!=nullptr)
+			delete it;
 }
 
 void PatrolCardDeck::reset()

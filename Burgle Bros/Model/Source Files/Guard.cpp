@@ -54,7 +54,7 @@ void Guard::print()
 	}
 	
 	DEBUG_MSG("\n");
-	*/
+	
 }
 
 bool Guard::RemoveAlarm(Coord coord)
@@ -95,7 +95,8 @@ bool Guard::move()
 			if (patroldeck->isEmpty())
 			{
 				patroldeck->reset();
-				speed++;
+				if(speed<6)
+					speed++;
 			}
 			p = static_cast<PatrolCard*>(patroldeck->next());
 			target = p->getCoord();
@@ -157,7 +158,7 @@ bool Guard::FindPath(Coord const coord)
 		//DEBUG_MSG("Path is:" << endl);
 		for (auto& a : path)
 			//DEBUG_MSG(a <<" ");
-		cout << endl;
+		cout << endl;*/
 		return true;
 	}
 	return false;

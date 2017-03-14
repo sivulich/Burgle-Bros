@@ -27,7 +27,8 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 		}
 	}
 	deckO = new GuardCardObserver(deckView, deck->getDeck().back());
-	graveO = new GuardCardObserver(deckView, deck->getDiscarded().back());
+	graveO = new GuardCardObserver(deckView, deck->getDeck().back());
+	graveO->setOn(false);
 	deckO->setPos(0, 0);
 	graveO->setPos(0, deckView->getWidth()/4 );
 	deck->attach(this);
