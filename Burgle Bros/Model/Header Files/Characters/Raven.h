@@ -6,5 +6,7 @@ class Raven :
 public:
 	Raven() : Character(RAVEN) {};
 	~Raven();
+	virtual string getAction(PlayerInterface * player)override;
+private:
 };
 

@@ -66,6 +66,7 @@ void Floor::print()
 		else cout << "__________________ __________________ __________________ __________________|" << endl;
 	}
 	cout << endl;
+	
 }
 
 
@@ -98,6 +99,7 @@ bool Floor::moveGuard()
 {
 	// Update the list of alarms in the floor
 	getAlarms();
+	guard.locateGuard();
 	bool ret = guard.move();
 	tiles[guard.getPos().col][guard.getPos().row]->setAlarm(false);
 	return ret;
