@@ -47,8 +47,6 @@ GuardCardObserver::update()
 {
 	if (on == false)
 	{
-		parent->removeObject(front);
-		parent->removeObject(back);
 		return;
 	}
 	else if (card->isFlipped() == true && parent->contains(front)==false)
@@ -76,9 +74,9 @@ GuardCardObserver::setCard(BaseCard* card)
 	front = new Image(string("./Images/Patrol/PC ") + card->getDescription() + ".png");
 	front->setPosition(y, x);
 	front->setScale(0.9* double(parent->getHeight()) / double(front->getHeight()));	
-	if (card->isFlipped() == true)
+	if (on != false && card->isFlipped() == true)
 		parent->addObject(front);
-	else
+	else if(on != false)
 		parent->addObject(back);
 	this->card = card;
 }

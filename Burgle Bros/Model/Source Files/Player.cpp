@@ -181,7 +181,7 @@ void Player::updateActions()
 	if(currentTile->hasLoot())
 		possibleActions.push_back("PICK_UP_LOOT");
 
-	if (otherPlayer->getPosition() == getPosition())
+	if (otherPlayer!= nullptr && otherPlayer->getPosition() == getPosition())
 	{
 		if (hasLoot())
 			possibleActions.push_back("OFFER_LOOT");

@@ -26,6 +26,7 @@ Container::Container(string& path)
 	offsetX = offsetY = 0;
 	bScale = 1;
 	onlyClickMe = false;
+	dontClickMe = false;
 }
 Container::Container(int h, int w)
 {
@@ -116,7 +117,10 @@ Container::click(int y, int x)
 			}
 		}
 		clicked = true;
-		return name;
+		if (dontClickMe == false)
+			return name;
+		else
+			return "";
 	}
 	return "";
 }
@@ -146,7 +150,7 @@ Container::overYou(int y, int x)
 	for (auto& ob : objects)
 		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
 			return true;
-	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	if (hoverable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
 	{
 		return true;
 	}

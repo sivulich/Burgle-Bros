@@ -90,6 +90,7 @@
     <Object Include="..\Model\Debug\Tile.obj" />
     <Object Include="..\Model\Debug\TileFactory.obj" />
     <Object Include="..\Model\Debug\Walkway.obj" />
+    <Object Include="..\View\Debug\ActionObserver.obj" />
     <Object Include="..\View\Debug\Allegro.obj" />
     <Object Include="..\View\Debug\BoardObserver.obj" />
     <Object Include="..\View\Debug\Button.obj" />
@@ -98,7 +99,9 @@
     <Object Include="..\View\Debug\FloorObserver.obj" />
     <Object Include="..\View\Debug\GuardCardObserver.obj" />
     <Object Include="..\View\Debug\GuardDeckObserver.obj" />
+    <Object Include="..\View\Debug\GuardObserver.obj" />
     <Object Include="..\View\Debug\Image.obj" />
+    <Object Include="..\View\Debug\LocalPlayerObserver.obj" />
     <Object Include="..\View\Debug\MoveAnimation.obj" />
     <Object Include="..\View\Debug\object.obj" />
     <Object Include="..\View\Debug\ObjectInterface.obj" />

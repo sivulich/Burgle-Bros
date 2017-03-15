@@ -143,6 +143,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Header Files\Observers\GameObserver.h" />
     <ClCompile Include="Source Files\Allegro.cpp" />
     <ClCompile Include="Source Files\Button.cpp" />
     <ClCompile Include="Source Files\Container.cpp" />
@@ -155,6 +156,7 @@
     <ClCompile Include="Source Files\Observers\ActionObserver.cpp" />
     <ClCompile Include="Source Files\Observers\BoardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\FloorObserver.cpp" />
+    <ClCompile Include="Source Files\Observers\GameObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardObserver.cpp" />
@@ -247,6 +249,12 @@
     <Image Include="Images\Characters\The Rigger.png" />
     <Image Include="Images\Characters\The Rook.png" />
     <Image Include="Images\Characters\The Spotter.png" />
+    <Image Include="Images\Dices\White 1.png" />
+    <Image Include="Images\Dices\White 2.png" />
+    <Image Include="Images\Dices\White 3.png" />
+    <Image Include="Images\Dices\White 4.png" />
+    <Image Include="Images\Dices\White 5.png" />
+    <Image Include="Images\Dices\White 6.png" />
     <Image Include="Images\Loot\Loot - Bust.png" />
     <Image Include="Images\Loot\Loot - Chihuahua.png" />
     <Image Include="Images\Loot\Loot - Cursed Goblet.png" />

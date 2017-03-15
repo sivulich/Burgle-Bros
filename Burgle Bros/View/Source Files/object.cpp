@@ -12,6 +12,7 @@ Object::Object()
 	clicked = false;
 	hover = false;
 	initOk = false;
+	
 	animation = nullptr;
 	scale=scaleY=scaleX = 1;
 	h = 0;

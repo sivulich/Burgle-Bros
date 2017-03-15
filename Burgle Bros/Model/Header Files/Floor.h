@@ -15,9 +15,7 @@ public:
 	Floor(int n, PlayerInterface * p1, PlayerInterface * p2) :tiles(4,vector<Tile *>(4,nullptr)), guardDeck(n), guard(n,&guardDeck,p1,p2)
 	{
 		floorNumber = n;
-		alarms.clear();
-		guard.setAlarms(&(this->alarms));
-
+		guard.setAlarms(&alarms);
 	};
 	/*
 	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
@@ -69,6 +67,7 @@ public:
 		Returns the number of the floor
 	*/
 	int number();
+
 	/**
 		Moves the guard of the floor
 	*/
@@ -105,10 +104,7 @@ public:
 		returns a vector with all the coordenates
 	*/
 	vector<Coord>& getAlarms();
-	/**
-	
-	*/
-	void Floor::checkAlarms();
+
 	/**
 		Adds an alarm to a tile
 	*/

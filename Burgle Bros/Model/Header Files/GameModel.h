@@ -67,8 +67,10 @@ public:
 	*/
 	Player * otherPlayer() { return otherPlayer_; };
 
-	Board& getBoard() { return board; };
 
+	Board& getBoard() { return board; };
+	Player* getPlayer1() { return &player1; };
+	Player* getPlayer2() { return &player2; };
 
 private:	
 	Player* currentPlayer_;
