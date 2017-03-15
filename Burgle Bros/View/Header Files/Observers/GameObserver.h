@@ -1,10 +1,13 @@
+#pragma once
 #include "../Screen.h"
 #include "../Container.h"
 #include "../Model/Header Files/GameModel.h"
 #include "Observer.h"
 #include "BoardObserver.h"
 #include "LocalPlayerObserver.h"
+#include "RemotePlayerObserver.h"
 #include "../Controller/Header Files/localControler.h"
+
 class GameObserver :public Observer {
 public:
 	GameObserver(GameModel* g,int sHeight);
@@ -19,5 +22,6 @@ private:
 	localControler* in;
 	BoardObserver* board;
 	LocalPlayerObserver * pl;
+	RemotePlayerObserver* pl2;
 };
 

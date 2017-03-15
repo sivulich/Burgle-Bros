@@ -29,6 +29,9 @@ int main(void)
 		game.getPlayer1()->setPosition(game.getBoard()[0][0][0]);
 		game.getPlayer1()->setCharacter(JUICER);
 		game.getPlayer1()->setActionTokens(100000);
+		game.getPlayer2()->setPosition(game.getBoard()[1][0][0]);
+		game.getPlayer2()->setCharacter(HAWK);
+		game.getPlayer2()->setActionTokens(100000);
 		GameObserver view(&game, 720);
 		
 		string in;

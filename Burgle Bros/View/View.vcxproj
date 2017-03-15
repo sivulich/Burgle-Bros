@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header Files\Observers\GameObserver.h" />
+    <ClCompile Include="Header Files\Observers\RemotePlayerObserver.h" />
     <ClCompile Include="Source Files\Allegro.cpp" />
     <ClCompile Include="Source Files\Button.cpp" />
     <ClCompile Include="Source Files\Container.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Source Files\Observers\GuardDeckObserver.cpp" />
     <ClCompile Include="Source Files\Observers\GuardObserver.cpp" />
     <ClCompile Include="Source Files\Observers\LocalPlayerObserver.cpp" />
+    <ClCompile Include="Source Files\Observers\RemotePlayerObserver.cpp" />
     <ClCompile Include="Source Files\Observers\TileObserver.cpp" />
     <ClCompile Include="Source Files\Screen.cpp" />
     <ClCompile Include="Source Files\Textbox.cpp" />

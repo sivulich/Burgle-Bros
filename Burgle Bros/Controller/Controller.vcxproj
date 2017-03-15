@@ -97,6 +97,7 @@
     <Object Include="..\View\Debug\Container.obj" />
     <Object Include="..\View\Debug\FlipAnimation.obj" />
     <Object Include="..\View\Debug\FloorObserver.obj" />
+    <Object Include="..\View\Debug\GameObserver.obj" />
     <Object Include="..\View\Debug\GuardCardObserver.obj" />
     <Object Include="..\View\Debug\GuardDeckObserver.obj" />
     <Object Include="..\View\Debug\GuardObserver.obj" />
@@ -106,6 +107,7 @@
     <Object Include="..\View\Debug\object.obj" />
     <Object Include="..\View\Debug\ObjectInterface.obj" />
     <Object Include="..\View\Debug\PlayerObserver.obj" />
+    <Object Include="..\View\Debug\RemotePlayerObserver.obj" />
     <Object Include="..\View\Debug\Screen.obj" />
     <Object Include="..\View\Debug\Textbox.obj" />
     <Object Include="..\View\Debug\TileObserver.obj" />
