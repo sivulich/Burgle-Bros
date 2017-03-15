@@ -87,6 +87,7 @@ void Guard::locateGuard()
 		//DEBUG_MSG("Guard start pos " << pos << endl);
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		target = p->getCoord();
+		notify();
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
 }

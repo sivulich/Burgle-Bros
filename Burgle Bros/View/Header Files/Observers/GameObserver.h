@@ -1,10 +1,10 @@
 #include "../Screen.h"
 #include "../Container.h"
-#include "../Model/Header Files/GameModel.h"
+#include "../../../Model/Header Files/GameModel.h"
 #include "Observer.h"
 #include "BoardObserver.h"
 #include "LocalPlayerObserver.h"
-#include "../Controller/Header Files/localControler.h"
+#include "../../../Controller/Header Files/localControler.h"
 class GameObserver :public Observer {
 public:
 	GameObserver(GameModel* g,int sHeight);
