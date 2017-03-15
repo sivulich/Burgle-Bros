@@ -18,8 +18,10 @@ int main()
 	model.otherPlayer()->setPosition(Coord(0, 0, 0));
 	model.otherPlayer()->setName(string("Gabriela"));
 	model.otherPlayer()->setCharacter(PETERMAN);
-
-	
+	model.getBoard()[0].addAlarm(Coord(0, 2, 2));
+	model.getBoard()[0].addAlarm(Coord(0, 1, 1));
+	model.getBoard()[0].addAlarm(Coord(0, 2, 1));
+	model.print();
 	controller.startGame();
 
 	return 0;

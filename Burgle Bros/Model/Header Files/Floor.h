@@ -15,6 +15,8 @@ public:
 	Floor(int n, PlayerInterface * p1, PlayerInterface * p2) :tiles(4,vector<Tile *>(4,nullptr)), guardDeck(n), guard(n,&guardDeck,p1,p2)
 	{
 		floorNumber = n;
+		alarms.clear();
+		guard.setAlarms(&(this->alarms));
 
 	};
 	/*

@@ -67,7 +67,7 @@ public:
 	*/
 	Player * otherPlayer() { return otherPlayer_; };
 
-
+	Board& getBoard() { return board; };
 
 
 private:	
