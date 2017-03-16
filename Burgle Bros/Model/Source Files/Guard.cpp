@@ -170,7 +170,7 @@ bool Guard::FindPath(Coord const coord)
 		for (auto & a : parent)
 			DEBUG_MSG(a << endl);*/
 		//DEBUG_MSG("Path is:" << endl);
-		for (auto& a : path)
+		//for (auto& a : path)
 			//DEBUG_MSG(a <<" ");
 		//cout << endl;
 		return true;
@@ -196,17 +196,20 @@ bool Guard::shortestPath(unsigned const start, unsigned const end, vector<int> p
 unsigned Guard::closestTarget(vector<int> distances)
 {
 
-	unsigned shortDist = distances[toIndex(target)];
-	unsigned destination = toIndex(target);
-	for (auto& al: *alarms)
+	unsigned shortDist = INT_MAX;
+	unsigned destination = INT_MAX;
+	if(alarms->empty()==false)
 	{
-		if (distances[toIndex(al)] < shortDist)
+		for (auto& al : *alarms)
 		{
-			shortDist = distances[toIndex(al)];
-			destination = toIndex(al);
-
-		}//faltaria chequear lo de las izquierdas
+			if (distances[toIndex(al)] < shortDist)
+			{
+				shortDist = distances[toIndex(al)];
+				destination = toIndex(al);
+			}
+		}
 	}
+	else destination = toIndex(target);//faltaria chequear lo de las izquierdas
 	//DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
 	return destination;
 }
