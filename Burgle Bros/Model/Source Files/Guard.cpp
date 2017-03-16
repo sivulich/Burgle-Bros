@@ -93,6 +93,7 @@ void Guard::locateGuard()
 }
 bool Guard::move()
 {
+	locateGuard();
 	PatrolCard * p;
 	FindPath(pos);
 	if (!path.empty())

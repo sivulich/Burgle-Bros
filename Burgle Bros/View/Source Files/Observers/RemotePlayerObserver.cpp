@@ -1,6 +1,10 @@
 #include "../../Header Files/Observers/RemotePlayerObserver.h"
 
-static map<characterType, string> images= {	{ ACROBAT,string("../View/Images/Characters/The Acrobat.png")},
+
+
+RemotePlayerObserver::RemotePlayerObserver(Player* p, BoardObserver* bo, Container* pa)
+{
+	map<characterType, string> images= {	{ ACROBAT,string("../View/Images/Characters/The Acrobat.png")},
 										{ HACKER,string("../View/Images/Characters/The Hacker.png") },
 										{ HAWK,string("../View/Images/Characters/The Hawk.png") },
 										{ JUICER,string("../View/Images/Characters/The Juicer.png") },
@@ -8,17 +12,13 @@ static map<characterType, string> images= {	{ ACROBAT,string("../View/Images/Cha
 										{ RAVEN,string("../View/Images/Characters/The Raven.png") },
 										{ SPOTTER,string("../View/Images/Characters/The Spotter.png") } };
 
-static map<characterType,string> figures= {	{ ACROBAT,string("../View/Images/Figures/The Acrobat.png")},
+	map<characterType,string> figures= {	{ ACROBAT,string("../View/Images/Figures/The Acrobat.png")},
 										{ HACKER,string("../View/Images/Figures/The Hacker.png") },
 										{ HAWK,string("../View/Images/Figures/The Hawk.png") },
 										{ JUICER,string("../View/Images/Figures/The Juicer.png") },
 										{ PETERMAN,string("../View/Images/Figures/The Peterman.png") },
 										{ RAVEN,string("../View/Images/Figures/The Raven.png") },
 										{ SPOTTER,string("../View/Images/Figures/The Spotter.png") } };
-
-
-RemotePlayerObserver::RemotePlayerObserver(Player* p, BoardObserver* bo, Container* pa)
-{
 	board = bo;
 	player = p;
 	parent = pa;

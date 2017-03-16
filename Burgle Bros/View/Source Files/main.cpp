@@ -49,8 +49,7 @@ int main(void)
 				{
 					//board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
 					game.getPlayer1()->move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
-					game.getBoard()[in[3] - '0'].getGuard()->move();
-					game.getBoard()[in[3] - '0'].getGuard()->print();
+					game.getBoard()[in[3] - '0'].moveGuard();
 				}
 				else if (in.substr(0, 5) == "PC RF")
 				{
@@ -59,7 +58,7 @@ int main(void)
 					
 				
 			}
-			if (c < time.getCount()&& view.empty()==true )
+			if (c < time.getCount()&& view.isEmpty()==true )
 			{
 				c = time.getCount();
 				view.update();

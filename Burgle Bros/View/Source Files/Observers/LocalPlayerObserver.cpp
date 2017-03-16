@@ -1,7 +1,9 @@
 #include "../../Header Files/Observers/LocalPlayerObserver.h"
 
 
-static map<characterType, string> images= {	{ ACROBAT,string("../View/Images/Characters/The Acrobat.png")},
+LocalPlayerObserver::LocalPlayerObserver(Player* p, BoardObserver* bo, Container* pa)
+{
+	map<characterType, string> images= {	{ ACROBAT,string("../View/Images/Characters/The Acrobat.png")},
 										{ HACKER,string("../View/Images/Characters/The Hacker.png") },
 										{ HAWK,string("../View/Images/Characters/The Hawk.png") },
 										{ JUICER,string("../View/Images/Characters/The Juicer.png") },
@@ -9,23 +11,18 @@ static map<characterType, string> images= {	{ ACROBAT,string("../View/Images/Cha
 										{ RAVEN,string("../View/Images/Characters/The Raven.png") },
 										{ SPOTTER,string("../View/Images/Characters/The Spotter.png") } };
 
-static map<characterType,string> figures= {	{ ACROBAT,string("../View/Images/Figures/The Acrobat.png")},
+	map<characterType,string> figures= {	{ ACROBAT,string("../View/Images/Figures/The Acrobat.png")},
 										{ HACKER,string("../View/Images/Figures/The Hacker.png") },
 										{ HAWK,string("../View/Images/Figures/The Hawk.png") },
 										{ JUICER,string("../View/Images/Figures/The Juicer.png") },
 										{ PETERMAN,string("../View/Images/Figures/The Peterman.png") },
 										{ RAVEN,string("../View/Images/Figures/The Raven.png") },
 										{ SPOTTER,string("../View/Images/Figures/The Spotter.png") } };
-
-LocalPlayerObserver::LocalPlayerObserver(Player* p, BoardObserver* bo, Container* pa)
-{
 	board = bo;
 	player = p;
 	parent = pa;
 	hud = new Container(string("../View/Images/hudTest.png"));
 	hud->setScale(double(pa->getWidth()) / hud->getWidth());
-	//hud = new Container(pa->getHeight() *9.0 / 30.0, pa->getWidth());
-	//hud->setPosition(pa->getHeight() *21.0 / 30.0, 0);
 	hud->setPosition(pa->getHeight() - hud->getScale()*hud->getHeight(), 0);
 	playerCard = new Image(images[p->getCharacterType()]);
 	playerCard->setPosition(100,30);

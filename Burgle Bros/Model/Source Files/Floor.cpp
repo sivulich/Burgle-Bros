@@ -99,7 +99,7 @@ bool Floor::moveGuard()
 {
 	// Update the list of alarms in the floor
 	getAlarms();
-	guard.locateGuard();
+	
 	bool ret = guard.move();
 	tiles[guard.getPos().col][guard.getPos().row]->setAlarm(false);
 	return ret;
