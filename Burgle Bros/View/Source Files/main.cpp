@@ -27,12 +27,12 @@ int main(void)
 		GameModel game;
 		game.setBoard();
 		game.getPlayer1()->setPosition(game.getBoard()[0][0][0]);
-		game.getPlayer1()->setCharacter(JUICER);
+		game.getPlayer1()->setCharacter(HACKER);
 		game.getPlayer1()->setActionTokens(100000);
 		game.getPlayer2()->setPosition(game.getBoard()[1][0][0]);
-		game.getPlayer2()->setCharacter(HAWK);
+		game.getPlayer2()->setCharacter(RAVEN);
 		game.getPlayer2()->setActionTokens(100000);
-		GameObserver view(&game, 720);
+		GameObserver view(&game, int(720));
 		
 		string in;
 		Timer time(1.0 / 30.0);

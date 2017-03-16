@@ -8,8 +8,9 @@ GameObserver::GameObserver(GameModel* g, int sHeight)
 	cont= new Container(sHeight, sHeight * 1280.0 / 720.0);
 	board= new BoardObserver(&game->getBoard(), cont);
 	
-	pl=new LocalPlayerObserver(game->getPlayer1(), board, cont);
+	pl = new LocalPlayerObserver(game->getPlayer1(), board, cont);
 	pl2 = new RemotePlayerObserver(game->getPlayer2(), board, cont);
+	
 	screen->addObject(cont);
 	cont->setPosition(0, 0);
 	game->attach(this);

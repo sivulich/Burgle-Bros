@@ -19,6 +19,7 @@ RemotePlayerObserver::RemotePlayerObserver(Player* p, BoardObserver* bo, Contain
 										{ PETERMAN,string("../View/Images/Figures/The Peterman.png") },
 										{ RAVEN,string("../View/Images/Figures/The Raven.png") },
 										{ SPOTTER,string("../View/Images/Figures/The Spotter.png") } };
+
 	board = bo;
 	player = p;
 	parent = pa;

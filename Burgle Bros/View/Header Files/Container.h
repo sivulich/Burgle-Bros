@@ -85,7 +85,7 @@ public:
 	/*Clear the object list*/
 	void clear() { objects.clear(); };
 
-	void setOnlyChildClickable(bool b) { onlyClickMe = b; };
+	void setOnlyChildClickable(bool b) { dontClickMe = b; };
 
 	~Container() { delete toDraw; };
 private:
