@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Model/Header Files/Guard.h"
+#include "../../../Model/Header Files/Guard.h"
 #include "Observer.h"
 #include "../Container.h"
 #include "../Image.h"
@@ -14,5 +14,7 @@ public:
 private:
 	Container* parent;
 	Image* guardIm;
+	vector<Image*> dices;
+	unsigned lastSpeed;
 	Guard* guard;
 };

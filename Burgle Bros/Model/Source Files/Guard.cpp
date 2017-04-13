@@ -55,7 +55,7 @@ void Guard::print()
 	DEBUG_MSG("\n");
 }
 
-bool Guard::RemoveAlarm(Coord coord)
+/*bool Guard::RemoveAlarm(Coord coord)
 {
 	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
 	{
@@ -70,55 +70,73 @@ bool Guard::RemoveAlarm(Coord coord)
 		notify();
 		return false;
 	}
-}
+}*/
 
-bool Guard::move()
+void Guard::locateGuard()
 {
 	PatrolCard * p;
-	if (pos == NPOS)
+	if (currsteps == 0)
 	{
 		SetCurrSteps();
 		//DEBUG_MSG("Current steps " << currsteps<< endl);
+	}
+	if (pos == NPOS)
+	{
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		pos = p->getCoord();
 		//DEBUG_MSG("Guard start pos " << pos << endl);
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		target = p->getCoord();
+		notify();
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
-		FindPath(pos);
-		if (path.empty() || pos == target)
-		{
-			if (patroldeck->isEmpty())
-			{
-				patroldeck->reset();
-				speed++;
-			}
-			p = static_cast<PatrolCard*>(patroldeck->next());
-			target = p->getCoord();
-			FindPath(pos);
-				
-		}
-		pos = path.front();
-		path.pop_front();// Para que el pop si siempre que se llama a move se genera de nuevo el camino?
-		GuardCheck();
-		//DEBUG_MSG("Guard has moved to" << pos << endl);
-		
-		if (RemoveAlarm(pos))
-		{
-			FindPath(pos);
-		}
-		currsteps--;
-		//DEBUG_MSG("Remaining steps " << currsteps);
-		notify();
-		if (currsteps == 0)
-		{
-			//DEBUG_MSG("Guard turn has ended\n");
-			return false;
-		}
-		else return true;
 }
-
+bool Guard::move()
+{
+	locateGuard();
+	PatrolCard * p;
+	FindPath(pos);
+	if (!path.empty())
+	{
+		pos = path.front();
+		//DEBUG_MSG("Guard has moved to" << pos << endl);
+		if (currsteps > 0)
+			currsteps--;
+		//DEBUG_MSG("Remaining steps " << currsteps);
+	}
+	if (pos == target)
+	{
+		if (patroldeck->isEmpty())
+		{
+			patroldeck->reset();
+			speed++;
+		}
+		p = static_cast<PatrolCard*>(patroldeck->next());
+		target = p->getCoord();
+	}
+	removeAlarm(pos);
+	notify();
+	if (currsteps == 0)
+	{
+		//DEBUG_MSG("Guard turn has ended\n");
+		return false;
+	}
+	else return true;
+}
+bool Guard::removeAlarm(Coord c)
+{
+	if (find(alarms->begin(), alarms->end(), c) != alarms->end())
+	{
+		alarms->erase(std::remove(alarms->begin(), alarms->end(), c), alarms->end());
+		//DEBUG_MSG("alarm removed from tile " << c << endl);
+		return true;
+	}
+	else
+	{
+		//DEBUG_MSG("there was no alarm in tile " << c << endl);
+		return false;
+	}
+}
 
 bool Guard::FindPath(Coord const coord)
 {

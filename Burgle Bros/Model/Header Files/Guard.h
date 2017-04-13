@@ -40,7 +40,7 @@ public:
 	@addparams coordinate of alarm to turn off
 	@return boolean value, true if alarm was succesfully turned off, else false is returned
 	*/
-	bool RemoveAlarm(Coord coord);
+	bool removeAlarm(Coord coord);
 
 	/**
 	moves the guard one position, if the guard steps on the current target a new one is added (if the patrol deck has to be reseted guard base speed increases)
@@ -71,18 +71,38 @@ public:
 		if (currsteps > 0) { currsteps--; return true; }
 		else return false; 
 	};
-
+	/**
+	
+	*/
+	void locateGuard();
 	/**
 
 	*/
 	bool FindPath(Coord const coord);
-
+	/**
+	
+	*/
 	Coord getPos() { return pos; };
-
+	/**
+	
+	*/
 	void setPos(Coord coord) { pos = coord; };
+	/**
+	
+	*/
+	unsigned getSpeed() { return speed; };
+	/**
+	
+	*/
+	Coord getTarget() { return target; };
+	/**
+	
+	*/
+	void isMyTurn(bool b) { myturn = b;};
 private:
 	unsigned speed, currsteps,floorNumber;
 	Coord pos;
+	bool myturn;
 	vector<Coord> * alarms;
 	Coord target;
 	list<Coord> path;
@@ -94,7 +114,7 @@ private:
 	/**
 
 	*/
-	Coord toCoord(unsigned index) { return Coord(1, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
+	Coord toCoord(unsigned index) { return Coord(floorNumber, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
 
 	/**
 

@@ -1,9 +1,9 @@
 #pragma once
 #include "Observer.h"
-#include "../Model/Header Files/Player.h"
+#include "../../../Model/Header Files/Player.h"
 #include "BoardObserver.h"
 #include "../Container.h"
-#include "../Model/Header Files/Configs.h"
+#include "../../../Model/Header Files/Configs.h"
 #include "../MoveAnimation.h"
 #include "ActionObserver.h"
 

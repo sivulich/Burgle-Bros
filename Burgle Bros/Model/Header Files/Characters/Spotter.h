@@ -6,5 +6,7 @@ class Spotter :
 public:
 	Spotter() : Character(SPOTTER) {};
 	~Spotter();
+	virtual string getAction(PlayerInterface * player)override;
+private:
 };
 

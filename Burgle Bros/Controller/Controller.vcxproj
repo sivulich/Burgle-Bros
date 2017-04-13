@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameFSM.cpp" />
-    <ClCompile Include="Source Files\localControler.cpp" />
     <ClCompile Include="Source Files\main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -28,7 +27,6 @@
     <ClInclude Include="EventsFSM.h" />
     <ClInclude Include="GameFSM.h" />
     <ClInclude Include="Header Files\controller.h" />
-    <ClInclude Include="Header Files\localControler.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\View\Debug\vc140.idb" />
@@ -90,19 +88,24 @@
     <Object Include="..\Model\Debug\Tile.obj" />
     <Object Include="..\Model\Debug\TileFactory.obj" />
     <Object Include="..\Model\Debug\Walkway.obj" />
+    <Object Include="..\View\Debug\ActionObserver.obj" />
     <Object Include="..\View\Debug\Allegro.obj" />
     <Object Include="..\View\Debug\BoardObserver.obj" />
     <Object Include="..\View\Debug\Button.obj" />
     <Object Include="..\View\Debug\Container.obj" />
     <Object Include="..\View\Debug\FlipAnimation.obj" />
     <Object Include="..\View\Debug\FloorObserver.obj" />
+    <Object Include="..\View\Debug\GameObserver.obj" />
     <Object Include="..\View\Debug\GuardCardObserver.obj" />
     <Object Include="..\View\Debug\GuardDeckObserver.obj" />
+    <Object Include="..\View\Debug\GuardObserver.obj" />
     <Object Include="..\View\Debug\Image.obj" />
+    <Object Include="..\View\Debug\LocalPlayerObserver.obj" />
     <Object Include="..\View\Debug\MoveAnimation.obj" />
     <Object Include="..\View\Debug\object.obj" />
     <Object Include="..\View\Debug\ObjectInterface.obj" />
     <Object Include="..\View\Debug\PlayerObserver.obj" />
+    <Object Include="..\View\Debug\RemotePlayerObserver.obj" />
     <Object Include="..\View\Debug\Screen.obj" />
     <Object Include="..\View\Debug\Textbox.obj" />
     <Object Include="..\View\Debug\TileObserver.obj" />
@@ -241,8 +244,8 @@
     <Import Project="..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets" Condition="Exists('..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets')" />
     <Import Project="..\packages\libapr.1.4.6.2\build\native\libapr.targets" Condition="Exists('..\packages\libapr.1.4.6.2\build\native\libapr.targets')" />
     <Import Project="..\packages\boost.1.63.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" />
-    <Import Project="..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" />
-    <Import Project="..\packages\Allegro.5.2.2.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" />
+    <Import Project="..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.2.1\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.1\build\native\Allegro.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -253,7 +256,7 @@
     <Error Condition="!Exists('..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libapr.redist.1.4.6.2\build\native\libapr.redist.targets'))" />
     <Error Condition="!Exists('..\packages\libapr.1.4.6.2\build\native\libapr.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\libapr.1.4.6.2\build\native\libapr.targets'))" />
     <Error Condition="!Exists('..\packages\boost.1.63.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.63.0.0\build\native\boost.targets'))" />
-    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.0\build\native\AllegroDeps.targets'))" />
-    <Error Condition="!Exists('..\packages\Allegro.5.2.2.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.0\build\native\Allegro.targets'))" />
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.2.1\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.1\build\native\Allegro.targets'))" />
   </Target>
 </Project>

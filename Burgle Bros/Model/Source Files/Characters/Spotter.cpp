@@ -1,8 +1,12 @@
 #include "../../Header Files/Characters/Spotter.h"
 
 
-
-
-Spotter::~Spotter()
+string Spotter::getAction(PlayerInterface * player) 
 {
+	//if (player->currentTurn() != lastTurnUsed())
+	{
+		return "SPY_PATROL";
+	}
+	//else
+		return "";
 }
