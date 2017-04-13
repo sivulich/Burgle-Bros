@@ -9,7 +9,7 @@
 
 class GameObserver :public Observer {
 public:
-	GameObserver(GameModel* g,int sHeight);
+	GameObserver(GameModel* g);
 	void update();
 	bool isEmpty() { return events.isEmpty(); };
 	string input();

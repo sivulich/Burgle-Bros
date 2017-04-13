@@ -1,9 +1,14 @@
 #include "../../Header Files/Observers/GameObserver.h"
 
-GameObserver::GameObserver(GameModel* g, int sHeight)
+GameObserver::GameObserver(GameModel* g)
 {
+	ALLEGRO_MONITOR_INFO info;
+	al_get_monitor_info(0, &info);
+	int sHeight = info.y2 - info.y1-40;
+	//int sHeight = 1000;
 	game = g;
 	screen= new Screen(sHeight, sHeight * 1280.0 / 720.0, string("../View/Images/BackGround.jpg"), false);
+	sHeight = screen->getHeight();
 	screen->backgroundProperties(0, 0, double(sHeight) / 1080.0);
 	cont= new Container(sHeight, sHeight * 1280.0 / 720.0);
 	board= new BoardObserver(&game->getBoard(), cont);
