@@ -27,7 +27,7 @@ int main(void)
 		GameModel game;
 		game.setBoard();
 		game.getPlayer1()->setPosition(game.getBoard()[0][0][0]);
-		game.getPlayer1()->setCharacter(HACKER);
+		game.getPlayer1()->setCharacter(JUICER);
 		game.getPlayer1()->setActionTokens(100000);
 		game.getPlayer2()->setPosition(game.getBoard()[1][0][0]);
 		game.getPlayer2()->setCharacter(RAVEN);
@@ -49,7 +49,8 @@ int main(void)
 				{
 					//board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
 					game.getPlayer1()->move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
-					game.getBoard()[in[3] - '0'].moveGuard();
+					(game.getBoard()[in[3] - '0'].moveGuard());
+					
 				}
 				else if (in.substr(0, 5) == "PC RF")
 				{

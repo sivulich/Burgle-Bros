@@ -61,7 +61,7 @@ public:
 	/**
 	sets amount of steps the guard has during his turn
 	*/
-	void SetCurrSteps() { currsteps = speed + alarms->size(); };
+	void SetCurrSteps() { currsteps = speed + alarms->size(); if (currsteps > 6)currsteps = 6; };
 
 	/**
 	
