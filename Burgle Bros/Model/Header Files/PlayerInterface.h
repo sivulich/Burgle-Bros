@@ -40,6 +40,7 @@ public:
 		Removes 1 action token if possible
 	*/
 	virtual void removeActionToken() = 0;
+	
 	/**
 		Returns the amount of stealth tokens
 	*/
@@ -49,12 +50,6 @@ public:
 		Returns the amount of action tokens
 	*/
 	virtual int getActionTokens() = 0;
-
-
-	/**
-		Simulates a die being thrown
-	*/
-	virtual int throwDice() = 0;
 
 	/**
 		Returns true if the player has at least one loot.
@@ -97,6 +92,6 @@ public:
 	@params tile coordinate to the tile where the action happened
 	*/
 	virtual void newAction(string action, Coord tile)=0;
-
+private:
 };
 

@@ -1,9 +1,10 @@
 #pragma once
 #include "Observer.h"
 #include "../Container.h"
-#include "../Model/Header Files/Player.h"
+#include "../../../Model/Header Files/Player.h"
 #include "../Image.h"
-#include "../Model/Header Files/Configs.h"
+#include "../Button.h"
+#include "../../../Model/Header Files/Configs.h"
 
 class ActionObserver :public Observer {
 public:
@@ -26,5 +27,6 @@ private:
 	Player* player;
 	int max,separation;
 	map<string, Image> actions;
+	map<string, Button> buttons;
 
 };

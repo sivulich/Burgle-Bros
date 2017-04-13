@@ -85,6 +85,8 @@ public:
 	/*Clear the object list*/
 	void clear() { objects.clear(); };
 
+	void setOnlyChildClickable(bool b) { dontClickMe = b; };
+
 	~Container() { delete toDraw; };
 private:
 
@@ -98,6 +100,7 @@ private:
 
 	/*Container properties*/
 	bool onlyClickMe;
+	bool dontClickMe;
 
 	/*Child objects for the given container*/
 	vector<Object*> objects;

@@ -1,10 +1,11 @@
 #include "../../Header Files/Characters/Juicer.h"
 
-
-
-
-
-
-Juicer::~Juicer()
+string Juicer::getAction(PlayerInterface * player)
 {
+	//if (player->currentTurn() != lastTurnUsed())
+	{
+		return "CREATE_ALARM";
+	}
+	//else
+		return "";
 }

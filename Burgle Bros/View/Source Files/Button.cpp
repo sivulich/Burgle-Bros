@@ -14,30 +14,17 @@ Button::draw(Bitmap* target)
 		return;
 	}
 	DEBUG_MSG_V("Drawing button " << name);
-	int pressed = 2;
-	if (bitmaps.size() == 2)
-		pressed = 1;
-	else if (bitmaps.size() == 1)
-		pressed = 0;
+	int pressed = bitmaps.size() - 1;
 	if (clicked == true)
-		if(pressed>=1)
-			bitmaps[pressed]->drawScaled(
-				 0, 0
-				, w, h
-				, x, y
-				, scale* w, scale* h
-				, 0
-			);
+	{
+		if (pressed >= 1)
+			bitmaps[pressed]->drawScaled(0, 0, w, h, x, y, scale* w, scale* h, 0);
 		else
-			bitmaps[0]->drawTintedScaled(PRESSED_TONE
-				, 0, 0
-				, w, h
-				, x, y
-				, scale* w, scale* h
-				, 0
-			);
+			bitmaps[0]->drawTintedScaled(PRESSED_TONE, 0, 0, w, h, x, y, scale* w, scale*h, 0);
+	}
 	else if (hover == true)
-		if(pressed==1)
+	{
+		if (pressed <= 1)
 			bitmaps[0]->drawTintedScaled(HOVER_TONE
 				, 0, 0
 				, w, h
@@ -47,12 +34,13 @@ Button::draw(Bitmap* target)
 			);
 		else
 			bitmaps[1]->drawScaled(
-				 0, 0
+				0, 0
 				, w, h
 				, x, y
 				, scale* w, scale* h
 				, 0
 			);
+	}
 	else
 		bitmaps[0]->drawScaled(
 			 0, 0

@@ -2,6 +2,9 @@
 #include "../../ConsoleView/ConsoleView.h"
 #include "../../Controller/Header Files/controller.h"
 #include "../../Model/Header Files/Player.h"
+#include "../Header Files/controller.h"
+#include <iostream>
+#include <string>
 
 #pragma warning(disable:4996)
 int main(void)
@@ -21,10 +24,6 @@ int main(void)
 	model.otherPlayer()->setCharacter(PETERMAN);
 
 	model.print();
-
-
-	Controller controller(&model, &view);
-
 	controller.startGame();
 
 	return 0;

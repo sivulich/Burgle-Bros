@@ -63,9 +63,6 @@ void GameModel::print()
 
 }
 
-
-
-
 bool GameModel::gameOver()
 {
 	return player1.getStealthTokens() == 0 || player2.getStealthTokens() == 0;
@@ -87,8 +84,10 @@ bool GameModel::guardIsMoving()
 void GameModel::moveGuard()
 {
 	int floor = currentPlayer_->getPosition().floor;
+	board[floor].getGuard()->isMyTurn(true);
 
 	guardIsMoving_ = board[floor].moveGuard();
+	if(guardIsMoving_ == false) board[floor].getGuard()->isMyTurn(false);
 }
 
 bool GameModel::win()
@@ -100,9 +99,11 @@ void GameModel::setBoard()
 {
 	board.setBoard();
 	board.setWalls();
+	board.parseBoard();
 }
 void GameModel::setBoard(vector<tileType> tiles)
 {
 	board.setBoard(tiles);
 	board.setWalls();
+	board.parseBoard();
 }

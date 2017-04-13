@@ -49,7 +49,7 @@ using namespace std;
 
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
-#define PRESSED_TONE al_map_rgba(0,0,0,200)
+#define PRESSED_TONE al_map_rgba(100,100,100,200)
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
 

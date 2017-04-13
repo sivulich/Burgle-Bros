@@ -8,10 +8,12 @@ Safe::~Safe()
 vector<string> Safe::getActions(PlayerInterface * player) 
 {
 	vector<string> actions(Tile::getActions(player));
-	if (safeIsOpen() == false)		// if the safe is closed
+	if (safeIsOpen() == false)		
 	{		
-		if (tokens < 6 && player->getActionTokens() >= 2)	actions.push_back(toString(ADD_TOKEN));
-		if (tokens > 0 && player->getActionTokens() >= 1)	actions.push_back(toString(THROW_DICE));
+		if (tokens < 6 && player->getActionTokens() >= 2)
+			actions.push_back("ADD_TOKEN");
+		if (tokens > 0 && player->getActionTokens() >= 1)
+			actions.push_back("THROW_DICE");
 	}
 	return actions;
 }

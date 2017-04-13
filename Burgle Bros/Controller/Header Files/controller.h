@@ -32,19 +32,20 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
 class Controller
 {
 public:
-	Controller(GameModel * m, ConsoleView * v)
+	Controller(GameModel * m, ConsoleView * v)// : FSM(m)
 	{
 		model = m;
 		view = v;
 	}
 
-
-
 	void startGame()
 	{
+		void startGame();
 		gameState status = PLAYER_TURN;
 
 		while (status != EXIT)
+		//FSM.start();
+		//while (FSM.isRunning())
 		{
 
 			if (status == PLAYER_TURN)
@@ -172,26 +173,36 @@ public:
 				break;
 			}
 			model->print();
-		}
+			//getInput();
+			//FSM.processEvent(new movee());
+ 		}
 		
-	}
+	//	FSM.stop();		
+ 	}
+		/*FSM.start();
+		while (FSM.isRunning())
+		{
+			getInput();
+			FSM.processEvent(new movee());
+		}
+		FSM.stop();*/
 
 
 private:
-	gameEvent getInput()
+	void getInput()
 	{
 		// Si se movio el mouse, hoverear botones
 		// Si se hizo click preguntar a la vista en que y traducir a evento
 		// Si se apreto una tecla, traducir a evento 
 		// Si sono algun timer (para dibujar, o el del movimiento del guardia), traducir a evento
 		// Si llego paquete de jugador remoto, traducir a evento :)))))))))) MIERDA
-
+		std::cin >> input;
 	};
 
 	gameEvent ev;
-	string param;
+	string input;
 
-	GameFSM FSM;
+	//GameFSM FSM;
 	GameModel * model;
 	ConsoleView * view;
 	

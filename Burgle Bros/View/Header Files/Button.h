@@ -4,6 +4,7 @@
 class Button :public Object
 {
 public:
+	Button() {};
 	/** This constructor sets the name for the button and the given paths are set in the given order,
 	@param files files[0] - Default Image, files[1] - Hover or pressed if only two paths are give, files[2] - Pressed
 	@param n Name for the button
