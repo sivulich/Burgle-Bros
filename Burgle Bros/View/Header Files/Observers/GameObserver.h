@@ -1,7 +1,7 @@
 #pragma once
 #include "../Screen.h"
 #include "../Container.h"
-#include "../Model/Header Files/GameModel.h"
+#include "../../../../../Model/Header Files/GameModel.h"
 #include "Observer.h"
 #include "BoardObserver.h"
 #include "LocalPlayerObserver.h"

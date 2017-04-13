@@ -125,10 +125,14 @@ void Player::peek(Tile * newTile)
 }
 
 
-void Player::createAlarm(Coord c)
+bool Player::createAlarm(Coord c)
 {
 	if (getCharacterType() == JUICER && currentTile->isAdjacent(c))
+	{
 		board->getTile(c)->setAlarm(true);
+		return true;
+	}
+	else return false;
 }
 
 void Player::placeCrow(Coord c)
@@ -169,6 +173,7 @@ void Player::updateActions()
 	possibleActions = currentTile->getActions(this);
 
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
+	
 	if (getCharacterType() == JUICER)
 		possibleActions.push_back("CREATE_ALARM");
 	else if (getCharacterType() == RAVEN)

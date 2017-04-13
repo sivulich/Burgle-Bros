@@ -21,6 +21,8 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
 (R_action)
 (R_stealth)
 (Move_guard)
+(Createalarm)
+(Place_Crow)
 (No_event))
 
 
@@ -90,7 +92,10 @@ public:
 							if (model->gameOver() == true)
 								status = GAMEOVER;
 							else if (model->currentPlayer()->getActionTokens() == 0)
+							{
 								status = GUARD_TURN;
+								model->currentPlayer()->useAbility(false);
+							}
 							else if (model->win())
 								cout << "YOU WIN" << endl;
 						}
@@ -104,7 +109,10 @@ public:
 
 						model->currentPlayer()->peek(c);
 						if (model->currentPlayer()->getActionTokens() == 0)
+						{
 							status = GUARD_TURN;
+							model->currentPlayer()->useAbility(false);
+						}
 					}
 					break;
 
@@ -141,6 +149,19 @@ public:
 					}
 					break;
 					}
+					case Createalarm:
+					{
+						cin >> coord;
+						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
+						if (model->currentPlayer()->createAlarm(c))
+							model->currentPlayer()->useAbility(true);
+					}
+					break;
+					case Place_Crow:
+					{
+
+					}
+					break;
 				}
 				break;
 

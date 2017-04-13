@@ -59,7 +59,7 @@ public:
 	bool isOnRoof();
 	
 	/**
-		Retrun a vector of strings with the actions the player can do
+		Return a vector of strings with the actions the player can do
 	*/
 	vector<string> getActions();
 	
@@ -85,7 +85,7 @@ public:
 	characterType getCharacterType();
 
 	/**
-		???
+
 	*/
 	bool needConfirmationToMove(Coord c);
 	
@@ -108,12 +108,18 @@ public:
 		Peek the tile in exchange of an action token
 	*/
 	void peek(Tile * newTile);
-	void peek(Coord c);
+	/**
 	
+	*/
+	void peek(Coord c);
+	/**
+	
+	*/
+	void useAbility(bool b) { character->useAbility(b); };
 	/**
 		Creates an alarm in the specified coord (if player is ________)
 	*/
-	void createAlarm(Coord c);
+	bool createAlarm(Coord c);
 	
 	/**
 		Place a crow token in the specified coord (if player is ________)
@@ -134,10 +140,6 @@ public:
 	Simulates a die being thrown
 	*/
 	virtual  int throwDice()override;
-
-
-
-
 	/**
 		Appends a new action to the action history
 		@params action the string of the action that occured
@@ -163,8 +165,6 @@ public:
 		Returns the amount of action tokens
 	*/
 	virtual int getActionTokens()override;
-
-	
 	/**
 	
 	*/
@@ -194,25 +194,18 @@ public:
 		Clears the visibleFrom list
 	*/
 	virtual void clearVisibleFrom() override;
-
-
+	/**
+	
+	*/
 	vector<Loot*>& getLoots() { return loots; };
-
 	/**
 		
 	*/
 	vector<Coord> whereCanIMove();
-
 	/**
 
 	*/
 	vector<Coord> whereCanIPeek();
-
-
-
-
-
-
 
 	/////////// ??????????????? :O
 	/**
@@ -229,7 +222,10 @@ public:
 		Tells the tile the player wants use a token
 	*/
 	void wantsToUseToken() { currentTile->doAction(toString(USE_TOKEN), this); };
-
+	/**
+	
+	*/
+	int getTurn() { return turn; };
 private:
 	string name;
 	Character * character;
@@ -238,6 +234,7 @@ private:
 	Board * board;
 	int actionTokens;
 	int stealthTokens;
+	int turn;
 	vector<actionNode> actions;
 	vector <Loot*> loots;
 	// Coord from where the guard can see the player (player position normally, unless special cases)

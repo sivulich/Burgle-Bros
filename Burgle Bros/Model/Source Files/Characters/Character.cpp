@@ -3,8 +3,3 @@
 Character::~Character()
 {
 }
-
-string Character::getAction(PlayerInterface * player)
-{
-	return "";
-}

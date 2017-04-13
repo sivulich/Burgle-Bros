@@ -2,9 +2,9 @@
 #include "Observer.h"
 #include "../Image.h"
 #include "../Container.h"
-#include "../Model/Header Files/Player.h"
+#include "../../../../../Model/Header Files/Player.h"
 #include "BoardObserver.h"
-#include "../Model/Header Files/Configs.h"
+#include "../../../../../Model/Header Files/Configs.h"
 #include "../MoveAnimation.h"
 
 

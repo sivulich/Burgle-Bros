@@ -13,7 +13,7 @@ int main()
 
 	model.currentPlayer()->setPosition(Coord(0, 0, 0));
 	model.currentPlayer()->setName(string("Pepe"));
-	model.currentPlayer()->setCharacter(RAVEN);
+	model.currentPlayer()->setCharacter(JUICER);
 
 	model.otherPlayer()->setPosition(Coord(0, 0, 0));
 	model.otherPlayer()->setName(string("Gabriela"));
