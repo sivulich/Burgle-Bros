@@ -12,15 +12,15 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameState,
 (EXIT))
 
 DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
-(Move)
-(Peek)
-(Add_token)
-(Use_token)
-(Throw_dice)
-(A_action)
-(R_action)
-(R_stealth)
-(Move_guard)
+(M)
+(P)
+(ADDT)
+(USET)
+(THROWD)
+(ADDACT)
+(REMOVEACT)
+(REMOVEST)
+(MOVEGUARD)
 (No_event))
 
 
@@ -67,7 +67,7 @@ public:
 				{
 					switch (event)
 					{
-					case Move:
+					case M:
 					{
 						cin >> coord;
 						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
@@ -96,7 +96,7 @@ public:
 					}
 					break;
 
-					case Peek:
+					case P:
 					{
 						cin >> coord;
 						Coord c(coord[0] - '1', coord[1] - 'A', coord[2] - '1');
@@ -107,34 +107,34 @@ public:
 					}
 					break;
 
-					case Add_token:
+					case ADDT:
 					{
 						model->currentPlayer()->wantsToAddToken();
 					}
 					break;
 
-					case Throw_dice:
+					case THROWD:
 					{
 						model->currentPlayer()->wantsToThrowDice();
 					}
 					break;
-					case Use_token:
+					case USET:
 					{
 						model->currentPlayer()->wantsToUseToken();
 					}
 					break;
-					case A_action:
+					case ADDACT:
 					{
-						model->currentPlayer()->setActionTokens(model->currentPlayer()->getActionTokens()+4);
+						model->currentPlayer()->setActionTokens(model->currentPlayer()->getActionTokens()+80);
 					}
 					break;
-					case R_action:
+					case REMOVEACT:
 					{
 						model->currentPlayer()->removeActionToken();
 					}
 					break;
 
-					case R_stealth:
+					case REMOVEST:
 					{
 						model->currentPlayer()->removeStealthToken();
 					}
@@ -148,7 +148,7 @@ public:
 					DEBUG_MSG("Guard turn:");
 					switch (event)
 					{
-					case Move_guard:
+					case MOVEGUARD:
 					{
 						model->moveGuard();
 

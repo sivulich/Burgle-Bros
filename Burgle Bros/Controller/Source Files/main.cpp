@@ -1,4 +1,4 @@
-/*#include "../../Model/Header Files/GameModel.h"
+#include "../../Model/Header Files/GameModel.h"
 #include "../../ConsoleView/ConsoleView.h"
 #include "../../Controller/Header Files/controller.h"
 #include "../../Model/Header Files/Player.h"
@@ -28,7 +28,9 @@ int main(void)
 	controller.startGame();
 
 	return 0;
-}*/
+}
+
+/*
 #include "../GameFSM.h"
 #include <iostream>
 #include <string>
@@ -83,3 +85,4 @@ int main()
 	FSM.stop();
 	return 0;
 }
+*/

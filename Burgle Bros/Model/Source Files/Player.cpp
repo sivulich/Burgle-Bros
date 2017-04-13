@@ -67,7 +67,7 @@ bool Player::move(Coord c)
 bool Player::move(Tile * newTile)
 {
 	removeActionToken();
-	if (newTile->canMove(this))
+	if (true)//newTile->canMove(this))
 	{
 		newAction("MOVE", getPosition());
 		currentTile->exitTile(this);
@@ -185,9 +185,9 @@ int Player::throwDice()
 	return temp;
 }
 
-void Player::addLoot(Loot * l)
+void Player::addLoot(lootType l)
 {
-	loots.push_back(l);
+	loots.push_back((new LootFactory)->newLoot(l));
 	notify();
 };
 

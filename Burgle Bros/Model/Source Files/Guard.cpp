@@ -71,7 +71,6 @@ void Guard::GuardCheck()
 
 void Guard::print()
 {
-	/*
 	DEBUG_MSG("Current guard position: " << pos);
 	DEBUG_MSG("Steps to finish turn: " << currsteps);
 	DEBUG_MSG("Active patrol card: " << patroldeck->activeCard()->getDescription());
