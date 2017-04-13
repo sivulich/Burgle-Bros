@@ -90,7 +90,7 @@ bool Player::move(Tile * newTile)
 {
 	// Siempre hay que sacar un action token?
 	removeActionToken(); 
-	if (newTile->canMove(this))
+	if (true)//newTile->canMove(this))
 	{
 		newAction("MOVE", newTile->getPos());
 		// Exit the current tile

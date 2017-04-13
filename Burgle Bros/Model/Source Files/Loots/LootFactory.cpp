@@ -15,25 +15,25 @@ Loot* LootFactory::newLoot(lootType type)
 	switch (type)
 	{
 	case TIARA:
-		return new Tiara;
+		return new Tiara(type);
 	case PERSIAN_KITTY:
-		return new PersianKitty;
+		return new PersianKitty(type);
 	case PAINTING:
-		return new Painting;
+		return new Painting(type);
 	case MIRROR:
-		return new Mirror;
+		return new Mirror(type);
 	case KEYCARD:
-		return new Keycard;
+		return new Keycard(type);
 	case ISOTOPE:
-		return new Isotope;
+		return new Isotope(type);
 	case GEMSTONE:
-		return new Gemstone;
+		return new Gemstone(type);
 	case CURSED_GOBLET:
-		return new CursedGoblet;
+		return new CursedGoblet(type);
 	case CHIHUAHUA:
-		return new Chihuahua;
+		return new Chihuahua(type);
 	case GOLD_BAR:
-		return new GoldBar;
+		return new GoldBar(type);
 	default:
 		return nullptr;
 	}

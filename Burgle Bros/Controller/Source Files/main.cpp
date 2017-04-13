@@ -11,6 +11,7 @@ int main(void)
 {
 	GameModel model;
 	ConsoleView view(&model);
+	Controller controller(&model, &view);
 	model.setBoard();
 	
 	freopen("debugMSG.txt", "w+", stderr);

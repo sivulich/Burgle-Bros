@@ -92,6 +92,11 @@ public:
 	@params tile coordinate to the tile where the action happened
 	*/
 	virtual void newAction(string action, Coord tile)=0;
+
+	/**
+	Simulates a die being thrown
+	*/
+	virtual  int throwDice() = 0;
 private:
 };
 
