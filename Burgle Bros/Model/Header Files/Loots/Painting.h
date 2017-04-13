@@ -4,7 +4,7 @@ class Painting :
 	public Loot
 {
 public:
-	Painting();
+	Painting(lootType l) : Loot(l) {};
 	~Painting();
 };
 

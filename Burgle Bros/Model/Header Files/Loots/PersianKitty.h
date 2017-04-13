@@ -4,7 +4,7 @@ class PersianKitty :
 	public Loot
 {
 public:
-	PersianKitty();
+	PersianKitty(lootType l) : Loot(l) {};
 	~PersianKitty();
 };
 

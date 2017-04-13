@@ -1,4 +1,310 @@
-The alarm went off at (1,A2)
-alarm set in:(1,A2)
-Guard turn:
-Guard turn:
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Player moved to the ATRIUM at (1,A2)
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Player moved to the STAIR at (1,A3)
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Player moved to the KEYPAD at (1,B4)
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Player moved to the SCANNER at (1,C4)
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Player moved to the LABORATORY at (1,D4)
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Player moved to the SAFE at (1,A4)
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+You added a new dice to this safe. You can now throw 1 dice.
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+You added a new dice to this safe. You can now throw 2 dice.
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+You added a new dice to this safe. You can now throw 3 dice.
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+You added a new dice to this safe. You can now throw 4 dice.
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+You added a new dice to this safe. You can now throw 5 dice.
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+You added a new dice to this safe. You can now throw 6 dice.
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+You rolled the dice and got a 4
+You cracked tile (1,B4)
+You cracked tile (1,D4)
+You cracked tile (1,B4)
+You cracked tile (1,D4)
+Tiles remaining to crack: (1,A1) - (1,A2) - (1,C4) - (1,A3) - (1,A1) - (1,A2) - (1,C4) - (1,A3) - 
+
+You rolled the dice and got a 4
+Tiles remaining to crack: (1,A1) - (1,A2) - (1,C4) - (1,A3) - (1,A1) - (1,A2) - (1,C4) - (1,A3) - 
+
+You rolled the dice and got a 3
+You cracked tile (1,A1)
+You cracked tile (1,A2)
+You cracked tile (1,C4)
+You cracked tile (1,A1)
+You cracked tile (1,A2)
+You cracked tile (1,C4)
+Tiles remaining to crack: (1,A3) - (1,A3) - 
+
+You rolled the dice and got a 4
+Tiles remaining to crack: (1,A3) - (1,A3) - 
+
+You rolled the dice and got a 1
+You cracked tile (1,A3)
+You cracked tile (1,A3)
+Tiles remaining to crack: 
+
+You cracked the safe!!
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Current path:
+
+

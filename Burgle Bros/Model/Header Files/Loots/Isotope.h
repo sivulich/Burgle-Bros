@@ -4,7 +4,7 @@ class Isotope :
 	public Loot
 {
 public:
-	Isotope();
+	Isotope(lootType l) : Loot(l) {};
 	~Isotope();
 };
 

@@ -2,11 +2,6 @@
 
 
 
-Chihuahua::Chihuahua()
-{
-}
-
-
 Chihuahua::~Chihuahua()
 {
 }
