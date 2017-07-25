@@ -7,7 +7,6 @@ Guard::~Guard()
 
 
 
-
 void Guard::setFloorMap(vector<Coord> floor[4][4])
 {
 	for (unsigned i = 0; i < 4; i++)

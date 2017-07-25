@@ -176,7 +176,7 @@ protected:
 	vector<Coord> adjacent;
 	// A tile can have a loot (a safe tile or a loot has been dropped)
 	vector<Loot*> loot;
-	// 
+
 	bool crackToken, crowToken, stairToken, alarmToken;
 
 };

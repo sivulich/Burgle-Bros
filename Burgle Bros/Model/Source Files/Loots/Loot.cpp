@@ -1,8 +1,8 @@
 #include "../../Header Files/Loots/Loot.h"
 
-Loot::Loot()
+Loot::Loot(lootType l)
 {
-
+	type = l;
 }
 
 

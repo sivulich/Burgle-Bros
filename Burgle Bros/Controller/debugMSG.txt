@@ -1,4 +1,378 @@
-The alarm went off at (1,A2)
-alarm set in:(1,A2)
-Guard turn:
-Guard turn:
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Player moved to the ATRIUM at (1,A2)
+Now you can be seen from: (1,A2) - (2,A2) - 
+
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Player moved to the COMPUTER_ROOM_M at (1,B1)
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Player moved to the FINGERPRINT at (1,B3)
+The alarm went off at (1,B3)
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Player moved to the KEYPAD at (1,B4)
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Player moved to the SECRET_DOOR at (1,C2)
+Added the secret door to the tile (1,B2)
+Added the secret door to the tile (1,D2)
+Added the secret door to the tile (1,C1)
+Added the secret door to the tile (1,C3)
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Player moved to the KEYPAD at (1,D2)
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+Player moved to the SAFE at (1,B2)
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You added a new dice to this safe. You can now throw 1 dice.
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You added a new dice to this safe. You can now throw 2 dice.
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You added a new dice to this safe. You can now throw 3 dice.
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You added a new dice to this safe. You can now throw 4 dice.
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You added a new dice to this safe. You can now throw 5 dice.
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You added a new dice to this safe. You can now throw 6 dice.
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You rolled the dice and got a 4
+You cracked tile (1,A2)
+Tiles remaining to crack: (1,B1) - (1,C2) - (1,B3) - (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 6
+Tiles remaining to crack: (1,B1) - (1,C2) - (1,B3) - (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 1
+You cracked tile (1,B3)
+Tiles remaining to crack: (1,B1) - (1,C2) - (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 5
+You cracked tile (1,B1)
+You cracked tile (1,C2)
+Tiles remaining to crack: (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 6
+Tiles remaining to crack: (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 4
+Tiles remaining to crack: (1,D2) - (1,B4) - 
+
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You rolled the dice and got a 5
+Tiles remaining to crack: (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 5
+Tiles remaining to crack: (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 4
+Tiles remaining to crack: (1,D2) - (1,B4) - 
+
+You rolled the dice and got a 2
+You cracked tile (1,D2)
+Tiles remaining to crack: (1,B4) - 
+
+You rolled the dice and got a 2
+Tiles remaining to crack: (1,B4) - 
+
+You rolled the dice and got a 6
+Tiles remaining to crack: (1,B4) - 
+
+Current guard position: (1,D4)
+Steps to finish turn: 0
+Active patrol card: B1
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C4
+Current path:
+
+
+Current guard position: (6,F6)
+Steps to finish turn: 0
+Active patrol card: C2
+Current path:
+
+
+You rolled the dice and got a 4
+Tiles remaining to crack: (1,B4) - 
+
+You rolled the dice and got a 1
+Tiles remaining to crack: (1,B4) - 
+
+You rolled the dice and got a 3
+You cracked tile (1,B4)
+Tiles remaining to crack: 
+
+You cracked the safe!!

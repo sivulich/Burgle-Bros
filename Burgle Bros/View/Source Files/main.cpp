@@ -32,7 +32,7 @@ int main(void)
 		game.getPlayer2()->setPosition(game.getBoard()[1][0][0]);
 		game.getPlayer2()->setCharacter(RAVEN);
 		game.getPlayer2()->setActionTokens(100000);
-		GameObserver view(&game, int(720));
+		GameObserver view(&game);
 		
 		string in;
 		Timer time(1.0 / 30.0);
@@ -47,9 +47,8 @@ int main(void)
 
 				if (isCoord(in))
 				{
-					//board[in[3] - '0'][in[0] - 'A'][in[1] - '1']->flip();
 					game.getPlayer1()->move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
-					(game.getBoard()[in[3] - '0'].moveGuard());
+					game.getBoard()[in[3] - '0'].moveGuard();
 					
 				}
 				else if (in.substr(0, 5) == "PC RF")

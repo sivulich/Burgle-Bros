@@ -3,6 +3,7 @@
 #include "../Container.h"
 #include "../../../Model/Header Files/Player.h"
 #include "../Image.h"
+#include "../Button.h"
 #include "../../../Model/Header Files/Configs.h"
 
 class ActionObserver :public Observer {
@@ -26,5 +27,6 @@ private:
 	Player* player;
 	int max,separation;
 	map<string, Image> actions;
+	map<string, Button> buttons;
 
 };

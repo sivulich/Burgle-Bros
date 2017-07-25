@@ -9,6 +9,7 @@ Screen::Screen(int h, int w, string& pathToBackground,bool b)
 		al_get_display_mode(al_get_num_display_modes() - 1, &disp_data);
 		display = new Display(disp_data.width, disp_data.height);
 		display->setFlagEnabled(ALLEGRO_FULLSCREEN_WINDOW,true);
+		display->setWindowTitle("EDA BURGLE");
 		this->w = disp_data.width;
 		this->h = disp_data.height;
 	}

@@ -168,7 +168,7 @@ public:
 	/**
 	
 	*/
-	void addLoot(Loot * l);
+	virtual void addLoot(lootType l)override;
 	/**
 
 	*/

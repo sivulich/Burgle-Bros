@@ -82,9 +82,9 @@ public:
 	virtual void clearVisibleFrom() =0;
 
 	/**
-		Simulates a die being thrown
+
 	*/
-	virtual int throwDice() = 0;
+	virtual void addLoot(lootType l) = 0;
 
 	/**
 	Appends a new action to the action history
