@@ -116,6 +116,7 @@ public:
 	
 	*/
 	void useAbility(bool b) { character->useAbility(b); };
+
 	/**
 		Creates an alarm in the specified coord (if player is ________)
 	*/
@@ -139,7 +140,7 @@ public:
 	/**
 	Simulates a die being thrown
 	*/
-	virtual  int throwDice()override;
+	virtual  int throwDice();
 	/**
 		Appends a new action to the action history
 		@params action the string of the action that occured

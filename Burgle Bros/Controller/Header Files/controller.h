@@ -21,6 +21,8 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
 (REMOVEACT)
 (REMOVEST)
 (MOVEGUARD)
+(CREATEAL)
+(PLACECR)
 (No_event))
 
 
@@ -68,98 +70,98 @@ public:
 				{
 					switch (event)
 					{
-					case M:
-					{
-						cin >> coord;
-						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
-
-						move = true;
-						if (model->currentPlayer()->needConfirmationToMove(c))
+						case M:
 						{
-							cout << "Are you sure you want to move? (YES/NO)" << endl;
-							string g;
-							cin >> g;
-							if (g == "NO")
-								move = false;
+							cin >> coord;
+							Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
+
+							move = true;
+							if (model->currentPlayer()->needConfirmationToMove(c))
+							{
+								cout << "Are you sure you want to move? (YES/NO)" << endl;
+								string g;
+								cin >> g;
+								if (g == "NO")
+									move = false;
+							}
+
+							if (move)
+							{
+								model->currentPlayer()->move(c);
+
+								if (model->gameOver() == true)
+									status = GAMEOVER;
+								else if (model->currentPlayer()->getActionTokens() == 0)
+								{
+									status = GUARD_TURN;
+									model->currentPlayer()->useAbility(false);
+								}
+								else if (model->win())
+									cout << "YOU WIN" << endl;
+							}
 						}
+						break;
 
-						if (move)
+						case P:
 						{
-							model->currentPlayer()->move(c);
+							cin >> coord;
+							Coord c(coord[0] - '1', coord[1] - 'A', coord[2] - '1');
 
-							if (model->gameOver() == true)
-								status = GAMEOVER;
-							else if (model->currentPlayer()->getActionTokens() == 0)
+							model->currentPlayer()->peek(c);
+							if (model->currentPlayer()->getActionTokens() == 0)
 							{
 								status = GUARD_TURN;
 								model->currentPlayer()->useAbility(false);
 							}
-							else if (model->win())
-								cout << "YOU WIN" << endl;
 						}
-					}
-					break;
+						break;
 
-					case P:
-					{
-						cin >> coord;
-						Coord c(coord[0] - '1', coord[1] - 'A', coord[2] - '1');
-
-						model->currentPlayer()->peek(c);
-						if (model->currentPlayer()->getActionTokens() == 0)
+						case ADDT:
 						{
-							status = GUARD_TURN;
-							model->currentPlayer()->useAbility(false);
+							model->currentPlayer()->wantsToAddToken();
 						}
-					}
-					break;
+						break;
 
-					case ADDT:
-					{
-						model->currentPlayer()->wantsToAddToken();
-					}
-					break;
+						case THROWD:
+						{
+							model->currentPlayer()->wantsToThrowDice();
+						}
+						break;
+						case USET:
+						{
+							model->currentPlayer()->wantsToUseToken();
+						}
+						break;
+						case ADDACT:
+						{
+							model->currentPlayer()->setActionTokens(model->currentPlayer()->getActionTokens() + 80);
+						}
+						break;
+						case REMOVEACT:
+						{
+							model->currentPlayer()->removeActionToken();
+						}
+						break;
 
-					case THROWD:
-					{
-						model->currentPlayer()->wantsToThrowDice();
-					}
-					break;
-					case USET:
-					{
-						model->currentPlayer()->wantsToUseToken();
-					}
-					break;
-					case ADDACT:
-					{
-						model->currentPlayer()->setActionTokens(model->currentPlayer()->getActionTokens()+80);
-					}
-					break;
-					case REMOVEACT:
-					{
-						model->currentPlayer()->removeActionToken();
-					}
-					break;
+						case REMOVEST:
+						{
+							model->currentPlayer()->removeStealthToken();
+						}
+						break;
+						case CREATEAL:
+						{
+							cin >> coord;
+							Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
+							if (model->currentPlayer()->createAlarm(c))
+								model->currentPlayer()->useAbility(true);
+						}
+						break;
+						case PLACECR:
+						{
 
-					case REMOVEST:
-					{
-						model->currentPlayer()->removeStealthToken();
-					}
+						}
 					break;
 					}
-					case Createalarm:
-					{
-						cin >> coord;
-						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
-						if (model->currentPlayer()->createAlarm(c))
-							model->currentPlayer()->useAbility(true);
-					}
-					break;
-					case Place_Crow:
-					{
-
-					}
-					break;
 				}
 				break;
 

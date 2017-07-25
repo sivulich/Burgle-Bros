@@ -11,6 +11,7 @@ int main(void)
 {
 	GameModel model;
 	ConsoleView view(&model);
+	Controller c(&model,&view);
 	model.setBoard();
 	
 	freopen("debugMSG.txt", "w+", stderr);
@@ -24,7 +25,7 @@ int main(void)
 	model.otherPlayer()->setCharacter(PETERMAN);
 
 	model.print();
-	controller.startGame();
+	c.startGame();
 
 	return 0;
 }

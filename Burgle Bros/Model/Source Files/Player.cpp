@@ -173,13 +173,13 @@ void Player::updateActions()
 	possibleActions = currentTile->getActions(this);
 
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
-	
-	if (getCharacterType() == JUICER)
+	possibleActions.push_back(character->getAction(this));
+	/*if (getCharacterType() == JUICER)
 		possibleActions.push_back("CREATE_ALARM");
 	else if (getCharacterType() == RAVEN)
 		possibleActions.push_back("PLACE_CROW");
 	else if (getCharacterType() == SPOTTER)
-		possibleActions.push_back("SPY_PATROL_DECK_CARD");
+		possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
 	// REEMPLAZar con un character->getAction();!!
 	
 

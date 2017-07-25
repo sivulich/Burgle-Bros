@@ -96,6 +96,10 @@ public:
 	
 	*/
 	virtual int getTurn() = 0;
+	/**
+	
+	*/
+	virtual  int throwDice() = 0;
 private:
 };
 
