@@ -8,12 +8,15 @@ Player::Player(Board * b, Player * p)
 	otherPlayer = p;
 	resetActionTokens();
 	stealthTokens = NUMBER_STEALTH_TOKENS;
+	currentTile != nullptr;
+	
 }
 
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
 	currentTile->turnUp();
+	updateActions();
 	notify();
 }
 
@@ -166,19 +169,23 @@ vector<string> Player::getActions()
 void Player::updateActions()
 {
 	possibleActions.clear();
-	possibleActions = currentTile->getActions(this);
+	if(currentTile!=nullptr)
+		possibleActions = currentTile->getActions(this);
 
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
-	if (getCharacterType() == JUICER)
-		possibleActions.push_back("CREATE_ALARM");
-	else if (getCharacterType() == RAVEN)
-		possibleActions.push_back("PLACE_CROW");
-	else if (getCharacterType() == SPOTTER)
-		possibleActions.push_back("SPY_PATROL_DECK_CARD");
+	if (character != nullptr)
+	{
+		if (getCharacterType() == JUICER)
+			possibleActions.push_back("CREATE_ALARM");
+		else if (getCharacterType() == RAVEN)
+			possibleActions.push_back("PLACE_CROW");
+		else if (getCharacterType() == SPOTTER)
+			possibleActions.push_back("SPY_PATROL_DECK_CARD");
+	}
 	// REEMPLAZar con un character->getAction();!!
 	
 
-	if(currentTile->hasLoot())
+	if(currentTile!=nullptr && currentTile->hasLoot())
 		possibleActions.push_back("PICK_UP_LOOT");
 
 	if (otherPlayer!= nullptr && otherPlayer->getPosition() == getPosition())

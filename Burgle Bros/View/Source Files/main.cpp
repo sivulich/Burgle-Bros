@@ -26,15 +26,17 @@ int main(void)
 		
 		GameModel game;
 		game.setBoard();
-		game.getPlayer1()->setPosition(game.getBoard()[0][0][0]);
 		game.getPlayer1()->setCharacter(JUICER);
 		game.getPlayer1()->setActionTokens(100000);
+		game.getPlayer1()->setPosition(game.getBoard()[0][0][0]);
+		
 		game.getPlayer2()->setPosition(game.getBoard()[1][0][0]);
 		game.getPlayer2()->setCharacter(RAVEN);
 		game.getPlayer2()->setActionTokens(100000);
+		game.getPlayer1()->move(Coord(0, 0, 1));
 		GameObserver view(&game);
 		
-		string in;
+		string in,last;
 		Timer time(1.0 / 30.0);
 		time.start();
 		long long c=time.getCount();
@@ -43,21 +45,18 @@ int main(void)
 			in = view.input();
 			if (in != "")
 			{
-				cout << "Input " << in << endl;
-
+				cout << "Input " << in<<" Last: "<<last << endl;
+				
 				if (isCoord(in))
 				{
-					game.getPlayer1()->move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
-					game.getBoard()[in[3] - '0'].moveGuard();
-					
+					if(last=="MOVE")
+						game.getPlayer1()->move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
+					if (last == "PEEK")
+						game.getPlayer1()->peek(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
 				}
-				else if (in.substr(0, 5) == "PC RF")
-				{
-					game.getBoard()[in[5] - '0'].getPatrolDeck()->discardTop();
-				}
-					
-				
+				last = in;
 			}
+			
 			if (c < time.getCount()&& view.isEmpty()==true )
 			{
 				c = time.getCount();
