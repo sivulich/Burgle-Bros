@@ -20,7 +20,7 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
 (ADDACT)
 (REMOVEACT)
 (REMOVEST)
-(MOVEGUARD)
+(MG)
 (No_event))
 
 
@@ -146,10 +146,9 @@ public:
 
 				case GUARD_TURN:
 				{
-					DEBUG_MSG("Guard turn:");
 					switch (event)
 					{
-					case MOVEGUARD:
+					case MG:
 					{
 						model->moveGuard();
 
