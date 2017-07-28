@@ -5,7 +5,7 @@ class Chihuahua :
 	public Loot
 {
 public:
-	Chihuahua();
+	Chihuahua(lootType l) : Loot(l) {};
 	~Chihuahua();
 };
 
