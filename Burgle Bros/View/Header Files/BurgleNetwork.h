@@ -20,6 +20,7 @@ typedef struct {
 	atomic_bool error;
 	atomic_int currState;
 	atomic_bool usingData;
+	atomic_bool iStart;
 	atomic_bool join;
 	atomic_bool executing;
 	atomic_bool exit;
@@ -35,7 +36,7 @@ typedef struct {
 
 
 using namespace std;
-enum{WAITINNG_CONN=1,MACHINES_CONNECTED,EXCHANGE_NAMES,EXCHANGE_CHARACTERS,EXCHANGE_GUARD,EXCHANGE_BOARD,EXCHANGE_FINISHED};
+enum{WAITINNG_CONN=1,MACHINES_CONNECTED,EXCHANGE_NAMES,EXCHANGE_CHARACTERS,EXCHANGE_GUARD,EXCHANGE_BOARD,EXCHANGE_FIRST,EXCHANGE_FINISHED};
 #define PORT 15251
 
 
@@ -55,6 +56,7 @@ private:
 	void exchangeCharacters(thData* fl, const characterType type);
 	void exchangeGuard(thData* fl, const Coord guardPos, Coord guardTarget);
 	void exchangeBoard(thData* fl, Board& board, const Coord playerPos);
+	void exchangeFirst(thData* fl);
 	bool sendPacket(apr_socket_t* sock, const vector<char>& dat);
 	thData flags;
 	thread* currThread;

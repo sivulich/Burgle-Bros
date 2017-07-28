@@ -546,7 +546,95 @@ BurgleNetwork::exchangeBoard(thData* fl, Board& board, const Coord playerPos)
 		fl->playerPos.row = buffer[50] - '1';
 		fl->playerPos.floor = buffer[52] - '1';
 	}
+	this_thread::sleep_for(chrono::milliseconds(50));
+	fl->executing = false;
+	fl->join = true;
+	return;
+}
+void
+BurgleNetwork::exchangeFirst(thData* fl)
+{
+	if (fl->error == true)
+	{
+		fl->join = true;
+		return;
+	}
+	clock_t t;
+	fl->executing = true;
+
+	/*First packet server sends I_START/YOU_START , client listens*/
+	if (fl->server == true)
+	{
+		vector<char> pack(1);
+		fl->iStart = (bool)(rand() % 2);
+		pack[0] = (fl->iStart==true ? I_START:YOU_START);
+		if (sendPacket(fl->sock, pack) == false)
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Couldnt send first packet";
+			return;
+		}
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
+	else
+	{
+		vector<char> buffer(1024, 0);
+		apr_size_t size = 1024;
+		t = clock();
+		apr_status_t rv;
+		do {
+			if (size == 0)
+				size = 1024;
+			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
+		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
+		if (size != 1 || (buffer[0] != I_START && buffer[0] != YOU_START))
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Didnt recieve first packet";
+			return;
+		}
+		fl->iStart = (buffer[0] == YOU_START ? true : false);
+	}
 	this_thread::sleep_for(chrono::milliseconds(10));
+	/*If server starts, client sends ACK, server listens*/
+	if (fl->server == true && fl->iStart == true)
+	{
+		vector<char> buffer(1024, 0);
+		apr_size_t size = 1024;
+		t = clock();
+		apr_status_t rv;
+		do {
+			if (size == 0)
+				size = 1024;
+			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
+		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
+		if (size != 1 || buffer[0] != ACK )
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Didnt recieve second packet";
+			return;
+		}
+	}
+	else if (fl->server == false && fl->iStart == false)
+	{
+		vector<char> pack(1);
+		pack[0] = ACK;
+		if (sendPacket(fl->sock, pack) == false)
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Couldnt send second packet";
+			return;
+		}
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
 	fl->executing = false;
 	fl->join = true;
 	return;
@@ -565,6 +653,12 @@ BurgleNetwork::startupPhase(const string& name, const characterType type, const 
 	{
 		if (!join())
 			return false;
+		if (flags.remoteName == name)
+		{
+			flags.error = true;
+			flags.errMessage = "Duplicate names";
+			return false;
+		}
 		cout << "Name exchange succesfull I am "<<name<< ". Remote Name: " << flags.remoteName << endl;
 		flags.currState = EXCHANGE_CHARACTERS;
 		currThread = new thread(&BurgleNetwork::exchangeCharacters, this, &flags, type);
@@ -596,6 +690,14 @@ BurgleNetwork::startupPhase(const string& name, const characterType type, const 
 		if (!join())
 			return false;
 		cout << "Board exchange succesfull" << endl;
+		flags.currState = EXCHANGE_FIRST;
+		currThread = new thread(&BurgleNetwork::exchangeFirst, this, &flags);
+	}
+	else if (flags.currState==EXCHANGE_FIRST)
+	{
+		if (!join())
+			return false;
+		cout << "First is " << (flags.iStart ? "Me" : "Remote") << endl;
 		flags.currState = EXCHANGE_FINISHED;
 		return true;
 	}

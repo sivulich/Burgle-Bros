@@ -28,7 +28,7 @@ int main(void)
 		cout<<"N1 says" << n1.errMessage() << endl;
 	GameModel game;
 	string name;
-	int character;
+	int character=0;
 	game.setBoard();
 	if (!(n1.error()))
 	{
@@ -38,6 +38,7 @@ int main(void)
 		cin >> name;
 		cout << "Enter character(32-38): ";
 		cin >> character;
+		while (character == 0);
 		while (!n1.startupPhase(name, (characterType)character, Coord(0, 0, 0), Coord(0, 1, 1), game.getBoard(),Coord(0,0,0)) && !n1.error());
 		if (n1.error())
 			cout << n1.errMessage() << endl;
