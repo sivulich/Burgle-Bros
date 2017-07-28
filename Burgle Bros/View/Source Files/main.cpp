@@ -3,7 +3,7 @@
 #include "../Header Files/Allegro.h"
 #include "../Header Files/object.h"
 #include "../Header Files/Observers/GameObserver.h"
-
+#include "../Header Files/BurgleNetwork.h"
 bool isCoord(string& s)
 {
 
@@ -17,6 +17,36 @@ bool isCoord(string& s)
 		return false;
 	return true;
 }
+int main(void)
+{
+	srand((unsigned  int)time(nullptr));
+	BurgleNetwork n1("127.0.0.1");
+	
+	srand(time(nullptr));
+	while (!n1.join());
+	if (n1.error())
+		cout<<"N1 says" << n1.errMessage() << endl;
+	GameModel game;
+	string name;
+	int character;
+	game.setBoard();
+	if (!(n1.error()))
+	{
+		cout << "Succesfull conection" << endl;
+		cout << "N1 is " << (n1.server() ? "Server" : "Client") << endl;
+		cout << "Enter name: ";
+		cin >> name;
+		cout << "Enter character(32-38): ";
+		cin >> character;
+		while (!n1.startupPhase(name, (characterType)character, Coord(0, 0, 0), Coord(0, 1, 1), game.getBoard(),Coord(0,0,0)) && !n1.error());
+		if (n1.error())
+			cout << n1.errMessage() << endl;
+	}
+	getchar();
+	getchar();
+	return 0;
+}
+/*
 int main(void)
 {
 	Allegro al;
@@ -49,10 +79,11 @@ int main(void)
 				
 				if (isCoord(in))
 				{
-					if(last=="MOVE")
-						game.getPlayer1()->move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
 					if (last == "PEEK")
 						game.getPlayer1()->peek(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
+					if(last=="MOVE" || last=="M")
+						game.getPlayer1()->move(Coord(in[3] - '0', in[0] - 'A', in[1] - '1'));
+					
 				}
 				last = in;
 			}
@@ -62,9 +93,11 @@ int main(void)
 				c = time.getCount();
 				view.update();
 			}
+			
 		}
 			
 	}
 		
 	return 0;
 }
+*/

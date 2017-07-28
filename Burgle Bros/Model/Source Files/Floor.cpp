@@ -21,7 +21,7 @@ void Floor::print()
 {
 	
 	eku::concolinit();
-	cout << "Floor " << floorNumber + 1 << ":" << endl;
+//	cout << "Floor " << floorNumber + 1 << ":" << endl;
 	cout << "__|";
 	for (int j = 0; j < 4; j++)
 		cout << string(8, '_') << char('A'+j) << string(9, '_')<< "|";

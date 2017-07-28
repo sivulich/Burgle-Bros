@@ -283,11 +283,13 @@ void Board::print()
 	for (int i = 0; i < 3; i++)
 		floor[i]->print();
 
+	cout << endl;
 	for (int j = 0; j <3 ; j++)
 	{
-		cout << "Alarms in floor " << j + 1 << ":" << endl;
+		cout << "Alarms in floor " << j + 1 << ":";
 		for (auto &a : floor[j]->getAlarms())
-			cout << a << endl;
+			cout << a;
+		cout << endl;
 	}
 }
 

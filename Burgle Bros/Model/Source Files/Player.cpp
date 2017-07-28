@@ -93,7 +93,7 @@ bool Player::move(Tile * newTile)
 {
 	// Siempre hay que sacar un action token?
 	removeActionToken(); 
-	if (true)//newTile->canMove(this))
+	if (newTile->canMove(this))
 	{
 		newAction("MOVE", newTile->getPos());
 		// Exit the current tile
@@ -212,14 +212,9 @@ void Player::print()
 		cout << c << " ";
 	cout << endl;
 
-	cout << "Tile number : " << currentTile->getSafeNumber() << endl;
-
 	cout << "Loots : ";
 	for (auto c : loots)
 		cout << toString(c->getType()) << " ";
-	cout << endl;
-
-	cout << "Character " << toString(character->getType()) << endl;
 	cout << endl;
 	
 }

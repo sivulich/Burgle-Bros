@@ -20,9 +20,7 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
 (ADDACT)
 (REMOVEACT)
 (REMOVEST)
-(MOVEGUARD)
-(CREATEAL)
-(PLACECR)
+(MG)
 (No_event))
 
 
@@ -70,96 +68,77 @@ public:
 				{
 					switch (event)
 					{
-						case M:
+					case M:
+					{
+						cin >> coord;
+						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
+
+						move = true;
+						if (model->currentPlayer()->needConfirmationToMove(c))
 						{
-							cin >> coord;
-							Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
-
-							move = true;
-							if (model->currentPlayer()->needConfirmationToMove(c))
-							{
-								cout << "Are you sure you want to move? (YES/NO)" << endl;
-								string g;
-								cin >> g;
-								if (g == "NO")
-									move = false;
-							}
-
-							if (move)
-							{
-								model->currentPlayer()->move(c);
-
-								if (model->gameOver() == true)
-									status = GAMEOVER;
-								else if (model->currentPlayer()->getActionTokens() == 0)
-								{
-									status = GUARD_TURN;
-									model->currentPlayer()->useAbility(false);
-								}
-								else if (model->win())
-									cout << "YOU WIN" << endl;
-							}
+							cout << "Are you sure you want to move? (YES/NO)" << endl;
+							string g;
+							cin >> g;
+							if (g == "NO")
+								move = false;
 						}
-						break;
 
-						case P:
+						if (move)
 						{
-							cin >> coord;
-							Coord c(coord[0] - '1', coord[1] - 'A', coord[2] - '1');
+							model->currentPlayer()->move(c);
 
-							model->currentPlayer()->peek(c);
-							if (model->currentPlayer()->getActionTokens() == 0)
-							{
+							if (model->gameOver() == true)
+								status = GAMEOVER;
+							else if (model->currentPlayer()->getActionTokens() == 0)
 								status = GUARD_TURN;
-								model->currentPlayer()->useAbility(false);
-							}
+							else if (model->win())
+								cout << "YOU WIN" << endl;
 						}
-						break;
+					}
+					break;
 
-						case ADDT:
-						{
-							model->currentPlayer()->wantsToAddToken();
-						}
-						break;
+					case P:
+					{
+						cin >> coord;
+						Coord c(coord[0] - '1', coord[1] - 'A', coord[2] - '1');
 
-						case THROWD:
-						{
-							model->currentPlayer()->wantsToThrowDice();
-						}
-						break;
-						case USET:
-						{
-							model->currentPlayer()->wantsToUseToken();
-						}
-						break;
-						case ADDACT:
-						{
-							model->currentPlayer()->setActionTokens(model->currentPlayer()->getActionTokens() + 80);
-						}
-						break;
-						case REMOVEACT:
-						{
-							model->currentPlayer()->removeActionToken();
-						}
-						break;
+						model->currentPlayer()->peek(c);
+						if (model->currentPlayer()->getActionTokens() == 0)
+							status = GUARD_TURN;
+					}
+					break;
 
-						case REMOVEST:
-						{
-							model->currentPlayer()->removeStealthToken();
-						}
-						break;
-						case CREATEAL:
-						{
-							cin >> coord;
-							Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
-							if (model->currentPlayer()->createAlarm(c))
-								model->currentPlayer()->useAbility(true);
-						}
-						break;
-						case PLACECR:
-						{
+					case ADDT:
+					{
+						model->currentPlayer()->wantsToAddToken();
+					}
+					break;
 
-						}
+					case THROWD:
+					{
+						model->currentPlayer()->wantsToThrowDice();
+					}
+					break;
+					case USET:
+					{
+						model->currentPlayer()->wantsToUseToken();
+					}
+					break;
+					case ADDACT:
+					{
+						model->currentPlayer()->setActionTokens(model->currentPlayer()->getActionTokens()+80);
+					}
+					break;
+					case REMOVEACT:
+					{
+						model->currentPlayer()->removeActionToken();
+					}
+					break;
+
+					case REMOVEST:
+					{
+						model->currentPlayer()->removeStealthToken();
+					}
 					break;
 					}
 				}
@@ -167,10 +146,9 @@ public:
 
 				case GUARD_TURN:
 				{
-					DEBUG_MSG("Guard turn:");
 					switch (event)
 					{
-					case MOVEGUARD:
+					case MG:
 					{
 						model->moveGuard();
 
