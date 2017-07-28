@@ -63,10 +63,6 @@ public:
 	*/
 	vector<string> getActions();
 	
-	/**
-		Update the actions the player can do
-	*/
-	void updateActions();
 	
 	
 	/**
@@ -244,4 +240,9 @@ private:
 	vector <Coord> visibleFrom;
 	vector <string> possibleActions;
 	vector <unsigned int> dice;	
+
+	/**
+	Update the actions the player can do
+	*/
+	void updateActions();
 };
