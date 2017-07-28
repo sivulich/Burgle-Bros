@@ -17,10 +17,12 @@ GameObserver::GameObserver(GameModel* g)
 	pl2 = new RemotePlayerObserver(game->getPlayer2(), board, cont);
 	
 	screen->addObject(cont);
-	cont->setPosition(0, 0);
+	
 	game->attach(this);
-	al_install_keyboard();
+	cont->setPosition(0, 0);
 	al_install_mouse();
+	al_install_keyboard();
+	
 	events << Keyboard::getEventSource() << Mouse::getEventSource() << screen->getDisplay()->getEventSource();
 }
 
@@ -54,7 +56,9 @@ GameObserver::input()
 			{
 				if (event.getKeyboardKeycode() == ALLEGRO_KEY_ESCAPE)
 					return "exit";
-				// Si se aprieta otra tecla no se la tiene que pasar a la screen??
+				string out;
+				out+= al_keycode_to_name(event.getKeyboardKeycode());
+				return out;
 			}
 		}
 	}
