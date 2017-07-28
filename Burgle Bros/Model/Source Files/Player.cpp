@@ -9,7 +9,6 @@ Player::Player(Board * b, Player * p)
 	resetActionTokens();
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile != nullptr;
-	
 }
 
 void Player::setPosition(Tile * tile)

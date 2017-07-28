@@ -11,6 +11,7 @@ Tile::Tile()
 
 Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row) 
 {
+	turnDown();
 	alarmToken = false;
 	type = t;
 	coord.col = col;
