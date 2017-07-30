@@ -49,7 +49,7 @@ using namespace std;
 
 
 #define HOVER_TONE al_map_rgba(255,255,255,200)
-#define PRESSED_TONE al_map_rgba(0,0,0,200)
+#define PRESSED_TONE al_map_rgba(100,100,100,200)
 #define HOVER_TONE al_map_rgba(255,255,255,200)
 
 
@@ -59,6 +59,7 @@ using namespace std;
 
 
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
+(NO_TYPE,0x00)
 (ACK, 0x01)
 (AGREE, 0x02)
 (DISAGREE, 0x03)

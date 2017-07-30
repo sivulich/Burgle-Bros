@@ -39,7 +39,6 @@ public:
 	*/
 	virtual void exit(PlayerInterface * player) override;
 
-
 	void arm() { armed = true; };
 	void disarm() { armed = false; };
 	bool isArmed() { return armed; };

@@ -24,7 +24,7 @@ public:
 	/**
 	Removes 1 hack token from the tile
 	*/
-	void removeToken() { --hackToken; };
+	void removeToken() { --hackToken; notify(); };
 
 	void addToken() { if (hackToken<6) ++hackToken; };
 

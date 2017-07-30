@@ -26,11 +26,11 @@ RemotePlayerObserver::RemotePlayerObserver(Player* p, BoardObserver* bo, Contain
 	token = new Image(figures[player->getCharacterType()]);
 	BoardObserver& b = *board;
 	token->setScale(0.9* 0.8*b[0].getFloorGrid()->getHeight() / 4 / token->getHeight());
-	player->attach(this);
+	
 	Coord pos = player->getPosition();
 	b[pos.floor].getFloorGrid()->addObject(token);
 	token->setPosition(pos.row*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.9 * b[pos.floor].getFloorGrid()->getWidth() / 4 - token->getScale()*token->getHeight(), pos.col*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.45* b[pos.floor].getFloorGrid()->getWidth() / 4 - token->getScale() / 2.0*token->getWidth());
-
+	player->attach(this);
 }
 
 void
@@ -51,7 +51,7 @@ RemotePlayerObserver::update()
 			b[i].getFloorGrid()->addObject(token);
 			pair<int, int> target(pos.row*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.9 * b[pos.floor].getFloorGrid()->getWidth() / 4 - token->getScale()*token->getHeight(), pos.col*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.45* b[pos.floor].getFloorGrid()->getWidth() / 4 - token->getScale() / 2.0*token->getWidth());
 			if (token->hasAnimation() == false || ((MoveAnimation*)token->getAnimation())->getTarget() != target)
-				token->addAnimation(new MoveAnimation(token->getPos(), target, 0.4));
+				token->addAnimation(new MoveAnimation(token->getPos(), target, 0.2));
 		}
 	}
 }

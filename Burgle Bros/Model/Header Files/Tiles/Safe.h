@@ -19,7 +19,7 @@ public:
 
 	void setLoot(lootType l)
 	{
-		loot.push_back(LootFactory().newLoot(l));
+		safeLoot = l;
 	}
 	/**
 		Returns a vector of strings with the actions the player can do on the tile they are on
@@ -42,6 +42,7 @@ public:
 
 
 private:
+	lootType safeLoot;
 	unsigned int tokens;
 	vector <Tile *> combinationTiles;
 	bool safeCracked;

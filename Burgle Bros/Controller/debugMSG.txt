@@ -1,4 +1,3 @@
-The alarm went off at (1,A2)
-alarm set in:(1,A2)
-Guard turn:
-Guard turn:
+Current guard position: (6,F6)
+Current guard position: (6,F6)
+Current guard position: (6,F6)

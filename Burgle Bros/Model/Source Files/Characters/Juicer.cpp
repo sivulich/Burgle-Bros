@@ -2,10 +2,10 @@
 
 string Juicer::getAction(PlayerInterface * player)
 {
-	//if (player->currentTurn() != lastTurnUsed())
+	if (true == canUseAbility())
 	{
-		return "CREATE_ALARM";
+		return string("CREATE_ALARM");
 	}
-	//else
-		return "";
+	else
+		return string("");
 }

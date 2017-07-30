@@ -37,6 +37,8 @@ void Safe::doAction(string action, PlayerInterface * player)
 
 			if (combinationTiles.size() == 0) {		//  if the vector is empty, then all the tiles were cracked
 				safeCracked = true;								// if so, you opened the safe
+				DEBUG_MSG("You cracked the safe!!");
+				player->addLoot(safeLoot);
 				player->newAction("SAFE_OPENED", getPos());
 			}
 		}

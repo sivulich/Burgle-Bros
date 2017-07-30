@@ -7,6 +7,7 @@ class Loot: public BaseCard
 {
 public:
 	Loot();
+	Loot(lootType l);
 	~Loot();
 
 	Coord getPos() { return pos; };

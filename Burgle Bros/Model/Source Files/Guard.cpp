@@ -7,7 +7,6 @@ Guard::~Guard()
 
 
 
-
 void Guard::setFloorMap(vector<Coord> floor[4][4])
 {
 	for (unsigned i = 0; i < 4; i++)
@@ -43,16 +42,15 @@ void Guard::GuardCheck()
 
 void Guard::print()
 {
-	
+	cout << "Current guard position: " << pos << endl;
 	DEBUG_MSG("Current guard position: " << pos);
-	DEBUG_MSG("Steps to finish turn: " << currsteps);
 	if(patroldeck->activeCard() != nullptr) DEBUG_MSG("Active patrol card: " << patroldeck->activeCard()->getDescription());
+/*	DEBUG_MSG("Steps to finish turn: " << currsteps);
 	DEBUG_MSG("Current path:");
 	for (auto& a : path)
 	{
 		DEBUG_MSG(a);
-	}
-	DEBUG_MSG("\n");
+	}*/
 }
 
 /*bool Guard::RemoveAlarm(Coord coord)

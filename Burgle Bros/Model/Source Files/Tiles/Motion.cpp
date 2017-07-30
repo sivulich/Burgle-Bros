@@ -9,11 +9,16 @@ Motion::~Motion()
 
 void Motion::enter(PlayerInterface * player) {
 	Tile::enter(player);
+	if (player->getCharacterType() == HACKER)
+		hackerhere = true;
+	if(!hackerhere)
 	arm();
 }
 
 void Motion::exit(PlayerInterface * player) {
-	if (isArmed())
+	if (player->getCharacterType() == HACKER)
+		hackerhere = false;
+	if (isArmed() )
 	{
 		setAlarm(true);
 		disarm();

@@ -6,5 +6,6 @@ class Peterman :
 public:
 	Peterman() : Character(PETERMAN) {};
 	~Peterman();
+	virtual string getAction(PlayerInterface * player) override;
 };
 

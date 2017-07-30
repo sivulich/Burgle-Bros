@@ -39,7 +39,7 @@ LocalPlayerObserver::LocalPlayerObserver(Player* p, BoardObserver* bo, Container
 	b[pos.floor].getFloorGrid()->addObject(token);
 	token->setPosition(pos.row*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.9 * b[pos.floor].getFloorGrid()->getWidth() / 4-token->getScale()*token->getHeight(), pos.col*b[pos.floor].getFloorGrid()->getWidth() / 4 +0.45* b[pos.floor].getFloorGrid()->getWidth() / 4-token->getScale()/2.0*token->getWidth());
 	actions = new ActionObserver(p, 20, 5, hud);
-
+	update();
 }
 void
 LocalPlayerObserver::update() {
@@ -58,7 +58,7 @@ LocalPlayerObserver::update() {
 			b[i].getFloorGrid()->addObject(token);
 			pair<int, int> target(pos.row*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.9 * b[pos.floor].getFloorGrid()->getWidth() / 4 - token->getScale()*token->getHeight(), pos.col*b[pos.floor].getFloorGrid()->getWidth() / 4 + 0.45* b[pos.floor].getFloorGrid()->getWidth() / 4 - token->getScale() / 2.0*token->getWidth());
 			if(token->hasAnimation() ==false ||  ((MoveAnimation*)token->getAnimation())->getTarget()!=target )
-				token->addAnimation(new MoveAnimation(token->getPos(), target, 0.4));
+				token->addAnimation(new MoveAnimation(token->getPos(), target, 0.2));
 		}
 	}
 	actions->update();

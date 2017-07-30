@@ -22,7 +22,15 @@ public:
 		Return the a tile in the board
 	*/
 	Tile * getTile(Coord c);
+	 /**
+	 
+	 */
+	Guard * getGuard(unsigned int f){if (f < 3) return floor[f]->getGuard();
+	}
 
+	PatrolCardDeck * getDeck(unsigned int f) {
+		if (f < 3) return floor[f]->getPatrolDeck();
+	}
 	/**
 		Sets board tiles randomly
 	*/
@@ -40,6 +48,8 @@ public:
 
 	// Parse the board and set things in tiles depending on its type. Should be called after setting the board and walls
 	void parseBoard();
+
+	void adjThroughWalls(Coord c, list<Tile*>* adj) { if (c.floor < 4) floor[c.floor]->getThroughWalls(c, adj); };
 private:
 	// Sets the vector of tiles the safe needs to be cracked 
 	void prepSafeTile(Safe * safe);

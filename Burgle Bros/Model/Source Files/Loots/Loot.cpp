@@ -4,6 +4,10 @@ Loot::Loot()
 {
 
 }
+Loot::Loot(lootType l)
+{
+	type = l;
+}
 
 
 Loot::~Loot()

@@ -8,12 +8,14 @@ Player::Player(Board * b, Player * p)
 	otherPlayer = p;
 	resetActionTokens();
 	stealthTokens = NUMBER_STEALTH_TOKENS;
+	currentTile != nullptr;
 }
 
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
 	currentTile->turnUp();
+	updateActions();
 	notify();
 }
 
@@ -35,7 +37,6 @@ void Player::setCharacter(characterType type)
 	//notify(); creo que no hace falta llamar el update de la vista porque el
 	//           caracter se setea antes de que se vea la pantalla de juego
 }
-
 
 bool Player::has(lootType l)
 {
@@ -138,11 +139,14 @@ bool Player::peek(Tile * newTile)
 	return false;
 }
 
-
-void Player::createAlarm(Coord c)
+bool Player::createAlarm(Coord c)
 {
-	if (getCharacterType() == JUICER && currentTile->isAdjacent(c))
+	if (getCharacterType() == JUICER && currentTile->isAdjacent(c) && board->getTile(c)->hasAlarm() == false)
+	{
 		board->getTile(c)->setAlarm(true);
+		return true;
+	}
+	else return false;
 }
 
 void Player::placeCrow(Coord c)
@@ -180,19 +184,24 @@ vector<string> Player::getActions()
 void Player::updateActions()
 {
 	possibleActions.clear();
-	possibleActions = currentTile->getActions(this);
+	if(currentTile!=nullptr)
+		possibleActions = currentTile->getActions(this);
 
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
-	if (getCharacterType() == JUICER)
-		possibleActions.push_back("CREATE_ALARM");
-	else if (getCharacterType() == RAVEN)
-		possibleActions.push_back("PLACE_CROW");
-	else if (getCharacterType() == SPOTTER)
-		possibleActions.push_back("SPY_PATROL_DECK_CARD");
+	if (character != nullptr)
+	{
+		possibleActions.push_back(character->getAction(this));
+		/*if (getCharacterType() == JUICER)
+			possibleActions.push_back("CREATE_ALARM");
+		else if (getCharacterType() == RAVEN)
+			possibleActions.push_back("PLACE_CROW");
+		else if (getCharacterType() == SPOTTER)
+			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
+	}
 	// REEMPLAZar con un character->getAction();!!
 	
 
-	if(currentTile->hasLoot())
+	if(currentTile!=nullptr && currentTile->hasLoot())
 		possibleActions.push_back("PICK_UP_LOOT");
 
 	if (otherPlayer!= nullptr && otherPlayer->getPosition() == getPosition())
@@ -219,14 +228,9 @@ void Player::print()
 		cout << c << " ";
 	cout << endl;
 
-	cout << "Tile number : " << currentTile->getSafeNumber() << endl;
-
 	cout << "Loots : ";
 	for (auto c : loots)
 		cout << toString(c->getType()) << " ";
-	cout << endl;
-
-	cout << "Character " << toString(character->getType()) << endl;
 	cout << endl;
 	
 }
@@ -279,9 +283,9 @@ int Player::throwDice()
 	return temp;
 }
 
-void Player::addLoot(Loot * l)
+void Player::addLoot(lootType l)
 {
-	loots.push_back(l);
+	loots.push_back((new LootFactory)->newLoot(l));
 	notify();
 };
 
@@ -304,7 +308,6 @@ bool Player::isVisibleFrom(Coord c)
 {
 	return find(visibleFrom.begin(), visibleFrom.end(), c) != visibleFrom.end() ? true : false;
 }
-
 
 string Player::getName()
 { 

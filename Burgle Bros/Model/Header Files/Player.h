@@ -59,14 +59,9 @@ public:
 	bool isOnRoof();
 	
 	/**
-		Retrun a vector of strings with the actions the player can do
+		Return a vector of strings with the actions the player can do
 	*/
 	vector<string> getActions();
-	
-	/**
-		Update the actions the player can do
-	*/
-	void updateActions();
 	
 	
 	/**
@@ -85,7 +80,7 @@ public:
 	characterType getCharacterType();
 
 	/**
-		???
+
 	*/
 	bool needConfirmationToMove(Coord c);
 	
@@ -93,8 +88,6 @@ public:
 		Reset the player action tokens
 	*/
 	virtual void resetActionTokens()override;
-	
-
 
 	//--------------ACTIONS-----------------//
 	/**
@@ -110,10 +103,13 @@ public:
 	bool peek(Tile * newTile);
 	bool peek(Coord c);
 	
+	*/
+	void useAbility(bool b) { character->useAbility(b); };
+
 	/**
 		Creates an alarm in the specified coord (if player is ________)
 	*/
-	void createAlarm(Coord c);
+	bool createAlarm(Coord c);
 	
 	/**
 		Place a crow token in the specified coord (if player is ________)
@@ -133,11 +129,7 @@ public:
 	/**
 	Simulates a die being thrown
 	*/
-	virtual  int throwDice()override;
-
-
-
-
+	virtual  int throwDice();
 	/**
 		Appends a new action to the action history
 		@params action the string of the action that occured
@@ -163,12 +155,10 @@ public:
 		Returns the amount of action tokens
 	*/
 	virtual int getActionTokens()override;
-
-	
 	/**
 	
 	*/
-	void addLoot(Loot * l);
+	virtual void addLoot(lootType l)override;
 	/**
 
 	*/
@@ -195,24 +185,19 @@ public:
 	*/
 	virtual void clearVisibleFrom() override;
 
-
+	void setVisibleFrom(vector<Coord> v) { if (!v.empty()) this->visibleFrom = v; }
+	/**
+	
+	*/
 	vector<Loot*>& getLoots() { return loots; };
-
 	/**
 		
 	*/
 	vector<Coord> whereCanIMove();
-
 	/**
 
 	*/
 	vector<Coord> whereCanIPeek();
-
-
-
-
-
-
 
 	/////////// ??????????????? :O
 	/**
@@ -229,7 +214,10 @@ public:
 		Tells the tile the player wants use a token
 	*/
 	void wantsToUseToken() { currentTile->doAction(toString(USE_TOKEN), this); };
-
+	/**
+	
+	*/
+	int getTurn() { return turn; };
 private:
 	string name;
 	Character * character;
@@ -238,10 +226,16 @@ private:
 	Board * board;
 	int actionTokens;
 	int stealthTokens;
+	int turn;
 	vector<actionNode> actions;
 	vector <Loot*> loots;
 	// Coord from where the guard can see the player (player position normally, unless special cases)
 	vector <Coord> visibleFrom;
 	vector <string> possibleActions;
 	vector <unsigned int> dice;	
+
+	/**
+	Update the actions the player can do
+	*/
+	void updateActions();
 };

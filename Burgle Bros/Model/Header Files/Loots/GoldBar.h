@@ -3,7 +3,7 @@
 class GoldBar :	public Loot
 {
 public:
-	GoldBar();
+	GoldBar(lootType l) : Loot(l) {};
 	~GoldBar();
 };
 

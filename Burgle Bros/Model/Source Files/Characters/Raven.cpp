@@ -2,11 +2,10 @@
 
 string Raven::getAction(PlayerInterface * player)
 {
-	//if (player->currentTurn() != lastTurnUsed())
+	if (true == canUseAbility())
 	{
-		//setLastTurnUsed(player->currentTurn());
-		return "CREATE_ALARM";
+		return "PLACE_CROW";
 	}
-	//else
+	else
 		return "";
 }

@@ -57,7 +57,7 @@ void GameModel::print()
 	{
 		board[i].getGuard()->print();
 	}
-	cout << "______________________________________________________________________________" << endl;
+	cout <<  endl << "______________________________________________________________________________" << endl;
 
 #endif
 
@@ -74,6 +74,7 @@ Called after guard movement, it changes the turn
 void GameModel::changeTurn()
 {
 	swap(currentPlayer_, otherPlayer_);
+	currentPlayer_->resetActionTokens();
 }
 
 bool GameModel::guardIsMoving()

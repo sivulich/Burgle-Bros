@@ -12,7 +12,7 @@ class Fingerprint :
 	public Tile
 {
 public:
-	Fingerprint(int floor, int col, int row) : Tile(FINGERPRINT,floor, col, row) {};
+	Fingerprint(int floor, int col, int row) : Tile(FINGERPRINT, floor, col, row) { hackerhere = false; };
 	~Fingerprint();
 
 	/**
@@ -34,9 +34,12 @@ public:
 	*/
 	virtual void enter(PlayerInterface * player) override;
 
+	virtual void exit(PlayerInterface * player) override;
+
 	void setComputerRoom(ComputerRoomF * c) { computerRoom = c;  };
 
 private:
 	ComputerRoomF * computerRoom;
+	bool hackerhere;
 };
 

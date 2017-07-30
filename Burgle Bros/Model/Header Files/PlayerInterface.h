@@ -82,9 +82,9 @@ public:
 	virtual void clearVisibleFrom() =0;
 
 	/**
-		Simulates a die being thrown
+
 	*/
-	virtual int throwDice() = 0;
+	virtual void addLoot(lootType l) = 0;
 
 	/**
 	Appends a new action to the action history
@@ -92,6 +92,14 @@ public:
 	@params tile coordinate to the tile where the action happened
 	*/
 	virtual void newAction(string action, Coord tile)=0;
+	/**
+	
+	*/
+	virtual int getTurn() = 0;
+	/**
+	
+	*/
+	virtual  int throwDice() = 0;
 private:
 };
 
