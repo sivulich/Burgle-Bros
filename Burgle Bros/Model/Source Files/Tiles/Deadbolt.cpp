@@ -16,9 +16,10 @@ bool Deadbolt::canMove(PlayerInterface * player)
 
 void Deadbolt::enter(PlayerInterface * player)
 {
-	Tile::enter(player);
+	// If player has enough action tokens enter the tile
 	if (player->getActionTokens() >= 3)
 	{
+		Tile::enter(player);
 		player->removeActionToken();
 		player->removeActionToken();
 		player->removeActionToken();

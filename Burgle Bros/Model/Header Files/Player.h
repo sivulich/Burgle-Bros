@@ -107,8 +107,8 @@ public:
 	/**
 		Peek the tile in exchange of an action token
 	*/
-	void peek(Tile * newTile);
-	void peek(Coord c);
+	bool peek(Tile * newTile);
+	bool peek(Coord c);
 	
 	/**
 		Creates an alarm in the specified coord (if player is ________)

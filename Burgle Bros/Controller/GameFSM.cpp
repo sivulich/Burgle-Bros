@@ -19,23 +19,35 @@ namespace msm = boost::msm;
 namespace mpl = boost::mpl;
 using namespace boost::msm::front;
 
+// Structure with game FSM variables
+struct Variables
+{
+	GameModel * model;
+	Coord coord;
+	//GameView * v;
+};
+
 struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 {
-	GameFSM_() { model = nullptr; };
-	GameFSM_(GameModel * m) : model(m)
+	// Default constructor
+	GameFSM_() { };
+
+	// Constructor which receives a pointer to the model
+	GameFSM_(GameModel * m) 
 	{
-		
+		vars = new Variables;
+		vars->model = m;
 	};
-
-	GameModel * model;
-
 	
-	
+	Variables * vars;
+
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
-		fsm.set_states(msm::back::states_ << GameFSM_::playerTurn(model));
+		// Construct the player turn state with the pointer to the variables
+		fsm.set_states(msm::back::states_ << GameFSM_::playerTurn(vars));
+	
 		//GameFSM_::playerTurn& p = fsm.get_state<GameFSM_::playerTurn&>();
 		//p.model = model;
 	}
@@ -45,8 +57,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	{
 		std::cout << "Leaving Burgle Bros Finite State Machine" << std::endl;
 	}
-
-	
+		
 	// Flags
 	struct gameClosed {};
 
@@ -57,22 +68,28 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	// Player turn is a fsm itself (submachine)
 	struct playerTurn_ : public msm::front::state_machine_def<playerTurn_>
 	{
-		playerTurn_() { model = nullptr; };
-		playerTurn_(GameModel * m) : model(m) {};
-		GameModel * model;
+		Variables * vars;
 
+		playerTurn_() {};
+		playerTurn_(Variables * v)
+		{
+			vars = v;
+		};
+		
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 		
-			/*std::cout << "Entering player turn (roll dice for loot here) " << std::endl;*/
-			std::cout << typeid(fsm).name() << std::endl;//  .set_states(msm::back::states_ << playerTurn_::check(model));
-			fsm.model->print();
-			/*fsm.set_states(msm::back::states_ << playerTurn_::peeking(model));
-			fsm.set_states(msm::back::states_ << playerTurn_::creatingAlarm(model));
-			fsm.set_states(msm::back::states_ << playerTurn_::placingCrow(model));
-			fsm.set_states(msm::back::states_ << playerTurn_::offeringLoot(model));
-			fsm.set_states(msm::back::states_ << playerTurn_::requestingLoot(model));*/
+			std::cout << "Entering player turn (roll dice for loot here) " << std::endl;
+			//std::cout << typeid(fsm).name() << std::endl;//  .set_states(msm::back::states_ << playerTurn_::check(model));
+			vars->model->print();
+			
+			//fsm.set_states(msm::back::states_ << playerTurn_::mooving(vars));
+			//fsm.set_states(msm::back::states_ << playerTurn_::peeking(vars));
+			//fsm.set_states(msm::back::states_ << playerTurn_::creatingAlarm(vars));
+			//fsm.set_states(msm::back::states_ << playerTurn_::placingCrow(vars));
+			//fsm.set_states(msm::back::states_ << playerTurn_::offeringLoot(vars));
+			//fsm.set_states(msm::back::states_ << playerTurn_::requestingLoot(vars));
 		}
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
@@ -89,8 +106,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			template <class EVT, class FSM, class SourceState, class TargetState>
 			void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 			{
-				std::cout << "Mooving" << typeid(FSM).name() << std::endl;
-//				fsm.model->currentPlayer()->move(source.c);
+				std::cout << "Moving to " << event.c << std::endl;
+				fsm.vars->model->currentPlayer()->move(event.c);
 			}
 		};
 
@@ -100,6 +117,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 			{
 				std::cout << "Peeking" << std::endl;
+				//vars->model->currentPlayer()->peek(event.c)
 			}
 		};
 
@@ -225,7 +243,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 
 		struct chooseTile : public msm::front::state<>
 		{
-//			Coord c;
+
 			template <class EVT, class FSM>
 			void on_entry(EVT const&  event, FSM& fsm)
 			{
@@ -235,7 +253,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			template <class EVT, class FSM>
 			void on_exit(EVT const&  event, FSM& fsm)
 			{
-//				c = event.c;
+				//fsm.vars->coord = event.c;
 			}
 
 
@@ -264,8 +282,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		struct mooving_ : public msm::front::state_machine_def<mooving_>
 		{
 			mooving_() {};
-			mooving_(GameModel * m) : model(m) {};
-			GameModel * model;
+			mooving_(Variables * v) : vars(v) {};
+			Variables * vars;
 
 			struct transition_table : mpl::vector<
 				//       Start         Event             Next          Action         Guard
@@ -282,8 +300,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		struct peeking_ : public msm::front::state_machine_def<peeking_>
 		{
 			peeking_() {};
-			peeking_(GameModel * m) : model(m) {};
-			GameModel * model;
+			peeking_(Variables * v) : vars(v) {};
+			Variables * vars;
 
 			struct transition_table : mpl::vector<
 				//       Start         Event             Next          Action         Guard
@@ -296,8 +314,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		struct creatingAlarm_ : public msm::front::state_machine_def<creatingAlarm_>
 		{
 			creatingAlarm_() {};
-			creatingAlarm_(GameModel * m) : model(m) {};
-			GameModel * model;
+			creatingAlarm_(Variables * v) : vars(v) {};
+			Variables * vars;
 
 			struct transition_table : mpl::vector<
 				//       Start         Event             Next          Action         Guard
@@ -310,8 +328,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		struct placingCrow_ : public msm::front::state_machine_def<placingCrow_>
 		{
 			placingCrow_() {};
-			placingCrow_(GameModel * m) : model(m) {};
-			GameModel * model;
+			placingCrow_(Variables * v) : vars(v) {};
+			Variables * vars;
 
 			struct transition_table : mpl::vector<
 				//       Start         Event             Next          Action         Guard
@@ -324,8 +342,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		struct offeringLoot_ : public msm::front::state_machine_def<offeringLoot_>
 		{
 			offeringLoot_() {};
-			offeringLoot_(GameModel * m) : model(m) {};
-			GameModel * model;
+			offeringLoot_(Variables * v) : vars(v) {};
+			Variables * vars;
 
 			struct transition_table : mpl::vector<
 				//       Start         Event             Next          Action         Guard
@@ -340,8 +358,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		struct requestingLoot_ : public msm::front::state_machine_def<requestingLoot_>
 		{
 			requestingLoot_() {};
-			requestingLoot_(GameModel * m) : model(m) {};
-			GameModel * model;
+			requestingLoot_(Variables * v) : vars(v) {};
+			Variables * vars;
 
 			struct transition_table : mpl::vector<
 				//       Start         Event             Next          Action         Guard
@@ -375,7 +393,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		};
 
 		typedef chooseAction initial_state;
-
+		// FALTA AGREGAR TRANSISIONES DE ACCION A ACCION. EJ: Toco move, pero no elijo tile y toco peek. 
 		struct transition_table : mpl::vector<
 			//       Start         Event             Next          Action         Guard
 			//  +------------+---------------+-----------------+--------------+--------------+
@@ -529,34 +547,47 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		}
 	};
 
+	struct doRender
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Render" << std::endl;
+		}
+	};
+
 
 	// Transition table for main FSM
 	struct transition_table : mpl::vector<
 		//       Start        Event         Next         Action         Guard
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < playerTurn, pass, guardTurn, none, none         >,
+		Row < playerTurn,      pass,     guardTurn,       none,        none       >,
 		Row < playerTurn::exit_pt<exitState>, none, guardTurn, moveGuard, none         >,
-		Row < playerTurn, gameOver, gameEnded, none, none         >,
-		Row < playerTurn, burglarsWin, gameEnded, none, none         >,
+		Row < playerTurn,   gameOver   ,  gameEnded ,     none     ,     none     >,
+		Row < playerTurn, burglarsWin  , gameEnded  ,     none     ,     none     >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn, movee, none, moveGuard, none         >,
-		Row < guardTurn, pass, playerTurn, changeTurns, none         >,
-		Row < guardTurn, gameOver, gameEnded, none, none         >,
+		Row < guardTurn  ,    movee    ,    none    ,   moveGuard  ,     none     >,
+		Row < guardTurn  ,    pass     , playerTurn , changeTurns  ,     none     >,
+		Row < guardTurn  ,   gameOver  , gameEnded  ,     none     ,     none     >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded, playAgain, playerTurn, resetGame, none         >,
+		Row < gameEnded  ,   playAgain , playerTurn ,   resetGame  ,     none     >,
 		//  +------------+-------------+------------+--------------+--------------+
 
 		//--------------------------Orthogonal region-----------------------------//
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < playing, close, exit, none, none         >,
-		Row < playing, errorReceived, error, none, none         >,
-		Row < playing, pause, paused, none, none         >,
+		Row <   playing  ,    close    ,   exit     ,    none      ,     none     >,
+		Row <   playing  ,errorReceived,   error    ,    none      ,     none     >,
+		Row <   playing  ,    pause    ,   paused   ,    none      ,     none     >,
+		//Row <   playing, render, none, doRender, none     >,
+
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < paused, resume, playing, none, none         >,
-		Row < paused, close, exit, none, none         >,
+		Row <   paused   ,    resume   ,   playing  ,     none     ,     none     >,
+		Row <   paused   ,    close    ,    exit    ,     none     ,     none     >,
+		//Row <   paused, render, paused, doRender, none     >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < error, errorHandled, playing, none, none         >,
-		Row < error, close, exit, none, none         >
+		Row <   error    ,errorHandled ,  playing   ,     none     ,     none     >,
+		Row <   error    ,    close    ,   exit     ,     none     ,     none     >
+		//Row <   error	 , render, error, doRender, none     >
 		//  +------------+-------------+------------+--------------+--------------+
 	> {};
 
@@ -582,10 +613,14 @@ GameFSM::GameFSM(GameModel * m) : FSM(new GameFSM_imp(m))
 void GameFSM::start()
 {
 	static_pointer_cast<GameFSM_imp>(FSM)->start();
+	// HACER TODAS LAS OTRAS COSAS NECESARIAS AL COMENZAR EL JUEGO
 };
+
+
 void GameFSM::stop()
 {
 	static_pointer_cast<GameFSM_imp>(FSM)->stop();
+	// HACER TODAS LAS OTRAS COSAS NECESARIAS AL TERMINAR EL JUEGO
 };
 
 bool GameFSM::isRunning()
@@ -593,50 +628,57 @@ bool GameFSM::isRunning()
 	return static_pointer_cast<GameFSM_imp>(FSM)->is_flag_active<GameFSM_imp::gameClosed>() == false;
 };
 
-void GameFSM::processEvent(BaseEvent *  ev)
+
+void GameFSM::getInput()
+{
+	cin >> s;
+}
+
+/*
+void GameFSM::processEvent()
 {
 		static_pointer_cast<GameFSM_imp>(FSM)->process_event(*ev);
 
 		delete ev;
-}
-/*
-void GameFSM::processEvent(string s)
+}*/
+
+void GameFSM::processEvent()
 {
 	if (s == "move")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::move());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(movee());
 	else if (s == "peek")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::peek());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(peek());
 	else if (s == "throwDice")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::throwDice());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(throwDice());
 	else if (s == "addToken")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::addToken());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(addToken());
 	else if (s == "useToken")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::useToken());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(useToken());
 	else if (s == "pass")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::pass());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(pass());
 	else if (s == "pause")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::pause());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(pause());
 	else if (s == "resume")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::resume());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(resume());
 	else if (s == "gameOver")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::gameOver());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(gameOver());
 	else if (s == "burglarsWin")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::burglarsWin());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(burglarsWin());
 	else if (s == "playAgain")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::playAgain());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(playAgain());
 	else if (s == "close")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::close());
-	else if (s == "coord")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::coord());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(close());
 	else if (s == "errorReceived")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::errorReceived());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(errorReceived());
 	else if (s == "errorHandled")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::errorHandled());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(errorHandled());
 	else if (s == "yes")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::yes());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(yes());
 	else if (s == "no")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(GameFSM_imp::no());
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(no());
+	else if (s.substr(0, 5) == "coord")
+		static_pointer_cast<GameFSM_imp>(FSM)->process_event(coord(Coord(s[5], s[6], s[7])));
 
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event
+	
 
-}*/
+}

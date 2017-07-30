@@ -69,8 +69,13 @@ vector<Coord> Player::whereCanIMove()
 	vector<Coord> v = currentTile->whereCanIMove();
 	// Remove the ones where I cant move
 	for (auto& t : v)
-		if (board->getTile(t)->canMove(this)==false)
-			v.erase(remove(v.begin(), v.end(), t));
+	{
+		// Aca hay un problema con el keypad, porque canMove tira el dado!! Lo arreglo con un continue
+		if (board->getTile(t)->is(KEYPAD))
+			continue;
+		//else if (board->getTile(t)->canMove(this) == false)
+		//	v.erase(remove(v.begin(), v.end(), t));
+	}
 	return v;
 }
 
@@ -79,19 +84,26 @@ vector<Coord> Player::whereCanIPeek()
 	vector<Coord> v = currentTile->whereCanIPeek();
 	// VER COMO HACER CON EL ACROBAT UNA VEZ POR TURNO PARA HACER PEEK EN UNA NO ADYACENTE 
 	// Remove the flipped ones
-	for (auto& t : v)
+	/*for (auto& t : v)
 		if (board->getTile(t)->isFlipped())
-			v.erase(remove(v.begin(),v.end(),t));
+			t=v.erase(remove(v.begin(),v.end(),t));*/
+
+	v.erase(remove_if(v.begin(),v.end(),
+		[&](const Coord t)-> bool
+		{ return board->getTile(t)->isFlipped(); }),
+		v.end());
 	return v;
 
 }
 
 bool Player::move(Tile * newTile)
 {
-	// Siempre hay que sacar un action token?
-	removeActionToken(); 
+	
+	
 	if (newTile->canMove(this))
 	{
+		// Solo saco un action token si me puedo mover
+		removeActionToken();
 		newAction("MOVE", newTile->getPos());
 		// Exit the current tile
 		currentTile->exit(this);
@@ -108,12 +120,12 @@ bool Player::move(Tile * newTile)
 	
 }
 
-void Player::peek(Coord c)
+bool Player::peek(Coord c)
 {
-	peek(board->getTile(c));
+	return peek(board->getTile(c));
 }
 
-void Player::peek(Tile * newTile)
+bool Player::peek(Tile * newTile)
 {
 	if (newTile->isFlipped()==false && newTile->isAdjacent(getPosition()))
 	{
@@ -121,7 +133,9 @@ void Player::peek(Tile * newTile)
 		newAction("PEEK", newTile->getPos());
 		newTile->turnUp();
 		notify();
+		return true;
 	}
+	return false;
 }
 
 

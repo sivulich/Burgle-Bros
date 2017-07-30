@@ -17,10 +17,16 @@ int main(void)
 
 	model.print();
 	cin >> c;
+	cin >> c;
 
 	model.currentPlayer()->move(model.currentPlayer()->whereCanIMove()[0]);
 	model.print();
 
+	model.changeTurn();
+	model.currentPlayer()->move(model.currentPlayer()->whereCanIMove()[0]);
+	model.print();
+
+	cin >> c;
 	cin >> c;
 
 	model.changeTurn();
@@ -28,18 +34,14 @@ int main(void)
 	model.print();
 
 	cin >> c;
-
-	model.changeTurn();
-	model.currentPlayer()->move(model.currentPlayer()->whereCanIMove()[0]);
-	model.print();
-
 	cin >> c;
 
 	model.changeTurn();
 	model.currentPlayer()->move(model.currentPlayer()->whereCanIMove()[0]);
 	model.print();
 
-	while (1);
+	cin >> c;
+	cin >> c;
 
 
 }

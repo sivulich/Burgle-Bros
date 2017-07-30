@@ -25,7 +25,7 @@ void Safe::doAction(string action, PlayerInterface * player)
 		player->removeActionToken();
 		player->removeActionToken();
 		addToken();
-		player->newAction(toString(ADD_TOKEN), getPos());
+		player->newAction("ADD_TOKEN", getPos());
 		DEBUG_MSG("You added a new dice to this safe. You can now throw " << tokens << " dice.");
 	}
 	else if (action == "THROW_DICE")

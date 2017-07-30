@@ -107,3 +107,8 @@ void GameModel::setBoard(vector<tileType> tiles)
 	board.setWalls();
 	board.parseBoard();
 }
+
+bool GameModel::moveTo(Coord c)
+{
+	return currentPlayer_->move(c);
+}

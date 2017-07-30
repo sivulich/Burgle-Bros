@@ -1,28 +1,29 @@
-#include "../GameFSM.h"
+#include "../FSM(jullio).h"
 #include "../../Model/Header Files/Player.h"
-#include "../Header Files/controller.h"
+#include "../../View/Header Files/"
+
 #include <iostream>
 #include <string>
 
 int main()
 {
 	GameModel model;
-	//GameFSM FSM(&model);
-	Controller controller(&model, nullptr);
-	model.setBoard();
+	GameGraphics graphics
+	GameController game(&model);
+	
 
-	model.currentPlayer()->setPosition(Coord(0, 0, 0));
-	model.currentPlayer()->setName(string("Pepe"));
-	model.currentPlayer()->setCharacter(RAVEN);
 
-	model.otherPlayer()->setPosition(Coord(0, 0, 0));
-	model.otherPlayer()->setName(string("Gabriela"));
-	model.otherPlayer()->setCharacter(PETERMAN);
-	model.getBoard()[0].addAlarm(Coord(0, 2, 2));
-	model.getBoard()[0].addAlarm(Coord(0, 1, 1));
-	model.getBoard()[0].addAlarm(Coord(0, 2, 1));
-	model.print();
-	controller.startGame();
+	// A ESTA ALTURA SE SUPONE QUE LAS MAQUINAS YA ESTAN CONECTADAS
+	// LOS NOMBRES DE CADA JUGADOR INGRESADOS
+	game.start();
+
+	while (game.isRunning())
+	{
+		game.getInput();
+		game.processEvent();
+	}
+
+	game.stop();
 
 	return 0;
 }

@@ -35,15 +35,33 @@ void Floor::print()
 			string name = toString(tiles[j][i]->getType());
 			int spaces = 18 - name.length();
 
-			if (tiles[j][i]->isFlipped())
+			if (guardPos().col == j && guardPos().row == i)
 			{
-				cout << eku::green << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << eku::white;
+				if (tiles[j][i]->isFlipped())
+				{
+					cout << eku::green << string(spaces / 2, ' ') + name<< eku::blue << "G" << string(spaces - spaces / 2-1, ' ') << eku::white;
+				}
+				else
+				{
+					cout << eku::red << string(spaces / 2, ' ') + name << eku::blue << "G" << string(spaces - spaces / 2-1, ' ') << eku::white;
+				}
 			}
 			else
 			{
-				cout << eku::red << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << eku::white;
+				if (tiles[j][i]->isFlipped())
+				{
+					cout << eku::green << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << eku::white;
+				}
+				else
+				{
+					cout << eku::red << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << eku::white;
+				}
 			}
+				
+
 			
+			
+
 			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j + 1, i)) != adjacent[j][i].end())
 				cout << " ";
 			else

@@ -15,19 +15,21 @@ public:
 	~ComputerRoomL();
 
 	virtual vector<string> getActions(PlayerInterface * player) override;
-	virtual void doAction(string action, PlayerInterface * player) override;
+	virtual bool doAction(string action, PlayerInterface * player) override;
 
 	/**
 	Returns the amount of hack tokens in the tile
 	*/
-	int getHackTokens(){ return hackToken; };
+	int getHackTokens() { return hackToken; };
 	/**
 	Removes 1 hack token from the tile
 	*/
 	void removeToken() { --hackToken; };
 
+	void addToken() { if (hackToken<6) ++hackToken; };
+
 private:
-	void addToken() { ++hackToken; };
+	
 	int hackToken;
 };
 

@@ -116,7 +116,7 @@ public:
 		@param action Action to execute
 		@param p Player who wants to do the action
 	*/
-	virtual void doAction(string action, PlayerInterface * player);
+	virtual bool doAction(string action, PlayerInterface * player);
 
 	/**
 		If tile is flipped returns the safe number, else returns 0.

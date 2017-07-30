@@ -32,7 +32,7 @@ public:
 		@param action Action to execute
 		@param p Player who wants to do the action
 	*/
-	virtual void doAction(string action, PlayerInterface * player) override;
+	virtual bool doAction(string action, PlayerInterface * player) override;
 
 	/**
 		Adds a tile to the combination of tiles needed to crack the safe.

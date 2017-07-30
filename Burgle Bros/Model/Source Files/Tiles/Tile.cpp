@@ -112,7 +112,7 @@ void Tile::peek()
 
 bool Tile::canMove(PlayerInterface * p)
 {
-	return p->getActionTokens()>1 && isAdjacent(p->getPosition());
+	return p->getActionTokens()>=1 && isAdjacent(p->getPosition());
 }
 
 void Tile::enter(PlayerInterface * p)

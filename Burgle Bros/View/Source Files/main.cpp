@@ -1,4 +1,3 @@
-
 #include "../../Model/Header Files/GameModel.h"
 #include "../Header Files/Allegro.h"
 #include "../Header Files/object.h"

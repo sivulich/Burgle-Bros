@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 
 #include <boost/shared_ptr.hpp>
 
@@ -6,12 +7,9 @@
 #include "../Model/Header Files/GameModel.h"
 
 //----------------------- EVENTS -----------------------------//
-struct BaseEvent {
-	Coord c;
-};
+struct BaseEvent {};
 
-struct movee : BaseEvent{};
-
+struct movee : BaseEvent {};
 struct peek : BaseEvent {};
 struct throwDice : BaseEvent {};
 struct useToken : BaseEvent {};
@@ -34,7 +32,6 @@ struct pickUpLoot : BaseEvent {};
 struct yes : BaseEvent {};
 struct no : BaseEvent {};
 struct render : BaseEvent {};
-
 struct coord : BaseEvent
 {
 	coord(Coord p) :c(p) {};
@@ -42,11 +39,11 @@ struct coord : BaseEvent
 };
 
 
-class GameFSM
+class GameController
 {
 public:
-	GameFSM(GameModel * m);
-	virtual ~GameFSM() {}
+	GameController(GameModel * m);
+	virtual ~GameController() {}
 	void start();
 	void stop();
 	bool isRunning();

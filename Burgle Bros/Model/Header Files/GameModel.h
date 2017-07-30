@@ -43,7 +43,7 @@ public:
 	void setBoard(vector<tileType> tiles);
 
 	/**
-		Move the correspongin guard one step
+		Move the corresponding guard one step
 	*/
 	void moveGuard();
 
@@ -67,17 +67,25 @@ public:
 	*/
 	Player * otherPlayer() { return otherPlayer_; };
 
+	/**
+		Tries to move current player to the given position
+	*/
+	bool moveTo(Coord c);
 
 	Board& getBoard() { return board; };
 	Player* getPlayer1() { return &player1; };
 	Player* getPlayer2() { return &player2; };
 
 private:	
+	// Pointers to players
 	Player* currentPlayer_;
 	Player* otherPlayer_;
+
 	Player player1;
 	Player player2;
+
 	Board board;
+	
 	bool guardIsMoving_;
 };
 

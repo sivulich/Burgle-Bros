@@ -10,7 +10,8 @@ bool Keypad::canMove(PlayerInterface * player)
 	if (player->getActionTokens() >= 1)
 	{
 		// Player::move() ya le saca un action token, hay que sacar otro?
-		player->removeActionToken();
+		// Creo que no... lo comento...
+		//player->removeActionToken();
 		turnUp();
 		if (keyKnown == false)
 		{
