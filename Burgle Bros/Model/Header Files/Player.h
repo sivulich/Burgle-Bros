@@ -63,10 +63,6 @@ public:
 	*/
 	vector<string> getActions();
 	
-	/**
-		Update the actions the player can do
-	*/
-	void updateActions();
 	
 	/**
 		Sets the player's position with a tile pointer
@@ -241,4 +237,9 @@ private:
 	vector <Coord> visibleFrom;
 	vector <string> possibleActions;
 	vector <unsigned int> dice;	
+
+	/**
+	Update the actions the player can do
+	*/
+	void updateActions();
 };

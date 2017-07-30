@@ -15,7 +15,7 @@ void Board::setWalls()
 {
 	// Create the map with the walls
 	bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
-	   {{ T,W,T,´,T,´,T},
+	   {{ T,W,T,´,T,´,T },
 		{ ´,´,´,´,W,´,´ },
 		{ T,´,T,´,T,W,T },
 		{ W,´,W,´,´,´,´ },

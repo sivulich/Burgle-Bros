@@ -10,9 +10,11 @@ BurgleNetwork::BurgleNetwork(string IP)
 	apr_initialize();
 	currThread = new thread(&BurgleNetwork::establishConn,this,&flags , IP);	
 }
+
 bool
 BurgleNetwork::join()
 {
+	this_thread::sleep_for(chrono::milliseconds(10));
 	if (flags.join == true)
 	{	
 		currThread->join();
@@ -22,19 +24,55 @@ BurgleNetwork::join()
 	} 
 	else
 	{ 
-		return false;
+		if (flags.executing == true)
+			return false;
+		else
+			return true;
+
 	}
+}
+void
+BurgleNetwork::threadStarter(thData* fl)
+{
+	fl->executing = true;
+}
+void
+BurgleNetwork::threadCloser(thData* fl)
+{
+	fl->executing = false;
+	fl->join = true;
 }
 bool
 BurgleNetwork::sendPacket(apr_socket_t* sock,const vector<char>& dat)
 {
 	apr_size_t size = dat.size();
 	apr_status_t rv;
+	if (dat.size() == 0)
+		return true;
 	rv=apr_socket_send(sock, dat.data(), &size);
 	if (rv == APR_SUCCESS)
 		return true;
 	else return false;
 }
+bool
+BurgleNetwork::recievePacket(apr_socket_t* sock, vector<char>& dat)
+{
+	vector<char> buffer(1024, 0);
+	apr_size_t size = 1024;
+	clock_t t = clock();
+	apr_status_t rv;
+	do {
+		if (size == 0)
+			size = 1024;
+		rv = apr_socket_recv(sock, buffer.data(), &size);
+	} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
+	
+	if (size == 1024 || size == 0)
+		return false;
+	dat.insert(dat.end(), buffer.begin(), buffer.begin()+size);
+	return true;
+}
+
 void 
 BurgleNetwork::exchangeNames(thData* fl, const string& name)
 {
@@ -43,8 +81,7 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 		fl->join = true;
 		return;
 	}
-	clock_t t;
-	fl->executing = true;
+	threadStarter(fl);
 	/*First contact server sends NAME, client listens*/
 	if (fl->server == true)
 	{
@@ -62,16 +99,8 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	}
 	else
 	{
-		vector<char> buffer(1024,0);
-		apr_size_t size=1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size != 1 || buffer[0]!=NAME)
+		vector<char> buffer;
+		if (recievePacket(fl->sock,buffer)==false || buffer.size() != 1 || buffer[0]!=NAME)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -85,16 +114,8 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	/*Second packet Client sends NAME_IS, server listens*/
 	if (fl->server == true)
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size == 1024 || size==0 || buffer[0] != NAME_IS)
+		vector<char> buffer;
+		if (recievePacket(fl->sock,buffer)==false || buffer.size()==0 || buffer[0] != NAME_IS)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -143,16 +164,8 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	}
 	else
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size != 1 || buffer[0] != ACK)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != ACK)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -166,16 +179,8 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	/*Fourth packet client sends NAME, server listens*/
 	if (fl->server == true)
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size != 1 || buffer[0] != NAME)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != NAME)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -222,16 +227,8 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	}
 	else
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size == 1024 || size == 0 || buffer[0] != NAME_IS)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() == 0 || buffer[0] != NAME_IS)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -247,16 +244,8 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	/*Sixth packet client sends ACK,server listens*/
 	if (fl->server == true)
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size != 1 || buffer[0] != ACK)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != ACK)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -279,8 +268,7 @@ BurgleNetwork::exchangeNames(thData* fl, const string& name)
 		}
 		this_thread::sleep_for(chrono::milliseconds(100));
 	}
-	fl->executing = false;
-	fl->join = true;
+	threadCloser(fl);
 	return;
 }
 void 
@@ -291,8 +279,7 @@ BurgleNetwork::exchangeCharacters(thData* fl, const characterType type)
 		fl->join = true;
 		return;
 	}
-	clock_t t;
-	fl->executing = true;
+	threadStarter(fl);
 
 	/*First packet server sends I_AM, client listens*/
 	if (fl->server == true)
@@ -312,16 +299,8 @@ BurgleNetwork::exchangeCharacters(thData* fl, const characterType type)
 	}
 	else
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size != 2 || buffer[0] != I_AM)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 2 || buffer[0] != I_AM)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -336,17 +315,8 @@ BurgleNetwork::exchangeCharacters(thData* fl, const characterType type)
 	/*Second packet server listens, client sends I_AM*/
 	if (fl->server == true)
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv)||size==0));
-		
-		if (size != 2 || buffer[0] != I_AM)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 2 || buffer[0] != I_AM)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -372,8 +342,7 @@ BurgleNetwork::exchangeCharacters(thData* fl, const characterType type)
 		
 	}
 
-	fl->executing = false;
-	fl->join = true;
+	threadCloser(fl);
 	return;
 }
 void
@@ -384,8 +353,7 @@ BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardTarget
 		fl->join = true;
 		return;
 	}
-	clock_t t;
-	fl->executing = true;
+	threadStarter(fl);
 
 	/*First packet server sends INITIAL_G_POS, client listens*/
 	if (fl->server == true)
@@ -412,16 +380,8 @@ BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardTarget
 	}
 	else
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size != 9 || buffer[0] != INITIAL_G_POS)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 9 || buffer[0] != INITIAL_G_POS)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -441,17 +401,8 @@ BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardTarget
 	/*Second packet server listens, client sends ACK*/
 	if (fl->server == true)
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-
-		if (size != 1 || buffer[0] !=ACK)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] !=ACK)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -459,7 +410,6 @@ BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardTarget
 			fl->errMessage = "Didnt recieve second packet";
 			return;
 		}
-		fl->remotePlayer = (characterType)buffer[1];
 	}
 	else
 	{
@@ -475,8 +425,8 @@ BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardTarget
 		}
 
 	}
-	fl->executing = false;
-	fl->join = true;
+
+	threadCloser(fl);
 	return;
 }
 void
@@ -487,8 +437,7 @@ BurgleNetwork::exchangeBoard(thData* fl, Board& board, const Coord playerPos)
 		fl->join = true;
 		return;
 	}
-	clock_t t;
-	fl->executing = true;
+	threadStarter(fl);
 
 	/*First packet server sends INITIAL_G_POS, client listens*/
 	if (fl->server == true)
@@ -521,16 +470,8 @@ BurgleNetwork::exchangeBoard(thData* fl, Board& board, const Coord playerPos)
 	}
 	else
 	{
-		vector<char> buffer(1024, 0);
-		apr_size_t size = 1024;
-		t = clock();
-		apr_status_t rv;
-		do {
-			if (size == 0)
-				size = 1024;
-			rv = apr_socket_recv(fl->sock, buffer.data(), &size);
-		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_PACKET_WAIT && (APR_STATUS_IS_EOF(rv) || size == 0));
-		if (size != 53 || buffer[0] != START_INFO)
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 53 || buffer[0] != START_INFO)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -546,9 +487,106 @@ BurgleNetwork::exchangeBoard(thData* fl, Board& board, const Coord playerPos)
 		fl->playerPos.row = buffer[50] - '1';
 		fl->playerPos.floor = buffer[52] - '1';
 	}
+
+	/*Second packet server listens, client sends ACK*/
+	if (fl->server == true)
+	{
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != ACK)
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Didnt recieve second packet";
+			return;
+		}
+	}
+	else
+	{
+		vector<char> pack(1);
+		pack[0] = ACK;
+		if (sendPacket(fl->sock, pack) == false)
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Couldnt send second packet";
+			return;
+		}
+
+	}
+
+	threadCloser(fl);
+	return;
+}
+void
+BurgleNetwork::exchangeFirst(thData* fl)
+{
+	if (fl->error == true)
+	{
+		fl->join = true;
+		return;
+	}
+	threadStarter(fl);
+
+	/*First packet server sends I_START/YOU_START , client listens*/
+	if (fl->server == true)
+	{
+		vector<char> pack(1);
+		fl->iStart = (bool)(rand() % 2);
+		pack[0] = (fl->iStart==true ? I_START:YOU_START);
+		if (sendPacket(fl->sock, pack) == false)
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Couldnt send first packet";
+			return;
+		}
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
+	else
+	{
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || (buffer[0] != I_START && buffer[0] != YOU_START))
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Didnt recieve first packet";
+			return;
+		}
+		fl->iStart = (buffer[0] == YOU_START ? true : false);
+	}
 	this_thread::sleep_for(chrono::milliseconds(10));
-	fl->executing = false;
-	fl->join = true;
+	/*If server starts, client sends ACK, server listens*/
+	if (fl->server == true && fl->iStart == true)
+	{
+		vector<char> buffer;
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != ACK )
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Didnt recieve second packet";
+			return;
+		}
+	}
+	else if (fl->server == false && fl->iStart == false)
+	{
+		vector<char> pack(1);
+		pack[0] = ACK;
+		if (sendPacket(fl->sock, pack) == false)
+		{
+			fl->error = true;
+			fl->join = true;
+			fl->executing = false;
+			fl->errMessage = "Couldnt send second packet";
+			return;
+		}
+		this_thread::sleep_for(chrono::milliseconds(10));
+	}
+	threadCloser(fl);
 	return;
 }
 bool
@@ -565,6 +603,12 @@ BurgleNetwork::startupPhase(const string& name, const characterType type, const 
 	{
 		if (!join())
 			return false;
+		if (flags.remoteName == name)
+		{
+			flags.error = true;
+			flags.errMessage = "Duplicate names";
+			return false;
+		}
 		cout << "Name exchange succesfull I am "<<name<< ". Remote Name: " << flags.remoteName << endl;
 		flags.currState = EXCHANGE_CHARACTERS;
 		currThread = new thread(&BurgleNetwork::exchangeCharacters, this, &flags, type);
@@ -596,6 +640,14 @@ BurgleNetwork::startupPhase(const string& name, const characterType type, const 
 		if (!join())
 			return false;
 		cout << "Board exchange succesfull" << endl;
+		flags.currState = EXCHANGE_FIRST;
+		currThread = new thread(&BurgleNetwork::exchangeFirst, this, &flags);
+	}
+	else if (flags.currState==EXCHANGE_FIRST)
+	{
+		if (!join())
+			return false;
+		cout << "First is " << (flags.iStart ? "Me" : "Remote") << endl;
 		flags.currState = EXCHANGE_FINISHED;
 		return true;
 	}
@@ -713,8 +765,339 @@ BurgleNetwork::establishConn(thData* fl, string IP)
 		
 }
 
+remoteInput
+BurgleNetwork::getRemoteInput()
+{
+	remoteInput inp;
+	inp.action = NO_TYPE;
+	vector<char> buffer(1024, 0);
+	apr_size_t size = 1024;
+	clock_t t = clock();
+	apr_status_t rv;
+	rv = apr_socket_recv(flags.sock, buffer.data(), &size);
+	if (APR_STATUS_IS_EOF(rv) || size == 0|| size==1024)
+	{
+		return inp;
+	}
+	packetToInput(inp, buffer);
+	if (answerInput(inp) == false)
+	{
+		flags.error = true;
+		flags.errMessage = "Couldnt answer " + string(toString(inp.action));
+	}
+	return inp;
+}
+bool
+BurgleNetwork::answerInput(remoteInput& inp)
+{
+	switch (inp.action)
+	{
+		case MOVE:
+		case PEEK:
+		case SPY_PATROL:
+		case ADD_TOKEN:
+		case USE_TOKEN:
+		case CREATE_ALARM:
+		case PLACE_CROW:
+		case SPENT_OK:
+		case INITIAL_G_POS:
+		case SAFE_OPENED:
+		case OFFER_LOOT:
+		case REQUEST_LOOT:
+		case ROLL_DICE_FOR_LOOT:
+			return sendPacket(flags.sock, vector<char>(1, (char)ACK));
+		case ERROR:
+			flags.error = true;
+			flags.errMessage = "Recivied error from remote player";
+		default:
+			return true;
+	}
+}
+void
+BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
+{
+	char n;
+	Coord temp;
+	inp.action = (action_ID)pack[0];
+	switch ((action_ID)pack[0])
+	{
+		case MOVE:
+		case PEEK:
+		case SPY_PATROL:
+			inp.modifier = pack[5];
+		case ADD_TOKEN:
+		case USE_TOKEN:
+		case CREATE_ALARM:
+		case PLACE_CROW:
+		case INITIAL_G_POS:
+			inp.pos.col = pack[1] - 'A';
+			inp.pos.row = pack[2] - '1';
+			inp.pos.floor = pack[4] - '1';
+			break;
+		case SPENT_OK:
+			inp.modifier = pack[1];
+			break;
+		case GUARD_MOVEMENT:
+			n = pack[1];
+			for (char i = 0; i < n; i++)
+			{
+				temp.col = pack[2 + 4 * i];
+				temp.row = pack[3 + 4 * i];
+				temp.floor = pack[5 + 4 * i];
+				inp.guardMoves.push_back(temp);
+			}
+			break;
+		case SAFE_OPENED:
+		case OFFER_LOOT:
+		case REQUEST_LOOT:
+			inp.loot = (lootType)pack[1];
+			break;
+		case ROLL_DICE_FOR_LOOT:
+			inp.modifier = pack[2];
+			break;
+		default:
+			break;
+		
+	}
+}
+/*Utility and bulk functions*/
+void BurgleNetwork::coordToPacket(Coord pos, vector<char>& pack)
+{
+	pack.push_back( pos.col + 'A');
+	pack.push_back( pos.row + '1');
+	pack.push_back( 'F');
+	pack.push_back( pos.floor + '1');
+}
+void BurgleNetwork::instructionWithCoord(thData* fl,action_ID act, Coord pos, char modifier)
+{
+	if (fl->error = true)
+		return;
+	threadStarter(fl);
+	vector<char> pack(1,(char)act);
+	coordToPacket(pos, pack);
+	if (modifier != 0)
+		pack.push_back(modifier);
+	packetAndAck(fl, pack);
+	threadCloser(fl);
+	return;
+	
+}
+void BurgleNetwork::instructionWithMod(thData* fl, action_ID act, char mod)
+{
+	if (fl->error = true)
+		return;
+	threadStarter(fl);
+	vector<char> pack(2, (char)act);
+	if (mod != 0)
+		pack[1] = mod;
+	else
+		pack.pop_back();
+	packetAndAck(fl, pack);
+	threadCloser(fl);
+	return;
+}
+void BurgleNetwork::packetAndAck(thData* fl,vector<char>& pack)
+{
+	action_ID act = (action_ID)pack[0];
+	if (sendPacket(fl->sock, pack) == false)
+	{
+		fl->error = true;
+		fl->errMessage = "Couldnt send instruction " + string(toString(act));
+		return;
+	}
 
+	vector<char> buffer;
+	if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != ACK)
+	{
+		fl->error = true;
+		fl->errMessage = "Didnt recieve ACK for " + string(toString(act));
+		return;
+	}
+}
+void BurgleNetwork::packetAndAckThreded(thData* fl, vector<char>pack)
+{
+	if (fl->error = true)
+		return;
+	threadStarter(fl);
+	packetAndAck(fl, pack);
+	threadCloser(fl);
+	return;
+}
+void BurgleNetwork::sendPeek(Coord pos, char num)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this,&flags, PEEK, pos, num);
+}
+void BurgleNetwork::sendMove(Coord pos, char num)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, MOVE, pos, num);
+}
+void BurgleNetwork::sendSpent(char yn)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, SPENT_OK,yn);
+}
+void BurgleNetwork::sendAddToken(Coord pos)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, ADD_TOKEN, pos,0);
+}
+void BurgleNetwork::sendUseToken(Coord pos)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, USE_TOKEN, pos,0);
+}
+void BurgleNetwork::sendThrowDice(char d1, char d2, char d3, char d4, char d5, char d6)
+{
+	vector<char> pack(7, (char)THROW_DICE);
+	pack[1] = d1;
+	pack[2] = d2;
+	pack[3] = d3;
+	pack[4] = d4;
+	pack[5] = d5;
+	pack[6] = d6;
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::packetAndAckThreded, this, &flags, pack);
+	return;
 
+}
+void BurgleNetwork::sendSafeOpened(lootType loot)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, SAFE_OPENED, (char)loot);
+}
+void BurgleNetwork::sendCreateAlarm(Coord pos)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, CREATE_ALARM, pos,0);
+}
+void BurgleNetwork::sendInitialGuardPos(Coord pos)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, INITIAL_G_POS, pos,0);
+}
+void BurgleNetwork::sendSpyPatrol(Coord pos, char tb)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, SPY_PATROL, pos, tb);
+}
+void BurgleNetwork::sendPlaceCrow(Coord pos)
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, PLACE_CROW, pos,0);
+}
+void BurgleNetwork::sendOfferLoot(lootType loot)
+{
+	if (join() == true)
+	{
+		vector<char> pack(2, (char)OFFER_LOOT);
+		pack[1] = (char)loot;
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.error = true;
+			flags.errMessage = "Couldnt send OFFER_LOOT";
+			return;
+		}
+	}
+}
+void BurgleNetwork::sendRequestLoot(lootType loot)
+{
+	if (join() == true)
+	{
+		vector<char> pack(2, (char)REQUEST_LOOT);
+		pack[1] = (char)loot;
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.error = true;
+			flags.errMessage = "Couldnt send REQUEST_LOOT";
+			return;
+		}
+	}
+}
+void BurgleNetwork::sendPickupLoot()
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, PICK_UP_LOOT,0);
+}
+void BurgleNetwork::sendPass()
+{
+	if (join() == true)
+		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, PASS,0);
+}
+void BurgleNetwork::sendQuit()
+{
+	if (join() == true)
+	{
+		vector<char> pack(1, (char)QUIT);
+		currThread = new thread(&BurgleNetwork::packetAndAckThreded, this, &flags, pack);
+	}
+}
+void BurgleNetwork::sendError()
+{
+	if (join() == true)
+	{
+		vector<char> pack(1, ERROR);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send ERROR";
+			flags.error = true;
+		}
+	}
+}
+void BurgleNetwork::sendAgree()
+{
+	if (join() == true)
+	{
+		vector<char> pack(1, AGREE);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send AGREE";
+			flags.error = true;
+		}
+	}
+}
+void BurgleNetwork::sendDisagree()
+{
+	if (join() == true)
+	{
+		vector<char> pack(1, DISAGREE);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send DISAGREE";
+			flags.error = true;
+		}
+	}
+}
+void BurgleNetwork::sendGuardMovement(vector<Coord>& path)
+{
+	if (join() == true)
+	{
+		vector<char> pack(1, (char)GUARD_MOVEMENT);
+		pack.push_back((char)path.size());
+		for (auto& c : path)
+			coordToPacket(c, pack);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send GUARD_MOVMENT";
+			flags.error = true;
+		}
+	}
+}
+void BurgleNetwork::sendLootDice(char dice)
+{
+	if (join() == true)
+	{
+		vector<char> pack(2, ROLL_DICE_FOR_LOOT);
+		pack[1] = dice;
+		currThread = new thread(&BurgleNetwork::packetAndAckThreded, this, &flags, pack);
+	}
+}
 BurgleNetwork::~BurgleNetwork()
 {
+	apr_socket_close(flags.sock);
+	apr_pool_destroy(flags.pool);
+	flags.sock = nullptr;
+	flags.pool = nullptr;
+	apr_terminate2();
 }

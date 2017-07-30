@@ -59,6 +59,7 @@ using namespace std;
 
 
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
+(NO_TYPE,0x00)
 (ACK, 0x01)
 (AGREE, 0x02)
 (DISAGREE, 0x03)
