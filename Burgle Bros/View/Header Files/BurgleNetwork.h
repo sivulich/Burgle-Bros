@@ -34,7 +34,15 @@ typedef struct {
 	Coord remoteGuardPos, remoteGuardTarget,playerPos;
 }thData;
 
-
+class remoteInput{
+public:
+	action_ID action;
+	char dice[6];
+	Coord pos;
+	vector<Coord> guardMoves;
+	lootType loot;
+	char modifier;
+};
 using namespace std;
 enum{WAITINNG_CONN=1,MACHINES_CONNECTED,EXCHANGE_NAMES,EXCHANGE_CHARACTERS,EXCHANGE_GUARD,EXCHANGE_BOARD,EXCHANGE_FIRST,EXCHANGE_FINISHED};
 #define PORT 15251
@@ -63,6 +71,7 @@ public:
 	Coord startingPos() { return flags.playerPos; };
 	string remoteName() { return flags.remoteName; };
 	bool server() { return flags.server; };
+	remoteInput getRemoteInput();
 
 	/*Instruction senders*/
 	void sendPeek(Coord pos, char num);
@@ -77,6 +86,7 @@ public:
 	void sendPlaceCrow(Coord pos);
 	void sendOfferLoot(lootType loot,char*ans);
 	void sendRequestLoot(lootType loot,char* ans);
+	void sendInitialGuardPos(Coord pos);
 	void sendPickupLoot();
 	void sendPass();
 	void sendAgree();
@@ -107,6 +117,8 @@ private:
 	void threadStarter(thData* fl);
 	void threadCloser(thData* fl);
 	void coordToPacket(Coord pos, vector<char>& pack);
+	void packetToInput(remoteInput& inp, vector<char>& pack);
+	bool answerInput(remoteInput& inp);
 	thData flags;
 	thread* currThread;
 };
