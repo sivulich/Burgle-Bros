@@ -297,7 +297,6 @@ Tile * Board::getTile(Coord c)
 {
 	return (*floor[c.floor])[c.col][c.row];
 }
-
 Board::~Board()
 {
 	//DESTRUIR  LOS PISOS!!!

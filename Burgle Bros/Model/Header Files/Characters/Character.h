@@ -25,7 +25,7 @@ public:
 		Returns a string with the action the player can do due to their character choice
 		@param p Player who wants to check the actions
 	*/
-	virtual string getAction(PlayerInterface * player) { return string(""); };
+	virtual string getAction(PlayerInterface * player)=0;
 	/**
 	
 	*/
@@ -33,15 +33,10 @@ public:
 	/**
 	
 	*/
-	void useAbility(bool b) { abilityAvailable = (!b); };
+	void useAbility(bool b) { abilityAvailable = b; };
 	/**
 		Returns the last turn character ability was used, if INT_MAX is returned means that ability was never used
 	*/
-//	unsigned lastTurnUsed() { return lastTimeUsed; };
-	/**
-	
-	*/
-//	void setLastTurnUsed(unsigned l) { lastTimeUsed = l; };
 private:
 	characterType type;
 	bool abilityAvailable;

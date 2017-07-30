@@ -5,5 +5,6 @@ class Acrobat :	public Character
 public:
 	Acrobat() : Character(ACROBAT) {};;
 	~Acrobat();
+	virtual string getAction(PlayerInterface * player) override;
 };
 

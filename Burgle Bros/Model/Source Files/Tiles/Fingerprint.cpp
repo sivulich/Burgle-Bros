@@ -8,6 +8,9 @@ Fingerprint::~Fingerprint()
 
 void Fingerprint::enter(PlayerInterface * player) {
 	Tile::enter(player);
+	if (player->getCharacterType() == HACKER)
+		hackerhere = true;
+	if(!hackerhere)
 	setAlarm(true);
 }
 
@@ -28,4 +31,9 @@ void Fingerprint::doAction(string action, PlayerInterface * player)
 		player->newAction(toString(USE_TOKEN), getPos());
 		DEBUG_MSG("You used a HACK_TOKEN to turn off the alarm");
 	}
+}
+
+void Fingerprint::exit(PlayerInterface * player) {
+	if (player->getCharacterType() == HACKER)
+		hackerhere = false;
 }

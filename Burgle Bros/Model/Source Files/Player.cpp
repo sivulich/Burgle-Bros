@@ -39,7 +39,6 @@ void Player::setCharacter(characterType type)
 	//           caracter se setea antes de que se vea la pantalla de juego
 }
 
-
 bool Player::has(lootType l)
 {
 	for (auto& loot : loots)
@@ -127,11 +126,14 @@ void Player::peek(Tile * newTile)
 	}
 }
 
-
-void Player::createAlarm(Coord c)
+bool Player::createAlarm(Coord c)
 {
-	if (getCharacterType() == JUICER && currentTile->isAdjacent(c))
+	if (getCharacterType() == JUICER && currentTile->isAdjacent(c) && board->getTile(c)->hasAlarm() == false)
+	{
 		board->getTile(c)->setAlarm(true);
+		return true;
+	}
+	else return false;
 }
 
 void Player::placeCrow(Coord c)
@@ -175,12 +177,13 @@ void Player::updateActions()
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
 	if (character != nullptr)
 	{
-		if (getCharacterType() == JUICER)
+		possibleActions.push_back(character->getAction(this));
+		/*if (getCharacterType() == JUICER)
 			possibleActions.push_back("CREATE_ALARM");
 		else if (getCharacterType() == RAVEN)
 			possibleActions.push_back("PLACE_CROW");
 		else if (getCharacterType() == SPOTTER)
-			possibleActions.push_back("SPY_PATROL_DECK_CARD");
+			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
 	}
 	// REEMPLAZar con un character->getAction();!!
 	
@@ -292,7 +295,6 @@ bool Player::isVisibleFrom(Coord c)
 {
 	return find(visibleFrom.begin(), visibleFrom.end(), c) != visibleFrom.end() ? true : false;
 }
-
 
 string Player::getName()
 { 

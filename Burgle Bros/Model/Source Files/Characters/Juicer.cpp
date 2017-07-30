@@ -4,8 +4,8 @@ string Juicer::getAction(PlayerInterface * player)
 {
 	if (true == canUseAbility())
 	{
-		return "CREATE_ALARM";
+		return string("CREATE_ALARM");
 	}
 	else
-		return "";
+		return string("");
 }

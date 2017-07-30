@@ -14,7 +14,7 @@ class Laser :
 	public Tile
 {
 public:
-	Laser(int floor, int col, int row) : Tile(LASER,floor, col, row) {};
+	Laser(int floor, int col, int row) : Tile(LASER, floor, col, row) { hackerhere = false; };
 	~Laser();
 
 	/**
@@ -36,10 +36,12 @@ public:
 	*/
 	virtual void doAction(string action, PlayerInterface * player) override;
 
+	virtual void exit(PlayerInterface * player) override;
 
 	void setComputerRoom(ComputerRoomL * c) { computerRoom = c; };
 
 private:
 	ComputerRoomL * computerRoom;
+	bool hackerhere;
 };
 

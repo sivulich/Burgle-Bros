@@ -68,7 +68,6 @@ public:
 	*/
 	void updateActions();
 	
-	
 	/**
 		Sets the player's position with a tile pointer
 	*/
@@ -93,8 +92,6 @@ public:
 		Reset the player action tokens
 	*/
 	virtual void resetActionTokens()override;
-	
-
 
 	//--------------ACTIONS-----------------//
 	/**
@@ -195,6 +192,8 @@ public:
 		Clears the visibleFrom list
 	*/
 	virtual void clearVisibleFrom() override;
+
+	void setVisibleFrom(vector<Coord> v) { if (!v.empty()) this->visibleFrom = v; }
 	/**
 	
 	*/

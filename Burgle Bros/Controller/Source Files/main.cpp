@@ -22,7 +22,7 @@ int main(void)
 
 	model.otherPlayer()->setPosition(Coord(0, 0, 0));
 	model.otherPlayer()->setName(string("Gabriela"));
-	model.otherPlayer()->setCharacter(PETERMAN);
+	model.otherPlayer()->setCharacter(JUICER);
 
 	model.print();
 	c.startGame();

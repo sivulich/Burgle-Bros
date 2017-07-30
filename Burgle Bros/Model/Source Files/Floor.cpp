@@ -139,4 +139,16 @@ void Floor::addAlarm(Coord c)
 	guard.AddNextAlarm(c);
 }
 
+void Floor::getThroughWalls(Coord c,list<Tile*>* adj)
+{
+	if (c.col < 4)
+		adj->push_back(tiles[c.row][c.col + 1]);
+	if (c.col > 0)
+		adj->push_back(tiles[c.row][c.col - 1]);
+	if (c.row < 4)
+		adj->push_back(tiles[c.row + 1][c.col]);
+	if (c.row > 0)
+		adj->push_back(tiles[c.row - 1][c.col]);
+	return;
+}
 

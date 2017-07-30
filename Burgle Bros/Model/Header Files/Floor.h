@@ -117,6 +117,8 @@ public:
 	*/
 	void print();
 
+	void getThroughWalls(Coord c, list<Tile*>* adj);
+
 private:
 	// Matrix of pointers to the base class Tile
 	vector<vector<Tile*>> tiles;

@@ -12,15 +12,18 @@ DEFINE_ENUM_WITH_CONVERSIONS(gameState,
 (EXIT))
 
 DEFINE_ENUM_WITH_CONVERSIONS(gameEvent,
-(M)
-(P)
-(ADDT)
-(USET)
-(THROWD)
-(ADDACT)
-(REMOVEACT)
-(REMOVEST)
-(MG)
+(M)//move
+(P)//peek
+(ADDT)//add token
+(USET)//use token
+(THROWD)//throw dice
+(ADDACT)//add action token
+(REMOVEACT)//remove action token
+(REMOVEST)//remove stealth token
+(CRTAL)//create alarm
+(SP)//spot top of deck
+(MG)//move guard
+(HAWK)//peek through walls
 (No_event))
 
 
@@ -47,7 +50,6 @@ public:
 		//FSM.start();
 		//while (FSM.isRunning())
 		{
-
 			if (status == PLAYER_TURN)
 			{
 				cout << model->currentPlayer()->getName() << "'s turn." << endl;
@@ -86,7 +88,8 @@ public:
 						if (move)
 						{
 							model->currentPlayer()->move(c);
-
+							if (model->currentPlayer()->getPosition() == model->getBoard().getGuard(c.floor)->getPos() && model->currentPlayer()->getCharacterType()!=ACROBAT)
+								model->currentPlayer()->removeStealthToken;
 							if (model->gameOver() == true)
 								status = GAMEOVER;
 							else if (model->currentPlayer()->getActionTokens() == 0)
@@ -140,6 +143,33 @@ public:
 						model->currentPlayer()->removeStealthToken();
 					}
 					break;
+					case CRTAL:
+					{
+						cin >> coord;
+						Coord c(coord[0] - '0' - 1, coord[1] - 'A', coord[2] - '0' - 1);
+						if (model->currentPlayer()->createAlarm(c))
+							model->currentPlayer()->useAbility(false);
+					}
+					break;
+					case SP:
+					{
+						model->currentPlayer()->removeActionToken();
+						cout <<"Top of deck: "<< model->getBoard().getDeck(model->currentPlayer()->getPosition().floor)->topCard()->getDescription()<<endl;
+						cout << "Move top card to bottom of deck? (YES/NO)" << endl;
+						string g;
+						cin >> g;
+						if (g == "YES")
+						{
+							model->getBoard().getDeck(model->currentPlayer()->getPosition().floor)->topToBottom;
+							model->currentPlayer()->useAbility(false);
+						}
+					}
+					break;
+					case HAWK:
+					{
+						model->currentPlayer()->
+					}
+					break;
 					}
 				}
 				break;
@@ -148,19 +178,20 @@ public:
 				{
 					switch (event)
 					{
-					case MG:
-					{
-						model->moveGuard();
-
-						if (model->gameOver())
-							status = GAMEOVER;
-						else if (!model->guardIsMoving())
+						case MG:
 						{
-							model->changeTurn();
-							status = PLAYER_TURN;
+							model->moveGuard();
+
+							if (model->gameOver())
+								status = GAMEOVER;
+							else if (!model->guardIsMoving())
+							{
+								model->changeTurn();
+								model->currentPlayer()->useAbility(true);
+								status = PLAYER_TURN;
+							}
 						}
-					}
-					break;
+						break;
 					}
 				}
 				break;
