@@ -816,6 +816,8 @@ BurgleNetwork::answerInput(remoteInput& inp)
 void
 BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 {
+	char n;
+	Coord temp;
 	inp.action = (action_ID)pack[0];
 	switch ((action_ID)pack[0])
 	{
@@ -836,8 +838,7 @@ BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 			inp.modifier = pack[1];
 			break;
 		case GUARD_MOVEMENT:
-			char n = pack[1];
-			Coord temp;
+			n = pack[1];
 			for (char i = 0; i < n; i++)
 			{
 				temp.col = pack[2 + 4 * i];
@@ -881,7 +882,7 @@ void BurgleNetwork::instructionWithCoord(thData* fl,action_ID act, Coord pos, ch
 	return;
 	
 }
-void BurgleNetwork::instructionWithMod(thData* fl, action_ID act, char mod, char* ans)
+void BurgleNetwork::instructionWithMod(thData* fl, action_ID act, char mod)
 {
 	if (fl->error = true)
 		return;
@@ -891,31 +892,9 @@ void BurgleNetwork::instructionWithMod(thData* fl, action_ID act, char mod, char
 		pack[1] = mod;
 	else
 		pack.pop_back();
-	if (ans == nullptr)
-		packetAndAck(fl, pack);
-	else
-		packetAndAD(fl, pack, ans);
+	packetAndAck(fl, pack);
 	threadCloser(fl);
 	return;
-}
-void BurgleNetwork::packetAndAD(thData* fl, vector<char>& pack, char* ans)
-{
-	action_ID act = (action_ID)pack[0];
-	if (sendPacket(fl->sock, pack) == false)
-	{
-		fl->error = true;
-		fl->errMessage = "Couldnt send instruction " + string(toString(act));
-		return;
-	}
-
-	vector<char> buffer;
-	if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || (buffer[0] != AGREE && buffer[0]!=DISAGREE ))
-	{
-		fl->error = true;
-		fl->errMessage = "Didnt recieve AGREE/DISAGREE for " + string(toString(act));
-		return;
-	}
-	*ans = buffer[0];
 }
 void BurgleNetwork::packetAndAck(thData* fl,vector<char>& pack)
 {
@@ -962,12 +941,12 @@ void BurgleNetwork::sendSpent(char yn)
 void BurgleNetwork::sendAddToken(Coord pos)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, ADD_TOKEN, pos);
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, ADD_TOKEN, pos,0);
 }
 void BurgleNetwork::sendUseToken(Coord pos)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, USE_TOKEN, pos);
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, USE_TOKEN, pos,0);
 }
 void BurgleNetwork::sendThrowDice(char d1, char d2, char d3, char d4, char d5, char d6)
 {
@@ -991,12 +970,12 @@ void BurgleNetwork::sendSafeOpened(lootType loot)
 void BurgleNetwork::sendCreateAlarm(Coord pos)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, CREATE_ALARM, pos);
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, CREATE_ALARM, pos,0);
 }
 void BurgleNetwork::sendInitialGuardPos(Coord pos)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, INITIAL_G_POS, pos);
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, INITIAL_G_POS, pos,0);
 }
 void BurgleNetwork::sendSpyPatrol(Coord pos, char tb)
 {
@@ -1006,33 +985,51 @@ void BurgleNetwork::sendSpyPatrol(Coord pos, char tb)
 void BurgleNetwork::sendPlaceCrow(Coord pos)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, PLACE_CROW, pos);
+		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, PLACE_CROW, pos,0);
 }
-void BurgleNetwork::sendOfferLoot(lootType loot, char*ans)
+void BurgleNetwork::sendOfferLoot(lootType loot)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags,OFFER_LOOT, (char)loot,ans);
+	{
+		vector<char> pack(2, (char)OFFER_LOOT);
+		pack[1] = (char)loot;
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.error = true;
+			flags.errMessage = "Couldnt send OFFER_LOOT";
+			return;
+		}
+	}
 }
-void BurgleNetwork::sendRequestLoot(lootType loot, char*ans)
+void BurgleNetwork::sendRequestLoot(lootType loot)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, REQUEST_LOOT, (char)loot, ans);
+	{
+		vector<char> pack(2, (char)REQUEST_LOOT);
+		pack[1] = (char)loot;
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.error = true;
+			flags.errMessage = "Couldnt send REQUEST_LOOT";
+			return;
+		}
+	}
 }
 void BurgleNetwork::sendPickupLoot()
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, PICK_UP_LOOT);
+		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, PICK_UP_LOOT,0);
 }
 void BurgleNetwork::sendPass()
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, PASS);
+		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, PASS,0);
 }
 void BurgleNetwork::sendQuit()
 {
 	if (join() == true)
 	{
-		vector<char> pack(1, QUIT);
+		vector<char> pack(1, (char)QUIT);
 		currThread = new thread(&BurgleNetwork::packetAndAckThreded, this, &flags, pack);
 	}
 }
@@ -1041,7 +1038,11 @@ void BurgleNetwork::sendError()
 	if (join() == true)
 	{
 		vector<char> pack(1, ERROR);
-		sendPacket(flags.sock, pack);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send ERROR";
+			flags.error = true;
+		}
 	}
 }
 void BurgleNetwork::sendAgree()
@@ -1049,7 +1050,11 @@ void BurgleNetwork::sendAgree()
 	if (join() == true)
 	{
 		vector<char> pack(1, AGREE);
-		sendPacket(flags.sock, pack);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send AGREE";
+			flags.error = true;
+		}
 	}
 }
 void BurgleNetwork::sendDisagree()
@@ -1057,18 +1062,26 @@ void BurgleNetwork::sendDisagree()
 	if (join() == true)
 	{
 		vector<char> pack(1, DISAGREE);
-		sendPacket(flags.sock, pack);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send DISAGREE";
+			flags.error = true;
+		}
 	}
 }
 void BurgleNetwork::sendGuardMovement(vector<Coord>& path)
 {
 	if (join() == true)
 	{
-		vector<char> pack(1, GUARD_MOVEMENT);
+		vector<char> pack(1, (char)GUARD_MOVEMENT);
 		pack.push_back((char)path.size());
 		for (auto& c : path)
 			coordToPacket(c, pack);
-		sendPacket(flags.sock, pack);
+		if (sendPacket(flags.sock, pack) == false)
+		{
+			flags.errMessage = "Couldnt send GUARD_MOVMENT";
+			flags.error = true;
+		}
 	}
 }
 void BurgleNetwork::sendLootDice(char dice)

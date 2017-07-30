@@ -84,8 +84,8 @@ public:
 	void sendCreateAlarm(Coord pos);
 	void sendSpyPatrol(Coord pos, char tb);
 	void sendPlaceCrow(Coord pos);
-	void sendOfferLoot(lootType loot,char*ans);
-	void sendRequestLoot(lootType loot,char* ans);
+	void sendOfferLoot(lootType loot);
+	void sendRequestLoot(lootType loot);
 	void sendInitialGuardPos(Coord pos);
 	void sendPickupLoot();
 	void sendPass();
@@ -107,11 +107,10 @@ private:
 	void exchangeFirst(thData* fl);
 
 	/*Utility*/
-	void instructionWithMod(thData* fl, action_ID act, char modifier=0, char* ans = nullptr);
+	void instructionWithMod(thData* fl, action_ID act, char modifier);
 	void packetAndAck(thData* fl, vector<char>& pack);
 	void packetAndAckThreded(thData* fl, vector<char> pack);
-	void packetAndAD(thData* fl, vector<char>& pack, char* ans);
-	void instructionWithCoord(thData* fl, action_ID act, Coord pos, char modifier=0);
+	void instructionWithCoord(thData* fl, action_ID act, Coord pos, char modifier);
 	bool recievePacket(apr_socket_t* sock, vector<char>& dat);
 	bool sendPacket(apr_socket_t* sock, const vector<char>& dat);
 	void threadStarter(thData* fl);
