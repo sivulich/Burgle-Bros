@@ -1,3 +1,4 @@
+#pragma once
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 #define BOOST_MPL_LIMIT_VECTOR_SIZE 30 //or whatever you need                       
 #define BOOST_MPL_LIMIT_MAP_SIZE 30 //or whatever you need 
@@ -12,12 +13,46 @@
 #include <boost/msm/front/euml/common.hpp>
 #include <boost/msm/front/euml/euml.hpp>
 
-#include "../Controller/FSM(jullio).h"
-#include "../Model/Header Files/Configs.h"
+#include <GameModel.h>
+#include <GameGraphics.h>
+#include <Configs.h>
 
 namespace msm = boost::msm;
 namespace mpl = boost::mpl;
 using namespace boost::msm::front;
+
+//----------------------- EVENTS -----------------------------//
+struct BaseEvent {};
+
+struct movee : BaseEvent {};
+struct peek : BaseEvent {};
+struct throwDice : BaseEvent {};
+struct useToken : BaseEvent {};
+struct addToken : BaseEvent {};
+struct pass : BaseEvent {};
+struct pause : BaseEvent {};
+struct resume : BaseEvent {};
+struct gameOver : BaseEvent {};
+struct burglarsWin : BaseEvent {};
+struct playAgain : BaseEvent {};
+struct closee : BaseEvent {};
+struct errorReceived : BaseEvent {};
+struct errorHandled : BaseEvent {};
+struct offerLoot : BaseEvent {};
+struct requestLoot : BaseEvent {};
+struct createAlarm : BaseEvent {};
+struct spyPatrol : BaseEvent {};
+struct placeCrow : BaseEvent {};
+struct pickUpLoot : BaseEvent {};
+struct yes : BaseEvent {};
+struct no : BaseEvent {};
+struct render : BaseEvent {};
+struct coord : BaseEvent
+{
+	coord(Coord p) :c(p) {};
+	Coord c;
+};
+
 
 
 struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
@@ -26,15 +61,18 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	GameFSM_() { };
 
 	// Constructor which receives a pointer to the model
-	GameFSM_(GameModel * m)
+	GameFSM_(GameModel * m, GameGraphics * g)
 	{
 		model = m;
+		graphics = g;
 	};
 
 	// FSM variables
 	GameModel * model;
+	GameGraphics * graphics;
+
 	action_ID currentAction; // Stores current action chosen by player
-							 //-------------------------------------------------------------
+	//-------------------------------------------------------------
 
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
@@ -84,8 +122,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		}
 	};
 
-	
-	
+
+
 
 	struct creatingAlarm : public msm::front::state<>
 	{
@@ -150,8 +188,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Action tokens left: " << fsm.model->currentPlayer()->getActionTokens()<< std::endl;
-			if (fsm.model->currentPlayer()->getActionTokens()==0)
+			std::cout << "Action tokens left: " << fsm.model->currentPlayer()->getActionTokens() << std::endl;
+			if (fsm.model->currentPlayer()->getActionTokens() == 0)
 			{
 				fsm.process_event(no());
 				std::cout << "Your turn ends" << std::endl;
@@ -229,8 +267,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		}
 
 	};
-
-	struct paused : public msm::front::interrupt_state<mpl::vector<resume, close>>
+	
+	struct paused : public msm::front::interrupt_state<mpl::vector<resume, closee>>
 	{
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
@@ -289,7 +327,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		{
 			std::cout << "Moving to  " << event.c << std::endl;
 			bool b = fsm.model->currentPlayer()->move(event.c);
-			if(b==false)
+			if (b == false)
 				std::cout << "Cant move!" << std::endl;
 		}
 	};
@@ -303,7 +341,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			bool b = fsm.model->currentPlayer()->peek(event.c);
 			if (b == false)
 				std::cout << "Cant peek!" << std::endl;
-			
+
 		}
 	};
 
@@ -459,7 +497,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			std::cout << "Tiles availables to move: ";
 			Coord::printVec(fsm.model->currentPlayer()->whereCanIMove());
 			std::cout << std::endl;
-			
+
 			fsm.currentAction = MOVE;
 			//
 		}
@@ -498,7 +536,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		}
 	};
 
-	
+
 	// Transition table for main FSM
 	struct transition_table : mpl::vector<
 		//       Start        Event         Next         Action         Guard
@@ -509,7 +547,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		Row < chooseAction, coord, chekActionTokens, doMove, isMoving       >,
 		Row < chooseAction, coord, chekActionTokens, doPeek, isPeeking       >,
 
-		Row < chekActionTokens, no, guardTurn,none , none     >,
+		Row < chekActionTokens, no, guardTurn, none, none     >,
 		Row < chekActionTokens, yes, chooseAction, none, none     >,
 		//Row < chooseAction,   throwDice   , throwingDice,    none,        none       >,
 		//Row < chooseAction,   useToken    , usingToken,      none,        none       >,
@@ -535,19 +573,19 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 
 		//--------------------------Orthogonal region-----------------------------//
 		//  +------------+-------------+------------+--------------+--------------+
-		Row <   playing, close, exit, none, none     >,
+		Row <   playing, closee, exit, none, none     >,
 		Row <   playing, errorReceived, error, none, none     >,
 		Row <   playing, pause, paused, none, none     >,
 		Row <   playing, render, none, doRender, none     >,
 
 		//  +------------+-------------+------------+--------------+--------------+
 		Row <   paused, resume, playing, none, none     >,
-		Row <   paused, close, exit, none, none     >,
+		Row <   paused, closee, exit, none, none     >,
 		Row <   paused, render, paused, doRender, none     >,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row <   error, errorHandled, playing, none, none     >,
-		Row <   error, close, exit, none, none     >,
-		Row <   error	 , render, none, doRender, none     >
+		Row <   error, closee, exit, none, none     >,
+		Row <   error, render, none, doRender, none     >
 		//  +------------+-------------+------------+--------------+--------------+
 	> {};
 
@@ -562,83 +600,4 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	}
 };
 // Pick a back-end
-typedef msm::back::state_machine<GameFSM_> GameFSM_imp;
-
-
-GameController::GameController(GameModel * m) : FSM(new GameFSM_imp(m))
-{
-
-}
-
-void GameController::start()
-{
-	static_pointer_cast<GameFSM_imp>(FSM)->start();
-	// HACER TODAS LAS OTRAS COSAS NECESARIAS AL COMENZAR EL JUEGO
-};
-
-
-void GameController::stop()
-{
-	static_pointer_cast<GameFSM_imp>(FSM)->stop();
-	// HACER TODAS LAS OTRAS COSAS NECESARIAS AL TERMINAR EL JUEGO
-};
-
-bool GameController::isRunning()
-{
-	return static_pointer_cast<GameFSM_imp>(FSM)->is_flag_active<GameFSM_imp::gameClosed>() == false;
-};
-
-
-void GameController::getInput()
-{
-	// EN LA VERSION CON GRAFICOS ACA HAY QUE RECIBIR EVENTOS DE MOUSE, TECLADO, Y TIMERS 
-	// (TIMERS DE RENDER, PARA MOVER EL GUADRIA, ETC...)
-	// 
-	// LOS CLICKS SE MANDAN A LA VISTA QUE DEVUELVE LO QUE SE APRETO Y ESTO SE INTERPRETA COMO 
-	// UN EVENTO
-	cin >> s;
-}
-
-void GameController::processEvent()
-{
-	
-
-
-	if (s == "MOVE")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(movee());
-	else if (s == "PEEK")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(peek());
-	else if (s == "TROW_DICE")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(throwDice());
-	else if (s == "ADD_TOKEN")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(addToken());
-	else if (s == "UDE_TOKEN")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(useToken());
-	else if (s == "PASS")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(pass());
-	else if (s == "PAUSE")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(pause());
-	else if (s == "RESUME")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(resume());
-	else if (s == "GAME_OVER")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(gameOver());
-	else if (s == "BURGLARS_WIN")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(burglarsWin());
-	else if (s == "PLAY_AGAIN")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(playAgain());
-	else if (s == "CLOSE")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(close());
-	else if (s == "ERROR_RECEIVED")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(errorReceived());
-	else if (s == "ERROR_HANDLED")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(errorHandled());
-	else if (s == "YES")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(yes());
-	else if (s == "NO")
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(no());
-	else if (s.substr(0, 5) == "COORD" && s.length()==8)
-	static_pointer_cast<GameFSM_imp>(FSM)->process_event(coord(Coord(s[5]-'0'-1, s[6]-'A', s[7]-'0'-1)));
-	else if (s=="PRINT")
-		static_pointer_cast<GameFSM_imp>(FSM)->process_event(render());
-
-}
+typedef msm::back::state_machine<GameFSM_> GameFSM;

@@ -4,15 +4,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "View", "View\View.vcxproj", "{590F7135-26AD-4377-BDB8-63707302669E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{58E7878C-7A74-4307-9642-8D5473D9F256} = {58E7878C-7A74-4307-9642-8D5473D9F256}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Controller", "Controller\Controller.vcxproj", "{9B5E20A1-F6D7-4781-8D4F-FB938EFD17FA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{590F7135-26AD-4377-BDB8-63707302669E} = {590F7135-26AD-4377-BDB8-63707302669E}
-		{58E7878C-7A74-4307-9642-8D5473D9F256} = {58E7878C-7A74-4307-9642-8D5473D9F256}
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Model", "Model\Model.vcxproj", "{58E7878C-7A74-4307-9642-8D5473D9F256}"
 EndProject

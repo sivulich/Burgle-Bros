@@ -1,11 +1,10 @@
 #pragma once
-
-#include "Observer.h"
+#include <Floor.h>
+#include "./Observer.h"
 #include "../Container.h"
-#include "TileObserver.h"
-#include "../../../Model/Header Files/Floor.h"
-#include "GuardDeckObserver.h"
-#include "GuardObserver.h"
+#include "./TileObserver.h"
+#include "./GuardDeckObserver.h"
+#include "./GuardObserver.h"
 class FloorObserver :public Observer {
 public:
 	FloorObserver(Floor* f,Container* p);

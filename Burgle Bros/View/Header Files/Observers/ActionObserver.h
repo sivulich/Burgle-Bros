@@ -1,10 +1,12 @@
 #pragma once
-#include "Observer.h"
+#include <Configs.h>
+#include <Player.h>
+
+#include "./Observer.h"
 #include "../Container.h"
-#include "../../../Model/Header Files/Player.h"
 #include "../Image.h"
 #include "../Button.h"
-#include "../../../Model/Header Files/Configs.h"
+
 
 class ActionObserver :public Observer {
 public:

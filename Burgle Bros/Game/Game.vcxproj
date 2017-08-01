@@ -68,19 +68,41 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
+    <Allegro_LibraryType>DynamicRelease</Allegro_LibraryType>
+    <Linkage-libapr>
+    </Linkage-libapr>
+    <Linkage-expat>
+    </Linkage-expat>
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>packages\Apache Runtinme Library\apr-iconv\include;packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -90,6 +112,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -103,6 +126,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -110,8 +134,237 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Controller\include\GameController.h" />
+    <ClInclude Include="Controller\src\GameFSM.h" />
+    <ClInclude Include="Graphics\include\GameGraphics.h" />
+    <ClInclude Include="Graphics\src\ALX\AllegroFile.hpp" />
+    <ClInclude Include="Graphics\src\ALX\alx.hpp" />
+    <ClInclude Include="Graphics\src\ALX\AudioStream.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Bitmap.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Color.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Condition.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Config.hpp" />
+    <ClInclude Include="Graphics\src\ALX\ConfigEntryContainer.hpp" />
+    <ClInclude Include="Graphics\src\ALX\ConfigSectionContainer.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Display.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Event.hpp" />
+    <ClInclude Include="Graphics\src\ALX\EventQueue.hpp" />
+    <ClInclude Include="Graphics\src\ALX\EventSource.hpp" />
+    <ClInclude Include="Graphics\src\ALX\File.hpp" />
+    <ClInclude Include="Graphics\src\ALX\FileEntry.hpp" />
+    <ClInclude Include="Graphics\src\ALX\FilePath.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Fixed.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Font.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Joystick.hpp" />
+    <ClInclude Include="Graphics\src\ALX\JoystickState.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Keyboard.hpp" />
+    <ClInclude Include="Graphics\src\ALX\KeyboardState.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Lock.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Mixer.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Mouse.hpp" />
+    <ClInclude Include="Graphics\src\ALX\MouseState.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Mutex.hpp" />
+    <ClInclude Include="Graphics\src\ALX\NativeFileDialog.hpp" />
+    <ClInclude Include="Graphics\src\ALX\NativeTextLog.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Point.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Rect.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Sample.hpp" />
+    <ClInclude Include="Graphics\src\ALX\SampleId.hpp" />
+    <ClInclude Include="Graphics\src\ALX\SampleInstance.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Shared.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Size.hpp" />
+    <ClInclude Include="Graphics\src\ALX\State.hpp" />
+    <ClInclude Include="Graphics\src\ALX\String.hpp" />
+    <ClInclude Include="Graphics\src\ALX\System.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Thread.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Timeout.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Timer.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Transform.hpp" />
+    <ClInclude Include="Graphics\src\ALX\UserEvent.hpp" />
+    <ClInclude Include="Graphics\src\ALX\UserEventSource.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Util.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Value.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Vector2.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Vector2Base.hpp" />
+    <ClInclude Include="Graphics\src\ALX\VertexDecl.hpp" />
+    <ClInclude Include="Graphics\src\ALX\Voice.hpp" />
+    <ClInclude Include="Graphics\src\Animation.h" />
+    <ClInclude Include="Graphics\src\Button.h" />
+    <ClInclude Include="Graphics\src\Container.h" />
+    <ClInclude Include="Graphics\src\FlipAnimation.h" />
+    <ClInclude Include="Graphics\src\Image.h" />
+    <ClInclude Include="Graphics\src\MoveAnimation.h" />
+    <ClInclude Include="Graphics\src\object.h" />
+    <ClInclude Include="Graphics\src\ObjectInterface.h" />
+    <ClInclude Include="Graphics\src\Observers\ActionObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\BoardObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\FloorObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\GuardCardObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\GuardDeckObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\GuardObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\LocalPlayerObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\observer.h" />
+    <ClInclude Include="Graphics\src\Observers\RemotePlayerObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\TileObserver.h" />
+    <ClInclude Include="Graphics\src\Screen.h" />
+    <ClInclude Include="Graphics\src\Textbox.h" />
+    <ClInclude Include="Model\include\GameModel.h" />
+    <ClInclude Include="Model\src\actionNode.h" />
+    <ClInclude Include="Model\src\BaseCard.h" />
+    <ClInclude Include="Model\src\BaseDeck.h" />
+    <ClInclude Include="Model\include\BaseModel.h" />
+    <ClInclude Include="Model\include\Board.h" />
+    <ClInclude Include="Model\src\Characters\Acrobat.h" />
+    <ClInclude Include="Model\src\Characters\Character.h" />
+    <ClInclude Include="Model\src\Characters\CharacterFactory.h" />
+    <ClInclude Include="Model\src\Characters\Hacker.h" />
+    <ClInclude Include="Model\src\Characters\Hawk.h" />
+    <ClInclude Include="Model\src\Characters\Juicer.h" />
+    <ClInclude Include="Model\src\Characters\Peterman.h" />
+    <ClInclude Include="Model\src\Characters\Raven.h" />
+    <ClInclude Include="Model\src\Characters\Spotter.h" />
+    <ClInclude Include="Model\include\Configs.h" />
+    <ClInclude Include="Model\src\ConsoleColors.h" />
+    <ClInclude Include="Model\include\Coord.h" />
+    <ClInclude Include="Model\include\Enumerations.h" />
+    <ClInclude Include="Model\include\Floor.h" />
+    <ClInclude Include="Model\src\FSM_Template.h" />
+    <ClInclude Include="Model\src\GameModel.h" />
+    <ClInclude Include="Model\include\Guard.h" />
+    <ClInclude Include="Model\src\Loots\Chihuahua.h" />
+    <ClInclude Include="Model\src\Loots\CursedGoblet.h" />
+    <ClInclude Include="Model\src\Loots\Gemstone.h" />
+    <ClInclude Include="Model\src\Loots\GoldBar.h" />
+    <ClInclude Include="Model\src\Loots\Isotope.h" />
+    <ClInclude Include="Model\src\Loots\Keycard.h" />
+    <ClInclude Include="Model\src\Loots\Loot.h" />
+    <ClInclude Include="Model\src\Loots\LootFactory.h" />
+    <ClInclude Include="Model\src\Loots\Mirror.h" />
+    <ClInclude Include="Model\src\Loots\Painting.h" />
+    <ClInclude Include="Model\src\Loots\PersianKitty.h" />
+    <ClInclude Include="Model\src\Loots\Tiara.h" />
+    <ClInclude Include="Model\include\PatrolCard.h" />
+    <ClInclude Include="Model\src\PatrolCardDeck.h" />
+    <ClInclude Include="Model\include\Player.h" />
+    <ClInclude Include="Model\src\PlayerInterface.h" />
+    <ClInclude Include="Model\src\Tiles\Atrium.h" />
+    <ClInclude Include="Model\src\Tiles\Camera.h" />
+    <ClInclude Include="Model\src\Tiles\ComputerRoomF.h" />
+    <ClInclude Include="Model\src\Tiles\ComputerRoomL.h" />
+    <ClInclude Include="Model\src\Tiles\ComputerRoomM.h" />
+    <ClInclude Include="Model\src\Tiles\Deadbolt.h" />
+    <ClInclude Include="Model\src\Tiles\Fingerprint.h" />
+    <ClInclude Include="Model\src\Tiles\Foyer.h" />
+    <ClInclude Include="Model\src\Tiles\Keypad.h" />
+    <ClInclude Include="Model\src\Tiles\Laboratory.h" />
+    <ClInclude Include="Model\src\Tiles\Laser.h" />
+    <ClInclude Include="Model\src\Tiles\Lavatory.h" />
+    <ClInclude Include="Model\src\Tiles\Motion.h" />
+    <ClInclude Include="Model\src\Tiles\Safe.h" />
+    <ClInclude Include="Model\src\Tiles\Scanner.h" />
+    <ClInclude Include="Model\src\Tiles\SecretDoor.h" />
+    <ClInclude Include="Model\src\Tiles\ServiceDuct.h" />
+    <ClInclude Include="Model\src\Tiles\Stair.h" />
+    <ClInclude Include="Model\src\Tiles\Thermo.h" />
+    <ClInclude Include="Model\include\Tile.h" />
+    <ClInclude Include="Model\src\Tiles\TileFactory.h" />
+    <ClInclude Include="Model\src\Tiles\Walkway.h" />
+    <ClInclude Include="Network\include\BurgleNetwork.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Controller\src\GameController.cpp" />
+    <ClCompile Include="Graphics\src\Button.cpp" />
+    <ClCompile Include="Graphics\src\Container.cpp" />
+    <ClCompile Include="Graphics\src\FlipAnimation.cpp" />
+    <ClCompile Include="Graphics\src\GameGraphics.cpp" />
+    <ClCompile Include="Graphics\src\Image.cpp" />
+    <ClCompile Include="Graphics\src\MoveAnimation.cpp" />
+    <ClCompile Include="Graphics\src\object.cpp" />
+    <ClCompile Include="Graphics\src\ObjectInterface.cpp" />
+    <ClCompile Include="Graphics\src\Observers\ActionObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\BoardObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\FloorObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\GuardCardObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\GuardDeckObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\GuardObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\LocalPlayerObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\RemotePlayerObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\TileObserver.cpp" />
+    <ClCompile Include="Graphics\src\Screen.cpp" />
+    <ClCompile Include="Graphics\src\Textbox.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model\src\actionNode.cpp" />
+    <ClCompile Include="Model\src\BaseCard.cpp" />
+    <ClCompile Include="Model\src\BaseDeck.cpp" />
+    <ClCompile Include="Model\src\BaseModel.cpp" />
+    <ClCompile Include="Model\src\Board.cpp" />
+    <ClCompile Include="Model\src\Characters\Acrobat.cpp" />
+    <ClCompile Include="Model\src\Characters\Character.cpp" />
+    <ClCompile Include="Model\src\Characters\CharacterFactory.cpp" />
+    <ClCompile Include="Model\src\Characters\Hacker.cpp" />
+    <ClCompile Include="Model\src\Characters\Hawk.cpp" />
+    <ClCompile Include="Model\src\Characters\Juicer.cpp" />
+    <ClCompile Include="Model\src\Characters\Peterman.cpp" />
+    <ClCompile Include="Model\src\Characters\Raven.cpp" />
+    <ClCompile Include="Model\src\Characters\Spotter.cpp" />
+    <ClCompile Include="Model\src\Floor.cpp" />
+    <ClCompile Include="Model\src\GameModel.cpp" />
+    <ClCompile Include="Model\src\Guard.cpp" />
+    <ClCompile Include="Model\src\Loots\Chihuahua.cpp" />
+    <ClCompile Include="Model\src\Loots\CursedGoblet.cpp" />
+    <ClCompile Include="Model\src\Loots\Gemstone.cpp" />
+    <ClCompile Include="Model\src\Loots\GoldBar.cpp" />
+    <ClCompile Include="Model\src\Loots\Isotope.cpp" />
+    <ClCompile Include="Model\src\Loots\Keycard.cpp" />
+    <ClCompile Include="Model\src\Loots\Loot.cpp" />
+    <ClCompile Include="Model\src\Loots\LootFactory.cpp" />
+    <ClCompile Include="Model\src\Loots\Mirror.cpp" />
+    <ClCompile Include="Model\src\Loots\Painting.cpp" />
+    <ClCompile Include="Model\src\Loots\PersianKitty.cpp" />
+    <ClCompile Include="Model\src\Loots\Tiara.cpp" />
+    <ClCompile Include="Model\src\PatrolCard.cpp" />
+    <ClCompile Include="Model\src\PatrolCardDeck.cpp" />
+    <ClCompile Include="Model\src\Player.cpp" />
+    <ClCompile Include="Model\src\PlayerInterface.cpp" />
+    <ClCompile Include="Model\src\Tiles\Atrium.cpp" />
+    <ClCompile Include="Model\src\Tiles\Camera.cpp" />
+    <ClCompile Include="Model\src\Tiles\ComputerRoomF.cpp" />
+    <ClCompile Include="Model\src\Tiles\ComputerRoomL.cpp" />
+    <ClCompile Include="Model\src\Tiles\ComputerRoomM.cpp" />
+    <ClCompile Include="Model\src\Tiles\Deadbolt.cpp" />
+    <ClCompile Include="Model\src\Tiles\Fingerprint.cpp" />
+    <ClCompile Include="Model\src\Tiles\Foyer.cpp" />
+    <ClCompile Include="Model\src\Tiles\Keypad.cpp" />
+    <ClCompile Include="Model\src\Tiles\Laboratory.cpp" />
+    <ClCompile Include="Model\src\Tiles\Laser.cpp" />
+    <ClCompile Include="Model\src\Tiles\Lavatory.cpp" />
+    <ClCompile Include="Model\src\Tiles\Motion.cpp" />
+    <ClCompile Include="Model\src\Tiles\Safe.cpp" />
+    <ClCompile Include="Model\src\Tiles\Scanner.cpp" />
+    <ClCompile Include="Model\src\Tiles\SecretDoor.cpp" />
+    <ClCompile Include="Model\src\Tiles\ServiceDuct.cpp" />
+    <ClCompile Include="Model\src\Tiles\Stair.cpp" />
+    <ClCompile Include="Model\src\Tiles\Thermo.cpp" />
+    <ClCompile Include="Model\src\Tiles\Tile.cpp" />
+    <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
+    <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
+    <ClCompile Include="Network\src\BurgleNetwork.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.2.1\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.1\build\native\Allegro.targets')" />
+    <Import Project="..\packages\boost.1.64.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.64.0.0\build\native\boost.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.2.1\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.1\build\native\Allegro.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.64.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.64.0.0\build\native\boost.targets'))" />
+  </Target>
 </Project>
