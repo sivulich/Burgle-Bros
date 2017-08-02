@@ -16,6 +16,12 @@ public:
 		return (col == other.col && row == other.row && floor == other.floor);
 	}
 
+	bool operator!=(const Coord& other)
+	{
+		return (col != other.col || row != other.row || floor != other.floor);
+	}
+
+
 	friend std::ostream& operator<< (std::ostream &os, const Coord &c)
 	{
 		os << "(" << c.floor + 1 << "," << char('A' + c.col) << "," << c.row + 1 << ")";

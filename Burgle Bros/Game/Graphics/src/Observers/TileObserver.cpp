@@ -28,38 +28,45 @@ TileObserver::TileObserver(Tile* t, Container* p)
 	tile = t;
 	parent = p;
 	tokens = { Image(string("../View/Images/AlarmToken.png")),Image(string("../View/Images/CrackToken.png")) ,Image(string("../View/Images/CrowToken.png")),Image(string("../View/Images/StairToken.png")) };
+	
+	// Load reverse image of tile
 	reverseTile = new Image(string("../View/Images/Tiles/Tile - Reverse.png"));
+
+	// Load fron timage of tile 
 	front = new Image(images[tile->getType()]);
+
 	Coord coord = tile->getPos();
-	string des = string("A") + to_string(coord.row + 1) + string("F") + to_string(coord.floor);
-	des[0] += coord.col;
-	front->setName(des);
-	front->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
+
+	// Set name of the tile (its coord)
+	string name = string("A") + to_string(coord.row + 1) + string("F") + to_string(coord.floor);
+	name[0] += coord.col;
+	front->setName(name);
+	reverseTile->setName(name);
+
+	front->setPosition(coord.row * parent->getHeight() / 4, coord.col * parent->getWidth() / 4);
 	front->setScale(0.9* double(p->getWidth()) / 4.0 / double(front->getWidth()));
-	reverseTile->setName(des);
-	reverseTile->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4);
-	reverseTile->setScale(0.9* double(p->getWidth()) / 4.0 / double(reverseTile->getWidth()));
+
+	reverseTile->setPosition(coord.row*parent->getHeight() / 4, coord.col*parent->getWidth() / 4);
+	reverseTile->setScale(0.9* double(parent->getWidth()) / 4.0 / double(reverseTile->getWidth()));
+
+	// Add to parent container the proper side of the tile
 	if (tile->isFlipped() == true)
 		parent->addObject(front);
 	else
 		parent->addObject(reverseTile);
 
 	for (int i = 0; i < 4; i++)
-	{
 		tokens[i].setScale(front->getScale()*front->getWidth()*0.3 / tokens[i].getWidth());
-		if (i == 0)
-			tokens[i].setPosition(front->getPos().first, front->getPos().second);
-		else if (i == 1)
-			tokens[i].setPosition(front->getPos().first, front->getPos().second + front->getScale()*front->getWidth() - tokens[i].getScale()*tokens[i].getWidth());
-		else if (i == 2)
-			tokens[i].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[i].getScale()*tokens[i].getWidth(), front->getPos().second);
-		else
-			tokens[i].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[i].getScale()*tokens[i].getWidth(), front->getPos().second + front->getScale()*front->getWidth() - tokens[i].getScale()*tokens[i].getWidth());
-	}
-	Coord pos = tile->getPos();
-	if (pos.col < 3)
+
+
+	tokens[0].setPosition(front->getPos().first, front->getPos().second);
+	tokens[1].setPosition(front->getPos().first, front->getPos().second + front->getScale()*front->getWidth() - tokens[1].getScale()*tokens[1].getWidth());
+	tokens[2].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[2].getScale()*tokens[2].getWidth(), front->getPos().second);
+	tokens[3].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[3].getScale()*tokens[3].getWidth(), front->getPos().second + front->getScale()*front->getWidth() - tokens[3].getScale()*tokens[3].getWidth());
+
+	if (coord.col < 3)
 	{
-		if (tile->isAdjacent(Coord(pos.floor, pos.col + 1, pos.row)) == false)
+		if (tile->isAdjacent(Coord(coord.floor, coord.col + 1, coord.row)) == false)
 		{
 			wallLeft = new Image(string("../View/Images/wallV.png"));
 			wallLeft->setPosition(coord.row*p->getHeight() / 4, coord.col*p->getWidth() / 4 + 0.9*p->getWidth() / 4);
@@ -71,9 +78,9 @@ TileObserver::TileObserver(Tile* t, Container* p)
 		}
 
 	}
-	if (pos.row < 3)
+	if (coord.row < 3)
 	{
-		if (tile->isAdjacent(Coord(pos.floor, pos.col , pos.row+1)) == false)
+		if (tile->isAdjacent(Coord(coord.floor, coord.col , coord.row+1)) == false)
 		{
 			wallDown = new Image(string("../View/Images/wallH.png"));
 			wallDown->setPosition(coord.row*p->getHeight() / 4 + 0.9*p->getHeight() / 4, coord.col*p->getWidth() / 4 );
@@ -86,8 +93,7 @@ TileObserver::TileObserver(Tile* t, Container* p)
 	}
 	tile->attach(this);
 }
-void
-TileObserver::update()
+void TileObserver::update()
 {
 	if (tile->isFlipped() == true)
 	{
@@ -130,6 +136,7 @@ TileObserver::update()
 	else if (tile->hasStairToken() == false)
 		parent->removeObject(&tokens[3]);
 }
+
 TileObserver::~TileObserver()
 {
 	if (front != nullptr)

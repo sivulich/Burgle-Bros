@@ -86,12 +86,25 @@
     </Linkage-expat>
     <Allegro_AddonImage>true</Allegro_AddonImage>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>packages\Apache Runtinme Library\apr-iconv\include;packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;packages\Apache Runtinme Library\apr-iconv\include;packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -102,7 +115,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -112,7 +125,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -126,13 +139,16 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller\include\GameController.h" />
     <ClInclude Include="Controller\src\GameFSM.h" />
@@ -188,14 +204,17 @@
     <ClInclude Include="Graphics\src\ALX\Vector2Base.hpp" />
     <ClInclude Include="Graphics\src\ALX\VertexDecl.hpp" />
     <ClInclude Include="Graphics\src\ALX\Voice.hpp" />
-    <ClInclude Include="Graphics\src\Animation.h" />
-    <ClInclude Include="Graphics\src\Button.h" />
-    <ClInclude Include="Graphics\src\Container.h" />
-    <ClInclude Include="Graphics\src\FlipAnimation.h" />
-    <ClInclude Include="Graphics\src\Image.h" />
-    <ClInclude Include="Graphics\src\MoveAnimation.h" />
-    <ClInclude Include="Graphics\src\object.h" />
-    <ClInclude Include="Graphics\src\ObjectInterface.h" />
+    <ClInclude Include="Graphics\src\Animations\Animation.h" />
+    <ClInclude Include="Graphics\src\Animations\FlipAnimation.h" />
+    <ClInclude Include="Graphics\src\Animations\MoveAnimation.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Button.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Container.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Image.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\object.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\ObjectInterface.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Screen.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Textbox.h" />
+    <ClInclude Include="Graphics\include\GraphicsDefs.h" />
     <ClInclude Include="Graphics\src\Observers\ActionObserver.h" />
     <ClInclude Include="Graphics\src\Observers\BoardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\FloorObserver.h" />
@@ -206,14 +225,20 @@
     <ClInclude Include="Graphics\src\Observers\observer.h" />
     <ClInclude Include="Graphics\src\Observers\RemotePlayerObserver.h" />
     <ClInclude Include="Graphics\src\Observers\TileObserver.h" />
-    <ClInclude Include="Graphics\src\Screen.h" />
-    <ClInclude Include="Graphics\src\Textbox.h" />
+    <ClInclude Include="Model\include\BaseModel.h" />
+    <ClInclude Include="Model\include\Board.h" />
+    <ClInclude Include="Model\include\Configs.h" />
+    <ClInclude Include="Model\include\Coord.h" />
+    <ClInclude Include="Model\include\Enumerations.h" />
+    <ClInclude Include="Model\include\Floor.h" />
     <ClInclude Include="Model\include\GameModel.h" />
+    <ClInclude Include="Model\include\Guard.h" />
+    <ClInclude Include="Model\include\PatrolCard.h" />
+    <ClInclude Include="Model\include\Player.h" />
+    <ClInclude Include="Model\include\Tile.h" />
     <ClInclude Include="Model\src\actionNode.h" />
     <ClInclude Include="Model\src\BaseCard.h" />
     <ClInclude Include="Model\src\BaseDeck.h" />
-    <ClInclude Include="Model\include\BaseModel.h" />
-    <ClInclude Include="Model\include\Board.h" />
     <ClInclude Include="Model\src\Characters\Acrobat.h" />
     <ClInclude Include="Model\src\Characters\Character.h" />
     <ClInclude Include="Model\src\Characters\CharacterFactory.h" />
@@ -223,14 +248,8 @@
     <ClInclude Include="Model\src\Characters\Peterman.h" />
     <ClInclude Include="Model\src\Characters\Raven.h" />
     <ClInclude Include="Model\src\Characters\Spotter.h" />
-    <ClInclude Include="Model\include\Configs.h" />
     <ClInclude Include="Model\src\ConsoleColors.h" />
-    <ClInclude Include="Model\include\Coord.h" />
-    <ClInclude Include="Model\include\Enumerations.h" />
-    <ClInclude Include="Model\include\Floor.h" />
     <ClInclude Include="Model\src\FSM_Template.h" />
-    <ClInclude Include="Model\src\GameModel.h" />
-    <ClInclude Include="Model\include\Guard.h" />
     <ClInclude Include="Model\src\Loots\Chihuahua.h" />
     <ClInclude Include="Model\src\Loots\CursedGoblet.h" />
     <ClInclude Include="Model\src\Loots\Gemstone.h" />
@@ -243,9 +262,7 @@
     <ClInclude Include="Model\src\Loots\Painting.h" />
     <ClInclude Include="Model\src\Loots\PersianKitty.h" />
     <ClInclude Include="Model\src\Loots\Tiara.h" />
-    <ClInclude Include="Model\include\PatrolCard.h" />
     <ClInclude Include="Model\src\PatrolCardDeck.h" />
-    <ClInclude Include="Model\include\Player.h" />
     <ClInclude Include="Model\src\PlayerInterface.h" />
     <ClInclude Include="Model\src\Tiles\Atrium.h" />
     <ClInclude Include="Model\src\Tiles\Camera.h" />
@@ -266,21 +283,23 @@
     <ClInclude Include="Model\src\Tiles\ServiceDuct.h" />
     <ClInclude Include="Model\src\Tiles\Stair.h" />
     <ClInclude Include="Model\src\Tiles\Thermo.h" />
-    <ClInclude Include="Model\include\Tile.h" />
     <ClInclude Include="Model\src\Tiles\TileFactory.h" />
     <ClInclude Include="Model\src\Tiles\Walkway.h" />
+    <ClInclude Include="Graphics\src\Animations\MoveRelativeAnimation.h" />
     <ClInclude Include="Network\include\BurgleNetwork.h" />
+    <ClInclude Include="Graphics\src\Animations\zoomAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller\src\GameController.cpp" />
-    <ClCompile Include="Graphics\src\Button.cpp" />
-    <ClCompile Include="Graphics\src\Container.cpp" />
-    <ClCompile Include="Graphics\src\FlipAnimation.cpp" />
+    <ClCompile Include="Graphics\src\Animations\FlipAnimation.cpp" />
+    <ClCompile Include="Graphics\src\Animations\MoveAnimation.cpp" />
     <ClCompile Include="Graphics\src\GameGraphics.cpp" />
-    <ClCompile Include="Graphics\src\Image.cpp" />
-    <ClCompile Include="Graphics\src\MoveAnimation.cpp" />
-    <ClCompile Include="Graphics\src\object.cpp" />
-    <ClCompile Include="Graphics\src\ObjectInterface.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\Button.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\Container.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\Image.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\object.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\Screen.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\Textbox.cpp" />
     <ClCompile Include="Graphics\src\Observers\ActionObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\BoardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\FloorObserver.cpp" />
@@ -290,8 +309,6 @@
     <ClCompile Include="Graphics\src\Observers\LocalPlayerObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\RemotePlayerObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\TileObserver.cpp" />
-    <ClCompile Include="Graphics\src\Screen.cpp" />
-    <ClCompile Include="Graphics\src\Textbox.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\src\actionNode.cpp" />
     <ClCompile Include="Model\src\BaseCard.cpp" />
@@ -348,10 +365,9 @@
     <ClCompile Include="Model\src\Tiles\Tile.cpp" />
     <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
+    <ClCompile Include="Graphics\src\Animations\MoveRelativeAnimation.cpp" />
     <ClCompile Include="Network\src\BurgleNetwork.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <ClCompile Include="Graphics\src\Animations\zoomAnimation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

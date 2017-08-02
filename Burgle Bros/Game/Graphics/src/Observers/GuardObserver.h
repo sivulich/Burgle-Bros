@@ -2,9 +2,9 @@
 
 #include <Guard.h>
 #include "./Observer.h"
-#include "../Container.h"
-#include "../Image.h"
-#include "../MoveAnimation.h"
+#include "../Graphic Objects/Container.h"
+#include "../Graphic Objects/Image.h"
+#include "../Animations/MoveAnimation.h"
 
 class GuardObserver:public Observer {
 public:

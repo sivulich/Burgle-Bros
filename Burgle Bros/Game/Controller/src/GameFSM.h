@@ -78,11 +78,14 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
+		// ACA ARRANCA LA FSM DEL JUEGO, SE PODRIA REALIZAR LA CONEXION ENTRE LAS MAQUINAS
+		// Y LA SINCRONIZACION DE LAS CARTAS
+
 		fsm.model->setBoard();
 
 		fsm.model->currentPlayer()->setPosition(Coord(0, 0, 0));
 		fsm.model->currentPlayer()->setName(string("Roma"));
-		fsm.model->currentPlayer()->setCharacter(RAVEN);
+		fsm.model->currentPlayer()->setCharacter(HACKER);
 
 		fsm.model->otherPlayer()->setPosition(Coord(0, 0, 0));
 		fsm.model->otherPlayer()->setName(string("Tisan"));
@@ -113,12 +116,15 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			for (auto& s : v)
 				std::cout << s << " ";
 			std::cout << std::endl;
+
+			//fsm.graphics->showActions(v);
 		}
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
-
+			// Desmarcar las tiles 
+			//fsm.graphics->unmarkTiles();
 		}
 	};
 
@@ -495,10 +501,13 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Tiles availables to move: ";
-			Coord::printVec(fsm.model->currentPlayer()->whereCanIMove());
+			vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
+			Coord::printVec(v);
 			std::cout << std::endl;
 
 			fsm.currentAction = MOVE;
+			// Distinguir las tiles disponibles para moverse
+			// fsm.graphics->setTilesClickable(v)
 			//
 		}
 	};
@@ -510,9 +519,13 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Tiles availables to peek: ";
-			Coord::printVec(fsm.model->currentPlayer()->whereCanIPeek());
+			vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
+			Coord::printVec(v);
 			std::cout << std::endl;
 			fsm.currentAction = PEEK;
+			// Distinguir las tiles disponibles para moverse
+			// fsm.graphics->markTiles(v)
+			//
 		}
 	};
 

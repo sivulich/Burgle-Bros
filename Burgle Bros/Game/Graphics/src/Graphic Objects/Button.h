@@ -16,5 +16,6 @@ public:
 	*/
 	void draw(Bitmap* target);
 private:
+	// Three bitmaps for diferent button states
 	vector<Bitmap*> bitmaps;
 };

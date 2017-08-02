@@ -1,16 +1,18 @@
 #pragma once
 
 #include "Object.h"
-/*Class used to pack many objects to a closed form, all objects will be drawn with its position relative to parents position
+/*Class used to store graphic objets in a region, all objects will be drawn with its position relative to the container position
 * and with the parents scale (pScale*cScale*size)*/
-class Container :public Object {
+
+class Container :public Object
+{
 public:
 	/** This constructor should be used when setting a background to fill the container
 		@param path Path to the background
 	*/
 	Container(string& path);
 
-	/** This constructor sets a fixed size to where the background will be drawn with the given offsets
+	/** This constructor sets a fixed size for the container
 		@param height Height for the transparent container
 		@param width Width for the transparent container
 	*/
@@ -20,6 +22,7 @@ public:
 		@param target Parent bitmap to draw on
 	*/
 	void draw(Bitmap* target);
+
 	/** Sets the background for the given container
 		@param path Path to the background
 	*/
@@ -32,7 +35,7 @@ public:
 	*/
 	void backgroundProperties(int offsetX, int offsetY, double bScale) { this->offsetX = offsetX; this->offsetY = offsetY; this->bScale = bScale; };
 
-	/** Adds an Object to the parent container
+	/** Adds an Object to the container
 		@param ob Object to add
 	*/
 	void addObject(Object* ob) { objects.insert(objects.begin(),ob); };
@@ -75,32 +78,38 @@ public:
 	*/
 	void drag(int y, int x);
 
-	/** Set if the container overrides the click function of the objects inside it
+	/**
+		Set if the container overrides the click function of the objects inside it
 	*/
 	void onlyMe(bool b) { onlyClickMe = b; };
 	
-	bool contains(Object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) return true; return false; };
+	/**
+	Set if the container overrides the click function of the objects inside it
+	*/
+	void setOnlyChildClickable(bool b) { dontClickMe = b; };
 
+	/**
+		Return true if contains given object
+	*/
+	bool contains(Object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) return true; return false; };
 
 	/*Clear the object list*/
 	void clear() { objects.clear(); };
 
-	void setOnlyChildClickable(bool b) { dontClickMe = b; };
-
 	~Container() { delete toDraw; };
-private:
 
+private:
 	/*Background info*/
 	Bitmap background;
 	int offsetX, offsetY; //Used to offset the drawing of the background in the given container
 	double bScale; //Used to scale up or down the given backGround
 
-	/*Container utility*/
+	/**/
 	Bitmap* toDraw;
 
 	/*Container properties*/
-	bool onlyClickMe;
-	bool dontClickMe;
+	bool onlyClickMe; //
+	bool dontClickMe; //
 
 	/*Child objects for the given container*/
 	vector<Object*> objects;

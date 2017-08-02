@@ -75,6 +75,8 @@ void GameModel::changeTurn()
 {
 	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->resetActionTokens();
+
+	notify();
 }
 
 bool GameModel::guardIsMoving()
@@ -89,10 +91,13 @@ void GameModel::moveGuard()
 
 	guardIsMoving_ = board[floor].moveGuard();
 	if(guardIsMoving_ == false) board[floor].getGuard()->isMyTurn(false);
+
+	notify();
 }
 
 bool GameModel::win()
 {
+	// If both players are on the roof and have all the loots, the game has finished
 	return player1.isOnRoof() && player2.isOnRoof() && player1.getLoots().size() + player2.getLoots().size() == 3;
 }
 
@@ -101,15 +106,21 @@ void GameModel::setBoard()
 	board.setBoard();
 	board.setWalls();
 	board.parseBoard();
+
+	notify();
 }
 void GameModel::setBoard(vector<tileType> tiles)
 {
 	board.setBoard(tiles);
 	board.setWalls();
 	board.parseBoard();
+
+	notify();
 }
 
 bool GameModel::moveTo(Coord c)
 {
 	return currentPlayer_->move(c);
+
+	notify();
 }

@@ -1,8 +1,8 @@
 #pragma once
 #include <GameModel.h>
 #include <alx.hpp>
-#include "../src/Screen.h"
-#include "../Container.h"
+#include "../src/Graphic Objects/Screen.h"
+#include "../src/Graphic Objects/Container.h"
 #include "../src/Observers/Observer.h"
 #include "../src/Observers/BoardObserver.h"
 #include "../src/Observers/LocalPlayerObserver.h"
@@ -34,12 +34,17 @@ public:
 	// Interacts upon a click up, returns objet name
 	void unclick(int y, int x);
 
+
+	// Set as clickable the given tiles (and illuminate them), and not clickable the other ones.
+	void setTilesClickable(vector<Coord> tiles);
+
 	// Return screen event source (for controller)
 	EventSource getScreenEventSource() { return screen->getDisplay()->getEventSource(); }
 
 private:
 	bool initOK_;
 	GameModel * model;
+	// Window, allegro display
 	Screen* screen;
 	Container* cont;
 	BoardObserver* board;

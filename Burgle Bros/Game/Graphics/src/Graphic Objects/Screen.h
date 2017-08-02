@@ -2,6 +2,9 @@
 
 #include "Object.h"
 
+/**
+	SERIA MAS UNA WINDOW MAS QUE UNA SCREEN O NO?
+*/
 class Screen :public Object
 {
 public:
@@ -11,7 +14,7 @@ public:
 		@param pathToBackground Path to the background file
 		@param sets fullscreen
 	*/
-	Screen(int h, int w, string& pathToBackground,bool b);
+	Screen(int h, int w, string& pathToBackground,bool fullscreen);
 
 	/** Draws the screen with all the child objects inside to the display*/
 	void draw();
@@ -19,14 +22,14 @@ public:
 	/** Adds an Object to the parent screen
 		@param ob Object to add
 	*/
-	void addObject(Object* ob) { objects.insert(objects.begin(), ob); };
+	void addObject(Object* ob);
 
 	/** Removes an object from the parent screen
 		@param ob Object to delete
 	*/
-	bool removeObject(Object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; };
+	bool removeObject(Object* ob);
 	
-	/** Returns the name of what you pressed within the screen
+	/** Returns the name of what you pressed in the screen
 		@param y Mouse Y coordinate
 		@param x Mouse X coordinate
 	*/
@@ -51,7 +54,7 @@ public:
 	*/
 	void backgroundProperties(int offsetX, int offsetY, double bScale) { this->offsetX = offsetX; this->offsetY = offsetY; this->bScale = bScale; };
 	
-	/** Returns the display for this screen*/
+	/** Returns the Allegro display for this screen*/
 	Display* getDisplay() { return display; };
 
 	/** Returns the bitmap where the screen will be drawn*/
@@ -68,10 +71,19 @@ public:
 	void fullscreen();
 	~Screen() { delete toDraw; delete display; };
 private:
+	// Alegro display
 	Display* display;
+	//
 	Bitmap* toDraw;
+	// Image for the background
 	Bitmap background;
-	int offsetX, offsetY; //Used to offset the drawing of the background in the given container
-	double bScale; //Used to scale up or down the given background
+
+	//Used to offset the drawing of the background in the given container
+	int offsetX, offsetY; 
+
+	//Used to scale up or down the given background
+	double bScale; 
+
+	// Objects in the screen
 	vector<Object*> objects;
 };

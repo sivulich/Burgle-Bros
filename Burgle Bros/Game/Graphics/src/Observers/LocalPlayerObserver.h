@@ -4,9 +4,9 @@
 #include <Configs.h>
 
 #include "./BoardObserver.h"
-#include "../Container.h"
+#include "../Graphic Objects/Container.h"
 
-#include "../MoveAnimation.h"
+#include "../Animations/MoveAnimation.h"
 #include "./ActionObserver.h"
 
 class LocalPlayerObserver :public Observer {

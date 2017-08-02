@@ -40,20 +40,21 @@ Object::Object(string name, int x, int y, int h, int w, double scale)
 
 string Object::click(int y, int x)
 {
-	if (initOk == true && clickable == true)
+	if (initOk == true)
 	{
-		//Check for x
-		if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+		if (clickable)
 		{
-			DEBUG_MSG_V("Clicking object " << name);
-			clicked = true;
-			return this->name;
+			if (isInside(y, x))
+			{
+				DEBUG_MSG_V("Clicking object " << name);
+				clicked = true;
+				return this->name;
+			}
 		}
-	}
-	else if (initOk == true)
 		DEBUG_MSG_V("Trying to click object " << name << " when is not clickable");
-	else
-		DEBUG_MSG("Trying to click object " << name << " when is not initialized correctly");
+	}
+	else DEBUG_MSG("Trying to click object " << name << " when is not initialized correctly");
+
 	return "";
 }
 
@@ -71,20 +72,20 @@ void Object::unClick(int y, int x)
 bool Object::overYou(int y, int x)
 {
 		//Check for x
-	if (initOk == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	if (initOk == true)
 	{
-		if (hoverable == true)
+		if (isInside(y, x))
 		{
-			hover = true;
+			if (hoverable) hover = true;
+			DEBUG_MSG_V("Hovering " << name);
+			return true;
 		}
-		DEBUG_MSG_V("Hovering " << name);
-		return true;
-	}
-	else if (initOk == true)
-	{
-		clicked = false;
-		hover = false;
-		return false;
+		else 
+		{
+			clicked = false;
+			hover = false;
+			return false;
+		}
 	}
 	else
 		DEBUG_MSG("Trying to hover object " << name << " when is not initialized correctly");
@@ -96,8 +97,8 @@ void Object::drag(int y, int x)
 	if (initOk == true && dragable == true && clicked == true)
 	{
 		DEBUG_MSG_V("Draging " << name);
-		this->x = x - scale*w / 2;
-		this->y = y - scale*h / 2;
+		this->x = x - scaleX*w / 2;
+		this->y = y - scaleY*h / 2;
 	}
 	else
 		DEBUG_MSG("Trying to drag object " << name << " when is not initialized correclty");
@@ -121,5 +122,10 @@ void Object::draw(Bitmap* target)
 	}
 	DEBUG_MSG_V("Drawing " << name);
 	if(borderVisibe)
-		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
+		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
+}
+
+bool Object::isInside(int y, int x)
+{
+	return this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h);
 }

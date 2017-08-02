@@ -169,9 +169,9 @@ void Board::parseBoard()
 	vector<Tile *> crackSafeTiles;
 	vector<Tile *> cameras;
 	ServiceDuct * duct1 = nullptr;
-	ComputerRoomF * computerRoomF;
-	ComputerRoomM * computerRoomM;
-	ComputerRoomL * computerRoomL;
+	ComputerRoomF * computerRoomF = nullptr;
+	ComputerRoomM * computerRoomM = nullptr;
+	ComputerRoomL * computerRoomL = nullptr;
 	vector<Fingerprint *> fingerprints;
 	vector<Motion *> motions;
 	vector<Laser *> lasers;

@@ -25,6 +25,7 @@
 
 #define DEBUG
 //#define DEBUG_V
+
 #ifdef DEBUG_V
 #ifndef DEBUG
 #define DEBUG
@@ -49,10 +50,6 @@
 
 using namespace std;
 
-
-#define HOVER_TONE al_map_rgba(255,255,255,200)
-#define PRESSED_TONE al_map_rgba(100,100,100,200)
-#define HOVER_TONE al_map_rgba(255,255,255,200)
 
 
 /*CHARACTER SETTINGS*/

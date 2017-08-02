@@ -4,22 +4,26 @@ BoardObserver::BoardObserver(Board* b, Container* c)
 {
 	parent = c;
 	board = b;
+
 	for (int i=0;i<3;i++)
-	{
-		toDraw[i]= new Container(c->getHeight()*2.0 / 3.0, c->getHeight() * 2.0 / 3.0 * 4.0 / 5.0);
-		toDraw[i]->setPosition(c->getHeight() / 30, c->getWidth() / 50 + i*c->getWidth() / 3);
-	}
-	for (int i = 0; i < 3; i++)
-	{
-		floors[i] = new FloorObserver(&(*b)[i], toDraw[i]);
-	}
-	for (auto & fl : toDraw)
+		floorContainer[i] = new Container(FLOOR_HEIGHT, FLOOR_WIDTH);
+
+		floorContainer[0]->setPosition(FLOOR_YPOS,FLOOR1_XPOS);
+		floorContainer[1]->setPosition(FLOOR_YPOS,FLOOR2_XPOS);
+		floorContainer[2]->setPosition(FLOOR_YPOS,FLOOR3_XPOS);
+
+	for (int i = 0; i<3; i++)
+		floors[i] = new FloorObserver(&(*b)[i], floorContainer[i]);
+
+	// Add the containers to parent
+	for (auto & fl : floorContainer)
 		parent->addObject(fl);
+
+	// Atach to the model of the board
 	board->attach(this);
 }
 
-void
-BoardObserver::update()
+void BoardObserver::update()
 {
 	for (auto& f : floors)
 		f->update();

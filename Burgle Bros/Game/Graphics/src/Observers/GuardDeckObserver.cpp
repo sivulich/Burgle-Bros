@@ -1,5 +1,5 @@
 #include "./GuardDeckObserver.h"
-#include "../MoveAnimation.h"
+#include "../Animations/MoveAnimation.h"
 
 GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
 {
@@ -70,7 +70,7 @@ void GuardDeckObserver::update()
 			cards[i][j]->deleteAnimation();
 			pair<int, int> cardPos(j*double(parent->getWidth()) / 4.0, i*double(parent->getWidth()) / 4.0);
 			cards[i][j]->setPosition(zoom->getHeight(), double(zoom->getWidth()) / 4.0);
-			cards[i][j]->addAnimation(new MoveAnimation(discardedPos, cardPos, 0.3));
+			cards[i][j]->addAnimation(new MoveAnimation(cardPos, 0.3));
 			zoom->addObject(cards[i][j]);
 		}
 		startedRetraction = false;
@@ -91,7 +91,7 @@ void GuardDeckObserver::update()
 			
 			if (cards[i][j]->hasAnimation() == false && startedRetraction==false)
 			{
-				cards[i][j]->addAnimation(new MoveAnimation(cards[i][j]->getPos(), discardedPos, 0.3));
+				cards[i][j]->addAnimation(new MoveAnimation(discardedPos, 0.3));
 			}
 			else if (cards[i][j]->animationFinished() == true)
 			{

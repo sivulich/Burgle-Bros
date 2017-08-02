@@ -1,9 +1,9 @@
 #pragma once
 #include "Observer.h"
-#include "../Container.h"
+#include "../Graphic Objects/Container.h"
 #include <Player.h>
-#include "../Image.h"
-#include "../Button.h"
+#include "../Graphic Objects/Image.h"
+#include "../Graphic Objects/Button.h"
 #include <Configs.h>
 
 class ActionObserver :public Observer {

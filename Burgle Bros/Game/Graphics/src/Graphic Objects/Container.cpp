@@ -7,7 +7,13 @@ Container::Container(string& path)
 	h = background.getHeight();
 	w = background.getWidth();
 	toDraw = new Bitmap(w, h);
+	offsetX = offsetY = 0;
+	bScale = 1;
+	onlyClickMe = false;
+	dontClickMe = false;
+	// Por que el nombre rand?
 	name = string("Container") + to_string(rand());
+
 	if (toDraw != nullptr && toDraw->get() != nullptr)
 	{
 		if (background.get() != nullptr)
@@ -23,19 +29,21 @@ Container::Container(string& path)
 	}
 	else
 		DEBUG_MSG("Error in container initialization couldnt create toDraw");
-	offsetX = offsetY = 0;
-	bScale = 1;
-	onlyClickMe = false;
-	dontClickMe = false;
+
 }
 Container::Container(int h, int w)
 {
+	background.load("../View/Images/transparent.png");
 	this->h = h;
 	this->w = w;
-	offsetX = offsetY = 0;
-	bScale = 5;
 	toDraw = new Bitmap(w, h);
-	background.load("../View/Images/transparent.png");
+	offsetX = offsetY = 0;
+	bScale = 5;//?????????
+	onlyClickMe = false;
+	dontClickMe = false;
+	// Por que el nombre rand?
+	name = string("Container") + to_string(rand());
+
 	if (toDraw != nullptr && toDraw->get() != nullptr)
 	{
 		if (background.get() != nullptr)
@@ -51,11 +59,10 @@ Container::Container(int h, int w)
 	}
 	else
 		DEBUG_MSG("Error in container initialization couldnt create toDraw");
-	onlyClickMe = false;
+
 }
 
-void
-Container::draw(Bitmap* target)
+void Container::draw(Bitmap* target)
 {
 	if (initOk == true && target != nullptr && target->get() != nullptr)
 	{
@@ -81,23 +88,23 @@ Container::draw(Bitmap* target)
 		al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 		DEBUG_MSG("Error in container " << name << ", background was not loaded, drawing default transparent background");
 	}
-		
 	else
+		// Draw background
 		background.drawScaled( offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,
 			bScale*background.getWidth(), bScale*background.getHeight(), 0);
 		
 
 	for (int i=objects.size()-1;i>=0;i--)
 		objects[i]->draw(toDraw);
+
 	target->setTarget();
-	toDraw->drawScaled( 0, 0, w, h, x, y, scale*w, scale*h, 0);
+	toDraw->drawScaled( 0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
 
 	if (borderVisibe)
-		al_draw_rectangle(x, y, x + w*scale, y + h*scale, al_map_rgb(255, 0, 0), 3);
+		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
 }
 
-string
-Container::click(int y, int x)
+string Container::click(int y, int x)
 {
 	if (initOk == false)
 	{
@@ -106,9 +113,9 @@ Container::click(int y, int x)
 	}
 	DEBUG_MSG_V("Clicking on container " << name);
 	
-	if (clickable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	if (clickable == true && isInside(y,x))
 	{
-		if (onlyClickMe == false)
+		if (onlyClickMe != true)
 		{
 			for (auto& ob : objects)
 			{
@@ -116,7 +123,9 @@ Container::click(int y, int x)
 					return ob->click((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
 			}
 		}
+
 		clicked = true;
+
 		if (dontClickMe == false)
 			return name;
 		else
@@ -124,8 +133,8 @@ Container::click(int y, int x)
 	}
 	return "";
 }
-void
-Container::unClick(int y, int x)
+
+void Container::unClick(int y, int x)
 {
 	if (initOk == false)
 	{
@@ -138,8 +147,7 @@ Container::unClick(int y, int x)
 		ob->unClick((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
 }
 
-bool
-Container::overYou(int y, int x)
+bool Container::overYou(int y, int x)
 {
 	if (initOk == false)
 	{
@@ -157,8 +165,7 @@ Container::overYou(int y, int x)
 	return false;
 }
 
-void
-Container::drag(int y, int x)
+void Container::drag(int y, int x)
 {
 	if (initOk == false)
 	{

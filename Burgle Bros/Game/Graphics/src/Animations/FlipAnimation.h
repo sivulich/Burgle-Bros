@@ -2,7 +2,8 @@
 
 #include "Animation.h"
 #include "MoveAnimation.h"
-class FlipAnimation :public Animation {
+class FlipAnimation :public Animation
+{
 public:
 	FlipAnimation(ObjectInterface* ob,double duration);
 	void play(ObjectInterface* ob);

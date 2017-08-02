@@ -92,7 +92,6 @@ vector<Coord> Tile::whereCanIMove()
 
 vector<Coord> Tile::whereCanIPeek()
 {
-
 	return adjacent;
 }
 
@@ -120,7 +119,6 @@ void Tile::enter(PlayerInterface * p)
 {
 	if (!isFlipped())
 		turnUp();
-	p->setPosition(getPos());
 	updateVisibleFrom(p);
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
 	notify();

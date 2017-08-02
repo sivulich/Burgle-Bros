@@ -9,19 +9,21 @@ Player::Player(Board * b, Player * p)
 	resetActionTokens();
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
+	turn = 0;
+}
+
+
+
+void Player::setPosition(Coord c)
+{
+	setPosition(board->getTile(c));
 }
 
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
 	currentTile->turnUp();
-	updateActions();
 	notify();
-}
-
-void Player::setPosition(Coord c)
-{
-	setPosition(board->getTile(c));
 }
 
 void Player::setName(string & playerName)
@@ -35,7 +37,7 @@ void Player::setCharacter(characterType type)
 {
 	character = CharacterFactory().newCharacter(type);
 	//notify(); creo que no hace falta llamar el update de la vista porque el
-	//           caracter se setea antes de que se vea la pantalla de juego
+	//           character se setea antes de que se vea la pantalla de juego
 }
 
 bool Player::has(lootType l)
@@ -60,13 +62,9 @@ void Player::resetActionTokens()
 	notify();
 }
 
-bool Player::move(Coord c)
-{
-	return move(board->getTile(c));
-}
-
 vector<Coord> Player::whereCanIMove()
 {
+
 	vector<Coord> v = currentTile->whereCanIMove();
 	// Remove the ones where I cant move
 	for (auto& t : v)
@@ -80,14 +78,55 @@ vector<Coord> Player::whereCanIMove()
 	return v;
 }
 
+bool Player::move(Coord c)
+{
+	return move(board->getTile(c));
+}
+
+bool Player::move(Tile * newTile)
+{
+	// COmento el canMove, las tiles disponibles para moverse tienen que brindarse con el metodo whereCanIMove
+	// este metodo mueve al jugador sin preguntar
+	//if (newTile->canMove(this))
+	//{
+		// Solo saco un action token si me puedo mover
+		removeActionToken();
+
+		newAction("MOVE", newTile->getPos());
+
+		// Exit the current tile
+		currentTile->exit(this);
+
+		setPosition(newTile->getPos());
+
+		// And enter the next tile
+		newTile->enter(this);
+
+		// Update all loots
+		for (auto & t : loots)
+			t->update();
+		
+		// Notify the view the player has moved
+		notify();
+
+		return true;
+	//}
+	//return false;
+	
+}
+
 vector<Coord> Player::whereCanIPeek()
 {
 	vector<Coord> v = currentTile->whereCanIPeek();
-	// VER COMO HACER CON EL ACROBAT UNA VEZ POR TURNO PARA HACER PEEK EN UNA NO ADYACENTE 
+	// VER COMO HACER CON EL SPOTTER UNA VEZ POR TURNO PARA HACER PEEK EN UNA TILE separado por una pared
+
+	if (character->is(SPOTTER) && "No use la habilidad en este turno")
+	{
+		//"agregar al vector v todos los tiles alrededor del que estoy, incluidos los separados por paredes"
+	}
+
 	// Remove the flipped ones
-	/*for (auto& t : v)
-		if (board->getTile(t)->isFlipped())
-			t=v.erase(remove(v.begin(),v.end(),t));*/
+
 
 	v.erase(remove_if(v.begin(),v.end(),
 		[&](const Coord t)-> bool
@@ -97,30 +136,6 @@ vector<Coord> Player::whereCanIPeek()
 
 }
 
-bool Player::move(Tile * newTile)
-{
-	
-	
-	if (newTile->canMove(this))
-	{
-		// Solo saco un action token si me puedo mover
-		removeActionToken();
-		newAction("MOVE", newTile->getPos());
-		// Exit the current tile
-		currentTile->exit(this);
-		// And enter the next tile
-		newTile->enter(this);
-
-		// Update all loots
-		for (auto & t : loots)
-			t->update();
-		notify();
-		return true;
-	}
-	return false;
-	
-}
-
 bool Player::peek(Coord c)
 {
 	return peek(board->getTile(c));
@@ -128,7 +143,9 @@ bool Player::peek(Coord c)
 
 bool Player::peek(Tile * newTile)
 {
-	if (newTile->isFlipped()==false && newTile->isAdjacent(getPosition()))
+	// no chequeo mas si es adyacente, peek lo hace sin preguntar, la adyacencia se consigue con whereCanIPeek()
+
+	if (newTile->isFlipped()==false) 
 	{
 		removeActionToken();
 		newAction("PEEK", newTile->getPos());
@@ -137,6 +154,7 @@ bool Player::peek(Tile * newTile)
 		return true;
 	}
 	return false;
+
 }
 
 bool Player::createAlarm(Coord c)
@@ -175,17 +193,18 @@ Coord Player::getPosition()
 	return currentTile == nullptr ? NPOS : currentTile->getPos();
 };
 
+
 vector<string> Player::getActions()
 {
-	updateActions();
-	return possibleActions;
-}
+	vector <string> possibleActions;
 
-void Player::updateActions()
-{
-	possibleActions.clear();
-	if(currentTile!=nullptr)
+	if (currentTile != nullptr)
+	{
 		possibleActions = currentTile->getActions(this);
+
+		if (currentTile->hasLoot())
+			possibleActions.push_back("PICK_UP_LOOT");
+	}
 
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
 	if (character != nullptr)
@@ -198,12 +217,7 @@ void Player::updateActions()
 		else if (getCharacterType() == SPOTTER)
 			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
 	}
-	// REEMPLAZar con un character->getAction();!!
 	
-
-	if(currentTile!=nullptr && currentTile->hasLoot())
-		possibleActions.push_back("PICK_UP_LOOT");
-
 	if (otherPlayer!= nullptr && otherPlayer->getPosition() == getPosition())
 	{
 		if (hasLoot())
@@ -211,12 +225,14 @@ void Player::updateActions()
 		if (otherPlayer->hasLoot())
 			possibleActions.push_back("REQUEST_LOOT");
 	}
+	return possibleActions;
 }
 
 bool Player::isOnRoof()
 {
 	return getPosition() == ROOF;
 }
+
 void Player::print()
 {
 	cout << name << " at " << currentTile->getPos() << " --> " << toString(currentTile->getType()) << endl;
@@ -266,7 +282,7 @@ int  Player::getActionTokens()
 
 void Player::newAction( string action, Coord tile)
 {
-	actions.push_back(actionNode(action,tile));
+	actions.push_back(actionNode(action,tile,turn));
 }
 
 int Player::throwDice()
@@ -326,3 +342,4 @@ void Player::clearVisibleFrom()
 {
 	visibleFrom.clear();
 }
+

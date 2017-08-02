@@ -38,5 +38,5 @@ GuardObserver::update()
 	if (guardIm->getPos().first>=parent->getWidth())
 		guardIm->setPosition(finish.first, finish.second);
 	else
-		guardIm->addAnimation(new MoveAnimation(init, finish, 0.2));
+		guardIm->addAnimation(new MoveAnimation(finish, 0.2));
 }

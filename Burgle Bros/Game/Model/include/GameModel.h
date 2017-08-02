@@ -4,6 +4,9 @@
 #include <Board.h>
 #include <Player.h>
 
+
+// The game model inherits from base model class
+// Every time something changes must call notify method so observer can update view
 class GameModel : public BaseModel
 {
 public:
