@@ -1,26 +1,68 @@
 #include "./FloorObserver.h"
 
-FloorObserver::FloorObserver(Floor* f, Container* floorContainer)
+FloorObserver::FloorObserver(Floor* f, Container* boardContainer)
 {
 	floor = f;
-	parent = floorContainer;
+	this->boardContainer = boardContainer;
 	
+	floorContainer = new Container(FLOOR_HEIGHT,FLOOR_WIDTH, "Floor " + to_string(floor->number()) + " container");
+	floorContainer->setOnlyChildClickable(true);
+	floorContainer->setHoverable(false);
 
-	// PORQUE DOS CONTAINERS!!??
-	floorGrid = new Container(parent->getWidth(), parent->getWidth());
-	secondGrid = new Container(parent->getWidth(), parent->getWidth());
-	secondGrid->setOnlyChildClickable(true);
-	secondGrid->setHoverable(false);
-	floorGrid->setName(string("Floor") + to_string(floor->number()));
-	//Y ver la poscion dentro del board
+	// Set position in board
+	switch (floor->number())
+	{
+		case 0:
+			floorContainer->setPosition(FLOOR_YPOS, FLOOR1_XPOS);
+			break;
+		case 1:
+			floorContainer->setPosition(FLOOR_YPOS, FLOOR2_XPOS);
+			break;
+		case 2:
+			floorContainer->setPosition(FLOOR_YPOS, FLOOR3_XPOS);
+			break;
+	}
+	boardContainer->addObject(floorContainer);
 
-	//parent->setName(string("Floor") + to_string(floor->number()));
+	
+/*
+	// Tiles position (Relative to floor)
+#define TILE_A1_XPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_A1_YPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_A2_XPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_A2_YPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_A3_XPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_A3_YPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_A4_XPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_A4_YPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
 
-	floorGrid->setPosition(0, 0);
-	secondGrid->setPosition(0, 0);
-	parent->addObject(floorGrid);
-	parent->addObject(secondGrid);
+#define TILE_B1_XPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_B1_YPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_B2_XPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_B2_YPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_B3_XPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_B3_YPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_B4_XPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_B4_YPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
 
+#define TILE_C1_XPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_C1_YPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_C2_XPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_C2_YPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_C3_XPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_C3_YPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_C4_XPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_C4_YPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
+
+#define TILE_D1_XPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_D1_YPOS 0 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_D2_XPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_D2_YPOS 1 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_D3_XPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_D3_YPOS 2 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_D4_XPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
+#define TILE_D4_YPOS 3 * ( TILE_SIZE + TILE_SEPARATION )
+		*/
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
@@ -30,17 +72,19 @@ FloorObserver::FloorObserver(Floor* f, Container* floorContainer)
 		}
 	}
 
+	
+
 	// Attach to floor model
 	floor->attach(this);
 
-	deck = new GuardDeckObserver(f, floorContainer);
+	//deck = new GuardDeckObserver(f, floorContainer);
 
-	guard = new GuardObserver(floor->getGuard(), floorContainer);
+	//guard = new GuardObserver(floor->getGuard(), floorContainer);
 }
 
-void
-FloorObserver::update()
+
+void FloorObserver::update()
 {
-	deck->update();
+//	deck->update();
 
 }

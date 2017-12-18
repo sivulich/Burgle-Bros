@@ -62,6 +62,24 @@ bool Tile::hasLoot()
 	return loot.empty() ? false : true;
 }
 
+bool Tile::hasEastWall()
+{
+	return coord.col < 3 && !isAdjacent(Coord(coord.floor, coord.col + 1, coord.row));
+}
+bool Tile::hasWestWall()
+{
+	return coord.col > 0 && !isAdjacent(Coord(coord.floor, coord.col - 1, coord.row));
+}
+bool Tile::hasNorthWall()
+{
+	return coord.row > 0 && !isAdjacent(Coord(coord.floor, coord.col, coord.row - 1));
+}
+bool Tile::hasSouthWall()
+{
+	return coord.row < 3 && !isAdjacent(Coord(coord.floor, coord.col, coord.row + 1));
+}
+
+
 
 void Tile::turnUp()
 {

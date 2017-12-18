@@ -102,6 +102,7 @@ void Screen::draw()
 		return;
 	}
 	DEBUG_MSG_V("Drawing screen");
+
 	toDraw->setTarget();
 	// Draw background in the bitmap
 	background.drawScaled( offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,

@@ -1,7 +1,7 @@
 #pragma once
 #include <utility>
 #include <cmath>
-#include "ALX\alx.hpp"
+#include <alx.hpp>
 /* Interface implemented for a graphic object. Used by animations to modify an object*/
 class ObjectInterface
 {

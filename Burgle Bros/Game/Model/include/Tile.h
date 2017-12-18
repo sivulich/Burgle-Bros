@@ -96,6 +96,14 @@ public:
 	bool hasLoot();
 
 	/**
+		Check for walls	
+	*/
+	bool hasEastWall();
+	bool hasWestWall();
+	bool hasNorthWall();
+	bool hasSouthWall();
+	
+	/**
 		Activate an alarm in the tile.
 	*/
 	void setAlarm(bool b);

@@ -13,15 +13,16 @@ Object::Object()
 	hover = false;
 	initOk = false;
 	
-	animation = nullptr;
 	scale=scaleY=scaleX = 1;
 	h = 0;
 	w = 0;
 	x = 0;
 	y = 0;
 }
+
 Object::Object(string name, int x, int y, int h, int w, double scale)
 {
+	animation = nullptr;
 	clickable = true;
 	visible = true;
 	dragable = false;
@@ -29,13 +30,14 @@ Object::Object(string name, int x, int y, int h, int w, double scale)
 	borderVisibe = false;
 	clicked = false;
 	hover = false;
+	initOk = false;
+
 	this->scale=scaleX=scaleY = scale;
 	this->h = h;
 	this->w = w;
 	this->x = x;
 	this->y = y;
-	this->name = name;
-	animation = nullptr;
+	this->name = name;	
 }
 
 string Object::click(int y, int x)
@@ -46,7 +48,7 @@ string Object::click(int y, int x)
 		{
 			if (isInside(y, x))
 			{
-				DEBUG_MSG_V("Clicking object " << name);
+				DEBUG_MSG("Clicking object " << name);
 				clicked = true;
 				return this->name;
 			}
@@ -71,7 +73,6 @@ void Object::unClick(int y, int x)
 
 bool Object::overYou(int y, int x)
 {
-		//Check for x
 	if (initOk == true)
 	{
 		if (isInside(y, x))

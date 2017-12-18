@@ -4,6 +4,7 @@
 #include <iostream>
 
 #define NPOS Coord(5,5,5)
+
 class Coord
 {
 public:
@@ -24,7 +25,7 @@ public:
 
 	friend std::ostream& operator<< (std::ostream &os, const Coord &c)
 	{
-		os << "(" << c.floor + 1 << "," << char('A' + c.col) << "," << c.row + 1 << ")";
+		os << char('A' + c.col) << c.row + 1 << "F" << c.floor ;
 		return os;
 	}
 

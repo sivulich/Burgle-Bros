@@ -14,7 +14,7 @@ public:
 	/** Draws the the button to the given bitmap
 	@param target Target bitmap, to draw button in
 	*/
-	void draw(Bitmap* target);
+	virtual void draw(Bitmap* target)override;
 private:
 	// Three bitmaps for diferent button states
 	vector<Bitmap*> bitmaps;

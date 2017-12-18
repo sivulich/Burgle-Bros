@@ -6,21 +6,21 @@
 #include <Floor.h>
 #include "./GuardDeckObserver.h"
 #include "./GuardObserver.h"
+
 class FloorObserver :public Observer
 {
 public:
-	// Recives a floor pointer and the container for the tiles
-	FloorObserver(Floor* f,Container* floorContainer);
+	// Recives a floor pointer and the container of the board
+	FloorObserver(Floor* f,Container* boardContainer);
 	void update();
-	Container* getFloorGrid() { return secondGrid; };
+	Container * getContainer() { return floorContainer; }
 	TileObserver** operator[](size_t i) { return tiles[i]; };
 private:
-	GuardDeckObserver * deck;
-	GuardObserver * guard;
+	//GuardDeckObserver * deck;
+	//GuardObserver * guard;
 	TileObserver * tiles[4][4];
 
-	Container* parent;
-	Container* floorGrid;
-	Container* secondGrid;
+	Container* floorContainer;
+	Container* boardContainer;
 	Floor* floor;
 };

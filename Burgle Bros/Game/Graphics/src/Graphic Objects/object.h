@@ -1,9 +1,9 @@
 #pragma once
 
 #include <Configs.h>
-#include "./ALX/alx.hpp"
+#include <alx.hpp>
 #include "./ObjectInterface.h"
-#include "./Animation.h"
+#include "../Animations/Animation.h"
 
 using namespace alx;
 
@@ -74,7 +74,7 @@ public:
 	void setHoverable(bool b) { hoverable = b; hover = false; };
 	
 	/** Sets if the border is visible in the object*/
-	void setBorderVisible(bool b) { borderVisibe = b; };
+	virtual void setBorderVisible(bool b) { borderVisibe = b; };
 
 	/** 
 		Sets the name for the object	

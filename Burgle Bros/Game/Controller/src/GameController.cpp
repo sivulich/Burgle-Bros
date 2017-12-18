@@ -1,6 +1,7 @@
 #include <GameController.h>
 #include "./GameFSM.h"
-GameController::GameController(GameModel * m,GameGraphics * g) : FSM(new GameFSM(m,g)) , renderTimer(1.0/30.0)
+
+GameController::GameController(GameModel * m,GameGraphics * g) : FSM(new GameFSM(m,g)) , renderTimer(1.0/FPS)
 {
 	model = m;
 	graphics = g;
@@ -66,6 +67,9 @@ void GameController::getInput()
 	
 				if (event.getKeyboardKeycode() == ALLEGRO_KEY_ESCAPE)
 					s = "CLOSE";
+				else if(event.getKeyboardKeycode() == ALLEGRO_KEY_INSERT)
+					s = "CLOSE";
+
 
 				// como string al_keycode_to_name(event.getKeyboardKeycode());
 				break;
@@ -77,6 +81,7 @@ void GameController::getInput()
 
 void GameController::processEvent()
 {
+	
 	if (s == "MOVE")
 		static_pointer_cast<GameFSM>(FSM)->process_event(movee());
 	else if (s == "PEEK")
@@ -109,8 +114,11 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(FSM)->process_event(yes());
 	else if (s == "NO")
 		static_pointer_cast<GameFSM>(FSM)->process_event(no());
-	else if (s.substr(0, 5) == "COORD" && s.length() == 8)
-		static_pointer_cast<GameFSM>(FSM)->process_event(coord(Coord(s[5] - '0' - 1, s[6] - 'A', s[7] - '0' - 1)));
+	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
+	{
+		cout << s << endl;
+		static_pointer_cast<GameFSM>(FSM)->process_event(coord(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1)));
+	}
 	else if (s == "RENDER")
 		graphics->render();
 

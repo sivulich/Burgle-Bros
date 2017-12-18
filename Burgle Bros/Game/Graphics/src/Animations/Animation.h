@@ -1,5 +1,5 @@
 #pragma once
-#include "ObjectInterface.h"
+#include "../Graphic Objects/ObjectInterface.h"
 #include <GraphicsDefs.h> // SOLO POR FPS
 
 class Animation

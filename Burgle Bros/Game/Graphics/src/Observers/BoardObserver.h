@@ -11,9 +11,7 @@ class BoardObserver:public Observer
 public:
 	// Construct the observer with a board pointer and a parent container
 	BoardObserver(Board* b, Container* c);
-	//
-	Container* getFloor(int i) { return floors[i]->getFloorGrid(); };
-	//
+	
 	FloorObserver& operator[](size_t i) { return *(floors[i]); };
 	//
 	void update();
@@ -23,8 +21,8 @@ private:
 	FloorObserver* floors[3];
 
 	// One container for each floor
-	Container* floorContainer[3];
-	
+	//Container* floorContainer[3];
+	Container * boardContainer;
 	// Pointer to the board of the game
 	Board* board;
 

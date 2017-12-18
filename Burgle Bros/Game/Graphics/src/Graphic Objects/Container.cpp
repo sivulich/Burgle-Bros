@@ -18,7 +18,7 @@ Container::Container(string& path)
 	{
 		if (background.get() != nullptr)
 		{
-			DEBUG_MSG_V("Initialized container correctly with background " << path<< " and name "<<name);
+			DEBUG_MSG_V("Initialized container correctly with background " << path << " and name " << name);
 			initOk = true;
 		}
 		else
@@ -31,77 +31,57 @@ Container::Container(string& path)
 		DEBUG_MSG("Error in container initialization couldnt create toDraw");
 
 }
-Container::Container(int h, int w)
+Container::Container(int h, int w, string name)
 {
-	background.load("../View/Images/transparent.png");
+	// Lo comento, al pedo un fondo transparente
+	//background.load("../Game/Graphics/Images/transparent.png");
 	this->h = h;
 	this->w = w;
 	toDraw = new Bitmap(w, h);
 	offsetX = offsetY = 0;
-	bScale = 5;//?????????
+
 	onlyClickMe = false;
 	dontClickMe = false;
-	// Por que el nombre rand?
-	name = string("Container") + to_string(rand());
+
+	this->name = name;
 
 	if (toDraw != nullptr && toDraw->get() != nullptr)
 	{
-		if (background.get() != nullptr)
-		{
-			DEBUG_MSG_V("Initialized container correctly with transparent background");
 			initOk = true;
-		}
-		else
-		{
-			delete toDraw;
-			DEBUG_MSG("Error in container initialization couldnt load background");
-		}
 	}
-	else
-		DEBUG_MSG("Error in container initialization couldnt create toDraw");
+	else DEBUG_MSG("Error in container " << name << " initialization couldnt create toDraw bitmap");
 
 }
 
 void Container::draw(Bitmap* target)
 {
-	if (initOk == true && target != nullptr && target->get() != nullptr)
+	if (initOk == true)
 	{
-		toDraw->setTarget();
-		DEBUG_MSG_V("Drawing container " << name);
-	}
-	else if (initOk == true)
-	{
-		DEBUG_MSG("Error while drawing container " << name << " target was not initialized correctly");
-		return;
-	}
-	else
-	{
-		DEBUG_MSG("Error while drawing container " << name << ", it was not initialized correctly");
-		return;
-	}
+		if (target != nullptr && target->get() != nullptr)
+		{
+			toDraw->setTarget();
+			al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 
-	
-	al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
+			if (background.get()!=nullptr)
+				//	background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0bScale*background.getWidth(), bScale*background.getHeight(), 0);
+				background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0, w*scaleX, h*scaleY ,0);
 
-	if (background.get() == nullptr)
-	{
-		al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
-		DEBUG_MSG("Error in container " << name << ", background was not loaded, drawing default transparent background");
-	}
-	else
-		// Draw background
-		background.drawScaled( offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,
-			bScale*background.getWidth(), bScale*background.getHeight(), 0);
+			for (int i = objects.size() - 1; i >= 0; i--)
+				objects[i]->draw(toDraw);
+
+			// Draw toDraw bitmap in target bitmap
+			target->setTarget();
+			toDraw->drawScaled(0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
+
+			if (borderVisibe)
+				al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
 		
-
-	for (int i=objects.size()-1;i>=0;i--)
-		objects[i]->draw(toDraw);
-
-	target->setTarget();
-	toDraw->drawScaled( 0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
-
-	if (borderVisibe)
-		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
+		}
+		else DEBUG_MSG("Error while drawing container " << name << " target was not initialized correctly");
+		
+	}
+	else DEBUG_MSG("Error while drawing container " << name << ", it was not initialized correctly");
+	
 }
 
 string Container::click(int y, int x)
@@ -115,12 +95,12 @@ string Container::click(int y, int x)
 	
 	if (clickable == true && isInside(y,x))
 	{
-		if (onlyClickMe != true)
+		if (onlyClickMe ==false)
 		{
 			for (auto& ob : objects)
 			{
-				if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
-					return ob->click((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+				if (ob->overYou((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX)) == true)
+					return ob->click((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX));
 			}
 		}
 
@@ -144,7 +124,7 @@ void Container::unClick(int y, int x)
 	DEBUG_MSG_V("Unclicking on container " << name);
 	clicked = false;
 	for (auto& ob : objects)
-		ob->unClick((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+		ob->unClick((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX));
 }
 
 bool Container::overYou(int y, int x)
@@ -158,11 +138,13 @@ bool Container::overYou(int y, int x)
 	for (auto& ob : objects)
 		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
 			return true;
-	if (hoverable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
-	{
-		return true;
-	}
-	return false;
+
+	// Probando hacer mas rapida la interfaz
+	//if (hoverable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	//{
+	//	return true;
+	//}
+	//return false;
 }
 
 void Container::drag(int y, int x)
@@ -187,4 +169,17 @@ void Container::drag(int y, int x)
 		this->x = x - scale*w / 2;
 		this->y = y - scale*h / 2;
 	}
+}
+
+void Container::printContent()
+{
+	for (auto& ob : objects)
+		DEBUG_MSG(ob->getName() << " ");
+}
+
+void Container::setBorderVisible(bool b)
+{
+	borderVisibe = b;
+	for (auto& ob : objects)
+		ob->setBorderVisible(b);
 }

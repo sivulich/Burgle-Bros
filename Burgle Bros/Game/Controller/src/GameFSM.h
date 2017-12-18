@@ -90,6 +90,9 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		fsm.model->otherPlayer()->setPosition(Coord(0, 0, 0));
 		fsm.model->otherPlayer()->setName(string("Tisan"));
 		fsm.model->otherPlayer()->setCharacter(PETERMAN);
+
+		fsm.graphics->createGameView();
+		//fsm.graphics->setBorderVisible(true);
 	}
 
 	template <class EVT, class FSM>

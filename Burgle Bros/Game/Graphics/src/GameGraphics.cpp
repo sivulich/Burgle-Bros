@@ -1,5 +1,5 @@
 #include "GameGraphics.h"
-#include <GraphicsDefs.h>
+
 
 GameGraphics::GameGraphics(GameModel * m)
 {
@@ -13,32 +13,17 @@ GameGraphics::GameGraphics(GameModel * m)
 			initOK_ = true;
 			DEBUG_MSG_V("Correctly initialized allegro");
 
-
-
-
 			ALLEGRO_MONITOR_INFO info;
 			al_get_monitor_info(0, &info);
 			
 			
 	
 			// Create a window
-			screen = new Screen(SCREEN_HEIGHT, SCREEN_WIDTH, string("../View/Images/BackGround.jpg"), false);
+			screen = new Screen(SCREEN_HEIGHT, SCREEN_WIDTH, string("../Game/Graphics/Images/BackGround.jpg"), false);
 			screen->backgroundProperties(0, 0, SCREEN_HEIGHT / 1080.0);
 
-			// A containter for all objects
-			cont = new Container(SCREEN_HEIGHT, SCREEN_WIDTH);
-			screen->addObject(cont);
-			cont->setPosition(0, 0);
-
-
-			// And observers for the board and player
-			board = new BoardObserver(m->getBoard(), cont);
-			pl = new LocalPlayerObserver(m->getPlayer1(), board, cont);
-			pl2 = new RemotePlayerObserver(m->getPlayer2(), board, cont);
-
-			
-			//Attach graphics to the model
 			m->attach(this);
+			showingGameScreen = false;
 			
 		}
 		else
@@ -51,17 +36,53 @@ GameGraphics::GameGraphics(GameModel * m)
 	
 }
 
-void GameGraphics::render()
+
+// 
+void GameGraphics::createGameView()
+{
+	showingGameScreen = true;
+	// A containter for all objects
+	cont = new Container(SCREEN_HEIGHT, SCREEN_WIDTH, "Root container");
+	screen->addObject(cont);
+	cont->setPosition(0, 0);
+	
+
+	// And observers for the board and player
+	board = new BoardObserver(model->getBoard(), cont);
+	pl = new LocalPlayerObserver(model->getPlayer1(), board, cont);
+	//pl2 = new RemotePlayerObserver(model->getPlayer2(), board, cont);
+
+
+	//Attach graphics to the model
+}
+
+void GameGraphics::setBorderVisible(bool b)
+{
+	if (cont != nullptr)
+		cont->setBorderVisible(b);
+}
+
+// 
+void GameGraphics::destroysGameView()
 {
 
+}
+
+
+void GameGraphics::render()
+{
 	screen->draw();
 }
 
 void GameGraphics::update()
 {
-	board->update();
-	pl->update();
-	pl2->update();
+	if (showingGameScreen)
+	{
+		board->update();
+		//pl->update();
+		//pl2->update();
+	}
+	
 }
 
 bool GameGraphics::hover(int y, int x)
@@ -94,7 +115,7 @@ GameGraphics::~GameGraphics()
 	screen->removeObject(cont);
 	cont->clear();
 	delete board;
-	delete pl;
+	//delete pl;
 	delete screen;
 	delete cont;
 

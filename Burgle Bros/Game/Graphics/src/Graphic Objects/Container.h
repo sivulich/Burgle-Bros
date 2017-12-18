@@ -16,7 +16,7 @@ public:
 		@param height Height for the transparent container
 		@param width Width for the transparent container
 	*/
-	Container(int height, int width);
+	Container(int height, int width, string name);
 
 	/** Draws the container with all the child objects inside
 		@param target Parent bitmap to draw on
@@ -50,6 +50,11 @@ public:
 		@param w Width
 	*/
 	void setSize(int h, int w) { this->h = h; this->w = w; };
+
+	/**
+		Set border visible of container and all its elements
+	*/
+	virtual void setBorderVisible(bool b)override;
 
 	/** Returns the target to draw in this container*/
 	Bitmap* getTarget() { return toDraw; };
@@ -95,6 +100,11 @@ public:
 
 	/*Clear the object list*/
 	void clear() { objects.clear(); };
+
+	/**
+		Print name of all objects
+	*/
+	void printContent();
 
 	~Container() { delete toDraw; };
 

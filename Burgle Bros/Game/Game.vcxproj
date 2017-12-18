@@ -125,7 +125,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Controller\include;Graphics\include;..\Game;$(StlIncludeDirectories);Model\include;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Network\include;Controller\src;Graphics\src;Graphics\src\ALX;Graphics\src\Observers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Controller\src;Graphics\src\Animations;Graphics\src\Graphic Objects;Graphics\src\Observers;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\boost.1.64.0.0\lib\native\include;Controller\include;Graphics\include;$(StlIncludeDirectories);Model\include;Network\include;Graphics\src\ALX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -153,6 +153,7 @@
     <ClInclude Include="Controller\include\GameController.h" />
     <ClInclude Include="Controller\src\GameFSM.h" />
     <ClInclude Include="Graphics\include\GameGraphics.h" />
+    <ClInclude Include="Graphics\include\GraphicsDefs.h" />
     <ClInclude Include="Graphics\src\ALX\AllegroFile.hpp" />
     <ClInclude Include="Graphics\src\ALX\alx.hpp" />
     <ClInclude Include="Graphics\src\ALX\AudioStream.hpp" />
@@ -207,23 +208,21 @@
     <ClInclude Include="Graphics\src\Animations\Animation.h" />
     <ClInclude Include="Graphics\src\Animations\FlipAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\MoveAnimation.h" />
+    <ClInclude Include="Graphics\src\Animations\MoveRelativeAnimation.h" />
+    <ClInclude Include="Graphics\src\Animations\zoomAnimation.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Button.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Card.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Container.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Image.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\object.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\ObjectInterface.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Screen.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Textbox.h" />
-    <ClInclude Include="Graphics\include\GraphicsDefs.h" />
     <ClInclude Include="Graphics\src\Observers\ActionObserver.h" />
     <ClInclude Include="Graphics\src\Observers\BoardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\FloorObserver.h" />
-    <ClInclude Include="Graphics\src\Observers\GuardCardObserver.h" />
-    <ClInclude Include="Graphics\src\Observers\GuardDeckObserver.h" />
-    <ClInclude Include="Graphics\src\Observers\GuardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\LocalPlayerObserver.h" />
     <ClInclude Include="Graphics\src\Observers\observer.h" />
-    <ClInclude Include="Graphics\src\Observers\RemotePlayerObserver.h" />
     <ClInclude Include="Graphics\src\Observers\TileObserver.h" />
     <ClInclude Include="Model\include\BaseModel.h" />
     <ClInclude Include="Model\include\Board.h" />
@@ -285,16 +284,17 @@
     <ClInclude Include="Model\src\Tiles\Thermo.h" />
     <ClInclude Include="Model\src\Tiles\TileFactory.h" />
     <ClInclude Include="Model\src\Tiles\Walkway.h" />
-    <ClInclude Include="Graphics\src\Animations\MoveRelativeAnimation.h" />
     <ClInclude Include="Network\include\BurgleNetwork.h" />
-    <ClInclude Include="Graphics\src\Animations\zoomAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller\src\GameController.cpp" />
     <ClCompile Include="Graphics\src\Animations\FlipAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\MoveAnimation.cpp" />
+    <ClCompile Include="Graphics\src\Animations\MoveRelativeAnimation.cpp" />
+    <ClCompile Include="Graphics\src\Animations\zoomAnimation.cpp" />
     <ClCompile Include="Graphics\src\GameGraphics.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Button.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\Card.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Container.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Image.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\object.cpp" />
@@ -303,11 +303,7 @@
     <ClCompile Include="Graphics\src\Observers\ActionObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\BoardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\FloorObserver.cpp" />
-    <ClCompile Include="Graphics\src\Observers\GuardCardObserver.cpp" />
-    <ClCompile Include="Graphics\src\Observers\GuardDeckObserver.cpp" />
-    <ClCompile Include="Graphics\src\Observers\GuardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\LocalPlayerObserver.cpp" />
-    <ClCompile Include="Graphics\src\Observers\RemotePlayerObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\TileObserver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\src\actionNode.cpp" />
@@ -365,9 +361,7 @@
     <ClCompile Include="Model\src\Tiles\Tile.cpp" />
     <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
-    <ClCompile Include="Graphics\src\Animations\MoveRelativeAnimation.cpp" />
     <ClCompile Include="Network\src\BurgleNetwork.cpp" />
-    <ClCompile Include="Graphics\src\Animations\zoomAnimation.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,29 +4,24 @@
 
 #include <Tile.h>
 #include "../Animations/FlipAnimation.h"
-#include "../Graphic Objects/Image.h"
+#include "../Graphic Objects/Card.h"
 #include "../Graphic Objects/Container.h"
 
 
 class TileObserver :public Observer
 {
 public:
-	TileObserver(Tile* t,Container* p );
+	TileObserver(Tile* t,Container* floorContainer );
 	void update();
-	void setHoverable(bool b) { front->setHoverable(b); reverseTile->setHoverable(b); };
-	void setClickable(bool b) { front->setClickable(b); reverseTile->setClickable(b); };
+	void setHoverable(bool b) { tileCard->setHoverable(b); };
+	void setClickable(bool b) { tileCard->setClickable(b); };
     ~TileObserver();
 private:
 	// Pointer to the container in which the tile is
-	Container* parent;
+	Container* floorContainer;
 	// Pointer to observed tile
 	Tile* tile;
 	vector<Image> tokens;
-
-	Image* reverseTile;
-	Image* front;
-
-	Image* wallLeft;
-	Image* wallDown;
-	bool set;
+	Card * tileCard;
+	bool flipped;
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameModel.h>
+#include <GraphicsDefs.h>
 #include <alx.hpp>
 #include "../src/Graphic Objects/Screen.h"
 #include "../src/Graphic Objects/Container.h"
@@ -8,7 +9,6 @@
 #include "../src/Observers/LocalPlayerObserver.h"
 #include "../src/Observers/RemotePlayerObserver.h"
 
-// HEREDA DE OBSERVER??
 class GameGraphics : public Observer
 {
 public:
@@ -38,17 +38,26 @@ public:
 	// Set as clickable the given tiles (and illuminate them), and not clickable the other ones.
 	void setTilesClickable(vector<Coord> tiles);
 
+	// Set visible the border of all grafic objects
+	void setBorderVisible(bool b);
+
 	// Return screen event source (for controller)
 	EventSource getScreenEventSource() { return screen->getDisplay()->getEventSource(); }
 
+	// Create graphic objects to represent game model on scren
+	void createGameView();
+	// 
+	void destroysGameView();
+
 private:
 	bool initOK_;
+	bool showingGameScreen;
 	GameModel * model;
-	// Window, allegro display
+	// 
 	Screen* screen;
 	Container* cont;
 	BoardObserver* board;
 	LocalPlayerObserver * pl;
-	RemotePlayerObserver* pl2;
+	//RemotePlayerObserver* pl2;
 };
 
