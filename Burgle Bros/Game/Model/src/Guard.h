@@ -12,6 +12,7 @@ public:
 	*/
 	Guard(unsigned n,PatrolCardDeck*p, PlayerInterface * p1, PlayerInterface* p2) : pos(NPOS), floorNumber(n), player1(p1), player2(p2), patroldeck(p)
 	{
+		pos = NPOS;
 		speed = 2 + n;
 	};
 

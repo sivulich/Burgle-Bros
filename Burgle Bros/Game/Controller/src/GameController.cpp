@@ -1,19 +1,17 @@
 #include <GameController.h>
 #include "./GameFSM.h"
 
-GameController::GameController(GameModel * m,GameGraphics * g) : FSM(new GameFSM(m,g)) , renderTimer(1.0/FPS)
+GameController::GameController(GameModel * m, GameGraphics * g) : FSM(new GameFSM(m, g, &guardTimer)), guardTimer(1.0), renderTimer(1.0 / FPS)
 {
 	model = m;
 	graphics = g;
-	
-	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource(); 	
+	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
+	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
 };
 
 void GameController::start()
 {
-	renderTimer.start();
-	eventQueue << renderTimer.getEventSource();
-
+	renderTimer.start();	
 	static_pointer_cast<GameFSM>(FSM)->start();
 	// HACER TODAS LAS OTRAS COSAS NECESARIAS AL COMENZAR EL JUEGO
 };
@@ -44,46 +42,63 @@ void GameController::getInput()
 
 		switch (event.getType())
 		{
-			case ALLEGRO_EVENT_DISPLAY_CLOSE:
+		case ALLEGRO_EVENT_DISPLAY_CLOSE:
+			s = "CLOSE";
+			break;
+
+		case ALLEGRO_EVENT_MOUSE_AXES:
+
+			graphics->hover(event.getMouseY(), event.getMouseX());
+			s = "";
+			break;
+
+		case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
+			s = graphics->click(event.getMouseY(), event.getMouseX());
+			break;
+
+		case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+			graphics->unclick(event.getMouseY(), event.getMouseX());
+			s = "";
+			break;
+
+		case ALLEGRO_EVENT_KEY_DOWN:
+
+			if (event.getKeyboardKeycode() == ALLEGRO_KEY_ESCAPE)
 				s = "CLOSE";
-				break;
-
-			case ALLEGRO_EVENT_MOUSE_AXES:
-			
-				graphics->hover(event.getMouseY(), event.getMouseX());
-				s = "";
-				break;
-
-			case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
-				s = graphics->click(event.getMouseY(), event.getMouseX());
-				break;
-
-			case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-				graphics->unclick(event.getMouseY(), event.getMouseX());
-				s = "";
-				break;
-
-			case ALLEGRO_EVENT_KEY_DOWN:
-	
-				if (event.getKeyboardKeycode() == ALLEGRO_KEY_ESCAPE)
-					s = "CLOSE";
-				else if(event.getKeyboardKeycode() == ALLEGRO_KEY_INSERT)
-					s = "CLOSE";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_INSERT)
+				s = "CLOSE";
+			//else if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
+			//	graphics->zoomMode(true);
 
 
-				// como string al_keycode_to_name(event.getKeyboardKeycode());
-				break;
-			case ALLEGRO_EVENT_TIMER:
+			// como string al_keycode_to_name(event.getKeyboardKeycode());
+			break;
+		case ALLEGRO_EVENT_KEY_UP:
+			//if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
+			//	graphics->zoomMode(false);
+			break;
+		case ALLEGRO_EVENT_TIMER:
+			if (event.getTimer() == guardTimer)
+			{
+				s = "MOVE";
+				cout << "MOodijasodiasidusaiuasioasodsDSHDI" << endl;
+			}
+			else if (event.getTimer() == renderTimer)
 				s = "RENDER";
+			break;
+
 		}
 	}
 }
 
 void GameController::processEvent()
 {
-	
+
 	if (s == "MOVE")
+	{
 		static_pointer_cast<GameFSM>(FSM)->process_event(movee());
+		cout << "GUARD TIMER: " << guardTimer.isStarted() << guardTimer.getSpeed() << endl;
+	}
 	else if (s == "PEEK")
 		static_pointer_cast<GameFSM>(FSM)->process_event(peek());
 	else if (s == "TROW_DICE")

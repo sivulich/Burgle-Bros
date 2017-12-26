@@ -21,7 +21,7 @@ public:
 	// Render objects on screen
 	void render();
 
-	// Called by game model when something is modified
+	// Called by Game Model when something is modified
 	//IMPLEMENTAR
 	void update();
 
@@ -34,9 +34,11 @@ public:
 	// Interacts upon a click up, returns objet name
 	void unclick(int y, int x);
 
-
 	// Set as clickable the given tiles (and illuminate them), and not clickable the other ones.
 	void setTilesClickable(vector<Coord> tiles);
+
+	// Set as clickable all the tiles
+	void setAllClickable();
 
 	// Set visible the border of all grafic objects
 	void setBorderVisible(bool b);
@@ -46,13 +48,17 @@ public:
 
 	// Create graphic objects to represent game model on scren
 	void createGameView();
+
 	// 
 	void destroysGameView();
 
 private:
 	bool initOK_;
 	bool showingGameScreen;
+
+	// Pointer to the Game Model
 	GameModel * model;
+
 	// 
 	Screen* screen;
 	Container* cont;

@@ -29,6 +29,7 @@ private:
 	// 
 	EventQueue eventQueue;
 	Timer renderTimer;
+	Timer guardTimer;
 
 };
 

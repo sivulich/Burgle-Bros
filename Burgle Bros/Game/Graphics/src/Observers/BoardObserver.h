@@ -6,12 +6,12 @@
 
 
 // Observer for the board of the game 
-class BoardObserver:public Observer
+class BoardObserver :public Observer
 {
 public:
 	// Construct the observer with a board pointer and a parent container
 	BoardObserver(Board* b, Container* c);
-	
+
 	FloorObserver& operator[](size_t i) { return *(floors[i]); };
 	//
 	void update();

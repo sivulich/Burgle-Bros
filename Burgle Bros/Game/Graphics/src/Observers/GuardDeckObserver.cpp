@@ -1,26 +1,27 @@
 #include "./GuardDeckObserver.h"
 #include "../Animations/MoveAnimation.h"
 
-GuardDeckObserver::GuardDeckObserver(Floor* f, Container* p)
+GuardDeckObserver::GuardDeckObserver(Floor* f, Container* c, double tileSize, pair<int, int> p[4][4])
 {
 	deck = f->getPatrolDeck();
 	floor = f;
-	parent = p;
+	parent = c;
 	startedRetraction = false;
-	deckView = new Container(p->getHeight()/5, p->getWidth());
-	deckView->setPosition(p->getHeight() *4.0/ 5, 0);
-	deckView->setName(string("Deck from floor ") + to_string(floor->number()));
-	zoom = new Container(p->getWidth(),p->getWidth() );
+	deckView = new Container(c->getHeight()/5, c->getWidth(), string("Deck from floor ") + to_string(floor->number()));
+	deckView->setPosition(c->getHeight() *4.0/ 5, 0);
+	zoom = new Container(c->getWidth(),c->getWidth(),string("zoom"));
 	zoom->setPosition(0, 0);
-	p->addObject(deckView);
+	c->addObject(deckView);
+
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
 		{
 			string des = string("A") + to_string(j + 1) + string(".png");
 			des[0] += i;
-			cards[i][j] = new Image(string("../View/Images/Patrol/PC ") +des);
-			cards[i][j]->setScale(0.9*double(zoom->getHeight()) / 4.0 / cards[i][j]->getHeight());
+			cards[i][j] = new Image(string("./Graphics/Images/Patrol/PC ") +des);
+			cards[i][j]->setSize(tileSize, tileSize);
+			//cards[i][j]->setScale(0.9*double(zoom->getHeight()) / 4.0 / cards[i][j]->getHeight());
 			cards[i][j]->setPosition(double(zoom->getHeight()) / 4.0*j, double(zoom->getHeight()) / 4.0*i);
 			cards[i][j]->setHoverable(false);
 			cards[i][j]->setClickable(false);

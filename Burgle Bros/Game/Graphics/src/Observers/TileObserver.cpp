@@ -22,7 +22,6 @@ static map<tileType, string> images = {	{ATRIUM,string("../Game/Graphics/Images/
 										{WALKWAY,string("../Game/Graphics/Images/Tiles/Tile - Walkway.png") }
 };
 
-
 TileObserver::TileObserver(Tile* t, Container* floorContainer)
 {
 	tile = t;
@@ -53,24 +52,16 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 	double XPOS = TILE_GRID_XPOS_IN_FLOOR + coord.col * (TILE_SIZE + TILE_SEPARATION);
 	double YPOS = TILE_GRID_YPOS_IN_FLOOR + coord.row * (TILE_SIZE + TILE_SEPARATION);
 
-	tileCard = new Card(images[tile->getType()], string("../Game/Graphics/Images/Tiles/Tile - Reverse.png"),XPOS,YPOS,TILE_SIZE,TILE_SIZE);
-	
-
-	//tileCard = new Card(images[tile->getType()], string("../Game/Graphics/Images/Tiles/Tile - Reverse.png"));
-	//tileCard->setPosition(YPOS, XPOS);
-	//tileCard->setSize(TILE_SIZE, TILE_SIZE);
+	tileCard = new Card(images[tile->getType()], string("../Game/Graphics/Images/Tiles/Tile - Reverse.png"),XPOS,YPOS,TILE_SIZE,TILE_SIZE,tile->isFlipped());
 
 	// Set name of the tile (its coord)
 	string name = string("COORDA") + to_string(coord.row + 1) + string("F") + to_string(coord.floor);
 	name[5] += coord.col;
 	tileCard->setName(name);
 
-
-	
 	// Add to parent container
 	floorContainer->addObject(tileCard);
 	
-
 	// Now check for walls
 	Image * wall = nullptr;
 	if (tile->hasEastWall())
@@ -78,7 +69,6 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 		wall = new Image(string("../Game/Graphics/Images/wallV.png"), XPOS + TILE_SIZE, YPOS, TILE_SEPARATION, TILE_SIZE);
 		wall->setClickable(false);
 		wall->setHoverable(false);
-		wall->setNormalTone(Color(0.8f, 0.8f, 0.8f, 1.0f));
 		floorContainer->addObject(wall);
 	}
 			
@@ -87,27 +77,39 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 		wall = new Image(string("../Game/Graphics/Images/wallH.png"), XPOS, YPOS + TILE_SIZE, TILE_SIZE, TILE_SEPARATION);
 		wall->setClickable(false);
 		wall->setHoverable(false);
-		wall->setNormalTone(Color(0.8f, 0.8f, 0.8f, 1.0f));
 		floorContainer->addObject(wall);
 	}
+	double TOKEN_SIZE = TILE_SIZE / 4.5;
 
+	alarmToken = new Image(string("../Game/Graphics/Images/AlarmToken.png"), XPOS + 0*TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	alarmToken->setVisible(false);
+	alarmToken->setHoverable(false);
+	alarmToken->setClickable(false);
+	floorContainer->addObject(alarmToken);
 
-	
-	/*tokens = { Image(string("../Game/Graphics/Images/AlarmToken.png")),Image(string("../Game/Graphics/Images/CrackToken.png")) ,Image(string("../Game/Graphics/Images/CrowToken.png")),Image(string("../Game/Graphics/Images/StairToken.png")) };
+	crackToken = new Image(string("../Game/Graphics/Images/CrackToken.png"), XPOS + 1*TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crackToken->setVisible(false);
+	crackToken->setHoverable(false);
+	crackToken->setClickable(false);
+	floorContainer->addObject(crackToken);
 
-	for (int i = 0; i < 4; i++)
-		tokens[i].setScale(front->getScale()*front->getWidth()*0.3 / tokens[i].getWidth());
+	crowToken = new Image(string("../Game/Graphics/Images/CrowToken.png"), XPOS + 2*TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crowToken->setVisible(false);
+	crowToken->setHoverable(false);
+	crowToken->setClickable(false);
+	floorContainer->addObject(crowToken);
 
+	stairToken = new Image(string("../Game/Graphics/Images/StairToken.png"), XPOS + 3*TOKEN_SIZE , YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	stairToken->setVisible(false);
+	stairToken->setHoverable(false);
+	stairToken->setClickable(false);
+	floorContainer->addObject(stairToken);
 
-	tokens[0].setPosition(front->getPos().first, front->getPos().second);
-	tokens[1].setPosition(front->getPos().first, front->getPos().second + front->getScale()*front->getWidth() - tokens[1].getScale()*tokens[1].getWidth());
-	tokens[2].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[2].getScale()*tokens[2].getWidth(), front->getPos().second);
-	tokens[3].setPosition(front->getPos().first + front->getScale()*front->getHeight() - tokens[3].getScale()*tokens[3].getWidth(), front->getPos().second + front->getScale()*front->getWidth() - tokens[3].getScale()*tokens[3].getWidth());
-	*/
-	
+	flipped = false;
 	tile->attach(this);
 
 }
+// Updates the tile image, including the tokens in it
 void TileObserver::update()
 {
 	if ( flipped != tile->isFlipped() )
@@ -117,33 +119,53 @@ void TileObserver::update()
 		flipped = tile->isFlipped();
 	}
 
-	/*if (tile->hasAlarm() == true && parent->contains(&tokens[0])==false)
+	if (tile->hasAlarm() != alarmToken->isVisible())
 	{
-		parent->addObject(&tokens[0]);
+		if (tile->hasAlarm())
+			alarmToken->setVisible(true);
+		else
+			alarmToken->setVisible(false);
 	}
-	else if(tile->hasAlarm() == false)
-		parent->removeObject(&tokens[0]);
 
-	if (tile->hasCrackToken() == true && parent->contains(&tokens[1])==false)
+	if (tile->hasCrackToken() != crackToken->isVisible())
 	{
-		parent->addObject(&tokens[1]);
+		if (tile->hasCrackToken())
+			crackToken->setVisible(true);
+		else
+			crackToken->setVisible(false);
 	}
-	else if(tile->hasCrackToken() == false)
-		parent->removeObject(&tokens[1]);
 
-	if (tile->hasCrowToken() == true && parent->contains(&tokens[2])==false)
+	if (tile->hasCrowToken() != crowToken->isVisible())
 	{
-		parent->addObject(&tokens[2]);
+		if (tile->hasCrowToken())
+			crowToken->setVisible(true);
+		else
+			crowToken->setVisible(false);
 	}
-	else if(tile->hasCrowToken() == false)
-		parent->removeObject(&tokens[2]);
+	
+	if (tile->isFlipped() && tile->hasStairToken()!=stairToken->isVisible())
+	{
+		if (tile->hasStairToken())
+			stairToken->setVisible(true);
+		else
+			stairToken->setVisible(false);
+	}
+}
 
-	if (tile->isFlipped()==true && tile->hasStairToken() == true && parent->contains(&tokens[3]) == false)
-	{
-		parent->addObject(&tokens[3]);
-	}
-	else if (tile->hasStairToken() == false)
-		parent->removeObject(&tokens[3]);*/
+
+double TileObserver::size()
+{
+	return tileCard->getHeight();
+}
+
+double TileObserver::xpos()
+{
+	return tileCard->getPos().first;
+}
+
+double TileObserver::ypos()
+{
+	return tileCard->getPos().second;
 }
 
 TileObserver::~TileObserver()

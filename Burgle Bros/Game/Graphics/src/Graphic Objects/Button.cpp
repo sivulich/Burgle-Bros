@@ -1,7 +1,8 @@
 #include "./Button.h"
 #include <GraphicsDefs.h>
 
-Button::Button(string& n, vector<string>& files)
+
+Button::Button(string& n, vector<string>& files) : Object()
 {
 	name = n;
 	for (auto& x : files)
@@ -39,19 +40,19 @@ void Button::draw(Bitmap* target)
 	if (clicked == true)
 	{
 		if (pressed >= 1)
-			bitmaps[pressed]->drawScaled(0, 0, w, h, x, y, scale* w, scale* h, 0);
+			bitmaps[pressed]->drawScaled(0, 0, w, h, x, y, scaleX* w, scaleY* h, 0);
 		else
-			bitmaps[0]->drawTintedScaled(PRESSED_TONE, 0, 0, w, h, x, y, scale* w, scale*h, 0);
+			bitmaps[0]->drawTintedScaled(PRESSED_TONE, 0, 0, w, h, x, y, scaleX* w, scaleY*h, 0);
 	}
 	else if (hover == true)
 	{
 		if (pressed <= 1)
-			bitmaps[0]->drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scale* w, scale* h, 0);
+			bitmaps[0]->drawTintedScaled(HOVER_TONE, 0, 0, w, h, x, y, scaleX* w, scaleY* h, 0);
 		else
-			bitmaps[1]->drawScaled(0, 0, w, h, x, y, scale* w, scale* h, 0);
+			bitmaps[1]->drawScaled(0, 0, w, h, x, y, scaleX* w, scaleY* h, 0);
 	}
 	else
-		bitmaps[0]->drawScaled(0, 0, w, h, x, y, scale* w, scale* h, 0);
+		bitmaps[0]->drawScaled(0, 0, w, h, x, y, scaleX* w, scaleY* h, 0);
 
 }
 

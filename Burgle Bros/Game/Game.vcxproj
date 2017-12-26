@@ -105,6 +105,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;packages\Apache Runtinme Library\apr-iconv\include;packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -147,11 +149,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Controller\include\GameController.h" />
+    <ClInclude Include="Controller\src\GameController.h" />
     <ClInclude Include="Controller\src\GameFSM.h" />
+    <ClInclude Include="Graphics\src\Animations\FadeAnimation.h" />
     <ClInclude Include="Graphics\include\GameGraphics.h" />
     <ClInclude Include="Graphics\include\GraphicsDefs.h" />
     <ClInclude Include="Graphics\src\ALX\AllegroFile.hpp" />
@@ -221,20 +225,23 @@
     <ClInclude Include="Graphics\src\Observers\ActionObserver.h" />
     <ClInclude Include="Graphics\src\Observers\BoardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\FloorObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\GuardCardObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\GuardDeckObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\GuardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\LocalPlayerObserver.h" />
     <ClInclude Include="Graphics\src\Observers\observer.h" />
     <ClInclude Include="Graphics\src\Observers\TileObserver.h" />
-    <ClInclude Include="Model\include\BaseModel.h" />
-    <ClInclude Include="Model\include\Board.h" />
+    <ClInclude Include="Model\src\BaseModel.h" />
+    <ClInclude Include="Model\src\Board.h" />
     <ClInclude Include="Model\include\Configs.h" />
     <ClInclude Include="Model\include\Coord.h" />
     <ClInclude Include="Model\include\Enumerations.h" />
-    <ClInclude Include="Model\include\Floor.h" />
-    <ClInclude Include="Model\include\GameModel.h" />
-    <ClInclude Include="Model\include\Guard.h" />
-    <ClInclude Include="Model\include\PatrolCard.h" />
-    <ClInclude Include="Model\include\Player.h" />
-    <ClInclude Include="Model\include\Tile.h" />
+    <ClInclude Include="Model\src\Floor.h" />
+    <ClInclude Include="Model\src\GameModel.h" />
+    <ClInclude Include="Model\src\Guard.h" />
+    <ClInclude Include="Model\src\PatrolCard.h" />
+    <ClInclude Include="Model\src\Player.h" />
+    <ClInclude Include="Model\src\Tiles\Tile.h" />
     <ClInclude Include="Model\src\actionNode.h" />
     <ClInclude Include="Model\src\BaseCard.h" />
     <ClInclude Include="Model\src\BaseDeck.h" />
@@ -288,6 +295,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller\src\GameController.cpp" />
+    <ClCompile Include="Graphics\src\Animations\FadeAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\FlipAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\MoveAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\MoveRelativeAnimation.cpp" />
@@ -303,6 +311,9 @@
     <ClCompile Include="Graphics\src\Observers\ActionObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\BoardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\FloorObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\GuardCardObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\GuardDeckObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\GuardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\LocalPlayerObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\TileObserver.cpp" />
     <ClCompile Include="main.cpp" />
@@ -338,7 +349,6 @@
     <ClCompile Include="Model\src\PatrolCard.cpp" />
     <ClCompile Include="Model\src\PatrolCardDeck.cpp" />
     <ClCompile Include="Model\src\Player.cpp" />
-    <ClCompile Include="Model\src\PlayerInterface.cpp" />
     <ClCompile Include="Model\src\Tiles\Atrium.cpp" />
     <ClCompile Include="Model\src\Tiles\Camera.cpp" />
     <ClCompile Include="Model\src\Tiles\ComputerRoomF.cpp" />

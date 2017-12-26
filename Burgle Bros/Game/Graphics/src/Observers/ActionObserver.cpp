@@ -36,12 +36,12 @@ ActionObserver::ActionObserver(Player* p, int separation, int max, Container* pa
 	{
 		act.second.setScale(double(actionBox->getHeight())/ act.second.getHeight());
 		act.second.setBorderVisible(false);
+	//	act.second.enable();
 	}
 	actionBox->setPosition(0.5*parent->getHeight(), double(pa->getWidth()) / 4.0);
 	pa->addObject(actionBox);
 }
-void
-ActionObserver::update()
+void ActionObserver::update()
 {
 	int x=0,added=0;
 	actionBox->clear();

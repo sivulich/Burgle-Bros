@@ -1,38 +1,41 @@
 #include "./object.h"
 
-
+// Default constructor
 Object::Object()
 {
-	animation = nullptr;
 	clickable = true;
 	visible = true;
 	dragable = false;
 	hoverable = true;
+	disabled = false;
 	borderVisibe = false;
 	clicked = false;
 	hover = false;
 	initOk = false;
-	
-	scale=scaleY=scaleX = 1;
+	scaleY = 1;
+	scaleX = 1;
+	alpha = 1.0;
 	h = 0;
 	w = 0;
 	x = 0;
 	y = 0;
 }
 
+// Constructor that sets the name, the x pos, the y pos, height, width and scale
 Object::Object(string name, int x, int y, int h, int w, double scale)
 {
-	animation = nullptr;
 	clickable = true;
 	visible = true;
 	dragable = false;
 	hoverable = true;
+	disabled = false;
 	borderVisibe = false;
 	clicked = false;
 	hover = false;
 	initOk = false;
-
-	this->scale=scaleX=scaleY = scale;
+	scaleX = scale;
+	scaleY = scale;
+	alpha = 1.0;
 	this->h = h;
 	this->w = w;
 	this->x = x;
@@ -52,8 +55,10 @@ string Object::click(int y, int x)
 				clicked = true;
 				return this->name;
 			}
+			else return "";
 		}
-		DEBUG_MSG_V("Trying to click object " << name << " when is not clickable");
+		else return "Not Clickable";
+		//DEBUG_MSG_V("Trying to click object " << name << " when is not clickable");
 	}
 	else DEBUG_MSG("Trying to click object " << name << " when is not initialized correctly");
 
@@ -62,13 +67,7 @@ string Object::click(int y, int x)
 
 void Object::unClick(int y, int x)
 {
-	if (initOk == true)
-	{
 		clicked = false;
-		DEBUG_MSG_V("Unclicking " << name);
-	}
-	else
-		DEBUG_MSG("Trying to unclick object " << name << " when is not initialized correctly");
 }
 
 bool Object::overYou(int y, int x)
@@ -77,9 +76,12 @@ bool Object::overYou(int y, int x)
 	{
 		if (isInside(y, x))
 		{
-			if (hoverable) hover = true;
-			DEBUG_MSG_V("Hovering " << name);
-			return true;
+			if (hoverable)
+			{
+				hover = true;
+				DEBUG_MSG_V("Hovering " << name);
+				return true;
+			}
 		}
 		else 
 		{
@@ -126,7 +128,23 @@ void Object::draw(Bitmap* target)
 		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
 }
 
+
 bool Object::isInside(int y, int x)
 {
 	return this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h);
 }
+
+void Object::playAnimation()
+{
+	if (hasAnimation())
+	{
+		animation.front()->play(this);
+		if (animation.front()->hasEnded())
+		{
+			delete animation.front();
+			animation.pop();
+		}
+	}
+}
+
+

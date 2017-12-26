@@ -1,13 +1,12 @@
 #include "GameGraphics.h"
 
-
 GameGraphics::GameGraphics(GameModel * m)
 {
 	model = m;
 
 	if (al_init() == true)
 	{
-		if (al_init_image_addon() && al_init_primitives_addon() &&	al_install_keyboard() && al_init_font_addon() && al_init_ttf_addon()
+		if (al_init_image_addon() && al_init_primitives_addon() && al_install_keyboard() && al_init_font_addon() && al_init_ttf_addon()
 			&& al_install_mouse() && al_install_keyboard())
 		{
 			initOK_ = true;
@@ -15,16 +14,16 @@ GameGraphics::GameGraphics(GameModel * m)
 
 			ALLEGRO_MONITOR_INFO info;
 			al_get_monitor_info(0, &info);
-			
-			
-	
+
+
+
 			// Create a window
 			screen = new Screen(SCREEN_HEIGHT, SCREEN_WIDTH, string("../Game/Graphics/Images/BackGround.jpg"), false);
 			screen->backgroundProperties(0, 0, SCREEN_HEIGHT / 1080.0);
 
 			m->attach(this);
 			showingGameScreen = false;
-			
+
 		}
 		else
 			DEBUG_MSG("Couldnt init allegro addons");
@@ -33,7 +32,7 @@ GameGraphics::GameGraphics(GameModel * m)
 		DEBUG_MSG("Couldnt init allegro");
 	initOK_ = false;
 
-	
+
 }
 
 
@@ -41,11 +40,10 @@ GameGraphics::GameGraphics(GameModel * m)
 void GameGraphics::createGameView()
 {
 	showingGameScreen = true;
-	// A containter for all objects
+	// Add a containter to the screen for all objects
 	cont = new Container(SCREEN_HEIGHT, SCREEN_WIDTH, "Root container");
 	screen->addObject(cont);
 	cont->setPosition(0, 0);
-	
 
 	// And observers for the board and player
 	board = new BoardObserver(model->getBoard(), cont);
@@ -82,17 +80,17 @@ void GameGraphics::update()
 		//pl->update();
 		//pl2->update();
 	}
-	
+
 }
 
 bool GameGraphics::hover(int y, int x)
 {
-	return screen->overYou(y,x);
+	return screen->overYou(y, x);
 }
 
 string GameGraphics::click(int y, int x)
 {
-	return screen->click(y,x);
+	return screen->click(y, x);
 }
 
 void GameGraphics::unclick(int y, int x)
@@ -103,7 +101,33 @@ void GameGraphics::unclick(int y, int x)
 
 void GameGraphics::setTilesClickable(vector<Coord> tiles)
 {
+	for (int f = 0; f < 3; f++)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+			{
+				if (find(tiles.begin(), tiles.end(), Coord(f, i, j)) != tiles.end())
+					(*board)[f][i][j]->enable();
+				else
+					(*board)[f][i][j]->disable();
+			}
+		}
 
+	}
+}
+
+void GameGraphics::setAllClickable()
+{
+	for (int f = 0; f < 3; f++)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			for (int j = 0; j < 4; j++)
+				(*board)[f][i][j]->enable();
+		}
+
+	}
 }
 
 GameGraphics::~GameGraphics()

@@ -11,7 +11,6 @@ Textbox::Textbox(int y, int x, string& path, int fSize,int max)
 	this->size = max;
 	w =10+size* font->getWidth("W");
 	h = 4 + font->getHeight();
-	scale = 1;
 	titilate = new Timer(0.5);
 	queue << Keyboard::getEventSource();
 	fitToBox = false;
@@ -38,7 +37,7 @@ Textbox::click(int y, int x)
 		return "";
 	}
 
-	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	if (this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h))
 	{
 		DEBUG_MSG_V("Clicking textbox " << name);
 		clicked = true;
@@ -57,7 +56,7 @@ Textbox::unClick(int y, int x)
 		return ;
 	}
 	
-	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	if (this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h))
 		return;
 	DEBUG_MSG_V("Unclicking textbox " << name);
 	clicked = false;
@@ -72,7 +71,7 @@ Textbox::overYou(int y, int x)
 		DEBUG_MSG("Trying to hover on " << name << " that is no initialized correctly");
 		return false;
 	}
-	if (this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+	if (this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h))
 	{
 		DEBUG_MSG_V("Hovering textbox " << name);
 		hover = true;

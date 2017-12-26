@@ -9,18 +9,19 @@ Tile::Tile()
 	crowToken = false;
 }
 
-Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row) 
+Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 {
 	turnDown();
-	alarmToken = false;
+
 	type = t;
 	coord.col = col;
 	coord.row = row;
 	coord.floor = floor;
 	crowToken = false;
 	crackToken = false;
+	stairToken = false;
+	alarmToken = false;
 }
-
 
 void Tile::setLoot(Loot * l)
 {
@@ -87,11 +88,12 @@ void Tile::turnUp()
 	default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
 	uniform_int_distribution<int> distribution(1, 6);
 	safeNumber = distribution(generator);
+	notify();
 }
 
 void Tile::setAlarm(bool b)
 {
-	if(b) DEBUG_MSG("The alarm went off at " << getPos());
+	if (b) DEBUG_MSG("The alarm went off at " << getPos());
 	else  DEBUG_MSG("The alarm was shut down at " << getPos());
 	alarmToken = b;
 	notify();
@@ -113,6 +115,11 @@ vector<Coord> Tile::whereCanIPeek()
 	return adjacent;
 }
 
+vector<Coord> Tile::getAdjacent()
+{
+	return adjacent;
+}
+
 Coord Tile::getPos() { return coord; };
 
 int Tile::floor() { return coord.floor; };
@@ -130,7 +137,7 @@ void Tile::peek()
 
 bool Tile::canMove(PlayerInterface * p)
 {
-	return p->getActionTokens()>=1 && isAdjacent(p->getPosition());
+	return p->getActionTokens() >= 1 && isAdjacent(p->getPosition());
 }
 
 void Tile::enter(PlayerInterface * p)

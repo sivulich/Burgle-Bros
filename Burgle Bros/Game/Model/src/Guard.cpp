@@ -4,9 +4,6 @@ Guard::~Guard()
 {
 }
 
-
-
-
 void Guard::setFloorMap(vector<Coord> floor[4][4])
 {
 	for (unsigned i = 0; i < 4; i++)
@@ -21,7 +18,6 @@ void Guard::setFloorMap(vector<Coord> floor[4][4])
 // guard checks if his current position 
 void Guard::GuardCheck()
 {
-
 		for (auto &it : player1->getVisibleFrom())
 		{
 			if (it == pos)

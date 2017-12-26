@@ -1,20 +1,26 @@
 #pragma once
 
 #include <Guard.h>
+#include <Floor.h>
+#include <Container.h>
 #include "./Observer.h"
-#include "../Graphic Objects/Container.h"
 #include "../Graphic Objects/Image.h"
 #include "../Animations/MoveAnimation.h"
-
-class GuardObserver:public Observer {
+#include "../Animations/FadeAnimation.h"
+class GuardObserver:public Observer
+{
 public:
-	GuardObserver(Guard* g, Container* pa);
+	GuardObserver(Guard* g, Container* c, double tileSize, pair<int, int> positions[4][4]);	
 	void update();
-	void reset() { if (guardIm != nullptr) { parent->removeObject(guardIm); parent->addObject(guardIm); } };
+	void reset();
 private:
-	Container* parent;
+	Guard* guard;
+	Container* floor;
 	Image* guardIm;
+	pair<int, int> positions[4][4];
 	vector<Image*> dices;
 	unsigned lastSpeed;
-	Guard* guard;
+	Coord lastPos;
+	Coord lastTarget;
+
 };

@@ -4,9 +4,10 @@
 #include "../Graphic Objects/Container.h"
 #include "../Graphic Objects/Image.h"
 #include "./GuardCardObserver.h"
-class GuardDeckObserver :public Observer {
+class GuardDeckObserver :public Observer
+{
 public:
-	GuardDeckObserver(Floor* f, Container* p);
+	GuardDeckObserver(Floor* f, Container* c, double tileSize, pair<int, int> p[4][4]);
 	void update();
 private:
 	PatrolCardDeck* deck;

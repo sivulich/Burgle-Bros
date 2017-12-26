@@ -17,7 +17,7 @@ public:
 	Screen(int h, int w, string& pathToBackground,bool fullscreen);
 
 	/** Draws the screen with all the child objects inside to the display*/
-	void draw();
+	virtual void draw(Bitmap* target = nullptr) override;
 
 	/** Adds an Object to the parent screen
 		@param ob Object to add

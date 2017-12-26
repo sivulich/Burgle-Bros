@@ -7,7 +7,6 @@
 #include "../Graphic Objects/Card.h"
 #include "../Graphic Objects/Container.h"
 
-
 class TileObserver :public Observer
 {
 public:
@@ -15,13 +14,25 @@ public:
 	void update();
 	void setHoverable(bool b) { tileCard->setHoverable(b); };
 	void setClickable(bool b) { tileCard->setClickable(b); };
+	void enable() { tileCard->enable(); };
+	void disable() { tileCard->disable(); };
+	double size();
+	double xpos();
+	double ypos();
+	pair<int, int> pos() { return tileCard->getPos(); };
+
     ~TileObserver();
 private:
 	// Pointer to the container in which the tile is
 	Container* floorContainer;
 	// Pointer to observed tile
 	Tile* tile;
-	vector<Image> tokens;
+
+	Image *alarmToken;
+	Image *crackToken;
+	Image *crowToken;
+	Image *stairToken;
+
 	Card * tileCard;
 	bool flipped;
 };

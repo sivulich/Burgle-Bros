@@ -6,8 +6,8 @@
 class Card : public Image
 {
 public:
-	Card(string& frontPath, string& reversePath);
-	Card(string& frontPath, string& reversePath, int xpos, int ypos, int width, int height);
+	Card(string& frontPath, string& reversePath, bool flipped);
+	Card(string& frontPath, string& reversePath, int xpos, int ypos, int width, int height, bool flipped);
 
 	void flip();
 	~Card();

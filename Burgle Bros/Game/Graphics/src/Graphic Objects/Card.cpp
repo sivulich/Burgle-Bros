@@ -1,17 +1,31 @@
 #include "./Card.h"
 
-Card::Card(string& frontPath, string& reversePath) : Image(reversePath)
+Card::Card(string& frontPath, string& reversePath,bool flipped) : Image(reversePath)
 {
 	reverse = frontPath;
 	front = reversePath;
-	showingReverse = true;
+	if (flipped == true)
+	{
+		showingReverse = false;
+		flip();
+	}
+	else
+		showingReverse = true;
+
 }
 
-Card::Card(string& frontPath, string& reversePath, int xpos, int ypos, int width, int height) : Image(reversePath, xpos, ypos, width, height)
+Card::Card(string& frontPath, string& reversePath, int xpos, int ypos, int width, int height, bool flipped) : Image(reversePath, xpos, ypos, width, height)
 {
-	reverse = frontPath;
-	front = reversePath;
-	showingReverse = true;
+	reverse = reversePath;
+	front = frontPath;
+	if (flipped == true)
+	{
+		showingReverse = false;
+		flip();
+	}
+	else
+		showingReverse = true;
+	
 }
 
 // Change image keeping size, scales, and position

@@ -14,10 +14,11 @@ public:
 	FloorObserver(Floor* f,Container* boardContainer);
 	void update();
 	Container * getContainer() { return floorContainer; }
+	double tileSize();
 	TileObserver** operator[](size_t i) { return tiles[i]; };
 private:
-	//GuardDeckObserver * deck;
-	//GuardObserver * guard;
+	GuardDeckObserver * deck;
+	GuardObserver * guard;
 	TileObserver * tiles[4][4];
 
 	Container* floorContainer;

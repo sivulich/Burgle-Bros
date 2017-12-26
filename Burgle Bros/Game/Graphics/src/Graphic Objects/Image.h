@@ -4,7 +4,6 @@
 #include <Color.hpp>
 
 /* Class used to draw an image, it mantains the original aspect ratio */
-
 class Image : public Object
 {
 public:
@@ -18,20 +17,14 @@ public:
 	*/
 	virtual void draw(Bitmap* target)override;
 
-	void setNormalTone(Color n) { normalTone = n; };
-
-	void setHoverTone(Color n) { hoverTone = n; };
 
 	/**
 		Loads new image
 		@param path
 	*/
-	void load(string& s, bool keepProperties);
+	void load(string& s, bool keepProperties=true);
 
 private:
 	// Bitmap containing the image
 	Bitmap im;
-
-	// 
-	Color hoverTone, normalTone;
 };

@@ -12,32 +12,26 @@ Player::Player(Board * b, Player * p)
 	turn = 0;
 }
 
-
-
 void Player::setPosition(Coord c)
 {
-	setPosition(board->getTile(c));
+	Tile * t = board->getTile(c);
+	setPosition(t);
 }
 
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
-	currentTile->turnUp();
-	notify();
+	tile->turnUp();
 }
 
 void Player::setName(string & playerName)
 {
 	name = playerName;
-	//notify(); creo que no hace falta llamar el update de la vista porque el
-	//           nombre se setea antes de que se vea la pantalla de juego
 }
 
 void Player::setCharacter(characterType type)
 {
 	character = CharacterFactory().newCharacter(type);
-	//notify(); creo que no hace falta llamar el update de la vista porque el
-	//           character se setea antes de que se vea la pantalla de juego
 }
 
 bool Player::has(lootType l)
@@ -64,13 +58,13 @@ void Player::resetActionTokens()
 
 vector<Coord> Player::whereCanIMove()
 {
+	vector<Coord> v = currentTile->getAdjacent();
 
-	vector<Coord> v = currentTile->whereCanIMove();
 	// Remove the ones where I cant move
 	for (auto& t : v)
 	{
 		// Aca hay un problema con el keypad, porque canMove tira el dado!! Lo arreglo con un continue
-		if (board->getTile(t)->is(KEYPAD))
+			if (board->getTile(t)->is(KEYPAD))
 			continue;
 		//else if (board->getTile(t)->canMove(this) == false)
 		//	v.erase(remove(v.begin(), v.end(), t));
@@ -85,34 +79,28 @@ bool Player::move(Coord c)
 
 bool Player::move(Tile * newTile)
 {
-	// COmento el canMove, las tiles disponibles para moverse tienen que brindarse con el metodo whereCanIMove
-	// este metodo mueve al jugador sin preguntar
-	//if (newTile->canMove(this))
-	//{
-		// Solo saco un action token si me puedo mover
-		removeActionToken();
+	// Solo saco un action token si me puedo mover
+	removeActionToken();
 
-		newAction("MOVE", newTile->getPos());
+	newAction("MOVE", newTile->getPos());
 
-		// Exit the current tile
-		currentTile->exit(this);
+	// Exit the current tile
+	currentTile->exit(this);
 
-		setPosition(newTile->getPos());
+	setPosition(newTile);
 
-		// And enter the next tile
-		newTile->enter(this);
+	// And enter the next tile
+	newTile->enter(this);
 
-		// Update all loots
-		for (auto & t : loots)
-			t->update();
-		
-		// Notify the view the player has moved
-		notify();
+	// Update all loots
+	for (auto & t : loots)
+		t->update();
 
-		return true;
-	//}
-	//return false;
-	
+	// Notify the view the player has moved
+	notify();
+
+	return true;
+
 }
 
 vector<Coord> Player::whereCanIPeek()
@@ -128,9 +116,9 @@ vector<Coord> Player::whereCanIPeek()
 	// Remove the flipped ones
 
 
-	v.erase(remove_if(v.begin(),v.end(),
+	v.erase(remove_if(v.begin(), v.end(),
 		[&](const Coord t)-> bool
-		{ return board->getTile(t)->isFlipped(); }),
+	{ return board->getTile(t)->isFlipped(); }),
 		v.end());
 	return v;
 
@@ -145,7 +133,7 @@ bool Player::peek(Tile * newTile)
 {
 	// no chequeo mas si es adyacente, peek lo hace sin preguntar, la adyacencia se consigue con whereCanIPeek()
 
-	if (newTile->isFlipped()==false) 
+	if (newTile->isFlipped() == false)
 	{
 		removeActionToken();
 		newAction("PEEK", newTile->getPos());
@@ -171,9 +159,9 @@ void Player::placeCrow(Coord c)
 {
 	if (getCharacterType() == RAVEN)
 	{
-		
+
 	}
-		board->getTile(c)->setAlarm(true);
+	board->getTile(c)->setAlarm(true);
 }
 
 
@@ -217,8 +205,8 @@ vector<string> Player::getActions()
 		else if (getCharacterType() == SPOTTER)
 			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
 	}
-	
-	if (otherPlayer!= nullptr && otherPlayer->getPosition() == getPosition())
+
+	if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
 	{
 		if (hasLoot())
 			possibleActions.push_back("OFFER_LOOT");
@@ -238,7 +226,7 @@ void Player::print()
 	cout << name << " at " << currentTile->getPos() << " --> " << toString(currentTile->getType()) << endl;
 	cout << "Action tokens " << getActionTokens() << endl;
 	cout << "Stealth tokens " << getStealthTokens() << endl;
-	
+
 	cout << "Visible from: ";
 	for (auto c : getVisibleFrom())
 		cout << c << " ";
@@ -248,7 +236,7 @@ void Player::print()
 	for (auto c : loots)
 		cout << toString(c->getType()) << " ";
 	cout << endl;
-	
+
 }
 void Player::removeStealthToken()
 {
@@ -256,7 +244,7 @@ void Player::removeStealthToken()
 
 	//if(currentTile->tryToHide() == false)	// try to hide from the guard (for the LAVATORY)
 	stealthTokens--;					// if that fails, remove a stealth tokens
-	if(stealthTokens==0)
+	if (stealthTokens == 0)
 		DEBUG_MSG("NO STEALTH TOKENS LEFT, YOU ARE DEADDDDD");
 	notify();
 }
@@ -280,9 +268,9 @@ int  Player::getActionTokens()
 	return actionTokens;
 }
 
-void Player::newAction( string action, Coord tile)
+void Player::newAction(string action, Coord tile)
 {
-	actions.push_back(actionNode(action,tile,turn));
+	actions.push_back(actionNode(action, tile, turn));
 }
 
 int Player::throwDice()
@@ -326,7 +314,7 @@ bool Player::isVisibleFrom(Coord c)
 }
 
 string Player::getName()
-{ 
+{
 	return name;
 };
 

@@ -61,19 +61,19 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	GameFSM_() { };
 
 	// Constructor which receives a pointer to the model
-	GameFSM_(GameModel * m, GameGraphics * g)
+	GameFSM_(GameModel * m, GameGraphics * g, Timer * t)
 	{
 		model = m;
 		graphics = g;
+		guardTimer = t;
 	};
 
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
-
+	Timer * guardTimer;
 	action_ID currentAction; // Stores current action chosen by player
 	//-------------------------------------------------------------
-
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
@@ -92,6 +92,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		fsm.model->otherPlayer()->setCharacter(PETERMAN);
 
 		fsm.graphics->createGameView();
+
 		//fsm.graphics->setBorderVisible(true);
 	}
 
@@ -127,11 +128,9 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
 			// Desmarcar las tiles 
-			//fsm.graphics->unmarkTiles();
+			fsm.graphics->setAllClickable();
 		}
 	};
-
-
 
 
 	struct creatingAlarm : public msm::front::state<>
@@ -234,12 +233,14 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Its guards turn" << std::endl;
+			fsm.guardTimer->start();
 		}
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Leaving guard turn" << std::endl;
+			fsm.guardTimer->stop();
 		}
 
 	};
@@ -255,10 +256,6 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 				std::cout << "You loose!" << std::endl;
 		}
 	};
-
-
-
-
 
 	// Playing state is always active, unless game is paused or there is an error
 	struct playing : public msm::front::state<>
@@ -276,7 +273,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		}
 
 	};
-	
+
 	struct paused : public msm::front::interrupt_state<mpl::vector<resume, closee>>
 	{
 		template <class EVT, class FSM>
@@ -290,7 +287,6 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		{
 			std::cout << "Resuming" << std::endl;
 		}
-
 	};
 
 	struct error : public msm::front::interrupt_state<errorHandled>
@@ -475,7 +471,9 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			std::cout << "Moving guard" << std::endl;
 			fsm.model->moveGuard();
 			if (fsm.model->guardIsMoving() == false)
+			{
 				fsm.process_event(pass());
+			}
 		}
 	};
 
@@ -510,8 +508,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 
 			fsm.currentAction = MOVE;
 			// Distinguir las tiles disponibles para moverse
-			// fsm.graphics->setTilesClickable(v)
-			//
+			fsm.graphics->setTilesClickable(v);
 		}
 	};
 
@@ -527,8 +524,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			std::cout << std::endl;
 			fsm.currentAction = PEEK;
 			// Distinguir las tiles disponibles para moverse
-			// fsm.graphics->markTiles(v)
-			//
+			fsm.graphics->setTilesClickable(v);
+
 		}
 	};
 
@@ -562,6 +559,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		Row < chooseAction, peek, none, showPeek, none       >,
 		Row < chooseAction, coord, chekActionTokens, doMove, isMoving       >,
 		Row < chooseAction, coord, chekActionTokens, doPeek, isPeeking       >,
+		//Row < chooseAction, coord, none, none, none       >,
 
 		Row < chekActionTokens, no, guardTurn, none, none     >,
 		Row < chekActionTokens, yes, chooseAction, none, none     >,

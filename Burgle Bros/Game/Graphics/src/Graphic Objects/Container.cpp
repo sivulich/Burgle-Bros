@@ -37,7 +37,6 @@ Container::Container(int h, int w, string name)
 	//background.load("../Game/Graphics/Images/transparent.png");
 	this->h = h;
 	this->w = w;
-	toDraw = new Bitmap(w, h);
 	offsetX = offsetY = 0;
 
 	onlyClickMe = false;
@@ -45,9 +44,10 @@ Container::Container(int h, int w, string name)
 
 	this->name = name;
 
+	toDraw = new Bitmap(w, h);
 	if (toDraw != nullptr && toDraw->get() != nullptr)
 	{
-			initOk = true;
+		initOk = true;
 	}
 	else DEBUG_MSG("Error in container " << name << " initialization couldnt create toDraw bitmap");
 
@@ -62,9 +62,8 @@ void Container::draw(Bitmap* target)
 			toDraw->setTarget();
 			al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 
-			if (background.get()!=nullptr)
-				//	background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0bScale*background.getWidth(), bScale*background.getHeight(), 0);
-				background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0, w*scaleX, h*scaleY ,0);
+			if (background.get() != nullptr)
+				background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0, w*scaleX, h*scaleY, 0);
 
 			for (int i = objects.size() - 1; i >= 0; i--)
 				objects[i]->draw(toDraw);
@@ -75,13 +74,13 @@ void Container::draw(Bitmap* target)
 
 			if (borderVisibe)
 				al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
-		
+
 		}
 		else DEBUG_MSG("Error while drawing container " << name << " target was not initialized correctly");
-		
+
 	}
 	else DEBUG_MSG("Error while drawing container " << name << ", it was not initialized correctly");
-	
+
 }
 
 string Container::click(int y, int x)
@@ -92,24 +91,32 @@ string Container::click(int y, int x)
 		return "";
 	}
 	DEBUG_MSG_V("Clicking on container " << name);
-	
-	if (clickable == true && isInside(y,x))
+
+	if (clickable == true && isInside(y, x))
 	{
-		if (onlyClickMe ==false)
+		if (onlyClickMe == false)
 		{
 			for (auto& ob : objects)
 			{
-				if (ob->overYou((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX)) == true)
-					return ob->click((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX));
+				if (ob->overYou((y - this->y) / scaleY, (x - this->x) / scaleX) == true)
+				{
+					string s = ob->click((y - this->y) / scaleY, (x - this->x) / scaleX);
+					if (s == string("Not Clickable"))
+						continue;
+					else return s;
+				}
 			}
 		}
-
-		clicked = true;
-
-		if (dontClickMe == false)
-			return name;
 		else
-			return "";
+		{
+			clicked = true;
+
+			if (dontClickMe == false)
+				return name;
+			else
+				return "";
+		}
+
 	}
 	return "";
 }
@@ -136,7 +143,7 @@ bool Container::overYou(int y, int x)
 	}
 	DEBUG_MSG_V("Unclicking on container " << name);
 	for (auto& ob : objects)
-		if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
+		if (ob->overYou((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX)) == true)
 			return true;
 
 	// Probando hacer mas rapida la interfaz
@@ -152,22 +159,22 @@ void Container::drag(int y, int x)
 	if (initOk == false)
 	{
 		DEBUG_MSG("Trying to drag on container " << name << " when it was not initialized correctly");
-		return ;
+		return;
 	}
 	DEBUG_MSG_V("Draging on container " << name);
 
-	
-	if (dragable==true &&this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
+
+	if (dragable == true && this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h))
 	{
 		for (auto& ob : objects)
-			if (ob->overYou((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale)) == true)
+			if (ob->overYou((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX)) == true)
 			{
-				ob->drag((y - this->y)*(1.0 / scale), (x - this->x)*(1.0 / scale));
+				ob->drag((y - this->y)*(1.0 / scaleY), (x - this->x)*(1.0 / scaleX));
 				return;
 			}
 		DEBUG_MSG_V("Draging container " << name);
-		this->x = x - scale*w / 2;
-		this->y = y - scale*h / 2;
+		this->x = x - scaleX*w / 2;
+		this->y = y - scaleY*h / 2;
 	}
 }
 

@@ -1,6 +1,6 @@
 #include "./Screen.h"
 
-Screen::Screen(int h, int w, string& pathToBackground,bool fullscreen)
+Screen::Screen(int h, int w, string& pathToBackground, bool fullscreen)
 {
 	initOk = false;
 	if (fullscreen)
@@ -8,7 +8,7 @@ Screen::Screen(int h, int w, string& pathToBackground,bool fullscreen)
 		ALLEGRO_DISPLAY_MODE   disp_data;
 		al_get_display_mode(al_get_num_display_modes() - 1, &disp_data);
 		display = new Display(disp_data.width, disp_data.height);
-		display->setFlagEnabled(ALLEGRO_FULLSCREEN_WINDOW,true);
+		display->setFlagEnabled(ALLEGRO_FULLSCREEN_WINDOW, true);
 		this->w = disp_data.width;
 		this->h = disp_data.height;
 	}
@@ -21,7 +21,7 @@ Screen::Screen(int h, int w, string& pathToBackground,bool fullscreen)
 
 	display->setWindowTitle("EDA BURGLE");
 	toDraw = new Bitmap(this->w, this->h);
-	
+
 	clickable = false;
 	hoverable = false;
 	offsetX = 0;
@@ -47,11 +47,11 @@ Screen::Screen(int h, int w, string& pathToBackground,bool fullscreen)
 
 void Screen::addObject(Object* ob)
 {
-	objects.insert(objects.begin(), ob); 
+	objects.insert(objects.begin(), ob);
 };
 
 bool Screen::removeObject(Object* ob)
-{ 
+{
 
 	if (find(objects.begin(), objects.end(), ob) != objects.end())
 	{
@@ -76,7 +76,7 @@ string Screen::click(int y, int x)
 	// The first found is returned
 	for (auto& ob : objects)
 	{
-		if (ob->overYou(y,x) == true)
+		if (ob->overYou(y, x) == true)
 			return ob->click(y, x);
 	}
 	return "";
@@ -91,10 +91,10 @@ void Screen::unClick(int y, int x)
 	}
 	DEBUG_MSG_V("Unclicking screen");
 	for (auto& ob : objects)
-		ob->unClick(y,x);
+		ob->unClick(y, x);
 }
 
-void Screen::draw()
+void Screen::draw(Bitmap* target)
 {
 	if (initOk == false)
 	{
@@ -105,7 +105,7 @@ void Screen::draw()
 
 	toDraw->setTarget();
 	// Draw background in the bitmap
-	background.drawScaled( offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,
+	background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0,
 		bScale*background.getWidth(), bScale* background.getHeight(), 0);
 	// Draw objects in order in the bitmap (from back to front, new elements are inserted at begin()... )
 	for (int i = objects.size() - 1; i >= 0; i--)
@@ -125,7 +125,7 @@ bool Screen::overYou(int y, int x)
 		return false;
 	}
 	DEBUG_MSG_V("Hovering on screen");
-	for (auto& ob:objects)
+	for (auto& ob : objects)
 		ob->overYou(y, x);
 	return true;
 }
@@ -134,10 +134,10 @@ void Screen::drag(int y, int x)
 	if (initOk == false)
 	{
 		DEBUG_MSG("Trying to drag on screen when it was not initialized correctly");
-		return ;
+		return;
 	}
 	DEBUG_MSG_V("Draging on screen");
 	for (auto& ob : objects)
-		if(ob->overYou(y,x)==true)
+		if (ob->overYou(y, x) == true)
 			ob->drag(y, x);
 }

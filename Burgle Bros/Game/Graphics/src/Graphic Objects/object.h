@@ -2,6 +2,7 @@
 
 #include <Configs.h>
 #include <alx.hpp>
+#include <queue>
 #include "./ObjectInterface.h"
 #include "../Animations/Animation.h"
 
@@ -10,174 +11,159 @@ using namespace alx;
 class Object : public ObjectInterface
 {
 public:
-	/** Default constructor*/
+	// Default constructor
 	Object();
 
-	/** Constructor that sets the name, the x pos, the y pos, height, width and scale
-		@param name Name for the object
-		@param x X position
-		@param y Y position
-		@param h Height
-		@param w Width
-		@param scale Scale
-	*/
+	// Constructor that sets the name, the x pos, the y pos, height, width and scale
 	Object(string name, int x, int y, int h, int w, double scale);
 
-	/** Returns a nullptr it can be overloaded for diferent pruposes*/
+	// Set position of the object	
+	virtual void setPosition(int y, int x)override { this->x = x; this->y = y; };
+	
+	// Get position of the object	
+	pair<int, int> getPos() { return pair<int, int>(y, x); };
+	
+	// Set the size of the object	
+	virtual void setSize(int h, int w) { this->h = h; this->w = w; };
+
+	// Get the width of the object
+	int getWidth() { return w; };
+	
+	// Get the height of the object
+	int getHeight() { return h; };
+	
+	// Get the size of the object
+	pair<int, int> getSize() { return pair<int, int>(h, w); };
+
+	// Set the scale to draw the object 	
+	void setScale(double s) { scaleX = s; scaleY = s; };
+
+	// Set the scale for the width
+	void setScaleX(double s) { scaleX = s; };
+
+	// Set the scale for the height	
+	void setScaleY(double s) { scaleY = s; };
+	
+	// Get scale of both axes
+	pair<double, double> getScales() { return pair<double, double>(scaleY, scaleX); }
+	
+	// Assuming scaleX=scaleY, get only one of them
+	double getScale() { return scaleX; };
+
+	// Set object transparency	
+	void setAlpha(double a) { alpha = a; };
+	
+	// Get object transparency
+	double getAlpha() { return alpha; };
+
+	// Set whether the object is visible or not
+	void setVisible(bool b) { visible = b; };
+	
+	// Get whether the object is visible or not
+	bool isVisible() { return visible; };
+
+	// Set whether the object is dragable or not
+	void setDragable(bool b) { dragable = b; };
+	
+	// Set whether the object is clickable or not
+	void setClickable(bool b) { clickable = b; };
+
+	// Set whether the object is hoverable or not
+	void setHoverable(bool b) { hoverable = b; hover = false; };
+	
+	// Sets the name for the object 
+	void setName(string& s) { name = s; };
+	
+	// Get the name of the object
+	string getName() { return name; };
+
+	// Sets if the border is visible in the object
+	virtual void setBorderVisible(bool b) { borderVisibe = b; };
+	
+	// Enables the object 
+	virtual void enable() { disabled = false; clickable = true; hoverable = true;};
+	
+	// Disable the object 
+	virtual void disable() { disabled = true; clickable = false; hoverable = false; };
+
+	// Get whether the object is enbaled or not
+	virtual bool isEnable() { return !disabled; };
+	
+	// Returns whether the object is clicked or not
+	virtual bool isClicked() { return clicked; };
+
+	/* SE USAN EN ALGUN LADO?
+	virtual void setNormalTone(alx::Color)
+
+	// 
+	virtual alx::Color getNormalTone() 
+
+	// 
+	virtual void setHoverTone(alx::Color) 
+
+	//
+	virtual alx::Color getHoverTone()*/
+
+//--------------------------------------------------------------------------
+	// Checks if point is over the object (HOVER)	
+	virtual bool overYou(int y, int x);
+	
+	// Returns the object name if clicked 
+	virtual string click(int y, int x);
+	
+	// Unclicks the object	
+	virtual void unClick(int y, int x);
+	
+	// Drag the object	
+	virtual void drag(int y, int x);
+	
+	// Returns a nullptr it can be overloaded for diferent pruposes
 	// NO ES MEDIO CABEZA DEVOLVER NULL?? CHEQUEAR SI SE PUEDE HACER VIRTUAL PURA
 	virtual Bitmap* getTarget() { return nullptr; };
 
-	/** Draws the object to the given target
-		@param target Target to draw the object on
-	*/
-	virtual void draw(Bitmap* target);
+	// Draws the object to the given target 
+	virtual void draw(Bitmap* target = nullptr) = 0;
 
-	/** Sets the scale to draw the object 
-		@param s Scale
-	*/
-	void setScale(double s) { scale=scaleX=scaleY = s; };
-
-	/** Sets the scale for the width
-		@param s scaleX
-	*/
-	void setScaleX(double s) { scaleX = s; };
-
-	/** Sets the scale for the heught
-	@param s scaleY
-	*/
-	void setScaleY(double s) { scaleY = s; };
-
-	pair<double, double> getScales() { return pair<double,double>(scaleY, scaleX); }
-
-	/** Set position for the object
-		@param y Y position
-		@param x X position
-	*/
-	void setPosition(int y, int x) { this->x = x; this->y = y; };
-
-	/**  Set the size for the given object
-		@param h Height
-		@param w Width
-	*/
-	virtual void setSize(int h, int w) { this->h = h; this->w = w; };
-
-	/** Set the visibility of the object in screen*/
-	void setVisible(bool b) { visible = b; };
-	
-	/** Set whether the object is dragable or not*/
-	void setDragable(bool b) { dragable = b; };
-	
-	/** Set whether the object is clickable or not*/
-	void setClickable(bool b) { clickable = b; };
-
-	/** Set whether the object is hoverable or not*/
-	void setHoverable(bool b) { hoverable = b; hover = false; };
-	
-	/** Sets if the border is visible in the object*/
-	virtual void setBorderVisible(bool b) { borderVisibe = b; };
-
-	/** 
-		Sets the name for the object	
-	*/
-	void setName(string& s) { name = s; };
-
-	/**
-	
-	*/
-	void setAlpha(int a) { alpha = a; };
-
-	/**
-	
-	*/
-	int getAlpha() { return alpha; };
-
-	/** Returns the position of the object*/
-	pair<int, int> getPos() { return pair<int, int>(y,x); };
-	
-	/** Returns the width of the object*/
-	int getWidth() { return w; };
-
-	/** Returns the height of the object*/
-	int getHeight() { return h; };
-
-	/** Returns the size of the object*/
-	pair<int, int> getSize() { return pair<int, int>(h, w); };
-	
-	/** Checks if point is over the object
-		@param y Mouse Y position
-		@param x Mouse X position
-	*/
-	virtual bool overYou(int y, int x);
-	
-	/** Returns the object name if clicked
-		@param y Mouse Y position
-		@param x Mouse X position
-	*/
-	virtual string click(int y, int x);
-
-	/** Unclicks the object
-		@param y Mouse Y position
-		@param x Mouse X position
-	*/
-	virtual void unClick(int y, int x);
-	
-	/** Drag the object
-		@param y Mouse Y position
-		@param x Mouse X position
-	*/
-	virtual void drag(int y, int x);
-
-	/** 
-	
-	*/
-	virtual bool isClicked() { return clicked; };
-
+	//
 	bool wasInitOk() { return initOk; };
 
-	string getName() { return name; };
-
-	
-	double getScale() { return scale; };
-
-	bool hasAnimation() { return (animation == nullptr ? false : true); };
-
 	// To add an animaion call this function with a new animation. When animation ends object deletes it
-	void addAnimation(Animation* a) 
+	void addAnimation(Animation* a)
 	{
-		if (animation != nullptr) 
-		{ 
-			// TERMINAR LA ANIMACION ANTERIOR: CABEZA MODIFICAR Y HACER QUE TENGA UNA COLA DE ANIMACINOES
-			while (animation->hasEnded() == false)
-				animation->play(this);
-			delete animation; 
-		} 
-		animation = a; };
+		if (a != nullptr)
+			animation.push(a);
+	};
 
-	void deleteAnimation() { if (animation != nullptr) delete animation; animation = nullptr;};
+	// Play one frame of the animation of the object
+	void playAnimation();
 
-	bool animationFinished() { if (animation != nullptr) return animation->hasEnded(); return true; };
+	// Returns whether the object has an animation or not
+	bool hasAnimation() { return !animation.empty(); };
 
-	Animation* getAnimation() { return animation; };
+	//
+	void deleteAnimation() { if (!animation.empty()) delete animation.front(); animation.pop(); };
+
+	//
+	bool animationFinished() { if (!animation.empty()) return animation.front()->hasEnded(); return true; };
+
+	//
+	Animation* getAnimation() { return animation.front(); };
 
 protected:
-	
 	// Properties
-	
-	bool dragable,clickable,hoverable,borderVisibe; 
+	bool dragable,clickable,hoverable,borderVisibe,disabled; 
 	
 	// States
 	bool visible,clicked,hover;
 
-
 	//Properties of the object
-
-	int y, x;  //Y vertical, X horizontal position (from uper let corner)
+	int y, x;  // From uper left corner
 	int h, w;
-	int alpha;
-	double scale,scaleX,scaleY;
+	double alpha;
+	double scaleX,scaleY;
 	string name;
+	queue<Animation*> animation;
 	bool initOk;
-	Animation* animation;
 
 	// Checks if a coordinate is inside the object
 	bool isInside(int y, int x);
