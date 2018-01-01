@@ -25,7 +25,7 @@ public:
 	/**
 
 	*/
-	virtual characterType getCharacterType() = 0;
+	virtual characterType getCharacter() = 0;
 
 	/**
 		Reset the player action tokens

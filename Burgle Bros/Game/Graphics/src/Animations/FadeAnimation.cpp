@@ -1,14 +1,11 @@
 #include "FadeAnimation.h"
 
-
-
 FadeAnimation::FadeAnimation(double alpha0, double alpha1, double dur) : Animation(dur)
 {
 	this->alpha0 = alpha0;
 	this->alpha1 = alpha1;
 	step = 0;
 }
-
 
 void FadeAnimation::play(ObjectInterface* object)
 {
@@ -23,6 +20,7 @@ void FadeAnimation::play(ObjectInterface* object)
 		object->setAlpha(object->getAlpha() + step);
 		framesLeft--;
 	}
+
 	// In last frame... to avoid float errors in increments
 	else if (framesLeft == 1)
 	{

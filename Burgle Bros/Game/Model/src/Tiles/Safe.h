@@ -14,7 +14,7 @@ movement die by one on this floor and all those below it.
 class Safe : public Tile
 {
 public:
-	Safe(int floor, int col, int row) : Tile(SAFE,floor, col, row) { tokens = 0; safeCracked = false; };
+	Safe(int floor, int col, int row) : Tile(SAFE,floor, col, row) { dices = 0; safeCracked = false; };
 	~Safe();
 
 	void setLoot(lootType l)
@@ -40,17 +40,20 @@ public:
 	*/
 	void addCrackTile( Tile * t) { combinationTiles.push_back(t); };
 
-
+	/* Add a dice to later roll and crack the safe*/
+	void addDice() { if (dices<6)dices++; };
+	// IMPLEMENTAR
+	void crack();
 private:
 	lootType safeLoot;
-	unsigned int tokens;
+	unsigned int dices;
 	vector <Tile *> combinationTiles;
 	bool safeCracked;
 
 	bool safeIsOpen() { return safeCracked; };
-	void addToken() { if(tokens<6)	tokens++; };
-	void removeToken() { if(tokens>0)	tokens--; };
-	unsigned int getTokens() { return tokens; };
+	
+	void removeToken() { if(dices>0)	dices--; };
+	unsigned int getTokens() { return dices; };
 
 	/**
 		Checks if the number given is one of the combination numbers. If so, removes that number from the list and returns the amount of

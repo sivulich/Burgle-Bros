@@ -1,6 +1,6 @@
 #include "./FloorObserver.h"
 
-static map<tileType, string> images = {	{ATRIUM,string("../Game/Graphics/Images/Tiles/Tile - Atrium.png")},
+static map<tileType, string> images = { {ATRIUM,string("../Game/Graphics/Images/Tiles/Tile - Atrium.png")},
 										{CAMERA,string("../Game/Graphics/Images/Tiles/Tile - Camera.png") },
 										{COMPUTER_ROOM_F,string("../Game/Graphics/Images/Tiles/Tile - Computer Room (Fingerprint).png") },
 										{COMPUTER_ROOM_L,string("../Game/Graphics/Images/Tiles/Tile - Computer Room (Laser).png") },
@@ -25,7 +25,7 @@ static map<tileType, string> images = {	{ATRIUM,string("../Game/Graphics/Images/
 TileObserver::TileObserver(Tile* t, Container* floorContainer)
 {
 	tile = t;
-	
+
 	this->floorContainer = floorContainer;
 
 	// Compute some values 
@@ -52,7 +52,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 	double XPOS = TILE_GRID_XPOS_IN_FLOOR + coord.col * (TILE_SIZE + TILE_SEPARATION);
 	double YPOS = TILE_GRID_YPOS_IN_FLOOR + coord.row * (TILE_SIZE + TILE_SEPARATION);
 
-	tileCard = new Card(images[tile->getType()], string("../Game/Graphics/Images/Tiles/Tile - Reverse.png"),XPOS,YPOS,TILE_SIZE,TILE_SIZE,tile->isFlipped());
+	tileCard = new Card(images[tile->getType()], string("../Game/Graphics/Images/Tiles/Tile - Reverse.png"), XPOS, YPOS, TILE_SIZE, TILE_SIZE, tile->isFlipped());
 
 	// Set name of the tile (its coord)
 	string name = string("COORDA") + to_string(coord.row + 1) + string("F") + to_string(coord.floor);
@@ -61,62 +61,87 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 
 	// Add to parent container
 	floorContainer->addObject(tileCard);
-	
+
 	// Now check for walls
 	Image * wall = nullptr;
 	if (tile->hasEastWall())
 	{
-		wall = new Image(string("../Game/Graphics/Images/wallV.png"), XPOS + TILE_SIZE, YPOS, TILE_SEPARATION, TILE_SIZE);
+		wall = new Image(string("./Graphics/Images/wallV.png"), XPOS + TILE_SIZE, YPOS, TILE_SEPARATION, TILE_SIZE);
 		wall->setClickable(false);
 		wall->setHoverable(false);
 		floorContainer->addObject(wall);
 	}
-			
+
 	if (tile->hasSouthWall() == true)
 	{
-		wall = new Image(string("../Game/Graphics/Images/wallH.png"), XPOS, YPOS + TILE_SIZE, TILE_SIZE, TILE_SEPARATION);
+		wall = new Image(string("./Graphics/Images/wallH.png"), XPOS, YPOS + TILE_SIZE, TILE_SIZE, TILE_SEPARATION);
 		wall->setClickable(false);
 		wall->setHoverable(false);
 		floorContainer->addObject(wall);
 	}
+
 	double TOKEN_SIZE = TILE_SIZE / 4.5;
 
-	alarmToken = new Image(string("../Game/Graphics/Images/AlarmToken.png"), XPOS + 0*TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	alarmToken = new Image(string("../Game/Graphics/Images/AlarmToken.png"), XPOS + 0 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	alarmToken->setVisible(false);
 	alarmToken->setHoverable(false);
 	alarmToken->setClickable(false);
 	floorContainer->addObject(alarmToken);
 
-	crackToken = new Image(string("../Game/Graphics/Images/CrackToken.png"), XPOS + 1*TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crackToken = new Image(string("../Game/Graphics/Images/CrackToken.png"), XPOS + 1 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	crackToken->setVisible(false);
 	crackToken->setHoverable(false);
 	crackToken->setClickable(false);
 	floorContainer->addObject(crackToken);
 
-	crowToken = new Image(string("../Game/Graphics/Images/CrowToken.png"), XPOS + 2*TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crowToken = new Image(string("../Game/Graphics/Images/CrowToken.png"), XPOS + 2 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	crowToken->setVisible(false);
 	crowToken->setHoverable(false);
 	crowToken->setClickable(false);
 	floorContainer->addObject(crowToken);
 
-	stairToken = new Image(string("../Game/Graphics/Images/StairToken.png"), XPOS + 3*TOKEN_SIZE , YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	stairToken = new Image(string("../Game/Graphics/Images/StairToken.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	stairToken->setVisible(false);
 	stairToken->setHoverable(false);
 	stairToken->setClickable(false);
 	floorContainer->addObject(stairToken);
 
 	flipped = false;
+	cracked = false;
 	tile->attach(this);
-
 }
+
+void TileObserver::showSafeNumber()
+{
+	string path;
+	if (tile->isFlipped())
+		path = string("./Graphics/Images/Safe numbers/7SEG_") + to_string(tile->getSafeNumber()) + string(".jpg");
+	else
+		path = string("./Graphics/Images/Safe numbers/7SEG_OFF.jpg");
+	int i = tile->row();
+	int j = tile->col();
+	safeNumber = new Image(path, TILE_POS_X[i][j] + TILE_SIZE - NUMBER_WIDTH, TILE_POS_Y[i][j] + TILE_SIZE - NUMBER_HEIGHT, NUMBER_WIDTH, NUMBER_HEIGHT);
+	safeNumber->setClickable(false);
+	safeNumber->setHoverable(false);
+	floorContainer->addObject(safeNumber);
+}
+
 // Updates the tile image, including the tokens in it
 void TileObserver::update()
 {
-	if ( flipped != tile->isFlipped() )
+	if (flipped != tile->isFlipped())
 	{
 		//tileCard->addAnimation(new FlipAnimation(tileCard,1.0));
 		tileCard->flip();
 		flipped = tile->isFlipped();
+		if (safeNumber != nullptr)
+			safeNumber->load(string("./Graphics/Images/Safe numbers/7SEG_") + to_string(tile->getSafeNumber()) + string(".jpg"), true);
+	}
+
+	if (safeNumber != nullptr && cracked != tile->hasCrackToken())
+	{
+		cracked = tile->hasCrackToken();
+		safeNumber->setGreen();
 	}
 
 	if (tile->hasAlarm() != alarmToken->isVisible())
@@ -142,8 +167,8 @@ void TileObserver::update()
 		else
 			crowToken->setVisible(false);
 	}
-	
-	if (tile->isFlipped() && tile->hasStairToken()!=stairToken->isVisible())
+
+	if (tile->isFlipped() && tile->hasStairToken() != stairToken->isVisible())
 	{
 		if (tile->hasStairToken())
 			stairToken->setVisible(true);

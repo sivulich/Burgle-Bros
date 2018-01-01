@@ -19,6 +19,8 @@ Object::Object()
 	w = 0;
 	x = 0;
 	y = 0;
+	obs = nullptr;
+
 }
 
 // Constructor that sets the name, the x pos, the y pos, height, width and scale
@@ -40,7 +42,7 @@ Object::Object(string name, int x, int y, int h, int w, double scale)
 	this->w = w;
 	this->x = x;
 	this->y = y;
-	this->name = name;	
+	this->name = name;
 }
 
 string Object::click(int y, int x)
@@ -53,6 +55,8 @@ string Object::click(int y, int x)
 			{
 				DEBUG_MSG("Clicking object " << name);
 				clicked = true;
+				if (obs != nullptr)
+					obs->update();
 				return this->name;
 			}
 			else return "";
@@ -67,7 +71,9 @@ string Object::click(int y, int x)
 
 void Object::unClick(int y, int x)
 {
-		clicked = false;
+	clicked = false;
+	if (obs != nullptr)
+		obs->update();
 }
 
 bool Object::overYou(int y, int x)
@@ -83,7 +89,7 @@ bool Object::overYou(int y, int x)
 				return true;
 			}
 		}
-		else 
+		else
 		{
 			clicked = false;
 			hover = false;
@@ -124,7 +130,7 @@ void Object::draw(Bitmap* target)
 		return;
 	}
 	DEBUG_MSG_V("Drawing " << name);
-	if(borderVisibe)
+	if (borderVisibe)
 		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
 }
 
@@ -133,6 +139,36 @@ bool Object::isInside(int y, int x)
 {
 	return this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h);
 }
+
+
+void Object::addAnimation(Animation* a)
+{
+	if (a != nullptr)
+		animation.push(a);
+};
+
+void Object::deleteAnimation()
+{
+	if (!animation.empty())
+	{
+		delete animation.front();
+		animation.pop();
+	}
+};
+
+//
+bool Object::animationFinished()
+{
+	if (!animation.empty())
+		return animation.front()->hasEnded();
+	return true;
+};
+
+//
+Animation* Object::getAnimation()
+{
+	return animation.front();
+};
 
 void Object::playAnimation()
 {
@@ -143,6 +179,8 @@ void Object::playAnimation()
 		{
 			delete animation.front();
 			animation.pop();
+			if (obs != nullptr)
+				obs->update();
 		}
 	}
 }

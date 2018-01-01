@@ -26,6 +26,7 @@ void Guard::GuardCheck()
 				break;
 			}
 		}
+
 		for (auto &it : player2->getVisibleFrom())
 		{
 			if (it == pos)

@@ -9,10 +9,10 @@
 class GameModel : public BaseModel
 {
 public:
-	GameModel() : player1(&board,&player2), player2(&board, &player1), board(&player1, &player2)
+	GameModel() : player1_(&board,&player2_,1), player2_(&board, &player1_,2), board(&player1_, &player2_)
 	{
-		currentPlayer_  =  &player1;
-		otherPlayer_    =  &player2;
+		currentPlayer_  =  &player1_;
+		otherPlayer_    =  &player2_;
 
 		srand(time(NULL));
 	};
@@ -31,6 +31,9 @@ public:
 
 	// Sets the board, with defined tiles
 	void setBoard(vector<tileType> tiles);
+
+	// Set the initial position of the players
+	void setInitialPosition(Coord c);
 
 	// Move the corresponding guard one step
 	void moveGuard();
@@ -53,17 +56,17 @@ public:
 
 	Board* getBoard() { return &board; };
 
-	Player* getPlayer1() { return &player1; };
+	Player* player1() { return &player1_; };
 
-	Player* getPlayer2() { return &player2; };
+	Player* player2() { return &player2_; };
 
 private:	
 	// Pointers to players
 	Player* currentPlayer_;
 	Player* otherPlayer_;
 
-	Player player1;
-	Player player2;
+	Player player1_;
+	Player player2_;
 
 	Board board;
 	

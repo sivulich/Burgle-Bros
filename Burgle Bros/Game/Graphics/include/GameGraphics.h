@@ -6,8 +6,7 @@
 #include "../src/Graphic Objects/Container.h"
 #include "../src/Observers/Observer.h"
 #include "../src/Observers/BoardObserver.h"
-#include "../src/Observers/LocalPlayerObserver.h"
-#include "../src/Observers/RemotePlayerObserver.h"
+#include "../src/Observers/HudObserver.h"
 
 class GameGraphics : public Observer
 {
@@ -34,6 +33,11 @@ public:
 	// Interacts upon a click up, returns objet name
 	void unclick(int y, int x);
 
+	// Pop up a message to answer yes or no
+	void askQuestion(string question);
+
+	// When answered, call this function
+	void closeQuestion();
 	// Set as clickable the given tiles (and illuminate them), and not clickable the other ones.
 	void setTilesClickable(vector<Coord> tiles);
 
@@ -46,8 +50,24 @@ public:
 	// Return screen event source (for controller)
 	EventSource getScreenEventSource() { return screen->getDisplay()->getEventSource(); }
 
+	// Return true if guard is moving
+	bool guardIsMoving() { if (showingGameScreen) return board->guardIsMoving(); };
 	// Create graphic objects to represent game model on scren
-	void createGameView();
+
+
+	//
+	void showMenuScreen();
+	//
+	void showCreditsScreen();
+	//
+	void showRulesScreen();
+	//
+	void showModeScreen();
+	
+	void showSetupScreen(int player = 0);
+
+	// Shows the game screen
+	void showGameScreen();
 
 	// 
 	void destroysGameView();
@@ -59,11 +79,14 @@ private:
 	// Pointer to the Game Model
 	GameModel * model;
 
-	// 
+	// Graphic objects
 	Screen* screen;
 	Container* cont;
+
+	Image * blur;
+	// Observers
 	BoardObserver* board;
-	LocalPlayerObserver * pl;
-	//RemotePlayerObserver* pl2;
+	HudObserver * hud;
+
 };
 

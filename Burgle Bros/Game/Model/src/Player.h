@@ -12,7 +12,7 @@ class Player : public PlayerInterface, public BaseModel
 {
 public:
 	//	Construct a player
-	Player(Board * b, Player * p);
+	Player(Board * b, Player * p, int n);
 
 	//	Hay que destruir el caracter... algo mas?
 	~Player() {};
@@ -26,6 +26,7 @@ public:
 
 	//	Sets the character the player will use
 	void setCharacter(characterType type);
+	void setCharacter(string type);
 
 	//	Add the amount of action tokens you want
 	void setActionTokens(int i) { actionTokens = i; };
@@ -34,9 +35,12 @@ public:
 	void setStealthTokens(int i) { stealthTokens = i; };
 
 	// GETTERS
-	
+
 	//	Get player name
 	virtual string getName()override;
+
+	// Number of player (1 or 2)
+	int getNumber() { return n; };
 
 	//	Returns the player's positions
 	virtual Coord getPosition()override;
@@ -45,7 +49,10 @@ public:
 	vector<string> getActions();
 
 	// Get character type
-	characterType getCharacterType();
+	characterType getCharacter();
+
+	// Get character type
+	bool hasCharacter() { return character != nullptr; };
 
 	//	Returns the amount of stealth tokens
 	virtual int getStealthTokens()override;
@@ -67,13 +74,13 @@ public:
 
 	//	Print player in console;
 	void print();
-	
+
 	//	Return true if the player is on the roof of the building 
 	bool isOnRoof();
-	
+
 	//
-	bool needConfirmationToMove(Coord c);
-	
+	//bool needConfirmationToMove(Coord c);
+
 	//	Removes one stealth token if possible
 	virtual void removeStealthToken()override;
 
@@ -94,10 +101,10 @@ public:
 
 	//	Move the player to the tile
 	bool move(Coord c);
-	
+
 	//	Peek the tile
 	bool peek(Coord c);
-	
+
 	//	Use a token from a Computer Room or
 	void useToken();
 
@@ -105,11 +112,11 @@ public:
 	void addToken();
 
 	//	Add a die to a Safe
-	void addDie();
+	void addDice();
 
 	//	Simulates a die being thrown
 	virtual  int throwDice();
-	
+
 	//
 	virtual void addLoot(lootType l)override;
 
@@ -137,14 +144,14 @@ public:
 
 	//	Creates an alarm in the specified coord (if player is ________)
 	bool createAlarm(Coord c);
-	
+
 	//	Place a crow token in the specified coord (if player is ________)
 	void placeCrow(Coord c);
-	
+
 	//  Appends a new action to the action history
 	virtual void newAction(string action, Coord tile)override;
 
-	
+
 	/////////// ??????????????? :O FUNCIONES WHAT THE ACTUAL FAK
 	/**
 		Tells the tile the player wants to add a token
@@ -160,16 +167,18 @@ public:
 		Tells the tile the player wants use a token
 	*/
 	void wantsToUseToken() { currentTile->doAction(toString(USE_TOKEN), this); };
-	
+
 	/**
-	
+
 	*/
 	void useAbility(bool b) { character->useAbility(b); };
 	//////////////////////////////////////////
-	
+
 private:
 	// Name of the player
 	string name;
+	// Number of player
+	int n;
 	// Character the player is using
 	Character * character;
 	// Tile where character token is placed on the board
@@ -191,14 +200,12 @@ private:
 	// Coords from where the guard can see the player (only player current position normally, unless special cases)
 	vector <Coord> visibleFrom;
 	// Vector containing strings with possible actions player can do at the moment
-	// VER SI HACE FALTA TENER EL VECTOR GUARDADO, O SOLO GENERARLO CUANDO SE LLAMA LA FUNCION
 	vector <string> possibleActions;
 	// ???
 	vector <unsigned int> dice;
-
-
-	//       PRIVATE METHODS
 	
+	
+	//       PRIVATE METHOD
 	//	Move to a tile
 	bool move(Tile * newTile);
 	//	Peek a tile

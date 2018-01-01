@@ -11,11 +11,20 @@ public:
 
 	*/
 	Button(string& n, vector<string>& files);
+
+
+	Button(string& n, string normal, string hover, string clicked);
 	/** Draws the the button to the given bitmap
 	@param target Target bitmap, to draw button in
 	*/
 	virtual void draw(Bitmap* target)override;
+
+	virtual string click(int y, int x)override;
+
+	virtual bool overYou(int y, int x)override;
 private:
 	// Three bitmaps for diferent button states
 	vector<Bitmap*> bitmaps;
+
+	bool isNotTransparent(int y, int x);
 };

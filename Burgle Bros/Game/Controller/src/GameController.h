@@ -5,8 +5,6 @@
 #include <GameGraphics.h>
 #include <alx.hpp>
 
-
-
 using namespace alx;
 
 class GameController
@@ -20,8 +18,10 @@ public:
 	void getInput();
 	void processEvent();
 private:
-	shared_ptr<void> FSM;
+	shared_ptr<void> stateMachine;
+	// String name obtained from graphics 
 	string s;
+
 	// Pointers to model and graphic classes
 	GameModel * model;
 	GameGraphics * graphics;

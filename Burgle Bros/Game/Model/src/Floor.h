@@ -5,14 +5,14 @@
 #include "../src/PatrolCardDeck.h"
 #include "../src/PlayerInterface.h"
 
-class Floor: public BaseModel
+class Floor : public BaseModel
 {
 public:
 	/**
 		Constructor
 		@param n number of the floor
 	*/
-	Floor(int n, PlayerInterface * p1, PlayerInterface * p2) :tiles(4,vector<Tile *>(4,nullptr)), guardDeck(n), guard(n,&guardDeck,p1,p2)
+	Floor(int n, PlayerInterface * p1, PlayerInterface * p2) :tiles(4, vector<Tile *>(4, nullptr)), guardDeck(n), guard(n, &guardDeck, p1, p2)
 	{
 		floorNumber = n;
 		guard.setAlarms(&alarms);
@@ -20,7 +20,7 @@ public:
 	/*
 	Floor(int w, int h, int n) : tiles(w, vector<Tile*>(h, nullptr)), guardDeck(n)
 	{
-		
+
 		guardDeck.createDeck(n);
 		guard.setDeck(&guardDeck);
 		guard.setAlarms(&alarms);
@@ -34,12 +34,12 @@ public:
 	Tile * tile(int col, int row);
 
 	/**
-	
+
 	*/
 	void setNumber(int n)
 	{
 		floorNumber = n;
-		
+
 		//guard.setDeck(&guardDeck);
 		guard.setAlarms(&alarms);
 	}
@@ -49,7 +49,7 @@ public:
 	vector<Tile*>& operator[] (unsigned i);
 
 	/**
-		Set a specific tile of type t in coord  
+		Set a specific tile of type t in coord
 		@param col Column of the tile
 		@param row Row of the tile
 		@param t type of the tile

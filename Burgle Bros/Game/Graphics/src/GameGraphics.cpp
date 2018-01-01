@@ -1,5 +1,5 @@
 #include "GameGraphics.h"
-
+#include "Button.h"
 GameGraphics::GameGraphics(GameModel * m)
 {
 	model = m;
@@ -21,6 +21,11 @@ GameGraphics::GameGraphics(GameModel * m)
 			screen = new Screen(SCREEN_HEIGHT, SCREEN_WIDTH, string("../Game/Graphics/Images/BackGround.jpg"), false);
 			screen->backgroundProperties(0, 0, SCREEN_HEIGHT / 1080.0);
 
+			// Add a containter to the screen for all objects
+			cont = new Container(SCREEN_HEIGHT, SCREEN_WIDTH, "Root container");
+			screen->addObject(cont);
+			cont->setPosition(0, 0);
+
 			m->attach(this);
 			showingGameScreen = false;
 
@@ -35,23 +40,117 @@ GameGraphics::GameGraphics(GameModel * m)
 
 }
 
+void GameGraphics::showMenuScreen()
+{
+	cont->clear();
+	cont->setBackground(string("./Graphics/Images/Menu/background.jpg"));
+
+	cont->addObject(new Button(string("START"),
+		string("./Graphics/Images/Menu/start.png"),
+		string("./Graphics/Images/Menu/startHover.png"),
+		string("./Graphics/Images/Menu/startClicked.png")));
+	cont->addObject(new Button(string("CREDITS"),
+		string("./Graphics/Images/Menu/credits.png"),
+		string("./Graphics/Images/Menu/creditsHover.png"),
+		string("./Graphics/Images/Menu/creditsClicked.png")));
+	cont->addObject(new Button(string("RULES"),
+		string("./Graphics/Images/Menu/rules.png"),
+		string("./Graphics/Images/Menu/rulesHover.png"),
+		string("./Graphics/Images/Menu/rulesClicked.png")));
+	cont->addObject(new Button(string("EXIT"),
+		string("./Graphics/Images/Menu/exit.png"),
+		string("./Graphics/Images/Menu/exitHover.png"),
+		string("./Graphics/Images/Menu/exitClicked.png")));
+
+	/*cont->addObject(new Image(string("./Graphics/Images/Menu/start.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+	cont->addObject(new Image(string("./Graphics/Images/Menu/credits.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+	cont->addObject(new Image(string("./Graphics/Images/Menu/rules.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
+	cont->addObject(new Image(string("./Graphics/Images/Menu/exit.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));*/
+
+}
+
+void GameGraphics::showModeScreen()
+{
+	cont->clear();
+	cont->setBackground(string("./Graphics/Images/Mode/background.jpg"));
+
+	cont->addObject(new Image(string("./Graphics/Images/Mode/LOCAL.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Mode/REMOTE.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Mode/BACK.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Mode/EXIT.png")));
+}
+
+
+void GameGraphics::showCreditsScreen()
+{
+	cont->clear();
+	cont->clear();
+	cont->setBackground(string("./Graphics/Images/Mode/background.jpg"));
+	cont->addObject(new Image(string("./Graphics/Images/Mode/BACK.png")));
+}
+
+void GameGraphics::showRulesScreen()
+{
+	cont->clear();
+	cont->setBackground(string("./Graphics/Images/Mode/background.jpg"));
+	cont->addObject(new Image(string("./Graphics/Images/Mode/BACK.png")));
+}
+
+
+
+void GameGraphics::showSetupScreen(int player)
+{
+	cont->clear();
+	Image*i;
+	cont->setBackground(string("./Graphics/Images/Setup/background.jpg"));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/BACK.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/NEXT.png")));
+
+	cont->addObject(new Image(string("./Graphics/Images/Setup/ACROBAT.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/SPOTTER.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/JUICER.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/HAWK.png")));
+	i = new Image(string("./Graphics/Images/Setup/ROOK.png"));
+	i->disable();
+	cont->addObject(i);
+	cont->addObject(new Image(string("./Graphics/Images/Setup/HACKER.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/RAVEN.png")));
+	i = new Image(string("./Graphics/Images/Setup/RIGGER.png"));
+	i->disable();
+	cont->addObject(i);
+	cont->addObject(new Image(string("./Graphics/Images/Setup/PETTERMAN.png")));
+
+	//cont->addObject(new TextBox());
+
+	if (player == 1)
+		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"));
+
+	else if (player == 2)
+		i = new Image(string("./Graphics/Images/Setup/PLAYER2.png"));
+	else
+		i == nullptr;
+
+	if (i != nullptr)
+	{
+		i->setHoverable(false);
+		i->setClickable(false);
+		cont->addObject(i);
+	}
+
+
+
+}
 
 // 
-void GameGraphics::createGameView()
+void GameGraphics::showGameScreen()
 {
+	cont->clear();
+
 	showingGameScreen = true;
-	// Add a containter to the screen for all objects
-	cont = new Container(SCREEN_HEIGHT, SCREEN_WIDTH, "Root container");
-	screen->addObject(cont);
-	cont->setPosition(0, 0);
 
 	// And observers for the board and player
-	board = new BoardObserver(model->getBoard(), cont);
-	pl = new LocalPlayerObserver(model->getPlayer1(), board, cont);
-	//pl2 = new RemotePlayerObserver(model->getPlayer2(), board, cont);
-
-
-	//Attach graphics to the model
+	board = new BoardObserver(model, cont);
+	hud = new HudObserver(model, board, cont);
 }
 
 void GameGraphics::setBorderVisible(bool b)
@@ -77,8 +176,7 @@ void GameGraphics::update()
 	if (showingGameScreen)
 	{
 		board->update();
-		//pl->update();
-		//pl2->update();
+		hud->update();
 	}
 
 }
@@ -98,7 +196,17 @@ void GameGraphics::unclick(int y, int x)
 	screen->unClick(y, x);
 }
 
+void GameGraphics::askQuestion(string question)
+{
+	//questionBox = new QuestionBox(question);
+	//cont->addObject(question);
+}
 
+void GameGraphics::closeQuestion()
+{
+	//cont->removeObject(questionBox);
+	//delete QuestionBox;
+}
 void GameGraphics::setTilesClickable(vector<Coord> tiles)
 {
 	for (int f = 0; f < 3; f++)

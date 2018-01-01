@@ -1,108 +1,100 @@
 #include "./GuardDeckObserver.h"
 #include "../Animations/MoveAnimation.h"
-
-GuardDeckObserver::GuardDeckObserver(Floor* f, Container* c, double tileSize, pair<int, int> p[4][4])
+#include "../Animations/DelayAnimation.h"
+#include "../Animations/FadeAnimation.h"
+GuardDeckObserver::GuardDeckObserver(Floor* f, Container* board)
 {
 	deck = f->getPatrolDeck();
 	floor = f;
-	parent = c;
-	startedRetraction = false;
-	deckView = new Container(c->getHeight()/5, c->getWidth(), string("Deck from floor ") + to_string(floor->number()));
-	deckView->setPosition(c->getHeight() *4.0/ 5, 0);
-	zoom = new Container(c->getWidth(),c->getWidth(),string("zoom"));
-	zoom->setPosition(0, 0);
-	c->addObject(deckView);
+	boardCont = board;
+	deckClicked = false;
+	discardedCount = 0;
 
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			string des = string("A") + to_string(j + 1) + string(".png");
+			string des = string("A") + to_string(j + 1);
 			des[0] += i;
-			cards[i][j] = new Image(string("./Graphics/Images/Patrol/PC ") +des);
-			cards[i][j]->setSize(tileSize, tileSize);
-			//cards[i][j]->setScale(0.9*double(zoom->getHeight()) / 4.0 / cards[i][j]->getHeight());
-			cards[i][j]->setPosition(double(zoom->getHeight()) / 4.0*j, double(zoom->getHeight()) / 4.0*i);
-			cards[i][j]->setHoverable(false);
-			cards[i][j]->setClickable(false);
+			cards[i][j] = new Image(string("./Graphics/Images/Patrol/PC ") + des + string(".png"));
+			cards[i][j]->setSize(TILE_SIZE, TILE_SIZE);
+			//cards[i][j]->setHoverable(false);
+			cards[i][j]->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()] + TILE_SIZE + TILE_SEPARATION);
+			cards[i][j]->setName(string("PC") + des + string("F") + to_string(floor->number()));
+			cards[i][j]->setObserver(this);
 		}
 	}
-	deckO = new GuardCardObserver(deckView, deck->getDeck().back());
-	graveO = new GuardCardObserver(deckView, deck->getDeck().back());
-	graveO->setOn(false);
-	deckO->setPos(0, 0);
-	graveO->setPos(0, deckView->getWidth()/4 );
+	back = new Image(string("./Graphics/Images/Patrol/PC R.png"));
+	back->setSize(TILE_SIZE, TILE_SIZE);
+	back->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()]);
+	back->setHoverable(false);
+	back->setClickable(false);
+	boardCont->addObject(back);
+	lastCard = "";
 	deck->attach(this);
 }
 
 void GuardDeckObserver::update()
 {
-	if (deck->getDiscarded().empty()==true)
+	if (discardedCount > deck->getDiscarded().size())
 	{
-		graveO->setOn(false);
-	}
-	else
-	{
-		graveO->setCard(deck->getDiscarded().back());
-		graveO->setOn(true);
-		
-	}
-	if (deck->getDeck().empty() == true)
-	{
-		deckO->setOn(false);
-	}
-	else
-	{
-		deckO->setCard(deck->getDeck().back());
-		deckO->setOn(true);
-		
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+				boardCont->removeObject(cards[i][j]);
+		discardedCount = deck->getDiscarded().size();
+
 	}
 
-	
-	// If the discarded deck is clicked and the animation is not running, start animation
-	if (graveO->isClicked() == true && parent->contains(zoom) == false)
+	// Update the top card of the deck
+	else if (deck->getDiscarded().empty() == false && lastCard != deck->getDiscarded().back()->getDescription())
 	{
-		zoom->clear();
-		pair<int, int> discardedPos(parent->getHeight() *4.0 / 5, parent->getWidth() / 4.0);
-		for (auto& card : deck->getDiscarded())
+		lastCard = deck->getDiscarded().back()->getDescription();
+
+		if (deck->getDiscarded().size() == 1)
 		{
-			int i = card->getDescription()[0] - 'A';
-			int j = card->getDescription()[1] - '1';
-			cards[i][j]->deleteAnimation();
-			pair<int, int> cardPos(j*double(parent->getWidth()) / 4.0, i*double(parent->getWidth()) / 4.0);
-			cards[i][j]->setPosition(zoom->getHeight(), double(zoom->getWidth()) / 4.0);
-			cards[i][j]->addAnimation(new MoveAnimation(cardPos, 0.3));
-			zoom->addObject(cards[i][j]);
+			cards[lastCard[1] - '1'][lastCard[0] - 'A']->setAlpha(0.0);
+			cards[lastCard[1] - '1'][lastCard[0] - 'A']->addAnimation(new FadeAnimation(0.0, 1.0, 1.0));
+			cards[lastCard[1] - '1'][lastCard[0] - 'A']->addAnimation(new DelayAnimation(1.0));
 		}
-		startedRetraction = false;
-		parent->addObject(zoom);
+
+
+		boardCont->addObject(cards[lastCard[1] - '1'][lastCard[0] - 'A']);
+		discardedCount++;
+
+		if (deck->getDeck().empty() == true)
+			boardCont->removeObject(back);
+		else if (boardCont->contains(back) == false)
+			boardCont->addObject(back);
+
 	}
-	// If the discarded deck is not clicked and the animation is running, stop the animation
-	else if(graveO->isClicked()==false && parent->contains(zoom) == true)
+
+	// Add animation if deck is clicked
+	else if (cards[lastCard[1] - '1'][lastCard[0] - 'A']->isClicked() != deckClicked)
 	{
-		pair<int, int> discardedPos(parent->getHeight() *4.0 / 5, parent->getWidth() / 4.0);
-		for (auto& card : deck->getDiscarded())
+		deckClicked = !deckClicked;
+		if (deckClicked == true)
 		{
-			int i = card->getDescription()[0] - 'A';
-			int j = card->getDescription()[1] - '1';
-			if (startedRetraction == false)
+			//boardCont->removeObject(cards[lastCard[0] - 'A'][lastCard[1] - '1']);
+			for (auto& card : deck->getDiscarded())
 			{
+				int i = card->getDescription()[1] - '1';
+				int j = card->getDescription()[0] - 'A';
+				std::pair<int, int>target = std::pair<int, int>(TILE_POS_Y[i][j] + FLOOR_YPOS, TILE_POS_X[i][j] + FLOOR_XPOS[floor->number()]);
 				cards[i][j]->deleteAnimation();
-			}
-			
-			if (cards[i][j]->hasAnimation() == false && startedRetraction==false)
-			{
-				cards[i][j]->addAnimation(new MoveAnimation(discardedPos, 0.3));
-			}
-			else if (cards[i][j]->animationFinished() == true)
-			{
-				startedRetraction = false;
-				cards[i][j]->deleteAnimation();
-				parent->removeObject(zoom);
-				zoom->clear();
+				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
+				//		boardCont->addObject(cards[i][j]);
 			}
 		}
-		startedRetraction = true;
-		
+		else
+		{
+			for (auto& card : deck->getDiscarded())
+			{
+				int i = card->getDescription()[1] - '1';
+				int j = card->getDescription()[0] - 'A';
+				std::pair<int, int>target = std::pair<int, int>(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()] + TILE_SIZE + TILE_SEPARATION);
+				cards[i][j]->deleteAnimation();
+				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
+			}
+		}
 	}
 }

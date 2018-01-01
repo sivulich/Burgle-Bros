@@ -153,8 +153,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Controller\src\events.h" />
     <ClInclude Include="Controller\src\GameController.h" />
     <ClInclude Include="Controller\src\GameFSM.h" />
+    <ClInclude Include="Controller\src\GameState.h" />
+    <ClInclude Include="Graphics\src\Animations\DelayAnimation.h" />
+    <ClInclude Include="Graphics\src\Animations\FadeInOutAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\FadeAnimation.h" />
     <ClInclude Include="Graphics\include\GameGraphics.h" />
     <ClInclude Include="Graphics\include\GraphicsDefs.h" />
@@ -220,17 +224,18 @@
     <ClInclude Include="Graphics\src\Graphic Objects\Image.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\object.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\ObjectInterface.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\QuestionBox.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Screen.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Text.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Textbox.h" />
-    <ClInclude Include="Graphics\src\Observers\ActionObserver.h" />
     <ClInclude Include="Graphics\src\Observers\BoardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\FloorObserver.h" />
-    <ClInclude Include="Graphics\src\Observers\GuardCardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\GuardDeckObserver.h" />
     <ClInclude Include="Graphics\src\Observers\GuardObserver.h" />
-    <ClInclude Include="Graphics\src\Observers\LocalPlayerObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\PlayerObserver.h" />
     <ClInclude Include="Graphics\src\Observers\observer.h" />
     <ClInclude Include="Graphics\src\Observers\TileObserver.h" />
+    <ClInclude Include="Graphics\src\Observers\HudObserver.h" />
     <ClInclude Include="Model\src\BaseModel.h" />
     <ClInclude Include="Model\src\Board.h" />
     <ClInclude Include="Model\include\Configs.h" />
@@ -295,6 +300,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller\src\GameController.cpp" />
+    <ClCompile Include="Graphics\src\Animations\DelayAnimation.cpp" />
+    <ClCompile Include="Graphics\src\Animations\FadeInOutAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\FadeAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\FlipAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\MoveAnimation.cpp" />
@@ -306,16 +313,17 @@
     <ClCompile Include="Graphics\src\Graphic Objects\Container.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Image.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\object.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\QuestionBox.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Screen.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\Text.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Textbox.cpp" />
-    <ClCompile Include="Graphics\src\Observers\ActionObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\BoardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\FloorObserver.cpp" />
-    <ClCompile Include="Graphics\src\Observers\GuardCardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\GuardDeckObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\GuardObserver.cpp" />
-    <ClCompile Include="Graphics\src\Observers\LocalPlayerObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\PlayerObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\TileObserver.cpp" />
+    <ClCompile Include="Graphics\src\Observers\HudObserver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\src\actionNode.cpp" />
     <ClCompile Include="Model\src\BaseCard.cpp" />

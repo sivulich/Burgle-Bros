@@ -1,49 +1,206 @@
 #pragma once
-#include <math.h>
-#include <boost\preprocessor.hpp>
-#include <boost\preprocessor\control\if.hpp>
 
-#include <boost\ratio.hpp>
 
+#define NORMAL_R 1.0
+#define NORMAL_G 1.0
+#define NORMAL_B 1.0
+#define NORMAL_A 1.0
+
+#define DISABLED_R 0.3
+#define DISABLED_G 0.3
+#define DISABLED_B 0.3
+#define DISABLED_A 1.0
+
+#define HOVER_R 1.0
+#define HOVER_G 1.0
+#define HOVER_B 1.0
+#define HOVER_A 0.8
+
+#define CLICKED_R 0.6
+#define CLICKED_G 0.6
+#define CLICKED_B 0.6
+#define CLICKED_A 1.0
+
+#define TEXT_COLOR al_map_rgba_f(1,1,1,1)
 // Game frames per second
-#define FPS 20
-
-#define HOVER_TONE al_map_rgba(255,255,255,200)
-#define PRESSED_TONE al_map_rgba(100,100,100,200)
-
-#define NORMAL_COLOR  al_map_rgba_f(1,1,1,1
-#define DISABLED_COLOR  al_map_rgba_f(0.3,0.3,0.3,1
-#define HOVER_COLOR  al_map_rgba_f(1,1,1,0.8
-#define CLICKED_COLOR  al_map_rgba_f(0.6,0.6,0.6,1
+constexpr auto FPS = 20;
+constexpr auto GUARD_SPEED = 0.8;
+constexpr auto GUARD_MOVE_SPEED = GUARD_SPEED*0.3;
+constexpr auto TOKEN_MOVE_SPEED = 0.5;
 
 // Screen size
-#define SCREEN_RATIO (16.0/9.0)
-#define SCREEN_WIDTH 1280.0
-#define SCREEN_HEIGHT (SCREEN_WIDTH / SCREEN_RATIO)
+constexpr auto SCREEN_RATIO = (16.0 / 9.0);
+constexpr auto SCREEN_WIDTH = 1280.0;
+constexpr auto SCREEN_HEIGHT = (SCREEN_WIDTH / SCREEN_RATIO);
 
 // Margins for board
-#define LEFT_BOARD_MARGIN  (SCREEN_WIDTH * 0.03)
-#define RIGHT_BOARD_MARGIN (SCREEN_WIDTH * 0.03)
-#define UPPER_BOARD_MARGIN (SCREEN_HEIGHT * 0.03)
-#define LOWER_BOARD_MARGIN (SCREEN_HEIGHT * 0.3)
+constexpr auto LEFT_BOARD_MARGIN = (SCREEN_WIDTH * 0.03);
+constexpr auto RIGHT_BOARD_MARGIN = (SCREEN_WIDTH * 0.03);
+constexpr auto UPPER_BOARD_MARGIN = (SCREEN_HEIGHT * 0.085);
+constexpr auto LOWER_BOARD_MARGIN = (SCREEN_HEIGHT * 0.25);
 
 // Board dimensions
-#define BOARD_HEIGHT (SCREEN_HEIGHT - UPPER_BOARD_MARGIN - LOWER_BOARD_MARGIN)
-#define BOARD_WIDTH  (SCREEN_WIDTH - LEFT_BOARD_MARGIN - RIGHT_BOARD_MARGIN)
-#define BOARD_XPOS LEFT_BOARD_MARGIN 
-#define BOARD_YPOS UPPER_BOARD_MARGIN
+constexpr auto BOARD_HEIGHT = (SCREEN_HEIGHT - UPPER_BOARD_MARGIN - LOWER_BOARD_MARGIN);
+constexpr auto BOARD_WIDTH = (SCREEN_WIDTH - LEFT_BOARD_MARGIN - RIGHT_BOARD_MARGIN);
+constexpr auto BOARD_XPOS = LEFT_BOARD_MARGIN;
+constexpr auto BOARD_YPOS = UPPER_BOARD_MARGIN;
+
 
 // Floor dimensions
-#define FLOOR_SEPARATION (SCREEN_WIDTH * 0.025)
-#define FLOOR_WIDTH (((BOARD_WIDTH - 4 * FLOOR_SEPARATION) / 3))
-#define FLOOR_HEIGHT (BOARD_HEIGHT*0.8)
+constexpr auto FLOOR_SEPARATION = (SCREEN_WIDTH * 0.025);
+constexpr auto FLOOR_WIDTH = (((BOARD_WIDTH - 4 * FLOOR_SEPARATION) / 3));
+constexpr auto FLOOR_HEIGHT = (BOARD_HEIGHT*0.8);
 
 //Floor positions (Relative to board position)
-#define FLOOR_YPOS 0 // Same y position for three floors
+constexpr auto FLOOR_YPOS = 0; // Same y position for three floors
 
-#define FLOOR1_XPOS (0 * (FLOOR_WIDTH + FLOOR_SEPARATION) + FLOOR_SEPARATION)
-#define FLOOR2_XPOS (1 * (FLOOR_WIDTH + FLOOR_SEPARATION) + FLOOR_SEPARATION)
-#define FLOOR3_XPOS (2 * (FLOOR_WIDTH + FLOOR_SEPARATION) + FLOOR_SEPARATION)
+constexpr auto FLOOR1_XPOS = (0 * (FLOOR_WIDTH + FLOOR_SEPARATION) + FLOOR_SEPARATION);
+constexpr auto FLOOR2_XPOS = (1 * (FLOOR_WIDTH + FLOOR_SEPARATION) + FLOOR_SEPARATION);
+constexpr auto FLOOR3_XPOS = (2 * (FLOOR_WIDTH + FLOOR_SEPARATION) + FLOOR_SEPARATION);
+
+constexpr double FLOOR_XPOS[3] = { FLOOR1_XPOS ,FLOOR2_XPOS ,FLOOR3_XPOS };
+
 
 // Tile dimensions
-// Calulated in file TileObserver.cpp because conditional cases are needed.
+constexpr bool W_LESS_THAN_H = FLOOR_WIDTH < FLOOR_HEIGHT ? true : false;
+#if !W_LESS_THAN_H 
+constexpr auto TILE_GRID_SIZE = FLOOR_WIDTH;
+constexpr auto TILE_GRID_XPOS_IN_FLOOR = 0;
+constexpr auto TILE_GRID_YPOS_IN_FLOOR = ((FLOOR_HEIGHT - TILE_GRID_SIZE) / 2.0);
+#else
+constexpr auto TILE_GRID_SIZE = FLOOR_HEIGHT;
+constexpr auto TILE_GRID_XPOS_IN_FLOOR = ((FLOOR_WIDTH - TILE_GRID_SIZE) / 2.0);
+constexpr auto TILE_GRID_YPOS_IN_FLOOR = 0;
+#endif
+
+constexpr auto TILE_SEPARATION = (1.0 / 20.0 *  TILE_GRID_SIZE);
+constexpr auto TILE_SIZE = ((TILE_GRID_SIZE - 3 * TILE_SEPARATION) / 4);
+
+// Tiles position (Relative to floor)
+constexpr auto TILE_A1_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_A1_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_A2_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_A2_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_A3_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_A3_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_A4_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_A4_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+
+constexpr auto TILE_B1_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_B1_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_B2_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_B2_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_B3_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_B3_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_B4_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_B4_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+
+constexpr auto TILE_C1_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_C1_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_C2_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_C2_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_C3_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_C3_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_C4_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_C4_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+
+constexpr auto TILE_D1_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_D1_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 0 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_D2_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_D2_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 1 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_D3_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_D3_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 2 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_D4_XPOS = (TILE_GRID_XPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+constexpr auto TILE_D4_YPOS = (TILE_GRID_YPOS_IN_FLOOR + 3 * (TILE_SIZE + TILE_SEPARATION));
+
+constexpr double TILE_POS_X[4][4] = { { TILE_A1_XPOS,TILE_B1_XPOS,TILE_C1_XPOS,TILE_D1_XPOS },
+{ TILE_A2_XPOS,TILE_B2_XPOS,TILE_C2_XPOS,TILE_D2_XPOS },
+{ TILE_A3_XPOS,TILE_B3_XPOS,TILE_C3_XPOS,TILE_D3_XPOS },
+{ TILE_A4_XPOS,TILE_B4_XPOS,TILE_C4_XPOS,TILE_D4_XPOS } };
+
+constexpr double TILE_POS_Y[4][4] = { { TILE_A1_YPOS,TILE_B1_YPOS,TILE_C1_YPOS,TILE_D1_YPOS },
+{ TILE_A2_YPOS,TILE_B2_YPOS,TILE_C2_YPOS,TILE_D2_YPOS },
+{ TILE_A3_YPOS,TILE_B3_YPOS,TILE_C3_YPOS,TILE_D3_YPOS },
+{ TILE_A4_YPOS,TILE_B4_YPOS,TILE_C4_YPOS,TILE_D4_YPOS } };
+
+
+// Guard deck
+constexpr auto GUARD_DECK_YPOS = TILE_A4_YPOS + TILE_SIZE + TILE_SEPARATION;
+
+constexpr auto GUARD_DECK_1_XPOS = FLOOR1_XPOS + TILE_B4_XPOS;
+constexpr auto GUARD_DECK_2_XPOS = FLOOR2_XPOS + TILE_B4_XPOS;
+constexpr auto GUARD_DECK_3_XPOS = FLOOR3_XPOS + TILE_B4_XPOS;
+constexpr double GUARD_DECK_XPOS[3] = { GUARD_DECK_1_XPOS,GUARD_DECK_2_XPOS,GUARD_DECK_3_XPOS };
+
+constexpr auto NUMBER_WIDTH = TILE_SIZE / 10;
+constexpr auto NUMBER_HEIGHT = NUMBER_WIDTH * 2;
+constexpr auto DICE_SIZE = TILE_SIZE / 3;
+constexpr auto GUARD_SIZE = TILE_SIZE / 2;
+
+// Hud dimensions
+constexpr auto HUD_HEIGHT = LOWER_BOARD_MARGIN*0.9;
+constexpr auto HUD_WIDTH = SCREEN_WIDTH*0.98;
+constexpr auto HUD_XPOS = (SCREEN_WIDTH - HUD_WIDTH) / 2;
+constexpr auto HUD_YPOS = SCREEN_HEIGHT - HUD_HEIGHT*1.1; //BOARD_YPOS + BOARD_HEIGHT + (LOWER_BOARD_MARGIN - HUD_HEIGHT) / 2;
+constexpr auto HUD_FONT_SIZE = 20.0;
+constexpr auto HUD_FONT = "./Graphics/Images/calibri.ttf";
+
+// Action buttons
+constexpr auto LEFT_BUTTONS_MARGIN = (HUD_WIDTH * 0.2);
+constexpr auto RIGHT_BUTTONS_MARGIN = (HUD_WIDTH * 0.2);
+constexpr auto UPPER_BUTTONS_MARGIN = (HUD_HEIGHT * 0.03);
+constexpr auto LOWER_BUTTONS_MARGIN = (HUD_HEIGHT * 0.3);
+
+constexpr auto BUTTONS_HEIGHT = (HUD_HEIGHT - UPPER_BUTTONS_MARGIN - LOWER_BUTTONS_MARGIN);
+constexpr auto BUTTONS_WIDTH = (HUD_WIDTH - LEFT_BUTTONS_MARGIN - RIGHT_BUTTONS_MARGIN);
+constexpr auto BUTTONS_XPOS = LEFT_BUTTONS_MARGIN;
+constexpr auto BUTTONS_YPOS = UPPER_BUTTONS_MARGIN;
+
+constexpr auto ACTION_SIZE = (BUTTONS_HEIGHT / 2)*0.9;
+
+constexpr auto BUTTON1_XPOS = BUTTONS_XPOS + 0 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON1_YPOS = BUTTONS_YPOS;
+constexpr auto BUTTON2_XPOS = BUTTONS_XPOS + 1 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON2_YPOS = BUTTONS_YPOS;
+constexpr auto BUTTON3_XPOS = BUTTONS_XPOS + 2 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON3_YPOS = BUTTONS_YPOS;
+constexpr auto BUTTON4_XPOS = BUTTONS_XPOS + 3 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON4_YPOS = BUTTONS_YPOS;
+constexpr auto BUTTON5_XPOS = BUTTONS_XPOS + 4 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON5_YPOS = BUTTONS_YPOS;
+constexpr auto BUTTON6_XPOS = BUTTONS_XPOS + 0 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON6_YPOS = BUTTONS_YPOS + (BUTTONS_HEIGHT / 2);
+constexpr auto BUTTON7_XPOS = BUTTONS_XPOS + 1 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON7_YPOS = BUTTONS_YPOS + (BUTTONS_HEIGHT / 2);
+constexpr auto BUTTON8_XPOS = BUTTONS_XPOS + 2 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON8_YPOS = BUTTONS_YPOS + (BUTTONS_HEIGHT / 2);
+constexpr auto BUTTON9_XPOS = BUTTONS_XPOS + 3 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON9_YPOS = BUTTONS_YPOS + (BUTTONS_HEIGHT / 2);
+constexpr auto BUTTON10_XPOS = BUTTONS_XPOS + 4 * (ACTION_SIZE*1.05);
+constexpr auto BUTTON10_YPOS = BUTTONS_YPOS + (BUTTONS_HEIGHT / 2);
+
+
+
+
+
+// Player token
+constexpr auto TOKEN_WIDTH = TILE_SIZE / 3;
+constexpr auto TOKEN_HEIGHT = TOKEN_WIDTH * 2;
+constexpr auto TOKEN_SEPARATION = TILE_SIZE / 10;
+
+// Player card
+constexpr auto PLAYER_CARD_SIZE = TILE_SIZE;
+constexpr auto PLAYER1_CARD_XPOS = 0;
+constexpr auto PLAYER1_CARD_YPOS = 0;
+constexpr auto PLAYER2_CARD_XPOS = HUD_WIDTH - PLAYER_CARD_SIZE;
+constexpr auto PLAYER2_CARD_YPOS = 0;
+
+constexpr auto PLAYER1_ACTION_TOK_XPOS = HUD_WIDTH*0.05;
+constexpr auto PLAYER1_ACTION_TOK_YPOS = PLAYER_CARD_SIZE;
+constexpr auto PLAYER2_ACTION_TOK_XPOS = HUD_WIDTH*0.95;
+constexpr auto PLAYER2_ACTION_TOK_YPOS = PLAYER_CARD_SIZE;
+
+constexpr auto PLAYER1_STEALTH_TOK_XPOS = HUD_WIDTH*0.05;
+constexpr auto PLAYER1_STEALTH_TOK_YPOS = PLAYER_CARD_SIZE + 20;
+constexpr auto PLAYER2_STEALTH_TOK_XPOS = HUD_WIDTH*0.95;
+constexpr auto PLAYER2_STEALTH_TOK_YPOS = PLAYER_CARD_SIZE + 20;

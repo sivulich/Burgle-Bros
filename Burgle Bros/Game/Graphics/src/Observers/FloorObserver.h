@@ -11,17 +11,19 @@ class FloorObserver :public Observer
 {
 public:
 	// Recives a floor pointer and the container of the board
-	FloorObserver(Floor* f,Container* boardContainer);
-	void update();
+	FloorObserver(Floor* f, Container* boardContainer);
+	bool guardIsMoving() { return guard->guardIsMoving(); };
+	virtual void update();
 	Container * getContainer() { return floorContainer; }
-	double tileSize();
 	TileObserver** operator[](size_t i) { return tiles[i]; };
 private:
-	GuardDeckObserver * deck;
-	GuardObserver * guard;
+	Floor* floor;
 	TileObserver * tiles[4][4];
-
+	Tile* safe;
+	bool safeIsFlipped;
+	Image * numbers[8];
 	Container* floorContainer;
 	Container* boardContainer;
-	Floor* floor;
+	GuardDeckObserver * deck;
+	GuardObserver * guard;
 };

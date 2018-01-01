@@ -1,30 +1,28 @@
 #include "./GuardObserver.h"
 
-
-GuardObserver::GuardObserver(Guard* g, Container* c, double tileSize, pair<int, int> p[4][4])
+#include "../Animations/MoveAnimation.h"
+#include "../Animations/FadeAnimation.h"
+#include "../Animations/FadeInOutAnimation.h"
+#include "../Animations/DelayAnimation.h"
+GuardObserver::GuardObserver(Guard* g, Container* board, int floorNumber)
 {
-	floor = c;
+	boardCont = board;
 	guard = g;
-
+	this->floorNumber = floorNumber;
 	guardIm = new Image(string("./Graphics/Images/Guard.png"));
-
-	guardIm->setSize(tileSize / 2, tileSize / 2);
-	//guardIm->setPosition()
-	guardIm->setVisible(false);
+	guardIm->setSize(GUARD_SIZE, GUARD_SIZE);
+	guardIm->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floorNumber] - TILE_SIZE);
 	guardIm->setClickable(false);
 	guardIm->setHoverable(false);
-	floor->addObject(guardIm);
-
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
-			positions[j][i] = pair<int, int>(p[i][j].first + tileSize / 4, p[i][j].second + tileSize / 4);
+	boardCont->addObject(guardIm);
 
 	dices.resize(7);
 	for (int i = 1; i <= 6; i++)
 	{
 		dices[i] = new Image(string("../View/Images/Dices/White ") + to_string(i) + string(".png"));
-		dices[i]->setSize(tileSize / 3, tileSize / 3);
-
+		dices[i]->setSize(DICE_SIZE, DICE_SIZE);
+		dices[i]->setHoverable(false);
+		dices[i]->setClickable(false);
 	}
 
 	lastSpeed = g->getSpeed();
@@ -38,27 +36,30 @@ void GuardObserver::update()
 	Coord pos = guard->getPos();
 	if (pos != lastPos)
 	{
+		std::pair<int, int> target = std::pair<int, int>(FLOOR_YPOS + TILE_POS_Y[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2, FLOOR_XPOS[floorNumber] + TILE_POS_X[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2);
 		if (lastPos == NPOS)
 		{
-			guardIm->setPosition(positions[pos.row][pos.col].first, positions[pos.row][pos.col].second);
-			guardIm->setVisible(true);
-			floor->addObject(dices[guard->getSpeed()]);
+			guardIm->addAnimation(new FadeInOutAnimation(target, GUARD_MOVE_SPEED * 3));
+			//guardIm->addAnimation(new DelayAnimation(1));
+			boardCont->addObject(dices[guard->getSpeed()]);
 			lastTarget = guard->getTarget();
-			std::pair<int, int> p = positions[guard->getTarget().row][guard->getTarget().col];
-			dices[lastSpeed]->setPosition(p.first, p.second);
+			int i = guard->getTarget().row;
+			int j = guard->getTarget().col;
+			dices[lastSpeed]->setPosition(FLOOR_YPOS + TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[floorNumber] + TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
 		}
 		else
-			guardIm->addAnimation(new MoveAnimation(positions[pos.row][pos.col], 0.3));
+			guardIm->addAnimation(new MoveAnimation(target, GUARD_MOVE_SPEED));
 		lastPos = pos;
 	}
 
 	// Update dice
 	if (lastSpeed != guard->getSpeed() || lastTarget != guard->getTarget())
 	{
-		floor->removeObject(dices[lastSpeed]);
-		floor->addObject(dices[guard->getSpeed()]);
-		std::pair<int, int> p = positions[guard->getTarget().row][guard->getTarget().col];
-		dices[lastSpeed]->setPosition(p.first, p.second);
+		boardCont->removeObject(dices[lastSpeed]);
+		boardCont->addObject(dices[guard->getSpeed()]);
+		int i = guard->getTarget().row;
+		int j = guard->getTarget().col;
+		dices[lastSpeed]->setPosition(TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
 
 		lastSpeed = guard->getSpeed();
 		lastTarget = guard->getTarget();
@@ -69,7 +70,7 @@ void GuardObserver::reset()
 {
 	if (guardIm != nullptr)
 	{
-		floor->removeObject(guardIm);
-		floor->addObject(guardIm);
+		boardCont->removeObject(guardIm);
+		boardCont->addObject(guardIm);
 	}
 };

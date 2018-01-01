@@ -2,13 +2,15 @@
 #include "./Player.h"
 #include "./Characters/CharacterFactory.h"
 
-Player::Player(Board * b, Player * p)
+Player::Player(Board * b, Player * p, int n)
 {
 	board = b;
 	otherPlayer = p;
 	resetActionTokens();
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
+	character = nullptr;
+	this->n = n;
 	turn = 0;
 }
 
@@ -22,6 +24,7 @@ void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
 	tile->turnUp();
+	notify();
 }
 
 void Player::setName(string & playerName)
@@ -33,6 +36,11 @@ void Player::setCharacter(characterType type)
 {
 	character = CharacterFactory().newCharacter(type);
 }
+void Player::setCharacter(string type)
+{
+	character = CharacterFactory().newCharacter(toEnum_characterType(type.c_str()));
+}
+
 
 bool Player::has(lootType l)
 {
@@ -41,7 +49,7 @@ bool Player::has(lootType l)
 			return true;
 	return false;
 }
-
+/*
 bool Player::needConfirmationToMove(Coord c)
 {
 	tileType t = board->getTile(c)->getType();
@@ -49,7 +57,7 @@ bool Player::needConfirmationToMove(Coord c)
 		return true;
 	else
 		return false;
-}
+}*/
 void Player::resetActionTokens()
 {
 	actionTokens = NUMBER_ACTION_TOKENS;
@@ -64,7 +72,7 @@ vector<Coord> Player::whereCanIMove()
 	for (auto& t : v)
 	{
 		// Aca hay un problema con el keypad, porque canMove tira el dado!! Lo arreglo con un continue
-			if (board->getTile(t)->is(KEYPAD))
+		if (board->getTile(t)->is(KEYPAD))
 			continue;
 		//else if (board->getTile(t)->canMove(this) == false)
 		//	v.erase(remove(v.begin(), v.end(), t));
@@ -92,6 +100,10 @@ bool Player::move(Tile * newTile)
 	// And enter the next tile
 	newTile->enter(this);
 
+	// Update visible from
+	visibleFrom.clear();
+	visibleFrom.push_back(getPosition());
+
 	// Update all loots
 	for (auto & t : loots)
 		t->update();
@@ -100,7 +112,6 @@ bool Player::move(Tile * newTile)
 	notify();
 
 	return true;
-
 }
 
 vector<Coord> Player::whereCanIPeek()
@@ -114,8 +125,6 @@ vector<Coord> Player::whereCanIPeek()
 	}
 
 	// Remove the flipped ones
-
-
 	v.erase(remove_if(v.begin(), v.end(),
 		[&](const Coord t)-> bool
 	{ return board->getTile(t)->isFlipped(); }),
@@ -147,7 +156,7 @@ bool Player::peek(Tile * newTile)
 
 bool Player::createAlarm(Coord c)
 {
-	if (getCharacterType() == JUICER && currentTile->isAdjacent(c) && board->getTile(c)->hasAlarm() == false)
+	if (getCharacter() == JUICER && currentTile->isAdjacent(c) && board->getTile(c)->hasAlarm() == false)
 	{
 		board->getTile(c)->setAlarm(true);
 		return true;
@@ -157,7 +166,7 @@ bool Player::createAlarm(Coord c)
 
 void Player::placeCrow(Coord c)
 {
-	if (getCharacterType() == RAVEN)
+	if (getCharacter() == RAVEN)
 	{
 
 	}
@@ -170,11 +179,6 @@ void Player::useToken()
 
 }
 
-
-void Player::addToken()
-{
-
-}
 
 Coord Player::getPosition()
 {
@@ -198,11 +202,11 @@ vector<string> Player::getActions()
 	if (character != nullptr)
 	{
 		possibleActions.push_back(character->getAction(this));
-		/*if (getCharacterType() == JUICER)
+		/*if (getCharacter() == JUICER)
 			possibleActions.push_back("CREATE_ALARM");
-		else if (getCharacterType() == RAVEN)
+		else if (getCharacter() == RAVEN)
 			possibleActions.push_back("PLACE_CROW");
-		else if (getCharacterType() == SPOTTER)
+		else if (getCharacter() == SPOTTER)
 			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
 	}
 
@@ -215,6 +219,18 @@ vector<string> Player::getActions()
 	}
 	return possibleActions;
 }
+
+void Player::addToken()
+{
+	currentTile->doAction(string("ADD_TOKEN"), this);
+}
+
+void Player::addDice()
+{
+	currentTile->doAction(string("ADD_DICE"), this);
+}
+
+
 
 bool Player::isOnRoof()
 {
@@ -240,10 +256,7 @@ void Player::print()
 }
 void Player::removeStealthToken()
 {
-	// Lo del lavatory es una mierda, hay que preguntar al jugador si quiere usar un token o no..
-
-	//if(currentTile->tryToHide() == false)	// try to hide from the guard (for the LAVATORY)
-	stealthTokens--;					// if that fails, remove a stealth tokens
+	stealthTokens--;
 	if (stealthTokens == 0)
 		DEBUG_MSG("NO STEALTH TOKENS LEFT, YOU ARE DEADDDDD");
 	notify();
@@ -318,7 +331,7 @@ string Player::getName()
 	return name;
 };
 
-characterType Player::getCharacterType()
+characterType Player::getCharacter()
 {
 	return character->getType();
 };

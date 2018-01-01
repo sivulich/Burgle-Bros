@@ -10,9 +10,9 @@ vector<string> Safe::getActions(PlayerInterface * player)
 	vector<string> actions(Tile::getActions(player));
 	if (safeIsOpen() == false)		
 	{		
-		if (tokens < 6 && player->getActionTokens() >= 2)
+		if (dices < 6 && player->getActionTokens() >= 2)
 			actions.push_back("ADD_TOKEN");
-		if (tokens > 0 && player->getActionTokens() >= 1)
+		if (dices > 0 && player->getActionTokens() >= 1)
 			actions.push_back("THROW_DICE");
 	}
 	return actions;
@@ -20,18 +20,18 @@ vector<string> Safe::getActions(PlayerInterface * player)
 
 bool Safe::doAction(string action, PlayerInterface * player) 
 {
-	if (action == "ADD_TOKEN")
+	if (action == "ADD_DIE")
 	{
 		player->removeActionToken();
 		player->removeActionToken();
-		addToken();
-		player->newAction("ADD_TOKEN", getPos());
-		DEBUG_MSG("You added a new dice to this safe. You can now throw " << tokens << " dice.");
+		addDice();
+		player->newAction("ADD_DIE", getPos());
+		DEBUG_MSG("You added a new die to this safe. You can now throw " <<dices << " dices.");
 	}
 	else if (action == "THROW_DICE")
 	{
 		player->removeActionToken();		// remove an action
-		for (int i = 0; i < tokens && !safeIsOpen(); i++)		// while the safe remains closed, throw all the dice you have
+		for (int i = 0; i < dices && !safeIsOpen(); i++)		// while the safe remains closed, throw all the dice you have
 		{
 			trySafeNumber(player->throwDice());			// check how many tiles you cracked throwing one die
 

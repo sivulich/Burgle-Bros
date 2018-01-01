@@ -5,19 +5,19 @@
 #include <Container.h>
 #include "./Observer.h"
 #include "../Graphic Objects/Image.h"
-#include "../Animations/MoveAnimation.h"
-#include "../Animations/FadeAnimation.h"
+
 class GuardObserver:public Observer
 {
 public:
-	GuardObserver(Guard* g, Container* c, double tileSize, pair<int, int> positions[4][4]);	
+	GuardObserver(Guard* g, Container* c,int floorNumber);	
+	bool guardIsMoving() { return guardIm->hasAnimation(); };
 	void update();
 	void reset();
 private:
 	Guard* guard;
-	Container* floor;
+	Container* boardCont;
 	Image* guardIm;
-	pair<int, int> positions[4][4];
+	int floorNumber;
 	vector<Image*> dices;
 	unsigned lastSpeed;
 	Coord lastPos;

@@ -5,15 +5,17 @@
 class Animation
 {
 public:
-	Animation(float duration) { framesLeft = ceil( duration * FPS ); };
+	Animation(float duration) { framesLeft = ceil(duration * FPS); };
 	virtual ~Animation() { };
 
 	// Abstract function which modifies the object and advances animation
 	virtual void play(ObjectInterface * object) = 0;
 
+	// 
 	bool hasEnded() { return (framesLeft > 0 ? false : true); };
 
-	bool isPlaying() { return hasEnded()==false; };
+	// 
+	bool isPlaying() { return !hasEnded(); };
 
 protected:
 	long framesLeft;

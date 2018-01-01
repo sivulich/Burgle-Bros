@@ -10,7 +10,7 @@ Laser::~Laser()
 void Laser::enter(PlayerInterface * player) 
 {
 	Tile::enter(player);
-	if (player->getCharacterType() == HACKER)
+	if (player->getCharacter() == HACKER)
 		hackerhere = true;
 	if(!hackerhere)
 	setAlarm(true);
@@ -48,6 +48,6 @@ bool Laser::doAction(string action, PlayerInterface * player)
 }
 
 void Laser::exit(PlayerInterface * player) {
-	if (player->getCharacterType() == HACKER)
+	if (player->getCharacter() == HACKER)
 		hackerhere = false;
 }

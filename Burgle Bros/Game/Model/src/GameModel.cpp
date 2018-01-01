@@ -63,9 +63,15 @@ void GameModel::print()
 
 }
 
+
+void GameModel::setInitialPosition(Coord c)
+{
+	player1_.setPosition(c);
+	player2_.setPosition(c);
+}
 bool GameModel::gameOver()
 {
-	return player1.getStealthTokens() == 0 || player2.getStealthTokens() == 0;
+	return player1_.getStealthTokens() == 0 || player2_.getStealthTokens() == 0;
 }
 
 /**
@@ -98,7 +104,7 @@ void GameModel::moveGuard()
 bool GameModel::win()
 {
 	// If both players are on the roof and have all the loots, the game has finished
-	return player1.isOnRoof() && player2.isOnRoof() && player1.getLoots().size() + player2.getLoots().size() == 3;
+	return player1_.isOnRoof() && player2_.isOnRoof() && player1_.getLoots().size() + player2_.getLoots().size() == 3;
 }
 
 void GameModel::setBoard()
