@@ -144,7 +144,7 @@ void GameController::processEvent()
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1)));
 
-	else if(s == "ACROBAT" || s == "SPOTTER" || s == "JUICER" || s == "HAWK" || s == "HACKER" || s == "RAVEN" || s == "PETTERMAN")
+	else if(s == "ACROBAT" || s == "SPOTTER" || s == "JUICER" || s == "HAWK" || s == "HACKER" || s == "RAVEN" || s == "PETERMAN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
 
 	

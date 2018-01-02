@@ -43,8 +43,20 @@ public:
 	/** Removes an object from the parent container
 		@param ob Object to delete
 	*/
-	bool removeObject(Object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; }
+	bool removeObject(Object* ob) { if (contains(ob)) { objects.erase(find(objects.begin(), objects.end(), ob)); return true; } else return false; }
 	
+	/** Removes an object from the parent container
+	@param ob Object to delete
+	*/
+	bool removeObject(string name)
+	{
+		if(contains(name))
+		{
+			objects.erase(find_if(objects.begin(), objects.end(), [&name](Object* obj) {return obj->getName() == name; })); return true;
+		}
+		else return false;
+	}
+
 	/** Sets the size in pixels, within the parent container
 		@param h Height
 		@param w Width
@@ -97,6 +109,7 @@ public:
 		Return true if contains given object
 	*/
 	bool contains(Object* ob) { if (find(objects.begin(), objects.end(), ob) != objects.end()) return true; return false; };
+	bool contains(string name) { if (find_if(objects.begin(), objects.end(), [&name](Object* obj) {return obj->getName() == name; }) != objects.end()) return true; return false; };
 
 	/*Clear the object list*/
 	void clear() { objects.clear(); };

@@ -1,5 +1,6 @@
 #include "GameGraphics.h"
 #include "Button.h"
+
 GameGraphics::GameGraphics(GameModel * m)
 {
 	model = m;
@@ -28,6 +29,7 @@ GameGraphics::GameGraphics(GameModel * m)
 
 			m->attach(this);
 			showingGameScreen = false;
+			showingSetupScreen = false;
 
 		}
 		else
@@ -100,35 +102,38 @@ void GameGraphics::showRulesScreen()
 
 void GameGraphics::showSetupScreen(int player)
 {
+	showingSetupScreen = true;
 	cont->clear();
 	Image*i;
 	cont->setBackground(string("./Graphics/Images/Setup/background.jpg"));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/BACK.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/NEXT.png")));
-
-	cont->addObject(new Image(string("./Graphics/Images/Setup/ACROBAT.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/SPOTTER.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/JUICER.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/HAWK.png")));
-	i = new Image(string("./Graphics/Images/Setup/ROOK.png"));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/BACK.png"), 0, 616));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/NEXT.png"),1136,632));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/ACROBAT.png"),53,311));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/SPOTTER.png"),147,286));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/JUICER.png"),254,260));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/HAWK.png"),361,236));
+	i = new Image(string("./Graphics/Images/Setup/ROOK.png"),463,184);
 	i->disable();
 	cont->addObject(i);
-	cont->addObject(new Image(string("./Graphics/Images/Setup/HACKER.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/RAVEN.png")));
-	i = new Image(string("./Graphics/Images/Setup/RIGGER.png"));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/HACKER.png"),597,190));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/RAVEN.png"),714,234));
+	i = new Image(string("./Graphics/Images/Setup/RIGGER.png"),880,247);
 	i->disable();
 	cont->addObject(i);
-	cont->addObject(new Image(string("./Graphics/Images/Setup/PETTERMAN.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/PETERMAN.png"),1073,311));
 
-	//cont->addObject(new TextBox());
+	textBox = new Textbox(574, 645, 270, 44, string("./Graphics/Images/arial_narrow.ttf"));
+	textBox->setFontColor(al_map_rgba_f(1,1,1,0.5));
+	textBox->setBoxColor(al_map_rgba_f(0,0,0,0));
+	cont->addObject(textBox);
 
 	if (player == 1)
-		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"));
+		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"),592,120);
 
 	else if (player == 2)
-		i = new Image(string("./Graphics/Images/Setup/PLAYER2.png"));
+		i = new Image(string("./Graphics/Images/Setup/PLAYER2.png"),592, 120);
 	else
-		i == nullptr;
+		i = nullptr;
 
 	if (i != nullptr)
 	{
@@ -136,18 +141,14 @@ void GameGraphics::showSetupScreen(int player)
 		i->setClickable(false);
 		cont->addObject(i);
 	}
-
-
-
 }
 
 // 
 void GameGraphics::showGameScreen()
 {
-	cont->clear();
-
 	showingGameScreen = true;
-
+	cont->clear();
+	cont->setBackground(string("./Graphics/Images/Screen - Game/background.jpg"));
 	// And observers for the board and player
 	board = new BoardObserver(model, cont);
 	hud = new HudObserver(model, board, cont);
@@ -159,12 +160,11 @@ void GameGraphics::setBorderVisible(bool b)
 		cont->setBorderVisible(b);
 }
 
-// 
-void GameGraphics::destroysGameView()
+string GameGraphics::getPlayerName()
 {
-
+	if (showingSetupScreen)
+		return textBox->getText();
 }
-
 
 void GameGraphics::render()
 {

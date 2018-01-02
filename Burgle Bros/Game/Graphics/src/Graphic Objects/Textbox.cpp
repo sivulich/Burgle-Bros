@@ -1,19 +1,21 @@
 #include "./Textbox.h"
 #include <ctype.h>
 
-Textbox::Textbox(int y, int x, string& path, int fSize,int max)
+Textbox::Textbox(int y, int x, string& path, int fSize, int max)
 {
 	font = new Font(path.c_str(), fSize, 0);
 	int point = path.find('.');
-	name = path.substr(0, point)+"-size:" + to_string(fSize) + "pos" + to_string(y) + ":" + to_string(x);
+	name = path.substr(0, point) + "-size:" + to_string(fSize) + "pos" + to_string(y) + ":" + to_string(x);
 	this->y = y;
 	this->x = x;
 	this->size = max;
-	w =10+size* font->getWidth("W");
+	w = 10 + size* font->getWidth("W");
 	h = 4 + font->getHeight();
 	titilate = new Timer(0.5);
 	queue << Keyboard::getEventSource();
 	fitToBox = false;
+	fontColor = al_map_rgba_f(0, 0, 0, 1);
+	boxColor = al_map_rgba_f(1, 1, 1, 1);
 	if (titilate != nullptr)
 	{
 		if (font != nullptr && font->get() != nullptr)
@@ -28,8 +30,36 @@ Textbox::Textbox(int y, int x, string& path, int fSize,int max)
 		DEBUG_MSG("Error creating timer for textbox " << name);
 
 }
-string
-Textbox::click(int y, int x)
+
+Textbox::Textbox(int x, int y, int w, int h, string& path)
+{
+	font = new Font(path.c_str(), h - 4, 0);
+	int point = path.find('.');
+	name = path.substr(0, point) + "-size:" + to_string(h - 4) + "pos" + to_string(y) + ":" + to_string(x);
+	this->y = y;
+	this->x = x;
+	this->w = w;
+	this->h = h;
+	titilate = new Timer(0.5);
+	queue << Keyboard::getEventSource();
+	fitToBox = true;
+	if (titilate != nullptr)
+	{
+		if (font != nullptr && font->get() != nullptr)
+		{
+			DEBUG_MSG_V("Correctly initialized textbox " << name);
+			initOk = true;
+		}
+		else
+			DEBUG_MSG("Error loading font for textbox " << name);
+	}
+	else
+		DEBUG_MSG("Error creating timer for textbox " << name);
+
+}
+
+
+string Textbox::click(int y, int x)
 {
 	if (initOk == false)
 	{
@@ -53,9 +83,9 @@ Textbox::unClick(int y, int x)
 	if (initOk == false)
 	{
 		DEBUG_MSG("Trying to unclick on " << name << " that is no initialized correctly");
-		return ;
+		return;
 	}
-	
+
 	if (this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h))
 		return;
 	DEBUG_MSG_V("Unclicking textbox " << name);
@@ -63,8 +93,7 @@ Textbox::unClick(int y, int x)
 	titilate->stop();
 	return;
 }
-bool
-Textbox::overYou(int y, int x)
+bool Textbox::overYou(int y, int x)
 {
 	if (initOk == false)
 	{
@@ -96,23 +125,26 @@ Textbox::draw(Bitmap* target)
 		return;
 	}
 	DEBUG_MSG_V("Drawing textbox " << name);
-	al_draw_filled_rectangle(x, y, x + w, y + h, al_map_rgb(255, 255, 255));
+	al_draw_filled_rectangle(x, y, x + w, y + h, boxColor);
 	if (clicked == true && queue.isEmpty() == false)
 	{
 		event = queue.getEvent();
-		
+
 		if (event.getType() == ALLEGRO_EVENT_KEY_CHAR)
 		{
 			int c = event.getKeyboardCharacter();
 			if (event.getKeyboardKeycode() == ALLEGRO_KEY_BACKSPACE && buffer.size() > 0)
 				buffer.pop_back();
-			else if (isascii(c) &&  (  font->getWidth(buffer.c_str())+font->getWidth("W") <= w-10 && ( fitToBox==true ? true : buffer.size() < size)))
-					buffer.push_back(c);
-			
-				
+			else if (isascii(c) && (font->getWidth(buffer.c_str()) + font->getWidth("W") <= w - 10 && (fitToBox == true ? true : buffer.size() < size)))
+				buffer.push_back(c);
 		}
 	}
-	font->draw(x + 5, y + 2, al_map_rgb(0, 0, 0), buffer.c_str());
-	if(clicked==true && titilate->getCount()%2==0)
-		al_draw_line(x + font->getHeight()/5+ font->getWidth(buffer.c_str() ), y + 2, x + font->getHeight() / 5 + font->getWidth(buffer.c_str()), y + 2 + font->getHeight(), al_map_rgb(0, 0, 0), 2);
+	font->draw(x + 5, y + 2, fontColor, buffer.c_str());
+	if (clicked == true && titilate->getCount() % 2 == 0)
+		al_draw_line(x + font->getHeight() / 5 + font->getWidth(buffer.c_str()), y, x + font->getHeight() / 5 + font->getWidth(buffer.c_str()), y + font->getHeight(), fontColor, 2);
+}
+
+string Textbox::getText()
+{
+	return buffer;
 }

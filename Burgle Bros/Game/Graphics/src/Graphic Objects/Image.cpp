@@ -33,6 +33,66 @@ Image::Image(string& path) : Object()
 	else DEBUG_MSG("Error while loading image at path " << path);
 }
 
+Image::Image(string& path, int xpos, int ypos) : Object()
+{
+	//Turbiada, si lo sacas la queda ????????????????????!!!!!!
+	// PRUEBO COMENTARLO a ver si anda...
+	al_init();
+	al_init_image_addon();
+	im.load(path.c_str());
+	initOk = false;
+	if (im.get() != nullptr)
+	{
+		initOk = true;
+		x = xpos;
+		y = ypos;
+
+		h = im.getHeight();
+		w = im.getWidth();
+
+		scaleY = 1;
+		scaleX = 1;
+		r = g = b = 1.0;
+		// Find the name in the path
+		size_t pos = path.find_last_of(".");
+		size_t pos2 = path.find_last_of("/");
+		if (pos2 == string::npos) 	pos2 = 0;
+		name = path.substr(pos2 + 1, pos - pos2 - 1);
+		DEBUG_MSG_V("Init ok on image " << name);
+	}
+
+	else DEBUG_MSG("Error while loading image at path " << path);
+}
+
+Image::Image(string& path, int xpos, int ypos, int width, int height) : Object()
+{
+	al_init();
+	al_init_image_addon();
+	im.load(path.c_str());
+	initOk = false;
+	if (im.get() != nullptr)
+	{
+		initOk = true;
+		x = xpos;
+		y = ypos;
+
+		h = height;
+		w = width;
+
+		scaleY = 1;
+		scaleX = 1;
+		r = g = b = 1.0;
+		// Find the name in the path
+		size_t pos = path.find_last_of(".");
+		size_t pos2 = path.find_last_of("/");
+		if (pos2 == string::npos) 	pos2 = 0;
+		name = path.substr(pos2 + 1, pos - pos2 - 1);
+		DEBUG_MSG_V("Init ok on image " << name);
+	}
+	else DEBUG_MSG("Error while loading image at path " << path);
+}
+
+
 string Image::click(int y, int x)
 {
 	if (initOk == true)
@@ -60,8 +120,8 @@ string Image::click(int y, int x)
 
 bool Image::overYou(int y, int x)
 {
-	if (initOk == true)
-	{
+	//if (initOk == true)
+	//{
 		if (isInside(y, x) && isNotTransparent(y, x))
 		{
 			if (hoverable)
@@ -77,44 +137,17 @@ bool Image::overYou(int y, int x)
 			hover = false;
 			return false;
 		}
-	}
-	else
-		DEBUG_MSG("Trying to hover object " << name << " when is not initialized correctly");
-	return false;
+	//}
+	//else
+//		DEBUG_MSG("Trying to hover object " << name << " when is not initialized correctly");
+//	return false;
 }
 
 bool Image::isNotTransparent(int y, int x)
 {
 	float r, g, b, a;
-	al_unmap_rgba_f(im.getPixel(x, y), &r, &g, &b, &a);
+	al_unmap_rgba_f(im.getPixel(x-this->x, y-this->y), &r, &g, &b, &a);
 	return a != 0.0;
-}
-Image::Image(string& path, int xpos, int ypos, int width, int height) : Object()
-{
-	al_init();
-	al_init_image_addon();
-	im.load(path.c_str());
-	initOk = false;
-	if (im.get() != nullptr)
-	{
-		initOk = true;
-		x = xpos;
-		y = ypos;
-
-		h = height;
-		w = width;
-
-		scaleY = 1;
-		scaleX = 1;
-		r = g = b = 1.0;
-		// Find the name in the path
-		size_t pos = path.find_last_of(".");
-		size_t pos2 = path.find_last_of("/");
-		if (pos2 == string::npos) 	pos2 = 0;
-		name = path.substr(pos2 + 1, pos - pos2 - 1);
-		DEBUG_MSG_V("Init ok on image " << name);
-	}
-	else DEBUG_MSG("Error while loading image at path " << path);
 }
 
 void Image::draw(Bitmap* target)

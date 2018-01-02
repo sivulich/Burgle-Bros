@@ -2,11 +2,13 @@
 #include <GameModel.h>
 #include <GraphicsDefs.h>
 #include <alx.hpp>
-#include "../src/Graphic Objects/Screen.h"
-#include "../src/Graphic Objects/Container.h"
-#include "../src/Observers/Observer.h"
-#include "../src/Observers/BoardObserver.h"
-#include "../src/Observers/HudObserver.h"
+
+#include "Graphic Objects/Screen.h"
+#include "Graphic Objects/Container.h"
+#include "Graphic Objects/Textbox.h"
+#include "Observers/Observer.h"
+#include "Observers/BoardObserver.h"
+#include "Observers/HudObserver.h"
 
 class GameGraphics : public Observer
 {
@@ -69,12 +71,12 @@ public:
 	// Shows the game screen
 	void showGameScreen();
 
-	// 
-	void destroysGameView();
+	string getPlayerName();
 
 private:
 	bool initOK_;
 	bool showingGameScreen;
+	bool showingSetupScreen;
 
 	// Pointer to the Game Model
 	GameModel * model;
@@ -83,6 +85,7 @@ private:
 	Screen* screen;
 	Container* cont;
 
+	Textbox * textBox;
 	Image * blur;
 	// Observers
 	BoardObserver* board;

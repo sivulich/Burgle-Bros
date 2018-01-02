@@ -35,12 +35,13 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	{
 		model = m;
 		graphics = g;
+		guardTimer = t;
 	};
 
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
-
+	Timer * guardTimer;
 	//-------------------------------------------------------------
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
@@ -51,6 +52,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		GameState& s = fsm.get_state<GameState&>();
 		s.model = fsm.model;
 		s.graphics = fsm.graphics;
+		s.guardTimer = fsm.guardTimer;
 	}
 
 	template <class EVT, class FSM>
@@ -262,7 +264,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 				if (source.player1set == false && fsm.model->player1()->hasCharacter())
 				{
 					source.player1set = true;
-					fsm.model->player1()->setName(string("TOBIAS"));
+					fsm.model->player1()->setName(fsm.graphics->getPlayerName());
 					fsm.graphics->showSetupScreen(2);
 				}
 				else if (source.player2set == false && fsm.model->player2()->hasCharacter())
@@ -274,8 +276,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 					}
 					else
 					{
-						source.player1set = true;
-						fsm.model->currentPlayer()->setName(string("PEPITO"));
+						source.player2set = true;
+						fsm.model->player2()->setName(fsm.graphics->getPlayerName());
 						// Both caracters set so go to game
 						fsm.process_event(ev::play());
 					}

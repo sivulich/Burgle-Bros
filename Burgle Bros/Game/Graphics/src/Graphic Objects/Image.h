@@ -9,6 +9,7 @@ class Image : public Object
 public:
 	Image() {};
 	Image(string& path);
+	Image(string& path, int xpos, int ypos);
 	Image(string& path, int xpos, int ypos, int width, int height);
 
 	/**
