@@ -74,12 +74,12 @@ void GameGraphics::showMenuScreen()
 void GameGraphics::showModeScreen()
 {
 	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Mode/background.jpg"));
+	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
 
-	cont->addObject(new Image(string("./Graphics/Images/Mode/LOCAL.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Mode/REMOTE.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Mode/BACK.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Mode/EXIT.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/LOCAL.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/REMOTE.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png")));
 }
 
 
@@ -87,15 +87,15 @@ void GameGraphics::showCreditsScreen()
 {
 	cont->clear();
 	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Mode/background.jpg"));
-	cont->addObject(new Image(string("./Graphics/Images/Mode/BACK.png")));
+	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
 }
 
 void GameGraphics::showRulesScreen()
 {
 	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Mode/background.jpg"));
-	cont->addObject(new Image(string("./Graphics/Images/Mode/BACK.png")));
+	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
 }
 
 
@@ -104,6 +104,7 @@ void GameGraphics::showSetupScreen(int player)
 {
 	showingSetupScreen = true;
 	cont->clear();
+	// Load buttons and character
 	Image*i;
 	cont->setBackground(string("./Graphics/Images/Setup/background.jpg"));
 	cont->addObject(new Image(string("./Graphics/Images/Setup/BACK.png"), 0, 616));
@@ -122,11 +123,13 @@ void GameGraphics::showSetupScreen(int player)
 	cont->addObject(i);
 	cont->addObject(new Image(string("./Graphics/Images/Setup/PETERMAN.png"),1073,311));
 
+	// Load the textbox to enter the players name
 	textBox = new Textbox(574, 645, 270, 44, string("./Graphics/Images/arial_narrow.ttf"));
 	textBox->setFontColor(al_map_rgba_f(1,1,1,0.5));
 	textBox->setBoxColor(al_map_rgba_f(0,0,0,0));
 	cont->addObject(textBox);
 
+	// Load player number
 	if (player == 1)
 		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"),592,120);
 
@@ -178,7 +181,6 @@ void GameGraphics::update()
 		board->update();
 		hud->update();
 	}
-
 }
 
 bool GameGraphics::hover(int y, int x)

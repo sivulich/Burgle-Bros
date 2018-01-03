@@ -18,30 +18,74 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	{ RAVEN,string("./Graphics/Images/Characters/The Raven.png") },
 	{ SPOTTER,string("./Graphics/Images/Characters/The Spotter.png") } };
 
+	characterFigure = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1.png"));
+	characterFigurePlaying = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1 PLAYING.png"));
+
 	if (p->getNumber() == 1)
 	{
-		playerCard = new Image(images[p->getCharacter()], PLAYER1_CARD_XPOS, PLAYER1_CARD_YPOS, PLAYER_CARD_SIZE, PLAYER_CARD_SIZE);
-		actionTokens = new Text(string(HUD_FONT), TEXT_COLOR, HUD_FONT_SIZE, PLAYER1_ACTION_TOK_XPOS, PLAYER1_ACTION_TOK_YPOS);
-		stealthTokens = new Text(string(HUD_FONT), TEXT_COLOR, HUD_FONT_SIZE, PLAYER1_STEALTH_TOK_XPOS, PLAYER1_STEALTH_TOK_YPOS);
-		name = new Text(string(HUD_FONT), TEXT_COLOR, HUD_FONT_SIZE, PLAYER1_STEALTH_TOK_XPOS, PLAYER1_STEALTH_TOK_YPOS + 25);
+		playerCard = new Image(images[p->getCharacter()], 128,488, 168, 186);
+		characterFigure->setPosition(525, 130);
+		characterFigurePlaying->setPosition(525, 130);
+		passButton = new Image(string("./Graphics/Images/HUD/PASS.png"),159,62);
+		actionTokens = new Text(string(HUD_FONT), TEXT_COLOR, 15, 195, 70);
+		stealthTokens = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 212,48);
+		name = new Text(string(HUD_FONT), TEXT_COLOR, 18, 76, 82);
+		infoButton = new Image(string("./Graphics/Images/HUD/INFO.png"), 130, 77);
 	}
 	else if (p->getNumber() == 2)
 	{
-		playerCard = new Image(images[p->getCharacter()], PLAYER2_CARD_XPOS, PLAYER2_CARD_YPOS, PLAYER_CARD_SIZE, PLAYER_CARD_SIZE);
-		actionTokens = new Text(string(HUD_FONT), TEXT_COLOR, HUD_FONT_SIZE, PLAYER2_ACTION_TOK_XPOS, PLAYER2_ACTION_TOK_YPOS);
-		stealthTokens = new Text(string(HUD_FONT), TEXT_COLOR, HUD_FONT_SIZE, PLAYER2_STEALTH_TOK_XPOS, PLAYER2_STEALTH_TOK_YPOS);
-		name = new Text(string(HUD_FONT), TEXT_COLOR, HUD_FONT_SIZE, PLAYER2_STEALTH_TOK_XPOS, PLAYER2_STEALTH_TOK_YPOS + 25);
+		playerCard = new Image(images[p->getCharacter()], 984, 488, 168,186);
+		characterFigure->setPosition(525, 1025);
+		characterFigure->flipHorizontal();
+		characterFigurePlaying->setPosition(525, 1025);
+		characterFigurePlaying->flipHorizontal();
+		passButton = new Image(string("./Graphics/Images/HUD/PASS.png"), 807, 62);
+		actionTokens = new Text(string(HUD_FONT), TEXT_COLOR, 15, 843, 70);
+		stealthTokens = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0),15, 830,48);
+		name = new Text(string(HUD_FONT), TEXT_COLOR, 18, 969,82);
+		infoButton = new Image(string("./Graphics/Images/HUD/INFO.png"), 889, 77);
 	}
 	else
 		DEBUG_MSG("ERROR: Invalid player number");
+
+
 	playerCard->setClickable(false);
 	playerCard->setHoverable(false);
-	hudCont->addObject(playerCard);
+	playerCard->setVisible(false);
 
+	infoButton->setObserver(this);
+	hudCont->addObject(infoButton);
+
+	characterFigure->setClickable(false);
+	characterFigure->setHoverable(false);
+	characterFigurePlaying->setClickable(false);
+	characterFigurePlaying->setHoverable(false);
+
+	c->addObject(characterFigure);
+	c->addObject(characterFigurePlaying);
+	isPlaying = player->isPlaying();
+	if (isPlaying)
+	{
+		characterFigure->setVisible(false);
+		actionTokens->setVisible(true);
+		passButton->setVisible(true);
+	}
+	else
+	{
+		characterFigurePlaying->setVisible(false);
+		actionTokens->setVisible(false);
+		passButton->setVisible(false);
+	}
+
+	hudCont->addObject(passButton);
 	hudCont->addObject(actionTokens);
 	hudCont->addObject(stealthTokens);
 	name->setText(p->getName());
 	hudCont->addObject(name);
+
+	c->addObject(playerCard);
+
+
 	//------------------------------------------------------------------------------------
 
 	// Load player token
@@ -108,6 +152,25 @@ void PlayerObserver::update()
 		lastPos = curr;
 	}
 
+	// Update character figure
+	if (isPlaying != player->isPlaying())
+	{
+		isPlaying = player->isPlaying();
+		if (isPlaying)
+		{
+			characterFigure->setVisible(false);
+			characterFigurePlaying->setVisible(true);
+			actionTokens->setVisible(true);
+			passButton->setVisible(true);
+		}
+		else
+		{
+			characterFigure->setVisible(true);
+			characterFigurePlaying->setVisible(false);
+			actionTokens->setVisible(false);
+			passButton->setVisible(false);
+		}
+	}
 	// Update action tokens
 	string currentActionTokens = to_string(player->getActionTokens());
 	if (actionTokens->getText() != currentActionTokens)
@@ -117,5 +180,8 @@ void PlayerObserver::update()
 	string currentStealthTokens = to_string(player->getStealthTokens());
 	if (stealthTokens->getText() != currentStealthTokens)
 		stealthTokens->setText(currentStealthTokens);
+
+
+	playerCard->setVisible(infoButton->isClicked());
 
 }

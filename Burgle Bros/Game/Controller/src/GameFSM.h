@@ -339,14 +339,14 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			
 			//--------------------------Orthogonal region-----------------------------//
 			//  +------------+-------------+------------+--------------+--------------+
-			Row <   playing, ev::close, exit, none, none     >
-			/*Row <   playing, ev::errorReceived, error, none, none     >,
+			Row <   playing, ev::close, exit, none, none     >,
+			//Row <   playing, ev::errorReceived, error, none, none     >,
 			Row <   playing, ev::pause, paused, none, none     >,
-			Row <   playing, ev::render, none, doRender, none     >,
+			//Row <   playing, ev::render, none, doRender, none     >,
 
 			//  +------------+-------------+------------+--------------+--------------+
-			Row <   paused, ev::resume, playing, none, none     >,
-			Row <   paused, ev::close, exit, none, none     >,
+			Row <   paused, ev::pause, playing, none, none     >
+			/*Row <   paused, ev::close, exit, none, none     >,
 			Row <   paused, ev::render, paused, doRender, none     >,
 			//  +------------+-------------+------------+--------------+--------------+
 			Row <   error, ev::errorHandled, playing, none, none     >,

@@ -81,6 +81,8 @@ void GameModel::changeTurn()
 {
 	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->resetActionTokens();
+	currentPlayer_->isPlaying(true);
+	otherPlayer_->isPlaying(false);
 
 	notify();
 }

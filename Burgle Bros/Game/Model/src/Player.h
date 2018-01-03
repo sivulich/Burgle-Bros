@@ -78,6 +78,10 @@ public:
 	//	Return true if the player is on the roof of the building 
 	bool isOnRoof();
 
+	// Set if player is playing or not
+	bool isPlaying() { return playing; };
+	void isPlaying(bool b) { playing = b; notify(); };
+
 	//
 	//bool needConfirmationToMove(Coord c);
 
@@ -179,6 +183,8 @@ private:
 	string name;
 	// Number of player
 	int n;
+	// If its player turn playing=true
+	bool playing;
 	// Character the player is using
 	Character * character;
 	// Tile where character token is placed on the board
@@ -203,8 +209,8 @@ private:
 	vector <string> possibleActions;
 	// ???
 	vector <unsigned int> dice;
-	
-	
+
+
 	//       PRIVATE METHOD
 	//	Move to a tile
 	bool move(Tile * newTile);

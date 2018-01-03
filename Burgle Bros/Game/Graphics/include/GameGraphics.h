@@ -3,12 +3,13 @@
 #include <GraphicsDefs.h>
 #include <alx.hpp>
 
-#include "Graphic Objects/Screen.h"
-#include "Graphic Objects/Container.h"
-#include "Graphic Objects/Textbox.h"
-#include "Observers/Observer.h"
-#include "Observers/BoardObserver.h"
-#include "Observers/HudObserver.h"
+#include "../Graphic Objects/Screen.h"
+#include "../Graphic Objects/Container.h"
+#include "../Graphic Objects/Textbox.h"
+#include "../Observers/Observer.h"
+#include "../Observers/BoardObserver.h"
+#include "../Observers/HudObserver.h"
+
 
 class GameGraphics : public Observer
 {

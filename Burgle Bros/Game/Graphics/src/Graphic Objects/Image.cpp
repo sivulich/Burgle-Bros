@@ -13,6 +13,7 @@ Image::Image(string& path) : Object()
 	if (im.get() != nullptr)
 	{
 		initOk = true;
+		flags = 0;
 		x = 0;
 		y = 0;
 
@@ -44,6 +45,7 @@ Image::Image(string& path, int xpos, int ypos) : Object()
 	if (im.get() != nullptr)
 	{
 		initOk = true;
+		flags = 0;
 		x = xpos;
 		y = ypos;
 
@@ -73,6 +75,7 @@ Image::Image(string& path, int xpos, int ypos, int width, int height) : Object()
 	if (im.get() != nullptr)
 	{
 		initOk = true;
+		flags = 0;
 		x = xpos;
 		y = ypos;
 
@@ -95,8 +98,8 @@ Image::Image(string& path, int xpos, int ypos, int width, int height) : Object()
 
 string Image::click(int y, int x)
 {
-	if (initOk == true)
-	{
+	//if (initOk == true)
+	//{
 		if (clickable)
 		{
 			if (isInside(y, x) && isNotTransparent(y, x))
@@ -111,8 +114,8 @@ string Image::click(int y, int x)
 		}
 		else return "Not Clickable";
 		//DEBUG_MSG_V("Trying to click object " << name << " when is not clickable");
-	}
-	else DEBUG_MSG("Trying to click image " << name << " when is not initialized correctly");
+	//}
+	//else DEBUG_MSG("Trying to click image " << name << " when is not initialized correctly");
 
 	return "";
 }
@@ -181,8 +184,8 @@ void Image::draw(Bitmap* target)
 			color = al_map_rgba_f(NORMAL_R*r, NORMAL_G*g, NORMAL_B*b, NORMAL_A*alpha);
 		else if (clickable && clicked)
 			color = al_map_rgba_f(CLICKED_R*r, CLICKED_G*g, CLICKED_B*b, CLICKED_A*alpha);
-
-		im.drawTintedScaled(color, 0, 0, im.getWidth(), im.getHeight(), x, y, scaleX*w, scaleY*h, 0);
+		
+		im.drawTintedScaled(color, 0, 0, im.getWidth(), im.getHeight(), x, y, scaleX*w, scaleY*h, flags);
 
 		if (borderVisibe)
 			al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(0, 0, 0), 3);
@@ -201,6 +204,10 @@ void Image::setGreen()
 	r = 0;
 	g = 1;
 	b = 0;
+}
+void Image::flipHorizontal()
+{
+	flags = flags | ALLEGRO_FLIP_HORIZONTAL;
 }
 void Image::load(string& path, bool keepProperties)
 {

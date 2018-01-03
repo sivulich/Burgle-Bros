@@ -28,10 +28,26 @@ void Text::setText(string s)
 
 void Text::draw(Bitmap* target)
 {
+	// Before drawing play animation
+	playAnimation();
+
 	if (visible)
 	{
 		if (initOk == true && target != nullptr && target->get() != nullptr)
+		{
 			target->setTarget();
+			if (disabled)
+			{
+				float r, g, b;
+				al_unmap_rgb_f(color, &r, &g, &b);
+				f->draw(x, y, ALLEGRO_ALIGN_CENTRE, al_map_rgba_f(r, g, b, 0.5), content.c_str());
+			}
+			else
+				f->draw(x, y, ALLEGRO_ALIGN_CENTRE, color, content.c_str());
+
+			if (borderVisibe)
+				al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(0, 0, 0), 3);
+		}
 		else if (initOk == true)
 		{
 			DEBUG_MSG("Error while drawing text " << name << " target was not initialized correctly");
@@ -44,12 +60,4 @@ void Text::draw(Bitmap* target)
 		}
 		DEBUG_MSG_V("Drawing text " << name);
 	}
-
-	// Before drawing play animation
-	playAnimation();
-
-	f->draw(x, y, ALLEGRO_ALIGN_CENTRE, color, content.c_str());
-
-	if (borderVisibe)
-		al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(0, 0, 0), 3);
 }

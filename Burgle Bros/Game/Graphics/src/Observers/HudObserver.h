@@ -20,9 +20,9 @@ private:
 	Container * hudCont;
 	Container * topHudCont;
 	map<string, Image*> actions;
-	Image * passButton;
-	Image * menuButton;
-	Image * rulesButton;
+
+	Image * pauseButton;
+	Image * exitButton;
 
 	PlayerObserver * player1;
 	PlayerObserver * player2;

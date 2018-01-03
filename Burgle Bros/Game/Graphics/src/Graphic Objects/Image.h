@@ -25,6 +25,7 @@ public:
 	void setTone(float r, float g, float b);
 
 	void setGreen();
+	void flipHorizontal();
 	/**
 		Loads new image
 		@param path
@@ -36,6 +37,6 @@ private:
 	Bitmap im;
 	
 	float r, g, b;
-
+	int flags;
 	bool isNotTransparent(int y, int x);
 };

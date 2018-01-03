@@ -34,10 +34,10 @@ constexpr auto SCREEN_WIDTH = 1280.0;
 constexpr auto SCREEN_HEIGHT = (SCREEN_WIDTH / SCREEN_RATIO);
 
 // Margins for board
-constexpr auto LEFT_BOARD_MARGIN = (SCREEN_WIDTH * 0.03);
-constexpr auto RIGHT_BOARD_MARGIN = (SCREEN_WIDTH * 0.03);
-constexpr auto UPPER_BOARD_MARGIN = (SCREEN_HEIGHT * 0.085);
-constexpr auto LOWER_BOARD_MARGIN = (SCREEN_HEIGHT * 0.25);
+constexpr auto LEFT_BOARD_MARGIN = 20;
+constexpr auto RIGHT_BOARD_MARGIN = 20;
+constexpr auto UPPER_BOARD_MARGIN = 88;
+constexpr auto LOWER_BOARD_MARGIN = 158;
 
 // Board dimensions
 constexpr auto BOARD_HEIGHT = (SCREEN_HEIGHT - UPPER_BOARD_MARGIN - LOWER_BOARD_MARGIN);

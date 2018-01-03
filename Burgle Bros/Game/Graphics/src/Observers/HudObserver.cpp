@@ -6,39 +6,41 @@ HudObserver::HudObserver(GameModel * m,BoardObserver*b, Container * c)
 	boardObs = b;
 	// Create the hud container
 	hudCont = new Container(string("./Graphics/Images/HUD/HUD.png"));
-	hudCont->setPosition(HUD_YPOS, HUD_XPOS);
-	hudCont->setSize(HUD_HEIGHT, HUD_WIDTH);
+	hudCont->setPosition(592,118);
+	hudCont->setSize(115,1044);
 	c->addObject(hudCont);
 
 	// Create the top hud container
 	topHudCont = new Container(string("./Graphics/Images/HUD/TOP HUD.png"));
-	//topHudCont->setPosition();
+	topHudCont->setPosition(5,196);
 	c->addObject(topHudCont);
-	menuButton = new Image(string("./Graphics/Images/HUD/MENU.png"));
-	rulesButton = new Image(string("./Graphics/Images/HUD/RULES.png"));
-	topHudCont->addObject(menuButton);
-	topHudCont->addObject(rulesButton);
+
+	pauseButton = new Image(string("./Graphics/Images/HUD/PAUSE.png"),8,17);
+	exitButton = new Image(string("./Graphics/Images/HUD/EXIT.png"),803,17);
+	topHudCont->addObject(pauseButton);
+	topHudCont->addObject(exitButton);
 
 	// Create action buttons
-	// PARA PROBAR! TERMINAR DE UBICAR LOS BOTONES
-	actions = { { string("MOVE"),			new Image(string("../Game/Graphics/Images/Actions/MOVE.png"),BUTTON1_XPOS,BUTTON1_YPOS,ACTION_SIZE,ACTION_SIZE)         },
-				{ string("PEEK"),			new Image(string("../Game/Graphics/Images/Actions/PEEK.png"),BUTTON2_XPOS,BUTTON2_YPOS,ACTION_SIZE,ACTION_SIZE)         },
-				{ string("ADD_TOKEN"),		new Image(string("../Game/Graphics/Images/Actions/ADD_TOKEN.png"),BUTTON3_XPOS,BUTTON3_YPOS,ACTION_SIZE,ACTION_SIZE)    },
-				{ string("PLACE_CROW"),		new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"),BUTTON4_XPOS,BUTTON4_YPOS,ACTION_SIZE,ACTION_SIZE)   },
+
+	actions = { { string("MOVE"),			new Image(string("../Game/Graphics/Images/Actions/MOVE.png"),295,23)         },
+				{ string("PEEK"),			new Image(string("../Game/Graphics/Images/Actions/PEEK.png"),365,23)         },
+				{ string("ADD_TOKEN"),		new Image(string("../Game/Graphics/Images/Actions/ADD_TOKEN.png"),505,23)    },
+				{ string("USE_TOKEN"),		new Image(string("../Game/Graphics/Images/Actions/USE_TOKEN.png"),534,23) },
+				{ string("PICK_UP_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/PICK_UP_LOOT.png"),663,23) },
+				{ string("OFFER_LOOT"),		new Image(string("../Game/Graphics/Images/Actions/OFFER_LOOT.png"),663,26)   },
+				{ string("REQUEST_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/REQUEST_LOOT.png"),691,26) },
+				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),577,24) } };
+	/*{ string("PLACE_CROW"),		new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"),BUTTON4_XPOS,BUTTON4_YPOS,ACTION_SIZE,ACTION_SIZE)   },
 				{ string("CREATE_ALARM"),	new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"),BUTTON5_XPOS,BUTTON5_YPOS,ACTION_SIZE,ACTION_SIZE) },
-				{ string("SPY_PATROL"),		new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"),BUTTON6_XPOS,BUTTON6_YPOS,ACTION_SIZE,ACTION_SIZE)   },
-				{ string("PICK_UP_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/PICK_UP_LOOT.png"),BUTTON7_XPOS,BUTTON7_YPOS,ACTION_SIZE,ACTION_SIZE) },
-				{ string("OFFER_LOOT"),		new Image(string("../Game/Graphics/Images/Actions/OFFER_LOOT.png"),BUTTON8_XPOS,BUTTON8_YPOS,ACTION_SIZE,ACTION_SIZE)   },
-				{ string("REQUEST_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/REQUEST_LOOT.png"),BUTTON9_XPOS,BUTTON9_YPOS,ACTION_SIZE,ACTION_SIZE) },
-				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),BUTTON10_XPOS,BUTTON10_YPOS,ACTION_SIZE,ACTION_SIZE) } };
+				{ string("SPY_PATROL"),		new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"),BUTTON6_XPOS,BUTTON6_YPOS,ACTION_SIZE,ACTION_SIZE)   },*/
 	for (auto& a : actions)
 	{
 		a.second->disable();
 		hudCont->addObject(a.second);
 	}
 
-	passButton = new Image(string("../Game/Graphics/Images/Actions/PASS.png"), (HUD_WIDTH-ACTION_SIZE)/2,HUD_HEIGHT-ACTION_SIZE, ACTION_SIZE, ACTION_SIZE);
-	hudCont->addObject(passButton);
+	//passButton = new Image(string("../Game/Graphics/Images/Actions/PASS.png"), (HUD_WIDTH-ACTION_SIZE)/2,HUD_HEIGHT-ACTION_SIZE, ACTION_SIZE, ACTION_SIZE);
+	//hudCont->addObject(passButton);
 	player1 = new PlayerObserver(model->player1(), c, hudCont);
 	player2 = new PlayerObserver(model->player2(), c, hudCont);
 
@@ -75,9 +77,9 @@ void HudObserver::update()
 			else
 				a.second->disable();
 		}
-		passButton->enable();
 	}
-
+	player1->update();
+	player2->update();
 }
 
 HudObserver::~HudObserver()

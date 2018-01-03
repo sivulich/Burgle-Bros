@@ -11,6 +11,10 @@ Player::Player(Board * b, Player * p, int n)
 	currentTile = nullptr;
 	character = nullptr;
 	this->n = n;
+	if (n == 1)
+		playing = true;
+	else
+		playing = false;
 	turn = 0;
 }
 

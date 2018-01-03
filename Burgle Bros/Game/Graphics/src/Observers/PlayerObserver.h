@@ -16,15 +16,19 @@ private:
 	// Observed object
 	Player* player;
 	Coord lastPos;
-
+	bool isPlaying;
 
 	pair<int, int> positions[3][4][4];
 	// Graphic objects
 	Container* parentCont;
 	Container* hudCont;
 	Image* playerCard;
-	Image* token;
+	Image * infoButton;
+	Image* characterFigure;
+	Image* characterFigurePlaying;
+	Image * passButton;
 	Text * actionTokens;
+	Image* token;
 	Text * stealthTokens;
 	Text * name;
 };
