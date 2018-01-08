@@ -37,10 +37,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-	//	fsm.model->currentPlayer()->setCharacter(RAVEN);
-	//	fsm.model->otherPlayer()->setCharacter(PETERMAN);
-	//	fsm.model->currentPlayer()->setName(string("TOBIAS"));
-	//	fsm.model->otherPlayer()->setName(string("JULIETA"));
+		fsm.model->currentPlayer()->setCharacter(RAVEN);
+		fsm.model->otherPlayer()->setCharacter(PETERMAN);
+		fsm.model->currentPlayer()->setName(string("TOBIAS"));
+		fsm.model->otherPlayer()->setName(string("JULIETA"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->setBoard();
 		fsm.graphics->showGameScreen();

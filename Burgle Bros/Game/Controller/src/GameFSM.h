@@ -355,7 +355,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			//  +------------+-------------+------------+--------------+--------------+*/
 		> {};
 
-		typedef mpl::vector<playing, MenuScreen> initial_state;
+		typedef mpl::vector<playing, GameState> initial_state;
 
 		// Replaces the default no-transition response.
 		template <class FSM, class EVT>

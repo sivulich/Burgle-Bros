@@ -7,6 +7,7 @@
 class BaseCard:public BaseModel
 {
 public:
+	// False = Turned Down ; True = Turned  Up
 	BaseCard() : faceUp(false) {};
 	bool isFlipped() { return faceUp; };
 	virtual void flip() { faceUp = !faceUp; notify(); };
@@ -15,6 +16,7 @@ public:
 	void setDescription(string& s) { description = s; };
 	string getDescription() { return description; };
 protected:
+	
 	bool faceUp;
 	string description;
 };
