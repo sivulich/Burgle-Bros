@@ -7,8 +7,10 @@
 class BaseCard:public BaseModel
 {
 public:
-	// False = Turned Down ; True = Turned  Up
 	BaseCard() : faceUp(false) {};
+	/**
+	False = Turned Down ; True = Turned  Up
+	*/
 	bool isFlipped() { return faceUp; };
 	virtual void flip() { faceUp = !faceUp; notify(); };
 	virtual void turnUp() { faceUp = true; notify(); };

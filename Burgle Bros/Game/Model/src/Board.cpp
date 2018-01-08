@@ -1,9 +1,9 @@
 ﻿#include "./Board.h"
 
 // Defines for the hardcoded map
-#define T 0
-#define W 1
-#define	´ 0
+#define T 0 //Tile
+#define W 1 //Wall
+#define	´ 0 //No_Wall
 
 Board::Board(PlayerInterface* p1, PlayerInterface* p2)
 {
@@ -65,12 +65,11 @@ void Board::setWalls()
 		{ T,´,T,´,T,´,T } }
 	};*/
 
-
-	for (int f = 0; f < 3; f++)
+	for (int f = 0; f < NUMBER_FLOORS; f++)
 	{
-		for (int row = 0; row < 4; row++)
+		for (int row = 0; row < FLOOR_HEIGHT; row++)
 		{
-			for (int col = 0; col < 4; col++)
+			for (int col = 0; col < FLOOR_WIDTH; col++)
 			{
 				int i = row * 2;
 				int j = col * 2;
@@ -139,10 +138,10 @@ void Board::setBoard()
 	// Shuffle it and divide it in three
 	random_shuffle(tiles.begin(), tiles.end());
 
-	vector<tileType> f[3];
-	for (int i = 0; i < 3; i++)
+	vector<tileType> f[NUMBER_FLOORS];
+	for (int i = 0; i < NUMBER_FLOORS; i++)
 	{
-		f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / 3 * i, tiles.begin() + tiles.size() / 3 * (i + 1));
+		f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / NUMBER_FLOORS * i, tiles.begin() + tiles.size() / NUMBER_FLOORS * (i + 1));
 		f[i].push_back(SAFE);
 		f[i].push_back(STAIR);
 		random_shuffle(f[i].begin(), f[i].end());
@@ -153,12 +152,13 @@ void Board::setBoard()
 
 void Board::setBoard(vector<tileType> tiles)
 {
-	if (tiles.size() == 48)
+	//Fills board only if exact number of required tiles is supplied
+	if (tiles.size() == FLOOR_HEIGHT*FLOOR_WIDTH*NUMBER_FLOORS)
 	{
-		vector<tileType> f[3];
-		for (int i = 0; i < 3; i++)
+		vector<tileType> f[NUMBER_FLOORS];
+		for (int i = 0; i < NUMBER_FLOORS; i++)
 		{
-			f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / 3 * i, tiles.begin() + tiles.size() / 3 * (i + 1));
+			f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / NUMBER_FLOORS * i, tiles.begin() + tiles.size() / NUMBER_FLOORS * (i + 1));
 			floor[i]->setTiles(f[i]);
 		}
 	}
@@ -182,11 +182,11 @@ void Board::parseBoard()
 
 
 	// Do some modifications to map because special tiles
-	for (int f = 0; f < 3; f++)
+	for (int f = 0; f < NUMBER_FLOORS; f++)
 	{
-		for (int row = 0; row < 4; row++)
+		for (int row = 0; row < FLOOR_HEIGHT; row++)
 		{
-			for (int col = 0; col < 4; col++)
+			for (int col = 0; col < FLOOR_WIDTH; col++)
 			{
 				Tile * tile = getTile(Coord(f, col, row));
 
@@ -280,11 +280,11 @@ void Board::parseBoard()
 void Board::print()
 {
 	cout << "                                   |BOARD|" << endl;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < NUMBER_FLOORS; i++)
 		floor[i]->print();
 
 	cout << endl;
-	for (int j = 0; j <3 ; j++)
+	for (int j = 0; j <NUMBER_FLOORS ; j++)
 	{
 		cout << "Alarms in floor " << j + 1 << ":";
 		for (auto &a : floor[j]->getAlarms())
