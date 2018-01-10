@@ -29,6 +29,9 @@ public:
 	// Sets the board, sorting the tiles randomly
 	void setBoard();
 
+	// Get the board tiles
+	vector<tileType> getBoardSetup();
+
 	// Sets the board, with defined tiles
 	void setBoard(vector<tileType> tiles);
 
@@ -50,9 +53,6 @@ public:
 
 	// Access to the other player
 	Player * otherPlayer() { return otherPlayer_; };
-
-	// Tries to move current player to the given position
-	bool moveTo(Coord c);
 
 	Board* getBoard() { return &board; };
 

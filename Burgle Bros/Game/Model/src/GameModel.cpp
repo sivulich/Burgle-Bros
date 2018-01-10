@@ -79,11 +79,12 @@ Called after guard movement, it changes the turn
 */
 void GameModel::changeTurn()
 {
-	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->resetActionTokens();
+	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->isPlaying(true);
 	otherPlayer_->isPlaying(false);
-
+	currentPlayer_->addTurn();
+	otherPlayer_->addTurn();
 	notify();
 }
 
@@ -98,7 +99,8 @@ void GameModel::moveGuard()
 	board[floor].getGuard()->isMyTurn(true);
 
 	guardIsMoving_ = board[floor].moveGuard();
-	if(guardIsMoving_ == false) board[floor].getGuard()->isMyTurn(false);
+	if(guardIsMoving_ == false)
+		board[floor].getGuard()->isMyTurn(false);
 
 	notify();
 }
@@ -114,21 +116,17 @@ void GameModel::setBoard()
 	board.setBoard();
 	board.setWalls();
 	board.parseBoard();
-
-	notify();
 }
+
+vector<tileType> GameModel::getBoardSetup()
+{
+	return board.getTileSetup();
+}
+
 void GameModel::setBoard(vector<tileType> tiles)
 {
 	board.setBoard(tiles);
 	board.setWalls();
 	board.parseBoard();
 
-	notify();
-}
-
-bool GameModel::moveTo(Coord c)
-{
-	return currentPlayer_->move(c);
-
-	notify();
 }

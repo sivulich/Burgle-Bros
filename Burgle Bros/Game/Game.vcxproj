@@ -104,13 +104,17 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;packages\Apache Runtinme Library\apr-iconv\include;packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;C:\Program Files %28x86%29\APR\apr-iconv\include;C:\Program Files %28x86%29\APR\apr-util\include;C:\Program Files %28x86%29\APR\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\APR\apr-util\Debug;C:\Program Files %28x86%29\APR\apr-iconv\Debug;C:\Program Files %28x86%29\APR\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libapr-1.lib;libapriconv-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -127,12 +131,17 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Controller\src;Graphics\src\Animations;Graphics\src\Graphic Objects;Graphics\src\Observers;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\boost.1.64.0.0\lib\native\include;Controller\include;Graphics\include;$(StlIncludeDirectories);Model\include;Network\include;Graphics\src\ALX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;C:\Program Files %28x86%29\APR\apr-iconv\include;C:\Program Files %28x86%29\APR\apr-util\include;C:\Program Files %28x86%29\APR\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\APR\apr-util\Debug;C:\Program Files %28x86%29\APR\apr-iconv\Debug;C:\Program Files %28x86%29\APR\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libapr-1.lib;libapriconv-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -148,10 +157,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="packages.config" />
-  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Controller\src\events.h" />
     <ClInclude Include="Controller\src\GameController.h" />
@@ -221,10 +226,11 @@
     <ClInclude Include="Graphics\src\Graphic Objects\Button.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Card.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Container.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Graphic Objects.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Image.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\object.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\ObjectInterface.h" />
-    <ClInclude Include="Graphics\src\Graphic Objects\QuestionBox.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\DialogBox.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Screen.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Text.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Textbox.h" />
@@ -313,7 +319,7 @@
     <ClCompile Include="Graphics\src\Graphic Objects\Container.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Image.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\object.cpp" />
-    <ClCompile Include="Graphics\src\Graphic Objects\QuestionBox.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\DialogBox.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Screen.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Text.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Textbox.cpp" />
@@ -381,18 +387,21 @@
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
     <ClCompile Include="Network\src\BurgleNetwork.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
-    <Import Project="..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets')" />
-    <Import Project="..\packages\Allegro.5.2.2.1\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.2.1\build\native\Allegro.targets')" />
-    <Import Project="..\packages\boost.1.64.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.64.0.0\build\native\boost.targets')" />
+    <Import Project="..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.3.1\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.3.1\build\native\Allegro.targets')" />
+    <Import Project="..\packages\boost.1.66.0.0\build\native\boost.targets" Condition="Exists('..\packages\boost.1.66.0.0\build\native\boost.targets')" />
   </ImportGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets'))" />
-    <Error Condition="!Exists('..\packages\Allegro.5.2.2.1\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.2.1\build\native\Allegro.targets'))" />
-    <Error Condition="!Exists('..\packages\boost.1.64.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.64.0.0\build\native\boost.targets'))" />
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.3.1\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.3.1\build\native\Allegro.targets'))" />
+    <Error Condition="!Exists('..\packages\boost.1.66.0.0\build\native\boost.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\boost.1.66.0.0\build\native\boost.targets'))" />
   </Target>
 </Project>

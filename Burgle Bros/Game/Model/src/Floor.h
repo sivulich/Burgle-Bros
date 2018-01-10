@@ -63,6 +63,7 @@ public:
 	*/
 	void setTiles(vector<tileType> t);
 
+	vector<tileType> getTileSetup();
 	/**
 		Returns the number of the floor
 	*/

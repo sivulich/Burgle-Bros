@@ -15,21 +15,21 @@ vector<Tile*>& Floor::operator[] (unsigned i)
 
 void Floor::setTile(int col, int row, tileType t)
 {
-	tiles[col][row] = TileFactory().newTile(t,floorNumber,col, row);
+	tiles[col][row] = TileFactory().newTile(t, floorNumber, col, row);
 };
 void Floor::print()
 {
-	
+
 	eku::concolinit();
-//	cout << "Floor " << floorNumber + 1 << ":" << endl;
+	//	cout << "Floor " << floorNumber + 1 << ":" << endl;
 	cout << "__|";
 	for (int j = 0; j < 4; j++)
-		cout << string(8, '_') << char('A'+j) << string(9, '_')<< "|";
+		cout << string(8, '_') << char('A' + j) << string(9, '_') << "|";
 	cout << endl;
 
 	for (int i = 0; i < 4; i++)
 	{
-		cout << i+1 << " |";
+		cout << i + 1 << " |";
 		for (int j = 0; j < 4; j++)
 		{
 			string name = toString(tiles[j][i]->getType());
@@ -39,11 +39,11 @@ void Floor::print()
 			{
 				if (tiles[j][i]->isFlipped())
 				{
-					cout << eku::green << string(spaces / 2, ' ') + name<< eku::blue << "G" << string(spaces - spaces / 2-1, ' ') << eku::white;
+					cout << eku::green << string(spaces / 2, ' ') + name << eku::blue << "G" << string(spaces - spaces / 2 - 1, ' ') << eku::white;
 				}
 				else
 				{
-					cout << eku::red << string(spaces / 2, ' ') + name << eku::blue << "G" << string(spaces - spaces / 2-1, ' ') << eku::white;
+					cout << eku::red << string(spaces / 2, ' ') + name << eku::blue << "G" << string(spaces - spaces / 2 - 1, ' ') << eku::white;
 				}
 			}
 			else
@@ -57,16 +57,16 @@ void Floor::print()
 					cout << eku::red << string(spaces / 2, ' ') + name + string(spaces - spaces / 2, ' ') << eku::white;
 				}
 			}
-				
 
-			
-			
+
+
+
 
 			if (find(adjacent[j][i].begin(), adjacent[j][i].end(), Coord(floorNumber, j + 1, i)) != adjacent[j][i].end())
 				cout << " ";
 			else
 				cout << "|";
-		}	
+		}
 		cout << endl << "  |";
 		if (i < 3)
 		{
@@ -84,7 +84,7 @@ void Floor::print()
 		else cout << "__________________ __________________ __________________ __________________|" << endl;
 	}
 	cout << endl;
-	
+
 }
 
 
@@ -107,6 +107,17 @@ void Floor::setTiles(vector<tileType> t)
 
 };
 
+vector<tileType> Floor::getTileSetup()
+{
+	vector<tileType> v;
+	for (int col = 0; col < 4; col++)
+	{
+		for (int row = 0; row < 4; row++)
+			v[row * 4 + col] = tiles[col][row]->getType();
+	}
+	return v;
+}
+
 
 int Floor::number()
 {
@@ -117,7 +128,7 @@ bool Floor::moveGuard()
 {
 	// Update the list of alarms in the floor
 	getAlarms();
-	
+
 	bool ret = guard.move();
 	tiles[guard.getPos().col][guard.getPos().row]->setAlarm(false);
 	return ret;
@@ -157,7 +168,7 @@ void Floor::addAlarm(Coord c)
 	guard.AddNextAlarm(c);
 }
 
-void Floor::getThroughWalls(Coord c,list<Tile*>* adj)
+void Floor::getThroughWalls(Coord c, list<Tile*>* adj)
 {
 	if (c.col < 4)
 		adj->push_back(tiles[c.row][c.col + 1]);

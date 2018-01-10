@@ -10,13 +10,14 @@ namespace ev {
 	struct remote : BaseEvent {};
 	struct back : BaseEvent {};
 	struct next : BaseEvent {};
+	struct cancel : BaseEvent {};
 	struct play : BaseEvent {};
+	struct connect : BaseEvent {};
 	struct characterName : BaseEvent
 	{
 		characterName(string s) :character(s) {};
 		string character;
 	};
-
 
 	struct movee : BaseEvent {};
 	struct peek : BaseEvent {};
@@ -41,6 +42,7 @@ namespace ev {
 	struct pickUpLoot : BaseEvent {};
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};
+	struct ok : BaseEvent {};
 	struct render : BaseEvent {};
 	struct coord : BaseEvent
 	{

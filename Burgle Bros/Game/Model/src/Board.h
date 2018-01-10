@@ -22,6 +22,7 @@ public:
 		Return the a tile in the board
 	*/
 	Tile * getTile(Coord c);
+	vector<tileType> getTileSetup();
 	 /**
 	 
 	 */

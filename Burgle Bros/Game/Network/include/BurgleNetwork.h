@@ -1,4 +1,4 @@
-/*#pragma once
+#pragma once
 #define APR_DECLARE_STATIC 
 
 #include <string>
@@ -7,10 +7,10 @@
 #include <atomic>
 #include <time.h>
 #include <chrono>
-
+#include <alx.hpp>
 #include <apr_general.h>
 #include <apr_file_io.h>
-#include <apr_strings.h>
+//#include <apr_strings.h>
 #include <apr_network_io.h>
 #include <Board.h>
 #include "../../Model/src/Characters/Character.h"
@@ -51,12 +51,26 @@ enum{WAITINNG_CONN=1,MACHINES_CONNECTED,EXCHANGE_NAMES,EXCHANGE_CHARACTERS,EXCHA
 #define PORT 15251
 #define NO_PACKET vector<char>()
 
+
+#define NETWORK_CONNECTED ALLEGRO_GET_EVENT_TYPE('T','o','b','i')
+#define NETWORK_TIMEOUT NETWORK_CONNECTED+1
+
 class BurgleNetwork
 {
 public:
-	BurgleNetwork(const string IP);
+	static ALLEGRO_EVENT_SOURCE networkEventSource;
+	static ALLEGRO_EVENT connectedEvent;
+	static ALLEGRO_EVENT timeoutEvent;
+
+	BurgleNetwork();
+	void connect(string IP);
+	void cancelConnecting();
+
+	bool newEvent() { return eventQueue.empty() == false; };
+	ALLEGRO_EVENT getEvent();
 	//It should always be checked before calling any method on this class
 	bool error() { return flags.error; };
+
 	//Returns the error message generated, to print in any display
 	string errMessage() { return flags.errMessage; };
 
@@ -68,12 +82,12 @@ public:
 
 	//Information getters
 	characterType remotePlayer() { return flags.remotePlayer; };
-	vector<tileType> remoteBoard(){ return flags.remoteBoard; };
+	vector<tileType> remoteBoard() { return flags.remoteBoard; };
 	Coord remoteGuardPos() { return flags.remoteGuardPos; };
 	Coord remoteGuardTarget() { return flags.remoteGuardTarget; };
 	Coord startingPos() { return flags.playerPos; };
 	string remoteName() { return flags.remoteName; };
-	bool server() { return flags.server; };
+	bool isServer() { return flags.server; };
 	remoteInput getRemoteInput();
 
 	//Instruction senders
@@ -101,6 +115,7 @@ public:
 
 	~BurgleNetwork();
 private:
+	queue<ALLEGRO_EVENT> eventQueue;
 	//Startup
 	void establishConn(thData* fl, string IP);
 	void exchangeNames(thData* fl,const string& name);
@@ -125,4 +140,5 @@ private:
 	thread* currThread;
 };
 
-*/
+
+

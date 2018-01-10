@@ -164,6 +164,17 @@ void Board::setBoard(vector<tileType> tiles)
 	}
 }
 
+vector<tileType> Board::getTileSetup()
+{
+	vector<tileType> tiles;
+	for (int i = 0; i < 3; i++)
+	{
+		vector<tileType> v = floor[i]->getTileSetup();
+		tiles.insert(tiles.begin(), v.begin(), v.end());
+	}
+	return tiles;
+}
+
 void Board::parseBoard()
 {
 	vector<Tile *> crackSafeTiles;
