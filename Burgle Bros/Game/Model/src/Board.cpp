@@ -67,9 +67,9 @@ void Board::setWalls()
 
 	for (int f = 0; f < NUMBER_FLOORS; f++)
 	{
-		for (int row = 0; row < FLOOR_HEIGHT; row++)
+		for (int row = 0; row < F_HEIGHT; row++)
 		{
-			for (int col = 0; col < FLOOR_WIDTH; col++)
+			for (int col = 0; col < F_WIDTH; col++)
 			{
 				int i = row * 2;
 				int j = col * 2;
@@ -153,7 +153,7 @@ void Board::setBoard()
 void Board::setBoard(vector<tileType> tiles)
 {
 	//Fills board only if exact number of required tiles is supplied
-	if (tiles.size() == FLOOR_HEIGHT*FLOOR_WIDTH*NUMBER_FLOORS)
+	if (tiles.size() == F_HEIGHT*F_WIDTH*NUMBER_FLOORS)
 	{
 		vector<tileType> f[NUMBER_FLOORS];
 		for (int i = 0; i < NUMBER_FLOORS; i++)
@@ -184,9 +184,9 @@ void Board::parseBoard()
 	// Do some modifications to map because special tiles
 	for (int f = 0; f < NUMBER_FLOORS; f++)
 	{
-		for (int row = 0; row < FLOOR_HEIGHT; row++)
+		for (int row = 0; row < F_HEIGHT; row++)
 		{
-			for (int col = 0; col < FLOOR_WIDTH; col++)
+			for (int col = 0; col < F_WIDTH; col++)
 			{
 				Tile * tile = getTile(Coord(f, col, row));
 

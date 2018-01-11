@@ -58,8 +58,8 @@ using namespace std;
 
 /*BOARD SETTINGS*/
 #define NUMBER_FLOORS 3
-#define FLOOR_HEIGHT 4
-#define FLOOR_WIDTH 4
+#define F_HEIGHT 4
+#define F_WIDTH 4
 
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (NO_TYPE,0x00)

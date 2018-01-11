@@ -54,10 +54,13 @@ public:
 	// Tries to move current player to the given position
 	bool moveTo(Coord c);
 
+	// Returns a pointer to the game board
 	Board* getBoard() { return &board; };
 
+	// Returns a pointer to the first player
 	Player* player1() { return &player1_; };
 
+	// Returns a pointer to the second player
 	Player* player2() { return &player2_; };
 
 private:	

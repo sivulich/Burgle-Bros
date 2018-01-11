@@ -90,10 +90,10 @@ void Floor::print()
 
 void Floor::setTiles(vector<tileType> t)
 {
-	if (t.size() == 16)
+	if (t.size() == F_HEIGHT*F_WIDTH)
 	{
-		for (int j = 0; j < 16; j++)
-			setTile(j % 4, j / 4, t[j]);
+		for (int j = 0; j < F_HEIGHT*F_WIDTH; j++)
+			setTile(j % F_WIDTH, j / F_HEIGHT, t[j]);
 	}
 	else
 	{
@@ -123,10 +123,10 @@ bool Floor::moveGuard()
 	return ret;
 }
 
-void Floor::setMap(vector<Coord> a[4][4])
+void Floor::setMap(vector<Coord> a[F_WIDTH][F_HEIGHT])
 {
-	for (int i = 0; i < 4; i++)
-		for (int j = 0; j < 4; j++)
+	for (int i = 0; i < F_WIDTH; i++)
+		for (int j = 0; j < F_HEIGHT; j++)
 			adjacent[i][j] = a[i][j];
 	guard.setFloorMap(a);
 }
@@ -140,9 +140,9 @@ void Floor::setStairToken(Coord pos)
 vector<Coord>& Floor::getAlarms()
 {
 	alarms.clear();
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < F_WIDTH; i++)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < F_HEIGHT; j++)
 		{
 			if (tiles[i][j]->hasAlarm())
 				alarms.push_back(Coord(floorNumber, i, j));
@@ -159,11 +159,11 @@ void Floor::addAlarm(Coord c)
 
 void Floor::getThroughWalls(Coord c,list<Tile*>* adj)
 {
-	if (c.col < 4)
+	if (c.col < F_WIDTH)
 		adj->push_back(tiles[c.row][c.col + 1]);
 	if (c.col > 0)
 		adj->push_back(tiles[c.row][c.col - 1]);
-	if (c.row < 4)
+	if (c.row < F_HEIGHT)
 		adj->push_back(tiles[c.row + 1][c.col]);
 	if (c.row > 0)
 		adj->push_back(tiles[c.row - 1][c.col]);

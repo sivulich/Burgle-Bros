@@ -12,7 +12,7 @@ public:
 		Constructor
 		@param n number of the floor
 	*/
-	Floor(int n, PlayerInterface * p1, PlayerInterface * p2) :tiles(4, vector<Tile *>(4, nullptr)), guardDeck(n), guard(n, &guardDeck, p1, p2)
+	Floor(int n, PlayerInterface * p1, PlayerInterface * p2) :tiles(F_WIDTH, vector<Tile *>(F_HEIGHT, nullptr)), guardDeck(n), guard(n, &guardDeck, p1, p2)
 	{
 		floorNumber = n;
 		guard.setAlarms(&alarms);
@@ -32,9 +32,8 @@ public:
 		@param row Row of the tile
 	*/
 	Tile * tile(int col, int row);
-
 	/**
-
+		Sets current floor and give floor´s guard all active alarms locations.
 	*/
 	void setNumber(int n)
 	{
@@ -47,7 +46,6 @@ public:
 		Another way to access, with operator []
 	*/
 	vector<Tile*>& operator[] (unsigned i);
-
 	/**
 		Set a specific tile of type t in coord
 		@param col Column of the tile
@@ -55,19 +53,15 @@ public:
 		@param t type of the tile
 	*/
 	void setTile(int col, int row, tileType t);
-
 	/**
 		Add vector of tiles to floor
 		@param t Vector with the 16 tileTypes for the floor
-
 	*/
 	void setTiles(vector<tileType> t);
-
 	/**
 		Returns the number of the floor
 	*/
 	int number();
-
 	/**
 		Moves the guard of the floor
 	*/
@@ -76,47 +70,44 @@ public:
 		Receives a matrix of adjacency lists and copies it to the class
 		@param a Matrix of adjacency list
 	*/
-	void setMap(vector<Coord> a[4][4]);
-
+	void setMap(vector<Coord> a[F_WIDTH][F_HEIGHT]);
 	/**
-
+		Returns guard position in current floor (Coord)
 	*/
 	Coord guardPos() { return guard.getPos(); };
-
 	/**
-		Returns the guard of the floor // Fijar
+		Returns the guard of the floor
 	*/
 	Guard* getGuard() { return &guard; };
-
 	/**
 		Sets the position of the stair token
 		@param pos Position of the stair in the floor below
 	*/
 	void setStairToken(Coord pos);
-
 	/**
 		Return the position of the stair token
 	*/
 	Coord stairPos() { return stairToken; };
-
 	/**
 		Checks all tiles in the floor for an alarm ringing and
 		returns a vector with all the coordenates
 	*/
 	vector<Coord>& getAlarms();
-
 	/**
 		Adds an alarm to a tile
 	*/
 	void addAlarm(Coord c);
-
+	/**
+		Returns the patrol card deck associated with the current floor
+	*/
 	PatrolCardDeck* getPatrolDeck() { return &guardDeck; };
-
 	/**
 		If debug verbose defined print the floor in console
 	*/
 	void print();
-
+	/**
+		Given a coordinate adds tiles found up, right, left and down to adjacency list no matter if walls are found in between
+	*/
 	void getThroughWalls(Coord c, list<Tile*>* adj);
 
 private:
@@ -136,7 +127,7 @@ private:
 	vector<Coord> alarms;
 
 	//Adjacency map of the floor (only walls, no conection with other floors)
-	vector<Coord> adjacent[4][4];
+	vector<Coord> adjacent[F_WIDTH][F_HEIGHT];
 
 	// Position of the stair token
 	Coord stairToken;
