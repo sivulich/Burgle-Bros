@@ -1,15 +1,20 @@
 #include <GameController.h>
 #include "./GameFSM.h"
 
-GameController::GameController(GameModel * m, GameGraphics * g) : stateMachine(new GameFSM(m, g, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
+GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n) : stateMachine(new GameFSM(m, g, n, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
-
+	network = n;
 	model = m;
 	graphics = g;
-
+	connectedFlag = false;
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
 	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
-	
+
+	//	al_init_user_event_source(&BurgleNetwork::networkEventSource);
+	//	al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
+
+		//eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
+
 	renderTimer.start();
 	static_pointer_cast<GameFSM>(stateMachine)->start();
 };
@@ -29,14 +34,34 @@ bool GameController::isRunning()
 };
 
 
+
 void GameController::getInput()
 {
-	if (eventQueue.isEmpty() == false)
+	if (network->newEvent())
+	{
+		switch (network->getEvent().type)
+		{
+		case NETWORK_CONNECTED:
+			cout << "machinesConected" << endl;
+			s = "NEXT";
+			break;
+		}
+
+	}
+	else if (eventQueue.isEmpty() == false)
 	{
 		Event event = eventQueue.getEvent();
 
 		switch (event.getType())
 		{
+		case ALLEGRO_EVENT_TIMER:
+			if (event.getTimer() == guardTimer)
+			{
+				s = "MOVE";
+			}
+			else if (event.getTimer() == renderTimer)
+				s = "RENDER";
+			break;
 		case ALLEGRO_EVENT_DISPLAY_CLOSE:
 			s = "EXIT";
 			break;
@@ -72,16 +97,9 @@ void GameController::getInput()
 			//if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
 			//	graphics->zoomMode(false);
 			break;
-		case ALLEGRO_EVENT_TIMER:
-			if (event.getTimer() == guardTimer)
-			{
-				s = "MOVE";
-			}
-			else if (event.getTimer() == renderTimer)
-				s = "RENDER";
-			break;
 
 		}
+
 	}
 }
 
@@ -105,7 +123,10 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::remote());
 	else if (s == "PLAY")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::play());
-
+	else if (s == "CONNECT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::connect());
+	else if (s == "CANCEL")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::cancel());
 
 	else if (s == "MOVE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee());
@@ -135,18 +156,21 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::errorReceived());
 	else if (s == "ERROR_HANDLED")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::errorHandled());
+
+
 	else if (s == "YES")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
-
 	else if (s == "NO")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
+	else if (s == "OK")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ok());
 
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1)));
 
-	else if(s == "ACROBAT" || s == "SPOTTER" || s == "JUICER" || s == "HAWK" || s == "HACKER" || s == "RAVEN" || s == "PETERMAN")
+	else if (s == "ACROBAT" || s == "SPOTTER" || s == "JUICER" || s == "HAWK" || s == "HACKER" || s == "RAVEN" || s == "PETERMAN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
 
-	
-		
+
+
 }

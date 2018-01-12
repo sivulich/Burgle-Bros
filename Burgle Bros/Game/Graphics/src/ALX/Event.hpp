@@ -35,7 +35,7 @@ public:
         If the event is a user event, then it is automatically unrefd.
      */
     ~Event() {
-        if (_isUserEvent(get().type)) al_unref_user_event(&get().user);
+      //  if (_isUserEvent(get().type)) al_unref_user_event(&get().user);
     }
 
     /**

@@ -14,6 +14,7 @@ Textbox::Textbox(int y, int x, string& path, int fSize, int max)
 	titilate = new Timer(0.5);
 	queue << Keyboard::getEventSource();
 	fitToBox = false;
+	curPos = 0;
 	fontColor = al_map_rgba_f(0, 0, 0, 1);
 	boxColor = al_map_rgba_f(1, 1, 1, 1);
 	if (titilate != nullptr)
@@ -43,6 +44,7 @@ Textbox::Textbox(int x, int y, int w, int h, string& path)
 	titilate = new Timer(0.5);
 	queue << Keyboard::getEventSource();
 	fitToBox = true;
+	curPos = 0;
 	if (titilate != nullptr)
 	{
 		if (font != nullptr && font->get() != nullptr)
@@ -58,6 +60,10 @@ Textbox::Textbox(int x, int y, int w, int h, string& path)
 
 }
 
+void Textbox::setMax(int max)
+{
+	this->size = max;
+}
 
 string Textbox::click(int y, int x)
 {
@@ -129,19 +135,35 @@ Textbox::draw(Bitmap* target)
 	if (clicked == true && queue.isEmpty() == false)
 	{
 		event = queue.getEvent();
-
 		if (event.getType() == ALLEGRO_EVENT_KEY_CHAR)
 		{
-			int c = event.getKeyboardCharacter();
-			if (event.getKeyboardKeycode() == ALLEGRO_KEY_BACKSPACE && buffer.size() > 0)
-				buffer.pop_back();
-			else if (isascii(c) && (font->getWidth(buffer.c_str()) + font->getWidth("W") <= w - 10 && (fitToBox == true ? true : buffer.size() < size)))
-				buffer.push_back(c);
+			if (isprint(event.getKeyboardCharacter()) && (font->getWidth(buffer.c_str()) + font->getWidth("W") <= w - 10 && (fitToBox == true ? true : buffer.size() < size)))
+			{
+				buffer.insert(curPos, 1, event.getKeyboardCharacter());
+				curPos++;
+			}
+		}
+		else if (event.getType() == ALLEGRO_EVENT_KEY_DOWN)
+		{
+			int c = event.getKeyboardKeycode();
+			if (c == ALLEGRO_KEY_LEFT && curPos > 0)
+				curPos--;
+
+			else if (c == ALLEGRO_KEY_RIGHT && curPos < buffer.size())
+				curPos++;
+
+			else if (c == ALLEGRO_KEY_BACKSPACE && curPos > 0)
+			{
+				curPos--;
+				buffer.erase(curPos, 1);
+			}
+
 		}
 	}
+
 	font->draw(x + 5, y + 2, fontColor, buffer.c_str());
 	if (clicked == true && titilate->getCount() % 2 == 0)
-		al_draw_line(x + font->getHeight() / 5 + font->getWidth(buffer.c_str()), y, x + font->getHeight() / 5 + font->getWidth(buffer.c_str()), y + font->getHeight(), fontColor, 2);
+		al_draw_line(x + font->getWidth(buffer.substr(0, curPos).c_str()) + 3, y, x + font->getWidth(buffer.substr(0, curPos).c_str()) + 3, y + font->getHeight(), fontColor, 2);
 }
 
 string Textbox::getText()

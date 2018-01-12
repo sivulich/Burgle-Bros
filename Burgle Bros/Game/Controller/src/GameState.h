@@ -15,6 +15,7 @@
 
 #include <GameModel.h>
 #include <GameGraphics.h>
+#include <BurgleNetwork.h>
 #include <Configs.h>
 #include "./events.h"
 
@@ -30,6 +31,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
+	BurgleNetwork * network;
 	Timer * guardTimer;
 	action_ID currentAction; // Stores current action chosen by player
 
@@ -43,6 +45,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		fsm.model->otherPlayer()->setName(string("JULIETA"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->setBoard();
+		
 		fsm.graphics->showGameScreen();
 
 	}

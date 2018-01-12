@@ -20,6 +20,9 @@ public:
 	/** Draws the textbox to the target
 		@param target Target to draw the textbox in
 	*/
+
+	void setMax(int max);
+
 	void draw(Bitmap* target);
 	/** If the textbox is clicked it will return its name
 		@param y Mouse y coordinate
@@ -56,4 +59,5 @@ private:
 	bool fitToBox;
 	Timer* titilate;
 	int size;
+	int curPos;
 };

@@ -28,8 +28,7 @@ GameGraphics::GameGraphics(GameModel * m)
 			cont->setPosition(0, 0);
 
 			m->attach(this);
-			showingGameScreen = false;
-			showingSetupScreen = false;
+
 
 		}
 		else
@@ -44,6 +43,7 @@ GameGraphics::GameGraphics(GameModel * m)
 
 void GameGraphics::showMenuScreen()
 {
+	current_screen = MENU;
 	cont->clear();
 	cont->setBackground(string("./Graphics/Images/Menu/background.jpg"));
 
@@ -73,18 +73,39 @@ void GameGraphics::showMenuScreen()
 
 void GameGraphics::showModeScreen()
 {
+	current_screen = MODE;
 	cont->clear();
 	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
 
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/LOCAL.png")));
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/REMOTE.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png")));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png"), 0, 617));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png"),1134,631));
 }
 
+void GameGraphics::showIPScreen()
+{
+	current_screen = IP;
+	cont->clear();
+	cont->setBackground(string("./Graphics/Images/Screen - Mode/backgroundIP.jpg"));
+
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/CONNECT.png"),399,389));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png"),0,617));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png"), 1134, 631));
+
+	if (textBox != nullptr)
+		delete textBox;
+
+	textBox = new Textbox(537, 325, 260, 44, string("./Graphics/Images/arial_narrow.ttf"));
+	textBox->setMax(16);
+	textBox->setFontColor(al_map_rgba_f(1, 1, 1, 0.5));
+	textBox->setBoxColor(al_map_rgba_f(0, 0, 0, 0));
+	cont->addObject(textBox);
+}
 
 void GameGraphics::showCreditsScreen()
 {
+	current_screen = CREDITS;
 	cont->clear();
 	cont->clear();
 	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
@@ -93,6 +114,7 @@ void GameGraphics::showCreditsScreen()
 
 void GameGraphics::showRulesScreen()
 {
+	current_screen = RULES;
 	cont->clear();
 	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
@@ -102,39 +124,39 @@ void GameGraphics::showRulesScreen()
 
 void GameGraphics::showSetupScreen(int player)
 {
-	showingSetupScreen = true;
+	current_screen = SETUP;
 	cont->clear();
 	// Load buttons and character
 	Image*i;
 	cont->setBackground(string("./Graphics/Images/Setup/background.jpg"));
 	cont->addObject(new Image(string("./Graphics/Images/Setup/BACK.png"), 0, 616));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/NEXT.png"),1136,632));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/ACROBAT.png"),53,311));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/SPOTTER.png"),147,286));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/JUICER.png"),254,260));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/HAWK.png"),361,236));
-	i = new Image(string("./Graphics/Images/Setup/ROOK.png"),463,184);
+	cont->addObject(new Image(string("./Graphics/Images/Setup/NEXT.png"), 1136, 632));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/ACROBAT.png"), 53, 311));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/SPOTTER.png"), 147, 286));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/JUICER.png"), 254, 260));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/HAWK.png"), 361, 236));
+	i = new Image(string("./Graphics/Images/Setup/ROOK.png"), 463, 184);
 	i->disable();
 	cont->addObject(i);
-	cont->addObject(new Image(string("./Graphics/Images/Setup/HACKER.png"),597,190));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/RAVEN.png"),714,234));
-	i = new Image(string("./Graphics/Images/Setup/RIGGER.png"),880,247);
+	cont->addObject(new Image(string("./Graphics/Images/Setup/HACKER.png"), 597, 190));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/RAVEN.png"), 714, 234));
+	i = new Image(string("./Graphics/Images/Setup/RIGGER.png"), 880, 247);
 	i->disable();
 	cont->addObject(i);
-	cont->addObject(new Image(string("./Graphics/Images/Setup/PETERMAN.png"),1073,311));
+	cont->addObject(new Image(string("./Graphics/Images/Setup/PETERMAN.png"), 1073, 311));
 
 	// Load the textbox to enter the players name
 	textBox = new Textbox(574, 645, 270, 44, string("./Graphics/Images/arial_narrow.ttf"));
-	textBox->setFontColor(al_map_rgba_f(1,1,1,0.5));
-	textBox->setBoxColor(al_map_rgba_f(0,0,0,0));
+	textBox->setFontColor(al_map_rgba_f(1, 1, 1, 0.5));
+	textBox->setBoxColor(al_map_rgba_f(0, 0, 0, 0));
 	cont->addObject(textBox);
 
 	// Load player number
 	if (player == 1)
-		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"),592,120);
+		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"), 592, 120);
 
 	else if (player == 2)
-		i = new Image(string("./Graphics/Images/Setup/PLAYER2.png"),592, 120);
+		i = new Image(string("./Graphics/Images/Setup/PLAYER2.png"), 592, 120);
 	else
 		i = nullptr;
 
@@ -146,10 +168,12 @@ void GameGraphics::showSetupScreen(int player)
 	}
 }
 
+
+
 // 
 void GameGraphics::showGameScreen()
 {
-	showingGameScreen = true;
+	current_screen = GAME;
 	cont->clear();
 	cont->setBackground(string("./Graphics/Images/Screen - Game/background.jpg"));
 	// And observers for the board and player
@@ -165,10 +189,15 @@ void GameGraphics::setBorderVisible(bool b)
 
 string GameGraphics::getPlayerName()
 {
-	if (showingSetupScreen)
+	if (current_screen = SETUP)
 		return textBox->getText();
 }
 
+string GameGraphics::getIP()
+{
+	if (current_screen = IP)
+		return textBox->getText();
+}
 void GameGraphics::render()
 {
 	screen->draw();
@@ -176,7 +205,7 @@ void GameGraphics::render()
 
 void GameGraphics::update()
 {
-	if (showingGameScreen)
+	if (current_screen = GAME)
 	{
 		board->update();
 		hud->update();
@@ -200,8 +229,27 @@ void GameGraphics::unclick(int y, int x)
 
 void GameGraphics::askQuestion(string question)
 {
-	//questionBox = new QuestionBox(question);
-	//cont->addObject(question);
+	dialogBox = new DialogBox(DialogBox::YES_NO_MSG,question,cont);
+}
+
+void GameGraphics::showOkMessage(string message)
+{
+	dialogBox = new DialogBox(DialogBox::OK_MSG, message, cont);
+}
+void GameGraphics::showCancelMessage(string message)
+{
+	dialogBox = new DialogBox(DialogBox::CANCEL_MSG, message, cont);
+}
+
+void GameGraphics::showTempMessage(string message)
+{
+	dialogBox = new DialogBox(DialogBox::TEMPORAL_INFO, message, cont);
+}
+
+void GameGraphics::removeDialogBox()
+{
+	if (dialogBox != nullptr)
+		dialogBox->remove();
 }
 
 void GameGraphics::closeQuestion()

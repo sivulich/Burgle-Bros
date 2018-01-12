@@ -22,6 +22,7 @@ public:
 		@Returns the a tile in the board (Tile *)
 	*/
 	Tile * getTile(Coord c);
+	vector<tileType> getTileSetup();
 	 /**
 		@Returns the i-th floor guard(Guard *)
 	 */

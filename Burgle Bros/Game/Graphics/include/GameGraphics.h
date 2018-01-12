@@ -6,6 +6,7 @@
 #include "../Graphic Objects/Screen.h"
 #include "../Graphic Objects/Container.h"
 #include "../Graphic Objects/Textbox.h"
+#include "../Graphic Objects/DialogBox.h"
 #include "../Observers/Observer.h"
 #include "../Observers/BoardObserver.h"
 #include "../Observers/HudObserver.h"
@@ -36,11 +37,24 @@ public:
 	// Interacts upon a click up, returns objet name
 	void unclick(int y, int x);
 
-	// Pop up a message to answer yes or no
+	// Pop up a message to answer YES or NO
 	void askQuestion(string question);
+
+	// Pop up a message to answer OK
+	void showOkMessage(string message);
+
+	//
+	void showCancelMessage(string message);
+
+	// Show temp message, must call 'removeDialogBox' 
+	void showTempMessage(string message);
+
+	// If dialog box is set with no buttons, removes it
+	void removeDialogBox();
 
 	// When answered, call this function
 	void closeQuestion();
+
 	// Set as clickable the given tiles (and illuminate them), and not clickable the other ones.
 	void setTilesClickable(vector<Coord> tiles);
 
@@ -54,7 +68,7 @@ public:
 	EventSource getScreenEventSource() { return screen->getDisplay()->getEventSource(); }
 
 	// Return true if guard is moving
-	bool guardIsMoving() { if (showingGameScreen) return board->guardIsMoving(); };
+	bool guardIsMoving() { if (current_screen = GAME) return board->guardIsMoving(); };
 	// Create graphic objects to represent game model on scren
 
 
@@ -67,18 +81,23 @@ public:
 	//
 	void showModeScreen();
 	
+	void showIPScreen();
+
 	void showSetupScreen(int player = 0);
 
 	// Shows the game screen
 	void showGameScreen();
 
+	// In setup screen get players name
 	string getPlayerName();
-
+	// In IP screen get IP
+	string getIP();
 private:
 	bool initOK_;
-	bool showingGameScreen;
-	bool showingSetupScreen;
 
+	typedef enum {MENU,RULES,CREDITS,MODE,SETUP,IP,GAME} SCREEN;
+	SCREEN current_screen;
+	
 	// Pointer to the Game Model
 	GameModel * model;
 
@@ -87,6 +106,7 @@ private:
 	Container* cont;
 
 	Textbox * textBox;
+	DialogBox * dialogBox;
 	Image * blur;
 	// Observers
 	BoardObserver* board;

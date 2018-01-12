@@ -1,23 +1,48 @@
 #include "Text.h"
 
-Text::Text(string& font)
+Text::Text(string font)
 {
 	f = new Font(font.c_str());
 	content = string("");
-	if (f != nullptr)
+	if (f->get() != nullptr)
 		initOk = true;
 
 }
 
-Text::Text(string& font, Color c, int size, int xpos, int ypos) : Object(font, xpos, ypos, 0, 0, 1)
+Text::Text(string font, Color c, int size, int xpos, int ypos) : Object(font, xpos, ypos, 0, 0, 1)
 {
 	// Load font
+	initOk = false;
 	f = new Font(font.c_str(), size);
-	color = c;
-	content = string("");
-	if (f != nullptr)
+	if (f->get() != nullptr)
+	{
+		color = c;
+		content = string("");
 		initOk = true;
+	}
+	else DEBUG_MSG("Error loading font " + font);
 }
+
+Text::Text(string font, string content, Color c, int size, int xpos, int ypos) : Object(font, xpos, ypos, 0, 0, 1)
+{
+	// Load font
+	initOk = false;
+	f = new Font(font.c_str(), size);
+	
+	if (f->get() != nullptr)
+	{
+		color = c;
+
+		initOk = true;
+
+		this->content = content;
+		w = f->getWidth(content.c_str());
+		h = f->getHeight();
+	}
+	else DEBUG_MSG("Error loading font " + font);
+
+}
+
 
 void Text::setText(string s)
 {

@@ -1,8 +1,8 @@
 #pragma once
 #pragma once
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
-#define BOOST_MPL_LIMIT_VECTOR_SIZE 30 //or whatever you need                       
-#define BOOST_MPL_LIMIT_MAP_SIZE 30 //or whatever you need 
+#define BOOST_MPL_LIMIT_VECTOR_SIZE 40 //or whatever you need                       
+#define BOOST_MPL_LIMIT_MAP_SIZE 40 //or whatever you need 
 
 #include <iostream>
 // Back-end:
@@ -16,6 +16,7 @@
 
 #include <GameModel.h>
 #include <GameGraphics.h>
+#include <BurgleNetwork.h>
 #include <Configs.h>
 #include "./GameFSM.h"
 #include "./GameState.h"
@@ -31,17 +32,21 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	GameFSM_() { };
 
 	// Constructor which receives a pointer to the model
-	GameFSM_(GameModel * m, GameGraphics * g, Timer * t)
+	GameFSM_(GameModel * m, GameGraphics * g, BurgleNetwork * n, Timer * t)
 	{
 		model = m;
 		graphics = g;
+		network = n;
 		guardTimer = t;
 	};
 
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
+	BurgleNetwork * network;
 	Timer * guardTimer;
+	enum { UNSET, LOCAL, REMOTE };
+	int gameMode;
 	//-------------------------------------------------------------
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
@@ -53,6 +58,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		s.model = fsm.model;
 		s.graphics = fsm.graphics;
 		s.guardTimer = fsm.guardTimer;
+		s.network = fsm.network;
 	}
 
 	template <class EVT, class FSM>
@@ -122,6 +128,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Mode selection" << std::endl;
+			fsm.gameMode = UNSET;
 			fsm.graphics->showModeScreen();
 		}
 
@@ -132,7 +139,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		}
 	};
 
-	struct LocalSetupScreen : public msm::front::state<>
+	struct SetupScreen : public msm::front::state<>
 	{
 		bool player1set;
 		bool player2set;
@@ -140,10 +147,20 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "LocalSetup" << std::endl;
-			fsm.graphics->showSetupScreen(1);
-			player1set = false;
-			player2set = false;
+			if (fsm.gameMode == UNSET) // LOCAL
+			{
+				fsm.gameMode = LOCAL;
+				std::cout << "LocalSetup" << std::endl;
+				fsm.graphics->showSetupScreen(1);
+				player1set = false;
+				player2set = false;
+			}
+			else // REMOTE
+			{
+				std::cout << "RemoteSetup" << std::endl;
+				fsm.graphics->showSetupScreen();
+			}
+
 		}
 
 		template <class EVT, class FSM>
@@ -153,19 +170,36 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		}
 	};
 
+	struct IPScreen : public msm::front::state<>
+	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+			std::cout << "Set IP direction" << std::endl;
+			fsm.gameMode = REMOTE;
+			fsm.graphics->showIPScreen();
+		}
+
+	};
+
+	struct Connecting : public msm::front::state<>
+	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+			std::cout << "Connecting" << std::endl;
+		}
+
+	};
 	struct RemoteSetupScreen : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Remote setup" << std::endl;
+			std::cout << "Set IP direction" << std::endl;
+			fsm.graphics->showIPScreen();
 		}
 
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
 	};
 
 	// -------------------- ORTHOGONAL REGION ------------------
@@ -249,18 +283,28 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-					if (source.player1set == false)
-						fsm.model->player1()->setCharacter(event.character);
-					else if (source.player2set == false)
-						fsm.model->player2()->setCharacter(event.character);
+			if (fsm.gameMode == LOCAL)
+			{
+				if (source.player1set == false)
+					fsm.model->player1()->setCharacter(event.character);
+				else if (source.player2set == false)
+					fsm.model->player2()->setCharacter(event.character);
+			}
+			else if (fsm.gameMode == REMOTE)
+			{
+				fsm.model->player1()->setCharacter(event.character);
+			}
+
 		}
 	};
 
-	struct dolocalSetup
+	struct doSetup
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
+			if (fsm.gameMode == LOCAL)
+			{
 				if (source.player1set == false && fsm.model->player1()->hasCharacter())
 				{
 					source.player1set = true;
@@ -283,86 +327,136 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 					}
 				}
 			}
-		};
-
-
-		struct doRender
-		{
-			template <class EVT, class FSM, class SourceState, class TargetState>
-			void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+			else if (fsm.gameMode == REMOTE)
 			{
-				fsm.graphics->render();
+
 			}
-
-		};
-
-		///////////// GUARDSSSSS
-
-		struct isMoving
-		{
-			template <class EVT, class FSM, class SourceState, class TargetState>
-			bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-			{
-				return 	fsm.currentAction == MOVE;
-			}
-		};
-
-		// Transition table for main FSM
-		struct transition_table : mpl::vector<
-			//       Start        Event         Next         Action         Guard
-			//  +------------+-------------+------------+--------------+--------------+
-			Row < MenuScreen, ev::start, ModeScreen, none, none       >,
-			Row < MenuScreen, ev::rules, RulesScreen, none, none       >,
-			Row < MenuScreen, ev::credits, CreditsScreen, none, none       >,
-
-			Row < ModeScreen, ev::local, LocalSetupScreen, none, none >,
-			Row <ModeScreen, ev::remote, RemoteSetupScreen, none, none >,
-			Row <ModeScreen, ev::back, MenuScreen, none, none >,
-
-			Row <RulesScreen, ev::back, MenuScreen, none, none >,
-
-			Row <CreditsScreen, ev::back, MenuScreen, none, none >,
-
-			Row < LocalSetupScreen, ev::back, MenuScreen, none, none >,
-			Row < LocalSetupScreen, ev::characterName, none, setUpCharacter, none >,
-			Row < LocalSetupScreen, ev::next, none, dolocalSetup, none >,
-			Row < LocalSetupScreen, ev::play, GameState, none, none >,
-
-			Row <GameState, ev::back, MenuScreen, none, none >,
-			//Row <, , , , >,
-			//Row <, , , , >,
-			//Row <, , , , >,
-			//Row <, , , , >,
-			//Row <, , , , >,
-
-
-			
-			//--------------------------Orthogonal region-----------------------------//
-			//  +------------+-------------+------------+--------------+--------------+
-			Row <   playing, ev::close, exit, none, none     >,
-			//Row <   playing, ev::errorReceived, error, none, none     >,
-			Row <   playing, ev::pause, paused, none, none     >,
-			//Row <   playing, ev::render, none, doRender, none     >,
-
-			//  +------------+-------------+------------+--------------+--------------+
-			Row <   paused, ev::pause, playing, none, none     >
-			/*Row <   paused, ev::close, exit, none, none     >,
-			Row <   paused, ev::render, paused, doRender, none     >,
-			//  +------------+-------------+------------+--------------+--------------+
-			Row <   error, ev::errorHandled, playing, none, none     >,
-			Row <   error, ev::close, exit, none, none     >,
-			Row <   error, ev::render, none, doRender, none     >
-			//  +------------+-------------+------------+--------------+--------------+*/
-		> {};
-
-		typedef mpl::vector<playing, GameState> initial_state;
-
-		// Replaces the default no-transition response.
-		template <class FSM, class EVT>
-		void no_transition(EVT const&  event, FSM& fsm, int state)
-		{
-			std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
 		}
 	};
-	// Pick a back-end
-	typedef msm::back::state_machine<GameFSM_> GameFSM;
+
+	struct doConnect
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			cout << "Connecting computers" << endl;
+			string IP = fsm.graphics->getIP();
+
+			fsm.network->connect(IP);
+			fsm.graphics->showCancelMessage(string("Connecting... Please wait."));
+		}
+
+	};
+
+	struct removeMessage
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			fsm.graphics->removeDialogBox();
+		}
+
+	};
+
+
+	struct stopConnecting
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			fsm.network->cancelConnecting();
+		}
+
+	};
+
+	struct doRender
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			fsm.graphics->render();
+		}
+
+	};
+
+	///////////// GUARDSSSSS
+
+	struct isLocal
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return 	fsm.gameMode == LOCAL;
+		}
+	};
+
+	struct isRemote
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return 	fsm.gameMode == REMOTE;
+		}
+	};
+
+	// Transition table for main FSM
+	struct transition_table : mpl::vector<
+		//       Start        Event         Next         Action         Guard
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < MenuScreen, ev::start, ModeScreen, none, none >,
+		Row < MenuScreen, ev::rules, RulesScreen, none, none >,
+		Row < MenuScreen, ev::credits, CreditsScreen, none, none >,
+
+		Row < ModeScreen, ev::local, SetupScreen, none, none >,
+		Row < ModeScreen, ev::remote, IPScreen, none, none >,
+		Row < ModeScreen, ev::back, MenuScreen, none, none >,
+
+		Row < RulesScreen, ev::back, MenuScreen, none, none >,
+
+		Row < CreditsScreen, ev::back, MenuScreen, none, none >,
+
+		Row < SetupScreen, ev::back, ModeScreen, none, isLocal >,
+		Row < SetupScreen, ev::back, IPScreen, none, isRemote >,
+		Row < SetupScreen, ev::characterName, none, setUpCharacter, none >,
+		Row < SetupScreen, ev::next, none, doSetup, none >,
+		Row < SetupScreen, ev::play, GameState, none, none >,
+
+		Row < IPScreen, ev::back, ModeScreen, none, none >,
+		Row < IPScreen, ev::connect, none, doConnect, none >,
+		Row < IPScreen, ev::next, SetupScreen, removeMessage, none >,
+		Row < IPScreen, ev::cancel, none, stopConnecting, none >,
+		//Row < RemoteSetupScreen, ev::characterName, none, setUpCharacter, none >,
+//		Row < RemoteSetupScreen, ev::next, none, doRemoteSetup, none >,
+//	    Row < RemoteSetupScreen, ev::play, GameState, none, none >,
+
+Row <GameState, ev::back, MenuScreen, none, none >,
+
+//--------------------------Orthogonal region-----------------------------//
+//  +------------+-------------+------------+--------------+--------------+
+Row <   playing, ev::close, exit, none, none     >,
+//Row <   playing, ev::errorReceived, error, none, none     >,
+Row <   playing, ev::pause, paused, none, none     >,
+//Row <   playing, ev::render, none, doRender, none     >,
+
+//  +------------+-------------+------------+--------------+--------------+
+Row <   paused, ev::pause, playing, none, none     >,
+Row <   paused, ev::close, exit, none, none     >
+/*Row <   paused, ev::render, paused, doRender, none     >,
+//  +------------+-------------+------------+--------------+--------------+
+Row <   error, ev::errorHandled, playing, none, none     >,
+Row <   error, ev::close, exit, none, none     >,
+Row <   error, ev::render, none, doRender, none     >
+//  +------------+-------------+------------+--------------+--------------+*/
+	> {};
+
+	typedef mpl::vector<playing, MenuScreen> initial_state;
+
+	// Replaces the default no-transition response.
+	template <class FSM, class EVT>
+	void no_transition(EVT const&  event, FSM& fsm, int state)
+	{
+		std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
+	}
+};
+// Pick a back-end
+typedef msm::back::state_machine<GameFSM_> GameFSM;
