@@ -224,7 +224,6 @@
     <ClInclude Include="Graphics\src\Graphic Objects\Image.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\object.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\ObjectInterface.h" />
-    <ClInclude Include="Graphics\src\Graphic Objects\QuestionBox.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Screen.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Text.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Textbox.h" />
@@ -296,7 +295,6 @@
     <ClInclude Include="Model\src\Tiles\Thermo.h" />
     <ClInclude Include="Model\src\Tiles\TileFactory.h" />
     <ClInclude Include="Model\src\Tiles\Walkway.h" />
-    <ClInclude Include="Network\include\BurgleNetwork.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller\src\GameController.cpp" />
@@ -313,7 +311,6 @@
     <ClCompile Include="Graphics\src\Graphic Objects\Container.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Image.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\object.cpp" />
-    <ClCompile Include="Graphics\src\Graphic Objects\QuestionBox.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Screen.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Text.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Textbox.cpp" />
@@ -379,7 +376,6 @@
     <ClCompile Include="Model\src\Tiles\Tile.cpp" />
     <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
-    <ClCompile Include="Network\src\BurgleNetwork.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

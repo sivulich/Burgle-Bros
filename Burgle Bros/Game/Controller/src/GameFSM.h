@@ -32,18 +32,18 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	GameFSM_() { };
 
 	// Constructor which receives a pointer to the model
-	GameFSM_(GameModel * m, GameGraphics * g, BurgleNetwork * n, Timer * t)
+	GameFSM_(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/, Timer * t)
 	{
 		model = m;
 		graphics = g;
-		network = n;
+		//network = n;
 		guardTimer = t;
 	};
 
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
-	BurgleNetwork * network;
+	//BurgleNetwork * network;
 	Timer * guardTimer;
 	enum { UNSET, LOCAL, REMOTE };
 	int gameMode;
@@ -58,7 +58,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		s.model = fsm.model;
 		s.graphics = fsm.graphics;
 		s.guardTimer = fsm.guardTimer;
-		s.network = fsm.network;
+		//s.network = fsm.network;
 	}
 
 	template <class EVT, class FSM>
@@ -342,8 +342,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			cout << "Connecting computers" << endl;
 			string IP = fsm.graphics->getIP();
 
-			fsm.network->connect(IP);
-			fsm.graphics->showCancelMessage(string("Connecting... Please wait."));
+			//fsm.network->connect(IP);
+			//fsm.graphics->showCancelMessage(string("Connecting... Please wait."));
 		}
 
 	};
@@ -353,7 +353,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			fsm.graphics->removeDialogBox();
+			//fsm.graphics->removeDialogBox();
 		}
 
 	};
@@ -364,7 +364,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			fsm.network->cancelConnecting();
+			//fsm.network->cancelConnecting();
 		}
 
 	};

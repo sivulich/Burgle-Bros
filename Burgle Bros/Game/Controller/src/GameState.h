@@ -31,7 +31,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
-	BurgleNetwork * network;
+	//BurgleNetwork * network;
 	Timer * guardTimer;
 	action_ID currentAction; // Stores current action chosen by player
 

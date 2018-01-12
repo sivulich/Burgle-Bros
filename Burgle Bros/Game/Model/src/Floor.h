@@ -59,6 +59,10 @@ public:
 	*/
 	void setTiles(vector<tileType> t);
 	/**
+	
+	*/
+	vector<tileType> Floor::getTileSetup();
+	/**
 		Returns the number of the floor
 	*/
 	int number();

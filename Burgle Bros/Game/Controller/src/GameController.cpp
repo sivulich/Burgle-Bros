@@ -1,9 +1,9 @@
 #include <GameController.h>
 #include "./GameFSM.h"
 
-GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n) : stateMachine(new GameFSM(m, g, n, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
+GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/) : stateMachine(new GameFSM(m, g/*, n*/, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
-	network = n;
+	//network = n;
 	model = m;
 	graphics = g;
 	connectedFlag = false;
@@ -37,7 +37,7 @@ bool GameController::isRunning()
 
 void GameController::getInput()
 {
-	if (network->newEvent())
+	/*if (network->newEvent())
 	{
 		switch (network->getEvent().type)
 		{
@@ -48,7 +48,7 @@ void GameController::getInput()
 		}
 
 	}
-	else if (eventQueue.isEmpty() == false)
+	else*/ if (eventQueue.isEmpty() == false)
 	{
 		Event event = eventQueue.getEvent();
 
