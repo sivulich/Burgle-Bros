@@ -3,10 +3,10 @@
 
 string Spotter::getAction(PlayerInterface * player) 
 {
-	//if (player->currentTurn() != lastTurnUsed())
+	if (true == canUseAbility())
 	{
 		return "SPY_PATROL";
 	}
-	//else
+	else
 		return "";
 }
