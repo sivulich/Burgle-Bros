@@ -10,7 +10,7 @@ public:
 	/**
 		@addparams Receives a pointer to the guard deck
 	*/
-	Guard(unsigned n,PatrolCardDeck*p, PlayerInterface * p1, PlayerInterface* p2) : pos(NPOS), floorNumber(n), player1(p1), player2(p2), patroldeck(p)
+	Guard(unsigned n, PatrolCardDeck*p, PlayerInterface * p1, PlayerInterface* p2) : pos(NPOS), movedOnce(false), floorNumber(n), player1(p1), player2(p2), patroldeck(p)
 	{
 		pos = NPOS;
 		speed = 2 + n;
@@ -60,6 +60,10 @@ public:
 	void GuardCheck();
 
 	/**
+	
+	*/
+	void checkPlayer(PlayerInterface * p);
+	/**
 		Prints guard current guard position and active patrol card
 	*/
 	void print();
@@ -101,14 +105,28 @@ public:
 	
 	*/
 	Coord getTarget() { return target; };
+
+	/**
+	
+	*/
+	unsigned getCurrSteps() { return currsteps; };
 	/**
 	
 	*/
 	void isMyTurn(bool b) { myturn = b;};
+	/**
+	Returns true if the guard moved at least one during the turn, else returns false
+	*/
+	bool alreadyMoved() { return movedOnce; };
+
+	/**
+	
+	*/
+	void moved(bool b) { movedOnce = b; };
 private:
-	unsigned speed, currsteps,floorNumber;
+	unsigned speed, currsteps, floorNumber;
 	Coord pos;
-	bool myturn;
+	bool myturn, movedOnce;
 	vector<Coord> * alarms;
 	Coord expectedMov;
 	Coord target;

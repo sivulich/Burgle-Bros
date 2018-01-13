@@ -28,6 +28,7 @@ void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
 	tile->turnUp();
+	tile->updateVisibleFrom(this);
 	notify();
 }
 
@@ -280,6 +281,7 @@ void Player::print()
 void Player::removeStealthToken()
 {
 	stealthTokens--;
+	cout << this->name << " lost a stealth token" << endl;
 	if (stealthTokens == 0)
 		DEBUG_MSG("NO STEALTH TOKENS LEFT, YOU ARE DEADDDDD");
 	notify();

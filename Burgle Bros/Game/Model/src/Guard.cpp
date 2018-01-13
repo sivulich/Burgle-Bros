@@ -13,9 +13,19 @@ void Guard::setFloorMap(vector<Coord> floor[4][4])
 	}
 }
 
+void Guard::checkPlayer(PlayerInterface * p)
+{
+	for (auto &it : p->getVisibleFrom())
+	{
+		if (it == pos)
+		{
+			p->removeStealthToken();
+			break;
+		}
+	}
+}
 
-
-// guard checks if his current position 
+// guard checks if in his current position a player is found
 void Guard::GuardCheck()
 {
 		for (auto &it : player1->getVisibleFrom())
@@ -84,6 +94,7 @@ void Guard::locateGuard()
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		expectedMov = p->getCoord();
 		cout << "First guard expected movement" << expectedMov << endl;
+		this->GuardCheck();
 		notify();
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
@@ -97,6 +108,7 @@ bool Guard::move()
 	if (!path.empty())
 	{
 		pos = path.front();
+		this->GuardCheck();
 		//DEBUG_MSG("Guard has moved to" << pos << endl);
 		if (currsteps > 0)
 			currsteps--;

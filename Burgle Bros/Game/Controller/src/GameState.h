@@ -39,7 +39,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-		fsm.model->currentPlayer()->setCharacter(JUICER);
+		fsm.model->currentPlayer()->setCharacter(ACROBAT);
 		fsm.model->otherPlayer()->setCharacter(RAVEN);
 		fsm.model->currentPlayer()->setName(string("Prueba"));
 		fsm.model->otherPlayer()->setName(string("Resto"));
@@ -249,6 +249,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			bool b = fsm.model->currentPlayer()->move(event.c);
 			if (b == false)
 				std::cout << "Cant move!" << std::endl;
+			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
+				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 
 			fsm.currentAction = NO_TYPE;
 		}

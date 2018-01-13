@@ -67,9 +67,9 @@ public:
 	*/
 	int number();
 	/**
-		Moves the guard of the floor
+		Moves the guard of the floor. Bool true if currentPlayer is Acrobat
 	*/
-	bool moveGuard();
+	bool moveGuard(PlayerInterface * p);
 	/**
 		Receives a matrix of adjacency lists and copies it to the class
 		@param a Matrix of adjacency list
@@ -118,6 +118,11 @@ public:
 		Call in order to update guard destination during player turn
 	*/
 	void updateGuard() { guard.updateDestination(); };
+
+	/**
+	
+	*/
+	void guardChek() { guard.GuardCheck(); };
 
 private:
 	// Matrix of pointers to the base class Tile

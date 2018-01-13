@@ -60,6 +60,15 @@ public:
 		Updates guard in f floor during player turn
 	*/
 	void updateGuard(unsigned f) { if (f < 3) { floor[f]->updateGuard(); } };
+	/**
+	
+	*/
+	void checkGuard(unsigned f) { if (f < 3) { floor[f]->guardChek(); } };
+
+	/**
+	
+	*/
+	void checkOnePlayer(PlayerInterface * p, unsigned f);
 private:
 	/**
 		Sets the vector of tiles the safe needs to be cracked 

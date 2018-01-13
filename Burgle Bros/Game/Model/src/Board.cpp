@@ -323,3 +323,11 @@ void Board::prepSafeTile(Safe * safe) {
 			safe->addCrackTile(getTile(Coord(safe->floor(),safe->col(),index)));	// add the tile in that floor, row and i column
 	}
 }
+
+void Board::checkOnePlayer(PlayerInterface * p, unsigned f)
+{
+	if (f < 3)
+	{
+		this->floor[f]->getGuard()->checkPlayer(p);
+	};
+}

@@ -124,12 +124,14 @@ int Floor::number()
 	return floorNumber;
 };
 
-bool Floor::moveGuard()
+bool Floor::moveGuard(PlayerInterface * p)
 {
 	// Update the list of alarms in the floor
 	getAlarms();
-
+	if (!guard.alreadyMoved() && p->getCharacter() == toEnum_characterType("ACROBAT"))
+		guard.checkPlayer(p);
 	bool ret = guard.move();
+	guard.moved(ret);
 	tiles[guard.getPos().col][guard.getPos().row]->setAlarm(false);
 	return ret;
 }

@@ -30,9 +30,9 @@ HudObserver::HudObserver(GameModel * m,BoardObserver*b, Container * c)
 				{ string("OFFER_LOOT"),		new Image(string("../Game/Graphics/Images/Actions/OFFER_LOOT.png"),663,26)   },
 				{ string("REQUEST_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/REQUEST_LOOT.png"),691,26) },
 				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),577,24) },
-		//		{ string("PLACE_CROW"),		new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"),BUTTON4_XPOS,BUTTON4_YPOS,ACTION_SIZE,ACTION_SIZE)   },
-				{ string("CREATE_ALARM"),	new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), BUTTON5_XPOS, BUTTON5_YPOS, ACTION_SIZE, ACTION_SIZE) }  };
-		//		{ string("SPY_PATROL"),		new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"),BUTTON6_XPOS,BUTTON6_YPOS,ACTION_SIZE,ACTION_SIZE)   } };
+				{ string("PLACE_CROW"),		new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"),BUTTON4_XPOS,BUTTON4_YPOS,ACTION_SIZE,ACTION_SIZE)   } };
+				//{ string("CREATE_ALARM"),	new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), BUTTON5_XPOS, BUTTON5_YPOS, ACTION_SIZE, ACTION_SIZE) },
+				//{ string("SPY_PATROL"),		new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"),BUTTON6_XPOS,BUTTON6_YPOS,ACTION_SIZE,ACTION_SIZE)   } };
 	for (auto& a : actions)
 	{
 		a.second->disable();

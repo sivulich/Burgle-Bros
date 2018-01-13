@@ -99,7 +99,7 @@ void GameModel::moveGuard()
 	int floor = currentPlayer_->getPosition().floor;
 	board[floor].getGuard()->isMyTurn(true);
 
-	guardIsMoving_ = board[floor].moveGuard();
+	guardIsMoving_ = board[floor].moveGuard(currentPlayer_);
 	if(guardIsMoving_ == false)
 		board[floor].getGuard()->isMyTurn(false);
 
