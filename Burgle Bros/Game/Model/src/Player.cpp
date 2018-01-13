@@ -140,14 +140,15 @@ vector<Coord> Player::whereCanIPeek()
 vector<Coord> Player::getAdjacentInFloor()
 {
 	vector<Coord> v = currentTile->getAdjacent();
+	vector<Coord> noAlarm;
 	for (vector<Coord>::iterator i=v.begin();i!=v.end();i++)
 	{
-		if (board->getTile(*i)->hasAlarm() || (this->getPosition().floor != i->floor))
+		if (!board->getTile(*i)->hasAlarm() || (this->getPosition().floor == i->floor))
 		{
-			v.erase(i);
+			noAlarm.push_back(*i);
 		}
 	}
-	return v;
+	return noAlarm;
 }
 
 bool Player::peek(Coord c)
@@ -178,6 +179,7 @@ bool Player::createAlarm(Coord c)
 		this->getActionTokens();
 		this->useAbility(true);
 		board->getTile(c)->setAlarm(true);
+		this->removeActionToken();
 		cout << "Alarm created in Floor: " << c.floor << " col: " << c.col << " row; " << c.row << endl;
 		notify();
 		return true;
