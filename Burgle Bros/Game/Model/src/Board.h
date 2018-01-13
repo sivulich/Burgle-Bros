@@ -55,6 +55,11 @@ public:
 	*/
 	//NO SE ESTA USANDO SE USA PARA ALGUNA TILE EN PARTICULAR????//
 	void adjThroughWalls(Coord c, list<Tile*>* adj) { if (c.floor < 4) floor[c.floor]->getThroughWalls(c, adj); };
+
+	/**
+		Updates guard in f floor during player turn
+	*/
+	void updateGuard(unsigned f) { if (f < 3) { floor[f]->updateGuard(); } };
 private:
 	/**
 		Sets the vector of tiles the safe needs to be cracked 

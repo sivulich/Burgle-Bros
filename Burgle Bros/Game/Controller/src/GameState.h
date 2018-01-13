@@ -316,7 +316,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			bool b = fsm.model->currentPlayer()->createAlarm(event.c);
 			if (b == false)
 				std::cout << "Cant create Alarm!" << std::endl;
-
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -458,7 +457,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Alarm can be created on the following tiles: ";
-			vector<Coord> v = fsm.model->currentPlayer()->getAdjacentInFloor();
+			vector<Coord> v = fsm.model->currentPlayer()->getAdjacentJuicer();
 			Coord::printVec(v);
 			std::cout << std::endl;
 			fsm.currentAction = CREATE_ALARM;

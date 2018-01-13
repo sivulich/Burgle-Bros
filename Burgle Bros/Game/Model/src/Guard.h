@@ -42,6 +42,11 @@ public:
 		@return boolean value, true if alarm was succesfully turned off, else false is returned
 	*/
 	bool removeAlarm(Coord coord);
+	
+	/**
+		Call to refresh guard destination during player turn
+	*/
+	void updateDestination() { this->FindPath(this->pos); notify(); };
 
 	/**
 		Moves the guard one position, if the guard steps on the current target a new one is added (if the patrol deck has to be reseted guard base speed increases)

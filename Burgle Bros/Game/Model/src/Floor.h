@@ -114,6 +114,11 @@ public:
 	*/
 	void getThroughWalls(Coord c, list<Tile*>* adj);
 
+	/**
+		Call in order to update guard destination during player turn
+	*/
+	void updateGuard() { guard.updateDestination(); };
+
 private:
 	// Matrix of pointers to the base class Tile
 	vector<vector<Tile*>> tiles;

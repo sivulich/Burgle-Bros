@@ -137,13 +137,13 @@ vector<Coord> Player::whereCanIPeek()
 
 }
 
-vector<Coord> Player::getAdjacentInFloor()
+vector<Coord> Player::getAdjacentJuicer()
 {
 	vector<Coord> v = currentTile->getAdjacent();
 	vector<Coord> noAlarm;
 	for (vector<Coord>::iterator i=v.begin();i!=v.end();i++)
 	{
-		if (!board->getTile(*i)->hasAlarm() || (this->getPosition().floor == i->floor))
+		if (!(board->getTile(*i)->hasAlarm()) && (this->getPosition().floor == i->floor))
 		{
 			noAlarm.push_back(*i);
 		}
@@ -174,7 +174,7 @@ bool Player::peek(Tile * newTile)
 
 bool Player::createAlarm(Coord c)
 {
-	if (getCharacter() == JUICER && currentTile->isAdjacent(c) && board->getTile(c)->hasAlarm() == false || (this->actionTokens>0) || (this->character->canUseAbility()) )
+	if ((getCharacter() == JUICER) && (currentTile->isAdjacent(c)) && (board->getTile(c)->hasAlarm() == false) && (this->actionTokens>0) && (this->character->canUseAbility()) )
 	{
 		this->getActionTokens();
 		this->useAbility(true);

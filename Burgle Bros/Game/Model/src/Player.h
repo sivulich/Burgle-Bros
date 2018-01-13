@@ -104,7 +104,7 @@ public:
 	vector<Coord> whereCanIPeek();
 
 	// Returns player adjacent coordinates (not through walls)
-	vector<Coord> getAdjacentInFloor();
+	vector<Coord> getAdjacentJuicer();
 
 	//	Move the player to the tile
 	bool move(Coord c);
