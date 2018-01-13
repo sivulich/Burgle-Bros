@@ -63,7 +63,7 @@ private:
 
 	Floor* floor[3];
 	// MAPA: QUIZAS AL PEDO EN EL BOARD VER SI SE PUEDE BORRAR
-	vector<Coord> adjacent[3][4][4];
+	vector<Coord> adjacent[NUMBER_FLOORS][F_WIDTH][F_HEIGHT];
 };
 
 

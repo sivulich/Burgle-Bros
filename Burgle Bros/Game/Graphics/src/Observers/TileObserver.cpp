@@ -82,19 +82,19 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 
 	double TOKEN_SIZE = TILE_SIZE / 4.5;
 
-	alarmToken = new Image(string("../Game/Graphics/Images/Tokens/AlarmToken.png"), XPOS + 0 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	alarmToken = new Image(string("./Graphics/Images/Tokens/AlarmToken.png"), XPOS + 0 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	alarmToken->setVisible(false);
 	alarmToken->setHoverable(false);
 	alarmToken->setClickable(false);
 	floorContainer->addObject(alarmToken);
 
-	crackToken = new Image(string("../Game/Graphics/Images/Tokens/CrackToken.png"), XPOS + 1 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crackToken = new Image(string("../Game/Graphics/Images/Tokens/Crack token.png"), XPOS + 1 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	crackToken->setVisible(false);
 	crackToken->setHoverable(false);
 	crackToken->setClickable(false);
 	floorContainer->addObject(crackToken);
 
-	crowToken = new Image(string("../Game/Graphics/Images/Tokens/CrowToken.png"), XPOS + 2 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crowToken = new Image(string("../Game/Graphics/Images/Tokens/Crow Token.png"), XPOS + 2 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	crowToken->setVisible(false);
 	crowToken->setHoverable(false);
 	crowToken->setClickable(false);

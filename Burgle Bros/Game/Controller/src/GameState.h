@@ -39,10 +39,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-		fsm.model->currentPlayer()->setCharacter(RAVEN);
-		fsm.model->otherPlayer()->setCharacter(PETERMAN);
-		fsm.model->currentPlayer()->setName(string("TOBIAS"));
-		fsm.model->otherPlayer()->setName(string("JULIETA"));
+		fsm.model->currentPlayer()->setCharacter(JUICER);
+		fsm.model->otherPlayer()->setCharacter(RAVEN);
+		fsm.model->currentPlayer()->setName(string("Prueba"));
+		fsm.model->otherPlayer()->setName(string("Resto"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->setBoard();
 		
@@ -116,20 +116,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct creatingAlarm : public msm::front::state<>
-	{
-		template <class EVT, class FSM>
-		void on_entry(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-	};
 
 	struct placingCrow : public msm::front::state<>
 	{
@@ -326,7 +312,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Creating alarm" << std::endl;
+			std::cout << "Creating Alarm" << std::endl;
+			bool b = fsm.model->currentPlayer()->createAlarm(event.c);
+			if (b == false)
+				std::cout << "Cant create Alarm!" << std::endl;
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -461,6 +452,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 	
+	struct showAlarm
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Alarm can be created on the following tiles: ";
+			vector<Coord> v = fsm.model->currentPlayer()->getAdjacentInFloor();
+			Coord::printVec(v);
+			std::cout << std::endl;
+			fsm.currentAction = CREATE_ALARM;
+			// Distinguir las tiles disponibles para crear la alarma
+			fsm.graphics->setTilesClickable(v);
+
+		}
+	};
 	///////////// GUARDSSSSS
 	struct isMoving
 	{
@@ -480,38 +486,48 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isCreatingAlarm
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == CREATE_ALARM;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
-		//       Start        Event         Next         Action         Guard
+		//       Start				Event					Next				Action         Guard
 		//  +------------+-------------+------------+--------------+--------------+
 		
-		Row < chooseInitialPos, ev::coord, chooseAction, doSetInitialPos, none       >,
-		Row < chooseAction, ev::pass, guardTurn, none, none       >,
-		Row < chooseAction, ev::pass, guardTurn, none, none       >,
-		Row < chooseAction, ev::movee, none, showMove, none       >,
-		Row < chooseAction, ev::peek, none, showPeek, none       >,
-		Row < chooseAction, ev::coord, chekActionTokens, doMove, isMoving       >,
-		Row < chooseAction, ev::coord, chekActionTokens, doPeek, isPeeking       >,
-		Row < chooseAction, ev::addToken, chekActionTokens, doAddToken, none       >,
-		Row < chooseAction, ev::addDice, chekActionTokens, doAddDice, none       >,
-		//Row < chooseAction,   throwDice   , throwingDice,    none,        none       >,
-		//Row < chooseAction,   useToken    , usingToken,      none,        none       >,
+		Row < chooseInitialPos	, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
+		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,
+		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,
+		Row < chooseAction		, ev::movee			, none				, showMove			, none				>,
+		Row < chooseAction		, ev::peek			, none				, showPeek			, none				>,
+		Row < chooseAction		, ev::coord			, chekActionTokens	, doMove			, isMoving			>,
+		Row < chooseAction		, ev::coord			, chekActionTokens	, doPeek			, isPeeking			>,
+		Row < chooseAction		, ev::addToken		, chekActionTokens	, doAddToken		, none				>,
+		Row < chooseAction		, ev::addDice		, chekActionTokens	, doAddDice			, none				>,
+		//Row < chooseAction	, throwDice			, throwingDice		, none				, none				>,
+		//Row < chooseAction	, useToken			, usingToken		, none				, none				>,
 
-		//Row < chooseAction,   offerLoot   , offeringLoot,    none,        none       >,
-		//Row < chooseAction,   requestLoot , requestingLoots , none,        none       >,
-		//Row < chooseAction,   createAlarm , creatingAlarm   ,   none,        none       >,
-		//Row < chooseAction,   spyPatrol   , guardTurn,       none,        none       >,
-		//Row < chooseAction,   placeCrow   , guardTurn,       none,        none       >,
-		//Row < chooseAction,   pickUpLoot  , guardTurn,       none,        none       >,
+		//Row < chooseAction	, offerLoot			, offeringLoot		, none				, none				>,
+		//Row < chooseAction	, requestLoot		, requestingLoots	, none				, none				>,
+		Row	< chooseAction		, ev::createAlarm	, none				, showAlarm			, none				>,
+		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
+		//Row < chooseAction	, spyPatrol			, guardTurn			, none				, none				>,
+		//Row < chooseAction	, placeCrow			, guardTurn			, none				, none				>,
+		//Row < chooseAction	, pickUpLoot		, guardTurn			, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens, ev::no, guardTurn, none, none     >,
-		Row < chekActionTokens, ev::yes, chooseAction, none, none     >,
+		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none		 >,
+		Row < chekActionTokens	, ev::yes			, chooseAction		, none				, none       >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn, ev::movee, none, moveGuard, none     >,
-		Row < guardTurn, ev::pass, chooseAction, changeTurn, none     >,
-		Row < guardTurn, ev::gameOver, gameEnded, none, none     >,
+		Row < guardTurn			, ev::movee			, none				, moveGuard			, none       >,
+		Row < guardTurn			, ev::pass			, chooseAction		, changeTurn		, none       >,
+		Row < guardTurn			, ev::gameOver		, gameEnded			, none				, none       >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none     >
+		Row < gameEnded			, ev::playAgain		, chooseAction		, resetGame			, none       >
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};

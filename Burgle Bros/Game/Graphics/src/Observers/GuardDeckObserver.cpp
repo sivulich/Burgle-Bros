@@ -14,8 +14,8 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* board)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			string des = string("A") + to_string(j + 1);
-			des[0] += i;
+			string des = string("A") + to_string(i + 1);
+			des[0] += j;
 			cards[i][j] = new Image(string("./Graphics/Images/Patrol/PC ") + des + string(".png"));
 			cards[i][j]->setSize(TILE_SIZE, TILE_SIZE);
 			//cards[i][j]->setHoverable(false);

@@ -105,6 +105,7 @@ private:
 	Coord pos;
 	bool myturn;
 	vector<Coord> * alarms;
+	Coord expectedMov;
 	Coord target;
 	list<Coord> path;
 	vector<Coord> floor[4][4];

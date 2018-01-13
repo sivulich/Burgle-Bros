@@ -103,6 +103,9 @@ public:
 	// Return the coordinates where the player can peek
 	vector<Coord> whereCanIPeek();
 
+	// Returns player adjacent coordinates (not through walls)
+	vector<Coord> getAdjacentInFloor();
+
 	//	Move the player to the tile
 	bool move(Coord c);
 
@@ -173,9 +176,9 @@ public:
 	void wantsToUseToken() { currentTile->doAction(toString(USE_TOKEN), this); };
 
 	/**
-
+	 Receives true if ability was used, not to be used again in the turn. To make ability available again receive false.
 	*/
-	void useAbility(bool b) { character->useAbility(b); };
+	void useAbility(bool b) { if (b) character->spendAbility(); else character->restoreAbility(); };
 	//////////////////////////////////////////
 
 private:

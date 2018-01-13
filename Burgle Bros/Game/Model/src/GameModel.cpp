@@ -80,6 +80,7 @@ Called after guard movement, it changes the turn
 void GameModel::changeTurn()
 {
 	currentPlayer_->resetActionTokens();
+	currentPlayer_->useAbility(false);
 	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->isPlaying(true);
 	otherPlayer_->isPlaying(false);

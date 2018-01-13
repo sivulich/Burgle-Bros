@@ -19,7 +19,7 @@ GuardObserver::GuardObserver(Guard* g, Container* board, int floorNumber)
 	dices.resize(7);
 	for (int i = 1; i <= 6; i++)
 	{
-		dices[i] = new Image(string("../View/Images/Dices/White ") + to_string(i) + string(".png"));
+		dices[i] = new Image(string("./Graphics/Images/Dices/White ") + to_string(i) + string(".png"));
 		dices[i]->setSize(DICE_SIZE, DICE_SIZE);
 		dices[i]->setHoverable(false);
 		dices[i]->setClickable(false);
@@ -36,7 +36,7 @@ void GuardObserver::update()
 	Coord pos = guard->getPos();
 	if (pos != lastPos)
 	{
-		std::pair<int, int> target = std::pair<int, int>(FLOOR_YPOS + TILE_POS_Y[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2, FLOOR_XPOS[floorNumber] + TILE_POS_X[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2);
+		std::pair<int, int> target = std::pair<int, int>(FLOOR_YPOS + TILE_POS_Y[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2, FLOOR_XPOS[pos.floor] + TILE_POS_X[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2);
 		if (lastPos == NPOS)
 		{
 			guardIm->addAnimation(new FadeInOutAnimation(target, GUARD_MOVE_SPEED * 3));
@@ -45,7 +45,7 @@ void GuardObserver::update()
 			lastTarget = guard->getTarget();
 			int i = guard->getTarget().row;
 			int j = guard->getTarget().col;
-			dices[lastSpeed]->setPosition(FLOOR_YPOS + TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[floorNumber] + TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
+			dices[lastSpeed]->setPosition(FLOOR_YPOS + TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[pos.floor] + TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
 		}
 		else
 			guardIm->addAnimation(new MoveAnimation(target, GUARD_MOVE_SPEED));
@@ -59,7 +59,7 @@ void GuardObserver::update()
 		boardCont->addObject(dices[guard->getSpeed()]);
 		int i = guard->getTarget().row;
 		int j = guard->getTarget().col;
-		dices[lastSpeed]->setPosition(TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
+		dices[lastSpeed]->setPosition(TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[pos.floor]+ TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
 
 		lastSpeed = guard->getSpeed();
 		lastTarget = guard->getTarget();

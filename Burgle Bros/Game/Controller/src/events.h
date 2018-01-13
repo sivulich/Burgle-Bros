@@ -36,6 +36,7 @@ namespace ev {
 	struct errorHandled : BaseEvent {};
 	struct offerLoot : BaseEvent {};
 	struct requestLoot : BaseEvent {};
+	struct showAlarm : BaseEvent {};
 	struct createAlarm : BaseEvent {};
 	struct spyPatrol : BaseEvent {};
 	struct placeCrow : BaseEvent {};
