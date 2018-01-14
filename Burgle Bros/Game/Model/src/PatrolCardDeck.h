@@ -38,10 +38,17 @@ public:
 	void spyTop() { spiedCard = (PatrolCard *)topCard(); beingSpied = true; notify(); };
 
 	/**
+	
+	*/
+	void noLongerSpied() { spiedCard = nullptr; beingSpied = false; notify(); };
+
+	/**
+	
+	*/
+	bool amISpied() { return beingSpied; };
+	/**
 		Returns the floor of the patrol card deck
 	*/
-
-	void noLongerSpied() { spiedCard = nullptr; beingSpied = false; notify(); };
 	unsigned floor() { return floorNumber; };
 
 private:

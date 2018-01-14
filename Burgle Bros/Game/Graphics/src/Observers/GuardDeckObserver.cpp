@@ -97,4 +97,10 @@ void GuardDeckObserver::update()
 			}
 		}
 	}
+	if (deck->amISpied())
+	{
+		/*int i = deck->topCard()->getDescription()[1] - '1';
+		int j = deck->topCard()->getDescription()[0] - 'A';
+		cards[i][j]->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()]);*/ //NO SE MUESTRA CUANDO DEBERIA; SE MUESTRA EN EL TURNO DEL GUARDIA, NO SE Q ESTOY HACIENDO MAL
+	}
 }
