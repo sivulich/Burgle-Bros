@@ -97,6 +97,8 @@ void GuardDeckObserver::update()
 			}
 		}
 	}
+
+	//Animation for Spotter spying deck
 	if (deck->amISpied())
 	{
 		/*int i = deck->topCard()->getDescription()[1] - '1';

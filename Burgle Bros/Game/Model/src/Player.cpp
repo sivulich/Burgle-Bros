@@ -122,11 +122,26 @@ bool Player::move(Tile * newTile)
 vector<Coord> Player::whereCanIPeek()
 {
 	vector<Coord> v = currentTile->whereCanIPeek();
-	// VER COMO HACER CON EL SPOTTER UNA VEZ POR TURNO PARA HACER PEEK EN UNA TILE separado por una pared
 
-	if (character->is(SPOTTER) && "No use la habilidad en este turno")
+	//If character is Hawk can make one peek through walls
+	if (character->is(HAWK) && this->canIUseAbility())
 	{
-		//"agregar al vector v todos los tiles alrededor del que estoy, incluidos los separados por paredes"
+		if (currentTile->hasNorthWall())
+		{
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row-1));
+		}
+		if (currentTile->hasWestWall())
+		{
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col-1, currentTile->getPos().row));
+		}
+		if (currentTile->hasSouthWall())
+		{
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row+1));
+		}
+		if (currentTile->hasEastWall())
+		{
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col+1, currentTile->getPos().row));
+		}
 	}
 
 	// Remove the flipped ones
@@ -154,6 +169,15 @@ vector<Coord> Player::getAdjacentJuicer()
 
 bool Player::peek(Coord c)
 {
+	bool b = false;
+	if (character->is(HAWK))
+	{
+		for (auto &it: currentTile->getAdjacent())
+		{
+			if (it == c) b = true;
+		}
+	}
+	if (!b) useAbility(true);
 	return peek(board->getTile(c));
 }
 
@@ -175,7 +199,7 @@ bool Player::peek(Tile * newTile)
 
 bool Player::createAlarm(Coord c)
 {
-	if ((getCharacter() == JUICER) && (currentTile->isAdjacent(c)) && (board->getTile(c)->hasAlarm() == false) && (this->actionTokens>0) && (this->canIUseAbility()) )
+	if ((character->is(JUICER)) && (currentTile->isAdjacent(c)) && (board->getTile(c)->hasAlarm() == false) && (this->actionTokens>0) && (this->canIUseAbility()) )
 	{
 		this->useAbility(true);
 		board->getTile(c)->setAlarm(true);
@@ -189,7 +213,7 @@ bool Player::createAlarm(Coord c)
 
 void Player::placeCrow(Coord c)
 {
-	if (getCharacter() == RAVEN)
+	if (character->is(RAVEN))
 	{
 
 	}

@@ -81,7 +81,6 @@ bool Tile::hasSouthWall()
 }
 
 
-
 void Tile::turnUp()
 {
 	BaseCard::turnUp();
