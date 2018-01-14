@@ -328,6 +328,30 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Spying patrol deck" << std::endl;
+			fsm.model->spyPatrol(fsm.model->currentPlayer()->getPosition().floor);
+				fsm.currentAction = SPY_PATROL;
+		}
+	};
+
+	struct doStayTop
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Card staying on top of deck" << std::endl;
+			fsm.model->stopSpying(fsm.model->currentPlayer()->getPosition().floor);
+			fsm.currentAction = NO_TYPE;
+		}
+	};
+
+	struct doSendBottom
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Spying patrol deck" << std::endl;
+			fsm.model->sendBottom(fsm.model->currentPlayer()->getPosition().floor);
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -496,6 +520,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isSpying
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == SPY_PATROL;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start				Event					Next				Action         Guard
@@ -518,17 +551,22 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row	< chooseAction		, ev::createAlarm	, none				, showAlarm			, none				>,
 		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
 		//Row < chooseAction	, spyPatrol			, guardTurn			, none				, none				>,
-		//Row < chooseAction	, placeCrow			, guardTurn			, none				, none				>,
+		//Row < chooseAction		, ev::placeCrow		, none				, none				, none				>,
+		Row < chooseAction		, ev::spyPatrol		, askConfirmation	, doSpyPatrol		, none				>,
 		//Row < chooseAction	, pickUpLoot		, guardTurn			, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none		 >,
-		Row < chekActionTokens	, ev::yes			, chooseAction		, none				, none       >,
+		Row < askConfirmation	, ev::yes			, chooseAction		, doStayTop			, isSpying			>,
+		Row < askConfirmation	, ev::no			, chooseAction		, doSendBottom		, isSpying			>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn			, ev::movee			, none				, moveGuard			, none       >,
-		Row < guardTurn			, ev::pass			, chooseAction		, changeTurn		, none       >,
-		Row < guardTurn			, ev::gameOver		, gameEnded			, none				, none       >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded			, ev::playAgain		, chooseAction		, resetGame			, none       >
+		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none				>,
+		Row < chekActionTokens	, ev::yes			, chooseAction		, none				, none				>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < guardTurn			, ev::movee			, none				, moveGuard			, none				>,
+		Row < guardTurn			, ev::pass			, chooseAction		, changeTurn		, none				>,
+		Row < guardTurn			, ev::gameOver		, gameEnded			, none				, none				>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < gameEnded			, ev::playAgain		, chooseAction		, resetGame			, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};

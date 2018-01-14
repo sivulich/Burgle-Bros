@@ -106,6 +106,37 @@ void GameModel::moveGuard()
 	notify();
 }
 
+void GameModel::spyPatrol(unsigned f)
+{
+	if (f < 3)
+	{
+		if (currentPlayer_->getActionTokens() > 0 && currentPlayer_->getCharacter() == toEnum_characterType("SPOTTER") && (currentPlayer_->canIUseAbility()))
+		{
+			board[f].getPatrolDeck()->spyTop();
+			currentPlayer_->removeActionToken();
+			currentPlayer_->useAbility(true);
+			cout << "currently spying" << board[f].getPatrolDeck()->topCard()->getDescription()<<endl;
+		}
+	}
+};
+
+void GameModel::stopSpying(unsigned f)
+{
+	if (f < 3)
+	{
+		board[f].getPatrolDeck()->noLongerSpied();
+		cout << "Stopped spying" << endl;
+	}
+}
+void GameModel::sendBottom(unsigned f)
+{
+	if (f < 3)
+	{
+		board[f].getPatrolDeck()->topToBottom();
+		board[f].getPatrolDeck()->noLongerSpied();
+		cout << "Sent top card to bottom" << endl;
+	}
+}
 bool GameModel::win()
 {
 	// If both players are on the roof and have all the loots, the game has finished

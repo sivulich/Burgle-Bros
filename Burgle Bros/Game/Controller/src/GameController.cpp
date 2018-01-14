@@ -133,6 +133,10 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek());
 	else if (s == "CREATE_ALARM")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::createAlarm());
+	else if (s == "PLACE_CROW")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::placeCrow());
+	else if (s == "SPY_PATROL")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
 	else if (s == "TROW_DICE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")

@@ -175,9 +175,8 @@ bool Player::peek(Tile * newTile)
 
 bool Player::createAlarm(Coord c)
 {
-	if ((getCharacter() == JUICER) && (currentTile->isAdjacent(c)) && (board->getTile(c)->hasAlarm() == false) && (this->actionTokens>0) && (this->character->canUseAbility()) )
+	if ((getCharacter() == JUICER) && (currentTile->isAdjacent(c)) && (board->getTile(c)->hasAlarm() == false) && (this->actionTokens>0) && (this->canIUseAbility()) )
 	{
-		this->getActionTokens();
 		this->useAbility(true);
 		board->getTile(c)->setAlarm(true);
 		this->removeActionToken();

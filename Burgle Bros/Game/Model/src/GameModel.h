@@ -50,9 +50,17 @@ public:
 	// Access to the current player
 	Player * currentPlayer() { return currentPlayer_; };
 
-
 	// Access to the other player
 	Player * otherPlayer() { return otherPlayer_; };
+
+	//
+	void spyPatrol(unsigned f) ;
+
+	//
+	void GameModel::stopSpying(unsigned f);
+
+	//
+	void GameModel::sendBottom(unsigned f);
 
 	Board* getBoard() { return &board; };
 

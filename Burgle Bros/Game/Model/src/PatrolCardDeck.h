@@ -11,7 +11,9 @@ public:
 	*/
 	PatrolCardDeck(unsigned n) : floorNumber(n)
 	{
+		beingSpied = false;
 		createDeck();
+		spiedCard = nullptr;
 	};
 
 
@@ -31,11 +33,20 @@ public:
 	void reset();
 
 	/**
+	
+	*/
+	void spyTop() { spiedCard = (PatrolCard *)topCard(); beingSpied = true; notify(); };
+
+	/**
 		Returns the floor of the patrol card deck
 	*/
+
+	void noLongerSpied() { spiedCard = nullptr; beingSpied = false; notify(); };
 	unsigned floor() { return floorNumber; };
 
 private:
 	unsigned floorNumber;
+	PatrolCard * spiedCard;
+	bool beingSpied;
 };
 

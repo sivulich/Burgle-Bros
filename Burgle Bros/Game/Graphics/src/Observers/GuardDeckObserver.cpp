@@ -69,7 +69,7 @@ void GuardDeckObserver::update()
 	}
 
 	// Add animation if deck is clicked
-	else if (cards[lastCard[1] - '1'][lastCard[0] - 'A']->isClicked() != deckClicked)
+	else if ((lastCard.size()>0) && cards[lastCard[1] - '1'][lastCard[0] - 'A']->isClicked() != deckClicked)
 	{
 		deckClicked = !deckClicked;
 		if (deckClicked == true)

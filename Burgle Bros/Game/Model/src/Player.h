@@ -178,8 +178,13 @@ public:
 	/**
 	 Receives true if ability was used, not to be used again in the turn. To make ability available again receive false.
 	*/
-	void useAbility(bool b) { if (b) character->spendAbility(); else character->restoreAbility(); };
+	void useAbility(bool b) { if (b) character->spendAbility(); else character->restoreAbility(); notify(); };
 	//////////////////////////////////////////
+
+	/**
+	
+	*/
+	bool canIUseAbility() { return this->character->canUseAbility(); };
 
 private:
 	// Name of the player
