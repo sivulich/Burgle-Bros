@@ -57,10 +57,14 @@ public:
 	void spyPatrol(unsigned f) ;
 
 	//
-	void GameModel::stopSpying(unsigned f);
+	void stopSpying(unsigned f);
 
 	//
-	void GameModel::sendBottom(unsigned f);
+	void sendBottom(unsigned f);
+
+	//
+	vector<Coord> getTilesXDist(unsigned x, Player * p);
+
 
 	Board* getBoard() { return &board; };
 

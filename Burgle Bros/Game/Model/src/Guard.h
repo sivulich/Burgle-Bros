@@ -139,12 +139,12 @@ private:
 	/**
 
 	*/
-	Coord toCoord(unsigned index) { return Coord(floorNumber, index % 4, index / 4); }; // hay q ver si tengo q definir el piso o no
+	Coord toCoord(unsigned index) { return Coord(floorNumber, index % F_WIDTH, index / F_HEIGHT); };
 
 	/**
 
 	*/
-	unsigned toIndex(Coord coord) { return(coord.row * 4 + coord.col); };
+	unsigned toIndex(Coord coord) { return(coord.row * F_HEIGHT + coord.col); };
 
 	/**
 		Finds shortest path to assigned alarm

@@ -128,6 +128,10 @@ bool Floor::moveGuard(PlayerInterface * p)
 {
 	// Update the list of alarms in the floor
 	getAlarms();
+	if (guard.getCurrSteps() == 0)
+		guard.locateGuard();
+	if (guard.getCurrSteps() != 0 && tiles[guard.getPos().col][guard.getPos().row]->hasCrowToken())
+		guard.decSteps();
 	if (!guard.alreadyMoved() && p->getCharacter() == toEnum_characterType("ACROBAT"))
 		guard.checkPlayer(p);
 	bool ret = guard.move();
@@ -183,3 +187,34 @@ void Floor::getThroughWalls(Coord c, list<Tile*>* adj)
 	return;
 }
 
+vector<Coord> Floor::getXDistanceTiles(unsigned x, Coord c)
+{
+	vector<Coord> v;
+	if ((c.col) < 4 && (c.row < 4))
+	{
+		vector<int> dist(16, INT_MAX);//vector that contains the distance required to go to any point in floor from current pos
+		vector<int> parent(16, -1);// vector that contains prior room to be accessed following a path from current pos
+		dist[toIndex(c)] = 0;//set distance to current pos = 0
+		queue<int> Q;
+		Q.push(toIndex(c));
+		while (!Q.empty())
+		{
+			int index = Q.front();
+			Q.pop();
+			if (dist[index]<x)
+			{	
+				for (auto &it : adjacent[toCoord(index).col][toCoord(index).row])//search for all adjacents rooms to current one
+				{
+					if (dist[toIndex(it)] == INT_MAX) //if room was not visited
+					{
+						Q.push(toIndex(it));//add to queue
+						dist[toIndex(it)] = dist[index] + 1;//and set distance equal to distance to parent room + 1
+						parent[toIndex(it)] = index;
+						v.push_back(it);
+					}
+				}
+			}
+		}
+	}
+	return v;
+}

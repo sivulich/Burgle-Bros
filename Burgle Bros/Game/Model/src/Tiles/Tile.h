@@ -104,7 +104,7 @@ public:
 	void setStairToken(bool b) { stairToken = b; };
 	bool hasStairToken() { return stairToken; };
 
-	void setCrowToken(bool b) { crowToken = b; };
+	void setCrowToken(bool b) { crowToken = b; notify(); };
 	bool hasCrowToken() { return crowToken; };
 
 	//	Returns true if you could hide from the guard. Used for Lavatory.

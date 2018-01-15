@@ -123,10 +123,18 @@ public:
 	
 	*/
 	void guardChek() { guard.GuardCheck(); };
+	/**
+	Returns all tiles within a x distance from c position.
+	*/
+	vector<Coord> getXDistanceTiles(unsigned x, Coord c );
 
 private:
 	// Matrix of pointers to the base class Tile
 	vector<vector<Tile*>> tiles;
+
+	Coord toCoord(unsigned index) { return Coord(floorNumber,index % F_WIDTH, index / F_HEIGHT); };
+
+	unsigned toIndex(Coord coord) { return(coord.row * F_HEIGHT + coord.col); };
 
 	// Floor number
 	int floorNumber;

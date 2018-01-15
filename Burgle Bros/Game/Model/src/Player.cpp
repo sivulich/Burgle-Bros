@@ -7,6 +7,7 @@ Player::Player(Board * b, Player * p, int n)
 	board = b;
 	otherPlayer = p;
 	resetActionTokens();
+	crowToken = NPOS;
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
 	character = nullptr;
@@ -211,13 +212,17 @@ bool Player::createAlarm(Coord c)
 	else return false;
 }
 
-void Player::placeCrow(Coord c)
+bool Player::placeCrow(Coord c)
 {
-	if (character->is(RAVEN))
+	if (character->is(RAVEN) && character->canUseAbility() && !(c == crowToken) && c.col<F_WIDTH && c.row <F_HEIGHT)
 	{
-
+		if (!(crowToken == NPOS))
+			board->getTile(crowToken)->setCrowToken(false);
+		this->useAbility(true);
+		board->getTile(c)->setCrowToken(true);
+		crowToken = c;
 	}
-	board->getTile(c)->setAlarm(true);
+	else return false;
 }
 
 

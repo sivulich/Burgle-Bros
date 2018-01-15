@@ -39,7 +39,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-		fsm.model->currentPlayer()->setCharacter(HAWK);
+		fsm.model->currentPlayer()->setCharacter(RAVEN);
 		fsm.model->otherPlayer()->setCharacter(SPOTTER);
 		fsm.model->currentPlayer()->setName(string("Prueba"));
 		fsm.model->otherPlayer()->setName(string("Resto"));
@@ -361,6 +361,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Placing crow token" << std::endl;
+			bool b = fsm.model->currentPlayer()->placeCrow(event.c);
+			if (b == false)
+				std::cout << "Cant place crow token!" << std::endl;
+			fsm.currentAction = NO_TYPE;
+
 		}
 	};
 
@@ -492,6 +497,23 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		}
 	};
+
+	struct showCrow
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Crow token can placed in following tiles: ";
+			vector<Coord> v = fsm.model->getTilesXDist(2, fsm.model->currentPlayer());
+			Coord::printVec(v);
+			std::cout << std::endl;
+			fsm.currentAction = PLACE_CROW;
+			// Distinguir las tiles disponibles para poner el Crow token
+			fsm.graphics->setTilesClickable(v);
+
+		}
+	};
+
 	///////////// GUARDSSSSS
 	struct isMoving
 	{
@@ -529,6 +551,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isPlacingCrow
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == PLACE_CROW;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start				Event					Next				Action         Guard
@@ -541,6 +572,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction		, ev::peek			, none				, showPeek			, none				>,
 		Row < chooseAction		, ev::coord			, chekActionTokens	, doMove			, isMoving			>,
 		Row < chooseAction		, ev::coord			, chekActionTokens	, doPeek			, isPeeking			>,
+		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
+		Row	< chooseAction		, ev::coord			, chooseAction		, doPlaceCrow		, isPlacingCrow		>,
 		Row < chooseAction		, ev::addToken		, chekActionTokens	, doAddToken		, none				>,
 		Row < chooseAction		, ev::addDice		, chekActionTokens	, doAddDice			, none				>,
 		//Row < chooseAction	, throwDice			, throwingDice		, none				, none				>,
@@ -549,14 +582,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//Row < chooseAction	, offerLoot			, offeringLoot		, none				, none				>,
 		//Row < chooseAction	, requestLoot		, requestingLoots	, none				, none				>,
 		Row	< chooseAction		, ev::createAlarm	, none				, showAlarm			, none				>,
-		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
-		//Row < chooseAction	, spyPatrol			, guardTurn			, none				, none				>,
-		//Row < chooseAction		, ev::placeCrow		, none				, none				, none				>,
+		Row < chooseAction		, ev::placeCrow		, none				, showCrow			, none				>,
 		Row < chooseAction		, ev::spyPatrol		, askConfirmation	, doSpyPatrol		, none				>,
 		//Row < chooseAction	, pickUpLoot		, guardTurn			, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmation	, ev::yes			, chooseAction		, doStayTop			, isSpying			>,
-		Row < askConfirmation	, ev::no			, chooseAction		, doSendBottom		, isSpying			>,
+		Row < askConfirmation	, ev::yes			, chekActionTokens	, doStayTop			, isSpying			>,
+		Row < askConfirmation	, ev::no			, chekActionTokens	, doSendBottom		, isSpying			>,
 		//  +------------+-------------+------------+--------------+--------------+
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none				>,

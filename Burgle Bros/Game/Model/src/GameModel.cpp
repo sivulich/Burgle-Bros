@@ -98,7 +98,6 @@ void GameModel::moveGuard()
 {
 	int floor = currentPlayer_->getPosition().floor;
 	board[floor].getGuard()->isMyTurn(true);
-
 	guardIsMoving_ = board[floor].moveGuard(currentPlayer_);
 	if(guardIsMoving_ == false)
 		board[floor].getGuard()->isMyTurn(false);
@@ -137,6 +136,13 @@ void GameModel::sendBottom(unsigned f)
 		cout << "Sent top card to bottom" << endl;
 	}
 }
+
+vector<Coord> GameModel::getTilesXDist(unsigned x, Player * p)
+{
+	Coord c = p->getPosition();
+	return board[c.floor].getXDistanceTiles(x, c);
+};
+
 bool GameModel::win()
 {
 	// If both players are on the roof and have all the loots, the game has finished

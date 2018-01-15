@@ -101,11 +101,10 @@ void Guard::locateGuard()
 }
 bool Guard::move()
 {
-	locateGuard();
 	PatrolCard * p;
 	FindPath(pos);
 	cout << "Guard is moving towards " << target << endl;
-	if (!path.empty())
+	if (!path.empty() && currsteps > 0)
 	{
 		pos = path.front();
 		this->GuardCheck();

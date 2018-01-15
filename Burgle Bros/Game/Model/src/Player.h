@@ -153,7 +153,7 @@ public:
 	bool createAlarm(Coord c);
 
 	//	Place a crow token in the specified coord (if player is ________)
-	void placeCrow(Coord c);
+	bool placeCrow(Coord c);
 
 	//  Appends a new action to the action history
 	virtual void newAction(string action, Coord tile)override;
@@ -205,6 +205,8 @@ private:
 	int actionTokens;
 	// Number of stealth tokens
 	int stealthTokens;
+	// Crow Token position if there is any
+	Coord crowToken;
 	// Number of turns the player has played
 	int turn;
 	// History of actions
