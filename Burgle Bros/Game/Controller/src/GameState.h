@@ -422,6 +422,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Changing turns" << std::endl;
 			fsm.model->changeTurn();
+			fsm.currentAction = NO_TYPE;
+
 		}
 	};
 
@@ -566,7 +568,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//  +------------+-------------+------------+--------------+--------------+
 		
 		Row < chooseInitialPos	, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
-		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,
 		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,
 		Row < chooseAction		, ev::movee			, none				, showMove			, none				>,
 		Row < chooseAction		, ev::peek			, none				, showPeek			, none				>,
