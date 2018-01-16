@@ -12,7 +12,7 @@ class Fingerprint :
 	public Tile
 {
 public:
-	Fingerprint(int floor, int col, int row) : Tile(FINGERPRINT, floor, col, row) { hackerhere = false; };
+	Fingerprint(int floor, int col, int row) : Tile(FINGERPRINT, floor, col, row) { };
 	~Fingerprint();
 
 	/**
@@ -40,6 +40,5 @@ public:
 
 private:
 	ComputerRoomF * computerRoom;
-	bool hackerhere;
 };
 

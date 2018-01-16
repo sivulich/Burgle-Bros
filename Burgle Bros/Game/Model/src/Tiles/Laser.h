@@ -14,7 +14,7 @@ class Laser :
 	public Tile
 {
 public:
-	Laser(int floor, int col, int row) : Tile(LASER, floor, col, row) { hackerhere = false; };
+	Laser(int floor, int col, int row) : Tile(LASER, floor, col, row) {};
 	~Laser();
 
 	/**
@@ -42,6 +42,5 @@ public:
 
 private:
 	ComputerRoomL * computerRoom;
-	bool hackerhere;
 };
 

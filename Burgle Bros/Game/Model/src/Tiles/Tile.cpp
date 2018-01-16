@@ -7,6 +7,7 @@ Tile::Tile()
 	alarmToken = false;
 	crackToken = false;
 	crowToken = false;
+	hackerHere = false;
 }
 
 Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
@@ -21,6 +22,8 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 	crackToken = false;
 	stairToken = false;
 	alarmToken = false;
+	hackerHere = false;
+	hasGuard = false;
 }
 
 void Tile::setLoot(Loot * l)

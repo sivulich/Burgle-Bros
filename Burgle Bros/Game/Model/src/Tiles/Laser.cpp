@@ -11,8 +11,8 @@ void Laser::enter(PlayerInterface * player)
 {
 	Tile::enter(player);
 	if (player->getCharacter() == HACKER)
-		hackerhere = true;
-	if(!hackerhere)
+		hackerHere = true;
+	if(!hackerHere)
 	setAlarm(true);
 }
 
@@ -26,7 +26,7 @@ vector<string> Laser::getActions(PlayerInterface * player)
 
 bool Laser::doAction(string action, PlayerInterface * player)
 {
-	if (hackerhere==false)
+	if (hackerHere==false)
 	{
 		if (action == "SPENT_OK")
 		{
@@ -49,5 +49,5 @@ bool Laser::doAction(string action, PlayerInterface * player)
 
 void Laser::exit(PlayerInterface * player) {
 	if (player->getCharacter() == HACKER)
-		hackerhere = false;
+		hackerHere = false;
 }

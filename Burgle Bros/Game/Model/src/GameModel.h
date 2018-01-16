@@ -65,6 +65,9 @@ public:
 	//
 	vector<Coord> getTilesXDist(unsigned x, Player * p);
 
+	//
+	void check4Cameras();
+
 
 	Board* getBoard() { return &board; };
 

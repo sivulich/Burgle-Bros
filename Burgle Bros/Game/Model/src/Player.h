@@ -193,6 +193,8 @@ private:
 	int n;
 	// If its player turn playing=true
 	bool playing;
+	//
+	Coord lastPos;
 	// Character the player is using
 	Character * character;
 	// Tile where character token is placed on the board

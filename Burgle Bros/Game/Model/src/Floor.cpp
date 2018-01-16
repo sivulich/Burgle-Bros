@@ -128,8 +128,7 @@ bool Floor::moveGuard(PlayerInterface * p)
 {
 	// Update the list of alarms in the floor
 	getAlarms();
-	if (guard.getCurrSteps() == 0)
-		guard.locateGuard();
+	guard.locateGuard();
 	if (guard.getCurrSteps() != 0 && tiles[guard.getPos().col][guard.getPos().row]->hasCrowToken())
 		guard.decSteps();
 	if (!guard.alreadyMoved() && p->getCharacter() == toEnum_characterType("ACROBAT"))

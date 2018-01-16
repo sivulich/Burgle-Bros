@@ -110,6 +110,10 @@ public:
 	//	Returns true if you could hide from the guard. Used for Lavatory.
 	virtual bool tryToHide() { return false; };
 
+	void guardIs(bool b) { hasGuard = b; };
+
+	bool guardHere() { return hasGuard; };
+
 protected:
 	// Coord containing floor, column and row of the tile
 	Coord coord;
@@ -122,5 +126,5 @@ protected:
 	// A tile can have a loot (If it's a SAFE tile or a loot has been dropped)
 	vector<Loot*> loot;
 	// Tokens
-	bool crackToken, crowToken, stairToken, alarmToken;
+	bool crackToken, crowToken, stairToken, alarmToken, hackerHere, hasGuard;
 };

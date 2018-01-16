@@ -8,6 +8,7 @@ Player::Player(Board * b, Player * p, int n)
 	otherPlayer = p;
 	resetActionTokens();
 	crowToken = NPOS;
+	lastPos = NPOS;
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
 	character = nullptr;
@@ -99,16 +100,13 @@ bool Player::move(Tile * newTile)
 	newAction("MOVE", newTile->getPos());
 
 	// Exit the current tile
+	lastPos = this->getPosition();
 	currentTile->exit(this);
 
 	setPosition(newTile);
 
 	// And enter the next tile
 	newTile->enter(this);
-
-	// Update visible from
-	visibleFrom.clear();
-	visibleFrom.push_back(getPosition());
 
 	// Update all loots
 	for (auto & t : loots)

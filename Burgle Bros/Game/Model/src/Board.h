@@ -69,6 +69,16 @@ public:
 	
 	*/
 	void checkOnePlayer(PlayerInterface * p, unsigned f);
+
+	/**
+	
+	*/
+	void checkCameras(Coord c1);
+
+	/**
+	
+	*/
+	vector<Tile *> getCameras() { return cameras; };
 private:
 	/**
 		Sets the vector of tiles the safe needs to be cracked 
@@ -76,6 +86,8 @@ private:
 	void prepSafeTile(Safe * safe);
 
 	Floor* floor[3];
+
+	vector<Tile *> cameras;
 	// MAPA: QUIZAS AL PEDO EN EL BOARD VER SI SE PUEDE BORRAR
 	vector<Coord> adjacent[NUMBER_FLOORS][F_WIDTH][F_HEIGHT];
 };

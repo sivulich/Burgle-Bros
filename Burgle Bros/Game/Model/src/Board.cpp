@@ -178,7 +178,6 @@ vector<tileType> Board::getTileSetup()
 void Board::parseBoard()
 {
 	vector<Tile *> crackSafeTiles;
-	vector<Tile *> cameras;
 	ServiceDuct * duct1 = nullptr;
 	ComputerRoomF * computerRoomF = nullptr;
 	ComputerRoomM * computerRoomM = nullptr;
@@ -331,3 +330,18 @@ void Board::checkOnePlayer(PlayerInterface * p, unsigned f)
 		this->floor[f]->getGuard()->checkPlayer(p);
 	};
 }
+
+void Board::checkCameras(Coord c1)
+{
+	if (floor[c1.floor]->tile(c1.col, c1.row)->is(CAMERA))
+	{
+		for (unsigned i = 0; i < NUMBER_FLOORS; i++)
+		{
+			for (auto &it : cameras)
+			{
+				if (!(floor[i]->getGuard()->getPos() == c1) && floor[i]->getGuard()->getPos() == it->getPos())
+					floor[c1.floor]->tile(c1.col, c1.row)->setAlarm(true);
+			}
+		}
+	}
+};

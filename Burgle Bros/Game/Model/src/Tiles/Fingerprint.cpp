@@ -9,8 +9,8 @@ Fingerprint::~Fingerprint()
 void Fingerprint::enter(PlayerInterface * player) {
 	Tile::enter(player);
 	if (player->getCharacter() == HACKER)
-		hackerhere = true;
-	if(!hackerhere)
+		hackerHere = true;
+	if(!hackerHere)
 	setAlarm(true);
 }
 
@@ -42,5 +42,5 @@ bool Fingerprint::doAction(string action, PlayerInterface * player)
 
 void Fingerprint::exit(PlayerInterface * player) {
 	if (player->getCharacter() == HACKER)
-		hackerhere = false;
+		hackerHere = false;
 }

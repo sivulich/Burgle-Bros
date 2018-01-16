@@ -15,8 +15,6 @@ public:
 	Camera(int floor, int col, int row) : Tile(CAMERA, floor, col, row) {};
 	~Camera();
 
-	void enter(PlayerInterface * player) override;
-
 	void addCamera(Tile * cam) { otherCameras.push_back(cam); };
 private:
 	vector<Tile *> otherCameras;

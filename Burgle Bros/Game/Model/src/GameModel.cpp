@@ -93,12 +93,45 @@ bool GameModel::guardIsMoving()
 {
 	return guardIsMoving_;
 }
-
+// ME TENGO Q FIJAR SI HACER EL CHEQUEO DE CAMARAS UNS SUBFUNCION. NO lo pase al moveGuard del floor porq este no conoce a las camaras de otros pisos
 void GameModel::moveGuard()
 {
 	int floor = currentPlayer_->getPosition().floor;
 	board[floor].getGuard()->isMyTurn(true);
+	if (board[floor].getGuard()->getPos() == NPOS)
+	{
+		board[floor].getGuard()->locateGuard();
+		if (board[floor].tile(board[floor].getGuard()->getPos().col, board[floor].getGuard()->getPos().row)->is(CAMERA) && board[floor].tile(board[floor].getGuard()->getPos().col, board[floor].getGuard()->getPos().row)->isFlipped())
+		{
+			for (auto &it : board.getCameras())
+			{
+				if (!(it->getPos() == board[floor].getGuard()->getPos()) && it->getPos() == currentPlayer_->getPosition())
+				{
+					board[floor].tile(currentPlayer_->getPosition().col, currentPlayer_->getPosition().row)->setAlarm(true);
+				}
+				else if (!(it->getPos() == board[floor].getGuard()->getPos()) && it->getPos() == otherPlayer_->getPosition())
+				{
+					board[otherPlayer_->getPosition().floor].tile(otherPlayer_->getPosition().col, otherPlayer_->getPosition().row)->setAlarm(true);
+				}
+			}
+		}
+	}
+	
 	guardIsMoving_ = board[floor].moveGuard(currentPlayer_);
+	if (board[floor].tile(board[floor].getGuard()->getPos().col, board[floor].getGuard()->getPos().row)->is(CAMERA) && board[floor].tile(board[floor].getGuard()->getPos().col, board[floor].getGuard()->getPos().row)->isFlipped())
+	{
+		for (auto &it : board.getCameras())
+		{
+			if (!(it->getPos() == board[floor].getGuard()->getPos()) && it->getPos() == currentPlayer_->getPosition())
+			{
+				board[floor].tile(currentPlayer_->getPosition().col, currentPlayer_->getPosition().row)->setAlarm(true);
+			}
+			else if (!(it->getPos() == board[floor].getGuard()->getPos()) && it->getPos() == otherPlayer_->getPosition())
+			{
+				board[otherPlayer_->getPosition().floor].tile(otherPlayer_->getPosition().col, otherPlayer_->getPosition().row)->setAlarm(true);
+			}
+		}
+	}
 	if(guardIsMoving_ == false)
 		board[floor].getGuard()->isMyTurn(false);
 
@@ -141,6 +174,12 @@ vector<Coord> GameModel::getTilesXDist(unsigned x, Player * p)
 {
 	Coord c = p->getPosition();
 	return board[c.floor].getXDistanceTiles(x, c);
+};
+
+void GameModel::check4Cameras()
+{
+	board.checkCameras(currentPlayer_->getPosition());
+	
 };
 
 bool GameModel::win()
