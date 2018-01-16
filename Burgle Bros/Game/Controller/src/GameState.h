@@ -100,7 +100,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Choose action: ";
-			vector<string> v = fsm.model->currentPlayer()->getActions();
+			vector<string> v = fsm.model->currentPlayer()->gettActions();
 			for (auto& s : v)
 				std::cout << s << " ";
 			std::cout << std::endl;
@@ -277,6 +277,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Using token" << std::endl;
+
 		}
 	};
 
@@ -287,6 +288,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Adding token" << std::endl;
 			fsm.model->currentPlayer()->addToken();
+			fsm.currentAction = NO_TYPE;
+		}
+	};
+
+	struct dontAddToken
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -517,6 +529,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct prepAddToken
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Preparing to add token: ";
+			fsm.currentAction = ADD_TOKEN;
+
+		}
+	};
+
 	///////////// GUARDSSSSS
 	struct isMoving
 	{
@@ -563,6 +586,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isAddingToken
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == ADD_TOKEN;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start				Event					Next				Action         Guard
@@ -576,7 +608,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction		, ev::coord			, chekActionTokens	, doPeek			, isPeeking			>,
 		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
 		Row	< chooseAction		, ev::coord			, chooseAction		, doPlaceCrow		, isPlacingCrow		>,
-		Row < chooseAction		, ev::addToken		, chekActionTokens	, doAddToken		, none				>,
+		Row < chooseAction		, ev::addToken		, askConfirmation	, prepAddToken		, none				>,
 		Row < chooseAction		, ev::addDice		, chekActionTokens	, doAddDice			, none				>,
 		//Row < chooseAction	, throwDice			, throwingDice		, none				, none				>,
 		//Row < chooseAction	, useToken			, usingToken		, none				, none				>,
@@ -590,6 +622,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < askConfirmation	, ev::yes			, chekActionTokens	, doStayTop			, isSpying			>,
 		Row < askConfirmation	, ev::no			, chekActionTokens	, doSendBottom		, isSpying			>,
+		Row < askConfirmation	, ev::yes			, chekActionTokens	, doAddToken		, isAddingToken		>,
+		Row < askConfirmation	, ev::no			, chekActionTokens	, dontAddToken		, isAddingToken		>,
 		//  +------------+-------------+------------+--------------+--------------+
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none				>,

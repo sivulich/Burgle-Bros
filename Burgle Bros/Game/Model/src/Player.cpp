@@ -235,6 +235,12 @@ Coord Player::getPosition()
 	return currentTile == nullptr ? NPOS : currentTile->getPos();
 };
 
+vector < string> Player::gettActions()
+{
+	vector <string> v = this->getActions();
+	notify();
+	return v;
+}
 
 vector<string> Player::getActions()
 {

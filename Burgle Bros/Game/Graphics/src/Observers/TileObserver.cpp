@@ -105,6 +105,18 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 	stairToken->setHoverable(false);
 	stairToken->setClickable(false);
 	floorContainer->addObject(stairToken);
+	
+	for (int i = 0; i < 5; i++)
+	{
+		if(i<=2)
+			hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE/2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+		if (i>2)
+			hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + (i-2)* TOKEN_SIZE/2, YPOS + TILE_SIZE - 2*TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+		hackTokens.back()->setVisible(false);
+		hackTokens.back()->setHoverable(false);
+		hackTokens.back()->setClickable(false);
+		floorContainer->addObject(hackTokens.back());
+	}
 
 	flipped = false;
 	cracked = false;
@@ -174,6 +186,14 @@ void TileObserver::update()
 			stairToken->setVisible(true);
 		else
 			stairToken->setVisible(false);
+	}
+	if (tile->isFlipped() && tile->getHackTokens() > 0)
+	{
+		for (auto &it : hackTokens) it->setVisible(false);
+		for (int i = 0; i <= tile->getHackTokens()-1; i++)
+		{
+			hackTokens[i]->setVisible(true);
+		}
 	}
 }
 

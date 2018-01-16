@@ -107,6 +107,10 @@ public:
 	void setCrowToken(bool b) { crowToken = b; notify(); };
 	bool hasCrowToken() { return crowToken; };
 
+	
+	//Returns the amount of hack tokens in the tile
+	int getHackTokens() { return hackToken; };
+
 	//	Returns true if you could hide from the guard. Used for Lavatory.
 	virtual bool tryToHide() { return false; };
 
@@ -127,4 +131,6 @@ protected:
 	vector<Loot*> loot;
 	// Tokens
 	bool crackToken, crowToken, stairToken, alarmToken, hackerHere, hasGuard;
+	//
+	int hackToken;
 };

@@ -24,6 +24,7 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 	alarmToken = false;
 	hackerHere = false;
 	hasGuard = false;
+	hackToken = 0;
 }
 
 void Tile::setLoot(Loot * l)

@@ -51,6 +51,10 @@ public:
 	*/
 	void parseBoard();
 	/**
+	
+	*/
+	Floor * getFloor(unsigned f) { if (f < NUMBER_FLOORS) return floor[f]; };
+	/**
 		Adds tile 'C' to tile´s adjacency list 'adj' despite a wall existing in-between
 	*/
 	//NO SE ESTA USANDO SE USA PARA ALGUNA TILE EN PARTICULAR????//

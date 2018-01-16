@@ -48,6 +48,9 @@ public:
 	//	Return a vector of strings with the actions the player can do
 	vector<string> getActions();
 
+	// Return a vector of strings with the actions the player can do and notifies view about it
+	vector < string> Player::gettActions();
+
 	// Get character type
 	characterType getCharacter();
 
