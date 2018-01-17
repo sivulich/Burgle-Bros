@@ -44,6 +44,9 @@ public:
 	// Return true if guard is still moving
 	bool guardIsMoving();
 
+	//
+	void endTurn();
+
 	// Called after guard movement, it changes the turn of the player
 	void changeTurn();
 

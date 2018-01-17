@@ -143,7 +143,7 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
-	else if (s == "UDE_TOKEN")
+	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
 	else if (s == "PASS")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
