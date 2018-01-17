@@ -443,6 +443,18 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct doEndTurn
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Player turn ended" << std::endl;
+			fsm.model->endTurn();
+			fsm.currentAction = NO_TYPE;
+		}
+	};
+
+
 	struct needsConfirmation
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -646,7 +658,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
 		
 		Row < chooseInitialPos	, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
-		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,
+		Row < chooseAction		, ev::pass			, guardTurn			, doEndTurn			, none				>,
 		Row < chooseAction		, ev::movee			, none				, showMove			, none				>,
 		Row < chooseAction		, ev::peek			, none				, showPeek			, none				>,
 		Row < chooseAction		, ev::coord			, askConfirmation	, askb4Move			, isMoving			>,
@@ -675,7 +687,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation	, ev::done			, chekActionTokens	, doMove			, isMoving			>,
 		//  +------------+-------------+------------+--------------+--------------+
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none				>,
+		Row < chekActionTokens	, ev::no			, guardTurn			, doEndTurn			, none				>,
 		Row < chekActionTokens	, ev::yes			, chooseAction		, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < guardTurn			, ev::movee			, none				, moveGuard			, none				>,

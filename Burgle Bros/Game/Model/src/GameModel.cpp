@@ -74,6 +74,17 @@ bool GameModel::gameOver()
 	return player1_.getStealthTokens() == 0 || player2_.getStealthTokens() == 0;
 }
 
+
+void GameModel::endTurn()
+{
+	// Fullfil tile end of turn actions
+	Tile * currentTile = board.getTile(currentPlayer_->getPosition());
+	if (currentTile->getType() == MOTION)		// Disarm the alarm in the Motion Room
+		((Motion *)currentTile)->disarm();
+	else if (currentTile->getType() == THERMO)
+		((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
+}
+
 /**
 Called after guard movement, it changes the turn
 */
