@@ -7,12 +7,13 @@ Safe::~Safe()
 
 vector<string> Safe::getActions(PlayerInterface * player) 
 {
+	int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
 	vector<string> actions(Tile::getActions(player));
 	if (safeIsOpen() == false)		
 	{		
 		if (dices < 6 && player->getActionTokens() >= 2)
 			actions.push_back("ADD_TOKEN");
-		if (dices > 0 && player->getActionTokens() >= 1)
+		if ((dices + b) > 0 && player->getActionTokens() >= 1)
 			actions.push_back("THROW_DICE");
 	}
 	return actions;
@@ -32,7 +33,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 	else if (action == "THROW_DICE")
 	{
 		player->removeActionToken();		// remove an action
-		for (int i = 0; i < dices && !safeIsOpen() + b ; i++)		// while the safe remains closed, throw all the dice you have
+		for (int i = 0; i < (dices + b) && !safeIsOpen()  ; i++)		// while the safe remains closed, throw all the dice you have
 		{
 			trySafeNumber(rand()%6+1);			// check how many tiles you cracked throwing one die
 

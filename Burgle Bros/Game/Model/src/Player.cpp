@@ -9,6 +9,7 @@ Player::Player(Board * b, Player * p, int n)
 	resetActionTokens();
 	crowToken = NPOS;
 	lastPos = NPOS;
+	destination = NPOS;
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
 	character = nullptr;
@@ -56,15 +57,20 @@ bool Player::has(lootType l)
 			return true;
 	return false;
 }
-/*
+
+bool Player::needConfirmation(Coord c)
+{
+	return needConfirmationToMove(c);
+};
+
 bool Player::needConfirmationToMove(Coord c)
 {
-	tileType t = board->getTile(c)->getType();
-	if (t == DEADBOLT)
-		return true;
-	else
-		return false;
-}*/
+	bool  b = false;
+	if (board->getTile(c)->is(DEADBOLT) && !(board->getTile(c)->guardHere() || c == otherPlayer->getPosition()) && ((this->getActionTokens() >= 3 && board->getTile(c)->isFlipped() == true) ||(this->getActionTokens() >= 4 && board->getTile(c)->isFlipped() == false)))
+		b = true;
+	if (board->getTile(c)->is(LASER) && (((this->getActionTokens() >= 3) && board->getTile(c)->isFlipped() == false) || ((this->getActionTokens() >= 2) && board->getTile(c)->isFlipped() == false))) b = true;
+	return b;
+}
 void Player::resetActionTokens()
 {
 	actionTokens = NUMBER_ACTION_TOKENS;

@@ -39,7 +39,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-		fsm.model->currentPlayer()->setCharacter(ACROBAT);
+		fsm.model->currentPlayer()->setCharacter(PETERMAN);
 		fsm.model->otherPlayer()->setCharacter(SPOTTER);
 		fsm.model->currentPlayer()->setName(string("Prueba"));
 		fsm.model->otherPlayer()->setName(string("Resto"));
@@ -240,19 +240,44 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct askb4Move
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Preparing to move to " << event.c << std::endl;
+			fsm.model->currentPlayer()->setDest(event.c);
+			if (!(fsm.model->currentPlayer()->needConfirmationToMove(event.c)))
+			{
+				fsm.process_event(ev::done());
+			}
+			fsm.currentAction = MOVE;
+		}
+	};
+
 	struct doMove
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Moving to  " << event.c << std::endl;
-			bool b = fsm.model->currentPlayer()->move(event.c);
+			std::cout << "Moving to  " << fsm.model->currentPlayer()->getDest() << std::endl;
+			bool b = fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
+			fsm.model->currentPlayer()->setDest(NPOS);
 			if (b == false)
 				std::cout << "Cant move!" << std::endl;
 			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 			fsm.model->check4Cameras();
 			fsm.currentAction = NO_TYPE;
+		}
+	};
+
+	struct dontMove
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+
 		}
 	};
 
@@ -449,7 +474,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			fsm.model->moveGuard();
 			if (fsm.model->guardIsMoving() == false)
 			{
-				fsm.process_event(ev::pass());
+				fsm.process_event(ev::passGuard());
 				fsm.guardTimer->stop();
 			}
 		}
@@ -624,7 +649,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,
 		Row < chooseAction		, ev::movee			, none				, showMove			, none				>,
 		Row < chooseAction		, ev::peek			, none				, showPeek			, none				>,
-		Row < chooseAction		, ev::coord			, chekActionTokens	, doMove			, isMoving			>,
+		Row < chooseAction		, ev::coord			, askConfirmation	, askb4Move			, isMoving			>,
 		Row < chooseAction		, ev::coord			, chekActionTokens	, doPeek			, isPeeking			>,
 		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
 		Row	< chooseAction		, ev::coord			, chooseAction		, doPlaceCrow		, isPlacingCrow		>,
@@ -645,13 +670,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation	, ev::no			, chekActionTokens	, dontAddToken		, isAddingToken		>,
 		Row < askConfirmation	, ev::yes			, chekActionTokens	, doThrowDice		, isThrowingDice	>,
 		Row < askConfirmation	, ev::no			, chekActionTokens	, dontThrowDice		, isThrowingDice	>,
+		Row < askConfirmation	, ev::yes			, chekActionTokens	, doMove			, isMoving			>,
+		Row < askConfirmation	, ev::no			, chekActionTokens	, dontMove			, isMoving			>,
+		Row < askConfirmation	, ev::done			, chekActionTokens	, doMove			, isMoving			>,
 		//  +------------+-------------+------------+--------------+--------------+
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none				>,
 		Row < chekActionTokens	, ev::yes			, chooseAction		, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < guardTurn			, ev::movee			, none				, moveGuard			, none				>,
-		Row < guardTurn			, ev::pass			, chooseAction		, changeTurn		, none				>,
+		Row < guardTurn			, ev::passGuard		, chooseAction		, changeTurn		, none				>,
 		Row < guardTurn			, ev::gameOver		, gameEnded			, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < gameEnded			, ev::playAgain		, chooseAction		, resetGame			, none				>

@@ -101,36 +101,41 @@ void GameModel::moveGuard()
 	if (board.getFloor(floor)->getGuard()->getPos() == NPOS)
 	{
 		board.getFloor(floor)->getGuard()->locateGuard();
-		if (board.getFloor(floor)->tile(board.getFloor(floor)->getGuard()->getPos().col, board.getFloor(floor)->getGuard()->getPos().row)->is(CAMERA) && board.getFloor(floor)->tile(board.getFloor(floor)->getGuard()->getPos().col, board.getFloor(floor)->getGuard()->getPos().row)->isFlipped())
+		board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(true);
+		if (board.getTile(board.getFloor(floor)->getGuard()->getPos())->is(CAMERA) && board.getTile(board.getFloor(floor)->getGuard()->getPos())->isFlipped())
 		{
 			for (auto &it : board.getCameras())
 			{
 				if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == currentPlayer_->getPosition())
 				{
-					board[floor].tile(currentPlayer_->getPosition().col, currentPlayer_->getPosition().row)->setAlarm(true);
+					board.getTile(currentPlayer_->getPosition())->setAlarm(true);
 				}
 				else if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == otherPlayer_->getPosition())
 				{
 					
-					board.getFloor(otherPlayer_->getPosition().floor)->tile(otherPlayer_->getPosition().col, otherPlayer_->getPosition().row)->setAlarm(true);
+					board.getTile(otherPlayer_->getPosition())->setAlarm(true);
 				}
 			}
 		}
+
 	}
+	else board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(false);
 	
 	guardIsMoving_ = board.getFloor(floor)->moveGuard(currentPlayer_);
-	if (board.getFloor(floor)->tile(board.getFloor(floor)->getGuard()->getPos().col, board.getFloor(floor)->getGuard()->getPos().row)->is(CAMERA) && board.getFloor(floor)->tile(board.getFloor(floor)->getGuard()->getPos().col, board.getFloor(floor)->getGuard()->getPos().row)->isFlipped())
+	board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(true);
+
+	if (board.getTile(board.getFloor(floor)->getGuard()->getPos())->is(CAMERA) && board.getTile(board.getFloor(floor)->getGuard()->getPos())->isFlipped())
 	{
 		for (auto &it : board.getCameras())
 		{
 			if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == currentPlayer_->getPosition())
 			{
-				board[floor].tile(currentPlayer_->getPosition().col, currentPlayer_->getPosition().row)->setAlarm(true);
+				board.getTile(currentPlayer_->getPosition())->setAlarm(true);
 			}
 			else if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == otherPlayer_->getPosition())
 			{
 
-				board.getFloor(otherPlayer_->getPosition().floor)->tile(otherPlayer_->getPosition().col, otherPlayer_->getPosition().row)->setAlarm(true);
+				board.getTile(otherPlayer_->getPosition())->setAlarm(true);
 			}
 		}
 	}

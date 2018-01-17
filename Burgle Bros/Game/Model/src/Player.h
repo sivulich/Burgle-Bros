@@ -34,6 +34,9 @@ public:
 	//	Add the amount of stealth tokens you want
 	void setStealthTokens(int i) { stealthTokens = i; };
 
+	// Get player current Destination
+	void setDest(Coord c) { if (c.row < F_HEIGHT && c.col < F_WIDTH && c.floor < NUMBER_FLOORS) destination = c; };
+
 	// GETTERS
 
 	//	Get player name
@@ -71,6 +74,9 @@ public:
 
 	// Get the turn number
 	int getTurn() { return turn; };
+
+	// Get player current Destination
+	Coord getDest() { return destination; };
 
 
 	// MISC
@@ -130,10 +136,10 @@ public:
 	//
 	virtual void addLoot(lootType l)override;
 
-	// Return true if the player has the specified loot
+	//	Return true if the player has the specified loot
 	virtual bool has(lootType l)override;
 
-	// Returns true if the player has at least one loot.
+	//	Returns true if the player has at least one loot.
 	virtual bool hasLoot()override;
 
 	//	Retrun true if the guard can see the player from that position
@@ -148,7 +154,11 @@ public:
 	//	Adds a coordinate to the list of coordinates the player is visible from
 	virtual void addVisibleTile(Coord tile)override;
 
+	//	Returns true if user is required to confirm movement or action
+	bool Player::needConfirmation(Coord c);
 
+	//	Returns true if user is required to confirm movement
+	bool Player::needConfirmationToMove(Coord c);
 
 	// REVISAR DE ACA PA BAJO
 
@@ -197,7 +207,7 @@ private:
 	// If its player turn playing=true
 	bool playing;
 	//
-	Coord lastPos;
+	Coord lastPos, destination;
 	// Character the player is using
 	Character * character;
 	// Tile where character token is placed on the board

@@ -26,6 +26,7 @@ namespace ev {
 	struct addToken : BaseEvent {};
 	struct addDice : BaseEvent {};
 	struct pass : BaseEvent {};
+	struct passGuard : BaseEvent {};
 	struct pause : BaseEvent {};
 	struct resume : BaseEvent {};
 	struct gameOver : BaseEvent {};
@@ -43,6 +44,7 @@ namespace ev {
 	struct pickUpLoot : BaseEvent {};
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};
+	struct done : BaseEvent {};
 	struct ok : BaseEvent {};
 	struct render : BaseEvent {};
 	struct coord : BaseEvent
