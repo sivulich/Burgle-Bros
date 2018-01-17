@@ -8,7 +8,7 @@ Deadbolt::~Deadbolt()
 bool Deadbolt::canMove(PlayerInterface * player)
 {
 	// If tile is revealed but player has less than three tokens, cant move
-	if (isFlipped()==true && player->getActionTokens() < 3)
+	if (isFlipped()==true && player->getActionTokens() < 3 )
 		return false;
 	else
 		return true;

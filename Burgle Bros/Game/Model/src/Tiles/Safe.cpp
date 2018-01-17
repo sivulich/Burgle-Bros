@@ -20,12 +20,12 @@ vector<string> Safe::getActions(PlayerInterface * player)
 
 bool Safe::doAction(string action, PlayerInterface * player) 
 {
-	if (action == "ADD_DIE")
+	if (action == "ADD_TOKEN" && player->getActionTokens()>=2)
 	{
 		player->removeActionToken();
 		player->removeActionToken();
 		addDice();
-		player->newAction("ADD_DIE", getPos());
+		player->newAction("ADD_TOKEN", getPos());
 		DEBUG_MSG("You added a new die to this safe. You can now throw " <<dices << " dices.");
 	}
 	else if (action == "THROW_DICE")
