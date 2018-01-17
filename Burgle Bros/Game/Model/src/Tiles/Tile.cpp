@@ -87,10 +87,10 @@ bool Tile::hasSouthWall()
 
 void Tile::turnUp()
 {
-	BaseCard::turnUp();
 	default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
 	uniform_int_distribution<int> distribution(1, 6);
 	safeNumber = distribution(generator);
+	BaseCard::turnUp();
 	notify();
 }
 

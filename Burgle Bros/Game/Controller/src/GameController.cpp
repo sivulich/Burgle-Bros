@@ -137,7 +137,7 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::placeCrow());
 	else if (s == "SPY_PATROL")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
-	else if (s == "TROW_DICE")
+	else if (s == "THROW_DICE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());

@@ -281,13 +281,6 @@ void Player::addToken()
 	currentTile->doAction(string("ADD_TOKEN"), this);
 }
 
-void Player::addDice()
-{
-	currentTile->doAction(string("ADD_DICE"), this);
-}
-
-
-
 bool Player::isOnRoof()
 {
 	return getPosition() == ROOF;
@@ -349,9 +342,10 @@ int Player::throwDice()
 	uniform_int_distribution<int> distribution(1, 6);
 	unsigned int temp = distribution(generator);
 	dice.push_back(temp);
+	currentTile->doAction("THROW_DICE",this);
 	newAction(toString(THROW_DICE), currentTile->getPos());
 
-	DEBUG_MSG("You rolled the dice and got a " << temp);
+	//DEBUG_MSG("You rolled the dice and got a " << temp);
 
 	notify();
 	return temp;

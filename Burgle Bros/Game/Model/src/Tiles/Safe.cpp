@@ -20,6 +20,7 @@ vector<string> Safe::getActions(PlayerInterface * player)
 
 bool Safe::doAction(string action, PlayerInterface * player) 
 {
+	int b = (player->getCharacter() == PETERMAN) ? 1: 0;
 	if (action == "ADD_TOKEN" && player->getActionTokens()>=2)
 	{
 		player->removeActionToken();
@@ -31,9 +32,9 @@ bool Safe::doAction(string action, PlayerInterface * player)
 	else if (action == "THROW_DICE")
 	{
 		player->removeActionToken();		// remove an action
-		for (int i = 0; i < dices && !safeIsOpen(); i++)		// while the safe remains closed, throw all the dice you have
+		for (int i = 0; i < dices && !safeIsOpen() + b ; i++)		// while the safe remains closed, throw all the dice you have
 		{
-			trySafeNumber(player->throwDice());			// check how many tiles you cracked throwing one die
+			trySafeNumber(rand()%6+1);			// check how many tiles you cracked throwing one die
 
 			if (combinationTiles.size() == 0) {		//  if the vector is empty, then all the tiles were cracked
 				safeCracked = true;								// if so, you opened the safe
@@ -49,19 +50,22 @@ bool Safe::doAction(string action, PlayerInterface * player)
 }
 
 void Safe::trySafeNumber(int number) {
+	cout << "Threw a " << number << endl;
+	vector <Tile *> v;
 	if (combinationTiles.size() != 0) 
 	{
-		vector<Tile *>::iterator pbegin = combinationTiles.begin();
-		vector<Tile *>::iterator pend = combinationTiles.end();
-
-
-		combinationTiles.erase(remove_if(pbegin, pend, [&](Tile * t) { return canCrack(t, number); }), combinationTiles.end());
-
+		for (auto &it : combinationTiles)
+		{
+			if (it->isFlipped() && it->getSafeNumber() == number)
+				it->crackTile();
+			else v.push_back(it);
+		}
+		combinationTiles = v;
 		DEBUG_LN_MSG("Tiles remaining to crack: ");
 			for (auto i : combinationTiles)
 				DEBUG_LN_MSG(i->getPos() << " - ");
 			DEBUG_MSG(endl);
-		
+			
 	}
 }
 

@@ -252,7 +252,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 			fsm.model->check4Cameras();
-
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -308,19 +307,20 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Throwing dice" << std::endl;
+			fsm.model->currentPlayer()->throwDice();
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
-	struct doAddDice
+	struct dontThrowDice
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Adding dice to the safe " << std::endl;
-			fsm.model->currentPlayer()->addDice();
+			std::cout << "Throwing dice" << std::endl;
+			fsm.currentAction = NO_TYPE;
 		}
 	};
-
 
 	struct doCreateAlarm
 	{
@@ -540,6 +540,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct prepThrowDice
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Preparing to throw dice: ";
+			fsm.currentAction = THROW_DICE;
+
+		}
+	};
+
 	///////////// GUARDSSSSS
 	struct isMoving
 	{
@@ -595,6 +606,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isThrowingDice
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == THROW_DICE;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start				Event					Next				Action         Guard
@@ -609,8 +629,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
 		Row	< chooseAction		, ev::coord			, chooseAction		, doPlaceCrow		, isPlacingCrow		>,
 		Row < chooseAction		, ev::addToken		, askConfirmation	, prepAddToken		, none				>,
-		Row < chooseAction		, ev::addDice		, chekActionTokens	, doAddDice			, none				>,
-		//Row < chooseAction	, throwDice			, throwingDice		, none				, none				>,
+		Row < chooseAction		, ev::throwDice		, askConfirmation	, prepThrowDice		, none				>,
 		//Row < chooseAction	, useToken			, usingToken		, none				, none				>,
 
 		//Row < chooseAction	, offerLoot			, offeringLoot		, none				, none				>,
@@ -624,6 +643,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation	, ev::no			, chekActionTokens	, doSendBottom		, isSpying			>,
 		Row < askConfirmation	, ev::yes			, chekActionTokens	, doAddToken		, isAddingToken		>,
 		Row < askConfirmation	, ev::no			, chekActionTokens	, dontAddToken		, isAddingToken		>,
+		Row < askConfirmation	, ev::yes			, chekActionTokens	, doThrowDice		, isThrowingDice	>,
+		Row < askConfirmation	, ev::no			, chekActionTokens	, dontThrowDice		, isThrowingDice	>,
 		//  +------------+-------------+------------+--------------+--------------+
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens	, ev::no			, guardTurn			, none				, none				>,

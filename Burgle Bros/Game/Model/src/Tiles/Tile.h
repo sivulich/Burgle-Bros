@@ -98,10 +98,10 @@ public:
 	bool hasNorthWall();
 	bool hasSouthWall();
 
-	void crackTile() { crackToken = true; };
+	void crackTile() { crackToken = true; notify(); };
 	bool hasCrackToken() { return crackToken; };
 
-	void setStairToken(bool b) { stairToken = b; };
+	void setStairToken(bool b) { stairToken = b; notify(); };
 	bool hasStairToken() { return stairToken; };
 
 	void setCrowToken(bool b) { crowToken = b; notify(); };
