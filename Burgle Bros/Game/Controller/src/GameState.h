@@ -202,7 +202,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Its guards turn" << std::endl;
+			std::cout << "Its the guards turn" << std::endl;
 			fsm.guardTimer->start();
 		}
 
@@ -642,8 +642,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	// Transition table
 	struct transition_table : mpl::vector<
-		//       Start				Event					Next				Action         Guard
-		//  +------------+-------------+------------+--------------+--------------+
+		//       Start				Event					Next				Action            Guard
+		//  +------------+-------------+------------+--------------+--------------+-----------------+-----------+
 		
 		Row < chooseInitialPos	, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
 		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,

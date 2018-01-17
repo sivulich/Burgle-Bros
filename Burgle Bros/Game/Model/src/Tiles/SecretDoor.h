@@ -23,7 +23,7 @@ public:
 	Executes the tile's special actions, if any...
 	@param p player who is moving
 	*/
-	virtual void enter(PlayerInterface * player);
+	virtual void turnUp() override;
 private:
 	vector<Tile *> secretDoors;
 };

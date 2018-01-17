@@ -118,9 +118,15 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 		floorContainer->addObject(hackTokens.back());
 	}
 
-	flipped = false;
+	flipped = false;	
 	cracked = false;
 	tile->attach(this);
+
+#ifdef DEBUG
+	tile->flip();
+	tile->debugFlip();
+#endif // All tiles are set facing up (picture only)
+
 }
 
 void TileObserver::showSafeNumber()

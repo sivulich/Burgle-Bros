@@ -200,6 +200,7 @@ void Board::parseBoard()
 			{
 				Tile * tile = getTile(Coord(f, col, row));
 
+				
 				switch (tile->getType())
 				{
 					case STAIR:
