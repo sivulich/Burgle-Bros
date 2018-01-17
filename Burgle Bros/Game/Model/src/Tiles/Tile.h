@@ -17,7 +17,7 @@ public:
 	Tile(tileType t, unsigned floor, unsigned col, unsigned row);
 
 	//	Apart from turning up the card, sort the safe number
-	virtual void turnUp()override;
+	virtual void turnUp();
 
 	//	Peek the tile
 	void peek();
