@@ -81,6 +81,13 @@ void GameModel::changeTurn()
 {
 	currentPlayer_->resetActionTokens();
 	currentPlayer_->useAbility(false);
+
+	// Fullfil tile end of turn actions
+	Tile * currentTile = board.getTile(currentPlayer_->getPosition());
+	if (currentTile->getType() == MOTION)		// Disarm the alarm in the Motion Room
+		((Motion *)currentTile)->disarm();
+	else if (currentTile->getType() == THERMO)
+		((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
 	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->isPlaying(true);
 	otherPlayer_->isPlaying(false);
