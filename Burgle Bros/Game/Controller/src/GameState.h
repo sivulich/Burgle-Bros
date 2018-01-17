@@ -300,7 +300,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Using token" << std::endl;
+			fsm.model->currentPlayer()->useToken();
 
 		}
 	};
@@ -643,7 +643,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start				Event					Next				Action            Guard
-		//  +------------+-------------+------------+--------------+--------------+-----------------+-----------+
+		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
 		
 		Row < chooseInitialPos	, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
 		Row < chooseAction		, ev::pass			, guardTurn			, none				, none				>,
@@ -655,7 +655,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row	< chooseAction		, ev::coord			, chooseAction		, doPlaceCrow		, isPlacingCrow		>,
 		Row < chooseAction		, ev::addToken		, askConfirmation	, prepAddToken		, none				>,
 		Row < chooseAction		, ev::throwDice		, askConfirmation	, prepThrowDice		, none				>,
-		//Row < chooseAction	, useToken			, usingToken		, none				, none				>,
+		Row < chooseAction		, ev::useToken		, chooseAction		, doUseToken		, none				>,
 
 		//Row < chooseAction	, offerLoot			, offeringLoot		, none				, none				>,
 		//Row < chooseAction	, requestLoot		, requestingLoots	, none				, none				>,

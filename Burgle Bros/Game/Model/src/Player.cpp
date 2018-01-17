@@ -233,7 +233,7 @@ bool Player::placeCrow(Coord c)
 
 void Player::useToken()
 {
-
+	currentTile->doAction(toString(USE_TOKEN), this);
 }
 
 

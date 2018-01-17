@@ -29,7 +29,7 @@ vector<string> Motion::getActions(PlayerInterface * player)
 {
 	vector<string> actions(Tile::getActions(player));
 
-	if (isArmed() && computerRoom->getHackTokens() > 0)
+	if ((this->hasAlarm()==true || this->isArmed()==true ) && computerRoom->getHackTokens() > 0)
 		actions.push_back("USE_TOKEN");		// if you have an action, you can use a token to disarm the system
 	return actions;
 }
@@ -46,8 +46,7 @@ bool Motion::doAction(string action, PlayerInterface * player)
 			setAlarm(false);
 			player->newAction(toString(USE_TOKEN), getPos());
 			return true;
-		}
-		
+		}	
 	}
 	return false;
 }

@@ -11,7 +11,7 @@ void Fingerprint::enter(PlayerInterface * player) {
 	if (player->getCharacter() == HACKER)
 		hackerHere = true;
 	if(!hackerHere)
-	setAlarm(true);
+		setAlarm(true);
 }
 
 vector<string> Fingerprint::getActions(PlayerInterface * player)
