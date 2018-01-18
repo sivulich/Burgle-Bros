@@ -5,28 +5,22 @@ Deadbolt::~Deadbolt()
 {
 }
 
-bool Deadbolt::canMove(PlayerInterface * player)
-{
-	// If tile is revealed but player has less than three tokens, cant move
-	if (isFlipped()==true && player->getActionTokens() < 3 )
-		return false;
-	else
-		return true;
-}
 
-void Deadbolt::enter(PlayerInterface * player)
+
+bool Deadbolt::doAction(string action, PlayerInterface * player)
 {
-	// If player has enough action tokens enter the tile
-	if (player->getActionTokens() >= 3)
+	if (action == "SPENT_OK")
 	{
-		Tile::enter(player);
+		if (isFlipped() == false) {
+			player->removeActionToken(),
+			turnUp();
+			DEBUG_MSG("Used 4 action tokens to enter Deadbolt.");
+		}
 		player->removeActionToken();
 		player->removeActionToken();
-		player->removeActionToken();
-		DEBUG_MSG("You spent three actions to enter the deadbolt");
+		return true;
 	}
-	else
-		cout << "UNEXPECTED ERROR IN DEADBOLT." << endl;
+	return false;
 }
 
 /*

@@ -4,7 +4,6 @@ SecretDoor::~SecretDoor()
 {
 }
 
-
 void SecretDoor::turnUp() {
 	Tile::turnUp();
 	for ( vector<Tile *>::iterator it = secretDoors.begin(); it != secretDoors.end(); it++) {

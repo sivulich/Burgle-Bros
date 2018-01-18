@@ -122,7 +122,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 	cracked = false;
 	tile->attach(this);
 
-#ifdef DEBUG
+#ifdef DEBUG_TILES
 	tile->flip();
 	tile->debugFlip();
 #endif // All tiles are set facing up (picture only)

@@ -19,7 +19,7 @@ public:
 
 	
 	//Removes 1 hack token from the tile
-	void removeToken() { --hackToken; notify(); };
+	void removeToken() { hackToken = hackToken - 1; notify(); };
 
 	void addToken() { if (hackToken < 6) ++hackToken; cout << "Current Hack tokens" << hackToken << endl; notify(); };
 

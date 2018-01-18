@@ -30,7 +30,7 @@ void Player::setPosition(Coord c)
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
-	if(tile->getType() != WALKWAY)
+	if(tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)
 		tile->turnUp();
 	tile->updateVisibleFrom(this);
 	notify();
@@ -59,25 +59,32 @@ bool Player::has(lootType l)
 	return false;
 }
 
-bool Player::needConfirmation(Coord c)
+confirmation Player::needConfirmation(Coord c)
 {
 	return needConfirmationToMove(c);
 };
 
-bool Player::needConfirmationToMove(Coord c)
+// TRUE if the user needs to make a decision to move to Tile 'c'
+// FALSE if nothing is needed from the user
+confirmation Player::needConfirmationToMove(Coord c)
 {
-	bool  b = false;	
-z	if (board->getTile(c)->is(DEADBOLT) && board->getTile(c)->is(LASER))
+
+	confirmation  b = _MOVE;	
+	Tile * wantedTile = board->getTile(c);
+		
+	if (wantedTile->is(DEADBOLT) && !(wantedTile->guardHere() || c == otherPlayer->getPosition()) )
 	{
-		if (board->getTile(c)->is(DEADBOLT) && !(board->getTile(c)->guardHere() || c == otherPlayer->getPosition()) && ((this->getActionTokens() >= 3 && board->getTile(c)->isFlipped() == true) || (this->getActionTokens() >= 4 && board->getTile(c)->isFlipped() == false)))
-		{
-			b = true;
-		}
-		if (board->getTile(c)->is(LASER) && (((this->getActionTokens() >= 3) && board->getTile(c)->isFlipped() == false) || ((this->getActionTokens() >= 2) && board->getTile(c)->isFlipped() == false))) b = true;
-		{
-			b = true;
-		};
+		if ((wantedTile->isFlipped() == true && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == false && this->getActionTokens() >= 4))
+			b = _ASK;
+		else
+			b = _CANT_MOVE;
 	}
+	else if (wantedTile->is(LASER) && wantedTile->hasAlarm() == false)
+	{
+		if ( (wantedTile->isFlipped() == false && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == true && this->getActionTokens() >= 2))
+			b = _ASK;
+	}
+	
 	return b;
 }
 void Player::resetActionTokens()
@@ -90,7 +97,7 @@ vector<Coord> Player::whereCanIMove()
 {
 	vector<Coord> v = currentTile->getAdjacent();
 
-	// Remove the ones where I cant move
+	/*// Remove the ones where I cant move
 	for (auto& t : v)
 	{
 		// Aca hay un problema con el keypad, porque canMove tira el dado!! Lo arreglo con un continue
@@ -98,7 +105,7 @@ vector<Coord> Player::whereCanIMove()
 			continue;
 		//else if (board->getTile(t)->canMove(this) == false)
 		//	v.erase(remove(v.begin(), v.end(), t));
-	}
+	}*/
 	return v;
 }
 
@@ -109,28 +116,30 @@ bool Player::move(Coord c)
 
 bool Player::move(Tile * newTile)
 {
-	// Solo saco un action token si me puedo mover
-	removeActionToken();
+		removeActionToken();
 
-	newAction("MOVE", newTile->getPos());
+		if (newTile->canMove(this)) {
+			newAction("MOVE", newTile->getPos());
 
-	// Exit the current tile
-	lastPos = this->getPosition();
-	currentTile->exit(this);
+			// Exit the current tile
+			lastPos = this->getPosition();
+			currentTile->exit(this);
 
-	setPosition(newTile);
+			setPosition(newTile);
 
-	// And enter the next tile
-	newTile->enter(this);
+			// And enter the next tile
+			newTile->enter(this);
 
-	// Update all loots
-	for (auto & t : loots)
-		t->update();
+			// Update all loots
+			for (auto & t : loots)
+				t->update();
 
-	// Notify the view the player has moved
-	notify();
+			// Notify the view the player has moved
+			notify();
 
-	return true;
+			return true;
+		}
+		return false;
 }
 
 vector<Coord> Player::whereCanIPeek()

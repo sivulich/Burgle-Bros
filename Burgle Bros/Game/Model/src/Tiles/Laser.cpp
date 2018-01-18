@@ -33,11 +33,14 @@ bool Laser::doAction(string action, PlayerInterface * player)
 	{
 		if (action == "SPENT_OK")
 		{
-			player->removeActionToken();
+			if (isFlipped() == false) {
+				player->removeActionToken(),
+				turnUp();
+			}
 			player->removeActionToken();
 			setAlarm(false);
 			player->newAction(toString(SPENT_OK), getPos());
-			DEBUG_MSG("You decided to use two action tokens to turn off the alarm.");
+			DEBUG_MSG("You decided to use action tokens to turn off the alarm.");
 		}
 		else if (action == "USE_TOKEN")
 		{

@@ -183,16 +183,26 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct askConfirmation : public msm::front::state<>
 	{
+		bool wasFlipped;
+		Tile * destinationTile;
+
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Are you sure? yes/no" << std::endl;
+			// Show the user the tile in question
+			destinationTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
+			wasFlipped = destinationTile->isFlipped();
+			destinationTile->turnUp();
+			std::cout << "Are you sure? Yes/No" << std::endl;
 		}
 
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
+			//Leave everything like before...
+			if (wasFlipped == false)
+				destinationTile->turnDown();
 			std::cout << "Okay..." << std::endl;
 		}
 
@@ -247,11 +257,31 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Preparing to move to " << event.c << std::endl;
 			fsm.model->currentPlayer()->setDest(event.c);
-			if (!(fsm.model->currentPlayer()->needConfirmationToMove(event.c)))
-			{
+
+			confirmation needInput = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
+			if (needInput == _MOVE)
 				fsm.process_event(ev::done());
-			}
+			else if (needInput == _CANT_MOVE)
+				fsm.process_event(ev::no());
+			
 			fsm.currentAction = MOVE;
+		}
+	};
+	struct doNormal	
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			cout << "DO NORMAL" << endl;
+			// Move the player
+			bool b = fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
+
+			if (b == false)
+				std::cout << "Cant move!" << std::endl;
+			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
+				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
+			fsm.model->check4Cameras();
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -260,9 +290,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Moving to  " << fsm.model->currentPlayer()->getDest() << std::endl;
+			// Move the player
+			cout << "DO MOVE" << endl;
 			bool b = fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
-			fsm.model->currentPlayer()->setDest(NPOS);
+
+			tileType currentTileType = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
+			if ( currentTileType == LASER || currentTileType == DEADBOLT )
+				fsm.model->currentPlayer()->spentOK();
+
 			if (b == false)
 				std::cout << "Cant move!" << std::endl;
 			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
@@ -277,6 +312,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
+			tileType destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
+			if (destTile == DEADBOLT) {
+				cout << "DONT MOVE" << endl;
+				fsm.model->currentPlayer()->removeActionToken();
+				fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->turnUp();
+			}
+			else	// LASER ROOM
+				fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
 
 		}
 	};
@@ -684,7 +727,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation	, ev::no			, chekActionTokens	, dontThrowDice		, isThrowingDice	>,
 		Row < askConfirmation	, ev::yes			, chekActionTokens	, doMove			, isMoving			>,
 		Row < askConfirmation	, ev::no			, chekActionTokens	, dontMove			, isMoving			>,
-		Row < askConfirmation	, ev::done			, chekActionTokens	, doMove			, isMoving			>,
+		Row < askConfirmation	, ev::done			, chekActionTokens	, doNormal			, isMoving			>,
 		//  +------------+-------------+------------+--------------+--------------+
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens	, ev::no			, guardTurn			, doEndTurn			, none				>,
