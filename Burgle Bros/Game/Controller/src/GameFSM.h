@@ -403,51 +403,50 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 	struct transition_table : mpl::vector<
 		//       Start        Event         Next         Action         Guard
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < MenuScreen, ev::start, ModeScreen, none, none >,
-		Row < MenuScreen, ev::rules, RulesScreen, none, none >,
-		Row < MenuScreen, ev::credits, CreditsScreen, none, none >,
-
-		Row < ModeScreen, ev::local, SetupScreen, none, none >,
-		Row < ModeScreen, ev::remote, IPScreen, none, none >,
-		Row < ModeScreen, ev::back, MenuScreen, none, none >,
-
-		Row < RulesScreen, ev::back, MenuScreen, none, none >,
-
-		Row < CreditsScreen, ev::back, MenuScreen, none, none >,
-
-		Row < SetupScreen, ev::back, ModeScreen, none, isLocal >,
-		Row < SetupScreen, ev::back, IPScreen, none, isRemote >,
-		Row < SetupScreen, ev::characterName, none, setUpCharacter, none >,
-		Row < SetupScreen, ev::next, none, doSetup, none >,
-		Row < SetupScreen, ev::play, GameState, none, none >,
-
-		Row < IPScreen, ev::back, ModeScreen, none, none >,
-		Row < IPScreen, ev::connect, none, doConnect, none >,
-		Row < IPScreen, ev::next, SetupScreen, removeMessage, none >,
-		Row < IPScreen, ev::cancel, none, stopConnecting, none >,
-		//Row < RemoteSetupScreen, ev::characterName, none, setUpCharacter, none >,
+		Row < MenuScreen	, ev::start			, ModeScreen	, none				, none		>,
+		Row < MenuScreen	, ev::rules			, RulesScreen	, none				, none		>,
+		Row < MenuScreen	, ev::credits		, CreditsScreen	, none				, none		>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < ModeScreen	, ev::local			, SetupScreen	, none				, none		>,
+		Row < ModeScreen	, ev::remote		, IPScreen		, none				, none		>,
+		Row < ModeScreen	, ev::back			, MenuScreen	, none				, none		>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < RulesScreen	, ev::back			, MenuScreen	, none				, none		>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < CreditsScreen	, ev::back			, MenuScreen	, none				, none		>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < SetupScreen	, ev::back			, ModeScreen	, none				, isLocal	>,
+		Row < SetupScreen	, ev::back			, IPScreen		, none				, isRemote	>,
+		Row < SetupScreen	, ev::characterName	, none			, setUpCharacter	, none		>,
+		Row < SetupScreen	, ev::next			, none			, doSetup			, none		>,
+		Row < SetupScreen	, ev::play			, GameState		, none				, none		>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < IPScreen		, ev::back			, ModeScreen	, none				, none		>,
+		Row < IPScreen		, ev::connect		, none			, doConnect			, none		>,
+		Row < IPScreen		, ev::next			, SetupScreen	, removeMessage		, none		>,
+		Row < IPScreen		, ev::cancel		, none			, stopConnecting	, none		>,
+//		Row < RemoteSetupScreen, ev::characterName, none, setUpCharacter, none >,
 //		Row < RemoteSetupScreen, ev::next, none, doRemoteSetup, none >,
 //	    Row < RemoteSetupScreen, ev::play, GameState, none, none >,
-
-Row <GameState, ev::back, MenuScreen, none, none >,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row <GameState		, ev::back			, MenuScreen	, none				, none		>,
 
 //--------------------------Orthogonal region-----------------------------//
 //  +------------+-------------+------------+--------------+--------------+
-Row <   playing, ev::close, exit, none, none     >,
-//Row <   playing, ev::errorReceived, error, none, none     >,
-Row <   playing, ev::pause, paused, none, none     >,
-//Row <   playing, ev::render, none, doRender, none     >,
-
-//  +------------+-------------+------------+--------------+--------------+
-Row <   paused, ev::pause, playing, none, none     >,
-Row <   paused, ev::close, exit, none, none     >
-/*Row <   paused, ev::render, paused, doRender, none     >,
-//  +------------+-------------+------------+--------------+--------------+
-Row <   error, ev::errorHandled, playing, none, none     >,
-Row <   error, ev::close, exit, none, none     >,
-Row <   error, ev::render, none, doRender, none     >
-//  +------------+-------------+------------+--------------+--------------+*/
-	> {};
+		Row <   playing		, ev::close			, exit			, none				, none		>,
+		//Row <   playing, ev::errorReceived, error, none, none     >,				
+		Row <   playing		, ev::pause			, paused		, none				, none		>,
+		//Row <   playing, ev::render, none, doRender, none     >,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row <   paused		, ev::pause			, playing		, none				, none		>,
+		Row <   paused		, ev::close			, exit			, none				, none		>
+		/*Row <   paused, ev::render, paused, doRender, none     >,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row <   error, ev::errorHandled, playing, none, none     >,
+		Row <   error, ev::close, exit, none, none     >,
+		Row <   error, ev::render, none, doRender, none     >
+		//  +------------+-------------+------------+--------------+--------------+*/
+			> {};
 
 	typedef mpl::vector<playing, MenuScreen> initial_state;
 

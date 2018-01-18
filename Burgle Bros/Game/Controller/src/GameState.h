@@ -1,7 +1,7 @@
 #pragma once
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
-#define BOOST_MPL_LIMIT_VECTOR_SIZE 30 //or whatever you need                       
-#define BOOST_MPL_LIMIT_MAP_SIZE 30 //or whatever you need 
+#define BOOST_MPL_LIMIT_VECTOR_SIZE 40 //or whatever you need                       
+#define BOOST_MPL_LIMIT_MAP_SIZE 40 //or whatever you need 
 
 #include <iostream>
 // Back-end:
@@ -93,7 +93,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-
 	struct chooseAction : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -116,6 +115,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct chooseLoot : public msm::front::state<>
+	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+
+		}
+
+		template <class EVT, class FSM>
+		void on_exit(EVT const&  event, FSM& fsm)
+		{
+			// Desmarcar las tiles 
+			fsm.graphics->setAllClickable();
+		}
+	};
 
 	struct placingCrow : public msm::front::state<>
 	{
@@ -131,6 +145,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "" << std::endl;
 		}
 	};
+
 	struct offeringLoot : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -197,6 +212,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 
 	};
+
 	struct guardTurn : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -588,6 +604,28 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct prepOffer
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Preparing to offer loot: ";
+			fsm.currentAction = OFFER_LOOT;
+
+		}
+	};
+
+	struct prepRequest
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Preparing to request loot: ";
+			fsm.currentAction = REQUEST_LOOT;
+
+		}
+	};
+
 	///////////// GUARDSSSSS
 	struct isMoving
 	{
@@ -668,9 +706,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction		, ev::addToken		, askConfirmation	, prepAddToken		, none				>,
 		Row < chooseAction		, ev::throwDice		, askConfirmation	, prepThrowDice		, none				>,
 		Row < chooseAction		, ev::useToken		, chooseAction		, doUseToken		, none				>,
-
-		//Row < chooseAction	, offerLoot			, offeringLoot		, none				, none				>,
-		//Row < chooseAction	, requestLoot		, requestingLoots	, none				, none				>,
+		//  +------------+-------------+------------+--------------+--------------+
+//		Row < chooseAction		, ev::offerLoot		, chooseLoot		, prepOffer			, none				>,
+//		Row < chooseAction		, ev::requestLoot	, chooseLoot		, prepRequest		, none				>,
 		Row	< chooseAction		, ev::createAlarm	, none				, showAlarm			, none				>,
 		Row < chooseAction		, ev::placeCrow		, none				, showCrow			, none				>,
 		Row < chooseAction		, ev::spyPatrol		, askConfirmation	, doSpyPatrol		, none				>,
@@ -685,7 +723,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation	, ev::yes			, chekActionTokens	, doMove			, isMoving			>,
 		Row < askConfirmation	, ev::no			, chekActionTokens	, dontMove			, isMoving			>,
 		Row < askConfirmation	, ev::done			, chekActionTokens	, doMove			, isMoving			>,
+//		Row < askConfirmation	, ev::yes			, chooseAction		, doGiveLoot		, isOfferingLoot	>,
+//		Row < askConfirmation	, ev::no			, chooseAction		, none				, isOfferingLoot	>,
+//		Row < askConfirmation	, ev::yes			, chooseAction		, doGetLoot			, isRequestingLoot	>,
+//		Row < askConfirmation	, ev::no			, chooseAction		, none				, isRequestingLoot	>,
 		//  +------------+-------------+------------+--------------+--------------+
+//		Row < chooseLoot		, ev::firstLoot		, askConfirmation	, doMove			, isOfferingLoot	>,
+//		Row < chooseLoot		, ev::secondLoot	, askConfirmation	, doMove			, isOfferingLoot	>,
+//		Row < chooseLoot		, ev::firstLoot		, askConfirmation	, doMove			, isRequestingLoot	>,
+//		Row < chooseLoot		, ev::secondLoot	, askConfirmation	, doMove			, isRequestingLoot	>,
+
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens	, ev::no			, guardTurn			, doEndTurn			, none				>,
 		Row < chekActionTokens	, ev::yes			, chooseAction		, none				, none				>,
