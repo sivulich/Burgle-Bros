@@ -300,7 +300,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Using token" << std::endl;
+			fsm.model->currentPlayer()->useToken();
 
 		}
 	};
@@ -655,7 +655,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start				Event					Next				Action            Guard
-		//  +------------+-------------+------------+--------------+--------------+-----------------+-----------+
+		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
 		
 		Row < chooseInitialPos	, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
 		Row < chooseAction		, ev::pass			, guardTurn			, doEndTurn			, none				>,
