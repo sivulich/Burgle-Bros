@@ -24,6 +24,7 @@
 //#include "../src/ConsoleColors.h"
 
 #define DEBUG
+//#define DEBUG_TILES
 //#define DEBUG_V
 
 #ifdef DEBUG_V
@@ -138,5 +139,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(characterType,
 (RAVEN)
 (PETERMAN))
 
+typedef enum confirmation{_MOVE, _CANT_MOVE, _ASK} confirmation;
 
 #endif //CONFIGS_H

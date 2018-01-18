@@ -14,6 +14,11 @@ public:
 	virtual string getName() = 0;
 
 	/**
+		Get Player Number
+	*/
+	virtual int getNumber() = 0;
+
+	/**
 		Returns the player's positions
 	*/
 	virtual Coord getPosition() = 0;

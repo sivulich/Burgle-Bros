@@ -138,11 +138,9 @@ void Tile::peek()
 	notify();
 }
 
-bool Tile::canMove(PlayerInterface * p)
-{
-	return p->getActionTokens() >= 1 && isAdjacent(p->getPosition());
-}
-
+bool Tile::canMove(PlayerInterface * player) {
+	return true;
+ }
 void Tile::enter(PlayerInterface * p)
 {
 	if (!isFlipped())

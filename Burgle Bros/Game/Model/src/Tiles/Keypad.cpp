@@ -7,14 +7,12 @@ Keypad::~Keypad()
 
 bool Keypad::canMove(PlayerInterface * player)
 {
-	if (player->getActionTokens() >= 1)
-	{
-		// Player::move() ya le saca un action token, hay que sacar otro?
-		// Creo que no... lo comento...
-		//player->removeActionToken();
-		turnUp();
 		if (keyKnown == false)
 		{
+			if (isFlipped() == false) turnUp();
+			if (lastPlayer != player->getNumber() || lastTurn != player->getTurn())
+				clearAttempts();
+
 			for (int i = 0; i < attemptsThisTurn + 1 && keyKnown == false; i++)		// throw the dice attempts+1 times 
 			{
 				if (player->throwDice() == 6) { 	// if the die thrown equals six
@@ -28,7 +26,7 @@ bool Keypad::canMove(PlayerInterface * player)
 			}
 			if (keyKnown == false) addAttempt();		// if you didnt open the keypad, increase the attempts made this turn
 		}
-	}
+	
 
 	return keyKnown;
 }

@@ -27,5 +27,7 @@ private:
 
 	bool keyKnown;
 	unsigned int attemptsThisTurn;
+
+	int lastPlayer, lastTurn;
 };
 

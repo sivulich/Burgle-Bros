@@ -43,7 +43,7 @@ public:
 	virtual string getName()override;
 
 	// Number of player (1 or 2)
-	int getNumber() { return n; };
+	virtual int getNumber() { return n; };
 
 	//	Returns the player's positions
 	virtual Coord getPosition()override;
@@ -77,6 +77,8 @@ public:
 
 	// Get player current Destination
 	Coord getDest() { return destination; };
+
+	Tile * getCurrentTile() { return currentTile; };
 
 
 	// MISC
@@ -155,10 +157,10 @@ public:
 	virtual void addVisibleTile(Coord tile)override;
 
 	//	Returns true if user is required to confirm movement or action
-	bool Player::needConfirmation(Coord c);
+	confirmation Player::needConfirmation(Coord c);
 
 	//	Returns true if user is required to confirm movement
-	bool Player::needConfirmationToMove(Coord c);
+	confirmation Player::needConfirmationToMove(Coord c);
 
 	// REVISAR DE ACA PA BAJO
 
@@ -170,6 +172,9 @@ public:
 
 	//  Appends a new action to the action history
 	virtual void newAction(string action, Coord tile)override;
+
+	// Tells the tile the player wants to spend to enter
+	void spentOK() { currentTile->doAction(toString(SPENT_OK), this); };
 
 
 	/////////// ??????????????? :O FUNCIONES WHAT THE ACTUAL FAK

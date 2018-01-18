@@ -19,6 +19,7 @@ public:
 	void addSecretDoor(Tile * t) { secretDoors.push_back(t); };
 
 
+
 	/**
 	Executes the tile's special actions, if any...
 	@param p player who is moving
