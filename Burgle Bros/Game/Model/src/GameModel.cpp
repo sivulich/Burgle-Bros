@@ -68,6 +68,8 @@ void GameModel::setInitialPosition(Coord c)
 {
 	player1_.setPosition(c);
 	player2_.setPosition(c);
+	board.getGuard(c.floor)->locateGuard();
+	board.getTile(board.getGuard(c.floor)->getPos())->guardIs(true);
 }
 bool GameModel::gameOver()
 {
@@ -116,29 +118,7 @@ void GameModel::moveGuard()
 {
 	int floor = currentPlayer_->getPosition().floor;
 	board.getFloor(floor)->getGuard()->isMyTurn(true);
-	if (board.getFloor(floor)->getGuard()->getPos() == NPOS)
-	{
-		board.getFloor(floor)->getGuard()->locateGuard();
-		board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(true);
-		if (board.getTile(board.getFloor(floor)->getGuard()->getPos())->is(CAMERA) && board.getTile(board.getFloor(floor)->getGuard()->getPos())->isFlipped())
-		{
-			for (auto &it : board.getCameras())
-			{
-				if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == currentPlayer_->getPosition())
-				{
-					board.getTile(currentPlayer_->getPosition())->setAlarm(true);
-				}
-				else if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == otherPlayer_->getPosition())
-				{
-					
-					board.getTile(otherPlayer_->getPosition())->setAlarm(true);
-				}
-			}
-		}
-
-	}
-	else board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(false);
-	
+	board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(false);
 	guardIsMoving_ = board.getFloor(floor)->moveGuard(currentPlayer_);
 	board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(true);
 

@@ -67,13 +67,13 @@ bool Player::needConfirmation(Coord c)
 bool Player::needConfirmationToMove(Coord c)
 {
 	bool  b = false;	
-z	if (board->getTile(c)->is(DEADBOLT) && board->getTile(c)->is(LASER))
+	if (board->getTile(c)->is(DEADBOLT) || board->getTile(c)->is(LASER))
 	{
 		if (board->getTile(c)->is(DEADBOLT) && !(board->getTile(c)->guardHere() || c == otherPlayer->getPosition()) && ((this->getActionTokens() >= 3 && board->getTile(c)->isFlipped() == true) || (this->getActionTokens() >= 4 && board->getTile(c)->isFlipped() == false)))
 		{
 			b = true;
 		}
-		if (board->getTile(c)->is(LASER) && (((this->getActionTokens() >= 3) && board->getTile(c)->isFlipped() == false) || ((this->getActionTokens() >= 2) && board->getTile(c)->isFlipped() == false))) b = true;
+		if (board->getTile(c)->is(LASER) && (((this->getActionTokens() >= 3) && board->getTile(c)->isFlipped() == false) || ((this->getActionTokens() >= 2) && board->getTile(c)->isFlipped() == true))) b = true;
 		{
 			b = true;
 		};

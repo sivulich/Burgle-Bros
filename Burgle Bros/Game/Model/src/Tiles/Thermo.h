@@ -16,5 +16,11 @@ class Thermo :
 public:
 	Thermo(int floor, int col, int row) : Tile(THERMO,floor, col, row) { };
 	~Thermo();
+
+	/**
+	Executes the tile's special actions, if any...
+	@param p player who is moving
+	*/
+	virtual void enter(PlayerInterface * player) override;
 };
 
