@@ -98,7 +98,12 @@ void Player::resetActionTokens()
 
 vector<Coord> Player::whereCanIMove()
 {
-	vector<Coord> v = currentTile->getAdjacent();
+	vector<Coord> v;
+	for (auto &it : currentTile->getAdjacent())
+	{
+		if (this->has(GEMSTONE) && (this->actionTokens < 2) && otherPlayer->getPosition() == it);
+		else v.push_back(it);
+	}
 
 	/*// Remove the ones where I cant move
 	for (auto& t : v)
@@ -121,7 +126,10 @@ bool Player::move(Tile * newTile)
 {
 		removeActionToken();
 
-		if (newTile->canMove(this)) {
+		if (newTile->canMove(this)) 
+		{
+			if (this->has(GEMSTONE) && this->actionTokens > 2 && (newTile->getPos() == otherPlayer->getPosition()))
+				removeActionToken();
 			newAction("MOVE", newTile->getPos());
 
 			// Exit the current tile
