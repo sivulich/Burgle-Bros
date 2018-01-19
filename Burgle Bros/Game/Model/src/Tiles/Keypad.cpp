@@ -7,13 +7,25 @@ Keypad::~Keypad()
 
 bool Keypad::canMove(PlayerInterface * player)
 {
+		int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
+		if (lastPlayer == -1)
+		{
+			currentTurn = player->getTurn();
+			lastPlayer = player->getNumber();
+		}
+		if (currentTurn != player->getTurn())
+		{
+			lastPlayer = lastPlayer == 1 ? 2 : 1;
+			currentTurn = player->getTurn();
+		}
+		currentTurn = player->getTurn();
 		if (keyKnown == false)
 		{
 			if (isFlipped() == false) turnUp();
-			if (lastPlayer != player->getNumber() || lastTurn != player->getTurn())
+			if (lastPlayer != player->getNumber() || currentTurn != player->getTurn())
 				clearAttempts();
 
-			for (int i = 0; i < attemptsThisTurn + 1 && keyKnown == false; i++)		// throw the dice attempts+1 times 
+			for (int i = 0; (i < attemptsThisTurn + 1 + b) && keyKnown == false; i++)		// throw the dice attempts+1 times 
 			{
 				if (player->throwDice() == 6) { 	// if the die thrown equals six
 					keyKnown = true;		// you may enter the tile

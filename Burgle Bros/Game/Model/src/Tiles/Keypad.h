@@ -12,7 +12,7 @@ or fall into this room, you may leave but must open it to get back in.
 class Keypad : public Tile
 {
 public:
-	Keypad(int floor, int col, int row) : Tile(KEYPAD,floor, col, row) { keyKnown = false; attemptsThisTurn = 0; };
+	Keypad(int floor, int col, int row) : Tile(KEYPAD, floor, col, row) { keyKnown = false; attemptsThisTurn = 0; lastPlayer = -1; currentTurn = -1; };
 	~Keypad();
 	/**
 	Return true if the player can move to the tile	(Always true except on special cases where function will be overwritten)
@@ -28,6 +28,6 @@ private:
 	bool keyKnown;
 	unsigned int attemptsThisTurn;
 
-	int lastPlayer, lastTurn;
+	int lastPlayer, currentTurn;
 };
 

@@ -39,8 +39,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-		fsm.model->currentPlayer()->setCharacter(PETERMAN);
-		fsm.model->otherPlayer()->setCharacter(SPOTTER);
+		fsm.model->currentPlayer()->setCharacter(SPOTTER);
+		fsm.model->otherPlayer()->setCharacter(RAVEN);
 		fsm.model->currentPlayer()->setName(string("Prueba"));
 		fsm.model->otherPlayer()->setName(string("Resto"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
@@ -198,6 +198,23 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct askConfirmation : public msm::front::state<>
 	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+			std::cout << "Are you sure? Yes/No" << std::endl;
+		}
+
+
+		template <class EVT, class FSM>
+		void on_exit(EVT const&  event, FSM& fsm)
+		{
+			std::cout << "Okay..." << std::endl;
+		}
+
+	};
+
+	struct askConfirmationMove : public msm::front::state<>
+	{
 		bool wasFlipped;
 		Tile * destinationTile;
 
@@ -319,6 +336,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 			fsm.model->check4Cameras();
+			fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -738,34 +756,34 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//       Start				Event					Next				Action            Guard
 		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
 		
-		Row < chooseInitialPos	, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
-		Row < chooseAction		, ev::pass			, guardTurn			, doEndTurn			, none				>,
-		Row < chooseAction		, ev::movee			, none				, showMove			, none				>,
-		Row < chooseAction		, ev::peek			, none				, showPeek			, none				>,
-		Row < chooseAction		, ev::coord			, askConfirmation	, askb4Move			, isMoving			>,
-		Row < chooseAction		, ev::coord			, chekActionTokens	, doPeek			, isPeeking			>,
-		Row	< chooseAction		, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
-		Row	< chooseAction		, ev::coord			, chooseAction		, doPlaceCrow		, isPlacingCrow		>,
-		Row < chooseAction		, ev::addToken		, askConfirmation	, prepAddToken		, none				>,
-		Row < chooseAction		, ev::throwDice		, askConfirmation	, prepThrowDice		, none				>,
-		Row < chooseAction		, ev::useToken		, chooseAction		, doUseToken		, none				>,
+		Row < chooseInitialPos		, ev::coord			, chooseAction		, doSetInitialPos	, none				>,
+		Row < chooseAction			, ev::pass			, guardTurn			, doEndTurn			, none				>,
+		Row < chooseAction			, ev::movee			, none				, showMove			, none				>,
+		Row < chooseAction			, ev::peek			, none				, showPeek			, none				>,
+		Row < chooseAction			, ev::coord			, askConfirmationMove	, askb4Move			, isMoving			>,
+		Row < chooseAction			, ev::coord			, chekActionTokens	, doPeek			, isPeeking			>,
+		Row	< chooseAction			, ev::coord			, chekActionTokens	, doCreateAlarm		, isCreatingAlarm   >,
+		Row	< chooseAction			, ev::coord			, chooseAction		, doPlaceCrow		, isPlacingCrow		>,
+		Row < chooseAction			, ev::addToken		, askConfirmation	, prepAddToken		, none				>,
+		Row < chooseAction			, ev::throwDice		, askConfirmation	, prepThrowDice		, none				>,
+		Row < chooseAction			, ev::useToken		, chooseAction		, doUseToken		, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-//		Row < chooseAction		, ev::offerLoot		, chooseLoot		, prepOffer			, none				>,
-//		Row < chooseAction		, ev::requestLoot	, chooseLoot		, prepRequest		, none				>,
-		Row	< chooseAction		, ev::createAlarm	, none				, showAlarm			, none				>,
-		Row < chooseAction		, ev::placeCrow		, none				, showCrow			, none				>,
-		Row < chooseAction		, ev::spyPatrol		, askConfirmation	, doSpyPatrol		, none				>,
-		//Row < chooseAction	, pickUpLoot		, guardTurn			, none				, none				>,
+//		Row < chooseAction			, ev::offerLoot		, chooseLoot		, prepOffer			, none				>,
+//		Row < chooseAction			, ev::requestLoot	, chooseLoot		, prepRequest		, none				>,
+		Row	< chooseAction			, ev::createAlarm	, none				, showAlarm			, none				>,
+		Row < chooseAction			, ev::placeCrow		, none				, showCrow			, none				>,
+		Row < chooseAction			, ev::spyPatrol		, askConfirmation	, doSpyPatrol		, none				>,
+		//Row < chooseAction		, pickUpLoot		, guardTurn			, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmation	, ev::yes			, chekActionTokens	, doStayTop			, isSpying			>,
-		Row < askConfirmation	, ev::no			, chekActionTokens	, doSendBottom		, isSpying			>,
-		Row < askConfirmation	, ev::yes			, chekActionTokens	, doAddToken		, isAddingToken		>,
-		Row < askConfirmation	, ev::no			, chekActionTokens	, dontAddToken		, isAddingToken		>,
-		Row < askConfirmation	, ev::yes			, chekActionTokens	, doThrowDice		, isThrowingDice	>,
-		Row < askConfirmation	, ev::no			, chekActionTokens	, dontThrowDice		, isThrowingDice	>,
-		Row < askConfirmation	, ev::yes			, chekActionTokens	, doMove			, isMoving			>,
-		Row < askConfirmation	, ev::no			, chekActionTokens	, dontMove			, isMoving			>,
-		Row < askConfirmation	, ev::done			, chekActionTokens	, doMove			, isMoving			>,
+		Row < askConfirmation		, ev::yes			, chekActionTokens	, doStayTop			, isSpying			>,
+		Row < askConfirmation		, ev::no			, chekActionTokens	, doSendBottom		, isSpying			>,
+		Row < askConfirmation		, ev::yes			, chekActionTokens	, doAddToken		, isAddingToken		>,
+		Row < askConfirmation		, ev::no			, chekActionTokens	, dontAddToken		, isAddingToken		>,
+		Row < askConfirmation		, ev::yes			, chekActionTokens	, doThrowDice		, isThrowingDice	>,
+		Row < askConfirmation		, ev::no			, chekActionTokens	, dontThrowDice		, isThrowingDice	>,
+		Row < askConfirmationMove	, ev::yes			, chekActionTokens	, doMove			, isMoving			>,
+		Row < askConfirmationMove	, ev::no			, chekActionTokens	, dontMove			, isMoving			>,
+		Row < askConfirmationMove	, ev::done			, chekActionTokens	, doMove			, isMoving			>,
 //		Row < askConfirmation	, ev::yes			, chooseAction		, doGiveLoot		, isOfferingLoot	>,
 //		Row < askConfirmation	, ev::no			, chooseAction		, none				, isOfferingLoot	>,
 //		Row < askConfirmation	, ev::yes			, chooseAction		, doGetLoot			, isRequestingLoot	>,

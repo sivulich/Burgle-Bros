@@ -86,6 +86,10 @@ public:
 	*/
 	void locateGuard();
 	/**
+	
+	*/
+	void positionGuard();
+	/**
 		Finds a path to a specific tile, modifying guards current path. If the coordinate is reachable true is returned.
 	*/
 	bool FindPath(Coord const coord);

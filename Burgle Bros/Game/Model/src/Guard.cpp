@@ -79,12 +79,17 @@ void Guard::print()
 
 void Guard::locateGuard()
 {
-	PatrolCard * p;
-	if (currsteps == 0)
+	if (currsteps == 0 && !(pos == NPOS))
 	{
 		SetCurrSteps();
 		//DEBUG_MSG("Current steps " << currsteps<< endl);
 	}
+	positionGuard();
+}
+
+void Guard::positionGuard()
+{
+	PatrolCard * p;
 	if (pos == NPOS)
 	{
 		p = static_cast<PatrolCard*>(patroldeck->next());
@@ -99,6 +104,7 @@ void Guard::locateGuard()
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
 }
+
 bool Guard::move()
 {
 	PatrolCard * p;
