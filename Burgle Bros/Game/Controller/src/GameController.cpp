@@ -95,6 +95,15 @@ void GameController::getInput()
 				s = "YES";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
 				s = "NO";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
+				for(int f=0;f<3;f++)
+					for(int i=0;i<4;i++)
+						for (int j = 0; j < 4; j++)
+						{
+							if ((*model->getBoard())[f][i][j]->isFlipped() == false)
+								(*model->getBoard())[f][i][j]->flip();
+						}
+				
 			//else if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
 			//	graphics->zoomMode(true);
 
