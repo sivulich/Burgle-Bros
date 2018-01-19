@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FSM", "C:\Users\Tobias\Desktop\FSM\FSM.vcxproj", "{4EB098E9-3253-4CBA-AEA1-15256E8E8329}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game\Game.vcxproj", "{D3DC9B7A-159A-4DEF-BA56-0B2E8AC28360}"
 EndProject
 Global
@@ -17,16 +15,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Debug|x64.ActiveCfg = Debug|x64
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Debug|x64.Build.0 = Debug|x64
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Debug|x86.ActiveCfg = Debug|Win32
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Debug|x86.Build.0 = Debug|Win32
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Release|Any CPU.ActiveCfg = Release|Win32
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Release|x64.ActiveCfg = Release|x64
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Release|x64.Build.0 = Release|x64
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Release|x86.ActiveCfg = Release|Win32
-		{4EB098E9-3253-4CBA-AEA1-15256E8E8329}.Release|x86.Build.0 = Release|Win32
 		{D3DC9B7A-159A-4DEF-BA56-0B2E8AC28360}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{D3DC9B7A-159A-4DEF-BA56-0B2E8AC28360}.Debug|x64.ActiveCfg = Debug|x64
 		{D3DC9B7A-159A-4DEF-BA56-0B2E8AC28360}.Debug|x64.Build.0 = Debug|x64
@@ -40,5 +28,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {258BCCFB-A51A-463A-B4AF-6BC9E6A6B6DD}
 	EndGlobalSection
 EndGlobal

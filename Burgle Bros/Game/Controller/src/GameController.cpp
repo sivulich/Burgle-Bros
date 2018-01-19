@@ -89,6 +89,12 @@ void GameController::getInput()
 				s = "EXIT";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
 				s = "MOVE";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
+				s = "PEEK";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
+				s = "YES";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
+				s = "NO";
 			//else if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
 			//	graphics->zoomMode(true);
 
