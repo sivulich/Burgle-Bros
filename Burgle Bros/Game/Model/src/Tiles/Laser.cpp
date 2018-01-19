@@ -29,7 +29,7 @@ vector<string> Laser::getActions(PlayerInterface * player)
 
 bool Laser::doAction(string action, PlayerInterface * player)
 {
-	if (hackerHere==false)
+	if (hackerHere==false && !player->has(MIRROR))
 	{
 		if (action == "SPENT_OK")
 		{

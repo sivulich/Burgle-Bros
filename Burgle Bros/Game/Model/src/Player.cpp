@@ -79,7 +79,7 @@ confirmation Player::needConfirmationToMove(Coord c)
 		else
 			b = _CANT_MOVE;
 	}
-	else if (wantedTile->is(LASER) && wantedTile->hasAlarm() == false && ! this->has(MIRROR))
+	else if (wantedTile->is(LASER) && wantedTile->hasAlarm() == false && ! this->has(MIRROR) && ! (this->getCharacter() == HACKER) && !((Laser*)wantedTile)->isHackerHere())
 	{
 		if ( (wantedTile->isFlipped() == false && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == true && this->getActionTokens() >= 2))
 			b = _ASK;

@@ -40,6 +40,8 @@ public:
 
 	void setComputerRoom(ComputerRoomL * c) { computerRoom = c; };
 
+	bool isHackerHere() { return hackerHere; };
+
 private:
 	ComputerRoomL * computerRoom;
 };
