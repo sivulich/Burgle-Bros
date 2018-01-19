@@ -5,6 +5,19 @@ Safe::~Safe()
 {
 }
 
+void Safe::enter(PlayerInterface * player)
+{
+	Tile::enter(player);
+	if (player->has(KEYCARD))
+		keyCardHere = true;
+}
+
+void Safe::exit(PlayerInterface * player)
+{
+	if (player->has(KEYCARD))
+		keyCardHere = false;
+}
+
 vector<string> Safe::getActions(PlayerInterface * player) 
 {
 	int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
@@ -13,7 +26,7 @@ vector<string> Safe::getActions(PlayerInterface * player)
 	{		
 		if (dices < 6 && player->getActionTokens() >= 2)
 			actions.push_back("ADD_TOKEN");
-		if ((dices + b) > 0 && player->getActionTokens() >= 1)
+		if ((dices + b) > 0 && player->getActionTokens() >= 1 && keyCardHere)
 			actions.push_back("THROW_DICE");
 	}
 	return actions;
@@ -30,7 +43,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 		player->newAction("ADD_TOKEN", getPos());
 		DEBUG_MSG("You added a new die to this safe. You can now throw " <<dices << " dices.");
 	}
-	else if (action == "THROW_DICE")
+	else if (action == "THROW_DICE" && keyCardHere)
 	{
 		player->removeActionToken();		// remove an action
 		for (int i = 0; i < (dices + b) && !safeIsOpen()  ; i++)		// while the safe remains closed, throw all the dice you have
@@ -42,8 +55,16 @@ bool Safe::doAction(string action, PlayerInterface * player)
 				DEBUG_MSG("You cracked the safe!!");
 				player->addLoot(safeLoot);
 				player->newAction("SAFE_OPENED", getPos());
+				if (safeLoot == CURSED_GOBLET && player->getActionTokens() > 0)
+					player->removeActionToken();
+				if (safeLoot == KEYCARD)
+				{
+					cout << "GOT A KEYPAD" << endl;
+					for (auto &it : otherSafes)
+						((Safe *)it)->isKeyCardHere(false);
+				}
 			}
-		}
+		}	
 	}
 	////////////////// HACER BIEN RETURN VALUE
 	return true;

@@ -185,6 +185,7 @@ void Board::parseBoard()
 	vector<Fingerprint *> fingerprints;
 	vector<Motion *> motions;
 	vector<Laser *> lasers;
+	vector<Tile *> safes;
 
 	lootType l[] = { TIARA, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR, GOLD_BAR };
 	vector<lootType>loots(l, l + 10);
@@ -221,6 +222,18 @@ void Board::parseBoard()
 						((Safe*)tile)->setLoot(loots.back());
 						loots.pop_back();
 						prepSafeTile((Safe *)tile);
+						safes.push_back(tile);
+						if (safes.size() == 3)
+						{
+							for (int i = 0; i < 3; i++)
+							{
+								for (int j = 0; j < 3; j++)
+								{
+									if (i != j)
+										((Safe *)safes[i])->addSafe(safes[j]);
+								}
+							}
+						}
 					break;
 
 					case SERVICE_DUCT:

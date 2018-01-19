@@ -100,6 +100,7 @@ void Guard::positionGuard()
 		expectedMov = p->getCoord();
 		cout << "First guard expected movement" << expectedMov << endl;
 		this->GuardCheck();
+		target = expectedMov;
 		notify();
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
