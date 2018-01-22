@@ -58,8 +58,14 @@ public:
 	// 
 	void setLoot(Loot * l);
 
+	//
+	void removeLoot(Loot * loot2Remove) { if (!loot.empty())	loot.erase(remove(loot.begin(), loot.end(), loot2Remove), loot.end()); };
+
 	//	Checks if there is a loot on tile.
 	bool hasLoot();
+
+	//
+	vector<Loot *> getLoot() { return loot; }
 
 	//	Returns a vector of strings with the actions the player can do on the tile they are on.
 	//	Actions PEEK and MOVE are always valid. On each tileType overload the function

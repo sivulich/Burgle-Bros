@@ -400,6 +400,27 @@ bool Player::hasLoot()
 	return !loots.empty();
 }
 
+ void Player::pickUpLoot(int n)
+{
+	 if (this->currentTile->hasLoot() && this->currentTile->getLoot().size()>=(n))
+	 {
+		 bool b = false;
+		 for (auto &it : this->loots)
+		 {
+			 it->is(GOLD_BAR);
+				 b = true;
+		 };
+		 if (currentTile->getLoot()[n - 1]->is(GOLD_BAR) && b)
+			 cout << "Already has GOLD BAR cant pick another one" << endl;
+		 else
+		 {
+			 cout << "Picked " << currentTile->getLoot()[n - 1]->getDescription() << endl;
+			 this->addLoot(currentTile->getLoot()[n - 1]->getType());
+			 currentTile->removeLoot(currentTile->getLoot()[n - 1]);
+		 };
+	 }
+}
+
 void Player::addVisibleTile(Coord tile)
 {
 	visibleFrom.push_back(tile);

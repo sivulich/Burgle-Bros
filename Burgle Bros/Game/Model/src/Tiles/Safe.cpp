@@ -59,9 +59,12 @@ bool Safe::doAction(string action, PlayerInterface * player)
 					player->removeActionToken();
 				if (safeLoot == KEYCARD)
 				{
-					cout << "GOT A KEYPAD" << endl;
 					for (auto &it : otherSafes)
 						((Safe *)it)->isKeyCardHere(false);
+				}
+				if (safeLoot == GOLD_BAR)
+				{
+					Tile::setLoot(LootFactory().newLoot(GOLD_BAR));
 				}
 			}
 		}	

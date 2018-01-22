@@ -341,7 +341,20 @@ void Board::checkOnePlayer(PlayerInterface * p, unsigned f)
 {
 	if (f < 3)
 	{
+		Coord temp = p->getPosition();
+		if (p->has(TIARA))
+		{
+			if (!(p->getPosition().row == 0) && !this->getTile(p->getPosition())->hasNorthWall())	//if its not the first row
+				p->addVisibleTile(Coord(temp.floor, temp.col, temp.row - 1));
+			if (!(p->getPosition().row == 3) && !this->getTile(p->getPosition())->hasSouthWall())	// if its not the last row
+				p->addVisibleTile(Coord(temp.floor, temp.col, temp.row + 1));
+			if (!(p->getPosition().col == 0) && !this->getTile(p->getPosition())->hasWestWall())	// if its not the first column
+				p->addVisibleTile(Coord(temp.floor, temp.col - 1, temp.row));
+			if (!(p->getPosition().col == 3) && !this->getTile(p->getPosition())->hasEastWall())	// if its not the last column
+				p->addVisibleTile(Coord(temp.floor, temp.col + 1, temp.row));
+		}
 		this->floor[f]->getGuard()->checkPlayer(p);
+		this->getTile(p->getPosition())->updateVisibleFrom(p);
 	};
 }
 

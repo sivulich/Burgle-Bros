@@ -95,6 +95,12 @@ void GameController::getInput()
 				s = "YES";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
 				s = "NO";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_1)
+				s = "FIRST_LOOT";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_2)
+				s = "SECOND_LOOT";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
+				s = "PICK_UP_LOOT";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
 				for(int f=0;f<3;f++)
 					for(int i=0;i<4;i++)
@@ -160,6 +166,12 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
+	else if (s == "PICK_UP_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pickUpLoot());
+	else if (s == "FIRST_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::firstLoot());
+	else if (s == "SECOND_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::secondLoot());
 	else if (s == "PASS")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 	else if (s == "PAUSE")

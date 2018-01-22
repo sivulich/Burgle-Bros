@@ -144,6 +144,9 @@ public:
 	//	Returns true if the player has at least one loot.
 	virtual bool hasLoot()override;
 
+	//
+	virtual void pickUpLoot(int n);
+
 	//	Retrun true if the guard can see the player from that position
 	virtual bool isVisibleFrom(Coord c)override;
 

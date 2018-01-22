@@ -19,5 +19,7 @@ public:
 	*/
 	virtual void enter(PlayerInterface * player) override;
 
+	virtual void updateVisibleFrom(PlayerInterface * player)override;
+
 };
 

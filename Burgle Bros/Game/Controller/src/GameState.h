@@ -484,12 +484,25 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct doPickUpLoot
+	struct doPickUp1Loot
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Pick up loot" << std::endl;
+			fsm.model->currentPlayer()->pickUpLoot(1);
+			fsm.currentAction = NO_TYPE;
+		}
+	};
+
+	struct doPickUp2Loot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Pick up loot" << std::endl;
+			fsm.model->currentPlayer()->pickUpLoot(2);
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -517,6 +530,24 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Request loot" << std::endl;
+		}
+	};
+
+	struct doGiveLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Give loot" << std::endl;
+		}
+	};
+
+	struct doGetLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Get loot" << std::endl;
 		}
 	};
 
@@ -643,6 +674,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct showPickUpLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			fsm.currentAction = PICK_UP_LOOT;
+		}
+	};
+
 	struct prepAddToken
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -751,6 +791,33 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isPickingLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == PICK_UP_LOOT;
+		}
+	};
+
+	struct isOfferingLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == OFFER_LOOT;
+		}
+	};
+
+	struct isRequestingLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == REQUEST_LOOT;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start				Event					Next				Action            Guard
@@ -773,7 +840,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row	< chooseAction			, ev::createAlarm	, none					, showAlarm			, none				>,
 		Row < chooseAction			, ev::placeCrow		, none					, showCrow			, none				>,
 		Row < chooseAction			, ev::spyPatrol		, askConfirmation		, doSpyPatrol		, none				>,
-		//Row < chooseAction		, pickUpLoot		, guardTurn				, none				, none				>,
+		Row < chooseAction			, ev::pickUpLoot	, chooseLoot			, showPickUpLoot	, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < askConfirmation		, ev::yes			, chekActionTokens		, doStayTop			, isSpying			>,
 		Row < askConfirmation		, ev::no			, chekActionTokens		, doSendBottom		, isSpying			>,
@@ -784,25 +851,27 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmationMove	, ev::yes			, chekActionTokens		, doMove			, isMoving			>,
 		Row < askConfirmationMove	, ev::no			, chekActionTokens		, dontMove			, isMoving			>,
 		Row < askConfirmationMove	, ev::done			, chekActionTokens		, doMove			, isMoving			>,
-//		Row < askConfirmation	, ev::yes			, chooseAction				, doGiveLoot		, isOfferingLoot	>,
-//		Row < askConfirmation	, ev::no			, chooseAction				, none				, isOfferingLoot	>,
-//		Row < askConfirmation	, ev::yes			, chooseAction				, doGetLoot			, isRequestingLoot	>,
-//		Row < askConfirmation	, ev::no			, chooseAction				, none				, isRequestingLoot	>,
+		Row < askConfirmation		, ev::yes			, chooseAction			, doGiveLoot		, isOfferingLoot	>,
+		Row < askConfirmation		, ev::no			, chooseAction			, none				, isOfferingLoot	>,
+		Row < askConfirmation		, ev::yes			, chooseAction			, doGetLoot			, isRequestingLoot	>,
+		Row < askConfirmation		, ev::no			, chooseAction			, none				, isRequestingLoot	>,
 		//  +------------+-------------+------------+--------------+--------------+
-//		Row < chooseLoot		, ev::firstLoot		, askConfirmation			, doMove			, isOfferingLoot	>,
-//		Row < chooseLoot		, ev::secondLoot	, askConfirmation			, doMove			, isOfferingLoot	>,
-//		Row < chooseLoot		, ev::firstLoot		, askConfirmation			, doMove			, isRequestingLoot	>,
-//		Row < chooseLoot		, ev::secondLoot	, askConfirmation			, doMove			, isRequestingLoot	>,
+//		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, doMove			, none				>,
+//		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, doMove			, none				>,
+//		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, doMove			, none				>,
+//		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, doMove			, none				>,
+		Row < chooseLoot			, ev::firstLoot		, chooseAction			, doPickUp1Loot		, isPickingLoot		>,
+//		Row < chooseLoot			, ev::secondLoot	, chooseAction			, doPickUp2Loot		, isPickingLoot		>,
 
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens	, ev::no			, guardTurn					, doEndTurn			, none				>,
-		Row < chekActionTokens	, ev::yes			, chooseAction				, none				, none				>,
+		Row < chekActionTokens		, ev::no			, guardTurn					, doEndTurn			, none				>,
+		Row < chekActionTokens		, ev::yes			, chooseAction				, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn			, ev::movee			, none						, moveGuard			, none				>,
-		Row < guardTurn			, ev::passGuard		, chooseAction				, changeTurn		, none				>,
-		Row < guardTurn			, ev::gameOver		, gameEnded					, none				, none				>,
+		Row < guardTurn				, ev::movee			, none						, moveGuard			, none				>,
+		Row < guardTurn				, ev::passGuard		, chooseAction				, changeTurn		, none				>,
+		Row < guardTurn				, ev::gameOver		, gameEnded					, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded			, ev::playAgain		, chooseAction				, resetGame			, none				>
+		Row < gameEnded				, ev::playAgain		, chooseAction				, resetGame			, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};

@@ -70,7 +70,7 @@ public:
 	void checkGuard(unsigned f) { if (f < 3) { floor[f]->guardChek(); } };
 
 	/**
-	
+		Guard checks if current player is in his visible range
 	*/
 	void checkOnePlayer(PlayerInterface * p, unsigned f);
 
