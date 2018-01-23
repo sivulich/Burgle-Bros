@@ -99,9 +99,15 @@ void Player::resetActionTokens()
 vector<Coord> Player::whereCanIMove()
 {
 	vector<Coord> v;
+	Coord currPos = currentTile->getPos();
 	for (auto &it : currentTile->getAdjacent())
 	{
 		if (this->has(GEMSTONE) && (this->actionTokens < 2) && otherPlayer->getPosition() == it);
+		else if (this->has(PAINTING) && currentTile->is(SERVICE_DUCT) && board->getTile(it)->is(SERVICE_DUCT));
+		else if (this->has(PAINTING) && currentTile->hasNorthWall() && it.floor == currPos.floor && it.row < currPos.row && it.col == currPos.col);
+		else if (this->has(PAINTING) && currentTile->hasEastWall() && it.floor == currPos.floor && it.row == currPos.row && it.col > currPos.col);
+		else if (this->has(PAINTING) && currentTile->hasSouthWall() && it.floor == currPos.floor && it.row > currPos.row && it.col == currPos.col);
+		else if (this->has(PAINTING) && currentTile->hasWestWall() && it.floor == currPos.floor && it.row == currPos.row && it.col < currPos.col);
 		else v.push_back(it);
 	}
 
@@ -391,7 +397,10 @@ int Player::throwDice()
 
 void Player::addLoot(lootType l)
 {
-	loots.push_back((new LootFactory)->newLoot(l));
+	Loot * currLoot = (new LootFactory)->newLoot(l);
+	currLoot->setPos(this->getPosition());
+	currLoot->pick(this);
+	loots.push_back(currLoot);
 	notify();
 };
 

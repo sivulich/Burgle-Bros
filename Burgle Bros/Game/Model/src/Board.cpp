@@ -81,24 +81,28 @@ void Board::setWalls()
 					adjacent[f][col][row].push_back(Coord(f, col, row - 1));
 					tile->addAdjacent(Coord(f, col, row - 1));
 				}
+				else tile->setNorthWall(true);
 				// Adjacent with tile below
 				if (row < 3 && (walls[f][i + 1][j] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row + 1));
 					tile->addAdjacent(Coord(f, col, row + 1));
 				}
+				else tile->setSouthWall(true);
 				// Adjacent with the left tile
 				if (col > 0 && (walls[f][i][j - 1] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
 					tile->addAdjacent(Coord(f, col - 1, row));
 				}
+				else tile->setWestWall(true);
 				// Adjacent with the right tile
 				if (col < 3 && (walls[f][i][j + 1] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
 					tile->addAdjacent(Coord(f, col + 1, row));
 				}
+				else tile->setEastWall(true);
 			}
 		}
 		//Pass the map to each floor (and each floor to its guard)
@@ -200,7 +204,6 @@ void Board::parseBoard()
 			for (int col = 0; col < F_WIDTH; col++)
 			{
 				Tile * tile = getTile(Coord(f, col, row));
-
 				
 				switch (tile->getType())
 				{
@@ -219,7 +222,7 @@ void Board::parseBoard()
 
 					case SAFE:
 						//If there is a safe set a loot
-						((Safe*)tile)->setLoot(loots.back());
+						((Safe*)tile)->setLoot(/*loots.back()*/ PAINTING);
 						loots.pop_back();
 						prepSafeTile((Safe *)tile);
 						safes.push_back(tile);

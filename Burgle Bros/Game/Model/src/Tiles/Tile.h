@@ -99,10 +99,15 @@ public:
 	bool isAdjacent(Coord t);
 
 	//	Check for walls	
-	bool hasEastWall();
-	bool hasWestWall();
-	bool hasNorthWall();
-	bool hasSouthWall();
+	bool hasEastWall() { return eastWall; };
+	bool hasWestWall() { return westWall; };
+	bool hasNorthWall() { return northWall; };
+	bool hasSouthWall() { return southWall; };
+
+	void setNorthWall(bool b) { northWall = b; }
+	void setEastWall(bool b) { eastWall = b; }
+	void setWestWall(bool b) { westWall = b; }
+	void setSouthWall(bool b) { southWall = b; }
 
 	void crackTile() { crackToken = true; notify(); };
 	bool hasCrackToken() { return crackToken; };
@@ -136,7 +141,7 @@ protected:
 	// A tile can have a loot (If it's a SAFE tile or a loot has been dropped)
 	vector<Loot*> loot;
 	// Tokens
-	bool crackToken, crowToken, stairToken, alarmToken, hackerHere, hasGuard;
+	bool crackToken, crowToken, stairToken, alarmToken, hackerHere, hasGuard, northWall, southWall, eastWall, westWall;
 	//
 	int hackToken;
 };

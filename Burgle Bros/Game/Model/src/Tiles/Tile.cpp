@@ -25,6 +25,10 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 	hackerHere = false;
 	hasGuard = false;
 	hackToken = 0;
+	northWall = false;
+	eastWall = false;
+	southWall = false;
+	westWall = false;
 }
 
 void Tile::setLoot(Loot * l)
@@ -66,7 +70,7 @@ bool Tile::hasLoot()
 {
 	return loot.empty() ? false : true;
 }
-
+/*
 bool Tile::hasEastWall()
 {
 	return coord.col < 3 && !isAdjacent(Coord(coord.floor, coord.col + 1, coord.row));
@@ -82,7 +86,7 @@ bool Tile::hasNorthWall()
 bool Tile::hasSouthWall()
 {
 	return coord.row < 3 && !isAdjacent(Coord(coord.floor, coord.col, coord.row + 1));
-}
+}*/
 
 
 void Tile::turnUp()
