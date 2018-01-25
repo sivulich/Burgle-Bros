@@ -4,7 +4,7 @@ class Mirror :
 	public Loot
 {
 public:
-	Mirror(lootType l) : Loot(l) {};
+	Mirror(lootType l) : Loot(l) { lootAvailable(true); };
 	~Mirror();
 };
 

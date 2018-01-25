@@ -15,7 +15,7 @@ class Deadbolt :
 	public Tile
 {
 public:
-	Deadbolt(int floor, int col, int row) : Tile(DEADBOLT,floor, col, row) {};
+	Deadbolt(int floor, int col, int row) : Tile(DEADBOLT,floor, col, row) { this->alarmTile = false; };
 	~Deadbolt();
 
 

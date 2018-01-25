@@ -147,6 +147,15 @@ public:
 	//
 	virtual void pickUpLoot(int n);
 
+	//
+	virtual void removeLoot(Loot * l){ if(l != nullptr) loots.erase(remove(loots.begin(), loots.end(), l), loots.end());	}
+
+	//
+	void losePersianKitty();
+
+	//
+	void areLootsReady();
+
 	//	Retrun true if the guard can see the player from that position
 	virtual bool isVisibleFrom(Coord c)override;
 

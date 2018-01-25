@@ -14,7 +14,7 @@ movement die by one on this floor and all those below it.
 class Safe : public Tile
 {
 public:
-	Safe(int floor, int col, int row) : Tile(SAFE, floor, col, row) { dices = 0; safeCracked = false; keyCardHere = true; };
+	Safe(int floor, int col, int row) : Tile(SAFE, floor, col, row) { dices = 0; safeCracked = false; keyCardHere = true; this->alarmTile = false; };
 	~Safe();
 
 	void enter(PlayerInterface * player);

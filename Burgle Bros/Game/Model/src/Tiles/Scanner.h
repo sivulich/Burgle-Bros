@@ -7,7 +7,7 @@
 class Scanner :	public Tile
 {
 public:
-	Scanner(int floor, int col, int row) : Tile(SCANNER,floor, col, row) {};
+	Scanner(int floor, int col, int row) : Tile(SCANNER,floor, col, row) { this->alarmTile = true; };
 	~Scanner();
 
 

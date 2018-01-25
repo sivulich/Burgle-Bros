@@ -10,7 +10,7 @@ class Foyer :
 	public Tile
 {
 public:
-	Foyer(int floor, int col, int row) : Tile(FOYER,floor, col, row) {};
+	Foyer(int floor, int col, int row) : Tile(FOYER,floor, col, row) { this->alarmTile = false; };
 	~Foyer();
 
 	/**

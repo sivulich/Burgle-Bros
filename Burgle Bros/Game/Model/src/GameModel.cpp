@@ -102,10 +102,12 @@ void GameModel::changeTurn()
 	otherPlayer_->isPlaying(false);
 	currentPlayer_->addTurn();
 	otherPlayer_->addTurn();
-	int d = rand() % 6 + 1 == 2;
-	if (currentPlayer_->has(PERSIAN_KITTY) && (d == 1 || d == 2))
+	int d = rand() % 6 + 1;
+	currentPlayer_->areLootsReady();
+	if (currentPlayer_->has(PERSIAN_KITTY) /*&& (d == 1 || d == 2)*/)
 	{
-
+		cout << "Lost Persian Kitty" << endl;
+		currentPlayer_->losePersianKitty();
 	}
 	if (currentPlayer_->has(CHIHUAHUA) && (rand() % 6 + 1 == 6))
 			currentPlayer_->getCurrentTile()->setAlarm(true);

@@ -128,6 +128,8 @@ public:
 	*/
 	vector<Coord> getXDistanceTiles(unsigned x, Coord c );
 
+	Coord whereToPlaceKitty(Coord const coord);
+
 private:
 	// Matrix of pointers to the base class Tile
 	vector<vector<Tile*>> tiles;
@@ -135,6 +137,10 @@ private:
 	Coord toCoord(unsigned index) { return Coord(floorNumber,index % F_WIDTH, index / F_HEIGHT); };
 
 	unsigned toIndex(Coord coord) { return(coord.row * F_HEIGHT + coord.col); };
+
+	bool shortestPath(unsigned const start, unsigned const end, vector<int> parent, Coord * adjTile,bool * b1);
+
+	unsigned closestAlarmTile(vector<int> distances, vector<Coord> tiles);
 
 	// Floor number
 	int floorNumber;
@@ -147,6 +153,9 @@ private:
 
 	//Vector with alarms positions
 	vector<Coord> alarms;
+
+	//Vector with alarm tiles
+	vector<Coord> alarmTiles;
 
 	//Adjacency map of the floor (only walls, no conection with other floors)
 	vector<Coord> adjacent[F_WIDTH][F_HEIGHT];

@@ -12,7 +12,7 @@ class Fingerprint :
 	public Tile
 {
 public:
-	Fingerprint(int floor, int col, int row) : Tile(FINGERPRINT, floor, col, row) { };
+	Fingerprint(int floor, int col, int row) : Tile(FINGERPRINT, floor, col, row) { this->alarmTile = true; };
 	~Fingerprint();
 
 	/**

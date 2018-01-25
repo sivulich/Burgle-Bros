@@ -144,4 +144,6 @@ protected:
 	bool crackToken, crowToken, stairToken, alarmToken, hackerHere, hasGuard, northWall, southWall, eastWall, westWall;
 	//
 	int hackToken;
+	//
+	bool alarmTile;
 };

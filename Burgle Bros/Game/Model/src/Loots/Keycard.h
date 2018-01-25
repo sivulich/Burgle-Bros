@@ -4,7 +4,7 @@ class Keycard :
 	public Loot
 {
 public:
-	Keycard(lootType l) : Loot(l) {};
+	Keycard(lootType l) : Loot(l) { lootAvailable(true); };
 	~Keycard();
 };
 

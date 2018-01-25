@@ -30,9 +30,9 @@ void Player::setPosition(Coord c)
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
-	if(tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)
+	/*if(tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)*/
 		tile->turnUp();
-	tile->updateVisibleFrom(this);
+	//tile->updateVisibleFrom(this);// En el primer turno sos visible??? O empezas a ser visible cuando te moves? Si es asi el segundo jugador tiene desventaja
 	notify();
 }
 
@@ -463,3 +463,27 @@ void Player::clearVisibleFrom()
 	visibleFrom.clear();
 }
 
+void Player::losePersianKitty()
+{
+	Coord pos = board->getFloor(getPosition().floor)->whereToPlaceKitty(getPosition());
+	Loot * kitty = nullptr;
+	for (auto &it : loots) if (it->is(PERSIAN_KITTY)) kitty = it;
+	if (!(pos == NPOS))
+	{
+		if (kitty != nullptr)
+		{
+			board->getTile(pos)->setLoot(kitty);
+			cout << "kitty is found at " << pos << endl;
+			this->removeLoot(kitty);
+		}
+	}
+	else cout << "No alarm tile flipped" << endl;
+}
+
+void Player::areLootsReady()
+{
+	for (auto &it : loots)
+	{
+		if (it->is(PERSIAN_KITTY)) it->lootAvailable(true);
+	}
+}

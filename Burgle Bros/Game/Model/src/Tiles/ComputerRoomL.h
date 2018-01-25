@@ -10,7 +10,7 @@
 class ComputerRoomL : public Tile
 {
 public:
-	ComputerRoomL(int floor, int col, int row) : Tile(COMPUTER_ROOM_L,floor, col, row) {};
+	ComputerRoomL(int floor, int col, int row) : Tile(COMPUTER_ROOM_L,floor, col, row) { this->alarmTile = false; };
 	~ComputerRoomL();
 
 	virtual vector<string> getActions(PlayerInterface * player) override;

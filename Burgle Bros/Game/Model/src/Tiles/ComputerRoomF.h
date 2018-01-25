@@ -9,7 +9,7 @@ they can spend one of these tokens to prevent an Alarm from triggering.
 class ComputerRoomF : public Tile
 {
 public:
-	ComputerRoomF(int floor, int col, int row) : Tile(COMPUTER_ROOM_F,floor, col, row) {};
+	ComputerRoomF(int floor, int col, int row) : Tile(COMPUTER_ROOM_F,floor, col, row) { this->alarmTile = false; };
 	~ComputerRoomF();
 
 	virtual vector<string> getActions(PlayerInterface * player) override;

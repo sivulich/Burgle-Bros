@@ -16,6 +16,8 @@ vector<Tile*>& Floor::operator[] (unsigned i)
 void Floor::setTile(int col, int row, tileType t)
 {
 	tiles[col][row] = TileFactory().newTile(t, floorNumber, col, row);
+	if (t == LASER || t == FINGERPRINT || t == MOTION || t == SCANNER || t == THERMO)
+		alarmTiles.push_back(Coord(this->floorNumber, col, row));
 };
 void Floor::print()
 {
@@ -192,7 +194,6 @@ vector<Coord> Floor::getXDistanceTiles(unsigned x, Coord c)
 	if ((c.col) < 4 && (c.row < 4))
 	{
 		vector<int> dist(16, INT_MAX);//vector that contains the distance required to go to any point in floor from current pos
-		vector<int> parent(16, -1);// vector that contains prior room to be accessed following a path from current pos
 		dist[toIndex(c)] = 0;//set distance to current pos = 0
 		queue<int> Q;
 		Q.push(toIndex(c));
@@ -208,7 +209,6 @@ vector<Coord> Floor::getXDistanceTiles(unsigned x, Coord c)
 					{
 						Q.push(toIndex(it));//add to queue
 						dist[toIndex(it)] = dist[index] + 1;//and set distance equal to distance to parent room + 1
-						parent[toIndex(it)] = index;
 						v.push_back(it);
 					}
 				}
@@ -216,4 +216,100 @@ vector<Coord> Floor::getXDistanceTiles(unsigned x, Coord c)
 		}
 	}
 	return v;
+}
+
+
+
+Coord Floor::whereToPlaceKitty(Coord const coord)
+{
+	if ((coord.col) < 4 && (coord.row < 4))
+	{
+		vector<Coord> visibleAlarms;
+		Coord adjTile = NPOS;
+		Coord closestATile = NPOS;
+		bool here = false;
+		for (auto &it : alarmTiles)
+		{
+			if (tile(it.col, it.row)->isFlipped()) visibleAlarms.push_back(it);
+			if (it == coord) here = true;
+		}
+		if (!here)
+		{
+			vector<int> dist(16, INT_MAX);//vector that contains the distance required to go to any point in floor from current pos
+			vector<int> parent(16, -1);// vector that contains prior room to be accessed following a path from current pos
+			dist[toIndex(coord)] = 0;//set distance to current pos = 0
+			queue<int> Q;
+			Q.push(toIndex(coord));
+			while (!Q.empty())
+			{
+				int index = Q.front();
+				Q.pop();
+				for (auto &it : adjacent[toCoord(index).col][toCoord(index).row])//search for all adjacents rooms to current one
+				{
+					if (dist[toIndex(it)] == INT_MAX) //if room was not visited
+					{
+						Q.push(toIndex(it));//add to queue
+						dist[toIndex(it)] = dist[index] + 1;//and set distance equal to distance to parent room + 1
+						parent[toIndex(it)] = index;
+					}
+				}
+			}
+			if (!visibleAlarms.empty())
+			{
+				closestATile = toCoord(closestAlarmTile(dist, visibleAlarms));
+				if (!(closestATile == NPOS))
+				{
+					bool b1 = false;
+					shortestPath(toIndex(coord), closestAlarmTile(dist, visibleAlarms), parent, &adjTile, &b1);
+					return adjTile;
+				}
+			}
+			else
+			{
+				return NPOS;
+			}
+		}
+		else return coord;
+	}
+	return NPOS;
+}
+
+bool Floor::shortestPath(unsigned const start, unsigned const end, vector<int> parent, Coord * adjTile,bool *b1)
+{
+	if (start < parent.size() && end < parent.size())//check if end position is inside floor
+	{
+		if (start == end || end == -1)//if destination and source are the same, target was reached
+			*b1 = true;						   //path.push_front(toCoord(start));//es la direccion actual
+		else {
+			shortestPath(start, parent[end], parent, adjTile,b1);//if destination was not found, try again but with adjacent room from before
+			if (*b1 == true)
+			{
+				*b1 = false;
+				*adjTile = toCoord(end);
+			}
+		}
+		return true;
+	}
+	return false;
+}
+
+unsigned Floor::closestAlarmTile(vector<int> distances, vector<Coord> tiles)
+{
+
+	unsigned shortDist = INT_MAX;
+	unsigned destination = INT_MAX;
+	if (tiles.empty() == false)
+	{
+		for (auto &al : tiles)
+		{
+			if (distances[toIndex(al)] < shortDist)
+			{
+				shortDist = distances[toIndex(al)];
+				destination = toIndex(al);
+			}
+		}
+	}
+	else destination = toIndex(NPOS);
+	//DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
+	return destination;
 }
