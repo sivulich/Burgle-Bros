@@ -35,6 +35,7 @@ private:
 	Image *crackToken;
 	Image *crowToken;
 	Image *stairToken;
+	Image *openToken;
 	vector<Image *> hackTokens;
 
 	Card * tileCard;

@@ -105,17 +105,30 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 	stairToken->setHoverable(false);
 	stairToken->setClickable(false);
 	floorContainer->addObject(stairToken);
-	
-	for (int i = 0; i < 5; i++)
+
+	if (tile->is(KEYPAD))
 	{
-		if(i<=2)
-			hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE/2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
-		if (i>2)
-			hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + (i-2)* TOKEN_SIZE/2, YPOS + TILE_SIZE - 2*TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
-		hackTokens.back()->setVisible(false);
-		hackTokens.back()->setHoverable(false);
-		hackTokens.back()->setClickable(false);
-		floorContainer->addObject(hackTokens.back());
+		openToken = new Image(string("../Game/Graphics/Images/Tokens/Open token.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+		openToken->setVisible(false);
+		openToken->setHoverable(false);
+		openToken->setClickable(false);
+		floorContainer->addObject(openToken);
+	}
+	else openToken = nullptr;
+	
+	if (tile->is(COMPUTER_ROOM_F) || tile->is(COMPUTER_ROOM_L) || tile->is(COMPUTER_ROOM_M))
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			if (i <= 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			if (i > 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			hackTokens.back()->setVisible(false);
+			hackTokens.back()->setHoverable(false);
+			hackTokens.back()->setClickable(false);
+			floorContainer->addObject(hackTokens.back());
+		}
 	}
 
 	flipped = false;	
@@ -193,13 +206,17 @@ void TileObserver::update()
 		else
 			stairToken->setVisible(false);
 	}
-	if (tile->isFlipped() && tile->getHackTokens() > 0)
+	if (tile->isFlipped() && tile->getHackTokens() > 0 && (tile->is(COMPUTER_ROOM_F) || tile->is(COMPUTER_ROOM_L) || tile->is(COMPUTER_ROOM_M)))
 	{
 		for (auto &it : hackTokens) it->setVisible(false);
-		for (int i = 0; i <= tile->getHackTokens()-1; i++)
+		for (int i = 0; i <= tile->getHackTokens() - 1; i++)
 		{
 			hackTokens[i]->setVisible(true);
 		}
+	}
+	if (tile->isFlipped() && ((Keypad *)tile)->keyDecoded() && tile->is(KEYPAD))
+	{
+		openToken->setVisible(true);
 	}
 }
 

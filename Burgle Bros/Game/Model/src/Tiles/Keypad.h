@@ -20,6 +20,7 @@ public:
 	*/
 	virtual bool canMove(PlayerInterface * player) override;
 	void clearAttempts() { attemptsThisTurn = 0; };
+	bool keyDecoded() { return keyKnown; };
 
 private:
 	unsigned int getAttempts() { return attemptsThisTurn; };
