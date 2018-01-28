@@ -843,7 +843,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	// Transition table
 	struct transition_table : mpl::vector<
-		//       Start				Event					Next				Action            Guard
+		//       Start					Event					Next				Action            Guard
 		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
 		
 		Row < chooseInitialPos		, ev::coord			, chooseAction			, doSetInitialPos	, none				>,
@@ -871,13 +871,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation		, ev::no			, chekActionTokens		, dontAddToken		, isAddingToken		>,
 		Row < askConfirmation		, ev::yes			, chekActionTokens		, doThrowDice		, isThrowingDice	>,
 		Row < askConfirmation		, ev::no			, chekActionTokens		, dontThrowDice		, isThrowingDice	>,
-		Row < askConfirmationMove	, ev::yes			, chekActionTokens		, doMove			, isMoving			>,
-		Row < askConfirmationMove	, ev::no			, chekActionTokens		, dontMove			, isMoving			>,
-		Row < askConfirmationMove	, ev::done			, chekActionTokens		, doMove			, isMoving			>,
 		Row < askConfirmation		, ev::yes			, chooseAction			, doGiveLoot		, isOfferingLoot	>,
 		Row < askConfirmation		, ev::no			, chooseAction			, none				, isOfferingLoot	>,
 		Row < askConfirmation		, ev::yes			, chooseAction			, doGetLoot			, isRequestingLoot	>,
 		Row < askConfirmation		, ev::no			, chooseAction			, none				, isRequestingLoot	>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < askConfirmationMove	, ev::yes			, chekActionTokens		, doMove			, isMoving			>,
+		Row < askConfirmationMove	, ev::no			, chekActionTokens		, dontMove			, isMoving			>,
+		Row < askConfirmationMove	, ev::done			, chekActionTokens		, doMove			, isMoving			>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, chooseLoot1		, isOfferingLoot	>,
 		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, chooseLoot2		, isOfferingLoot	>,
@@ -886,14 +887,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseLoot			, ev::goldBar		, chooseAction			, doPickUpGoldBar	, isPickingLoot		>,
 		Row < chooseLoot			, ev::persianKitty	, chooseAction			, doPickUpKitty		, isPickingLoot		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens		, ev::no			, guardTurn					, doEndTurn			, none			>,
-		Row < chekActionTokens		, ev::yes			, chooseAction				, none				, none			>,
+		Row < chekActionTokens		, ev::no			, guardTurn				, doEndTurn			, none				>,
+		Row < chekActionTokens		, ev::yes			, chooseAction			, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn				, ev::movee			, none						, moveGuard			, none			>,
-		Row < guardTurn				, ev::passGuard		, chooseAction				, changeTurn		, none			>,
-		Row < guardTurn				, ev::gameOver		, gameEnded					, none				, none			>,
+		Row < guardTurn				, ev::movee			, none					, moveGuard			, none				>,
+		Row < guardTurn				, ev::passGuard		, chooseAction			, changeTurn		, none				>,
+		Row < guardTurn				, ev::gameOver		, gameEnded				, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded				, ev::playAgain		, chooseAction				, resetGame			, none			>
+		Row < gameEnded				, ev::playAgain		, chooseAction			, resetGame			, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};

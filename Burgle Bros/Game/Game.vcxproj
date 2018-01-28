@@ -221,6 +221,8 @@
     <ClInclude Include="Graphics\src\Graphic Objects\Button.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Card.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Container.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\DialogBox.h" />
+    <ClInclude Include="Graphics\src\Graphic Objects\Graphic Objects.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Image.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\object.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\ObjectInterface.h" />
@@ -309,6 +311,7 @@
     <ClCompile Include="Graphics\src\Graphic Objects\Button.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Card.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Container.cpp" />
+    <ClCompile Include="Graphics\src\Graphic Objects\DialogBox.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Image.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\object.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Screen.cpp" />

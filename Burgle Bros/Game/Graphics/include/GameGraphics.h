@@ -38,7 +38,7 @@ public:
 	void unclick(int y, int x);
 
 	// Pop up a message to answer YES or NO
-	//void askQuestion(string question);
+	void askQuestion(string question);
 
 	// Pop up a message to answer OK
 	void showOkMessage(string message);
@@ -50,7 +50,7 @@ public:
 	void showTempMessage(string message);
 
 	// If dialog box is set with no buttons, removes it
-	//void removeDialogBox();
+	void removeDialogBox();
 
 	// When answered, call this function
 	void closeQuestion();
@@ -106,7 +106,7 @@ private:
 	Container* cont;
 
 	Textbox * textBox;
-	//DialogBox * dialogBox;
+	DialogBox * dialogBox;
 	Image * blur;
 	// Observers
 	BoardObserver* board;

@@ -246,6 +246,7 @@ bool Player::createAlarm(Coord c)
 		board->getTile(c)->setAlarm(true);
 		this->removeActionToken();
 		cout << "Alarm created in Floor: " << c.floor << " col: " << c.col << " row; " << c.row << endl;
+		newAction("CREATE_ALARM", c);
 		notify();
 		return true;
 	}
@@ -261,6 +262,7 @@ bool Player::placeCrow(Coord c)
 		this->useAbility(true);
 		board->getTile(c)->setCrowToken(true);
 		crowToken = c;
+		newAction("PLACE_CROW",c);
 	}
 	else return false;
 }
@@ -269,6 +271,7 @@ bool Player::placeCrow(Coord c)
 void Player::useToken()
 {
 	currentTile->doAction(toString(USE_TOKEN), this);
+	newAction("USE_TOKEN", getPosition());
 }
 
 
@@ -296,7 +299,7 @@ vector<string> Player::getActions()
 		{
 			bool b = false;
 			for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
-			if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))));
+			if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
 			possibleActions.push_back("PICK_UP_LOOT");
 		}
 
@@ -327,6 +330,7 @@ vector<string> Player::getActions()
 void Player::addToken()
 {
 	currentTile->doAction(string("ADD_TOKEN"), this);
+	newAction("ADD_TOKEN", getPosition());
 }
 
 bool Player::isOnRoof()

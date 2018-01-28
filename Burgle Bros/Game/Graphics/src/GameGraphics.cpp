@@ -227,35 +227,35 @@ void GameGraphics::unclick(int y, int x)
 	screen->unClick(y, x);
 }
 
-/*void GameGraphics::askQuestion(string question)
+void GameGraphics::askQuestion(string question)
 {
 	dialogBox = new DialogBox(DialogBox::YES_NO_MSG,question,cont);
-}*/
+}
 
 void GameGraphics::showOkMessage(string message)
 {
-	//dialogBox = new DialogBox(DialogBox::OK_MSG, message, cont);
+	dialogBox = new DialogBox(DialogBox::OK_MSG, message, cont);
 }
 void GameGraphics::showCancelMessage(string message)
 {
-	//dialogBox = new DialogBox(DialogBox::CANCEL_MSG, message, cont);
+	dialogBox = new DialogBox(DialogBox::CANCEL_MSG, message, cont);
 }
 
 void GameGraphics::showTempMessage(string message)
 {
-	//dialogBox = new DialogBox(DialogBox::TEMPORAL_INFO, message, cont);
+	dialogBox = new DialogBox(DialogBox::TEMPORAL_INFO, message, cont);
 }
 
-/*void GameGraphics::removeDialogBox()
+void GameGraphics::removeDialogBox()
 {
 	if (dialogBox != nullptr)
 		dialogBox->remove();
-}*/
+}
 
 void GameGraphics::closeQuestion()
 {
-	//cont->removeObject(questionBox);
-	//delete QuestionBox;
+/*	cont->removeObject(questionBox);
+	delete QuestionBox;*/
 }
 void GameGraphics::setTilesClickable(vector<Coord> tiles)
 {
