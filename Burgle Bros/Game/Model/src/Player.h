@@ -145,7 +145,19 @@ public:
 	virtual bool hasLoot()override;
 
 	//
-	virtual void pickUpLoot(int n);
+	int getLoot2bTraded() { return loot2bTransfered; };
+
+	//
+	void setLoot2bTraded(int n) { loot2bTransfered = n; };
+
+	//
+	void giveLoot( int n);
+
+	//
+	void receiveLoot(int n);
+
+	//
+	virtual void pickUpLoot(lootType l);
 
 	//
 	virtual void removeLoot(Loot * l){ if(l != nullptr) loots.erase(remove(loots.begin(), loots.end(), l), loots.end());	}
@@ -251,6 +263,8 @@ private:
 	vector <string> possibleActions;
 	// ???
 	vector <unsigned int> dice;
+	//
+	int loot2bTransfered;
 
 
 	//       PRIVATE METHOD

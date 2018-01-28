@@ -59,10 +59,12 @@ public:
 	void setLoot(Loot * l);
 
 	//
-	void removeLoot(Loot * loot2Remove) { if (!loot.empty())	loot.erase(remove(loot.begin(), loot.end(), loot2Remove), loot.end()); };
+	void removeLoot(Loot * loot2Remove) { if (!loot.empty())	loot.erase(remove(loot.begin(), loot.end(), loot2Remove), loot.end()); notify(); };
 
 	//	Checks if there is a loot on tile.
 	bool hasLoot();
+
+	bool hasXLoot(lootType l) { bool b = false; for (auto &it : this->loot) if (it->is(l)) b = true; return b; };
 
 	//
 	vector<Loot *> getLoot() { return loot; }

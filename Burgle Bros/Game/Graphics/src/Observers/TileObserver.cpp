@@ -131,6 +131,18 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 		}
 	}
 
+	persianKitty = new Image(string("../Game/Graphics/Images/Tokens/Persian kitty.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	persianKitty->setVisible(false);
+	persianKitty->setHoverable(false);
+	persianKitty->setClickable(false);
+	floorContainer->addObject(persianKitty);
+
+	goldBar = new Image(string("../Game/Graphics/Images/Tokens/Gold Bar.png"), XPOS + 2 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	goldBar->setVisible(false);
+	goldBar->setHoverable(false);
+	goldBar->setClickable(false);
+	floorContainer->addObject(goldBar);
+
 	flipped = false;	
 	cracked = false;
 	tile->attach(this);
@@ -218,6 +230,10 @@ void TileObserver::update()
 	{
 		openToken->setVisible(true);
 	}
+	if (tile->hasXLoot(PERSIAN_KITTY))
+		persianKitty->setVisible(true);
+	if (tile->hasXLoot(GOLD_BAR))
+		goldBar->setVisible(true);
 }
 
 

@@ -34,6 +34,7 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 void Tile::setLoot(Loot * l)
 {
 	loot.push_back(l);
+	notify();
 }
 
 void Tile::addAdjacent(Coord c)

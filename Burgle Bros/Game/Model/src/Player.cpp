@@ -19,6 +19,7 @@ Player::Player(Board * b, Player * p, int n)
 	else
 		playing = false;
 	turn = 0;
+	loot2bTransfered = 0;
 }
 
 void Player::setPosition(Coord c)
@@ -292,7 +293,13 @@ vector<string> Player::getActions()
 		possibleActions = currentTile->getActions(this);
 
 		if (currentTile->hasLoot())
+		{
+			bool b = false;
+			for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
+			if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))));
 			possibleActions.push_back("PICK_UP_LOOT");
+		}
+
 	}
 
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
@@ -409,9 +416,9 @@ bool Player::hasLoot()
 	return !loots.empty();
 }
 
- void Player::pickUpLoot(int n)
+ void Player::pickUpLoot(lootType l)
 {
-	 if (this->currentTile->hasLoot() && this->currentTile->getLoot().size()>=(n))
+	 if (this->currentTile->hasLoot())
 	 {
 		 bool b = false;
 		 for (auto &it : this->loots)
@@ -419,14 +426,19 @@ bool Player::hasLoot()
 			 it->is(GOLD_BAR);
 				 b = true;
 		 };
-		 if (currentTile->getLoot()[n - 1]->is(GOLD_BAR) && b)
-			 cout << "Already has GOLD BAR cant pick another one" << endl;
-		 else
+		 for (auto &it : this->currentTile->getLoot())
 		 {
-			 cout << "Picked " << currentTile->getLoot()[n - 1]->getDescription() << endl;
-			 this->addLoot(currentTile->getLoot()[n - 1]->getType());
-			 currentTile->removeLoot(currentTile->getLoot()[n - 1]);
-		 };
+			 if (it->is(l))
+			 {
+				 if(l == GOLD_BAR && b) cout << "Already has GOLD BAR cant pick another one" << endl;
+				 else
+				 {
+					 this->addLoot(it->getType());
+					 cout << "Player just picked a:" << it->getDescription() << endl;
+					 currentTile->removeLoot(it);
+				 }
+			 }
+		 }
 	 }
 }
 
@@ -485,5 +497,36 @@ void Player::areLootsReady()
 	for (auto &it : loots)
 	{
 		if (it->is(PERSIAN_KITTY)) it->lootAvailable(true);
+	}
+}
+
+void Player::giveLoot(int n)
+{
+	if (n > 0 && n <= loots.size())
+	{
+		if (loots[n - 1]->isLootAvailable() && loots[n-1] != nullptr)
+		{
+			otherPlayer->addLoot(loots[n - 1]->getType());
+			this->removeLoot(loots[n - 1]);
+			cout << "sent Loot" << endl;
+		}
+		else
+			cout << "loot couldnt be sent" << endl;
+	}
+}
+
+
+void Player::receiveLoot(int n)
+{
+	if (n > 0 && n <= otherPlayer->getLoots().size())
+	{
+		if (otherPlayer->getLoots()[n - 1]->isLootAvailable() && otherPlayer->getLoots()[n - 1] != nullptr)
+		{
+			this->addLoot(otherPlayer->loots[n - 1]->getType());
+			otherPlayer->removeLoot(loots[n - 1]);
+			cout << "received Loot" << endl;
+		}
+		else
+			cout << "loot couldnt be received" << endl;
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
-#define BOOST_MPL_LIMIT_VECTOR_SIZE 40 //or whatever you need                       
-#define BOOST_MPL_LIMIT_MAP_SIZE 40 //or whatever you need 
+#define BOOST_MPL_LIMIT_VECTOR_SIZE 50 //or whatever you need                       
+#define BOOST_MPL_LIMIT_MAP_SIZE 50 //or whatever you need 
 
 #include <iostream>
 // Back-end:
@@ -484,24 +484,24 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct doPickUp1Loot
+	struct doPickUpGoldBar
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Pick up loot" << std::endl;
-			fsm.model->currentPlayer()->pickUpLoot(1);
+			fsm.model->currentPlayer()->pickUpLoot(GOLD_BAR);
 			fsm.currentAction = NO_TYPE;
 		}
 	};
 
-	struct doPickUp2Loot
+	struct doPickUpKitty
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Pick up loot" << std::endl;
-			fsm.model->currentPlayer()->pickUpLoot(2);
+			fsm.model->currentPlayer()->pickUpLoot(PERSIAN_KITTY);
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -533,12 +533,23 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct doGiveLoot
+	struct chooseLoot1
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Give loot" << std::endl;
+			std::cout << "Set loot 1" << std::endl;
+			fsm.model->currentPlayer()->setLoot2bTraded(1);
+		}
+	};
+
+	struct chooseLoot2
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Set loot 2" << std::endl;
+			fsm.model->currentPlayer()->setLoot2bTraded(2);
 		}
 	};
 
@@ -548,6 +559,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Get loot" << std::endl;
+			fsm.model->currentPlayer()->receiveLoot(fsm.model->currentPlayer()->getLoot2bTraded());
+		}
+	};
+
+	struct doGiveLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Get loot" << std::endl;
+			fsm.model->currentPlayer()->giveLoot(fsm.model->currentPlayer()->getLoot2bTraded());
 		}
 	};
 
@@ -712,6 +734,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Preparing to offer loot: ";
 			fsm.currentAction = OFFER_LOOT;
+			// ACA HAY Q HACER Q SE PUEDAN CLICKEAR LOS LOOTS Q SE PUEDEN OFRECER, PARA HACER ESO HAY Q FIJARSE Q SU BOOL READY SEA TRUE, ( EL UNICO CASO Q TIENE EL BOOL FALSE ES EL PERSIAN KITTY Q NO LO PODES CAMBIAR HASTA Q PASE UN TURNO, PERO DE ESO SE ENCARGA EL MODELO SOLO)
 
 		}
 	};
@@ -835,8 +858,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction			, ev::throwDice		, askConfirmation		, prepThrowDice		, none				>,
 		Row < chooseAction			, ev::useToken		, chooseAction			, doUseToken		, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-//		Row < chooseAction			, ev::offerLoot		, chooseLoot			, prepOffer			, none				>,
-//		Row < chooseAction			, ev::requestLoot	, chooseLoot			, prepRequest		, none				>,
+		Row < chooseAction			, ev::offerLoot		, chooseLoot			, prepOffer			, none				>,
+		Row < chooseAction			, ev::requestLoot	, chooseLoot			, prepRequest		, none				>,
 		Row	< chooseAction			, ev::createAlarm	, none					, showAlarm			, none				>,
 		Row < chooseAction			, ev::placeCrow		, none					, showCrow			, none				>,
 		Row < chooseAction			, ev::spyPatrol		, askConfirmation		, doSpyPatrol		, none				>,
@@ -856,22 +879,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation		, ev::yes			, chooseAction			, doGetLoot			, isRequestingLoot	>,
 		Row < askConfirmation		, ev::no			, chooseAction			, none				, isRequestingLoot	>,
 		//  +------------+-------------+------------+--------------+--------------+
-//		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, doMove			, none				>,
-//		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, doMove			, none				>,
-//		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, doMove			, none				>,
-//		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, doMove			, none				>,
-		Row < chooseLoot			, ev::firstLoot		, chooseAction			, doPickUp1Loot		, isPickingLoot		>,
-//		Row < chooseLoot			, ev::secondLoot	, chooseAction			, doPickUp2Loot		, isPickingLoot		>,
-
+		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, chooseLoot1		, isOfferingLoot	>,
+		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, chooseLoot2		, isOfferingLoot	>,
+		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, chooseLoot1		, none				>,
+		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, chooseLoot2		, none				>,
+		Row < chooseLoot			, ev::goldBar		, chooseAction			, doPickUpGoldBar	, isPickingLoot		>,
+		Row < chooseLoot			, ev::persianKitty	, chooseAction			, doPickUpKitty		, isPickingLoot		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens		, ev::no			, guardTurn					, doEndTurn			, none				>,
-		Row < chekActionTokens		, ev::yes			, chooseAction				, none				, none				>,
+		Row < chekActionTokens		, ev::no			, guardTurn					, doEndTurn			, none			>,
+		Row < chekActionTokens		, ev::yes			, chooseAction				, none				, none			>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn				, ev::movee			, none						, moveGuard			, none				>,
-		Row < guardTurn				, ev::passGuard		, chooseAction				, changeTurn		, none				>,
-		Row < guardTurn				, ev::gameOver		, gameEnded					, none				, none				>,
+		Row < guardTurn				, ev::movee			, none						, moveGuard			, none			>,
+		Row < guardTurn				, ev::passGuard		, chooseAction				, changeTurn		, none			>,
+		Row < guardTurn				, ev::gameOver		, gameEnded					, none				, none			>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded				, ev::playAgain		, chooseAction				, resetGame			, none				>
+		Row < gameEnded				, ev::playAgain		, chooseAction				, resetGame			, none			>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};
