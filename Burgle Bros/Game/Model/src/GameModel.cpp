@@ -74,6 +74,16 @@ bool GameModel::gameOver()
 	return player1_.getStealthTokens() == 0 || player2_.getStealthTokens() == 0;
 }
 
+void GameModel::setLocal()
+{
+	player2_.setLocal(true);
+}
+void GameModel::setRemote()
+{
+	player2_.setLocal(false);
+}
+
+
 /**
 Called after guard movement, it changes the turn
 */

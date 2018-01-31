@@ -34,18 +34,20 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	BurgleNetwork * network;
 	Timer * guardTimer;
 	action_ID currentAction; // Stores current action chosen by player
+	enum { UNSET, LOCAL, REMOTE };
+	int gameMode;
 
 	//-------------------------------------------------------------
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-	//	fsm.model->currentPlayer()->setCharacter(RAVEN);
-	//	fsm.model->otherPlayer()->setCharacter(PETERMAN);
-	//	fsm.model->currentPlayer()->setName(string("TOBIAS"));
-	//	fsm.model->otherPlayer()->setName(string("JULIETA"));
+		//	fsm.model->currentPlayer()->setCharacter(RAVEN);
+		//	fsm.model->otherPlayer()->setCharacter(PETERMAN);
+		//	fsm.model->currentPlayer()->setName(string("TOBIAS"));
+		//	fsm.model->otherPlayer()->setName(string("JULIETA"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->setBoard();
-		
+
 		fsm.graphics->showGameScreen();
 
 	}
@@ -174,7 +176,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "" << std::endl;
 		}
 	};
-	
+
 	struct chekActionTokens : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -228,7 +230,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 
 	};
-	
+
 	struct gameEnded : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -243,7 +245,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 
 	//----------------------- ACTIONS -----------------------------//
-	
+
 	struct doSetInitialPos
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -261,6 +263,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Moving to  " << event.c << std::endl;
 			bool b = fsm.model->currentPlayer()->move(event.c);
+
+			if (fsm.model.otherPlayer()->isRemote())
+				cout << "SEND MOVE TO OTHER MACHINE" << endl;
+			//	fsm.network->sendMove(event.c, fsm.model->getTileSafeNum(event.c));
+
+
 			if (b == false)
 				std::cout << "Cant move!" << std::endl;
 
@@ -288,6 +296,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Using token" << std::endl;
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -298,6 +308,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Adding token" << std::endl;
 			fsm.model->currentPlayer()->addToken();
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -307,6 +320,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Throwing dice" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -317,6 +333,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Adding dice to the safe " << std::endl;
 			fsm.model->currentPlayer()->addDice();
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -327,6 +346,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Creating alarm" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -336,6 +358,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Spying patrol deck" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -345,6 +370,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Placing crow token" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -354,6 +382,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Pick up loot" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -363,6 +394,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Ask confirmation" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -372,6 +406,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Offer loot" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -381,6 +418,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Request loot" << std::endl;
+
+
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -460,7 +500,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		}
 	};
-	
+
 	///////////// GUARDSSSSS
 	struct isMoving
 	{
@@ -480,11 +520,29 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isLocal
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return 	fsm.gameMode == LOCAL;
+		}
+	};
+
+	struct isRemote
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return 	fsm.gameMode == REMOTE;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start        Event         Next         Action         Guard
 		//  +------------+-------------+------------+--------------+--------------+
-		
+
 		Row < chooseInitialPos, ev::coord, chooseAction, doSetInitialPos, none       >,
 		Row < chooseAction, ev::pass, guardTurn, none, none       >,
 		Row < chooseAction, ev::pass, guardTurn, none, none       >,
@@ -515,7 +573,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};
-	
+
 	// Replaces the default no-transition response.
 	template <class FSM, class EVT>
 	void no_transition(EVT const&  event, FSM& fsm, int state)
@@ -524,7 +582,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			<< " on event " << typeid(event).name() << std::endl;
 	}
 
-typedef chooseInitialPos initial_state;
+	typedef chooseInitialPos initial_state;
 };
 // Pick a back-end
 typedef msm::back::state_machine<GameState_> GameState;

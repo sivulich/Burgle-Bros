@@ -34,6 +34,10 @@ public:
 	//	Add the amount of stealth tokens you want
 	void setStealthTokens(int i) { stealthTokens = i; };
 
+
+	void setLocal(bool b) { local = b; };
+	bool isLocal() { return local; };
+	bool isRemote() { return !local; };
 	// GETTERS
 
 	//	Get player name
@@ -185,6 +189,9 @@ private:
 	int n;
 	// If its player turn playing=true
 	bool playing;
+
+	//
+	bool local;
 	// Character the player is using
 	Character * character;
 	// Tile where character token is placed on the board

@@ -11,12 +11,17 @@ class GameModel : public BaseModel
 public:
 	GameModel() : player1_(&board,&player2_,1), player2_(&board, &player1_,2), board(&player1_, &player2_)
 	{
+		player1_.setLocal(true);
 		currentPlayer_  =  &player1_;
 		otherPlayer_    =  &player2_;
 
 		srand(time(NULL));
 	};
 
+	//
+	void setLocal();
+	void setRemote();
+	
 	// Print game model in console
 	void print();
 
