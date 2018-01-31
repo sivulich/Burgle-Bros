@@ -15,11 +15,17 @@ class Deadbolt :
 	public Tile
 {
 public:
-	Deadbolt(int floor, int col, int row) : Tile(DEADBOLT,floor, col, row) {};
+	Deadbolt(int floor, int col, int row) : Tile(DEADBOLT,floor, col, row) { this->alarmTile = false; };
 	~Deadbolt();
 
-	virtual bool canMove(PlayerInterface * player) override;
-	virtual void enter(PlayerInterface * player) override;
+
+
+	/**
+	Applies the action given to the player
+	@param action Action to execute
+	@param p Player who wants to do the action
+	*/
+	virtual bool doAction(string action, PlayerInterface * player) override;
 
 private:
 	bool isOccupied;

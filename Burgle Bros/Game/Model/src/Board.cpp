@@ -1,9 +1,9 @@
 ﻿#include "./Board.h"
 
 // Defines for the hardcoded map
-#define T 0
-#define W 1
-#define	´ 0
+#define T 0 //Tile
+#define W 1 //Wall
+#define	´ 0 //No_Wall
 
 Board::Board(PlayerInterface* p1, PlayerInterface* p2)
 {
@@ -65,12 +65,11 @@ void Board::setWalls()
 		{ T,´,T,´,T,´,T } }
 	};*/
 
-
-	for (int f = 0; f < 3; f++)
+	for (int f = 0; f < NUMBER_FLOORS; f++)
 	{
-		for (int row = 0; row < 4; row++)
+		for (int row = 0; row < F_HEIGHT; row++)
 		{
-			for (int col = 0; col < 4; col++)
+			for (int col = 0; col < F_WIDTH; col++)
 			{
 				int i = row * 2;
 				int j = col * 2;
@@ -82,24 +81,28 @@ void Board::setWalls()
 					adjacent[f][col][row].push_back(Coord(f, col, row - 1));
 					tile->addAdjacent(Coord(f, col, row - 1));
 				}
+				else tile->setNorthWall(true);
 				// Adjacent with tile below
 				if (row < 3 && (walls[f][i + 1][j] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row + 1));
 					tile->addAdjacent(Coord(f, col, row + 1));
 				}
+				else tile->setSouthWall(true);
 				// Adjacent with the left tile
 				if (col > 0 && (walls[f][i][j - 1] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
 					tile->addAdjacent(Coord(f, col - 1, row));
 				}
+				else tile->setWestWall(true);
 				// Adjacent with the right tile
 				if (col < 3 && (walls[f][i][j + 1] != W))
 				{
 					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
 					tile->addAdjacent(Coord(f, col + 1, row));
 				}
+				else tile->setEastWall(true);
 			}
 		}
 		//Pass the map to each floor (and each floor to its guard)
@@ -139,10 +142,10 @@ void Board::setBoard()
 	// Shuffle it and divide it in three
 	random_shuffle(tiles.begin(), tiles.end());
 
-	vector<tileType> f[3];
-	for (int i = 0; i < 3; i++)
+	vector<tileType> f[NUMBER_FLOORS];
+	for (int i = 0; i < NUMBER_FLOORS; i++)
 	{
-		f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / 3 * i, tiles.begin() + tiles.size() / 3 * (i + 1));
+		f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / NUMBER_FLOORS * i, tiles.begin() + tiles.size() / NUMBER_FLOORS * (i + 1));
 		f[i].push_back(SAFE);
 		f[i].push_back(STAIR);
 		random_shuffle(f[i].begin(), f[i].end());
@@ -153,12 +156,13 @@ void Board::setBoard()
 
 void Board::setBoard(vector<tileType> tiles)
 {
-	if (tiles.size() == 48)
+	//Fills board only if exact number of required tiles is supplied
+	if (tiles.size() == F_HEIGHT*F_WIDTH*NUMBER_FLOORS)
 	{
-		vector<tileType> f[3];
-		for (int i = 0; i < 3; i++)
+		vector<tileType> f[NUMBER_FLOORS];
+		for (int i = 0; i < NUMBER_FLOORS; i++)
 		{
-			f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / 3 * i, tiles.begin() + tiles.size() / 3 * (i + 1));
+			f[i].insert(f[i].begin(), tiles.begin() + tiles.size() / NUMBER_FLOORS * i, tiles.begin() + tiles.size() / NUMBER_FLOORS * (i + 1));
 			floor[i]->setTiles(f[i]);
 		}
 	}
@@ -178,7 +182,6 @@ vector<tileType> Board::getTileSetup()
 void Board::parseBoard()
 {
 	vector<Tile *> crackSafeTiles;
-	vector<Tile *> cameras;
 	ServiceDuct * duct1 = nullptr;
 	ComputerRoomF * computerRoomF = nullptr;
 	ComputerRoomM * computerRoomM = nullptr;
@@ -186,6 +189,7 @@ void Board::parseBoard()
 	vector<Fingerprint *> fingerprints;
 	vector<Motion *> motions;
 	vector<Laser *> lasers;
+	vector<Tile *> safes;
 
 	lootType l[] = { TIARA, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR, GOLD_BAR };
 	vector<lootType>loots(l, l + 10);
@@ -193,14 +197,14 @@ void Board::parseBoard()
 
 
 	// Do some modifications to map because special tiles
-	for (int f = 0; f < 3; f++)
+	for (int f = 0; f < NUMBER_FLOORS; f++)
 	{
-		for (int row = 0; row < 4; row++)
+		for (int row = 0; row < F_HEIGHT; row++)
 		{
-			for (int col = 0; col < 4; col++)
+			for (int col = 0; col < F_WIDTH; col++)
 			{
 				Tile * tile = getTile(Coord(f, col, row));
-
+				
 				switch (tile->getType())
 				{
 					case STAIR:
@@ -221,6 +225,18 @@ void Board::parseBoard()
 						((Safe*)tile)->setLoot(loots.back());
 						loots.pop_back();
 						prepSafeTile((Safe *)tile);
+						safes.push_back(tile);
+						if (safes.size() == 3)
+						{
+							for (int i = 0; i < 3; i++)
+							{
+								for (int j = 0; j < 3; j++)
+								{
+									if (i != j)
+										((Safe *)safes[i])->addSafe(safes[j]);
+								}
+							}
+						}
 					break;
 
 					case SERVICE_DUCT:
@@ -291,11 +307,11 @@ void Board::parseBoard()
 void Board::print()
 {
 	cout << "                                   |BOARD|" << endl;
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < NUMBER_FLOORS; i++)
 		floor[i]->print();
 
 	cout << endl;
-	for (int j = 0; j <3 ; j++)
+	for (int j = 0; j <NUMBER_FLOORS ; j++)
 	{
 		cout << "Alarms in floor " << j + 1 << ":";
 		for (auto &a : floor[j]->getAlarms())
@@ -323,3 +339,39 @@ void Board::prepSafeTile(Safe * safe) {
 			safe->addCrackTile(getTile(Coord(safe->floor(),safe->col(),index)));	// add the tile in that floor, row and i column
 	}
 }
+
+void Board::checkOnePlayer(PlayerInterface * p, unsigned f)
+{
+	if (f < 3)
+	{
+		Coord temp = p->getPosition();
+		if (p->has(TIARA))
+		{
+			if (!(p->getPosition().row == 0) && !this->getTile(p->getPosition())->hasNorthWall())	//if its not the first row
+				p->addVisibleTile(Coord(temp.floor, temp.col, temp.row - 1));
+			if (!(p->getPosition().row == 3) && !this->getTile(p->getPosition())->hasSouthWall())	// if its not the last row
+				p->addVisibleTile(Coord(temp.floor, temp.col, temp.row + 1));
+			if (!(p->getPosition().col == 0) && !this->getTile(p->getPosition())->hasWestWall())	// if its not the first column
+				p->addVisibleTile(Coord(temp.floor, temp.col - 1, temp.row));
+			if (!(p->getPosition().col == 3) && !this->getTile(p->getPosition())->hasEastWall())	// if its not the last column
+				p->addVisibleTile(Coord(temp.floor, temp.col + 1, temp.row));
+		}
+		this->floor[f]->getGuard()->checkPlayer(p);
+		this->getTile(p->getPosition())->updateVisibleFrom(p);
+	};
+}
+
+void Board::checkCameras(Coord c1)
+{
+	if (floor[c1.floor]->tile(c1.col, c1.row)->is(CAMERA))
+	{
+		for (unsigned i = 0; i < NUMBER_FLOORS; i++)
+		{
+			for (auto &it : cameras)
+			{
+				if (!(floor[i]->getGuard()->getPos() == c1) && floor[i]->getGuard()->getPos() == it->getPos())
+					floor[c1.floor]->tile(c1.col, c1.row)->setAlarm(true);
+			}
+		}
+	}
+};

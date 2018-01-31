@@ -17,6 +17,10 @@ public:
 	bool isTaken() { return owner == nullptr? false : true; };
 	void drop() { owner = nullptr; };
 	void pick(PlayerInterface* p) { owner = p;};
+	bool isLootAvailable() { return ready; };
+	void lootAvailable(bool b) { ready = b; };
+	bool isInsafe() { return inSafe; };
+	void takeFromSafe() { inSafe = false; };
 	/**
 		Function called each time player moves to a new tile
 	*/
@@ -27,7 +31,9 @@ public:
 
 private:
 	lootType type;
+	bool inSafe;
 	Coord pos;
 	PlayerInterface * owner;
+	bool ready;
 };
 

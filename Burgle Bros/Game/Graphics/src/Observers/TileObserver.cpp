@@ -82,19 +82,19 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 
 	double TOKEN_SIZE = TILE_SIZE / 4.5;
 
-	alarmToken = new Image(string("../Game/Graphics/Images/Tokens/AlarmToken.png"), XPOS + 0 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	alarmToken = new Image(string("./Graphics/Images/Tokens/AlarmToken.png"), XPOS + 0 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	alarmToken->setVisible(false);
 	alarmToken->setHoverable(false);
 	alarmToken->setClickable(false);
 	floorContainer->addObject(alarmToken);
 
-	crackToken = new Image(string("../Game/Graphics/Images/Tokens/CrackToken.png"), XPOS + 1 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crackToken = new Image(string("../Game/Graphics/Images/Tokens/Crack token.png"), XPOS + 1 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	crackToken->setVisible(false);
 	crackToken->setHoverable(false);
 	crackToken->setClickable(false);
 	floorContainer->addObject(crackToken);
 
-	crowToken = new Image(string("../Game/Graphics/Images/Tokens/CrowToken.png"), XPOS + 2 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	crowToken = new Image(string("../Game/Graphics/Images/Tokens/Crow Token.png"), XPOS + 2 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	crowToken->setVisible(false);
 	crowToken->setHoverable(false);
 	crowToken->setClickable(false);
@@ -106,9 +106,52 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer)
 	stairToken->setClickable(false);
 	floorContainer->addObject(stairToken);
 
-	flipped = false;
+	if (tile->is(KEYPAD))
+	{
+		openToken = new Image(string("../Game/Graphics/Images/Tokens/Open token.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+		openToken->setVisible(false);
+		openToken->setHoverable(false);
+		openToken->setClickable(false);
+		floorContainer->addObject(openToken);
+	}
+	else openToken = nullptr;
+	
+	if (tile->is(COMPUTER_ROOM_F) || tile->is(COMPUTER_ROOM_L) || tile->is(COMPUTER_ROOM_M))
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			if (i <= 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			if (i > 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			hackTokens.back()->setVisible(false);
+			hackTokens.back()->setHoverable(false);
+			hackTokens.back()->setClickable(false);
+			floorContainer->addObject(hackTokens.back());
+		}
+	}
+
+	persianKitty = new Image(string("../Game/Graphics/Images/Tokens/Persian kitty.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	persianKitty->setVisible(false);
+	persianKitty->setHoverable(false);
+	persianKitty->setClickable(false);
+	floorContainer->addObject(persianKitty);
+
+	goldBar = new Image(string("../Game/Graphics/Images/Tokens/Gold Bar.png"), XPOS + 2 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
+	goldBar->setVisible(false);
+	goldBar->setHoverable(false);
+	goldBar->setClickable(false);
+	floorContainer->addObject(goldBar);
+
+	flipped = false;	
 	cracked = false;
 	tile->attach(this);
+
+#ifdef DEBUG_TILES
+	tile->flip();
+	tile->debugFlip();
+#endif // All tiles are set facing up (picture only)
+
 }
 
 void TileObserver::showSafeNumber()
@@ -175,6 +218,22 @@ void TileObserver::update()
 		else
 			stairToken->setVisible(false);
 	}
+	if (tile->isFlipped() && tile->getHackTokens() > 0 && (tile->is(COMPUTER_ROOM_F) || tile->is(COMPUTER_ROOM_L) || tile->is(COMPUTER_ROOM_M)))
+	{
+		for (auto &it : hackTokens) it->setVisible(false);
+		for (int i = 0; i <= tile->getHackTokens() - 1; i++)
+		{
+			hackTokens[i]->setVisible(true);
+		}
+	}
+	if (tile->isFlipped() && ((Keypad *)tile)->keyDecoded() && tile->is(KEYPAD))
+	{
+		openToken->setVisible(true);
+	}
+	if (tile->hasXLoot(PERSIAN_KITTY))
+		persianKitty->setVisible(true);
+	if (tile->hasXLoot(GOLD_BAR))
+		goldBar->setVisible(true);
 }
 
 

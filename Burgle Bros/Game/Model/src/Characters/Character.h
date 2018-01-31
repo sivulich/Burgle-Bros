@@ -33,7 +33,11 @@ public:
 	/**
 	
 	*/
-	void useAbility(bool b) { abilityAvailable = b; };
+	void spendAbility() { abilityAvailable = false; };
+	/**
+
+	*/
+	void restoreAbility() { abilityAvailable = true; };
 	/**
 		Returns the last turn character ability was used, if INT_MAX is returned means that ability was never used
 	*/

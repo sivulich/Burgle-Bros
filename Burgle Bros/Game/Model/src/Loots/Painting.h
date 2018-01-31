@@ -4,7 +4,7 @@ class Painting :
 	public Loot
 {
 public:
-	Painting(lootType l) : Loot(l) {};
+	Painting(lootType l) : Loot(l) { lootAvailable(true); };
 	~Painting();
 };
 

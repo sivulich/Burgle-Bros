@@ -14,7 +14,7 @@ class Laser :
 	public Tile
 {
 public:
-	Laser(int floor, int col, int row) : Tile(LASER, floor, col, row) { hackerhere = false; };
+	Laser(int floor, int col, int row) : Tile(LASER, floor, col, row) { this->alarmTile = true; };
 	~Laser();
 
 	/**
@@ -40,8 +40,9 @@ public:
 
 	void setComputerRoom(ComputerRoomL * c) { computerRoom = c; };
 
+	bool isHackerHere() { return hackerHere; };
+
 private:
 	ComputerRoomL * computerRoom;
-	bool hackerhere;
 };
 

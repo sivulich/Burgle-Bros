@@ -17,22 +17,26 @@ HudObserver::HudObserver(GameModel * m,BoardObserver*b, Container * c)
 
 	pauseButton = new Image(string("./Graphics/Images/HUD/PAUSE.png"),8,17);
 	exitButton = new Image(string("./Graphics/Images/HUD/EXIT.png"),803,17);
+	yesButton = new Image(string("../Game/Graphics/Images/Actions/YES.png"), 8, 17);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
+	noButton = new Image(string("../Game/Graphics/Images/Actions/NO.png"), 803, 17);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
+	topHudCont->addObject(yesButton);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
+	topHudCont->addObject(noButton);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
 	topHudCont->addObject(pauseButton);
 	topHudCont->addObject(exitButton);
 
 	// Create action buttons
 
-	actions = { { string("MOVE"),			new Image(string("../Game/Graphics/Images/Actions/MOVE.png"),295,23)         },
-				{ string("PEEK"),			new Image(string("../Game/Graphics/Images/Actions/PEEK.png"),365,23)         },
-				{ string("ADD_TOKEN"),		new Image(string("../Game/Graphics/Images/Actions/ADD_TOKEN.png"),505,23)    },
+	actions = { { string("MOVE"),			new Image(string("../Game/Graphics/Images/Actions/MOVE.png"),295,23) },
+				{ string("PEEK"),			new Image(string("../Game/Graphics/Images/Actions/PEEK.png"),365,23) },
+				{ string("ADD_TOKEN"),		new Image(string("../Game/Graphics/Images/Actions/ADD_TOKEN.png"),505,23) },
 				{ string("USE_TOKEN"),		new Image(string("../Game/Graphics/Images/Actions/USE_TOKEN.png"),534,23) },
 				{ string("PICK_UP_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/PICK_UP_LOOT.png"),663,23) },
-				{ string("OFFER_LOOT"),		new Image(string("../Game/Graphics/Images/Actions/OFFER_LOOT.png"),663,26)   },
+				{ string("OFFER_LOOT"),		new Image(string("../Game/Graphics/Images/Actions/OFFER_LOOT.png"),663,26) },
 				{ string("REQUEST_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/REQUEST_LOOT.png"),691,26) },
-				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),577,24) } };
-	/*{ string("PLACE_CROW"),		new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"),BUTTON4_XPOS,BUTTON4_YPOS,ACTION_SIZE,ACTION_SIZE)   },
-				{ string("CREATE_ALARM"),	new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"),BUTTON5_XPOS,BUTTON5_YPOS,ACTION_SIZE,ACTION_SIZE) },
-				{ string("SPY_PATROL"),		new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"),BUTTON6_XPOS,BUTTON6_YPOS,ACTION_SIZE,ACTION_SIZE)   },*/
+				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),577,24) },
+				{ string("PLACE_CROW"),		new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"),BUTTON4_XPOS,BUTTON4_YPOS,ACTION_SIZE,ACTION_SIZE) },
+				{ string("CREATE_ALARM"),	new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), BUTTON5_XPOS, BUTTON5_YPOS, ACTION_SIZE, ACTION_SIZE) },
+				{ string("SPY_PATROL"),		new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"),BUTTON6_XPOS,BUTTON6_YPOS,ACTION_SIZE,ACTION_SIZE) } };
 	for (auto& a : actions)
 	{
 		a.second->disable();

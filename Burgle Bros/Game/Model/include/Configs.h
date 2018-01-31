@@ -24,6 +24,7 @@
 //#include "../src/ConsoleColors.h"
 
 #define DEBUG
+//#define DEBUG_TILES
 //#define DEBUG_V
 
 #ifdef DEBUG_V
@@ -54,8 +55,12 @@ using namespace std;
 
 /*CHARACTER SETTINGS*/
 #define NUMBER_STEALTH_TOKENS 3
-#define NUMBER_ACTION_TOKENS 4
+#define NUMBER_ACTION_TOKENS 30
 
+/*BOARD SETTINGS*/
+#define NUMBER_FLOORS 3
+#define F_HEIGHT 4
+#define F_WIDTH 4
 
 DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (NO_TYPE,0x00)
@@ -134,5 +139,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(characterType,
 (RAVEN)
 (PETERMAN))
 
+typedef enum confirmation{_MOVE, _CANT_MOVE, _ASK} confirmation;
 
 #endif //CONFIGS_H

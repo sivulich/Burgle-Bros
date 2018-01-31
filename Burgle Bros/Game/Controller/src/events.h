@@ -26,6 +26,7 @@ namespace ev {
 	struct addToken : BaseEvent {};
 	struct addDice : BaseEvent {};
 	struct pass : BaseEvent {};
+	struct passGuard : BaseEvent {};
 	struct pause : BaseEvent {};
 	struct resume : BaseEvent {};
 	struct gameOver : BaseEvent {};
@@ -36,12 +37,18 @@ namespace ev {
 	struct errorHandled : BaseEvent {};
 	struct offerLoot : BaseEvent {};
 	struct requestLoot : BaseEvent {};
+	struct goldBar : BaseEvent {};
+	struct persianKitty : BaseEvent {};
+	struct firstLoot : BaseEvent {};
+	struct secondLoot : BaseEvent {};
+	struct showAlarm : BaseEvent {};
 	struct createAlarm : BaseEvent {};
 	struct spyPatrol : BaseEvent {};
 	struct placeCrow : BaseEvent {};
 	struct pickUpLoot : BaseEvent {};
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};
+	struct done : BaseEvent {};
 	struct ok : BaseEvent {};
 	struct render : BaseEvent {};
 	struct coord : BaseEvent

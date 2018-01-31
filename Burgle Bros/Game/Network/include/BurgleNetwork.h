@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 #define APR_DECLARE_STATIC 
 
 #include <string>
@@ -142,4 +142,4 @@ private:
 };
 
 
-
+*/

@@ -8,7 +8,7 @@ string Hawk::getAction(PlayerInterface * player)
 {
 	if (true == canUseAbility())
 	{
-		return string("CREATE_ALARM");
+		return string("");
 	}
 	else
 		return string("");

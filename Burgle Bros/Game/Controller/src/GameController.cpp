@@ -1,9 +1,9 @@
 #include <GameController.h>
 #include "./GameFSM.h"
 
-GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n) : stateMachine(new GameFSM(m, g, n, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
+GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/) : stateMachine(new GameFSM(m, g/*, n*/, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
-	network = n;
+	//network = n;
 	model = m;
 	graphics = g;
 	connectedFlag = false;
@@ -37,7 +37,7 @@ bool GameController::isRunning()
 
 void GameController::getInput()
 {
-	if (network->newEvent())
+	/*if (network->newEvent())
 	{
 		ALLEGRO_EVENT e = network->getEvent();
 		switch (e.type)
@@ -50,7 +50,7 @@ void GameController::getInput()
 		}
 
 	}
-	else if (eventQueue.isEmpty() == false)
+	else*/ if (eventQueue.isEmpty() == false)
 	{
 		Event event = eventQueue.getEvent();
 
@@ -89,6 +89,29 @@ void GameController::getInput()
 				s = "EXIT";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_INSERT)
 				s = "EXIT";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
+				s = "MOVE";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
+				s = "PEEK";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
+				s = "YES";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
+				s = "NO";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_1)
+				s = "FIRST_LOOT";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_2)
+				s = "SECOND_LOOT";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
+				s = "PICK_UP_LOOT";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
+				for(int f=0;f<3;f++)
+					for(int i=0;i<4;i++)
+						for (int j = 0; j < 4; j++)
+						{
+							if ((*model->getBoard())[f][i][j]->isFlipped() == false)
+								(*model->getBoard())[f][i][j]->flip();
+						}
+				
 			//else if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
 			//	graphics->zoomMode(true);
 
@@ -129,17 +152,28 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::connect());
 	else if (s == "CANCEL")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::cancel());
-
 	else if (s == "MOVE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee());
 	else if (s == "PEEK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek());
-	else if (s == "TROW_DICE")
+	else if (s == "CREATE_ALARM")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::createAlarm());
+	else if (s == "PLACE_CROW")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::placeCrow());
+	else if (s == "SPY_PATROL")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
+	else if (s == "THROW_DICE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
-	else if (s == "UDE_TOKEN")
+	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
+	else if (s == "PICK_UP_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pickUpLoot());
+	else if (s == "FIRST_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::firstLoot());
+	else if (s == "SECOND_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::secondLoot());
 	else if (s == "PASS")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 	else if (s == "PAUSE")

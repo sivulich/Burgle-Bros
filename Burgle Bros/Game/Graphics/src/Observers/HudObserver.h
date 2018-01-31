@@ -23,6 +23,8 @@ private:
 
 	Image * pauseButton;
 	Image * exitButton;
+	Image * yesButton;// ESTOS SON DE PRUEBA PORQ NO SE USAR LA QUESTION BOX
+	Image * noButton; // ESTOS SON DE PRUEBA PORQ NO SE USAR LA QUESTION BOX	
 
 	PlayerObserver * player1;
 	PlayerObserver * player2;

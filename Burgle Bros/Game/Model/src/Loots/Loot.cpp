@@ -7,6 +7,7 @@ Loot::Loot()
 Loot::Loot(lootType l)
 {
 	type = l;
+	inSafe = true;
 }
 
 

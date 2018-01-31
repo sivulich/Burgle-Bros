@@ -49,15 +49,33 @@ public:
 	// Return true if guard is still moving
 	bool guardIsMoving();
 
+	//
+	void endTurn();
+
 	// Called after guard movement, it changes the turn of the player
 	void changeTurn();
 
 	// Access to the current player
 	Player * currentPlayer() { return currentPlayer_; };
 
-
 	// Access to the other player
 	Player * otherPlayer() { return otherPlayer_; };
+
+	//
+	void spyPatrol(unsigned f) ;
+
+	//
+	void stopSpying(unsigned f);
+
+	//
+	void sendBottom(unsigned f);
+
+	//
+	vector<Coord> getTilesXDist(unsigned x, Player * p);
+
+	//
+	void check4Cameras();
+
 
 	Board* getBoard() { return &board; };
 

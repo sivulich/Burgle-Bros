@@ -4,7 +4,7 @@ class Gemstone :
 	public Loot
 {
 public:
-	Gemstone(lootType l) : Loot(l) {};
+	Gemstone(lootType l) : Loot(l) { lootAvailable(true); };
 	~Gemstone();
 };
 

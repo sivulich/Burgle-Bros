@@ -68,21 +68,24 @@ void GameModel::setInitialPosition(Coord c)
 {
 	player1_.setPosition(c);
 	player2_.setPosition(c);
+	board.getGuard(c.floor)->locateGuard();
+	board.getTile(board.getGuard(c.floor)->getPos())->guardIs(true);
 }
 bool GameModel::gameOver()
 {
 	return player1_.getStealthTokens() == 0 || player2_.getStealthTokens() == 0;
 }
 
-void GameModel::setLocal()
-{
-	player2_.setLocal(true);
-}
-void GameModel::setRemote()
-{
-	player2_.setLocal(false);
-}
 
+void GameModel::endTurn()
+{
+	// Fullfil tile end of turn actions
+	Tile * currentTile = board.getTile(currentPlayer_->getPosition());
+	if (currentTile->getType() == MOTION)		// Disarm the alarm in the Motion Room
+		((Motion *)currentTile)->disarm();
+	else if (currentTile->getType() == THERMO)
+		((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
+}
 
 /**
 Called after guard movement, it changes the turn
@@ -90,11 +93,24 @@ Called after guard movement, it changes the turn
 void GameModel::changeTurn()
 {
 	currentPlayer_->resetActionTokens();
+	currentPlayer_->useAbility(false);
+
+	// Fullfil tile end of turn actions
+	Tile * currentTile = board.getTile(currentPlayer_->getPosition());
 	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->isPlaying(true);
 	otherPlayer_->isPlaying(false);
 	currentPlayer_->addTurn();
 	otherPlayer_->addTurn();
+	int d = rand() % 6 + 1;
+	currentPlayer_->areLootsReady();
+	if (currentPlayer_->has(PERSIAN_KITTY) /*&& (d == 1 || d == 2)*/)
+	{
+		cout << "Lost Persian Kitty" << endl;
+		currentPlayer_->losePersianKitty();
+	}
+	if (currentPlayer_->has(CHIHUAHUA) && (rand() % 6 + 1 == 6))
+			currentPlayer_->getCurrentTile()->setAlarm(true);
 	notify();
 }
 
@@ -102,18 +118,79 @@ bool GameModel::guardIsMoving()
 {
 	return guardIsMoving_;
 }
-
+// ME TENGO Q FIJAR SI HACER EL CHEQUEO DE CAMARAS UNS SUBFUNCION. NO lo pase al moveGuard del floor porq este no conoce a las camaras de otros pisos
 void GameModel::moveGuard()
 {
 	int floor = currentPlayer_->getPosition().floor;
-	board[floor].getGuard()->isMyTurn(true);
+	board.getFloor(floor)->getGuard()->isMyTurn(true);
+	board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(false);
+	guardIsMoving_ = board.getFloor(floor)->moveGuard(currentPlayer_);
+	board.getTile(board.getFloor(floor)->getGuard()->getPos())->guardIs(true);
 
-	guardIsMoving_ = board[floor].moveGuard();
+	if (board.getTile(board.getFloor(floor)->getGuard()->getPos())->is(CAMERA) && board.getTile(board.getFloor(floor)->getGuard()->getPos())->isFlipped())
+	{
+		for (auto &it : board.getCameras())
+		{
+			if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == currentPlayer_->getPosition())
+			{
+				board.getTile(currentPlayer_->getPosition())->setAlarm(true);
+			}
+			else if (!(it->getPos() == board.getFloor(floor)->getGuard()->getPos()) && it->getPos() == otherPlayer_->getPosition())
+			{
+
+				board.getTile(otherPlayer_->getPosition())->setAlarm(true);
+			}
+		}
+	}
 	if(guardIsMoving_ == false)
-		board[floor].getGuard()->isMyTurn(false);
+		board.getFloor(floor)->getGuard()->isMyTurn(false);
 
 	notify();
 }
+
+void GameModel::spyPatrol(unsigned f)
+{
+	if (f < 3)
+	{
+		if (currentPlayer_->getActionTokens() > 0 && currentPlayer_->getCharacter() == toEnum_characterType("SPOTTER") && (currentPlayer_->canIUseAbility()))
+		{
+			board[f].getPatrolDeck()->spyTop();
+			currentPlayer_->removeActionToken();
+			currentPlayer_->useAbility(true);
+			cout << "currently spying" << board[f].getPatrolDeck()->topCard()->getDescription()<<endl;
+		}
+	}
+};
+
+void GameModel::stopSpying(unsigned f)
+{
+	if (f < 3)
+	{
+		board[f].getPatrolDeck()->noLongerSpied();
+		cout << "Stopped spying" << endl;
+	}
+}
+void GameModel::sendBottom(unsigned f)
+{
+	if (f < 3)
+	{
+		board[f].getPatrolDeck()->topToBottom();
+		board[f].getPatrolDeck()->noLongerSpied();
+		cout << "Sent top card to bottom" << endl;
+	}
+}
+
+vector<Coord> GameModel::getTilesXDist(unsigned x, Player * p)
+{
+	Coord c = p->getPosition();
+	return board[c.floor].getXDistanceTiles(x, c);
+};
+
+void GameModel::check4Cameras()
+{
+	board.checkCameras(currentPlayer_->getPosition());
+	
+};
 
 bool GameModel::win()
 {

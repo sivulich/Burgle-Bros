@@ -11,30 +11,36 @@ void Laser::enter(PlayerInterface * player)
 {
 	Tile::enter(player);
 	if (player->getCharacter() == HACKER)
-		hackerhere = true;
-	if(!hackerhere)
-	setAlarm(true);
+		hackerHere = true;
+	if (!hackerHere)
+	{
+		setAlarm(true);
+	}
+	
 }
 
 vector<string> Laser::getActions(PlayerInterface * player)
 {
 	vector<string> actions(Tile::getActions(player));
-	if (computerRoom->getHackTokens() > 0)
+	if (computerRoom->getHackTokens() > 0 && ! this->hasAlarm())
 		actions.push_back("USE_TOKEN");		// you can use an extra action to turn off the alarm
 	return actions;
 }
 
 bool Laser::doAction(string action, PlayerInterface * player)
 {
-	if (hackerhere==false)
+	if (hackerHere==false && !player->has(MIRROR))
 	{
 		if (action == "SPENT_OK")
 		{
-			player->removeActionToken();
+			if (isFlipped() == false) {
+				player->removeActionToken(),
+				turnUp();
+			}
 			player->removeActionToken();
 			setAlarm(false);
 			player->newAction(toString(SPENT_OK), getPos());
-			DEBUG_MSG("You decided to use two action tokens to turn off the alarm.");
+			DEBUG_MSG("You decided to use action tokens to turn off the alarm.");
 		}
 		else if (action == "USE_TOKEN")
 		{
@@ -49,5 +55,5 @@ bool Laser::doAction(string action, PlayerInterface * player)
 
 void Laser::exit(PlayerInterface * player) {
 	if (player->getCharacter() == HACKER)
-		hackerhere = false;
+		hackerHere = false;
 }

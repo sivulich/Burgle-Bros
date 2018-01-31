@@ -7,6 +7,7 @@ Tile::Tile()
 	alarmToken = false;
 	crackToken = false;
 	crowToken = false;
+	hackerHere = false;
 }
 
 Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
@@ -21,11 +22,19 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 	crackToken = false;
 	stairToken = false;
 	alarmToken = false;
+	hackerHere = false;
+	hasGuard = false;
+	hackToken = 0;
+	northWall = false;
+	eastWall = false;
+	southWall = false;
+	westWall = false;
 }
 
 void Tile::setLoot(Loot * l)
 {
 	loot.push_back(l);
+	notify();
 }
 
 void Tile::addAdjacent(Coord c)
@@ -62,7 +71,7 @@ bool Tile::hasLoot()
 {
 	return loot.empty() ? false : true;
 }
-
+/*
 bool Tile::hasEastWall()
 {
 	return coord.col < 3 && !isAdjacent(Coord(coord.floor, coord.col + 1, coord.row));
@@ -78,16 +87,15 @@ bool Tile::hasNorthWall()
 bool Tile::hasSouthWall()
 {
 	return coord.row < 3 && !isAdjacent(Coord(coord.floor, coord.col, coord.row + 1));
-}
-
+}*/
 
 
 void Tile::turnUp()
 {
-	BaseCard::turnUp();
 	default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
 	uniform_int_distribution<int> distribution(1, 6);
 	safeNumber = distribution(generator);
+	BaseCard::turnUp();
 	notify();
 }
 
@@ -135,11 +143,9 @@ void Tile::peek()
 	notify();
 }
 
-bool Tile::canMove(PlayerInterface * p)
-{
-	return p->getActionTokens() >= 1 && isAdjacent(p->getPosition());
-}
-
+bool Tile::canMove(PlayerInterface * player) {
+	return true;
+ }
 void Tile::enter(PlayerInterface * p)
 {
 	if (!isFlipped())

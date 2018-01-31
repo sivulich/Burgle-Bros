@@ -254,8 +254,8 @@ void GameGraphics::removeDialogBox()
 
 void GameGraphics::closeQuestion()
 {
-	//cont->removeObject(questionBox);
-	//delete QuestionBox;
+/*	cont->removeObject(questionBox);
+	delete QuestionBox;*/
 }
 void GameGraphics::setTilesClickable(vector<Coord> tiles)
 {

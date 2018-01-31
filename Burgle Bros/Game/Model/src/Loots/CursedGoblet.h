@@ -4,7 +4,7 @@ class CursedGoblet :
 	public Loot
 {
 public:
-	CursedGoblet(lootType l) : Loot(l) {};
+	CursedGoblet(lootType l) : Loot(l) { lootAvailable(true); };
 	~CursedGoblet();
 };
 

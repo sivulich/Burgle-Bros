@@ -13,9 +13,19 @@ void Guard::setFloorMap(vector<Coord> floor[4][4])
 	}
 }
 
+void Guard::checkPlayer(PlayerInterface * p)
+{
+	for (auto &it : p->getVisibleFrom())
+	{
+		if (it == pos)
+		{
+			p->removeStealthToken();
+			break;
+		}
+	}
+}
 
-
-// guard checks if his current position 
+// guard checks if in his current position a player is found
 void Guard::GuardCheck()
 {
 		for (auto &it : player1->getVisibleFrom())
@@ -69,37 +79,48 @@ void Guard::print()
 
 void Guard::locateGuard()
 {
-	PatrolCard * p;
-	if (currsteps == 0)
+	if (currsteps == 0 && !(pos == NPOS))
 	{
 		SetCurrSteps();
 		//DEBUG_MSG("Current steps " << currsteps<< endl);
 	}
+	positionGuard();
+}
+
+void Guard::positionGuard()
+{
+	PatrolCard * p;
 	if (pos == NPOS)
 	{
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		pos = p->getCoord();
+		cout << "Guard starts in" << pos << endl;
 		//DEBUG_MSG("Guard start pos " << pos << endl);
 		p = static_cast<PatrolCard*>(patroldeck->next());
-		target = p->getCoord();
+		expectedMov = p->getCoord();
+		cout << "First guard expected movement" << expectedMov << endl;
+		this->GuardCheck();
+		target = expectedMov;
 		notify();
 		//DEBUG_MSG("First guard target " << target << endl);
 	}
 }
+
 bool Guard::move()
 {
-	locateGuard();
 	PatrolCard * p;
 	FindPath(pos);
-	if (!path.empty())
+	cout << "Guard is moving towards " << target << endl;
+	if (!path.empty() && currsteps > 0)
 	{
 		pos = path.front();
+		this->GuardCheck();
 		//DEBUG_MSG("Guard has moved to" << pos << endl);
 		if (currsteps > 0)
 			currsteps--;
 		//DEBUG_MSG("Remaining steps " << currsteps);
 	}
-	if (pos == target)
+	if (pos == expectedMov)
 	{
 		if (patroldeck->isEmpty())
 		{
@@ -107,10 +128,12 @@ bool Guard::move()
 			speed++;
 		}
 		p = static_cast<PatrolCard*>(patroldeck->next());
-		target = p->getCoord();
+		expectedMov = p->getCoord();
 	}
 	removeAlarm(pos);
+	FindPath(pos);
 	notify();
+	
 	if (currsteps == 0)
 	{
 		//DEBUG_MSG("Guard turn has ended\n");
@@ -157,7 +180,16 @@ bool Guard::FindPath(Coord const coord)
 				}
 			}
 		}
-		shortestPath(toIndex(coord), closestTarget(dist), parent);
+		if (!alarms->empty())
+		{
+			target = toCoord(closestTarget(dist));
+			shortestPath(toIndex(coord), closestTarget(dist), parent);
+		}
+		else
+		{
+			target = expectedMov;
+			shortestPath(toIndex(coord), toIndex(expectedMov), parent);
+		}
 		/*DEBUG_MSG("Distances to each room" << endl);
 		for (auto & a : dist)
 			DEBUG_MSG(a << endl);
@@ -204,7 +236,7 @@ unsigned Guard::closestTarget(vector<int> distances)
 			}
 		}
 	}
-	else destination = toIndex(target);//faltaria chequear lo de las izquierdas
+	else destination = toIndex(expectedMov);
 	//DEBUG_MSG(" closest target is in floor " << toCoord(destination) << "\n");
 	return destination;
 }

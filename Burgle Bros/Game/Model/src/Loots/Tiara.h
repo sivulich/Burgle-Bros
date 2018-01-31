@@ -4,7 +4,7 @@ class Tiara :
 	public Loot
 {
 public:
-	Tiara(lootType l) : Loot(l) {};
+	Tiara(lootType l) : Loot(l) { lootAvailable(true); };
 	~Tiara();
 };
 

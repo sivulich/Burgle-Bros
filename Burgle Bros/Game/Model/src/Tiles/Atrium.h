@@ -9,7 +9,7 @@ lose a Stealth
 class Atrium : public Tile
 {
 public:
-	Atrium(int floor, int col, int row) : Tile(ATRIUM,floor, col, row){};
+	Atrium(int floor, int col, int row) : Tile(ATRIUM, floor, col, row) { this->alarmTile = false; };
 	~Atrium();
 
 	/**

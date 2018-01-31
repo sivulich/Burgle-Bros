@@ -5,7 +5,7 @@
 class ServiceDuct : public Tile
 {
 public:
-	ServiceDuct(int floor, int col, int row) : Tile(SERVICE_DUCT, floor, col, row) { isConnected = false; };
+	ServiceDuct(int floor, int col, int row) : Tile(SERVICE_DUCT, floor, col, row) { isConnected = false; this->alarmTile = false; };
 	~ServiceDuct();
 
 	/**

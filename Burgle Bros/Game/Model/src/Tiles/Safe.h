@@ -14,8 +14,12 @@ movement die by one on this floor and all those below it.
 class Safe : public Tile
 {
 public:
-	Safe(int floor, int col, int row) : Tile(SAFE,floor, col, row) { dices = 0; safeCracked = false; };
+	Safe(int floor, int col, int row) : Tile(SAFE, floor, col, row) { dices = 0; safeCracked = false; keyCardHere = true; this->alarmTile = false; };
 	~Safe();
+
+	void enter(PlayerInterface * player);
+
+	void Safe::exit(PlayerInterface * player);
 
 	void setLoot(lootType l)
 	{
@@ -44,11 +48,18 @@ public:
 	void addDice() { if (dices<6)dices++; };
 	// IMPLEMENTAR
 	void crack();
+
+	void addSafe(Tile * safe) { otherSafes.push_back(safe); };
+
+	void isKeyCardHere(bool b) { keyCardHere = b; };
 private:
 	lootType safeLoot;
 	unsigned int dices;
 	vector <Tile *> combinationTiles;
 	bool safeCracked;
+	bool keyCardHere;
+
+	vector<Tile *> otherSafes;
 
 	bool safeIsOpen() { return safeCracked; };
 	

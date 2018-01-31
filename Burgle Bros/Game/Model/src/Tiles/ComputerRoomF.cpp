@@ -8,6 +8,7 @@ ComputerRoomF::~ComputerRoomF()
 vector<string> ComputerRoomF::getActions(PlayerInterface * player)
 {
 	vector<string> actions(Tile::getActions(player));
+	if(hackToken <= 4)
 	actions.push_back("ADD_TOKEN");
 	return actions;
 }

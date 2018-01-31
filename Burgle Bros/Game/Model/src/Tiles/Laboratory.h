@@ -9,7 +9,7 @@ class Laboratory :
 	public Tile
 {
 public:
-	Laboratory(int floor, int col, int row) : Tile(LABORATORY,floor, col, row) {};
+	Laboratory(int floor, int col, int row) : Tile(LABORATORY,floor, col, row) { this->alarmTile = false; };
 	~Laboratory();
 };
 
