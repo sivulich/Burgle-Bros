@@ -145,6 +145,9 @@ public:
 	virtual bool hasLoot()override;
 
 	//
+	void setLocal(bool b) { local = b; };
+	bool isLocal() { return local; };
+	//
 	int getLoot2bTraded() { return loot2bTransfered; };
 
 	//
@@ -235,6 +238,8 @@ private:
 	int n;
 	// If its player turn playing=true
 	bool playing;
+	//
+	bool local;
 	//
 	Coord lastPos, destination;
 	// Character the player is using

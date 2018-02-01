@@ -149,7 +149,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		{
 			if (fsm.gameMode == UNSET) // LOCAL
 			{
-				fsm.gameMode = LOCAL
+				fsm.gameMode = LOCAL;
 				//
 				std::cout << "LocalSetup" << std::endl;
 				fsm.graphics->showSetupScreen(1);
