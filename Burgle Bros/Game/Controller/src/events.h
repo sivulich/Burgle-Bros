@@ -21,7 +21,17 @@ namespace ev {
 
 	struct movee : BaseEvent {};
 	struct peek : BaseEvent {};
-	struct throwDice : BaseEvent {};
+	struct throwDice : BaseEvent 
+	{
+		throwDice(int n) :number(n) {};
+		int number;
+	};
+	struct continueThrow : BaseEvent
+	{
+		continueThrow(int n) :number(n) {};
+		int number;
+	};
+	struct finishThrow : BaseEvent{};
 	struct useToken : BaseEvent {};
 	struct addToken : BaseEvent {};
 	struct addDice : BaseEvent {};

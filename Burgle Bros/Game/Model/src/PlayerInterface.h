@@ -105,7 +105,13 @@ public:
 	/**
 	
 	*/
-	virtual  int throwDice() = 0;
+	virtual  bool throwDice( int n) = 0;
+	
+	virtual int getDice() = 0;
+
+	virtual bool isThrowingDices() = 0;
+
+	virtual void dicesLeft2Throw(bool b) = 0;
 private:
 };
 

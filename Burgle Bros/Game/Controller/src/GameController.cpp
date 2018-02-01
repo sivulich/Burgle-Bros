@@ -37,6 +37,7 @@ bool GameController::isRunning()
 
 void GameController::getInput()
 {
+	s = "";
 	/*if (network->newEvent())
 	{
 		switch (network->getEvent().type)
@@ -93,6 +94,8 @@ void GameController::getInput()
 				s = "PEEK";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
 				s = "YES";
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_D)
+				s = "CONTINUE_THROW";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
 				s = "NO";
 			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_1)
@@ -122,7 +125,7 @@ void GameController::getInput()
 			break;
 
 		}
-
+		eventQueue.clear();
 	}
 }
 
@@ -161,7 +164,21 @@ void GameController::processEvent()
 	else if (s == "SPY_PATROL")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
 	else if (s == "THROW_DICE")
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
+	{
+		int dice = INT_MAX;
+			//habria que hacer un if Remote, es decir el dado q el remoto tira
+			dice = 3/*rand() % 6 + 1*/;
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice(int(dice)));
+		cout << "threw a " << dice << endl;
+	}
+	else if (s == "CONTINUE_THROW")
+	{
+		int dice = INT_MAX;
+		//habria que hacer un if Remote, es decir el dado q el remoto tira
+		dice = rand() % 6 + 1;
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::continueThrow(int(dice)));
+		cout << "continued. threw a " << dice << endl;
+	}
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
@@ -204,7 +221,5 @@ void GameController::processEvent()
 
 	else if (s == "ACROBAT" || s == "SPOTTER" || s == "JUICER" || s == "HAWK" || s == "HACKER" || s == "RAVEN" || s == "PETERMAN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
-
-
 
 }

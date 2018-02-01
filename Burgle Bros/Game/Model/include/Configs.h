@@ -139,6 +139,6 @@ DEFINE_ENUM_WITH_CONVERSIONS(characterType,
 (RAVEN)
 (PETERMAN))
 
-typedef enum confirmation{_MOVE, _CANT_MOVE, _ASK} confirmation;
+typedef enum confirmation{_MOVE, _CANT_MOVE, _ASK, _DICE} confirmation;
 
 #endif //CONFIGS_H

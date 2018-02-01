@@ -12,13 +12,14 @@ or fall into this room, you may leave but must open it to get back in.
 class Keypad : public Tile
 {
 public:
-	Keypad(int floor, int col, int row) : Tile(KEYPAD, floor, col, row) { keyKnown = false; attemptsThisTurn = 0; lastPlayer = -1; currentTurn = -1; this->alarmTile = false; };
+	Keypad(int floor, int col, int row) : Tile(KEYPAD, floor, col, row) { keyKnown = false; attemptsThisTurn = 0; attemptsThisAction = 0; currentPlayer = -1; currentTurn = -1; this->alarmTile = false; };
 	~Keypad();
 	/**
 	Return true if the player can move to the tile	(Always true except on special cases where function will be overwritten)
 	@param p player who is moving
 	*/
 	virtual bool canMove(PlayerInterface * player) override;
+	bool tryToOpen(int dice, PlayerInterface * player);
 	void clearAttempts() { attemptsThisTurn = 0; };
 	bool keyDecoded() { return keyKnown; };
 
@@ -28,7 +29,8 @@ private:
 
 	bool keyKnown;
 	unsigned int attemptsThisTurn;
+	unsigned int attemptsThisAction;
 
-	int lastPlayer, currentTurn;
+	int currentPlayer, currentTurn;
 };
 

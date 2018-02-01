@@ -7,42 +7,68 @@ Keypad::~Keypad()
 
 bool Keypad::canMove(PlayerInterface * player)
 {
-		int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
-		if (lastPlayer == -1)
-		{
-			currentTurn = player->getTurn();
-			lastPlayer = player->getNumber();
-		}
-		if (currentTurn != player->getTurn())
-		{
-			lastPlayer = lastPlayer == 1 ? 2 : 1;
-			currentTurn = player->getTurn();
-		}
-		currentTurn = player->getTurn();
-		if (keyKnown == false)
-		{
-			if (isFlipped() == false) turnUp();
-			if (lastPlayer != player->getNumber() || currentTurn != player->getTurn())
-				clearAttempts();
-
-			for (int i = 0; (i < attemptsThisTurn + 1 + b) && keyKnown == false; i++)		// throw the dice attempts+1 times 
-			{
-				if (player->throwDice() == 6) { 	// if the die thrown equals six
-					keyKnown = true;		// you may enter the tile
-					DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
-				}
-				else
-					DEBUG_MSG("You threw the dice but you couldn't open the keypad.");
-
-				player->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
-			}
-			if (keyKnown == false) addAttempt();		// if you didnt open the keypad, increase the attempts made this turn
-		}
-	
-
 	return keyKnown;
 }
 
+bool Keypad::tryToOpen(int dice, PlayerInterface * player)
+{
+	int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
+	bool endAction = false;
+	if (currentPlayer == -1)
+	{
+		currentTurn = player->getTurn();
+		currentPlayer = player->getNumber();
+	}
+	if (currentTurn == player->getTurn() && currentPlayer != player->getNumber())
+	{
+		currentPlayer = player->getNumber();
+		clearAttempts();
+	}
+	if (currentTurn != player->getTurn())
+	{
+		currentTurn = player->getTurn();
+		currentPlayer = player->getNumber();
+		clearAttempts();
+	}
+	if (keyKnown == false)
+	{
+		if (isFlipped() == false) turnUp();
+		if (attemptsThisAction < attemptsThisTurn + 1 + b)
+		{
+			if (dice == 6) { 	// if the die thrown equals six
+				keyKnown = true;		// you may enter the tile
+				DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
+				endAction = true;
+			}
+			else
+				DEBUG_MSG("You threw the dice but you couldn't open the keypad.");
+			player->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
+			attemptsThisAction++;
+
+			if (attemptsThisAction == attemptsThisTurn + 1 + b && keyKnown == false)
+			{
+				addAttempt();
+				attemptsThisAction = 0;
+				endAction = true;
+			}
+		}
+	}
+	return endAction;
+}
+	/*
+	for (int i = 0; (i < attemptsThisTurn + 1 + b) && keyKnown == false; i++)		// throw the dice attempts+1 times
+	{
+	if (dice == 6) { 	// if the die thrown equals six
+	keyKnown = true;		// you may enter the tile
+	DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
+	}
+	else
+	DEBUG_MSG("You threw the dice but you couldn't open the keypad.");
+
+	player->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
+	}
+	if (keyKnown == false) addAttempt();		// if you didnt open the keypad, increase the attempts made this turn
+	}*/
 
 /*
 vector<string>& Keypad::getActions(Player p, Coord guardPos, Coord partnerPos)

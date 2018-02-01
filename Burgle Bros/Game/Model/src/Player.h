@@ -35,7 +35,7 @@ public:
 	void setStealthTokens(int i) { stealthTokens = i; };
 
 	// Get player current Destination
-	void setDest(Coord c) { if (c.row < F_HEIGHT && c.col < F_WIDTH && c.floor < NUMBER_FLOORS) destination = c; };
+	void setDest(Coord c) { if (c.row < F_HEIGHT && c.col < F_WIDTH && c.floor < NUMBER_FLOORS) destination = c; else destination = NPOS; };
 
 	// GETTERS
 
@@ -93,6 +93,9 @@ public:
 	bool isPlaying() { return playing; };
 	void isPlaying(bool b) { playing = b; notify(); };
 
+	virtual bool isThrowingDices() { return throwingDices; };
+
+	virtual void dicesLeft2Throw(bool b) { throwingDices = b; };
 	//
 	//bool needConfirmationToMove(Coord c);
 
@@ -133,8 +136,10 @@ public:
 	void addDice();
 
 	//	Simulates a die being thrown
-	virtual  int throwDice();
+	virtual  bool throwDice(int n);
 
+	//
+	virtual int getDice() { return currDice; };
 	//
 	virtual void addLoot(lootType l)override;
 
@@ -263,6 +268,10 @@ private:
 	vector <string> possibleActions;
 	// ???
 	vector <unsigned int> dice;
+	//
+	int currDice;
+	//
+	bool throwingDices;
 	//
 	int loot2bTransfered;
 

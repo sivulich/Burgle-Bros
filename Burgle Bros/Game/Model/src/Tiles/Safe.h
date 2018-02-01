@@ -14,7 +14,7 @@ movement die by one on this floor and all those below it.
 class Safe : public Tile
 {
 public:
-	Safe(int floor, int col, int row) : Tile(SAFE, floor, col, row) { dices = 0; safeCracked = false; keyCardHere = true; this->alarmTile = false; };
+	Safe(int floor, int col, int row) : Tile(SAFE, floor, col, row) { currentPlayer = -1; currentTurn = -1; dices = 0; dicesThisTurn = 0; safeCracked = false; keyCardHere = true; this->alarmTile = false; };
 	~Safe();
 
 	void enter(PlayerInterface * player);
@@ -55,6 +55,8 @@ public:
 private:
 	lootType safeLoot;
 	unsigned int dices;
+	unsigned int dicesThisTurn;
+	int currentPlayer, currentTurn;
 	vector <Tile *> combinationTiles;
 	bool safeCracked;
 	bool keyCardHere;

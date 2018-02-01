@@ -24,7 +24,7 @@ vector<string> Safe::getActions(PlayerInterface * player)
 	vector<string> actions(Tile::getActions(player));
 	if (safeIsOpen() == false)		
 	{		
-		if (dices < 6 && player->getActionTokens() >= 2)
+		if (dices < 6 && player->getActionTokens() >= 2 && !player->isThrowingDices())
 			actions.push_back("ADD_TOKEN");
 		if ((dices + b) > 0 && player->getActionTokens() >= 1 && keyCardHere)
 			actions.push_back("THROW_DICE");
@@ -34,6 +34,7 @@ vector<string> Safe::getActions(PlayerInterface * player)
 
 bool Safe::doAction(string action, PlayerInterface * player) 
 {
+	bool endThrow = false;
 	int b = (player->getCharacter() == PETERMAN) ? 1: 0;
 	if (action == "ADD_TOKEN" && player->getActionTokens()>=2)
 	{
@@ -45,13 +46,17 @@ bool Safe::doAction(string action, PlayerInterface * player)
 	}
 	else if (action == "THROW_DICE" && keyCardHere)
 	{
-		player->removeActionToken();		// remove an action
-		for (int i = 0; i < (dices + b) && !safeIsOpen()  ; i++)		// while the safe remains closed, throw all the dice you have
+		if (dicesThisTurn < (dices + b) && !safeIsOpen())	// while the safe remains closed, throw all the dice you have
 		{
-			trySafeNumber(rand()%6+1);			// check how many tiles you cracked throwing one die
+			if(dicesThisTurn == 0)
+			player->removeActionToken();					// remove an action
+			trySafeNumber(player->getDice());				// check how many tiles you cracked throwing one die
+			dicesThisTurn++;
 
-			if (combinationTiles.size() == 0) {		//  if the vector is empty, then all the tiles were cracked
-				safeCracked = true;								// if so, you opened the safe
+			if (combinationTiles.size() == 0)				//  if the vector is empty, then all the tiles were cracked
+			{				
+				endThrow = true;
+				safeCracked = true;							// if so, you opened the safe
 				DEBUG_MSG("You cracked the safe!!");
 				player->addLoot(safeLoot);
 				player->newAction("SAFE_OPENED", getPos());
@@ -67,10 +72,17 @@ bool Safe::doAction(string action, PlayerInterface * player)
 					Tile::setLoot(LootFactory().newLoot(GOLD_BAR));
 				}
 			}
+			if (dicesThisTurn == (dices + b) && !safeIsOpen())
+			{
+				dicesThisTurn = 0;
+				endThrow = true;
+			}
+
 		}	
+		else endThrow = true;
 	}
 	////////////////// HACER BIEN RETURN VALUE
-	return true;
+	return endThrow;
 
 }
 

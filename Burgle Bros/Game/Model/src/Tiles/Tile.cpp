@@ -157,9 +157,13 @@ void Tile::enter(PlayerInterface * p)
 
 vector<string> Tile::getActions(PlayerInterface * p)
 {
+
 	vector<string> actions;
-	actions.push_back("PEEK");
-	actions.push_back("MOVE");
+	if (!p->isThrowingDices())
+	{
+		actions.push_back("PEEK");
+		actions.push_back("MOVE");
+	}
 	return actions;
 }
 

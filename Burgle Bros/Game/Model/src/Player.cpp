@@ -13,6 +13,7 @@ Player::Player(Board * b, Player * p, int n)
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
 	character = nullptr;
+	throwingDices = false;
 	this->n = n;
 	if (n == 1)
 		playing = true;
@@ -84,6 +85,10 @@ confirmation Player::needConfirmationToMove(Coord c)
 	{
 		if ( (wantedTile->isFlipped() == false && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == true && this->getActionTokens() >= 2))
 			b = _ASK;
+	}
+	else if (wantedTile->is(KEYPAD) && !((Keypad *)wantedTile)->keyDecoded())
+	{
+		b = _DICE;
 	}
 	
 	return b;
@@ -290,39 +295,53 @@ vector < string> Player::gettActions()
 vector<string> Player::getActions()
 {
 	vector <string> possibleActions;
-
-	if (currentTile != nullptr)
-	{
-		possibleActions = currentTile->getActions(this);
-
-		if (currentTile->hasLoot())
+		if (currentTile != nullptr)
 		{
-			bool b = false;
-			for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
-			if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
-			possibleActions.push_back("PICK_UP_LOOT");
+			possibleActions = currentTile->getActions(this);
+
+			if (!throwingDices)
+			{
+				if (currentTile->hasLoot())
+				{
+					bool b = false;
+					for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
+					if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
+						possibleActions.push_back("PICK_UP_LOOT");
+				}
+			}
+
 		}
 
-	}
 
-	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
-	if (character != nullptr)
-	{
-		possibleActions.push_back(character->getAction(this));
-		/*if (getCharacter() == JUICER)
-			possibleActions.push_back("CREATE_ALARM");
-		else if (getCharacter() == RAVEN)
-			possibleActions.push_back("PLACE_CROW");
-		else if (getCharacter() == SPOTTER)
-			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
-	}
+		//AGREGAR LAS ACCIONES DE LOS CHARACTERS
+		if (!throwingDices)
+		{
+			if (character != nullptr)
+			{
+				possibleActions.push_back(character->getAction(this));
+				/*if (getCharacter() == JUICER)
+					possibleActions.push_back("CREATE_ALARM");
+				else if (getCharacter() == RAVEN)
+					possibleActions.push_back("PLACE_CROW");
+				else if (getCharacter() == SPOTTER)
+					possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
+			}
 
-	if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
+			if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
+			{
+				if (hasLoot())
+					possibleActions.push_back("OFFER_LOOT");
+				if (otherPlayer->hasLoot())
+					possibleActions.push_back("REQUEST_LOOT");
+			}
+		}
+	if (destination.floor < NUMBER_FLOORS && destination.col < F_WIDTH && destination.row < F_HEIGHT)
 	{
-		if (hasLoot())
-			possibleActions.push_back("OFFER_LOOT");
-		if (otherPlayer->hasLoot())
-			possibleActions.push_back("REQUEST_LOOT");
+		if (board->getTile(destination)->is(KEYPAD) && !((Keypad *)board->getTile(destination))->keyDecoded())
+		{
+			possibleActions.push_back("THROW_DICE");
+		}
+
 	}
 	return possibleActions;
 }
@@ -391,19 +410,18 @@ void Player::newAction(string action, Coord tile)
 	actions.push_back(actionNode(action, tile, turn));
 }
 
-int Player::throwDice()
+bool Player::throwDice(int n)
 {
-	default_random_engine generator(std::chrono::system_clock::now().time_since_epoch().count());
-	uniform_int_distribution<int> distribution(1, 6);
-	unsigned int temp = distribution(generator);
-	dice.push_back(temp);
-	currentTile->doAction("THROW_DICE",this);
+	bool b = false;
+	dice.push_back(n);
+	currDice = n;
+	 b =currentTile->doAction("THROW_DICE",this);
 	newAction(toString(THROW_DICE), currentTile->getPos());
 
 	//DEBUG_MSG("You rolled the dice and got a " << temp);
 
 	notify();
-	return temp;
+	return b;
 }
 
 void Player::addLoot(lootType l)
