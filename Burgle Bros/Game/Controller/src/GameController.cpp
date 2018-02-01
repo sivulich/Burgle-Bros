@@ -40,11 +40,13 @@ void GameController::getInput()
 	s = "";
 	/*if (network->newEvent())
 	{
-		switch (network->getEvent().type)
+		ALLEGRO_EVENT e = network->getEvent();
+		switch (e.type)
 		{
 		case NETWORK_CONNECTED:
-			cout << "machinesConected" << endl;
 			s = "NEXT";
+		case NETWORK_INPUT:
+			s = e.user.data1;
 			break;
 		}
 

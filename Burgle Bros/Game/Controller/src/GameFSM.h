@@ -149,7 +149,8 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		{
 			if (fsm.gameMode == UNSET) // LOCAL
 			{
-				fsm.gameMode = LOCAL;
+				fsm.gameMode = LOCAL
+				//
 				std::cout << "LocalSetup" << std::endl;
 				fsm.graphics->showSetupScreen(1);
 				player1set = false;
@@ -323,13 +324,21 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 						source.player2set = true;
 						fsm.model->player2()->setName(fsm.graphics->getPlayerName());
 						// Both caracters set so go to game
+						GameState& s = fsm.get_state<GameState&>();
+						s.gameMode = LOCAL;
+						fsm.model->setLocal();
 						fsm.process_event(ev::play());
 					}
 				}
 			}
 			else if (fsm.gameMode == REMOTE)
 			{
-
+				// ACa ya se sabe el nombre y caracter de cada jugador
+				// HACER EL INTERCAMBIO DE DATOS
+				GameState& s = fsm.get_state<GameState&>();
+				s.gameMode = REMOTE;
+				fsm.model->setRemote();
+				fsm.process_event(ev::play());
 			}
 		}
 	};
