@@ -31,7 +31,7 @@ bool Fingerprint::doAction(string action, PlayerInterface * player)
 		{
 			computerRoom->removeToken();
 			setAlarm(false);
-			player->newAction(toString(USE_TOKEN), getPos());
+			player->newAction(toString(USE_TOKEN), getPos(),INT_MAX);
 			DEBUG_MSG("You used a HACK_TOKEN to turn off the alarm");
 			return true;
 		}

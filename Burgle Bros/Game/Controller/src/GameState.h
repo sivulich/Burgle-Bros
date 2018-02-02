@@ -726,7 +726,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
 			{
 				fsm.currentAction = THROW_DICE;
+				fsm.model->currentPlayer()->dicesLeft2Throw(true);
 				fsm.model->currentPlayer()->gettActions();
+				fsm.model->currentPlayer()->dicesLeft2Throw(false);
 			}
 			else fsm.process_event(ev::done());
 		}
@@ -752,7 +754,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Changing turns" << std::endl;
+			std::cout << "Really Starting turn" << std::endl;
 			fsm.currentAction = NO_TYPE;
 		}
 	};

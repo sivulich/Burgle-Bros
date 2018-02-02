@@ -11,7 +11,7 @@ public:
 	/**
 		Creates an action node
 	*/
-	actionNode(string action, Coord c, int t) : myAction(action), coord(c), turn(t) {};
+	actionNode(string action, Coord c, int t, int d) : myAction(action), coord(c), turn(t), dice(d) {};
 
 	/**
 		Sets true to know the action was sent.
@@ -31,6 +31,9 @@ public:
 
 	// Number of turn in which action occured
 	int turn;
+
+	// Dice thrown during action if any was thrown
+	int dice;
 
 private:
 	bool sent;

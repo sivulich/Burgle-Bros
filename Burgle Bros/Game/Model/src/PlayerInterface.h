@@ -97,7 +97,7 @@ public:
 	@params action the string of the action that occured
 	@params tile coordinate to the tile where the action happened
 	*/
-	virtual void newAction(string action, Coord tile)=0;
+	virtual void newAction(string action, Coord tile, int dice)=0;
 	/**
 	
 	*/

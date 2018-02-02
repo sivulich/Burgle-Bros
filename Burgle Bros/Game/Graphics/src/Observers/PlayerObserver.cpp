@@ -162,6 +162,8 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(true);
 			actionTokens->setVisible(true);
 			passButton->setVisible(true);
+			if (player->isThrowingDices()) passButton->setClickable(false);
+			else passButton->setClickable(true);
 		}
 		else
 		{

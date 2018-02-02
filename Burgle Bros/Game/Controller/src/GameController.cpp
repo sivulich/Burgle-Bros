@@ -127,7 +127,7 @@ void GameController::getInput()
 			break;
 
 		}
-		eventQueue.clear();
+		//eventQueue.clear();
 	}
 }
 
@@ -169,7 +169,7 @@ void GameController::processEvent()
 	{
 		int dice = INT_MAX;
 			//habria que hacer un if Remote, es decir el dado q el remoto tira
-			dice = 3/*rand() % 6 + 1*/;
+			dice = rand() % 6 + 1;
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice(int(dice)));
 		cout << "threw a " << dice << endl;
 	}

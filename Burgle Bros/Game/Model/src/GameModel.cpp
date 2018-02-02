@@ -122,7 +122,9 @@ bool GameModel::doInitialAction(int dice)
 	currentPlayer_->areLootsReady();
 	if (currentPlayer_->has(PERSIAN_KITTY) && !currentPlayer_->isThrowingDices())
 	{
+		currentPlayer_->newAction("THROW_DICE", currentPlayer_->getPosition(), dice);
 		currentPlayer_->dicesLeft2Throw(true);
+		cout << "Threw dice for kitty" << endl;
 		if (dice == 1 || dice == 2)
 		{
 			cout << "Lost Persian Kitty" << endl;
@@ -130,6 +132,7 @@ bool GameModel::doInitialAction(int dice)
 		}
 		if (currentPlayer_->has(CHIHUAHUA))
 		{
+			cout << "Still has to throw dice for chihuahua" << endl;
 			return true;
 		}
 		else currentPlayer_->dicesLeft2Throw(false);
@@ -137,6 +140,8 @@ bool GameModel::doInitialAction(int dice)
 
 	if (currentPlayer_->has(CHIHUAHUA))
 	{
+		currentPlayer_->newAction("THROW_DICE", currentPlayer_->getPosition(), dice);
+		cout << "Threw dice for chihuahua" << endl;
 		currentPlayer_->dicesLeft2Throw(false);
 		if (dice == 6)
 		{

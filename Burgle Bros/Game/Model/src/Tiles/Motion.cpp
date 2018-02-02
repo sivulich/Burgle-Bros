@@ -44,7 +44,7 @@ bool Motion::doAction(string action, PlayerInterface * player)
 
 			disarm();
 			setAlarm(false);
-			player->newAction(toString(USE_TOKEN), getPos());
+			player->newAction(toString(USE_TOKEN), getPos(),INT_MAX);
 			return true;
 		}	
 	}
