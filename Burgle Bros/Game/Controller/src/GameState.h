@@ -264,6 +264,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct beginTurn : public msm::front::state<>
+	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+			std::cout << "" << std::endl;
+		}
+
+		template <class EVT, class FSM>
+		void on_exit(EVT const&  event, FSM& fsm)
+		{
+			std::cout << "" << std::endl;
+		}
+	};
+
 	struct guardTurn : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -695,8 +710,49 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Changing turns" << std::endl;
 			fsm.model->changeTurn();
+			fsm.process_event(ev::passGuard());
 			fsm.currentAction = NO_TYPE;
 
+		}
+	};
+
+	struct doStartTurn
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Starting Turn" << std::endl;
+			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
+			{
+				fsm.currentAction = THROW_DICE;
+				fsm.model->currentPlayer()->gettActions();
+			}
+			else fsm.process_event(ev::done());
+		}
+	};
+
+	struct doInitialAction
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Doing initial action" << std::endl;
+			if (fsm.model->doInitialAction(event.number))
+			{
+				fsm.currentAction = THROW_DICE;
+				fsm.model->currentPlayer()->gettActions();
+			}
+			else fsm.process_event(ev::done());
+		}
+	};
+
+	struct doReallyStartTurn
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			std::cout << "Changing turns" << std::endl;
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -997,8 +1053,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chekActionTokens		, ev::yes			, chooseAction			, none				, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < guardTurn				, ev::movee			, none					, moveGuard			, none				>,
-		Row < guardTurn				, ev::passGuard		, chooseAction			, changeTurn		, none				>,
+		Row < guardTurn				, ev::passGuard		, beginTurn				, changeTurn		, none				>,
 		Row < guardTurn				, ev::gameOver		, gameEnded				, none				, none				>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < beginTurn				, ev::passGuard		, beginTurn				, doStartTurn		, none				>,
+		Row < beginTurn				, ev::throwDice		, beginTurn				, doInitialAction	, isThrowingDice	>,
+		Row < beginTurn				, ev::done			, chooseAction			, doReallyStartTurn	, none				>,
+
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < gameEnded				, ev::playAgain		, chooseAction			, resetGame			, none				>
 		//  +------------+-------------+------------+--------------+--------------+
