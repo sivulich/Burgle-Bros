@@ -24,11 +24,15 @@ private:
 	Container* hudCont;
 	Image* playerCard;
 	Image * infoButton;
+	Image * lootButton;
 	Image* characterFigure;
 	Image* characterFigurePlaying;
 	Image * passButton;
-	Text * actionTokens;
 	Image* token;
+
+	Container* loots;
+	Text * actionTokens;
 	Text * stealthTokens;
+	Text * numberOfLoots;
 	Text * name;
 };

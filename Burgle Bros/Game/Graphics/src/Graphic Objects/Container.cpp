@@ -57,27 +57,29 @@ void Container::draw(Bitmap* target)
 {
 	if (initOk == true)
 	{
-		if (target != nullptr && target->get() != nullptr)
+		if (visible)
 		{
-			toDraw->setTarget();
-			al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
+			if (target != nullptr && target->get() != nullptr)
+			{
+				toDraw->setTarget();
+				al_clear_to_color(al_map_rgba_f(0, 0, 0, 0));
 
-			if (background.get() != nullptr)
-				background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0, w*scaleX, h*scaleY, 0);
+				if (background.get() != nullptr)
+					background.drawScaled(offsetX, offsetY, background.getWidth(), background.getHeight(), 0, 0, w*scaleX, h*scaleY, 0);
 
-			for (int i = objects.size() - 1; i >= 0; i--)
-				objects[i]->draw(toDraw);
+				for (int i = objects.size() - 1; i >= 0; i--)
+					objects[i]->draw(toDraw);
 
-			// Draw toDraw bitmap in target bitmap
-			target->setTarget();
-			toDraw->drawScaled(0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
+				// Draw toDraw bitmap in target bitmap
+				target->setTarget();
+				toDraw->drawScaled(0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);
 
-			if (borderVisibe)
-				al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
+				if (borderVisibe)
+					al_draw_rectangle(x, y, x + w*scaleX, y + h*scaleY, al_map_rgb(255, 0, 0), 3);
 
+			}
+			else DEBUG_MSG("Error while drawing container " << name << " target was not initialized correctly");
 		}
-		else DEBUG_MSG("Error while drawing container " << name << " target was not initialized correctly");
-
 	}
 	else DEBUG_MSG("Error while drawing container " << name << ", it was not initialized correctly");
 

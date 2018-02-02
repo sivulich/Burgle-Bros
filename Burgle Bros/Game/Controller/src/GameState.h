@@ -46,7 +46,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		fsm.model->otherPlayer()->setName(string("Resto"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->setBoard();
-		
+		fsm.model->currentPlayer()->addLoot(MIRROR);
+		fsm.model->currentPlayer()->addLoot(PAINTING);
+		fsm.model->otherPlayer()->addLoot(PERSIAN_KITTY);
 		fsm.graphics->showGameScreen();
 
 	}
@@ -694,10 +696,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Changing turns" << std::endl;
-			fsm.model->changeTurn();
-			fsm.currentAction = NO_TYPE;
-
+			
+			if (fsm.model->otherPlayer()->isOnRoof())
+			{
+				std::cout << "Keep playing, you are alone!" << std::endl;
+			}
+			else
+			{
+				std::cout << "Changing turns" << std::endl;
+				fsm.model->changeTurn();
+				fsm.currentAction = NO_TYPE;
+			}
 		}
 	};
 

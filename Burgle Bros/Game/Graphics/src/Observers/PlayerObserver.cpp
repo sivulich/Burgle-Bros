@@ -20,41 +20,48 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 
 	characterFigure = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1.png"));
 	characterFigurePlaying = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1 PLAYING.png"));
+	loots = new Container(string("./Graphics/Images/Screen - Game/LootCont.png"));
 
 	if (p->getNumber() == 1)
 	{
-		playerCard = new Image(images[p->getCharacter()], 128,488, 168, 186);
+		playerCard = new Image(images[p->getCharacter()], 128, 488, 168, 186);
 		characterFigure->setPosition(525, 130);
 		characterFigurePlaying->setPosition(525, 130);
 		passButton = new Image(string("./Graphics/Images/HUD/PASS.png"),159,62);
 		actionTokens = new Text(string(HUD_FONT), TEXT_COLOR, 15, 195, 70);
 		stealthTokens = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 212,48);
+		numberOfLoots = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 255, 62);
 		name = new Text(string(HUD_FONT), TEXT_COLOR, 18, 76, 82);
 		infoButton = new Image(string("./Graphics/Images/HUD/INFO.png"), 130, 77);
+		lootButton = new Image(string("./Graphics/Images/Tokens/Loot token.png"), 233, 46);
+		loots->setPosition(409,145);
+
 	}
 	else if (p->getNumber() == 2)
 	{
-		playerCard = new Image(images[p->getCharacter()], 984, 488, 168,186);
+		playerCard = new Image(images[p->getCharacter()], 984, 488, 168, 186);
 		characterFigure->setPosition(525, 1025);
 		characterFigure->flipHorizontal();
 		characterFigurePlaying->setPosition(525, 1025);
 		characterFigurePlaying->flipHorizontal();
 		passButton = new Image(string("./Graphics/Images/HUD/PASS.png"), 807, 62);
 		actionTokens = new Text(string(HUD_FONT), TEXT_COLOR, 15, 843, 70);
-		stealthTokens = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0),15, 830,48);
-		name = new Text(string(HUD_FONT), TEXT_COLOR, 18, 969,82);
+		stealthTokens = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 830, 48);
+		numberOfLoots = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 793, 62);
+		name = new Text(string(HUD_FONT), TEXT_COLOR, 18, 969, 82);
 		infoButton = new Image(string("./Graphics/Images/HUD/INFO.png"), 889, 77);
+		lootButton = new Image(string("./Graphics/Images/Tokens/Loot token.png"), 771, 46);
+		loots->setPosition(409,675);
 	}
 	else
 		DEBUG_MSG("ERROR: Invalid player number");
 
 
-	playerCard->setClickable(false);
-	playerCard->setHoverable(false);
-	playerCard->setVisible(false);
-
 	infoButton->setObserver(this);
 	hudCont->addObject(infoButton);
+
+	lootButton->setObserver(this);
+	hudCont->addObject(lootButton);
 
 	characterFigure->setClickable(false);
 	characterFigure->setHoverable(false);
@@ -80,11 +87,21 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	hudCont->addObject(passButton);
 	hudCont->addObject(actionTokens);
 	hudCont->addObject(stealthTokens);
+	hudCont->addObject(numberOfLoots);
+
 	name->setText(p->getName());
 	hudCont->addObject(name);
 
+
+	playerCard->setClickable(false);
+	playerCard->setHoverable(false);
+	playerCard->setVisible(false);
 	c->addObject(playerCard);
 
+	loots->setClickable(false);
+	loots->setHoverable(false);
+	loots->setVisible(false);
+	c->addObject(loots);
 
 	//------------------------------------------------------------------------------------
 
@@ -181,7 +198,19 @@ void PlayerObserver::update()
 	if (stealthTokens->getText() != currentStealthTokens)
 		stealthTokens->setText(currentStealthTokens);
 
+	// Update loots
+	vector<Loot*> playerLoots = player->getLoots();
+	if (numberOfLoots->getText() != to_string(playerLoots.size()))
+	{
+		numberOfLoots->setText(to_string(playerLoots.size()));
+		loots->clear();
+		for (int i=0; i< playerLoots.size(); i++)
+		{
+			Image* image = new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0,145,145);
+			loots->addObject(image);
+		}
+	}
 
 	playerCard->setVisible(infoButton->isClicked());
-
+	loots->setVisible(lootButton->isClicked());
 }
