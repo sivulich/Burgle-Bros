@@ -63,6 +63,17 @@ void GameModel::print()
 
 }
 
+void GameModel::setLocal()
+{
+	player1_.setLocal(true);
+	player2_.setLocal(true);
+}
+
+void GameModel::setRemote()
+{
+	player1_.setLocal(true);
+	player2_.setLocal(false);
+}
 
 void GameModel::setInitialPosition(Coord c)
 {
