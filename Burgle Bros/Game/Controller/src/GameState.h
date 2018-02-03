@@ -42,13 +42,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	{
 		fsm.model->currentPlayer()->setCharacter(HACKER);
 		fsm.model->otherPlayer()->setCharacter(RAVEN);
-		fsm.model->currentPlayer()->setName(string("Prueba"));
-		fsm.model->otherPlayer()->setName(string("Resto"));
+		fsm.model->currentPlayer()->setName(string("Tobi"));
+		fsm.model->otherPlayer()->setName(string("Roma"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->setBoard();
-		fsm.model->currentPlayer()->addLoot(MIRROR);
-		fsm.model->currentPlayer()->addLoot(PAINTING);
-		fsm.model->otherPlayer()->addLoot(PERSIAN_KITTY);
 		fsm.graphics->showGameScreen();
 
 	}
@@ -576,7 +573,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (b == false)
 				std::cout << "Cant place crow token!" << std::endl;
 			fsm.currentAction = NO_TYPE;
-
 		}
 	};
 
@@ -779,7 +775,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			fsm.currentAction = CREATE_ALARM;
 			// Distinguir las tiles disponibles para crear la alarma
 			fsm.graphics->setTilesClickable(v);
-
 		}
 	};
 
@@ -960,22 +955,28 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		
 		Row < chooseInitialPos		, ev::coord			, chooseAction			, doSetInitialPos	, none				>,
 		Row < chooseAction			, ev::pass			, guardTurn				, doEndTurn			, none				>,
+
 		Row < chooseAction			, ev::movee			, none					, showMove			, none				>,
-		Row < chooseAction			, ev::peek			, none					, showPeek			, none				>,
 		Row < chooseAction			, ev::coord			, askConfirmationMove	, askb4Move			, isMoving			>,
+
+		Row < chooseAction			, ev::peek			, none					, showPeek			, none				>,
 		Row < chooseAction			, ev::coord			, chekActionTokens		, doPeek			, isPeeking			>,
+
+		Row	< chooseAction			, ev::createAlarm	, none					, showAlarm			, none				>,
 		Row	< chooseAction			, ev::coord			, chekActionTokens		, doCreateAlarm		, isCreatingAlarm   >,
+
+		Row < chooseAction			, ev::placeCrow		, none					, showCrow			, none				>,
 		Row	< chooseAction			, ev::coord			, chooseAction			, doPlaceCrow		, isPlacingCrow		>,
+
+		Row < chooseAction			, ev::spyPatrol		, askConfirmation		, doSpyPatrol		, none				>,
 		Row < chooseAction			, ev::addToken		, chekActionTokens		, doAddToken		, none				>,
-		Row < chooseAction			, ev::throwDice		, throw_Dice			, doCrackSafe		, none				>,
 		Row < chooseAction			, ev::useToken		, chooseAction			, doUseToken		, none				>,
-		//  +------------+-------------+------------+--------------+--------------+
+		Row < chooseAction			, ev::throwDice		, throw_Dice			, doCrackSafe		, none				>,
 		Row < chooseAction			, ev::offerLoot		, chooseLoot			, prepOffer			, none				>,
 		Row < chooseAction			, ev::requestLoot	, chooseLoot			, prepRequest		, none				>,
-		Row	< chooseAction			, ev::createAlarm	, none					, showAlarm			, none				>,
-		Row < chooseAction			, ev::placeCrow		, none					, showCrow			, none				>,
-		Row < chooseAction			, ev::spyPatrol		, askConfirmation		, doSpyPatrol		, none				>,
 		Row < chooseAction			, ev::pickUpLoot	, chooseLoot			, showPickUpLoot	, none				>,
+
+	
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < askConfirmation		, ev::yes			, chekActionTokens		, doStayTop			, isSpying			>,
 		Row < askConfirmation		, ev::no			, chekActionTokens		, doSendBottom		, isSpying			>,

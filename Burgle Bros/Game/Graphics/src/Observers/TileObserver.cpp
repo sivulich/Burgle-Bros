@@ -184,7 +184,8 @@ void TileObserver::update()
 	if (safeNumber != nullptr && cracked != tile->hasCrackToken())
 	{
 		cracked = tile->hasCrackToken();
-		safeNumber->setGreen();
+	//	safeNumber->setGreen();
+		safeNumber->load(string("./Graphics/Images/Safe numbers/7SEG_") + to_string(tile->getSafeNumber()) + string("_GREEN.jpg"), true);
 	}
 
 	if (tile->hasAlarm() != alarmToken->isVisible())
