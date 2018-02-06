@@ -15,7 +15,7 @@ public:
 		currentPlayer_  =  &player1_;
 		otherPlayer_    =  &player2_;
 
-		srand(time(NULL));
+		srand((unsigned int)time(NULL));
 	};
 
 	//

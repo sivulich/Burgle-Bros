@@ -287,9 +287,16 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 			if (fsm.gameMode == LOCAL)
 			{
 				if (source.player1set == false)
+				{
 					fsm.model->player1()->setCharacter(event.character);
+					fsm.model->player1()->setName(fsm.graphics->getPlayerName());
+				}
 				else if (source.player2set == false)
+				{
 					fsm.model->player2()->setCharacter(event.character);
+					fsm.model->player2()->setName(fsm.graphics->getPlayerName());
+				}
+					
 			}
 			else if (fsm.gameMode == REMOTE)
 			{

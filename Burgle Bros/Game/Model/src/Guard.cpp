@@ -229,7 +229,7 @@ unsigned Guard::closestTarget(vector<int> distances)
 	{
 		for (auto& al : *alarms)
 		{
-			if (distances[toIndex(al)] < shortDist)
+			if ((unsigned)distances[toIndex(al)] < shortDist)
 			{
 				shortDist = distances[toIndex(al)];
 				destination = toIndex(al);

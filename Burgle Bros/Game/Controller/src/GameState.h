@@ -42,8 +42,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	{
 		fsm.model->currentPlayer()->setCharacter(HACKER);
 		fsm.model->otherPlayer()->setCharacter(RAVEN);
-		fsm.model->currentPlayer()->setName(string("Prueba"));
-		fsm.model->otherPlayer()->setName(string("Resto"));
+		//fsm.model->currentPlayer()->setName(string("Prueba"));
+		//fsm.model->otherPlayer()->setName(string("Resto"));
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->setBoard();
 		

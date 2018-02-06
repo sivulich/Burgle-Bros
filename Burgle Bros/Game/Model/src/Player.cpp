@@ -268,6 +268,7 @@ bool Player::placeCrow(Coord c)
 		board->getTile(c)->setCrowToken(true);
 		crowToken = c;
 		newAction("PLACE_CROW", c, INT_MAX);
+		return true;
 	}
 	else return false;
 }
@@ -527,7 +528,7 @@ void Player::areLootsReady()
 
 void Player::giveLoot(int n)
 {
-	if (n > 0 && n <= loots.size())
+	if (n > 0 && (unsigned)n <= loots.size())
 	{
 		if (loots[n - 1]->isLootAvailable() && loots[n-1] != nullptr)
 		{
@@ -543,7 +544,7 @@ void Player::giveLoot(int n)
 
 void Player::receiveLoot(int n)
 {
-	if (n > 0 && n <= otherPlayer->getLoots().size())
+	if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
 	{
 		if (otherPlayer->getLoots()[n - 1]->isLootAvailable() && otherPlayer->getLoots()[n - 1] != nullptr)
 		{

@@ -137,7 +137,7 @@ Textbox::draw(Bitmap* target)
 		event = queue.getEvent();
 		if (event.getType() == ALLEGRO_EVENT_KEY_CHAR)
 		{
-			if (isprint(event.getKeyboardCharacter()) && (font->getWidth(buffer.c_str()) + font->getWidth("W") <= w - 10 && (fitToBox == true ? true : buffer.size() < size)))
+			if (isprint(event.getKeyboardCharacter()) && (font->getWidth(buffer.c_str()) + font->getWidth("W") <= w - 10 && (fitToBox == true ? true : buffer.size() < (unsigned)size)))
 			{
 				buffer.insert(curPos, 1, event.getKeyboardCharacter());
 				curPos++;
@@ -149,7 +149,7 @@ Textbox::draw(Bitmap* target)
 			if (c == ALLEGRO_KEY_LEFT && curPos > 0)
 				curPos--;
 
-			else if (c == ALLEGRO_KEY_RIGHT && curPos < buffer.size())
+			else if (c == ALLEGRO_KEY_RIGHT && curPos < (long long)buffer.size())
 				curPos++;
 
 			else if (c == ALLEGRO_KEY_BACKSPACE && curPos > 0)
