@@ -113,16 +113,42 @@ void GameModel::changeTurn()
 	otherPlayer_->isPlaying(false);
 	currentPlayer_->addTurn();
 	otherPlayer_->addTurn();
-	int d = rand() % 6 + 1;
-	currentPlayer_->areLootsReady();
-	if (currentPlayer_->has(PERSIAN_KITTY) /*&& (d == 1 || d == 2)*/)
-	{
-		cout << "Lost Persian Kitty" << endl;
-		currentPlayer_->losePersianKitty();
-	}
-	if (currentPlayer_->has(CHIHUAHUA) && (rand() % 6 + 1 == 6))
-			currentPlayer_->getCurrentTile()->setAlarm(true);
 	notify();
+}
+
+bool GameModel::doInitialAction(int dice)
+{
+	bool b = false;
+	currentPlayer_->areLootsReady();
+	if (currentPlayer_->has(PERSIAN_KITTY) && !currentPlayer_->isThrowingDices())
+	{
+		currentPlayer_->newAction("THROW_DICE", currentPlayer_->getPosition(), dice);
+		currentPlayer_->dicesLeft2Throw(true);
+		cout << "Threw dice for kitty" << endl;
+		if (dice == 1 || dice == 2)
+		{
+			cout << "Lost Persian Kitty" << endl;
+			currentPlayer_->losePersianKitty();
+		}
+		if (currentPlayer_->has(CHIHUAHUA))
+		{
+			cout << "Still has to throw dice for chihuahua" << endl;
+			return true;
+		}
+		else currentPlayer_->dicesLeft2Throw(false);
+	}
+
+	if (currentPlayer_->has(CHIHUAHUA))
+	{
+		currentPlayer_->newAction("THROW_DICE", currentPlayer_->getPosition(), dice);
+		cout << "Threw dice for chihuahua" << endl;
+		currentPlayer_->dicesLeft2Throw(false);
+		if (dice == 6)
+		{
+			currentPlayer_->getCurrentTile()->setAlarm(true);
+		}
+	}
+	return b;
 }
 
 bool GameModel::guardIsMoving()

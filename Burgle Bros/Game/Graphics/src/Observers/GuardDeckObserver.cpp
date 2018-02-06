@@ -55,8 +55,7 @@ void GuardDeckObserver::hideTop()
 
 void GuardDeckObserver::update()
 {
-	// If the deck has finished and shuffled again...
-	if (discardedCount > deck->getDiscarded().size())
+	if ((unsigned)discardedCount > deck->getDiscarded().size())
 	{
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
@@ -98,7 +97,7 @@ void GuardDeckObserver::update()
 			{
 				int i = card->getDescription()[1] - '1';
 				int j = card->getDescription()[0] - 'A';
-				std::pair<int, int>target = std::pair<int, int>(TILE_YPOS[i][j] + FLOOR_YPOS, TILE_XPOS[i][j] + FLOOR_XPOS[floor->number()]);
+				std::pair<int, int>target = std::pair<int, int>((int)TILE_POS_Y[i][j] + FLOOR_YPOS, (int)(TILE_POS_X[i][j] + FLOOR_XPOS[floor->number()]));
 				cards[i][j]->deleteAnimation();
 				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
 				//		boardCont->addObject(cards[i][j]);
@@ -110,7 +109,7 @@ void GuardDeckObserver::update()
 			{
 				int i = card->getDescription()[1] - '1';
 				int j = card->getDescription()[0] - 'A';
-				std::pair<int, int>target = std::pair<int, int>(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()] + TILE_SIZE + TILE_SEPARATION);
+				std::pair<int, int>target = std::pair<int, int>((int)GUARD_DECK_YPOS, (int)(GUARD_DECK_XPOS[floor->number()] + TILE_SIZE + TILE_SEPARATION));
 				cards[i][j]->deleteAnimation();
 				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
 			}

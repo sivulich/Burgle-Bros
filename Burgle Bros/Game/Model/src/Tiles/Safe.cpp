@@ -41,7 +41,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 		player->removeActionToken();
 		player->removeActionToken();
 		addDice();
-		player->newAction("ADD_TOKEN", getPos());
+		player->newAction("ADD_TOKEN", getPos(), INT_MAX);
 		DEBUG_MSG("You added a new die to this safe. You can now throw " <<dices << " dices.");
 	}
 	else if (action == "THROW_DICE" && keyCardHere)
@@ -59,7 +59,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 				safeCracked = true;							// if so, you opened the safe
 				DEBUG_MSG("You cracked the safe!!");
 				player->addLoot(safeLoot);
-				player->newAction("SAFE_OPENED", getPos());
+				player->newAction("SAFE_OPENED", getPos(),INT_MAX);
 				if (safeLoot == CURSED_GOBLET && player->getActionTokens() > 0)
 					player->removeActionToken();
 				if (safeLoot == KEYCARD)

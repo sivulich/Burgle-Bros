@@ -123,7 +123,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 
 	if (tile->is(COMPUTER_ROOM_F) || tile->is(COMPUTER_ROOM_L) || tile->is(COMPUTER_ROOM_M))
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			if (i <= 2)
 				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Hack token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));

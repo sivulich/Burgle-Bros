@@ -248,7 +248,7 @@ bool Player::peek(Tile * newTile)
 	if (newTile->isFlipped() == false)
 	{
 		removeActionToken();
-		newAction("PEEK", newTile->getPos());
+		newAction("PEEK", newTile->getPos(),INT_MAX);
 		newTile->turnUp();
 		notify();
 		return true;
@@ -265,7 +265,7 @@ bool Player::createAlarm(Coord c)
 		board->getTile(c)->setAlarm(true);
 		this->removeActionToken();
 		cout << "Alarm created in Floor: " << c.floor << " col: " << c.col << " row; " << c.row << endl;
-		newAction("CREATE_ALARM", c);
+		newAction("CREATE_ALARM", c,INT_MAX);
 		notify();
 		return true;
 	}
@@ -281,7 +281,8 @@ bool Player::placeCrow(Coord c)
 		this->useAbility(true);
 		board->getTile(c)->setCrowToken(true);
 		crowToken = c;
-		newAction("PLACE_CROW", c);
+		newAction("PLACE_CROW", c, INT_MAX);
+		return true;
 	}
 	else return false;
 }
@@ -290,7 +291,7 @@ bool Player::placeCrow(Coord c)
 void Player::useToken()
 {
 	currentTile->doAction(toString(USE_TOKEN), this);
-	newAction("USE_TOKEN", getPosition());
+	newAction("USE_TOKEN", getPosition(),INT_MAX);
 }
 
 
@@ -357,13 +358,16 @@ vector<string> Player::getActions()
 		}
 
 	}
+	if(throwingDices)
+		possibleActions.push_back("THROW_DICE");
+
 	return possibleActions;
 }
 
 void Player::addToken()
 {
 	currentTile->doAction(string("ADD_TOKEN"), this);
-	newAction("ADD_TOKEN", getPosition());
+	newAction("ADD_TOKEN", getPosition(),INT_MAX);
 }
 
 bool Player::isOnRoof()
@@ -419,9 +423,9 @@ int  Player::getActionTokens()
 	return actionTokens;
 }
 
-void Player::newAction(string action, Coord tile)
+void Player::newAction(string action, Coord tile,int dice)
 {
-	actions.push_back(actionNode(action, tile, turn));
+	actions.push_back(actionNode(action, tile, turn, dice));
 }
 
 bool Player::throwDice(int n)
@@ -543,7 +547,7 @@ void Player::areLootsReady()
 
 void Player::giveLoot(int n)
 {
-	if (n > 0 && n <= loots.size())
+	if (n > 0 && (unsigned)n <= loots.size())
 	{
 		if (loots[n - 1]->isLootAvailable() && loots[n - 1] != nullptr)
 		{
@@ -559,7 +563,7 @@ void Player::giveLoot(int n)
 
 void Player::receiveLoot(int n)
 {
-	if (n > 0 && n <= otherPlayer->getLoots().size())
+	if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
 	{
 		if (otherPlayer->getLoots()[n - 1]->isLootAvailable() && otherPlayer->getLoots()[n - 1] != nullptr)
 		{

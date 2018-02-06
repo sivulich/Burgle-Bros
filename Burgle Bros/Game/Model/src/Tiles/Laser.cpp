@@ -39,14 +39,14 @@ bool Laser::doAction(string action, PlayerInterface * player)
 			}
 			player->removeActionToken();
 			setAlarm(false);
-			player->newAction(toString(SPENT_OK), getPos());
+			player->newAction(toString(SPENT_OK), getPos(),INT_MAX);
 			DEBUG_MSG("You decided to use action tokens to turn off the alarm.");
 		}
 		else if (action == "USE_TOKEN")
 		{
 			computerRoom->removeToken();
 			setAlarm(false);
-			player->newAction(toString(USE_TOKEN), getPos());
+			player->newAction(toString(USE_TOKEN), getPos(),INT_MAX);
 		}
 	}
 	////////////////// HACER BIEN RETURN VALUE

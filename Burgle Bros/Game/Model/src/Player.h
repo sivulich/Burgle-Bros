@@ -203,7 +203,7 @@ public:
 	bool placeCrow(Coord c);
 
 	//  Appends a new action to the action history
-	virtual void newAction(string action, Coord tile)override;
+	virtual void newAction(string action, Coord tile, int dice)override;
 
 	// Tells the tile the player wants to spend to enter
 	void spentOK() { currentTile->doAction(toString(SPENT_OK), this); };

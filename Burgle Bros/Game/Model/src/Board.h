@@ -26,7 +26,8 @@ public:
 	 /**
 		@Returns the i-th floor guard(Guard *)
 	 */
-	Guard * getGuard(unsigned int f){if (f < 3) return floor[f]->getGuard();
+	Guard * getGuard(unsigned int f) {
+		if (f < 3) return floor[f]->getGuard(); return nullptr;
 	}
 	/**
 	@Returns the i-th floor guard deck(PatrolCardDeck *)
@@ -53,7 +54,7 @@ public:
 	/**
 	
 	*/
-	Floor * getFloor(unsigned f) { if (f < NUMBER_FLOORS) return floor[f]; };
+	Floor * getFloor(unsigned f) { if (f < NUMBER_FLOORS) return floor[f]; return nullptr; };
 	/**
 		Adds tile 'C' to tile´s adjacency list 'adj' despite a wall existing in-between
 	*/

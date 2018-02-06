@@ -131,7 +131,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	for (int f = 0; f < 3; f++)
 		for (int r = 0; r < 4; r++)
 			for (int c = 0; c < 4; c++)
-				positions[f][r][c] = pair<int, int>(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2, BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET);
+				positions[f][r][c] = pair<int, int>(BOARD_YPOS + FLOOR_YPOS + TILE_POS_Y[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2, BOARD_XPOS + FLOOR_XPOS[f] + TILE_POS_X[r][c] + XOFFSET);
 
 	//------------------------------------------------------------------------------------
 
@@ -166,9 +166,13 @@ void PlayerObserver::update()
 			else
 				token->addAnimation(new MoveAnimation(target, TOKEN_MOVE_SPEED));
 		}
+		
 		lastPos = curr;
 	}
-
+	if (player->getName() != name->getText())
+	{
+		name->setText(player->getName());
+	}
 	// Update character figure
 	if (isPlaying != player->isPlaying())
 	{
@@ -179,6 +183,8 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(true);
 			actionTokens->setVisible(true);
 			passButton->setVisible(true);
+			if (player->isThrowingDices()) passButton->setClickable(false);
+			else passButton->setClickable(true);
 		}
 		else
 		{

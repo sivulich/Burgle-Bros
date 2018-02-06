@@ -201,7 +201,7 @@ vector<Coord> Floor::getXDistanceTiles(unsigned x, Coord c)
 		{
 			int index = Q.front();
 			Q.pop();
-			if (dist[index]<x)
+			if ((unsigned)dist[index]<x)
 			{	
 				for (auto &it : adjacent[toCoord(index).col][toCoord(index).row])//search for all adjacents rooms to current one
 				{
@@ -302,7 +302,7 @@ unsigned Floor::closestAlarmTile(vector<int> distances, vector<Coord> tiles)
 	{
 		for (auto &al : tiles)
 		{
-			if (distances[toIndex(al)] < shortDist)
+			if ((unsigned)distances[toIndex(al)] < shortDist)
 			{
 				shortDist = distances[toIndex(al)];
 				destination = toIndex(al);

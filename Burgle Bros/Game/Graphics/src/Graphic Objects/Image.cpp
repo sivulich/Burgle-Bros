@@ -143,7 +143,7 @@ bool Image::overYou(int y, int x)
 	//}
 	//else
 //		DEBUG_MSG("Trying to hover object " << name << " when is not initialized correctly");
-//	return false;
+	return false;
 }
 
 bool Image::isNotTransparent(int y, int x)

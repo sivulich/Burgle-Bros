@@ -11,11 +11,11 @@ class GameModel : public BaseModel
 public:
 	GameModel() : player1_(&board,&player2_,1), player2_(&board, &player1_,2), board(&player1_, &player2_)
 	{
-		player1_.setLocal(true);
+		//player1_.setLocal(true);
 		currentPlayer_  =  &player1_;
 		otherPlayer_    =  &player2_;
 
-		srand(time(NULL));
+		srand((unsigned int)time(NULL));
 	};
 
 	//
@@ -51,6 +51,9 @@ public:
 
 	//
 	void endTurn();
+
+	//
+	bool doInitialAction(int dice);
 
 	// Called after guard movement, it changes the turn of the player
 	void changeTurn();

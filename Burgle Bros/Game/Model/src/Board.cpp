@@ -222,7 +222,11 @@ void Board::parseBoard()
 
 					case SAFE:
 						//If there is a safe set a loot
-						((Safe*)tile)->setLoot(loots.back());
+						if (f == 0)
+							((Safe*)tile)->setLoot(/*loots.back()*/CHIHUAHUA);
+						else if (f == 1)
+							((Safe*)tile)->setLoot(/*loots.back()*/PERSIAN_KITTY);
+						else ((Safe*)tile)->setLoot(loots.back());
 						loots.pop_back();
 						prepSafeTile((Safe *)tile);
 						safes.push_back(tile);

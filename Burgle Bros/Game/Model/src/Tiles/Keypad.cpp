@@ -13,6 +13,7 @@ bool Keypad::canMove(PlayerInterface * player)
 bool Keypad::tryToOpen(int dice, PlayerInterface * player)
 {
 	int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
+	player->newAction("THROW_DICE", this->getPos(), dice);
 	bool endAction = false;
 	if (currentPlayer == -1)
 	{
@@ -42,7 +43,7 @@ bool Keypad::tryToOpen(int dice, PlayerInterface * player)
 			}
 			else
 				DEBUG_MSG("You threw the dice but you couldn't open the keypad.");
-			player->newAction(toString(THROW_DICE), getPos());	// tell the player what you did
+			player->newAction(toString(THROW_DICE), getPos(),dice);	// tell the player what you did
 			attemptsThisAction++;
 
 			if (attemptsThisAction == attemptsThisTurn + 1 + b && keyKnown == false)

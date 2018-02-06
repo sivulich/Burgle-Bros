@@ -167,8 +167,8 @@ void Textbox::draw(Bitmap* target)
 				if (c == ALLEGRO_KEY_LEFT && curPos > 0)
 					curPos--;
 
-				else if (c == ALLEGRO_KEY_RIGHT && curPos < buffer.size())
-					curPos++;
+			else if (c == ALLEGRO_KEY_RIGHT && curPos < (long long)buffer.size())
+				curPos++;
 
 				else if (c == ALLEGRO_KEY_BACKSPACE && curPos > 0)
 				{
