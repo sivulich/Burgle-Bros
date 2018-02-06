@@ -70,6 +70,7 @@ void Container::draw(Bitmap* target)
 				for (int i = objects.size() - 1; i >= 0; i--)
 					objects[i]->draw(toDraw);
 
+
 				// Draw toDraw bitmap in target bitmap
 				target->setTarget();
 				toDraw->drawScaled(0, 0, w, h, x, y, scaleX*w, scaleY*h, 0);

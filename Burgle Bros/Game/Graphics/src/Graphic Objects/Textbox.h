@@ -29,11 +29,13 @@ public:
 		@param x Mouse x coordinate
 	*/
 	string click(int y, int x);
+	void click();
 	/** Tests whether to unclick or not
 		@param y Mouse y coordinate
 		@param x Mouse x coordinate
 	*/
 	void unClick(int y, int x);
+	void unClick();
 	/** If over the textbox return true
 		@param y Mouse y coordinate
 		@param x Mouse x coordinate
@@ -44,7 +46,7 @@ public:
 	void fitText(bool b) { fitToBox = b; };
 
 	string getText();
-
+	void clear() { buffer.clear(); curPos = 0; };
 	void setFontColor(Color c) { fontColor = c; };
 	void setBoxColor(Color c) { boxColor = c; };
 

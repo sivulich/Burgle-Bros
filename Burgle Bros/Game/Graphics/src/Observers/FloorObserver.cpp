@@ -19,7 +19,7 @@ FloorObserver::FloorObserver(Floor* f, Container* boardContainer)
 		for (int j = 0; j < 4; j++)
 		{
 			Floor& fl = *f;
-			tiles[i][j] = new TileObserver(fl[i][j], floorContainer);
+			tiles[i][j] = new TileObserver(fl[i][j], floorContainer,boardContainer);
 			if (fl[i][j]->is(SAFE))
 				safe = fl[i][j];
 			fl[i][j]->attach(this);
@@ -29,10 +29,25 @@ FloorObserver::FloorObserver(Floor* f, Container* boardContainer)
 	// Attach to floor model
 	floor->attach(this);
 
-
-
 	guard = new GuardObserver(floor->getGuard(), boardContainer, floor->number());
 	deck = new GuardDeckObserver(f, boardContainer);
+}
+
+// Zoom the selected tile
+void FloorObserver::zoomTile(Coord c)
+{
+	tiles[c.col][c.row]->zoom();
+	zoomedTile = new Coord(c);
+}
+// Unzoom the tile
+void FloorObserver::unZoomTile()
+{
+	if (zoomedTile != nullptr)
+	{
+		tiles[zoomedTile->col][zoomedTile->row]->unZoom();
+		delete zoomedTile;
+		zoomedTile = nullptr;
+	}
 }
 
 void FloorObserver::update()

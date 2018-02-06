@@ -35,7 +35,7 @@ public:
 	void setStealthTokens(int i) { stealthTokens = i; };
 
 	// Get player current Destination
-	void setDest(Coord c) { if (c.row < F_HEIGHT && c.col < F_WIDTH && c.floor < NUMBER_FLOORS) destination = c; else destination = NPOS; };
+	void setDest(Coord c) { if (c.row < F_HEIGHT && c.col < F_WIDTH && c.floor < NUMBER_FLOORS || c==ROOF) destination = c; else destination = NPOS; };
 
 	// GETTERS
 
@@ -208,27 +208,10 @@ public:
 	// Tells the tile the player wants to spend to enter
 	void spentOK() { currentTile->doAction(toString(SPENT_OK), this); };
 
-
-	/////////// ??????????????? :O FUNCIONES WHAT THE ACTUAL FAK
-	/**
-		Tells the tile the player wants to add a token
-	*/
-	void wantsToAddToken() { currentTile->doAction(toString(ADD_TOKEN), this); };
-
-	/**
-		Tells the tile the player wants use an action to throw the dice
-	*/
-	void wantsToThrowDice() { currentTile->doAction(toString(THROW_DICE), this); };
-
-	/**
-		Tells the tile the player wants use a token
-	*/
-	void wantsToUseToken() { currentTile->doAction(toString(USE_TOKEN), this); };
-
 	/**
 	 Receives true if ability was used, not to be used again in the turn. To make ability available again receive false.
 	*/
-	void useAbility(bool b) { if (b) character->spendAbility(); else character->restoreAbility(); notify(); };
+	void useAbility(bool b) { if (b==true) character->spendAbility(); else character->restoreAbility(); notify(); };
 	//////////////////////////////////////////
 
 	/**

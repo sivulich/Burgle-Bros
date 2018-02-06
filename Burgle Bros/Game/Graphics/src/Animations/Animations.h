@@ -1,0 +1,10 @@
+#pragma once
+#include "Animation.h"
+#include "DelayAnimation.h"
+#include "FadeAnimation.h"
+#include "FadeInOutAnimation.h"
+#include "FlipAnimation.h"
+#include "MoveAnimation.h"
+#include "MoveRelativeAnimation.h"
+#include "zoomAnimation.h"
+#include "MoveAndZoomAnimation.h"

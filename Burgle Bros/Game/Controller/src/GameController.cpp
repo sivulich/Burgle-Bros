@@ -1,5 +1,6 @@
 #include <GameController.h>
 #include "./GameFSM.h"
+#include <random>
 
 GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/) : stateMachine(new GameFSM(m, g/*, n*/, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
@@ -7,6 +8,7 @@ GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork 
 	model = m;
 	graphics = g;
 	connectedFlag = false;
+	tileZoomMode = false;
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
 	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
 
@@ -51,7 +53,8 @@ void GameController::getInput()
 		}
 
 	}
-	else*/ if (eventQueue.isEmpty() == false)
+	else*/
+	if (eventQueue.isEmpty() == false)
 	{
 		Event event = eventQueue.getEvent();
 
@@ -81,53 +84,76 @@ void GameController::getInput()
 
 		case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
 			graphics->unclick(event.getMouseY(), event.getMouseX());
+			if (tileZoomMode == true)
+				graphics->unZoomTile();
+
 			s = "";
 			break;
 
 		case ALLEGRO_EVENT_KEY_DOWN:
 
 			if (event.getKeyboardKeycode() == ALLEGRO_KEY_ESCAPE)
-				s = "EXIT";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_INSERT)
-				s = "EXIT";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
-				s = "MOVE";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
-				s = "PEEK";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
-				s = "YES";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_D)
-				s = "CONTINUE_THROW";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
-				s = "NO";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_1)
-				s = "FIRST_LOOT";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_2)
-				s = "SECOND_LOOT";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
-				s = "PICK_UP_LOOT";
-			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
-				for(int f=0;f<3;f++)
-					for(int i=0;i<4;i++)
-						for (int j = 0; j < 4; j++)
-						{
-							if ((*model->getBoard())[f][i][j]->isFlipped() == false)
-								(*model->getBoard())[f][i][j]->flip();
-						}
-				
-			//else if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
-			//	graphics->zoomMode(true);
+			{
+				if (graphics->showingConsole() == true)
+					graphics->hideConsole();
+				else
+					s = "EXIT";
+			}
+
+			if (event.getKeyboardKeycode() == ALLEGRO_KEY_ENTER)
+			{
+				if (graphics->writingInConsole() == true)
+				{
+					s = graphics->getConsoleText();
+					graphics->hideConsole();
+				}
+			}
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
+				tileZoomMode = true;
+
+			if (graphics->writingInConsole() == false)
+			{
+				if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
+					s = "MOVE";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
+					s = "PEEK";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
+					s = "YES";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_D)
+					s = "CONTINUE_THROW";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
+					s = "NO";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
+					graphics->showConsole();
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_1)
+					s = "FIRST_LOOT";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_2)
+					s = "SECOND_LOOT";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
+					s = "PICK_UP_LOOT";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
+					for (int f = 0; f < 3; f++)
+						for (int i = 0; i < 4; i++)
+							for (int j = 0; j < 4; j++)
+							{
+								if ((*model->getBoard())[f][i][j]->isFlipped() == false)
+									(*model->getBoard())[f][i][j]->flip();
+							}
+
+			}
 
 
 			// como string al_keycode_to_name(event.getKeyboardKeycode());
 			break;
 		case ALLEGRO_EVENT_KEY_UP:
-			//if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
-			//	graphics->zoomMode(false);
+			if (event.getKeyboardKeycode() == ALLEGRO_KEY_LCTRL)
+			{
+				tileZoomMode = false;
+				graphics->unZoomTile();
+			}
 			break;
 
 		}
-		eventQueue.clear();
 	}
 }
 
@@ -168,8 +194,13 @@ void GameController::processEvent()
 	else if (s == "THROW_DICE")
 	{
 		int dice = INT_MAX;
-			//habria que hacer un if Remote, es decir el dado q el remoto tira
-			dice = 3/*rand() % 6 + 1*/;
+		//habria que hacer un if Remote, es decir el dado q el remoto tira
+		if (model->currentPlayer()->isLocal() == false)
+		{
+			//dice = ...
+		}
+		else dice = throwDice();
+
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice(int(dice)));
 		cout << "threw a " << dice << endl;
 	}
@@ -177,7 +208,7 @@ void GameController::processEvent()
 	{
 		int dice = INT_MAX;
 		//habria que hacer un if Remote, es decir el dado q el remoto tira
-		dice = rand() % 6 + 1;
+		dice = throwDice();
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::continueThrow(int(dice)));
 		cout << "continued. threw a " << dice << endl;
 	}
@@ -185,6 +216,8 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
+	else if (s == "REQUEST_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::requestLoot());
 	else if (s == "PICK_UP_LOOT")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pickUpLoot());
 	else if (s == "FIRST_LOOT")
@@ -209,19 +242,33 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::errorReceived());
 	else if (s == "ERROR_HANDLED")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::errorHandled());
-
-
 	else if (s == "YES")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
 	else if (s == "NO")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
 	else if (s == "OK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ok());
-
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1)));
-
+	{
+		if (tileZoomMode == true)
+			graphics->zoomTile(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1));
+		else
+			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1)));
+	}
 	else if (s == "ACROBAT" || s == "SPOTTER" || s == "JUICER" || s == "HAWK" || s == "HACKER" || s == "RAVEN" || s == "PETERMAN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
 
+	//                       TRUCOS
+	else if (s.substr(0, 8) == string("ADD_LOOT"))
+	{
+		model->currentPlayer()->addLoot(toEnum_lootType(s.substr(9).c_str()));
+	}
+}
+
+int  GameController::throwDice()
+{
+	std::random_device rd;     // only used once to initialise (seed) engine
+	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
+	std::uniform_int_distribution<int> uni(1, 6); // guaranteed unbiased
+	return uni(rng);
 }

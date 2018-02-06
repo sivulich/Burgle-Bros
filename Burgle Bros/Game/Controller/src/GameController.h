@@ -20,10 +20,12 @@ public:
 	void getInput();
 	void processEvent();
 private:
+	int throwDice();
 	shared_ptr<void> stateMachine;
 	// String name obtained from graphics 
 	string s;
 	bool connectedFlag;
+	bool tileZoomMode;
 	// Pointers to model and graphic classes
 	GameModel * model;
 	GameGraphics * graphics;

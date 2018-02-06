@@ -16,6 +16,7 @@ Text::Text(string font, Color c, int size, int xpos, int ypos) : Object(font, xp
 	f = new Font(font.c_str(), size);
 	if (f->get() != nullptr)
 	{
+		clickable = false;
 		color = c;
 		content = string("");
 		initOk = true;
@@ -28,11 +29,11 @@ Text::Text(string font, string content, Color c, int size, int xpos, int ypos) :
 	// Load font
 	initOk = false;
 	f = new Font(font.c_str(), size);
-	
+
 	if (f->get() != nullptr)
 	{
 		color = c;
-
+		clickable = false;
 		initOk = true;
 
 		this->content = content;

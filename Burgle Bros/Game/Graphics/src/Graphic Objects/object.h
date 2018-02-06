@@ -6,6 +6,7 @@
 #include "./ObjectInterface.h"
 #include "../Animations/Animation.h"
 #include "../Observers/observer.h"
+
 using namespace alx;
 
 class Object : public ObjectInterface

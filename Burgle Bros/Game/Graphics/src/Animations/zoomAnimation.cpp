@@ -1,27 +1,46 @@
-#include "./zoomAnimation.h"
+#include "./ZoomAnimation.h"
 
-
-
-zoomAnimation::zoomAnimation(double relativeScale, double duration) : Animation(duration)
+ZoomAnimation::ZoomAnimation(double zoom, double duration) : Animation(duration)
 {
 	this->zoom = zoom;
-	step = 0;
+	this->finalW = 0;
+	this->finalH = 0;
+	stepX = stepY = 0;
+	computed = false;
 }
 
-
-zoomAnimation::~zoomAnimation()
+ZoomAnimation::ZoomAnimation(int finalW, int finalH, double duration) : Animation(duration)
 {
+	this->zoom = 0;
+	this->finalW = finalW;
+	this->finalH = finalH;
+	stepX = stepY = 0;
+	computed = false;
 }
 
-
-void zoomAnimation::play(ObjectInterface* object)
+void ZoomAnimation::play(ObjectInterface* object)
 {
-	if (step == 0)
-		step = (zoom - 1) * object->getScale() / framesLeft;
+	if (computed==false)
+	{
+		computed = true;
+		if (zoom != 0)
+		{
+			finalW = zoom * object->getWidth();
+			finalH = zoom * object->getHeight();
+		}
+
+		double scaleX = finalW / ((double)object->getWidth());// *object->getScales().second);
+		double scaleY = finalH / ((double)object->getHeight());// *object->getScales().first);
+		
+		stepX = (scaleX - object->getScales().second) / framesLeft;
+		stepY = (scaleY - object->getScales().first) / framesLeft;
+	}
 
 	if (framesLeft > 0)
 	{
-		object->setScale(object->getScale() + step);
+		std::pair<double, double> s = object->getScales();
+		std::cout << s.first + stepY << std::endl;
+		object->setScaleY(s.first + stepY);
+		object->setScaleX(s.second + stepX);
 	}
-	
 }

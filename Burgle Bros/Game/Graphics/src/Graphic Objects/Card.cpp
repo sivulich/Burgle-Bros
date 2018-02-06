@@ -16,13 +16,11 @@ Card::Card(string& frontPath, string& reversePath,bool flipped) : Image(reverseP
 
 Card::Card(string& frontPath, string& reversePath, int xpos, int ypos, int width, int height, bool flipped) : Image(reversePath, xpos, ypos, width, height)
 {
+	showingReverse = true;
 	reverse = reversePath;
 	front = frontPath;
 	if (flipped == true)
-	{
-		showingReverse = false;
 		flip();
-	}
 	else
 		showingReverse = true;
 	

@@ -1,6 +1,6 @@
 #include "GameGraphics.h"
 #include "Button.h"
-
+#include "Animations.h"
 GameGraphics::GameGraphics(GameModel * m)
 {
 	model = m;
@@ -28,7 +28,6 @@ GameGraphics::GameGraphics(GameModel * m)
 			cont->setPosition(0, 0);
 
 			m->attach(this);
-
 
 		}
 		else
@@ -80,7 +79,7 @@ void GameGraphics::showModeScreen()
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/LOCAL.png")));
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/REMOTE.png")));
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png"), 0, 617));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png"),1134,631));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png"), 1134, 631));
 }
 
 void GameGraphics::showIPScreen()
@@ -89,8 +88,8 @@ void GameGraphics::showIPScreen()
 	cont->clear();
 	cont->setBackground(string("./Graphics/Images/Screen - Mode/backgroundIP.jpg"));
 
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/CONNECT.png"),399,389));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png"),0,617));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/CONNECT.png"), 399, 389));
+	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png"), 0, 617));
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png"), 1134, 631));
 
 	if (textBox != nullptr)
@@ -101,6 +100,7 @@ void GameGraphics::showIPScreen()
 	textBox->setFontColor(al_map_rgba_f(1, 1, 1, 0.5));
 	textBox->setBoxColor(al_map_rgba_f(0, 0, 0, 0));
 	cont->addObject(textBox);
+
 }
 
 void GameGraphics::showCreditsScreen()
@@ -176,9 +176,18 @@ void GameGraphics::showGameScreen()
 	current_screen = GAME;
 	cont->clear();
 	cont->setBackground(string("./Graphics/Images/Screen - Game/background.jpg"));
-	// And observers for the board and player
+	//And observers for the board and player
 	board = new BoardObserver(model, cont);
 	hud = new HudObserver(model, board, cont);
+	textBox = new Textbox(CONSOLE_XPOS, -CONSOLE_HEIGHT, CONSOLE_WIDTH, CONSOLE_HEIGHT, string("./Graphics/Images/arial_narrow.ttf"));
+	textBox->setFontColor(al_map_rgba_f(0, 0, 0, 1));
+	textBox->setBoxColor(al_map_rgba_f(1, 1, 1, 1));
+	cont->addObject(textBox);
+
+	roof = new Image(string("../Game/Graphics/Images/HELIPAD.png"), ROOF_XPOS, ROOF_YPOS, TILE_SIZE / 4, TILE_SIZE / 4);
+	roof->setName(string("COORDA1F3"));
+	cont->addObject(roof);
+
 }
 
 void GameGraphics::setBorderVisible(bool b)
@@ -201,6 +210,7 @@ string GameGraphics::getIP()
 void GameGraphics::render()
 {
 	screen->draw();
+
 }
 
 void GameGraphics::update()
@@ -227,11 +237,27 @@ void GameGraphics::unclick(int y, int x)
 	screen->unClick(y, x);
 }
 
-void GameGraphics::askQuestion(string question)
+void GameGraphics::zoomTile(Coord c)
 {
-	dialogBox = new DialogBox(DialogBox::YES_NO_MSG,question,cont);
+	if (c != ROOF)
+		board->zoomTile(c);
+}
+void GameGraphics::unZoomTile()
+{
+	board->unZoomTile();
 }
 
+void GameGraphics::askQuestion(string question)
+{
+	dialogBox = new DialogBox(DialogBox::YES_NO_MSG, question, cont);
+}
+
+void  GameGraphics::spyPatrolCard(int floorNumber)
+{
+	dialogBox = new DialogBox(DialogBox::YES_NO_MSG, "Do you want to keep the card on the top of the deck?", cont, false);
+	showTopPatrol(floorNumber);
+
+}
 void GameGraphics::showOkMessage(string message)
 {
 	dialogBox = new DialogBox(DialogBox::OK_MSG, message, cont);
@@ -254,8 +280,61 @@ void GameGraphics::removeDialogBox()
 
 void GameGraphics::closeQuestion()
 {
-/*	cont->removeObject(questionBox);
-	delete QuestionBox;*/
+	/*	cont->removeObject(questionBox);
+		delete QuestionBox;*/
+}
+
+void GameGraphics::toggleConsole()
+{
+	if (current_screen == GAME && textBox != nullptr)
+	{
+		if (textBox->isVisible())
+			hideConsole();
+		else
+			showConsole();
+	}
+}
+
+void GameGraphics::showConsole()
+{
+	if (current_screen == GAME && textBox != nullptr)
+	{
+		textBox->addAnimation(new MoveAnimation(pair<int, int>(CONSOLE_YPOS, CONSOLE_XPOS), 0.3));
+		textBox->click();
+	}
+
+}
+
+void GameGraphics::hideConsole()
+{
+	if (current_screen == GAME && textBox != nullptr)
+	{
+		textBox->addAnimation(new MoveAnimation(pair<int, int>(-CONSOLE_HEIGHT, CONSOLE_XPOS), 0.3));
+		textBox->clear();
+		textBox->unClick();
+	}
+
+}
+
+bool GameGraphics::showingConsole()
+{
+	return textBox->getPos() == pair<int, int>(CONSOLE_YPOS, CONSOLE_XPOS);
+}
+
+bool GameGraphics::writingInConsole()
+{
+	return textBox->isClicked();
+}
+
+string GameGraphics::getConsoleText()
+{
+	if (current_screen == GAME && textBox != nullptr)
+		return textBox->getText();
+}
+
+void GameGraphics::printInHud(string s)
+{
+
 }
 void GameGraphics::setTilesClickable(vector<Coord> tiles)
 {
@@ -273,6 +352,11 @@ void GameGraphics::setTilesClickable(vector<Coord> tiles)
 		}
 
 	}
+	if (find(tiles.begin(), tiles.end(), ROOF) != tiles.end())
+		roof->enable();
+	else
+		roof->disable();
+
 }
 
 void GameGraphics::setAllClickable()

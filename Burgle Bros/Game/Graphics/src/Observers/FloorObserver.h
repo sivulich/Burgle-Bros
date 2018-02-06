@@ -16,9 +16,17 @@ public:
 	virtual void update();
 	Container * getContainer() { return floorContainer; }
 	TileObserver** operator[](size_t i) { return tiles[i]; };
+	void showTopPatrol() { deck->showTop(); };
+	void hideTopPatrol() { deck->hideTop(); };
+	// Zoom the selected tile
+	void zoomTile(Coord c);
+	// Unzoom the tile
+	void unZoomTile();
+
 private:
 	Floor* floor;
 	TileObserver * tiles[4][4];
+	Coord * zoomedTile;
 	Tile* safe;
 	bool safeIsFlipped;
 	Image * numbers[8];

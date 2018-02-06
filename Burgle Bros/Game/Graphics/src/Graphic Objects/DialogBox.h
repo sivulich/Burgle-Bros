@@ -11,7 +11,8 @@ class DialogBox : public Object
 {
 public:
 	enum type { OK_MSG, YES_NO_MSG, ERR_MSG, CANCEL_MSG,TEMPORAL_INFO };
-	DialogBox(type t, std::string content, Container * c);
+	enum position { TOP, MIDDLE, BOTTOM };
+	DialogBox(type t, std::string content, Container * c, bool blur = true, int position = MIDDLE);
 	void draw(Bitmap* target);
 	std::string click(int y, int x);
 	void unClick(int y, int x);

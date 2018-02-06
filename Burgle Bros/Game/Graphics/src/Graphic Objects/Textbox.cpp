@@ -45,6 +45,8 @@ Textbox::Textbox(int x, int y, int w, int h, string& path)
 	queue << Keyboard::getEventSource();
 	fitToBox = true;
 	curPos = 0;
+	fontColor = al_map_rgba_f(0, 0, 0, 1);
+	boxColor = al_map_rgba_f(1, 1, 1, 1);
 	if (titilate != nullptr)
 	{
 		if (font != nullptr && font->get() != nullptr)
@@ -78,13 +80,21 @@ string Textbox::click(int y, int x)
 		DEBUG_MSG_V("Clicking textbox " << name);
 		clicked = true;
 		titilate->start();
+		queue.clear();
 		return name;
 	}
 	return "";
 }
 
-void
-Textbox::unClick(int y, int x)
+void Textbox::click()
+{
+	clicked = true;
+	titilate->start();
+	queue.clear();
+
+}
+
+void Textbox::unClick(int y, int x)
 {
 	if (initOk == false)
 	{
@@ -98,6 +108,11 @@ Textbox::unClick(int y, int x)
 	clicked = false;
 	titilate->stop();
 	return;
+}
+void Textbox::unClick()
+{
+	clicked = false;
+	titilate->stop();
 }
 bool Textbox::overYou(int y, int x)
 {
@@ -115,8 +130,7 @@ bool Textbox::overYou(int y, int x)
 	hover = false;
 	return false;
 }
-void
-Textbox::draw(Bitmap* target)
+void Textbox::draw(Bitmap* target)
 {
 	if (initOk == true && target != nullptr && target->get() != nullptr)
 		target->setTarget();
@@ -131,39 +145,45 @@ Textbox::draw(Bitmap* target)
 		return;
 	}
 	DEBUG_MSG_V("Drawing textbox " << name);
-	al_draw_filled_rectangle(x, y, x + w, y + h, boxColor);
-	if (clicked == true && queue.isEmpty() == false)
+	
+	playAnimation();
+	
+	if (visible)
 	{
-		event = queue.getEvent();
-		if (event.getType() == ALLEGRO_EVENT_KEY_CHAR)
+		if (clicked == true && queue.isEmpty() == false)
 		{
-			if (isprint(event.getKeyboardCharacter()) && (font->getWidth(buffer.c_str()) + font->getWidth("W") <= w - 10 && (fitToBox == true ? true : buffer.size() < size)))
+			event = queue.getEvent();
+			if (event.getType() == ALLEGRO_EVENT_KEY_CHAR)
 			{
-				buffer.insert(curPos, 1, event.getKeyboardCharacter());
-				curPos++;
+				if (isprint(event.getKeyboardCharacter()) && (font->getWidth(buffer.c_str()) + font->getWidth("W") <= w - 10 && (fitToBox == true ? true : buffer.size() < size)))
+				{
+					buffer.insert(curPos, 1, event.getKeyboardCharacter());
+					curPos++;
+				}
+			}
+			else if (event.getType() == ALLEGRO_EVENT_KEY_DOWN)
+			{
+				int c = event.getKeyboardKeycode();
+				if (c == ALLEGRO_KEY_LEFT && curPos > 0)
+					curPos--;
+
+				else if (c == ALLEGRO_KEY_RIGHT && curPos < buffer.size())
+					curPos++;
+
+				else if (c == ALLEGRO_KEY_BACKSPACE && curPos > 0)
+				{
+					curPos--;
+					buffer.erase(curPos, 1);
+				}
 			}
 		}
-		else if (event.getType() == ALLEGRO_EVENT_KEY_DOWN)
-		{
-			int c = event.getKeyboardKeycode();
-			if (c == ALLEGRO_KEY_LEFT && curPos > 0)
-				curPos--;
 
-			else if (c == ALLEGRO_KEY_RIGHT && curPos < buffer.size())
-				curPos++;
-
-			else if (c == ALLEGRO_KEY_BACKSPACE && curPos > 0)
-			{
-				curPos--;
-				buffer.erase(curPos, 1);
-			}
-
-		}
+		al_draw_filled_rectangle(x, y, x + w, y + h, boxColor);
+		font->draw(x + 5, y + 2, fontColor, buffer.c_str());
+		if (clicked == true && titilate->getCount() % 2 == 0)
+			al_draw_line(x + font->getWidth(buffer.substr(0, curPos).c_str()) + 3, y, x + font->getWidth(buffer.substr(0, curPos).c_str()) + 3, y + font->getHeight(), fontColor, 2);
 	}
 
-	font->draw(x + 5, y + 2, fontColor, buffer.c_str());
-	if (clicked == true && titilate->getCount() % 2 == 0)
-		al_draw_line(x + font->getWidth(buffer.substr(0, curPos).c_str()) + 3, y, x + font->getWidth(buffer.substr(0, curPos).c_str()) + 3, y + font->getHeight(), fontColor, 2);
 }
 
 string Textbox::getText()

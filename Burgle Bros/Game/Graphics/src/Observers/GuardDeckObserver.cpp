@@ -34,8 +34,28 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* board)
 	deck->attach(this);
 }
 
+void GuardDeckObserver::showTop()
+{
+	int i = deck->topCard()->getDescription()[1] - '1';
+	int j = deck->topCard()->getDescription()[0] - 'A';
+	cards[i][j]->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()]);
+	cards[i][j]->setAlpha(0.0);
+	cards[i][j]->addAnimation(new FadeAnimation(0.0, 1.0, 1.0));
+	//cards[i][j]->addAnimation(new DelayAnimation(1.0));
+	boardCont->addObject(cards[i][j]);
+}
+
+void GuardDeckObserver::hideTop()
+{
+	int i = deck->topCard()->getDescription()[1] - '1';
+	int j = deck->topCard()->getDescription()[0] - 'A';
+	boardCont->removeObject(cards[i][j]);
+	cards[i][j]->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()] + TILE_SIZE + TILE_SEPARATION);
+}
+
 void GuardDeckObserver::update()
 {
+	// If the deck has finished and shuffled again...
 	if (discardedCount > deck->getDiscarded().size())
 	{
 		for (int i = 0; i < 4; i++)
@@ -57,15 +77,14 @@ void GuardDeckObserver::update()
 			cards[lastCard[1] - '1'][lastCard[0] - 'A']->addAnimation(new DelayAnimation(1.0));
 		}
 
-
 		boardCont->addObject(cards[lastCard[1] - '1'][lastCard[0] - 'A']);
 		discardedCount++;
 
+		// Update the reverse image of the deck
 		if (deck->getDeck().empty() == true)
 			boardCont->removeObject(back);
 		else if (boardCont->contains(back) == false)
 			boardCont->addObject(back);
-
 	}
 
 	// Add animation if deck is clicked
@@ -79,7 +98,7 @@ void GuardDeckObserver::update()
 			{
 				int i = card->getDescription()[1] - '1';
 				int j = card->getDescription()[0] - 'A';
-				std::pair<int, int>target = std::pair<int, int>(TILE_POS_Y[i][j] + FLOOR_YPOS, TILE_POS_X[i][j] + FLOOR_XPOS[floor->number()]);
+				std::pair<int, int>target = std::pair<int, int>(TILE_YPOS[i][j] + FLOOR_YPOS, TILE_XPOS[i][j] + FLOOR_XPOS[floor->number()]);
 				cards[i][j]->deleteAnimation();
 				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
 				//		boardCont->addObject(cards[i][j]);
@@ -96,13 +115,5 @@ void GuardDeckObserver::update()
 				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
 			}
 		}
-	}
-
-	//Animation for Spotter spying deck
-	if (deck->amISpied())
-	{
-		/*int i = deck->topCard()->getDescription()[1] - '1';
-		int j = deck->topCard()->getDescription()[0] - 'A';
-		cards[i][j]->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()]);*/ //NO SE MUESTRA CUANDO DEBERIA; SE MUESTRA EN EL TURNO DEL GUARDIA, NO SE Q ESTOY HACIENDO MAL
 	}
 }

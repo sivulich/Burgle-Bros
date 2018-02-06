@@ -1,34 +1,45 @@
 #include "DialogBox.h"
 
-DialogBox::DialogBox(type t, std::string content, Container * c)
+DialogBox::DialogBox(type t, std::string content, Container * c, bool blur, int position)
 {
-	box = new Image(string("./Graphics/Images/Dialog Box/box.png"), 348, 290);
-	blur = new Image(string("./Graphics/Images/blur.png"), 0, 0);
+	int yOffset = 0;
+	if (position == TOP)
+		yOffset = -200;
+	if (position == BOTTOM)
+		yOffset = 200;
+
+
+	box = new Image(string("./Graphics/Images/Dialog Box/box.png"), 348, yOffset + 290);
+	if (blur)
+		blur = new Image(string("./Graphics/Images/blur.png"), 0, 0);
+	else blur = nullptr;
+
+
 	string font = string("./Graphics/Images/calibri.ttf");
 
-	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, 640, 290 + 51);
+	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, 640, yOffset + 290 + 51);
 	parent = c;
 	switch (t)
 	{
 	case OK_MSG:
-		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 237, 290 + 91);
+		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 237, yOffset + 290 + 91);
 		button1->setName(string("OK"));
-		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, 640, 385);
+		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, 640, yOffset + 385);
 		button2 = nullptr;
 		text2 = nullptr;
 		break;
 	case YES_NO_MSG:
-		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 98, 290 + 91);
+		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 98, yOffset + 290 + 91);
 		button1->setName(string("NO"));
-		button2 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 375, 290 + 91);
+		button2 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 375, yOffset + 290 + 91);
 		button2->setName(string("YES"));
-		text1 = new Text(font, string("NO"), al_map_rgba_f(1, 1, 1, 1), 15, 500, 385);
-		text2 = new Text(font, string("YES"), al_map_rgba_f(1, 1, 1, 1), 15, 778, 385);
+		text1 = new Text(font, string("NO"), al_map_rgba_f(1, 1, 1, 1), 15, 500, yOffset + 385);
+		text2 = new Text(font, string("YES"), al_map_rgba_f(1, 1, 1, 1), 15, 778, yOffset + 385);
 		break;
 	case CANCEL_MSG:
-		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 237, 290 + 91);
+		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 348 + 237, yOffset + 290 + 91);
 		button1->setName(string("CANCEL"));
-		text1 = new Text(font, string("CANCEL"), al_map_rgba_f(1, 1, 1, 1), 15, 640, 290 + 51);
+		text1 = new Text(font, string("CANCEL"), al_map_rgba_f(1, 1, 1, 1), 15, 640, yOffset + 290 + 51);
 		button2 = nullptr;
 		text2 = nullptr;
 		break;
@@ -45,7 +56,9 @@ DialogBox::DialogBox(type t, std::string content, Container * c)
 
 void DialogBox::draw(Bitmap* target)
 {
-	blur->draw(target);
+	if (blur != nullptr)
+		blur->draw(target);
+
 	box->draw(target);
 	message->draw(target);
 	if (button1 != nullptr)

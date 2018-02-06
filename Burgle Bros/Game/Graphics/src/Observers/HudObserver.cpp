@@ -1,22 +1,22 @@
 #include "HudObserver.h"
 
-HudObserver::HudObserver(GameModel * m,BoardObserver*b, Container * c)
+HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 {
 	model = m;
 	boardObs = b;
 	// Create the hud container
 	hudCont = new Container(string("./Graphics/Images/HUD/HUD.png"));
-	hudCont->setPosition(592,118);
-	hudCont->setSize(115,1044);
+	hudCont->setPosition(592, 118);
+	hudCont->setSize(115, 1044);
 	c->addObject(hudCont);
 
 	// Create the top hud container
 	topHudCont = new Container(string("./Graphics/Images/HUD/TOP HUD.png"));
-	topHudCont->setPosition(5,196);
+	topHudCont->setPosition(5, 196);
 	c->addObject(topHudCont);
 
-	pauseButton = new Image(string("./Graphics/Images/HUD/PAUSE.png"),8,17);
-	exitButton = new Image(string("./Graphics/Images/HUD/EXIT.png"),803,17);
+	pauseButton = new Image(string("./Graphics/Images/HUD/PAUSE.png"), 8, 17);
+	exitButton = new Image(string("./Graphics/Images/HUD/EXIT.png"), 803, 17);
 	yesButton = new Image(string("../Game/Graphics/Images/Actions/YES.png"), 8, 17);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
 	noButton = new Image(string("../Game/Graphics/Images/Actions/NO.png"), 803, 17);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
 	topHudCont->addObject(yesButton);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
@@ -34,15 +34,41 @@ HudObserver::HudObserver(GameModel * m,BoardObserver*b, Container * c)
 				{ string("OFFER_LOOT"),		new Image(string("../Game/Graphics/Images/Actions/OFFER_LOOT.png"),663,26) },
 				{ string("REQUEST_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/REQUEST_LOOT.png"),691,26) },
 				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),577,24) } };
-				//{ string("PLACE_CROW"),		new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"),BUTTON4_XPOS,BUTTON4_YPOS,ACTION_SIZE,ACTION_SIZE) },
-				//{ string("CREATE_ALARM"),	new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), BUTTON5_XPOS, BUTTON5_YPOS, ACTION_SIZE, ACTION_SIZE) },
-				//{ string("SPY_PATROL"),		new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"),BUTTON6_XPOS,BUTTON6_YPOS,ACTION_SIZE,ACTION_SIZE) } };
+	
+	
+	// Add special action buttons for each player
+	switch (model->player1()->getCharacter())
+	{
+	case JUICER:
+		actions.insert(pair<string, Image*>(string("CREATE_ALARM"), new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), 139,23 )));
+		break;
+	case SPOTTER:
+		actions.insert(pair<string, Image*>(string("SPY_PATROL"), new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"), 139, 23)));
+		break;
+	case RAVEN:
+		actions.insert(pair<string, Image*>(string("PLACE_CROW"), new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"), 139, 23)));
+		break;
+	}
+
+	switch (model->player2()->getCharacter())
+	{
+	case JUICER:
+		actions.insert(pair<string, Image*>(string("CREATE_ALARM"), new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), 864,23)));
+		break;
+	case SPOTTER:
+		actions.insert(pair<string, Image*>(string("SPY_PATROL"), new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"), 864, 23)));
+		break;
+	case RAVEN:
+		actions.insert(pair<string, Image*>(string("PLACE_CROW"), new Image(string("../Game/Graphics/Images/Actions/PLACE_CROW.png"), 864, 23)));
+		break;
+	}
+
 	for (auto& a : actions)
 	{
 		a.second->disable();
 		hudCont->addObject(a.second);
 	}
-
+	
 	//passButton = new Image(string("../Game/Graphics/Images/Actions/PASS.png"), (HUD_WIDTH-ACTION_SIZE)/2,HUD_HEIGHT-ACTION_SIZE, ACTION_SIZE, ACTION_SIZE);
 	//hudCont->addObject(passButton);
 	player1 = new PlayerObserver(model->player1(), c, hudCont);
@@ -71,16 +97,14 @@ void HudObserver::update()
 		passButton->disable();
 	}*/
 	// Else update actions
-	
+
+	vector<string> possibleActions = model->currentPlayer()->getActions();
+	for (auto& a : actions)
 	{
-		vector<string> possibleActions = model->currentPlayer()->getActions();
-		for (auto& a : actions)
-		{
-			if (std::find(possibleActions.begin(), possibleActions.end(), a.first) != possibleActions.end())
-				a.second->enable();
-			else
-				a.second->disable();
-		}
+		if (std::find(possibleActions.begin(), possibleActions.end(), a.first) != possibleActions.end())
+			a.second->enable();
+		else
+			a.second->disable();
 	}
 	player1->update();
 	player2->update();

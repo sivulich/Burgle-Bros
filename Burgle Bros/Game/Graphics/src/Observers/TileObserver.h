@@ -10,7 +10,7 @@
 class TileObserver :public Observer
 {
 public:
-	TileObserver(Tile* t, Container* floorContainer);
+	TileObserver(Tile* t, Container* floorContainer, Container* boardContainer);
 	void update();
 	void setHoverable(bool b) { tileCard->setHoverable(b); };
 	void setClickable(bool b) { tileCard->setClickable(b); };
@@ -21,11 +21,13 @@ public:
 	double xpos();
 	double ypos();
 	pair<int, int> pos() { return tileCard->getPos(); };
-
+	void zoom();
+	void unZoom();
 	~TileObserver();
 private:
 	// Pointer to the container in which the tile is
 	Container* floorContainer;
+	Container* boardContainer;
 	// Pointer to observed tile
 	Tile* tile;
 
@@ -41,6 +43,7 @@ private:
 	vector<Image *> hackTokens;
 
 	Card * tileCard;
+	Image * zoomedCard;
 	bool flipped;
 	bool cracked;
 };

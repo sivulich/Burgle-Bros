@@ -36,7 +36,7 @@ void GuardObserver::update()
 	Coord pos = guard->getPos();
 	if (pos != lastPos)
 	{
-		std::pair<int, int> target = std::pair<int, int>(FLOOR_YPOS + TILE_POS_Y[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2, FLOOR_XPOS[pos.floor] + TILE_POS_X[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2);
+		std::pair<int, int> target = std::pair<int, int>(FLOOR_YPOS + TILE_YPOS[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2, FLOOR_XPOS[pos.floor] + TILE_XPOS[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2);
 		if (lastPos == NPOS)
 		{
 			guardIm->addAnimation(new FadeInOutAnimation(target, GUARD_MOVE_SPEED * 3));
@@ -45,7 +45,7 @@ void GuardObserver::update()
 			lastTarget = guard->getTarget();
 			int i = guard->getTarget().row;
 			int j = guard->getTarget().col;
-			dices[lastSpeed]->setPosition(FLOOR_YPOS + TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[pos.floor] + TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
+			dices[lastSpeed]->setPosition(FLOOR_YPOS + TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[pos.floor] + TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
 		}
 		else
 			guardIm->addAnimation(new MoveAnimation(target, GUARD_MOVE_SPEED));
@@ -59,7 +59,7 @@ void GuardObserver::update()
 		boardCont->addObject(dices[guard->getSpeed()]);
 		int i = guard->getTarget().row;
 		int j = guard->getTarget().col;
-		dices[lastSpeed]->setPosition(TILE_POS_Y[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[pos.floor]+ TILE_POS_X[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
+		dices[lastSpeed]->setPosition(TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2, FLOOR_XPOS[pos.floor]+ TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2);
 
 		lastSpeed = guard->getSpeed();
 		lastTarget = guard->getTarget();

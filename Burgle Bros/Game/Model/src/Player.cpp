@@ -25,8 +25,14 @@ Player::Player(Board * b, Player * p, int n)
 
 void Player::setPosition(Coord c)
 {
-	Tile * t = board->getTile(c);
-	setPosition(t);
+	if (c == ROOF)
+		currentTile = new Tile(STAIR, 3, 0, 0);
+	else
+	{
+		Tile * t = board->getTile(c);
+		setPosition(t);
+	}
+
 }
 
 void Player::setPosition(Tile * tile)
@@ -70,27 +76,29 @@ confirmation Player::needConfirmation(Coord c)
 // FALSE if nothing is needed from the user
 confirmation Player::needConfirmationToMove(Coord c)
 {
+	if (c == ROOF)
+		return _MOVE;
 
-	confirmation  b = _MOVE;	
+	confirmation  b = _MOVE;
 	Tile * wantedTile = board->getTile(c);
-		
-	if (wantedTile->is(DEADBOLT) && !(wantedTile->guardHere() || c == otherPlayer->getPosition()) )
+
+	if (wantedTile->is(DEADBOLT) && !(wantedTile->guardHere() || c == otherPlayer->getPosition()))
 	{
 		if ((wantedTile->isFlipped() == true && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == false && this->getActionTokens() >= 4))
 			b = _ASK;
 		else
 			b = _CANT_MOVE;
 	}
-	else if (wantedTile->is(LASER) && wantedTile->hasAlarm() == false && ! this->has(MIRROR) && ! (this->getCharacter() == HACKER) && !((Laser*)wantedTile)->isHackerHere())
+	else if (wantedTile->is(LASER) && wantedTile->hasAlarm() == false && !this->has(MIRROR) && !(this->getCharacter() == HACKER) && !((Laser*)wantedTile)->isHackerHere())
 	{
-		if ( (wantedTile->isFlipped() == false && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == true && this->getActionTokens() >= 2))
+		if ((wantedTile->isFlipped() == false && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == true && this->getActionTokens() >= 2))
 			b = _ASK;
 	}
 	else if (wantedTile->is(KEYPAD) && !((Keypad *)wantedTile)->keyDecoded())
 	{
 		b = _DICE;
 	}
-	
+
 	return b;
 }
 void Player::resetActionTokens()
@@ -98,7 +106,7 @@ void Player::resetActionTokens()
 	if (this->has(MIRROR))
 		actionTokens = NUMBER_ACTION_TOKENS - 1;
 	else
-	actionTokens = NUMBER_ACTION_TOKENS;
+		actionTokens = NUMBER_ACTION_TOKENS;
 	notify();
 }
 
@@ -131,38 +139,44 @@ vector<Coord> Player::whereCanIMove()
 
 bool Player::move(Coord c)
 {
-	return move(board->getTile(c));
+	if (c == ROOF)
+	{
+		setPosition(ROOF);
+		return true;
+	}
+	else
+		return move(board->getTile(c));
 }
 
 bool Player::move(Tile * newTile)
 {
-		removeActionToken();
+	removeActionToken();
 
-		if (newTile->canMove(this)) 
-		{
-			if (this->has(GEMSTONE) && this->actionTokens > 2 && (newTile->getPos() == otherPlayer->getPosition()))
-				removeActionToken();
-			newAction("MOVE", newTile->getPos());
+	if (newTile->canMove(this))
+	{
+		if (this->has(GEMSTONE) && this->actionTokens > 2 && (newTile->getPos() == otherPlayer->getPosition()))
+			removeActionToken();
+		newAction("MOVE", newTile->getPos());
 
-			// Exit the current tile
-			lastPos = this->getPosition();
-			currentTile->exit(this);
+		// Exit the current tile
+		lastPos = this->getPosition();
+		currentTile->exit(this);
 
-			setPosition(newTile);
+		setPosition(newTile);
 
-			// And enter the next tile
-			newTile->enter(this);
+		// And enter the next tile
+		newTile->enter(this);
 
-			// Update all loots
-			for (auto & t : loots)
-				t->update();
+		// Update all loots
+		for (auto & t : loots)
+			t->update();
 
-			// Notify the view the player has moved
-			notify();
+		// Notify the view the player has moved
+		notify();
 
-			return true;
-		}
-		return false;
+		return true;
+	}
+	return false;
 }
 
 vector<Coord> Player::whereCanIPeek()
@@ -174,19 +188,19 @@ vector<Coord> Player::whereCanIPeek()
 	{
 		if (currentTile->hasNorthWall())
 		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row-1));
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row - 1));
 		}
 		if (currentTile->hasWestWall())
 		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col-1, currentTile->getPos().row));
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col - 1, currentTile->getPos().row));
 		}
 		if (currentTile->hasSouthWall())
 		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row+1));
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row + 1));
 		}
 		if (currentTile->hasEastWall())
 		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col+1, currentTile->getPos().row));
+			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col + 1, currentTile->getPos().row));
 		}
 	}
 
@@ -203,7 +217,7 @@ vector<Coord> Player::getAdjacentJuicer()
 {
 	vector<Coord> v = currentTile->getAdjacent();
 	vector<Coord> noAlarm;
-	for (vector<Coord>::iterator i=v.begin();i!=v.end();i++)
+	for (vector<Coord>::iterator i = v.begin(); i != v.end(); i++)
 	{
 		if (!(board->getTile(*i)->hasAlarm()) && (this->getPosition().floor == i->floor))
 		{
@@ -218,7 +232,7 @@ bool Player::peek(Coord c)
 	bool b = false;
 	if (character->is(HAWK))
 	{
-		for (auto &it: currentTile->getAdjacent())
+		for (auto &it : currentTile->getAdjacent())
 		{
 			if (it == c) b = true;
 		}
@@ -245,7 +259,7 @@ bool Player::peek(Tile * newTile)
 
 bool Player::createAlarm(Coord c)
 {
-	if ((character->is(JUICER)) && (currentTile->isAdjacent(c)) && (board->getTile(c)->hasAlarm() == false) && (this->actionTokens>0) && (this->canIUseAbility()) )
+	if ((character->is(JUICER)) && (currentTile->isAdjacent(c)) && (board->getTile(c)->hasAlarm() == false) && (this->actionTokens > 0) && (this->canIUseAbility()))
 	{
 		this->useAbility(true);
 		board->getTile(c)->setAlarm(true);
@@ -260,14 +274,14 @@ bool Player::createAlarm(Coord c)
 
 bool Player::placeCrow(Coord c)
 {
-	if (character->is(RAVEN) && character->canUseAbility() && !(c == crowToken) && c.col<F_WIDTH && c.row <F_HEIGHT)
+	if (character->is(RAVEN) && character->canUseAbility() && !(c == crowToken) && c.col < F_WIDTH && c.row < F_HEIGHT)
 	{
 		if (!(crowToken == NPOS))
 			board->getTile(crowToken)->setCrowToken(false);
 		this->useAbility(true);
 		board->getTile(c)->setCrowToken(true);
 		crowToken = c;
-		newAction("PLACE_CROW",c);
+		newAction("PLACE_CROW", c);
 	}
 	else return false;
 }
@@ -295,46 +309,46 @@ vector < string> Player::gettActions()
 vector<string> Player::getActions()
 {
 	vector <string> possibleActions;
-		if (currentTile != nullptr)
-		{
-			possibleActions = currentTile->getActions(this);
+	if (currentTile != nullptr)
+	{
+		possibleActions = currentTile->getActions(this);
 
-			if (!throwingDices)
-			{
-				if (currentTile->hasLoot())
-				{
-					bool b = false;
-					for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
-					if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
-						possibleActions.push_back("PICK_UP_LOOT");
-				}
-			}
-
-		}
-
-
-		//AGREGAR LAS ACCIONES DE LOS CHARACTERS
 		if (!throwingDices)
 		{
-			if (character != nullptr)
+			if (currentTile->hasLoot())
 			{
-				possibleActions.push_back(character->getAction(this));
-				/*if (getCharacter() == JUICER)
-					possibleActions.push_back("CREATE_ALARM");
-				else if (getCharacter() == RAVEN)
-					possibleActions.push_back("PLACE_CROW");
-				else if (getCharacter() == SPOTTER)
-					possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
-			}
-
-			if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
-			{
-				if (hasLoot())
-					possibleActions.push_back("OFFER_LOOT");
-				if (otherPlayer->hasLoot())
-					possibleActions.push_back("REQUEST_LOOT");
+				bool b = false;
+				for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
+				if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
+					possibleActions.push_back("PICK_UP_LOOT");
 			}
 		}
+
+	}
+
+
+	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
+	if (!throwingDices)
+	{
+		if (character != nullptr)
+		{
+			possibleActions.push_back(character->getAction(this));
+			/*if (getCharacter() == JUICER)
+				possibleActions.push_back("CREATE_ALARM");
+			else if (getCharacter() == RAVEN)
+				possibleActions.push_back("PLACE_CROW");
+			else if (getCharacter() == SPOTTER)
+				possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
+		}
+
+		if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
+		{
+			if (hasLoot())
+				possibleActions.push_back("OFFER_LOOT");
+			if (otherPlayer->hasLoot())
+				possibleActions.push_back("REQUEST_LOOT");
+		}
+	}
 	if (destination.floor < NUMBER_FLOORS && destination.col < F_WIDTH && destination.row < F_HEIGHT)
 	{
 		if (board->getTile(destination)->is(KEYPAD) && !((Keypad *)board->getTile(destination))->keyDecoded())
@@ -415,10 +429,8 @@ bool Player::throwDice(int n)
 	bool b = false;
 	dice.push_back(n);
 	currDice = n;
-	 b =currentTile->doAction("THROW_DICE",this);
+	b = currentTile->doAction("THROW_DICE", this);
 	newAction(toString(THROW_DICE), currentTile->getPos());
-
-	//DEBUG_MSG("You rolled the dice and got a " << temp);
 
 	notify();
 	return b;
@@ -427,10 +439,13 @@ bool Player::throwDice(int n)
 void Player::addLoot(lootType l)
 {
 	Loot * currLoot = (new LootFactory)->newLoot(l);
-	currLoot->setPos(this->getPosition());
-	currLoot->pick(this);
-	loots.push_back(currLoot);
-	notify();
+	if (currLoot != nullptr)
+	{
+		currLoot->setPos(this->getPosition());
+		currLoot->pick(this);
+		loots.push_back(currLoot);
+		notify();
+	}
 };
 
 bool Player::hasLoot()
@@ -438,30 +453,30 @@ bool Player::hasLoot()
 	return !loots.empty();
 }
 
- void Player::pickUpLoot(lootType l)
+void Player::pickUpLoot(lootType l)
 {
-	 if (this->currentTile->hasLoot())
-	 {
-		 bool b = false;
-		 for (auto &it : this->loots)
-		 {
-			 it->is(GOLD_BAR);
-				 b = true;
-		 };
-		 for (auto &it : this->currentTile->getLoot())
-		 {
-			 if (it->is(l))
-			 {
-				 if(l == GOLD_BAR && b) cout << "Already has GOLD BAR cant pick another one" << endl;
-				 else
-				 {
-					 this->addLoot(it->getType());
-					 cout << "Player just picked a:" << it->getDescription() << endl;
-					 currentTile->removeLoot(it);
-				 }
-			 }
-		 }
-	 }
+	if (this->currentTile->hasLoot())
+	{
+		bool b = false;
+		for (auto &it : this->loots)
+		{
+			it->is(GOLD_BAR);
+			b = true;
+		};
+		for (auto &it : this->currentTile->getLoot())
+		{
+			if (it->is(l))
+			{
+				if (l == GOLD_BAR && b) cout << "Already has GOLD BAR cant pick another one" << endl;
+				else
+				{
+					this->addLoot(it->getType());
+					cout << "Player just picked a:" << it->getDescription() << endl;
+					currentTile->removeLoot(it);
+				}
+			}
+		}
+	}
 }
 
 void Player::addVisibleTile(Coord tile)
@@ -499,9 +514,13 @@ void Player::clearVisibleFrom()
 
 void Player::losePersianKitty()
 {
-	Coord pos = board->getFloor(getPosition().floor)->whereToPlaceKitty(getPosition());
+	Coord pos = board->getFloor(getPosition().floor)->whereToPlaceKitty((getPosition()));
 	Loot * kitty = nullptr;
-	for (auto &it : loots) if (it->is(PERSIAN_KITTY)) kitty = it;
+
+	for (auto &it : loots)
+		if (it->is(PERSIAN_KITTY))
+			kitty = it;
+
 	if (!(pos == NPOS))
 	{
 		if (kitty != nullptr)
@@ -526,7 +545,7 @@ void Player::giveLoot(int n)
 {
 	if (n > 0 && n <= loots.size())
 	{
-		if (loots[n - 1]->isLootAvailable() && loots[n-1] != nullptr)
+		if (loots[n - 1]->isLootAvailable() && loots[n - 1] != nullptr)
 		{
 			otherPlayer->addLoot(loots[n - 1]->getType());
 			this->removeLoot(loots[n - 1]);

@@ -110,7 +110,9 @@ void Tile::setAlarm(bool b)
 
 int Tile::getSafeNumber()
 {
-	return isFlipped() ? safeNumber : 0;
+	//return isFlipped() ? safeNumber : 0;
+	return safeNumber;
+
 }
 
 vector<Coord> Tile::whereCanIMove()
@@ -145,7 +147,7 @@ void Tile::peek()
 
 bool Tile::canMove(PlayerInterface * player) {
 	return true;
- }
+}
 void Tile::enter(PlayerInterface * p)
 {
 	if (!isFlipped())

@@ -157,6 +157,7 @@
     <ClInclude Include="Controller\src\GameController.h" />
     <ClInclude Include="Controller\src\GameFSM.h" />
     <ClInclude Include="Controller\src\GameState.h" />
+    <ClInclude Include="Graphics\src\Animations\Animations.h" />
     <ClInclude Include="Graphics\src\Animations\DelayAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\FadeInOutAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\FadeAnimation.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="Graphics\src\ALX\Voice.hpp" />
     <ClInclude Include="Graphics\src\Animations\Animation.h" />
     <ClInclude Include="Graphics\src\Animations\FlipAnimation.h" />
+    <ClInclude Include="Graphics\src\Animations\MoveAndZoomAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\MoveAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\MoveRelativeAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\zoomAnimation.h" />
@@ -304,6 +306,7 @@
     <ClCompile Include="Graphics\src\Animations\FadeInOutAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\FadeAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\FlipAnimation.cpp" />
+    <ClCompile Include="Graphics\src\Animations\MoveAndZoomAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\MoveAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\MoveRelativeAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\zoomAnimation.cpp" />

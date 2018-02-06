@@ -2,17 +2,21 @@
 #include "./Animation.h"
 
 // Zooms in or out an objet
-// If scale of an object is set to 3x, zoomAnimation(3) 
-// will make it 9x and a zoomAnimation(0.5) will make it 1.5x
+// If scale of an object is set to 3x, ZoomAnimation(3) 
+// will make it 9x and a ZoomAnimation(0.5) will make it 1.5x
 
-class zoomAnimation :	public Animation
+class ZoomAnimation :	public Animation
 {
 public:
-	zoomAnimation(double zoom, double duration);
-	~zoomAnimation();
+	// Create a zoom animation with a final scale to apply to the object
+	ZoomAnimation(double zoom, double duration);
+	// Create a zoom animation with a final with and height for the object
+	ZoomAnimation(int finalW, int finalH,double duration);
 	void play(ObjectInterface* object);
 private:
-	double zoom; // x2 for example
-	double step;
+	int finalW, finalH;
+	double zoom;
+	double stepX, stepY;
+	bool computed;
 };
 

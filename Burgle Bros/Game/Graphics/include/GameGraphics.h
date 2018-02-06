@@ -49,6 +49,18 @@ public:
 	// Show temp message, must call 'removeDialogBox' 
 	void showTempMessage(string message);
 
+	// Show top of the patrol  deck
+	void showTopPatrol(int floorNumber) { board->showTopPatrol(floorNumber); };
+	// Hide top of the patrol deck
+	void hideTopPatrol(int floorNumber) { board->hideTopPatrol(floorNumber); }
+	// Ask the player confirmation and shows the top of the deck
+	void spyPatrolCard(int floorNumber);
+
+	// Zoom the clicked tile
+	void zoomTile(Coord c);
+	// Unzoom the tile
+	void unZoomTile();
+
 	// If dialog box is set with no buttons, removes it
 	void removeDialogBox();
 
@@ -80,13 +92,23 @@ public:
 	void showRulesScreen();
 	//
 	void showModeScreen();
-	
+
 	void showIPScreen();
 
 	void showSetupScreen(int player = 0);
-
 	// Shows the game screen
 	void showGameScreen();
+
+	// Show a console to input text
+	void toggleConsole();
+	void showConsole();
+	void hideConsole();
+	bool showingConsole();
+	bool writingInConsole();
+	string getConsoleText();
+
+	//
+	void printInHud(string s);
 
 	// In setup screen get players name
 	string getPlayerName();
@@ -95,19 +117,23 @@ public:
 private:
 	bool initOK_;
 
-	typedef enum {MENU,RULES,CREDITS,MODE,SETUP,IP,GAME} SCREEN;
+	typedef enum { MENU, RULES, CREDITS, MODE, SETUP, IP, GAME } SCREEN;
 	SCREEN current_screen;
-	
+
 	// Pointer to the Game Model
 	GameModel * model;
 
 	// Graphic objects
 	Screen* screen;
 	Container* cont;
+	Image * roof;
 
 	Textbox * textBox;
+	Text* hudText;
 	DialogBox * dialogBox;
 	Image * blur;
+
+
 	// Observers
 	BoardObserver* board;
 	HudObserver * hud;

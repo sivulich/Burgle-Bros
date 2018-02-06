@@ -27,33 +27,38 @@ using namespace boost::msm::front;
 struct GameState_ : public msm::front::state_machine_def<GameState_>
 {
 	// INICIALIZAR PUNTEROS!
-
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
 	//BurgleNetwork * network;
 	int gameMode;
 	Timer * guardTimer;
-	action_ID currentAction; // Stores current action chosen by player
+	// Stores current action chosen by player
+	action_ID currentAction;
 
 	//-------------------------------------------------------------
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-		fsm.model->currentPlayer()->setCharacter(HACKER);
-		fsm.model->otherPlayer()->setCharacter(RAVEN);
+		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
+		fsm.model->currentPlayer()->setCharacter(JUICER);
+		fsm.model->otherPlayer()->setCharacter(SPOTTER);
 		fsm.model->currentPlayer()->setName(string("Tobi"));
 		fsm.model->otherPlayer()->setName(string("Roma"));
-		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
-		fsm.model->setBoard();
-		fsm.graphics->showGameScreen();
 
+		// ESTO DE SETBOARD EL CLIENTE LO TIENE QUE HACER POR NETWORK
+		fsm.model->setBoard();
+		/*
+
+		*/
+		fsm.graphics->showGameScreen();
+		fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
 	}
 
 	template <class EVT, class FSM>
 	void on_exit(EVT const&  event, FSM& fsm)
 	{
-		std::cout << "Leaving Burgle Bros Finite State Machine" << std::endl;
+		std::cout << "Leaving Burgle Bros" << std::endl;
 	}
 
 	//----------------------- STATES -----------------------------//
@@ -63,6 +68,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
+			// Set only first floor clickable
 			std::cout << "Choose initial pos: ";
 			vector<Coord> v;
 			v.push_back(Coord(0, 0, 0));
@@ -81,14 +87,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			v.push_back(Coord(0, 3, 1));
 			v.push_back(Coord(0, 3, 2));
 			v.push_back(Coord(0, 3, 3));
-
 			fsm.graphics->setTilesClickable(v);
 		}
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
-			// Desmarcar las tiles 
+			// Set again all tiles clickable
 			fsm.graphics->setAllClickable();
 		}
 	};
@@ -104,14 +109,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			for (auto& s : v)
 				std::cout << s << " ";
 			std::cout << std::endl;
-
-			//fsm.graphics->showActions(v);
 		}
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
-			// Desmarcar las tiles 
+			// Set all tiles clickable
 			fsm.graphics->setAllClickable();
 		}
 	};
@@ -176,13 +179,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "" << std::endl;
 		}
 	};
-	
+
 	struct chekActionTokens : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Action tokens left: " << fsm.model->currentPlayer()->getActionTokens() << std::endl;
+			
 			if (fsm.model->currentPlayer()->getActionTokens() == 0)
 			{
 				fsm.process_event(ev::no());
@@ -191,7 +194,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			else
 			{
 				fsm.process_event(ev::yes());
-				std::cout << "Keep playing" << std::endl;
+				std::cout << "Action tokens left: " << fsm.model->currentPlayer()->getActionTokens() << std::endl;
 			}
 
 		}
@@ -205,13 +208,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Are you sure? Yes/No" << std::endl;
 		}
 
-
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "Okay..." << std::endl;
-		}
-
 	};
 
 	struct askConfirmationMove : public msm::front::state<>
@@ -223,13 +219,18 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			// Show the user the tile in question
-			destinationTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
-			wasFlipped = destinationTile->isFlipped();
-			destinationTile->turnUp();
-			if (fsm.model->currentPlayer()->needConfirmationToMove(destinationTile->getPos()) == _DICE)
-				std::cout << "Prepare to throw Dice" << std::endl;
-			else
-			std::cout << "Are you sure? Yes/No" << std::endl;
+
+		/*	if (fsm.model->currentPlayer()->getDest() != ROOF)
+			{
+				destinationTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
+				wasFlipped = destinationTile->isFlipped();
+				destinationTile->turnUp();
+				if (fsm.model->currentPlayer()->needConfirmationToMove(destinationTile->getPos()) == _DICE)
+					std::cout << "Prepare to throw Dice" << std::endl;
+				else
+					std::cout << "Are you sure? Yes/No" << std::endl;
+			}
+			else destinationTile = nullptr;*/
 		}
 
 
@@ -237,9 +238,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
 			//Leave everything like before...
-			if (wasFlipped == false)
+		/*	if (wasFlipped == false && destinationTile!=nullptr)
 				destinationTile->turnDown();
-			std::cout << "Okay..." << std::endl;
+			std::cout << "Okay..." << std::endl;*/
 		}
 
 	};
@@ -281,7 +282,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 
 	};
-	
+
 	struct gameEnded : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -294,9 +295,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-
 	//----------------------- ACTIONS -----------------------------//
-	
+
 	struct doSetInitialPos
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -313,6 +313,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Preparing to move to " << event.c << std::endl;
+		
 			fsm.model->currentPlayer()->setDest(event.c);
 
 			confirmation needInput = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
@@ -333,7 +334,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct doNormal	
+	struct doNormal
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
@@ -344,7 +345,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 			if (b == false)
 				std::cout << "Cant move!" << std::endl;
-			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
+			else if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 			fsm.model->check4Cameras();
 			fsm.currentAction = NO_TYPE;
@@ -361,12 +362,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			bool b = fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
 
 			tileType currentTileType = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
-			if ( currentTileType == LASER || currentTileType == DEADBOLT )
+			if (currentTileType == LASER || currentTileType == DEADBOLT)
 				fsm.model->currentPlayer()->spentOK();
 
 			if (b == false)
 				std::cout << "Cant move!" << std::endl;
-			else if (fsm.model->currentPlayer()->getCharacter() != toEnum_characterType("ACROBAT"))
+			else if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 			fsm.model->check4Cameras();
 			fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
@@ -382,7 +383,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			tileType destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
-			if (destTile == DEADBOLT) {
+			if (destTile == DEADBOLT)
+			{
 				cout << "DONT MOVE" << endl;
 				fsm.model->currentPlayer()->removeActionToken();
 				fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->turnUp();
@@ -492,7 +494,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Trying to open Keypad" << std::endl;
 			Tile * destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
 			bool b = false;
-			b =((Keypad *)destTile)->tryToOpen(event.number, fsm.model->currentPlayer());
+			b = ((Keypad *)destTile)->tryToOpen(event.number, fsm.model->currentPlayer());
 			if (b)
 			{
 				fsm.process_event(ev::finishThrow());
@@ -537,7 +539,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Spying patrol deck" << std::endl;
 			fsm.model->spyPatrol(fsm.model->currentPlayer()->getPosition().floor);
-				fsm.currentAction = SPY_PATROL;
+			fsm.graphics->spyPatrolCard(fsm.model->currentPlayer()->getPosition().floor);
+			fsm.currentAction = SPY_PATROL;
 		}
 	};
 
@@ -548,6 +551,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Card staying on top of deck" << std::endl;
 			fsm.model->stopSpying(fsm.model->currentPlayer()->getPosition().floor);
+			fsm.graphics->hideTopPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -557,8 +561,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Spying patrol deck" << std::endl;
+			std::cout << "Card  sent to bottom" << std::endl;
 			fsm.model->sendBottom(fsm.model->currentPlayer()->getPosition().floor);
+			fsm.graphics->hideTopPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -595,15 +600,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Pick up loot" << std::endl;
 			fsm.model->currentPlayer()->pickUpLoot(PERSIAN_KITTY);
 			fsm.currentAction = NO_TYPE;
-		}
-	};
-
-	struct doAsk
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			std::cout << "Ask confirmation" << std::endl;
 		}
 	};
 
@@ -692,7 +688,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			
+
 			if (fsm.model->otherPlayer()->isOnRoof())
 			{
 				std::cout << "Keep playing, you are alone!" << std::endl;
@@ -762,7 +758,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		}
 	};
-	
+
 	struct showAlarm
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -952,70 +948,70 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	struct transition_table : mpl::vector<
 		//       Start					Event					Next				Action            Guard
 		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
-		
-		Row < chooseInitialPos		, ev::coord			, chooseAction			, doSetInitialPos	, none				>,
-		Row < chooseAction			, ev::pass			, guardTurn				, doEndTurn			, none				>,
 
-		Row < chooseAction			, ev::movee			, none					, showMove			, none				>,
-		Row < chooseAction			, ev::coord			, askConfirmationMove	, askb4Move			, isMoving			>,
+		Row < chooseInitialPos, ev::coord, chooseAction, doSetInitialPos, none				>,
+		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
 
-		Row < chooseAction			, ev::peek			, none					, showPeek			, none				>,
-		Row < chooseAction			, ev::coord			, chekActionTokens		, doPeek			, isPeeking			>,
+		Row < chooseAction, ev::movee, none, showMove, none				>,
+		Row < chooseAction, ev::coord, askConfirmationMove, askb4Move, isMoving			>,
 
-		Row	< chooseAction			, ev::createAlarm	, none					, showAlarm			, none				>,
-		Row	< chooseAction			, ev::coord			, chekActionTokens		, doCreateAlarm		, isCreatingAlarm   >,
+		Row < chooseAction, ev::peek, none, showPeek, none				>,
+		Row < chooseAction, ev::coord, chekActionTokens, doPeek, isPeeking			>,
 
-		Row < chooseAction			, ev::placeCrow		, none					, showCrow			, none				>,
-		Row	< chooseAction			, ev::coord			, chooseAction			, doPlaceCrow		, isPlacingCrow		>,
+		Row	< chooseAction, ev::createAlarm, none, showAlarm, none				>,
+		Row	< chooseAction, ev::coord, chekActionTokens, doCreateAlarm, isCreatingAlarm   >,
 
-		Row < chooseAction			, ev::spyPatrol		, askConfirmation		, doSpyPatrol		, none				>,
-		Row < chooseAction			, ev::addToken		, chekActionTokens		, doAddToken		, none				>,
-		Row < chooseAction			, ev::useToken		, chooseAction			, doUseToken		, none				>,
-		Row < chooseAction			, ev::throwDice		, throw_Dice			, doCrackSafe		, none				>,
-		Row < chooseAction			, ev::offerLoot		, chooseLoot			, prepOffer			, none				>,
-		Row < chooseAction			, ev::requestLoot	, chooseLoot			, prepRequest		, none				>,
-		Row < chooseAction			, ev::pickUpLoot	, chooseLoot			, showPickUpLoot	, none				>,
+		Row < chooseAction, ev::placeCrow, none, showCrow, none				>,
+		Row	< chooseAction, ev::coord, chooseAction, doPlaceCrow, isPlacingCrow		>,
 
-	
+		Row < chooseAction, ev::spyPatrol, askConfirmation, doSpyPatrol, none				>,
+		Row < chooseAction, ev::addToken, chekActionTokens, doAddToken, none				>,
+		Row < chooseAction, ev::useToken, chooseAction, doUseToken, none				>,
+		Row < chooseAction, ev::throwDice, throw_Dice, doCrackSafe, none				>,
+		Row < chooseAction, ev::offerLoot, chooseLoot, prepOffer, none				>,
+		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
+		Row < chooseAction, ev::pickUpLoot, chooseLoot, showPickUpLoot, none				>,
+
+
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmation		, ev::yes			, chekActionTokens		, doStayTop			, isSpying			>,
-		Row < askConfirmation		, ev::no			, chekActionTokens		, doSendBottom		, isSpying			>,
-		Row < askConfirmation		, ev::yes			, chekActionTokens		, doThrowDice		, isThrowingDice	>,
-		Row < askConfirmation		, ev::no			, chekActionTokens		, dontThrowDice		, isThrowingDice	>,
-		Row < askConfirmation		, ev::yes			, chooseAction			, doGiveLoot		, isOfferingLoot	>,
-		Row < askConfirmation		, ev::no			, chooseAction			, none				, isOfferingLoot	>,
-		Row < askConfirmation		, ev::yes			, chooseAction			, doGetLoot			, isRequestingLoot	>,
-		Row < askConfirmation		, ev::no			, chooseAction			, none				, isRequestingLoot	>,
+		Row < askConfirmation, ev::yes, chekActionTokens, doStayTop, isSpying			>,
+		Row < askConfirmation, ev::no, chekActionTokens, doSendBottom, isSpying			>,
+		Row < askConfirmation, ev::yes, chekActionTokens, doThrowDice, isThrowingDice	>,
+		Row < askConfirmation, ev::no, chekActionTokens, dontThrowDice, isThrowingDice	>,
+		Row < askConfirmation, ev::yes, chooseAction, doGiveLoot, isOfferingLoot	>,
+		Row < askConfirmation, ev::no, chooseAction, none, isOfferingLoot	>,
+		Row < askConfirmation, ev::yes, chooseAction, doGetLoot, isRequestingLoot	>,
+		Row < askConfirmation, ev::no, chooseAction, none, isRequestingLoot	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmationMove	, ev::yes			, chekActionTokens		, doMove			, isMoving			>,
-		Row < askConfirmationMove	, ev::no			, chekActionTokens		, dontMove			, isMoving			>,
-		Row < askConfirmationMove	, ev::done			, chekActionTokens		, doMove			, isMoving			>,
-		Row < askConfirmationMove	, ev::throwDice		, throw_Dice			, doOpenKeypad		, isThrowingDice	>,
+		Row < askConfirmationMove, ev::yes, chekActionTokens, doMove, isMoving			>,
+		Row < askConfirmationMove, ev::no, chekActionTokens, dontMove, isMoving			>,
+		Row < askConfirmationMove, ev::done, chekActionTokens, doMove, isMoving			>,
+		Row < askConfirmationMove, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < throw_Dice			, ev::throwDice		, throw_Dice			, doOpenKeypad		, isThrowingDice	>,
-		Row < throw_Dice			, ev::throwDice		, throw_Dice			, doCrackSafe		, isCrackingSafe	>,
-		Row < throw_Dice			, ev::finishThrow	, askConfirmationMove	, doFinishThrow		, isThrowingDice	>,
-		Row < throw_Dice			, ev::finishThrow	, chekActionTokens		, none				, isCrackingSafe	>,
+		Row < throw_Dice, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
+		Row < throw_Dice, ev::throwDice, throw_Dice, doCrackSafe, isCrackingSafe	>,
+		Row < throw_Dice, ev::finishThrow, askConfirmationMove, doFinishThrow, isThrowingDice	>,
+		Row < throw_Dice, ev::finishThrow, chekActionTokens, none, isCrackingSafe	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, chooseLoot1		, isOfferingLoot	>,
-		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, chooseLoot2		, isOfferingLoot	>,
-		Row < chooseLoot			, ev::firstLoot		, askConfirmation		, chooseLoot1		, none				>,
-		Row < chooseLoot			, ev::secondLoot	, askConfirmation		, chooseLoot2		, none				>,
-		Row < chooseLoot			, ev::goldBar		, chooseAction			, doPickUpGoldBar	, isPickingLoot		>,
-		Row < chooseLoot			, ev::persianKitty	, chooseAction			, doPickUpKitty		, isPickingLoot		>,
+		Row < chooseLoot, ev::firstLoot, askConfirmation, chooseLoot1, isOfferingLoot	>,
+		Row < chooseLoot, ev::secondLoot, askConfirmation, chooseLoot2, isOfferingLoot	>,
+		Row < chooseLoot, ev::firstLoot, askConfirmation, chooseLoot1, none				>,
+		Row < chooseLoot, ev::secondLoot, askConfirmation, chooseLoot2, none				>,
+		Row < chooseLoot, ev::goldBar, chooseAction, doPickUpGoldBar, isPickingLoot		>,
+		Row < chooseLoot, ev::persianKitty, chooseAction, doPickUpKitty, isPickingLoot		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens		, ev::no			, guardTurn				, doEndTurn			, none				>,
-		Row < chekActionTokens		, ev::yes			, chooseAction			, none				, none				>,
+		Row < chekActionTokens, ev::no, guardTurn, doEndTurn, none				>,
+		Row < chekActionTokens, ev::yes, chooseAction, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn				, ev::movee			, none					, moveGuard			, none				>,
-		Row < guardTurn				, ev::passGuard		, chooseAction			, changeTurn		, none				>,
-		Row < guardTurn				, ev::gameOver		, gameEnded				, none				, none				>,
+		Row < guardTurn, ev::movee, none, moveGuard, none				>,
+		Row < guardTurn, ev::passGuard, chooseAction, changeTurn, none				>,
+		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded				, ev::playAgain		, chooseAction			, resetGame			, none				>
+		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};
-	
+
 	// Replaces the default no-transition response.
 	template <class FSM, class EVT>
 	void no_transition(EVT const&  event, FSM& fsm, int state)
@@ -1024,7 +1020,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			<< " on event " << typeid(event).name() << std::endl;
 	}
 
-typedef chooseInitialPos initial_state;
+	typedef chooseInitialPos initial_state;
 };
 // Pick a back-end
 typedef msm::back::state_machine<GameState_> GameState;
