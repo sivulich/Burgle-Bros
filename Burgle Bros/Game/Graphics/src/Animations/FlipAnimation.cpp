@@ -3,10 +3,10 @@
 FlipAnimation::FlipAnimation(ObjectInterface* ob, double duration) : Animation(duration)
 {
 	initialFrames=framesLeft = ceil(duration * FPS);
-	std::pair<double, double> scales = ob->getScales();
-	rate = 2.0*scales.first / framesLeft;
+	scales = ob->getScales();
+	rate = 2.0*scales.second /(double) framesLeft;
 	startPos = ob->getPos();
-	midPos= std::pair<int, int>(ob->getPos().first ,(int) (ob->getPos().second + ob->getScale()*ob->getSize().second *0.5));
+	midPos= std::pair<int, int>(ob->getPos().first ,(int) (ob->getPos().second + ob->getScale()*ob->getSize().second *0.25));
 	move = new MoveAnimation(midPos, duration / 2.0);
 	middle = false;
 }
@@ -18,7 +18,8 @@ FlipAnimation::play(ObjectInterface* ob)
 	{
 		delete move;
 		ob->setPosition(startPos.first, startPos.second);
-		ob->setScale(ob->getScale());
+		ob->setScaleY(scales.first);
+		ob->setScaleX(scales.second);
 		framesLeft--;
 	}
 	else if (framesLeft > initialFrames / 2)

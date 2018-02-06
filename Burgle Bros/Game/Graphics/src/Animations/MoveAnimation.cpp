@@ -20,11 +20,12 @@ MoveAnimation::~MoveAnimation()
 void MoveAnimation::play(ObjectInterface* object)
 {
 	// If step has not been calculates yet
-	if (xStep == 0 && yStep == 0)
+	if (xStep == 0 && yStep == 0 && framesLeft>0)
 	{
 		// Calculate increments in each frame (with sign included!)
 		xStep = (xTarget - object->getPos().second) / framesLeft;
 		yStep = (yTarget - object->getPos().first) / framesLeft;
+
 	}
 
 	if (framesLeft>1)

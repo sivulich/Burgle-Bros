@@ -97,7 +97,7 @@ void GuardDeckObserver::update()
 			{
 				int i = card->getDescription()[1] - '1';
 				int j = card->getDescription()[0] - 'A';
-				std::pair<int, int>target = std::pair<int, int>((int)TILE_POS_Y[i][j] + FLOOR_YPOS, (int)(TILE_POS_X[i][j] + FLOOR_XPOS[floor->number()]));
+				std::pair<int, int>target = std::pair<int, int>((int)TILE_YPOS[i][j] + FLOOR_YPOS, (int)(TILE_XPOS[i][j] + FLOOR_XPOS[floor->number()]));
 				cards[i][j]->deleteAnimation();
 				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
 				//		boardCont->addObject(cards[i][j]);

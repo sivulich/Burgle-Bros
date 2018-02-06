@@ -131,7 +131,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	for (int f = 0; f < 3; f++)
 		for (int r = 0; r < 4; r++)
 			for (int c = 0; c < 4; c++)
-				positions[f][r][c] = pair<int, int>(BOARD_YPOS + FLOOR_YPOS + TILE_POS_Y[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2, BOARD_XPOS + FLOOR_XPOS[f] + TILE_POS_X[r][c] + XOFFSET);
+				positions[f][r][c] = pair<int, int>((int)(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2), (int)(BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
 
 	//------------------------------------------------------------------------------------
 
@@ -210,7 +210,7 @@ void PlayerObserver::update()
 	{
 		numberOfLoots->setText(to_string(playerLoots.size()));
 		loots->clear();
-		for (int i=0; i< playerLoots.size(); i++)
+		for (unsigned i=0; i< playerLoots.size(); i++)
 		{
 			Image* image = new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0,145,145);
 			loots->addObject(image);

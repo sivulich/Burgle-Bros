@@ -181,7 +181,7 @@ void TileObserver::update()
 {
 	if (flipped != tile->isFlipped())
 	{
-		//tileCard->addAnimation(new FlipAnimation(tileCard,1.0));
+		tileCard->addAnimation(new FlipAnimation(tileCard,0.4));
 		tileCard->flip();
 		flipped = tile->isFlipped();
 		if (safeNumber != nullptr)
