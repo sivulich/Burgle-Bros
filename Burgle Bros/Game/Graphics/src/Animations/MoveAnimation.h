@@ -11,7 +11,7 @@ public:
 	std::pair<int, int> getTarget() { return pair<int, int>(yTarget, xTarget); };
 	virtual void play(ObjectInterface* object)override;
 private:
-	int xTarget, yTarget;
+	int xTarget, yTarget,y0,x0,count;
 	double xStep, yStep;
 };
 

@@ -12,17 +12,20 @@
 #include <boost/msm/front/functor_row.hpp>
 #include <boost/msm/front/euml/common.hpp>
 #include <boost/msm/front/euml/euml.hpp>
+//FOR and operator  And_<>
+#include <boost/msm/front/euml/operator.hpp>
+
 
 #include <GameModel.h>
 #include <GameGraphics.h>
 #include <BurgleNetwork.h>
 #include <Configs.h>
 #include "./events.h"
-
+#include "../../Sound/SoundEffects.h"
 namespace msm = boost::msm;
 namespace mpl = boost::mpl;
 using namespace boost::msm::front;
-
+using namespace euml;
 
 struct GameState_ : public msm::front::state_machine_def<GameState_>
 {
@@ -30,6 +33,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
+	SoundEffects * sound;
 	//BurgleNetwork * network;
 	int gameMode;
 	Timer * guardTimer;
@@ -52,7 +56,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		*/
 		fsm.graphics->showGameScreen();
-		fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
+		fsm.sound->playBackroundMusic();
+		//DESCOMENTARRRR DESPUES fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
 	}
 
 	template <class EVT, class FSM>
@@ -62,6 +67,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	}
 
 	//----------------------- STATES -----------------------------//
+
+	typedef ev::coord initial_event;
 
 	struct chooseInitialPos : public msm::front::state<>
 	{
@@ -185,7 +192,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			
+
 			if (fsm.model->currentPlayer()->getActionTokens() == 0)
 			{
 				fsm.process_event(ev::no());
@@ -212,35 +219,53 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct askConfirmationMove : public msm::front::state<>
 	{
-		bool wasFlipped;
-		Tile * destinationTile;
+		Coord destinationCoord;
 
 		template <class EVT, class FSM>
-		void on_entry(EVT const&  event, FSM& fsm)
+		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
+			on_entry(EVT const&  event, FSM& fsm)
 		{
-			// Show the user the tile in question
+			cout << "Entering ask confirmation" << endl;
+			destinationCoord = event.c;
 
-			if (fsm.model->currentPlayer()->getDest() != ROOF)
+			if (destinationCoord != ROOF)
 			{
-				destinationTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
-				wasFlipped = destinationTile->isFlipped();
-				destinationTile->turnUp();
-				if (fsm.model->currentPlayer()->needConfirmationToMove(destinationTile->getPos()) == _DICE)
-					std::cout << "Prepare to throw Dice" << std::endl;
-				else
-					std::cout << "Are you sure? Yes/No" << std::endl;
+				Tile * tile = fsm.model->getBoard()->getTile(event.c);
+				tile->turnUp();
+				confirmation conf = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
+				if (tile->is(DEADBOLT))
+				{
+					if (conf == _ASK)
+						fsm.graphics->askQuestion(string("To move to the deadbolt you must spend 3 action tokens. Are you sure?"));
+					else if (conf == _CANT_MOVE)
+					{
+						fsm.graphics->showOkMessage(string("You cant move to the deadbolt! You don't have enough action tokens."));
+						fsm.process_event(ev::no());
+					}
+				}
+				else if (tile->is(LASER))
+					fsm.graphics->askQuestion(string("Do you want to spend 2 action tokens to enter the laser room? If not you trigger an alam."));
+
 			}
-			else destinationTile = nullptr;
 		}
+
+		template <class EVT, class FSM>
+		typename boost::disable_if<typename has_CoordProp<EVT>::type, void>::type
+			on_entry(EVT const&  event, FSM& fsm) {};
 
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
+			if (is_same<EVT, ev::yes>::value)
+			{
+				cout << "Passing coord" << endl;
+				fsm.process_event(ev::coord(destinationCoord));
+			}
 			//Leave everything like before...
-			if (wasFlipped == false && destinationTile!=nullptr)
-				destinationTile->turnDown();
-			std::cout << "Okay..." << std::endl;
+			//if (wasFlipped == false && destinationTile != nullptr)
+			//	destinationTile->turnDown();
+			//std::cout << "Okay..." << std::endl;
 		}
 
 	};
@@ -270,7 +295,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "" << std::endl;
+			std::cout << "Starting Turn" << std::endl;
+			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
+			{
+				fsm.currentAction = THROW_DICE;
+				fsm.model->currentPlayer()->dicesLeft2Throw(true);
+				fsm.model->currentPlayer()->gettActions();
+				fsm.model->currentPlayer()->dicesLeft2Throw(false);
+			}
+			else fsm.process_event(ev::done());
+
 		}
 
 		template <class EVT, class FSM>
@@ -322,13 +356,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct askb4Move
+	struct doAskConfirmationMove
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Preparing to move to " << event.c << std::endl;
-		
+
+			/*std::cout << "Preparing to move to " << event.c << std::endl;
+
 			fsm.model->currentPlayer()->setDest(event.c);
 
 			confirmation needInput = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
@@ -345,7 +380,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				fsm.currentAction = THROW_DICE;
 				fsm.model->currentPlayer()->gettActions();
-			}
+			*/
 		}
 	};
 
@@ -374,9 +409,18 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			// Move the player
 			cout << "DO MOVE" << endl;
-			bool b = fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
+			cout << typeid(source).name() << " type " << endl;// typeid(source) << endl;
 
-			tileType currentTileType = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
+		/*	Coord c;
+		
+			if (is_same<SourceState, askConfirmationMove>::value)
+				c = source.destinationCoord;
+			else if (is_same<SourceState, chooseAction>::value)
+			//	c = event.c;*/
+
+			bool b = fsm.model->currentPlayer()->move(event.c);
+
+			tileType currentTileType = fsm.model->getBoard()->getTile(event.c)->getType();
 			if (currentTileType == LASER || currentTileType == DEADBOLT)
 				fsm.model->currentPlayer()->spentOK();
 
@@ -400,12 +444,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			tileType destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
 			if (destTile == DEADBOLT)
 			{
-				cout << "DONT MOVE" << endl;
+				cout << "You stay where you are" << endl;
 				fsm.model->currentPlayer()->removeActionToken();
-				fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->turnUp();
 			}
-			else	// LASER ROOM
-				fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
+			else fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
 
 		}
 	};
@@ -687,23 +729,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-
-	struct needsConfirmation
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-
-			return false;
-		}
-	};
-
 	struct changeTurn
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-
 			if (fsm.model->otherPlayer()->isOnRoof())
 			{
 				std::cout << "Keep playing, you are alone!" << std::endl;
@@ -717,22 +747,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct doStartTurn
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			std::cout << "Starting Turn" << std::endl;
-			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
-			{
-				fsm.currentAction = THROW_DICE;
-				fsm.model->currentPlayer()->dicesLeft2Throw(true);
-				fsm.model->currentPlayer()->gettActions();
-				fsm.model->currentPlayer()->dicesLeft2Throw(false);
-			}
-			else fsm.process_event(ev::done());
-		}
-	};
+
 
 	struct doInitialAction
 	{
@@ -911,6 +926,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct needsConfirmation
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.model->currentPlayer()->needConfirmationToMove(event.c) != _MOVE;
+		}
+	};
+
 	struct isPeeking
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -1010,7 +1034,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
 
 		Row < chooseAction, ev::movee, none, showMove, none				>,
-		Row < chooseAction, ev::coord, askConfirmationMove, askb4Move, isMoving			>,
+		Row < chooseAction, ev::coord, chekActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
+		Row < chooseAction, ev::coord, askConfirmationMove, doAskConfirmationMove, And_<isMoving, needsConfirmation>			>,
 
 		Row < chooseAction, ev::peek, none, showPeek, none				>,
 		Row < chooseAction, ev::coord, chekActionTokens, doPeek, isPeeking			>,
@@ -1040,9 +1065,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation, ev::yes, chooseAction, doGetLoot, isRequestingLoot	>,
 		Row < askConfirmation, ev::no, chooseAction, none, isRequestingLoot	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmationMove, ev::yes, chekActionTokens, doMove, isMoving			>,
+		Row < askConfirmationMove, ev::yes, askConfirmationMove, none, isMoving			>,
+		Row < askConfirmationMove, ev::coord, chekActionTokens, doMove, isMoving			>,
 		Row < askConfirmationMove, ev::no, chekActionTokens, dontMove, isMoving			>,
-		Row < askConfirmationMove, ev::done, chekActionTokens, doMove, isMoving			>,
 		Row < askConfirmationMove, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < throw_Dice, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
@@ -1060,16 +1085,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chekActionTokens, ev::no, guardTurn, doEndTurn, none				>,
 		Row < chekActionTokens, ev::yes, chooseAction, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn				, ev::movee			, none					, moveGuard			, none				>,
-		Row < guardTurn				, ev::passGuard		, beginTurn				, changeTurn		, none				>,
-		Row < guardTurn				, ev::gameOver		, gameEnded				, none				, none				>,
+		Row < guardTurn, ev::movee, none, moveGuard, none				>,
+		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
+		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < beginTurn				, ev::passGuard		, beginTurn				, doStartTurn		, none				>,
-		Row < beginTurn				, ev::throwDice		, beginTurn				, doInitialAction	, isThrowingDice	>,
-		Row < beginTurn				, ev::done			, chooseAction			, doReallyStartTurn	, none				>,
+		Row < beginTurn, ev::done, chooseAction, doReallyStartTurn, none				>,
+		Row < beginTurn, ev::throwDice, beginTurn, doInitialAction, isThrowingDice	>,
+
 
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded				, ev::playAgain		, chooseAction			, resetGame			, none				>
+		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};
@@ -1078,11 +1103,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class FSM, class EVT>
 	void no_transition(EVT const&  event, FSM& fsm, int state)
 	{
-		std::cout << "no transition from state " << state
-			<< " on event " << typeid(event).name() << std::endl;
+		std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
 	}
 
 	typedef chooseInitialPos initial_state;
+
 };
 // Pick a back-end
 typedef msm::back::state_machine<GameState_> GameState;

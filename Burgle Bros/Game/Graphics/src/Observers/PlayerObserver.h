@@ -23,6 +23,10 @@ private:
 	Container* parentCont;
 	Container* hudCont;
 	Image* playerCard;
+	Image* lootReverse; // For animation when new loot
+	int x0_loot, y0_loot, size0_loot;
+	int x1_loot, y1_loot, size1_loot;
+	bool lootButtonWithNotif;
 	Image * infoButton;
 	Image * lootButton;
 	Image* characterFigure;

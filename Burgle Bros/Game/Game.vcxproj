@@ -298,6 +298,7 @@
     <ClInclude Include="Model\src\Tiles\Thermo.h" />
     <ClInclude Include="Model\src\Tiles\TileFactory.h" />
     <ClInclude Include="Model\src\Tiles\Walkway.h" />
+    <ClInclude Include="Sound\SoundEffects.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller\src\GameController.cpp" />
@@ -381,6 +382,7 @@
     <ClCompile Include="Model\src\Tiles\Tile.cpp" />
     <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
+    <ClCompile Include="Sound\SoundEffects.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

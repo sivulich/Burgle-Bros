@@ -4,10 +4,10 @@ MoveRelativeAnimation::MoveRelativeAnimation(pair<int, int> toMove, double durat
 {
 	toMoveY = toMove.first;
 	toMoveX = toMove.second;
-	framesLeft = ceil(duration* 30.0);
+	//framesLeft = ceil(duration* 30.0);
 	
-	xStep = toMoveX / framesLeft;
-	yStep = toMoveY / framesLeft;
+	xStep = (double)toMoveX / framesLeft;
+	yStep = (double)toMoveY / framesLeft;
 }
 
 

@@ -1,8 +1,7 @@
 #include "./PlayerObserver.h"
 #include <GraphicsDefs.h>
-#include "../Animations/MoveAnimation.h"
-#include "../Animations/FadeInOutAnimation.h"
-#include "../Animations/FadeAnimation.h"
+#include "./Animations.h"
+#include "./DialogBox.h"
 PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 {
 	player = p;
@@ -22,19 +21,27 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	characterFigurePlaying = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1 PLAYING.png"));
 	loots = new Container(string("./Graphics/Images/Screen - Game/LootCont.png"));
 
+	
+
 	if (p->getNumber() == 1)
 	{
 		playerCard = new Image(images[p->getCharacter()], 128, 488, 168, 186);
 		characterFigure->setPosition(525, 130);
 		characterFigurePlaying->setPosition(525, 130);
-		passButton = new Image(string("./Graphics/Images/HUD/PASS.png"),159,62);
+		passButton = new Image(string("./Graphics/Images/HUD/PASS.png"), 159, 62);
 		actionTokens = new Text(string(HUD_FONT), TEXT_COLOR, 15, 195, 70);
-		stealthTokens = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 212,48);
+		stealthTokens = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 212, 48);
 		numberOfLoots = new Text(string(HUD_FONT), al_map_rgb(0, 0, 0), 15, 255, 62);
 		name = new Text(string(HUD_FONT), TEXT_COLOR, 18, 76, 82);
 		infoButton = new Image(string("./Graphics/Images/HUD/INFO.png"), 130, 77);
 		lootButton = new Image(string("./Graphics/Images/Tokens/Loot token.png"), 233, 46);
-		loots->setPosition(409,145);
+		loots->setPosition(409, 145);
+		x0_loot = 303;
+		y0_loot = 409;
+		size0_loot = 145;
+		x1_loot = 356;
+		y1_loot = 644;
+		size1_loot = 30;
 
 	}
 	else if (p->getNumber() == 2)
@@ -51,16 +58,31 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 		name = new Text(string(HUD_FONT), TEXT_COLOR, 18, 969, 82);
 		infoButton = new Image(string("./Graphics/Images/HUD/INFO.png"), 889, 77);
 		lootButton = new Image(string("./Graphics/Images/Tokens/Loot token.png"), 771, 46);
-		loots->setPosition(409,675);
+		loots->setPosition(409, 675);
+		x0_loot = 832;
+		y0_loot = 409;
+		size0_loot = 145;
+		x1_loot = 894;
+		y1_loot = 644;
+		size1_loot = 30;
 	}
 	else
 		DEBUG_MSG("ERROR: Invalid player number");
+	
+	numberOfLoots->setText(string("0"));
+	
+	lootReverse = new Image(string("./Graphics/Images/Loot/Loot - Reverse.png"),x0_loot,y0_loot,size0_loot,size0_loot);
+	lootReverse->setClickable(false);
+	lootReverse->setHoverable(false);
+	lootReverse->setVisible(false);
+	parentCont->addObject(lootReverse);
 
 
 	infoButton->setObserver(this);
 	hudCont->addObject(infoButton);
 
 	lootButton->setObserver(this);
+	lootButtonWithNotif = false;
 	hudCont->addObject(lootButton);
 
 	characterFigure->setClickable(false);
@@ -131,7 +153,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	for (int f = 0; f < 3; f++)
 		for (int r = 0; r < 4; r++)
 			for (int c = 0; c < 4; c++)
-				positions[f][r][c] = pair<int, int>(BOARD_YPOS + FLOOR_YPOS + TILE_POS_Y[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2, BOARD_XPOS + FLOOR_XPOS[f] + TILE_POS_X[r][c] + XOFFSET);
+				positions[f][r][c] = pair<int, int>(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2, BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET);
 
 	//------------------------------------------------------------------------------------
 
@@ -166,7 +188,7 @@ void PlayerObserver::update()
 			else
 				token->addAnimation(new MoveAnimation(target, TOKEN_MOVE_SPEED));
 		}
-		
+
 		lastPos = curr;
 	}
 	if (player->getName() != name->getText())
@@ -206,17 +228,68 @@ void PlayerObserver::update()
 
 	// Update loots
 	vector<Loot*> playerLoots = player->getLoots();
-	if (numberOfLoots->getText() != to_string(playerLoots.size()))
+	int prevNLoots = stoi(numberOfLoots->getText());
+	int currNLoots = playerLoots.size();
+	if (prevNLoots != currNLoots)
 	{
-		numberOfLoots->setText(to_string(playerLoots.size()));
-		loots->clear();
-		for (unsigned i=0; i< playerLoots.size(); i++)
+		// A new LOOT
+		if (currNLoots >= prevNLoots)
 		{
-			Image* image = new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0,145,145);
-			loots->addObject(image);
+			//Animation for new loot
+			lootReverse->setPosition(y0_loot, x0_loot);
+			lootReverse->setScale(1.0);
+			lootReverse->setVisible(true);
+			lootReverse->addAnimation(new MoveAndZoomAnimation(x1_loot, y1_loot, size1_loot, size1_loot, 0.5, true));
+			lootButton->load(string("./Graphics/Images/Tokens/Loot token with notif.png"));
+			lootButtonWithNotif = true;
+			//loots->clear();
+			for (unsigned i = 0; i < playerLoots.size(); i++)
+			{
+				if (loots->contains(toString(playerLoots[i]->getType())) == false)
+				{
+					Image* image = new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0, 145, 145);
+					loots->addObject(image);
+					string message;
+					switch (playerLoots[i]->getType())
+					{
+					case TIARA:
+						message = string("You have got a Tiara! When you move to a tile adjacent to the guard, you loose a stealth token.");
+						break;
+					case PERSIAN_KITTY:
+						break;
+					case PAINTING:
+						break;
+					case MIRROR:
+						break;
+					case KEYCARD:
+						break;
+					case ISOTOPE:
+						break;
+					case GEMSTONE:
+						break;
+					case CURSED_GOBLET:
+						break;
+					case CHIHUAHUA:
+						break;
+					case GOLD_BAR:
+						break;
+					}
+					DialogBox * b = new DialogBox(DialogBox::OK_MSG, message, parentCont);
+				}
+			}
 		}
+		else // LOST A LOOT
+		{
+
+		}
+		numberOfLoots->setText(to_string(currNLoots));
 	}
 
 	playerCard->setVisible(infoButton->isClicked());
 	loots->setVisible(lootButton->isClicked());
+	if (lootButton->isClicked() && lootButtonWithNotif == true)
+	{
+		lootButton->load(string("./Graphics/Images/Tokens/Loot token.png"));
+		lootButtonWithNotif = false;
+	}
 }

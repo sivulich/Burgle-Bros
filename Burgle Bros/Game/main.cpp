@@ -10,7 +10,7 @@ int main()
 	GameModel* model = new GameModel();
 	GameGraphics * graphics = new GameGraphics(model);
 
-	GameController game(model, graphics/*, network*/);
+	GameController game(model, graphics);
 
 	while (game.isRunning())
 	{

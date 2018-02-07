@@ -33,7 +33,8 @@ bool Laser::doAction(string action, PlayerInterface * player)
 	{
 		if (action == "SPENT_OK")
 		{
-			if (isFlipped() == false) {
+			if (isFlipped() == false)
+			{
 				player->removeActionToken(),
 				turnUp();
 			}

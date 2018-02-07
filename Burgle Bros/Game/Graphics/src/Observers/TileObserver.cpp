@@ -179,10 +179,9 @@ void TileObserver::showSafeNumber()
 // Updates the tile image, including the tokens in it
 void TileObserver::update()
 {
-	if (flipped != tile->isFlipped())
+	if (flipped != tile->isFlipped() && tileCard->hasAnimation()==false)
 	{
 		tileCard->addAnimation(new FlipAnimation(tileCard,0.4));
-		tileCard->flip();
 		flipped = tile->isFlipped();
 		if (safeNumber != nullptr)
 			safeNumber->load(string("./Graphics/Images/Safe numbers/7SEG_") + to_string(tile->getSafeNumber()) + string(".jpg"), true);
@@ -229,15 +228,17 @@ void TileObserver::update()
 	{
 		for (auto &it : hackTokens)
 			it->setVisible(false);
-		for (int i = 0; i <= tile->getHackTokens() - 1; i++)
+		for (int i = 0; i < tile->getHackTokens(); i++)
 		{
 			hackTokens[i]->setVisible(true);
 		}
 	}
+
 	if (tile->isFlipped() && ((Keypad *)tile)->keyDecoded() && tile->is(KEYPAD))
 	{
 		openToken->setVisible(true);
 	}
+
 	if (tile->hasXLoot(PERSIAN_KITTY))
 		persianKitty->setVisible(true);
 	if (tile->hasXLoot(GOLD_BAR))

@@ -1,5 +1,9 @@
 #pragma once
 //----------------------- EVENTS -----------------------------//
+
+// Define a property for use with enable_if 
+BOOST_MPL_HAS_XXX_TRAIT_DEF(CoordProp)
+
 namespace ev {
 	struct BaseEvent {};
 

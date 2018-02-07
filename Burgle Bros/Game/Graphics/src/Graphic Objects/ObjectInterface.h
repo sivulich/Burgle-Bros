@@ -60,6 +60,9 @@ public:
 
 	// Set whether the object is hoverable or not
 	virtual void setHoverable(bool b) = 0;
+
+	// Only for TileCard and FlipAnimation!
+	virtual void flip() = 0;
 };
 
 

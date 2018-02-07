@@ -149,6 +149,8 @@ public:
 	//
 	Animation* getAnimation();
 
+	virtual void flip() {};
+
 protected:
 	Observer * obs;
 

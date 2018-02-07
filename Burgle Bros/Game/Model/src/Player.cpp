@@ -82,14 +82,15 @@ confirmation Player::needConfirmationToMove(Coord c)
 	confirmation  b = _MOVE;
 	Tile * wantedTile = board->getTile(c);
 
-	if (wantedTile->is(DEADBOLT) && !(wantedTile->guardHere() || c == otherPlayer->getPosition()))
+	// If is deadbolt and is empty you need to pay 3 tokens!
+	if (wantedTile->is(DEADBOLT) && wantedTile->guardHere()==false && c != otherPlayer->getPosition())
 	{
-		if ((wantedTile->isFlipped() == true && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == false && this->getActionTokens() >= 4))
+		if ( (wantedTile->isFlipped() && getActionTokens() >= 3) || (wantedTile->isFlipped() == false && this->getActionTokens() >= 4))
 			b = _ASK;
 		else
 			b = _CANT_MOVE;
 	}
-	else if (wantedTile->is(LASER) && wantedTile->hasAlarm() == false && !this->has(MIRROR) && !(this->getCharacter() == HACKER) && !((Laser*)wantedTile)->isHackerHere())
+	else if (wantedTile->is(LASER) && !wantedTile->hasAlarm() && !this->has(MIRROR) && character->is(HACKER)==false && ((Laser*)wantedTile)->isHackerHere() == false)
 	{
 		if ((wantedTile->isFlipped() == false && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == true && this->getActionTokens() >= 2))
 			b = _ASK;
@@ -123,6 +124,7 @@ vector<Coord> Player::whereCanIMove()
 		else if (this->has(PAINTING) && currentTile->hasSouthWall() && it.floor == currPos.floor && it.row > currPos.row && it.col == currPos.col);
 		else if (this->has(PAINTING) && currentTile->hasWestWall() && it.floor == currPos.floor && it.row == currPos.row && it.col < currPos.col);
 		else v.push_back(it);
+
 	}
 
 	/*// Remove the ones where I cant move
@@ -215,16 +217,21 @@ vector<Coord> Player::whereCanIPeek()
 
 vector<Coord> Player::getAdjacentJuicer()
 {
-	vector<Coord> v = currentTile->getAdjacent();
-	vector<Coord> noAlarm;
-	for (vector<Coord>::iterator i = v.begin(); i != v.end(); i++)
+	if (character->is(JUICER))
 	{
-		if (!(board->getTile(*i)->hasAlarm()) && (this->getPosition().floor == i->floor))
+		vector<Coord> v = currentTile->getAdjacent();
+		vector<Coord> noAlarm;
+		for (vector<Coord>::iterator i = v.begin(); i != v.end(); i++)
 		{
-			noAlarm.push_back(*i);
+			if (!(board->getTile(*i)->hasAlarm()) && (this->getPosition().floor == i->floor))
+			{
+				noAlarm.push_back(*i);
+			}
 		}
+		return noAlarm;
 	}
-	return noAlarm;
+	else return vector<Coord>();
+	
 }
 
 bool Player::peek(Coord c)

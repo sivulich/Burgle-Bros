@@ -21,7 +21,7 @@
 #include "./GameFSM.h"
 #include "./GameState.h"
 #include "./events.h"
-
+#include "../../Sound/SoundEffects.h"
 namespace msm = boost::msm;
 namespace mpl = boost::mpl;
 using namespace boost::msm::front;
@@ -37,12 +37,14 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		model = m;
 		graphics = g;
 		//network = n;
+		sound = new SoundEffects();
 		guardTimer = t;
 	};
 
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
+	SoundEffects * sound;
 	//BurgleNetwork * network;
 	Timer * guardTimer;
 	enum { UNSET, LOCAL, REMOTE };
@@ -58,6 +60,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		s.model = fsm.model;
 		s.graphics = fsm.graphics;
 		s.guardTimer = fsm.guardTimer;
+		s.sound = sound;
 		//s.network = fsm.network;
 	}
 
@@ -81,6 +84,7 @@ struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 		{
 			std::cout << "Main Menu" << std::endl;
 			fsm.graphics->showMenuScreen();
+			fsm.sound->playBackroundMusic();
 		}
 
 		template <class EVT, class FSM>

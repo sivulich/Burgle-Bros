@@ -5,6 +5,8 @@ MoveAnimation::MoveAnimation(pair<int, int> target, double duration) : Animation
 {
 	yTarget = target.first;
 	xTarget = target.second;
+	
+	count = 0;
 	// Increments are not calculated here because animation is created 
 	// outside the object, and sometimes its not posible to know its position
 	// at that time. So this values are calculated in the first call of "play".
@@ -23,15 +25,17 @@ void MoveAnimation::play(ObjectInterface* object)
 	if (xStep == 0 && yStep == 0 && framesLeft>0)
 	{
 		// Calculate increments in each frame (with sign included!)
-		xStep = (xTarget - object->getPos().second) / framesLeft;
-		yStep = (yTarget - object->getPos().first) / framesLeft;
-
+		xStep = ((double)xTarget - (double)object->getPos().second) / (double)framesLeft;
+		yStep = ((double)yTarget - (double)object->getPos().first) / (double)framesLeft;
+		y0 = object->getPos().first;
+		x0 = object->getPos().second;
 	}
 
 	if (framesLeft>1)
 	{
-		object->setPosition(object->getPos().first + yStep, object->getPos().second + xStep);
+		object->setPosition(y0+count*yStep, x0+count*xStep);
 		framesLeft--;
+		count++;
 	}
 	// In last frame set the object to the target! (to avoid float errors in increments)
 	else if (framesLeft == 1)

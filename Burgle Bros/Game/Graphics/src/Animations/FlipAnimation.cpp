@@ -2,17 +2,18 @@
 
 FlipAnimation::FlipAnimation(ObjectInterface* ob, double duration) : Animation(duration)
 {
-	initialFrames=framesLeft = ceil(duration * FPS);
+	initialFrames = framesLeft = ceil(duration * FPS);
 	scales = ob->getScales();
-	rate = 2.0*scales.second /(double) framesLeft;
 	startPos = ob->getPos();
-	midPos= std::pair<int, int>(ob->getPos().first ,(int) (ob->getPos().second + ob->getScale()*ob->getSize().second *0.25));
+	rate = 2.0 * scales.second /(double) framesLeft;
+	rateY = 2.0 * 0.16 / (double)framesLeft;
+	this->duration = duration;
+	midPos = std::pair<int, int>((int)(startPos.first - TILE_SIZE *0.08),(int) (startPos.second + TILE_SIZE));
 	move = new MoveAnimation(midPos, duration / 2.0);
 	middle = false;
 }
 
-void
-FlipAnimation::play(ObjectInterface* ob)
+void FlipAnimation::play(ObjectInterface* ob)
 {
 	if (framesLeft == 1)
 	{
@@ -21,23 +22,30 @@ FlipAnimation::play(ObjectInterface* ob)
 		ob->setScaleY(scales.first);
 		ob->setScaleX(scales.second);
 		framesLeft--;
+		return;
 	}
-	else if (framesLeft > initialFrames / 2)
+
+	if (framesLeft > initialFrames / 2)
 	{
 		move->play(ob);
 		ob->setScaleX(ob->getScales().second - rate);
+		ob->setScaleY(ob->getScales().first + rateY);
 		framesLeft--;
 	}
-	else
+	else if (framesLeft <= initialFrames / 2)
 	{
 		if (middle == false)
 		{
 			delete move;
+			ob->flip();
 			move =  new MoveAnimation(startPos, duration / 2.0);
 			middle = true;
 		}
 		move->play(ob);
 		ob->setScaleX(ob->getScales().second + rate);
+		ob->setScaleY(ob->getScales().first - rateY);
 		framesLeft--;
+		
 	}
+	
 }

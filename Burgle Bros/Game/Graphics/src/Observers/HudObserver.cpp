@@ -69,8 +69,6 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 		hudCont->addObject(a.second);
 	}
 	
-	//passButton = new Image(string("../Game/Graphics/Images/Actions/PASS.png"), (HUD_WIDTH-ACTION_SIZE)/2,HUD_HEIGHT-ACTION_SIZE, ACTION_SIZE, ACTION_SIZE);
-	//hudCont->addObject(passButton);
 	player1 = new PlayerObserver(model->player1(), c, hudCont);
 	player2 = new PlayerObserver(model->player2(), c, hudCont);
 

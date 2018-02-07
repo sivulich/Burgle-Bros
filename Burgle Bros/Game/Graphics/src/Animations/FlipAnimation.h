@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Animation.h"
+#include "Animations.h"
 #include "MoveAnimation.h"
 class FlipAnimation :public Animation
 {
@@ -10,7 +10,8 @@ public:
 	bool passedMiddle() { return middle; };
 private:
 	Animation* move;
-	double rate,duration;
+	Animation*zoom;
+	double rate,rateY,duration;
 	std::pair<int, int> startPos,midPos;
 	std::pair<double, double> scales;
 	long initialFrames;
