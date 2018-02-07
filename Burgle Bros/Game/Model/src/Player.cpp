@@ -156,7 +156,7 @@ bool Player::move(Tile * newTile)
 	{
 		if (this->has(GEMSTONE) && this->actionTokens > 2 && (newTile->getPos() == otherPlayer->getPosition()))
 			removeActionToken();
-		newAction("MOVE", newTile->getPos());
+		newAction("MOVE", newTile->getPos(),INT_MAX);
 
 		// Exit the current tile
 		lastPos = this->getPosition();
@@ -434,7 +434,7 @@ bool Player::throwDice(int n)
 	dice.push_back(n);
 	currDice = n;
 	b = currentTile->doAction("THROW_DICE", this);
-	newAction(toString(THROW_DICE), currentTile->getPos());
+	newAction(toString(THROW_DICE), currentTile->getPos(),INT_MAX);
 
 	notify();
 	return b;

@@ -220,7 +220,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			// Show the user the tile in question
 
-		/*	if (fsm.model->currentPlayer()->getDest() != ROOF)
+			if (fsm.model->currentPlayer()->getDest() != ROOF)
 			{
 				destinationTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
 				wasFlipped = destinationTile->isFlipped();
@@ -230,7 +230,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				else
 					std::cout << "Are you sure? Yes/No" << std::endl;
 			}
-			else destinationTile = nullptr;*/
+			else destinationTile = nullptr;
 		}
 
 
@@ -238,9 +238,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
 			//Leave everything like before...
-		/*	if (wasFlipped == false && destinationTile!=nullptr)
+			if (wasFlipped == false && destinationTile!=nullptr)
 				destinationTile->turnDown();
-			std::cout << "Okay..." << std::endl;*/
+			std::cout << "Okay..." << std::endl;
 		}
 
 	};
