@@ -12,6 +12,7 @@ private:
 	Animation* move;
 	double rate,duration;
 	std::pair<int, int> startPos,midPos;
+	std::pair<double, double> scales;
 	long initialFrames;
 	bool middle;
 
