@@ -26,8 +26,9 @@ namespace msm = boost::msm;
 namespace mpl = boost::mpl;
 using namespace boost::msm::front;
 
-struct GameFSM_ : public msm::front::state_machine_def<GameFSM_>
+class GameFSM_ : public msm::front::state_machine_def<GameFSM_>
 {
+public:
 	// Default constructor
 	GameFSM_() { };
 

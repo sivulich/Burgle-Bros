@@ -227,7 +227,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				destinationTile->turnUp();
 				if (fsm.model->currentPlayer()->needConfirmationToMove(destinationTile->getPos()) == _DICE)
 					std::cout << "Prepare to throw Dice" << std::endl;
-				else
+				else if (fsm.model->currentPlayer()->needConfirmationToMove(destinationTile->getPos()) == _ASK)
 					std::cout << "Are you sure? Yes/No" << std::endl;
 			}
 			else destinationTile = nullptr;
@@ -238,9 +238,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
 			//Leave everything like before...
-			if (wasFlipped == false && destinationTile!=nullptr)
-				destinationTile->turnDown();
-			std::cout << "Okay..." << std::endl;
+			//if (wasFlipped == false && destinationTile!=nullptr)
+				//destinationTile->turnDown();
+			//std::cout << "Okay..." << std::endl;
 		}
 
 	};
