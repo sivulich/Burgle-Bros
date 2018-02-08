@@ -423,7 +423,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			tileType destTile = fsm.model->getBoard()->getTile(source.destinationCoord)->getType();
 			if (destTile == DEADBOLT || destTile == KEYPAD)
 				fsm.model->currentPlayer()->removeActionToken();
-			else fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
+			else fsm.model->currentPlayer()->move(source.destinationCoord);
 		}
 	};
 
@@ -525,7 +525,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Trying to open Keypad" << std::endl;
-			Tile * destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
+			Tile * destTile = fsm.model->getBoard()->getTile(source.destinationCoord);
 			if (fsm.model->currentPlayer()->isLocal())
 			{
 				vector<int> dices;
@@ -538,12 +538,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 						if (destTile->canMove(fsm.model->currentPlayer())) //Keypad decodes
 						{
 							fsm.graphics->showDices(string("You threw a 6 and decoded the keypad! Now you can enter freely."), dices);
-							fsm.process_event(ev::yes);
+							fsm.process_event(ev::yes());
 						}
 						else
 						{
 							fsm.graphics->showDices(string("You couldn't decode the keypad!"), dices);
-							fsm.process_event(ev::no);
+							fsm.process_event(ev::no());
 						}
 						break;
 					}
@@ -1112,10 +1112,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmationMove, ev::coord, chekActionTokens, doMove, none			>,
 		Row < askConfirmationMove, ev::throwDice, none, doOpenKeypad, none	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < throw_Dice, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
+	/*	Row < throw_Dice, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
 		Row < throw_Dice, ev::throwDice, throw_Dice, doCrackSafe, isCrackingSafe	>,
 		Row < throw_Dice, ev::finishThrow, askConfirmationMove, doFinishThrow, isThrowingDice	>,
-		Row < throw_Dice, ev::finishThrow, chekActionTokens, none, isCrackingSafe	>,
+		Row < throw_Dice, ev::finishThrow, chekActionTokens, none, isCrackingSafe	>,*/
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chooseLoot, ev::firstLoot, askConfirmation, chooseLoot1, isOfferingLoot	>,
 		Row < chooseLoot, ev::secondLoot, askConfirmation, chooseLoot2, isOfferingLoot	>,

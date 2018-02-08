@@ -70,7 +70,7 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 		break;
 	case DICE_MSG:
 		
-		for (unsigned i = 0; i < 5; i++)
+		for (unsigned i = 0; i < d.size(); i++)
 		{
 			Image* die = new Image("./Graphics/Images/Dices/White " + to_string(d[i]) + ".png");
 			die->setPosition(0, dices->getWidth() / 6 * i);

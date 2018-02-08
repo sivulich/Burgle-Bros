@@ -24,7 +24,7 @@
 //#include "../src/ConsoleColors.h"
 
 #define DEBUG
-//#define DEBUG_TILES
+#define DEBUG_TILES
 //#define DEBUG_V
 
 #ifdef DEBUG_V

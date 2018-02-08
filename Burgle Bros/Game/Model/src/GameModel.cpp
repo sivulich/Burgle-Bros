@@ -79,6 +79,8 @@ void GameModel::setInitialPosition(Coord c)
 {
 	player1_.setPosition(c);
 	player2_.setPosition(c);
+	player1_.getCurrentTile()->turnUp();
+	
 	board.getGuard(c.floor)->locateGuard();
 	board.getTile(board.getGuard(c.floor)->getPos())->guardIs(true);
 }

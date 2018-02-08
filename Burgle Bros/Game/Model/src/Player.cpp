@@ -38,8 +38,8 @@ void Player::setPosition(Coord c)
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
-	/*if(tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)*/
-	tile->turnUp();
+	if(tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)
+		tile->turnUp();
 	//tile->updateVisibleFrom(this);// En el primer turno sos visible??? O empezas a ser visible cuando te moves? Si es asi el segundo jugador tiene desventaja
 	notify();
 }
