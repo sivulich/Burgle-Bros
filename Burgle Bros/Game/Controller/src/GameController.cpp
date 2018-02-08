@@ -7,6 +7,9 @@ GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork 
 	//network = n;
 	model = m;
 	graphics = g;
+
+	// NUEVO
+
 	connectedFlag = false;
 	tileZoomMode = false;
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
@@ -73,7 +76,6 @@ void GameController::getInput()
 			break;
 
 		case ALLEGRO_EVENT_MOUSE_AXES:
-
 			graphics->hover(event.getMouseY(), event.getMouseX());
 			s = "";
 			break;

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 //----------------------- EVENTS -----------------------------//
 
 // Define a property for use with enable_if 
@@ -27,8 +28,11 @@ namespace ev {
 	struct peek : BaseEvent {};
 	struct throwDice : BaseEvent 
 	{
+		throwDice() {};
 		throwDice(int n) :number(n) {};
+		throwDice(vector<int> n) : dices(n) {};
 		int number;
+		vector<int> dices;
 	};
 	struct continueThrow : BaseEvent
 	{

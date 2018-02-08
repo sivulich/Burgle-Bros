@@ -369,6 +369,28 @@ public:
 
 	};
 
+	/*struct createModel
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			fsm.model = 
+
+		}
+
+	};*/
+
+	struct restartGame
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			
+			
+		}
+
+	};
+
 	struct removeMessage
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -450,22 +472,20 @@ public:
 //		Row < RemoteSetupScreen, ev::next, none, doRemoteSetup, none >,
 //	    Row < RemoteSetupScreen, ev::play, GameState, none, none >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row <GameState		, ev::back			, MenuScreen	, none				, none		>,
+		Row <GameState		, ev::back			, MenuScreen	, restartGame			, none		>,
 
 //--------------------------Orthogonal region-----------------------------//
 //  +------------+-------------+------------+--------------+--------------+
 		Row <   playing		, ev::close			, exit			, none				, none		>,
-		//Row <   playing, ev::errorReceived, error, none, none     >,				
+	//	Row <   playing, ev::errorReceived, error, none, none     >,				
 		Row <   playing		, ev::pause			, paused		, none				, none		>,
-		//Row <   playing, ev::render, none, doRender, none     >,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row <   paused		, ev::pause			, playing		, none				, none		>,
 		Row <   paused		, ev::close			, exit			, none				, none		>
-		/*Row <   paused, ev::render, paused, doRender, none     >,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row <   error, ev::errorHandled, playing, none, none     >,
-		Row <   error, ev::close, exit, none, none     >,
-		Row <   error, ev::render, none, doRender, none     >
+	//	Row <   error, ev::errorHandled, playing, none, none     >,
+	//	Row <   error, ev::close, exit, none, none     >,
+	//	Row <   error, ev::render, none, doRender, none     >
 		//  +------------+-------------+------------+--------------+--------------+*/
 			> {};
 

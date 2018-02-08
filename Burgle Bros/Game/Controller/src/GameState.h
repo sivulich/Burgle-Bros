@@ -46,6 +46,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	{
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->currentPlayer()->setCharacter(JUICER);
+		fsm.model->currentPlayer()->setLocal(true);
+		fsm.model->otherPlayer()->setLocal(true);
 		fsm.model->otherPlayer()->setCharacter(SPOTTER);
 		fsm.model->currentPlayer()->setName(string("Tobi"));
 		fsm.model->otherPlayer()->setName(string("Roma"));
@@ -57,13 +59,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		*/
 		fsm.graphics->showGameScreen();
 		fsm.sound->playBackroundMusic();
-		//DESCOMENTARRRR DESPUES fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
+		//DESCOMENTARRRR DESPUES
+		//fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
 	}
 
 	template <class EVT, class FSM>
 	void on_exit(EVT const&  event, FSM& fsm)
 	{
 		std::cout << "Leaving Burgle Bros" << std::endl;
+		fsm.graphics->deleteGameScreen();
 	}
 
 	//----------------------- STATES -----------------------------//
@@ -111,6 +115,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Choose action: ";
+			fsm.graphics->printInHud(string("Choose an action"));
 			fsm.model->currentPlayer()->setDest(NPOS);
 			vector<string> v = fsm.model->currentPlayer()->gettActions();
 			for (auto& s : v)
@@ -220,7 +225,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	struct askConfirmationMove : public msm::front::state<>
 	{
 		Coord destinationCoord;
-
+		tileType destinationType;
+		
 		template <class EVT, class FSM>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
 			on_entry(EVT const&  event, FSM& fsm)
@@ -231,7 +237,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (destinationCoord != ROOF)
 			{
 				Tile * tile = fsm.model->getBoard()->getTile(event.c);
-				tile->turnUp();
+				destinationType = tile->getType();
+
 				confirmation conf = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
 				if (tile->is(DEADBOLT))
 				{
@@ -244,8 +251,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					}
 				}
 				else if (tile->is(LASER))
-					fsm.graphics->askQuestion(string("Do you want to spend 2 action tokens to enter the laser room? If not you trigger an alam."));
-
+					fsm.graphics->askQuestion(string("Do you want to spend 1 extra action token to enter the laser room? If not you trigger an alarm."));
+				else if (tile->is(KEYPAD) && conf == _DICE)
+				{
+					if (fsm.model->currentPlayer()->isLocal())
+						fsm.process_event(ev::throwDice());
+				}
 			}
 		}
 
@@ -296,6 +307,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Starting Turn" << std::endl;
+			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
 			{
 				fsm.currentAction = THROW_DICE;
@@ -356,33 +368,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct doAskConfirmationMove
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-
-			/*std::cout << "Preparing to move to " << event.c << std::endl;
-
-			fsm.model->currentPlayer()->setDest(event.c);
-
-			confirmation needInput = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
-			if (needInput != _DICE)
-			{
-				if (needInput == _MOVE)
-					fsm.process_event(ev::done());
-				else if (needInput == _CANT_MOVE)
-					fsm.process_event(ev::no());
-
-				fsm.currentAction = MOVE;
-			}
-			else
-			{
-				fsm.currentAction = THROW_DICE;
-				fsm.model->currentPlayer()->gettActions();
-			*/
-		}
-	};
 
 	struct doNormal
 	{
@@ -409,30 +394,24 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			// Move the player
 			cout << "DO MOVE" << endl;
-			cout << typeid(source).name() << " type " << endl;// typeid(source) << endl;
-
-		/*	Coord c;
-		
-			if (is_same<SourceState, askConfirmationMove>::value)
-				c = source.destinationCoord;
-			else if (is_same<SourceState, chooseAction>::value)
-			//	c = event.c;*/
+			fsm.graphics->printInHud(string("Moving to ") + event.c.toString());
 
 			bool b = fsm.model->currentPlayer()->move(event.c);
 
-			tileType currentTileType = fsm.model->getBoard()->getTile(event.c)->getType();
-			if (currentTileType == LASER || currentTileType == DEADBOLT)
+			// If coming from ask confirmation state, the player agreed to spent tokens
+			if (is_same<SourceState, askConfirmationMove>::value)
 				fsm.model->currentPlayer()->spentOK();
 
 			if (b == false)
 				std::cout << "Cant move!" << std::endl;
 			else if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
+
 			fsm.model->check4Cameras();
 			fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
-			fsm.currentAction = NO_TYPE;
 			fsm.model->currentPlayer()->setDest(NPOS);
 			fsm.model->currentPlayer()->gettActions();
+			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -441,14 +420,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			tileType destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
-			if (destTile == DEADBOLT)
-			{
-				cout << "You stay where you are" << endl;
+			tileType destTile = fsm.model->getBoard()->getTile(source.destinationCoord)->getType();
+			if (destTile == DEADBOLT || destTile == KEYPAD)
 				fsm.model->currentPlayer()->removeActionToken();
-			}
-			else fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
-
+			else fsm.model->currentPlayer()->move(source.destinationCoord);
 		}
 	};
 
@@ -458,6 +433,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Peeking" << std::endl;
+			fsm.graphics->printInHud(string("Peeking ") + event.c.toString());
 			bool b = fsm.model->currentPlayer()->peek(event.c);
 			if (b == false)
 				std::cout << "Cant peek!" << std::endl;
@@ -515,20 +491,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			Tile * currTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getPosition());
 			bool b = false;
-			if (currTile->is(SAFE))
+			if (fsm.model->currentPlayer()->isLocal())
 			{
-				std::cout << "Throwing dice" << std::endl;
-				b = fsm.model->currentPlayer()->throwDice(event.number);
-				if (b)
+				vector<int> dices;
+				while (true)
 				{
-					fsm.process_event(ev::finishThrow());
-					cout << "ended throwing for current action" << endl;
+					int dice = fsm.model->currentPlayer()->throwDice();
+					dices.push_back(dice);
+					if (fsm.model->currentPlayer()->throwDice(dice))// Cant throw more dices or keypad crackes
+					{
+							fsm.graphics->showDices(string("You threw this dices."), dices);
+							break;
+					}
 				}
-				else
-				{
-					cout << "can continue throwing dice this action" << endl;
-				}
-				fsm.currentAction = ROLL_DICE_FOR_LOOT;
 			}
 		}
 	};
@@ -549,20 +524,30 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Trying to open Keypad" << std::endl;
-			Tile * destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest());
-			bool b = false;
-			b = ((Keypad *)destTile)->tryToOpen(event.number, fsm.model->currentPlayer());
-			if (b)
+			Tile * destTile = fsm.model->getBoard()->getTile(source.destinationCoord);
+			if (fsm.model->currentPlayer()->isLocal())
 			{
-				fsm.process_event(ev::finishThrow());
-				cout << "ended throwing for current action" << endl;
+				vector<int> dices;
+				while (true)
+				{
+					int dice = fsm.model->currentPlayer()->throwDice();
+					dices.push_back(dice); 
+					if (((Keypad *)destTile)->tryToOpen(dice, fsm.model->currentPlayer()) == true)// Cant throw more dices or keypad crackes
+					{
+						if (destTile->canMove(fsm.model->currentPlayer())) //Keypad decodes
+						{
+							fsm.graphics->showDices(string("You threw a 6 and decoded the keypad! Now you can enter freely."), dices);
+							fsm.process_event(ev::yes());
+						}
+						else
+						{
+							fsm.graphics->showDices(string("You couldn't decode the keypad!"), dices);
+							fsm.process_event(ev::no());
+						}
+						break;
+					}
+				}
 			}
-			else
-			{
-
-				cout << "can continue throwing dice this action" << endl;
-			}
-			fsm.currentAction = THROW_DICE;
 		}
 	};
 
@@ -805,6 +790,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Tiles availables to move: ";
+			fsm.graphics->printInHud(string("Choose a tile available to move..."));
 			vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
 			Coord::printVec(v);
 			std::cout << std::endl;
@@ -821,6 +807,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Tiles availables to peek: ";
+			fsm.graphics->printInHud(string("Choose a tile available to peek..."));
 			vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
 			Coord::printVec(v);
 			std::cout << std::endl;
@@ -1007,6 +994,42 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct gameIsRemote
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.gameMode == REMOTE;
+		}
+	};
+
+	struct gameIsLocal
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.gameMode == REMOTE;
+		}
+	};
+
+	struct playerIsLocal
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.model->currentPlayer()->isLocal() == true;
+		}
+	};
+
+	struct playerIsRemote
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.model->currentPlayer()->isLocal() == false;
+		}
+	};
+
 	struct isOfferingLoot
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -1025,6 +1048,24 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isMovingToDeadbolt
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return source.destinationType == DEADBOLT;
+		}
+	};
+
+	struct isMovingToLaser
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return source.destinationType == LASER;
+		}
+	};
+
 	// Transition table
 	struct transition_table : mpl::vector<
 		//       Start					Event					Next				Action            Guard
@@ -1035,7 +1076,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		Row < chooseAction, ev::movee, none, showMove, none				>,
 		Row < chooseAction, ev::coord, chekActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
-		Row < chooseAction, ev::coord, askConfirmationMove, doAskConfirmationMove, And_<isMoving, needsConfirmation>			>,
+		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
 
 		Row < chooseAction, ev::peek, none, showPeek, none				>,
 		Row < chooseAction, ev::coord, chekActionTokens, doPeek, isPeeking			>,
@@ -1049,7 +1090,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction, ev::spyPatrol, askConfirmation, doSpyPatrol, none				>,
 		Row < chooseAction, ev::addToken, chekActionTokens, doAddToken, none				>,
 		Row < chooseAction, ev::useToken, chooseAction, doUseToken, none				>,
-		Row < chooseAction, ev::throwDice, throw_Dice, doCrackSafe, none				>,
+		Row < chooseAction, ev::throwDice, chekActionTokens, doCrackSafe, none				>,
 		Row < chooseAction, ev::offerLoot, chooseLoot, prepOffer, none				>,
 		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
 		Row < chooseAction, ev::pickUpLoot, chooseLoot, showPickUpLoot, none				>,
@@ -1065,15 +1106,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmation, ev::yes, chooseAction, doGetLoot, isRequestingLoot	>,
 		Row < askConfirmation, ev::no, chooseAction, none, isRequestingLoot	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmationMove, ev::yes, askConfirmationMove, none, isMoving			>,
-		Row < askConfirmationMove, ev::coord, chekActionTokens, doMove, isMoving			>,
-		Row < askConfirmationMove, ev::no, chekActionTokens, dontMove, isMoving			>,
-		Row < askConfirmationMove, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
+		Row < askConfirmationMove, ev::yes, askConfirmationMove, none, none			>,
+		Row < askConfirmationMove, ev::no, chekActionTokens, dontMove, none >,
+		Row < askConfirmationMove, ev::coord, chekActionTokens, doMove, none			>,
+		Row < askConfirmationMove, ev::throwDice, none, doOpenKeypad, none	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < throw_Dice, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
+	/*	Row < throw_Dice, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
 		Row < throw_Dice, ev::throwDice, throw_Dice, doCrackSafe, isCrackingSafe	>,
 		Row < throw_Dice, ev::finishThrow, askConfirmationMove, doFinishThrow, isThrowingDice	>,
-		Row < throw_Dice, ev::finishThrow, chekActionTokens, none, isCrackingSafe	>,
+		Row < throw_Dice, ev::finishThrow, chekActionTokens, none, isCrackingSafe	>,*/
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chooseLoot, ev::firstLoot, askConfirmation, chooseLoot1, isOfferingLoot	>,
 		Row < chooseLoot, ev::secondLoot, askConfirmation, chooseLoot2, isOfferingLoot	>,

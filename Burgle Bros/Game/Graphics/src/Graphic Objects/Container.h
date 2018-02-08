@@ -112,7 +112,7 @@ public:
 	bool contains(string name) { if (find_if(objects.begin(), objects.end(), [&name](Object* obj) {return obj->getName() == name; }) != objects.end()) return true; return false; };
 
 	/*Clear the object list*/
-	void clear() { objects.clear(); };
+	void clear() { for (auto &ob : objects) delete ob;  objects.clear(); };
 
 	/**
 		Print name of all objects

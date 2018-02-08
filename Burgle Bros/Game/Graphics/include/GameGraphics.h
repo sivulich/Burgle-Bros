@@ -15,7 +15,10 @@
 class GameGraphics : public Observer
 {
 public:
-	GameGraphics(GameModel * model);
+	GameGraphics(GameModel * model=nullptr);
+
+	// Set new model to the view
+	void setModel(GameModel * m);
 	~GameGraphics();
 
 	// Check Allegro initialization
@@ -43,7 +46,10 @@ public:
 	// Pop up a message to answer OK
 	void showOkMessage(string message);
 
-	//
+	// Pop up a message showing dices
+	void showDices(string message, vector<int> dices);
+	
+		//
 	void showCancelMessage(string message);
 
 	// Show temp message, must call 'removeDialogBox' 
@@ -98,6 +104,11 @@ public:
 	void showSetupScreen(int player = 0);
 	// Shows the game screen
 	void showGameScreen();
+	void deleteGameScreen();
+
+	//
+	void showPauseScreen();
+	void hidePauseScreen();
 
 	// Show a console to input text
 	void toggleConsole();
@@ -129,6 +140,8 @@ private:
 	Image * roof;
 
 	Textbox * textBox;
+	Timer * hudTextTimer;
+	queue<string> hudTextQueue;
 	Text* hudText;
 	DialogBox * dialogBox;
 	Image * blur;
@@ -137,6 +150,8 @@ private:
 	// Observers
 	BoardObserver* board;
 	HudObserver * hud;
+
+	void updateHudText();
 
 };
 
