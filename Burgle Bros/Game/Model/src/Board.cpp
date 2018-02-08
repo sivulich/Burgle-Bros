@@ -80,6 +80,7 @@ void Board::setWalls()
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row - 1));
 					tile->addAdjacent(Coord(f, col, row - 1));
+					tile->setNorthWall(false);
 				}
 				else tile->setNorthWall(true);
 				// Adjacent with tile below
@@ -87,6 +88,7 @@ void Board::setWalls()
 				{
 					adjacent[f][col][row].push_back(Coord(f, col, row + 1));
 					tile->addAdjacent(Coord(f, col, row + 1));
+					tile->setSouthWall(false);
 				}
 				else tile->setSouthWall(true);
 				// Adjacent with the left tile
@@ -94,6 +96,7 @@ void Board::setWalls()
 				{
 					adjacent[f][col][row].push_back(Coord(f, col - 1, row));
 					tile->addAdjacent(Coord(f, col - 1, row));
+					tile->setWestWall(false);
 				}
 				else tile->setWestWall(true);
 				// Adjacent with the right tile
@@ -101,6 +104,7 @@ void Board::setWalls()
 				{
 					adjacent[f][col][row].push_back(Coord(f, col + 1, row));
 					tile->addAdjacent(Coord(f, col + 1, row));
+					tile->setEastWall(false);
 				}
 				else tile->setEastWall(true);
 			}
