@@ -70,7 +70,7 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 		break;
 	case DICE_MSG:
 		
-		for (unsigned i = 0; i < 5; i++)
+		for (unsigned i = 0; i < d.size(); i++)
 		{
 			Image* die = new Image("./Graphics/Images/Dices/White " + to_string(d[i]) + ".png");
 			die->setPosition(0, dices->getWidth() / 6 * i);
@@ -84,6 +84,15 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 			box->getWidth() / 2 - dices->getWidth()*dices->getScale()*d.size() / 12.0);
 		message->setPosition(20, 640 - 348);
 		box->addObject(dices);
+		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 237, 91);
+		button1->setName(string("OK"));
+
+		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, 640 - 348, 385 - 290);
+		box->addObject(button1);
+		box->addObject(text1);
+		button2 = nullptr;
+		text2 = nullptr;
+
 		break;
 	}
 	parent->addObject(this);
