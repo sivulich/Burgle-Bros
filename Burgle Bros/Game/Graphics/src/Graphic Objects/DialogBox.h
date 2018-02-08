@@ -10,9 +10,9 @@
 class DialogBox : public Object
 {
 public:
-	enum type { OK_MSG, YES_NO_MSG, ERR_MSG, CANCEL_MSG,TEMPORAL_INFO };
+	enum type { OK_MSG, YES_NO_MSG, ERR_MSG, CANCEL_MSG,TEMPORAL_INFO,DICE_MSG };
 	enum position { TOP, MIDDLE, BOTTOM };
-	DialogBox(type t, std::string content, Container * c, bool blur = true, int position = MIDDLE);
+	DialogBox(type t, std::string content, Container * c, bool blur = true, int position = MIDDLE,vector<int>& d=vector<int>());
 	void draw(Bitmap* target);
 	std::string click(int y, int x);
 	void unClick(int y, int x);
@@ -21,11 +21,12 @@ public:
 
 private:
 	Object * blur;
-	Object * box;
+	Container * box;
 	Object * button1;
 	Object * button2;
 	Object * text1;
 	Object* text2;
 	Object * message;
 	Container * parent;
+	Container * dices;
 };
