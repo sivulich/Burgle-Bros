@@ -126,6 +126,8 @@ vector<Coord> Player::whereCanIMove()
 		else v.push_back(it);
 
 	}
+	if (currentTile->is(WALKWAY) && currPos.floor > 0)
+		v.push_back(Coord(currPos.floor - 1, currPos.col, currPos.row));
 
 	/*// Remove the ones where I cant move
 	for (auto& t : v)

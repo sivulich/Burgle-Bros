@@ -354,6 +354,7 @@ string GameGraphics::getConsoleText()
 {
 	if (current_screen == GAME && textBox != nullptr)
 		return textBox->getText();
+	return "";
 }
 
 void GameGraphics::printInHud(string s)

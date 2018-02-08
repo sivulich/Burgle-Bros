@@ -139,7 +139,7 @@ void GameController::getInput()
 							for (int j = 0; j < 4; j++)
 							{
 								if ((*model->getBoard())[f][i][j]->isFlipped() == false)
-									(*model->getBoard())[f][i][j]->flip();
+									(*model->getBoard())[f][i][j]->turnUp();
 							}
 
 			}
