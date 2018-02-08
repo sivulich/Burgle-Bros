@@ -137,6 +137,8 @@ public:
 
 	//	Simulates a die being thrown
 	virtual  bool throwDice(int n);
+	// Return a number between 1 and 6
+	int throwDice();
 
 	//
 	virtual int getDice() { return currDice; };

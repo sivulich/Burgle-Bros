@@ -31,9 +31,11 @@ bool Keypad::tryToOpen(int dice, PlayerInterface * player)
 		currentPlayer = player->getNumber();
 		clearAttempts();
 	}
+
 	if (keyKnown == false)
 	{
-		if (isFlipped() == false) turnUp();
+		if (isFlipped() == false)
+			turnUp();
 		if (attemptsThisAction < attemptsThisTurn + 1 + b)
 		{
 			if (dice == 6) { 	// if the die thrown equals six

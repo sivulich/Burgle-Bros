@@ -33,7 +33,7 @@ public:
 	GameFSM_() { };
 
 	// Constructor which receives a pointer to the model
-	GameFSM_(GameModel ** m, GameGraphics * g/*, BurgleNetwork * n*/, Timer * t)
+	GameFSM_(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/, Timer * t)
 	{
 		model = m;
 		graphics = g;
@@ -477,15 +477,15 @@ public:
 //--------------------------Orthogonal region-----------------------------//
 //  +------------+-------------+------------+--------------+--------------+
 		Row <   playing		, ev::close			, exit			, none				, none		>,
-		Row <   playing, ev::errorReceived, error, none, none     >,				
+	//	Row <   playing, ev::errorReceived, error, none, none     >,				
 		Row <   playing		, ev::pause			, paused		, none				, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row <   paused		, ev::pause			, playing		, none				, none		>,
-		Row <   paused		, ev::close			, exit			, none				, none		>,
+		Row <   paused		, ev::close			, exit			, none				, none		>
 		//  +------------+-------------+------------+--------------+--------------+
-		Row <   error, ev::errorHandled, playing, none, none     >,
-		Row <   error, ev::close, exit, none, none     >,
-		Row <   error, ev::render, none, doRender, none     >
+	//	Row <   error, ev::errorHandled, playing, none, none     >,
+	//	Row <   error, ev::close, exit, none, none     >,
+	//	Row <   error, ev::render, none, doRender, none     >
 		//  +------------+-------------+------------+--------------+--------------+*/
 			> {};
 

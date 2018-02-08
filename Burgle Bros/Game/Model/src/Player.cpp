@@ -447,6 +447,13 @@ bool Player::throwDice(int n)
 	return b;
 }
 
+int Player::throwDice()
+{
+	default_random_engine generator((unsigned int)std::chrono::system_clock::now().time_since_epoch().count());
+	uniform_int_distribution<int> distribution(1, 6);
+	return distribution(generator);
+}
+
 void Player::addLoot(lootType l)
 {
 	Loot * currLoot = (new LootFactory)->newLoot(l);

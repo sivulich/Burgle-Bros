@@ -280,6 +280,12 @@ void GameGraphics::showOkMessage(string message)
 {
 	dialogBox = new DialogBox(DialogBox::OK_MSG, message, cont);
 }
+
+void GameGraphics::showDices(string message, vector<int> dices)
+{
+	dialogBox = new DialogBox(DialogBox::DICE_MSG, message, cont, true,DialogBox::MIDDLE, dices);
+}
+
 void GameGraphics::showCancelMessage(string message)
 {
 	dialogBox = new DialogBox(DialogBox::CANCEL_MSG, message, cont);

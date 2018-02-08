@@ -46,7 +46,10 @@ public:
 	// Pop up a message to answer OK
 	void showOkMessage(string message);
 
-	//
+	// Pop up a message showing dices
+	void showDices(string message, vector<int> dices);
+	
+		//
 	void showCancelMessage(string message);
 
 	// Show temp message, must call 'removeDialogBox' 
