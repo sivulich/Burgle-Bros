@@ -153,8 +153,7 @@ bool Tile::canMove(PlayerInterface * player) {
 }
 void Tile::enter(PlayerInterface * p)
 {
-	if (!isFlipped())
-		turnUp();
+	turnUp();
 	updateVisibleFrom(p);
 	DEBUG_MSG("Player moved to the " << toString(getType()) << " at " << getPos());
 	notify();

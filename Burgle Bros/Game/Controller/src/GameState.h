@@ -491,20 +491,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			Tile * currTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getPosition());
 			bool b = false;
-			if (currTile->is(SAFE))
+			if (fsm.model->currentPlayer()->isLocal())
 			{
-				std::cout << "Throwing dice" << std::endl;
-				b = fsm.model->currentPlayer()->throwDice(event.number);
-				if (b)
+				vector<int> dices;
+				while (true)
 				{
-					fsm.process_event(ev::finishThrow());
-					cout << "ended throwing for current action" << endl;
+					int dice = fsm.model->currentPlayer()->throwDice();
+					dices.push_back(dice);
+					if (fsm.model->currentPlayer()->throwDice(dice))// Cant throw more dices or keypad crackes
+					{
+							fsm.graphics->showDices(string("You threw this dices."), dices);
+							break;
+					}
 				}
-				else
-				{
-					cout << "can continue throwing dice this action" << endl;
-				}
-				fsm.currentAction = ROLL_DICE_FOR_LOOT;
 			}
 		}
 	};
@@ -1091,7 +1090,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction, ev::spyPatrol, askConfirmation, doSpyPatrol, none				>,
 		Row < chooseAction, ev::addToken, chekActionTokens, doAddToken, none				>,
 		Row < chooseAction, ev::useToken, chooseAction, doUseToken, none				>,
-		Row < chooseAction, ev::throwDice, throw_Dice, doCrackSafe, none				>,
+		Row < chooseAction, ev::throwDice, chekActionTokens, doCrackSafe, none				>,
 		Row < chooseAction, ev::offerLoot, chooseLoot, prepOffer, none				>,
 		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
 		Row < chooseAction, ev::pickUpLoot, chooseLoot, showPickUpLoot, none				>,
