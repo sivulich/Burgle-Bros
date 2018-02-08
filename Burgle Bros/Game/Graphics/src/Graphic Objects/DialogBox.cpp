@@ -72,7 +72,7 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 		
 		for (unsigned i = 0; i < 5; i++)
 		{
-			Image* die = new Image("./Graphics/Images/Dices/White " + to_string(i + 1) + ".png");
+			Image* die = new Image("./Graphics/Images/Dices/White " + to_string(d[i]) + ".png");
 			die->setPosition(0, dices->getWidth() / 6 * i);
 			die->setScale(50.0 / die->getHeight());
 			die->setClickable(false);
