@@ -79,6 +79,9 @@ public:
 	//
 	void check4Cameras();
 
+	bool doKittyAction(int dice);
+
+	void doChihuahuaAction(int dice);
 
 	Board* getBoard() { return &board; };
 
