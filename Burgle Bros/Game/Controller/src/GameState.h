@@ -46,6 +46,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	{
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
 		fsm.model->currentPlayer()->setCharacter(JUICER);
+		fsm.model->currentPlayer()->setLocal(true);
+		fsm.model->otherPlayer()->setLocal(true);
 		fsm.model->otherPlayer()->setCharacter(SPOTTER);
 		fsm.model->currentPlayer()->setName(string("Tobi"));
 		fsm.model->otherPlayer()->setName(string("Roma"));
@@ -57,13 +59,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		*/
 		fsm.graphics->showGameScreen();
 		fsm.sound->playBackroundMusic();
-		//DESCOMENTARRRR DESPUES fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
+		//DESCOMENTARRRR DESPUES
+		//fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
 	}
 
 	template <class EVT, class FSM>
 	void on_exit(EVT const&  event, FSM& fsm)
 	{
 		std::cout << "Leaving Burgle Bros" << std::endl;
+		fsm.graphics->deleteGameScreen();
 	}
 
 	//----------------------- STATES -----------------------------//
@@ -111,6 +115,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Choose action: ";
+			fsm.graphics->printInHud(string("Choose an action"));
 			fsm.model->currentPlayer()->setDest(NPOS);
 			vector<string> v = fsm.model->currentPlayer()->gettActions();
 			for (auto& s : v)
@@ -296,6 +301,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Starting Turn" << std::endl;
+			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
 			{
 				fsm.currentAction = THROW_DICE;
@@ -409,9 +415,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			// Move the player
 			cout << "DO MOVE" << endl;
-			cout << typeid(source).name() << " type " << endl;// typeid(source) << endl;
-
-		/*	Coord c;
+			fsm.graphics->printInHud( string("Moving to ") + event.c.toString() );
+			/*	Coord c;
 		
 			if (is_same<SourceState, askConfirmationMove>::value)
 				c = source.destinationCoord;
@@ -441,7 +446,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			tileType destTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getDest())->getType();
+			tileType destTile = fsm.model->getBoard()->getTile(source.destinationCoord)->getType();
 			if (destTile == DEADBOLT)
 			{
 				cout << "You stay where you are" << endl;
@@ -458,6 +463,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Peeking" << std::endl;
+			fsm.graphics->printInHud(string("Peeking ") + event.c.toString());
 			bool b = fsm.model->currentPlayer()->peek(event.c);
 			if (b == false)
 				std::cout << "Cant peek!" << std::endl;
@@ -805,6 +811,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Tiles availables to move: ";
+			fsm.graphics->printInHud(string("Choose a tile available to move..."));
 			vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
 			Coord::printVec(v);
 			std::cout << std::endl;
@@ -821,6 +828,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Tiles availables to peek: ";
+			fsm.graphics->printInHud(string("Choose a tile available to peek..."));
 			vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
 			Coord::printVec(v);
 			std::cout << std::endl;

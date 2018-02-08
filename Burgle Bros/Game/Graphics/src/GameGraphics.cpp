@@ -3,12 +3,10 @@
 #include "Animations.h"
 GameGraphics::GameGraphics(GameModel * m)
 {
-	model = m;
-
 	if (al_init() == true)
 	{
 		if (al_init_image_addon() && al_init_primitives_addon() && al_install_keyboard() && al_init_font_addon() && al_init_ttf_addon()
-			&& al_install_mouse() && al_install_keyboard())
+			&& al_install_mouse() && al_install_keyboard() && al_install_audio())
 		{
 			initOK_ = true;
 			DEBUG_MSG_V("Correctly initialized allegro");
@@ -27,8 +25,8 @@ GameGraphics::GameGraphics(GameModel * m)
 			screen->addObject(cont);
 			cont->setPosition(0, 0);
 
-			m->attach(this);
-
+			if (m != nullptr)
+				setModel(m);
 		}
 		else
 			DEBUG_MSG("Couldnt init allegro addons");
@@ -38,6 +36,12 @@ GameGraphics::GameGraphics(GameModel * m)
 	initOK_ = false;
 
 
+}
+
+void GameGraphics::setModel(GameModel * m)
+{
+	model = m;
+	m->attach(this);
 }
 
 void GameGraphics::showMenuScreen()
@@ -188,6 +192,19 @@ void GameGraphics::showGameScreen()
 	roof->setName(string("COORDA1F3"));
 	cont->addObject(roof);
 
+	hudText = new Text(string("./Graphics/Images/calibri.ttf"), al_map_rgba_f(1.0, 1.0, 1.0, 1.0), 20, 639, 29);
+	cont->addObject(hudText);
+	hudTextTimer = new Timer(0.001);
+	hudTextTimer->start();
+}
+
+void GameGraphics::deleteGameScreen()
+{
+	delete board;
+	delete hud;
+	delete roof;
+	delete hudTextTimer;
+	delete textBox;
 }
 
 void GameGraphics::setBorderVisible(bool b)
@@ -210,6 +227,7 @@ string GameGraphics::getIP()
 void GameGraphics::render()
 {
 	screen->draw();
+	updateHudText();
 
 }
 
@@ -334,7 +352,28 @@ string GameGraphics::getConsoleText()
 
 void GameGraphics::printInHud(string s)
 {
+	// If time since last message is greater than minimum update text
+	if (hudTextTimer->getCount() >= 1500 && hudTextQueue.empty())
+	{
+		hudText->setText(s);
+		hudTextTimer->setCount(0);
+	}
+	// If not add it to the queue
+	else
+		hudTextQueue.push(s);
+}
 
+void GameGraphics::updateHudText()
+{
+	if (current_screen == GAME)
+	{
+		if (hudTextTimer->getCount() >= 1500 && hudTextQueue.empty() == false)
+		{
+			hudText->setText(hudTextQueue.front());
+			hudTextQueue.pop();
+			hudTextTimer->setCount(0);
+		}
+	}
 }
 void GameGraphics::setTilesClickable(vector<Coord> tiles)
 {

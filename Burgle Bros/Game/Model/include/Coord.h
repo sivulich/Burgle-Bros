@@ -2,6 +2,7 @@
 #include <ostream>
 #include <vector>
 #include <iostream>
+#include <string>
 
 #define NPOS Coord(5,5,5)
 
@@ -25,8 +26,14 @@ public:
 
 	friend std::ostream& operator<< (std::ostream &os, const Coord &c)
 	{
-		os << char('A' + c.col) << c.row + 1 << "F" << c.floor ;
+		os << char('A' + c.col) << c.row + 1 << "F" << c.floor+1 ;
 		return os;
+	}
+
+	std::string toString() const
+	{
+		return char('A' + this->col) + std::to_string(this->row + 1) + std::string("F") + std::to_string(this->floor+1);
+	
 	}
 
 	static void printVec(std::vector<Coord>& c)
