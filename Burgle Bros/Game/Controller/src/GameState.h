@@ -230,7 +230,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	{
 		Coord destinationCoord;
 		tileType destinationType;
-		
+
 		template <class EVT, class FSM>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
 			on_entry(EVT const&  event, FSM& fsm)
@@ -307,17 +307,20 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct beginTurn : public msm::front::state<>
 	{
+		bool throw4Chihuahua = false;
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Starting Turn" << std::endl;
 			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
+
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
 			{
-				fsm.currentAction = THROW_DICE;
-				fsm.model->currentPlayer()->dicesLeft2Throw(true);
-				fsm.model->currentPlayer()->gettActions();
-				fsm.model->currentPlayer()->dicesLeft2Throw(false);
+				if (fsm.model->currentPlayer()->isLocal())
+				{
+					fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
+				}
+				//else is remote
 			}
 			else fsm.process_event(ev::done());
 
@@ -504,8 +507,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					dices.push_back(dice);
 					if (fsm.model->currentPlayer()->throwDice(dice))// Cant throw more dices or keypad crackes
 					{
-							fsm.graphics->showDices(string("You threw this dices."), dices);
-							break;
+						fsm.graphics->showDices(string("You threw this dices."), dices);
+						break;
 					}
 				}
 			}
@@ -535,7 +538,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				while (true)
 				{
 					int dice = fsm.model->currentPlayer()->throwDice();
-					dices.push_back(dice); 
+					dices.push_back(dice);
 					if (((Keypad *)destTile)->tryToOpen(dice, fsm.model->currentPlayer()) == true)// Cant throw more dices or keypad crackes
 					{
 						if (destTile->canMove(fsm.model->currentPlayer())) //Keypad decodes
@@ -738,28 +741,30 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 
 
-	struct doInitialAction
+	struct doKittyAction
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Doing initial action" << std::endl;
-			if (fsm.model->doInitialAction(event.number))
+			if (fsm.model->kittyAction(event.number))
 			{
+				source.throw4Chihuahua = true;
 				fsm.currentAction = THROW_DICE;
-				fsm.model->currentPlayer()->gettActions();
 			}
 			else fsm.process_event(ev::done());
 		}
 	};
 
-	struct doReallyStartTurn
+	struct doChihuahuaAction
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Really Starting turn" << std::endl;
+			std::cout << "Doing initial action" << std::endl;
+			fsm.model->chihuahuaAction(event.number)
 			fsm.currentAction = NO_TYPE;
+			fsm.process_event(ev::done());
 		}
 	};
 
@@ -980,6 +985,24 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isThrowing4Kitty
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return (fsm.currentAction == THROW_DICE && source.throw4Chihuahua == false);
+		}
+	};
+
+	struct isThrowing4Chihuahua
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return (fsm.currentAction == THROW_DICE && source.throw4Chihuahua == true);
+		}
+	};
+
 	struct isCrackingSafe
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -1134,8 +1157,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
 		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < beginTurn, ev::done, chooseAction, doReallyStartTurn, none				>,
-		Row < beginTurn, ev::throwDice, beginTurn, doInitialAction, isThrowingDice	>,
+		Row < beginTurn, ev::done, chooseAction, none, none				>,
+		Row < beginTurn, ev::throwDice, beginTurn, doKittyAction, isThrowing4Kitty	>,
+		Row < beginTurn, ev::throwDice, beginTurn, doChihuahuaAction, isThrowing4Chihuahua	>,
 
 
 		//  +------------+-------------+------------+--------------+--------------+

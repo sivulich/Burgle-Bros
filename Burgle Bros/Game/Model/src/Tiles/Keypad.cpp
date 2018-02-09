@@ -58,7 +58,7 @@ bool Keypad::tryToOpen(int dice, PlayerInterface * player)
 	}
 	return endAction;
 }
-	/*
+/*
 	for (int i = 0; (i < attemptsThisTurn + 1 + b) && keyKnown == false; i++)		// throw the dice attempts+1 times
 	{
 	if (dice == 6) { 	// if the die thrown equals six
