@@ -133,6 +133,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct chooseLoot : public msm::front::state<>
 	{
+		lootType chosenLoot;
+
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
@@ -214,6 +216,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct askConfirmation : public msm::front::state<>
 	{
+		lootType lootToOffer;
+
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
@@ -653,7 +657,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Offer loot" << std::endl;
+			// Guardo en el estado askConfirmation el loot que quiero ofrecer
+			target.lootToOffer = toEnum_lootType(event.type.c_str());
+			string name = fsm.model->currentPlayer()->getName();
+
+			fsm.graphics->askQuestion(name + string(" is offering you the ") + event.type + string(". Do you accept it?"));
 		}
 	};
 
@@ -701,8 +709,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Get loot" << std::endl;
-			fsm.model->currentPlayer()->giveLoot(fsm.model->currentPlayer()->getLoot2bTraded());
+			std::cout << "Giving loot "<< string(toString(source.lootToOffer)) << " to " << fsm.model->otherPlayer()->getName() << std::endl;
+			fsm.model->currentPlayer()->giveLoot(source.lootToOffer);
 		}
 	};
 
@@ -743,7 +751,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Doing initial action" << std::endl;
-			if (fsm.model->kittyAction(event.number))
+			if (fsm.model->doKittyAction(event.number))
 			{
 				source.throw4Chihuahua = true;
 				fsm.currentAction = THROW_DICE;
@@ -758,7 +766,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Doing initial action" << std::endl;
-			fsm.model->chihuahuaAction(event.number)
+			fsm.model->doChihuahuaAction(event.number);
 			fsm.currentAction = NO_TYPE;
 			fsm.process_event(ev::done());
 		}
@@ -885,7 +893,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct prepOffer
+	struct showOfferLoot
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
@@ -893,7 +901,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Preparing to offer loot: ";
 			fsm.currentAction = OFFER_LOOT;
 			// ACA HAY Q HACER Q SE PUEDAN CLICKEAR LOS LOOTS Q SE PUEDEN OFRECER, PARA HACER ESO HAY Q FIJARSE Q SU BOOL READY SEA TRUE, ( EL UNICO CASO Q TIENE EL BOOL FALSE ES EL PERSIAN KITTY Q NO LO PODES CAMBIAR HASTA Q PASE UN TURNO, PERO DE ESO SE ENCARGA EL MODELO SOLO)
-
+			fsm.graphics->showAvailableLoots(string("Choose the loot you want to offer"), fsm.model->currentPlayer()->getAvailableLoots());
 		}
 	};
 
@@ -986,7 +994,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return (fsm.currentAction == THROW_DICE && source.throw4Chihuahua == false);
+			return (source.throw4Chihuahua == false);
 		}
 	};
 
@@ -995,7 +1003,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return (fsm.currentAction == THROW_DICE && source.throw4Chihuahua == true);
+			return (source.throw4Chihuahua == true);
 		}
 	};
 
@@ -1114,10 +1122,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction, ev::addToken, chekActionTokens, doAddToken, none				>,
 		Row < chooseAction, ev::useToken, chooseAction, doUseToken, none				>,
 		Row < chooseAction, ev::throwDice, chekActionTokens, doCrackSafe, none				>,
-		Row < chooseAction, ev::offerLoot, chooseLoot, prepOffer, none				>,
+		Row < chooseAction, ev::offerLoot, chooseLoot, showOfferLoot, none				>,
 		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
 		Row < chooseAction, ev::pickUpLoot, chooseLoot, showPickUpLoot, none				>,
-
 
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < askConfirmation, ev::yes, chekActionTokens, doStayTop, isSpying			>,
@@ -1139,12 +1146,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < throw_Dice, ev::finishThrow, askConfirmationMove, doFinishThrow, isThrowingDice	>,
 		Row < throw_Dice, ev::finishThrow, chekActionTokens, none, isCrackingSafe	>,*/
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chooseLoot, ev::firstLoot, askConfirmation, chooseLoot1, isOfferingLoot	>,
+		/*Row < chooseLoot, ev::firstLoot, askConfirmation, chooseLoot1, isOfferingLoot	>,
 		Row < chooseLoot, ev::secondLoot, askConfirmation, chooseLoot2, isOfferingLoot	>,
 		Row < chooseLoot, ev::firstLoot, askConfirmation, chooseLoot1, none				>,
-		Row < chooseLoot, ev::secondLoot, askConfirmation, chooseLoot2, none				>,
+		Row < chooseLoot, ev::secondLoot, askConfirmation, chooseLoot2, none				>,*/
+		Row < chooseLoot, ev::lootType, askConfirmation, doOfferLoot, isOfferingLoot	>,
 		Row < chooseLoot, ev::goldBar, chooseAction, doPickUpGoldBar, isPickingLoot		>,
 		Row < chooseLoot, ev::persianKitty, chooseAction, doPickUpKitty, isPickingLoot		>,
+		Row < chooseLoot, ev::cancel, chooseAction, none, none	>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens, ev::no, guardTurn, doEndTurn, none				>,
 		Row < chekActionTokens, ev::yes, chooseAction, none, none				>,

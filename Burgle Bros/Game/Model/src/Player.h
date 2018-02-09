@@ -71,7 +71,8 @@ public:
 
 	// Get the loots the player carries
 	vector<Loot*>& getLoots() { return loots; };
-
+	//
+	vector<lootType> getAvailableLoots();
 	// Get the turn number
 	int getTurn() { return turn; };
 
@@ -160,8 +161,8 @@ public:
 	//
 	void setLoot2bTraded(int n) { loot2bTransfered = n; };
 
-	//
-	void giveLoot( int n);
+	// Removes loot from this player and gives it to the other
+	void giveLoot(lootType);
 
 	//
 	void receiveLoot(int n);

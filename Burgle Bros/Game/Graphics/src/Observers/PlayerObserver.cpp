@@ -278,9 +278,11 @@ void PlayerObserver::update()
 				}
 			}
 		}
-		else // LOST A LOOT
+		else // LOST A LOOT, so update all images
 		{
-
+			loots->clear();
+			for (unsigned i = 0; i < playerLoots.size(); i++)
+					loots->addObject(new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0, 145, 145));
 		}
 		numberOfLoots->setText(to_string(currNLoots));
 	}

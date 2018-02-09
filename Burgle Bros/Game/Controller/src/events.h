@@ -61,9 +61,6 @@ namespace ev {
 	};
 	struct goldBar : BaseEvent {};
 	struct persianKitty : BaseEvent {};
-	struct firstLoot : BaseEvent {};
-	struct secondLoot : BaseEvent {};
-
 	struct showAlarm : BaseEvent {};
 	struct createAlarm : BaseEvent {};
 	struct spyPatrol : BaseEvent {};

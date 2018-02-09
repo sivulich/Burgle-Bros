@@ -316,6 +316,19 @@ vector < string> Player::gettActions()
 	return v;
 }
 
+vector<lootType> Player::getAvailableLoots()
+{
+	vector<lootType> v;
+	for (auto& l : loots)
+		if (l->isLootAvailable())
+		{
+			if (l->is(GOLD_BAR) && otherPlayer->has(GOLD_BAR))
+				continue;
+			else v.push_back(l->getType());
+		}
+			
+	return v;
+}
 vector<string> Player::getActions()
 {
 	vector <string> possibleActions;
@@ -561,21 +574,18 @@ void Player::areLootsReady()
 	}
 }
 
-void Player::giveLoot(int n)
+void Player::giveLoot(lootType type)
 {
-	if (n > 0 && (unsigned)n <= loots.size())
+	if (has(type))
 	{
-		if (loots[n - 1]->isLootAvailable() && loots[n - 1] != nullptr)
-		{
-			otherPlayer->addLoot(loots[n - 1]->getType());
-			this->removeLoot(loots[n - 1]);
-			cout << "sent Loot" << endl;
-		}
-		else
-			cout << "loot couldnt be sent" << endl;
-	}
-}
+		for (auto& loot : loots)
+			if (type == loot->getType())
+				removeLoot(loot);
 
+		otherPlayer->addLoot(type);
+	}
+	
+}
 
 void Player::receiveLoot(int n)
 {

@@ -195,37 +195,23 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
 	else if (s == "THROW_DICE")
 	{
-		int dice = INT_MAX;
-		//habria que hacer un if Remote, es decir el dado q el remoto tira
 		if (model->currentPlayer()->isLocal() == false)
 		{
-			//dice = ...
+			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 		}
-		else dice = throwDice();
-
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice(int(dice)));
-		cout << "threw a " << dice << endl;
 	}
-	else if (s == "CONTINUE_THROW")
-	{
-		int dice = INT_MAX;
-		//habria que hacer un if Remote, es decir el dado q el remoto tira
-		dice = throwDice();
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::continueThrow(int(dice)));
-		cout << "continued. threw a " << dice << endl;
-	}
+	else if (s=="CRACK_SAFE")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
 	else if (s == "REQUEST_LOOT")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::requestLoot());
+	else if (s == "OFFER_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::offerLoot());
 	else if (s == "PICK_UP_LOOT")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pickUpLoot());
-	else if (s == "LOOT1")
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::firstLoot());
-	else if (s == "LOOT2")
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::secondLoot());
 	else if (s == "PASS")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 	else if (s == "PAUSE")
