@@ -450,6 +450,13 @@ void Player::newAction(string action, Coord tile,int dice)
 	actions.push_back(actionNode(action, tile, turn, dice));
 }
 
+string Player::lastAction(void)
+{
+	if(actions.empty() == false)
+		return actions.back().myAction;
+	else return string("");
+}
+
 bool Player::throwDice(int n)
 {
 	bool b = false;
@@ -578,18 +585,23 @@ void Player::giveLoot(lootType type)
 {
 	if (has(type))
 	{
-		for (auto& loot : loots)
-			if (type == loot->getType())
-				removeLoot(loot);
+		newAction("OFFER_LOOT", getPosition(), INT_MAX);
+		otherPlayer->newAction("REQUEST_LOOT", getPosition(), INT_MAX);
+
+		for (int i=0;i<loots.size();i++)
+			if (type == loots[i]->getType())
+				removeLoot(loots[i]);
 
 		otherPlayer->addLoot(type);
+		
 	}
 	
 }
 
-void Player::receiveLoot(int n)
+void Player::receiveLoot(lootType type)
 {
-	if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
+	otherPlayer->giveLoot(type);
+	/*if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
 	{
 		if (otherPlayer->getLoots()[n - 1]->isLootAvailable() && otherPlayer->getLoots()[n - 1] != nullptr)
 		{
@@ -599,5 +611,5 @@ void Player::receiveLoot(int n)
 		}
 		else
 			cout << "loot couldnt be received" << endl;
-	}
+	}*/
 }

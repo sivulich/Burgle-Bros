@@ -165,7 +165,7 @@ public:
 	void giveLoot(lootType);
 
 	//
-	void receiveLoot(int n);
+	void receiveLoot(lootType type);
 
 	//
 	virtual void pickUpLoot(lootType l);
@@ -207,6 +207,7 @@ public:
 
 	//  Appends a new action to the action history
 	virtual void newAction(string action, Coord tile, int dice)override;
+	string lastAction(void);
 
 	// Tells the tile the player wants to spend to enter
 	void spentOK() { currentTile->doAction(toString(SPENT_OK), this); };

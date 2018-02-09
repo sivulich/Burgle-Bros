@@ -77,7 +77,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 		floorContainer->addObject(wall);
 	}
 
-	if (tile->hasSouthWall() == true)
+	if (tile->hasSouthWall() == true && coord.row < 3)// QUICK FIX DE LAS PAREDES QUE NO TIENEN QUE ESTAR
 	{
 		wall = new Image(string("./Graphics/Images/wallH.png"), XPOS, YPOS + TILE_SIZE, TILE_SIZE, TILE_SEPARATION);
 		wall->setClickable(false);

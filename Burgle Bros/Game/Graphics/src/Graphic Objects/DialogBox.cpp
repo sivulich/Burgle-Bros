@@ -29,10 +29,10 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 	{
 	case OK_MSG:
 		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 237,  91);
-		button1->setPosition(265, box->getWidth() / 2 - button1->getWidth() / 2);
+		button1->setPosition(91, box->getWidth() / 2 - button1->getWidth() / 2);
 		button1->setName(string("OK"));
 		
-		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, box->getWidth()/2,  385-290);
+		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, box->getWidth()/2,  95);
 		box->addObject(button1);
 		box->addObject(text1);
 		button2 = nullptr;
