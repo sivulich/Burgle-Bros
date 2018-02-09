@@ -45,12 +45,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
-		fsm.model->currentPlayer()->setCharacter(JUICER);
-		fsm.model->currentPlayer()->setLocal(true);
-		fsm.model->otherPlayer()->setLocal(true);
-		fsm.model->otherPlayer()->setCharacter(SPOTTER);
-		fsm.model->currentPlayer()->setName(string("Tobi"));
-		fsm.model->otherPlayer()->setName(string("Roma"));
+		//fsm.model->currentPlayer()->setCharacter(JUICER);
+		//fsm.model->currentPlayer()->setLocal(true);
+		//fsm.model->otherPlayer()->setLocal(true);
+		//fsm.model->otherPlayer()->setCharacter(SPOTTER);
+		//fsm.model->currentPlayer()->setName(string("Tobi"));
+		//fsm.model->otherPlayer()->setName(string("Roma"));
 		// ESTO DE SETBOARD EL CLIENTE LO TIENE QUE HACER POR NETWORK
 		fsm.model->setBoard();
 		/*

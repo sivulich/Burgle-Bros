@@ -94,12 +94,12 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 
 	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, box->getWidth()/2, 51);
 	box->addObject(message);
-	dices = new Container(50, 50 * 6 + 10 * 5, "Dice container");
+	dices = new Container(50, 50 * d.size() + 10 * (d.size()-1), "Dice container");
 	dices->setVisible(false);
 	for (unsigned i = 0; i < d.size(); i++)
 	{
 		Image* die = new Image("./Graphics/Images/Dices/White " + to_string(d[i]) + ".png");
-		die->setPosition(0, dices->getWidth() / 6 * i);
+		die->setPosition(0, dices->getWidth()*1.0 / d.size() * i);
 		die->setScale(50.0 / die->getHeight());
 		die->setClickable(false);
 		dices->addObject(die);
@@ -107,7 +107,7 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 	dices->setClickable(false);
 	dices->setVisible(true);
 	dices->setPosition(box->getHeight() / 2 - dices->getHeight()*dices->getScale()*0.5,
-		box->getWidth() / 2 - dices->getWidth()*dices->getScale()*d.size() / 12.0);
+		box->getWidth() / 2 - dices->getWidth()*dices->getScale()*0.5);
 	message->setPosition(20, box->getWidth() / 2);
 	box->addObject(dices);
 	button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"));

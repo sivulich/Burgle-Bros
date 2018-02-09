@@ -489,7 +489,7 @@ public:
 		//  +------------+-------------+------------+--------------+--------------+*/
 			> {};
 
-	typedef mpl::vector<playing, GameState> initial_state;
+	typedef mpl::vector<playing, MenuScreen> initial_state;
 
 	// Replaces the default no-transition response.
 	template <class FSM, class EVT>
