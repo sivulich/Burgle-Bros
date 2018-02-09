@@ -130,6 +130,8 @@ void GameModel::changeTurn()
 	notify();
 }
 
+
+
 bool GameModel::doKittyAction(int dice)
 {
 	bool b = false;
@@ -141,23 +143,26 @@ bool GameModel::doKittyAction(int dice)
 		if (dice == 1 || dice == 2)
 		{
 			cout << "Lost Persian Kitty" << endl;
-			currentPlayer_->losePersianKitty();
+			if (currentPlayer_->losePersianKitty()) b = true;
 		}
 	}
-	if (currentPlayer_->has(CHIHUAHUA)) b = true;
-	else b = false;
 	return b;
 }
 
-void GameModel::doChihuahuaAction(int dice)
+bool GameModel::doChihuahuaAction(int dice)
 {
+	bool b = false;
 	if (currentPlayer_->has(CHIHUAHUA))
 	{
 		currentPlayer_->newAction("THROW_DICE", currentPlayer_->getPosition(), dice);
 		cout << "Threw dice for chihuahua" << endl;
 		if (dice == 6)
+		{
 			currentPlayer_->getCurrentTile()->setAlarm(true);
+			b = true;
+		}
 	}
+	return b;
 
 }
 bool GameModel::guardIsMoving()
