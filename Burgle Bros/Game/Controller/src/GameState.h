@@ -630,27 +630,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct doPickUpGoldBar
+	struct doPickUpLoot
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Pick up loot" << std::endl;
-			fsm.model->currentPlayer()->pickUpLoot(GOLD_BAR);
+			fsm.model->currentPlayer()->pickUpLoot();
 			fsm.currentAction = NO_TYPE;
 		}
 	};
 
-	struct doPickUpKitty
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			std::cout << "Pick up loot" << std::endl;
-			fsm.model->currentPlayer()->pickUpLoot(PERSIAN_KITTY);
-			fsm.currentAction = NO_TYPE;
-		}
-	};
 
 	struct  doOfferLoot
 	{
@@ -1127,7 +1117,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction, ev::throwDice, chekActionTokens, doCrackSafe, none				>,
 		Row < chooseAction, ev::offerLoot, chooseLoot, showOfferLoot, none				>,
 		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
-		Row < chooseAction, ev::pickUpLoot, chooseLoot, showPickUpLoot, none				>,
+		Row < chooseAction, ev::pickUpLoot, chooseAction, doPickUpLoot, none				>,
 
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < askConfirmation, ev::yes, chekActionTokens, doStayTop, isSpying			>,
@@ -1150,8 +1140,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		
 		Row < chooseLoot, ev::lootType, askConfirmation, doOfferLoot, isOfferingLoot	>,
 		Row < chooseLoot, ev::lootType, askConfirmation, doRequestLoot, isRequestingLoot	>,
-		Row < chooseLoot, ev::goldBar, chooseAction, doPickUpGoldBar, isPickingLoot		>,
-		Row < chooseLoot, ev::persianKitty, chooseAction, doPickUpKitty, isPickingLoot		>,
+	//	Row < chooseLoot, ev::goldBar, chooseAction, doPickUpGoldBar, isPickingLoot		>,
+	//	Row < chooseLoot, ev::persianKitty, chooseAction, doPickUpKitty, isPickingLoot		>,
 		Row < chooseLoot, ev::cancel, chooseAction, none, none	>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens, ev::no, guardTurn, doEndTurn, none				>,

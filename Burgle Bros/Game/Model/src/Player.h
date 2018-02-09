@@ -168,7 +168,7 @@ public:
 	void receiveLoot(lootType type);
 
 	//
-	virtual void pickUpLoot(lootType l);
+	virtual void pickUpLoot();
 
 	//
 	virtual void removeLoot(Loot * l) { if (l != nullptr) loots.erase(remove(loots.begin(), loots.end(), l), loots.end()); notify(); }

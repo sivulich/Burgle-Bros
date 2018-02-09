@@ -46,4 +46,6 @@ private:
 	Image * zoomedCard;
 	bool flipped;
 	bool cracked;
+	bool hasGoldBar;
+	bool hasKitty;
 };

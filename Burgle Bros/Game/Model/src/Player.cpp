@@ -38,7 +38,7 @@ void Player::setPosition(Coord c)
 void Player::setPosition(Tile * tile)
 {
 	currentTile = tile;
-	if(tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)
+	if (tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)
 		tile->turnUp();
 	//tile->updateVisibleFrom(this);// En el primer turno sos visible??? O empezas a ser visible cuando te moves? Si es asi el segundo jugador tiene desventaja
 	notify();
@@ -83,14 +83,14 @@ confirmation Player::needConfirmationToMove(Coord c)
 	Tile * wantedTile = board->getTile(c);
 
 	// If is deadbolt and is empty you need to pay 3 tokens!
-	if (wantedTile->is(DEADBOLT) && wantedTile->guardHere()==false && c != otherPlayer->getPosition())
+	if (wantedTile->is(DEADBOLT) && wantedTile->guardHere() == false && c != otherPlayer->getPosition())
 	{
-		if ( (wantedTile->isFlipped() && getActionTokens() >= 3) || (wantedTile->isFlipped() == false && this->getActionTokens() >= 4))
+		if ((wantedTile->isFlipped() && getActionTokens() >= 3) || (wantedTile->isFlipped() == false && this->getActionTokens() >= 4))
 			b = _ASK;
 		else
 			b = _CANT_MOVE;
 	}
-	else if (wantedTile->is(LASER) && !wantedTile->hasAlarm() && !this->has(MIRROR) && character->is(HACKER)==false && ((Laser*)wantedTile)->isHackerHere() == false)
+	else if (wantedTile->is(LASER) && !wantedTile->hasAlarm() && !this->has(MIRROR) && character->is(HACKER) == false && ((Laser*)wantedTile)->isHackerHere() == false)
 	{
 		if ((wantedTile->isFlipped() == false && this->getActionTokens() >= 3) || (wantedTile->isFlipped() == true && this->getActionTokens() >= 2))
 			b = _ASK;
@@ -160,7 +160,7 @@ bool Player::move(Tile * newTile)
 	{
 		if (this->has(GEMSTONE) && this->actionTokens > 2 && (newTile->getPos() == otherPlayer->getPosition()))
 			removeActionToken();
-		newAction("MOVE", newTile->getPos(),INT_MAX);
+		newAction("MOVE", newTile->getPos(), INT_MAX);
 
 		// Exit the current tile
 		lastPos = this->getPosition();
@@ -233,7 +233,7 @@ vector<Coord> Player::getAdjacentJuicer()
 		return noAlarm;
 	}
 	else return vector<Coord>();
-	
+
 }
 
 bool Player::peek(Coord c)
@@ -257,7 +257,7 @@ bool Player::peek(Tile * newTile)
 	if (newTile->isFlipped() == false)
 	{
 		removeActionToken();
-		newAction("PEEK", newTile->getPos(),INT_MAX);
+		newAction("PEEK", newTile->getPos(), INT_MAX);
 		newTile->turnUp();
 		notify();
 		return true;
@@ -274,7 +274,7 @@ bool Player::createAlarm(Coord c)
 		board->getTile(c)->setAlarm(true);
 		this->removeActionToken();
 		cout << "Alarm created in Floor: " << c.floor << " col: " << c.col << " row; " << c.row << endl;
-		newAction("CREATE_ALARM", c,INT_MAX);
+		newAction("CREATE_ALARM", c, INT_MAX);
 		notify();
 		return true;
 	}
@@ -300,7 +300,7 @@ bool Player::placeCrow(Coord c)
 void Player::useToken()
 {
 	currentTile->doAction(toString(USE_TOKEN), this);
-	newAction("USE_TOKEN", getPosition(),INT_MAX);
+	newAction("USE_TOKEN", getPosition(), INT_MAX);
 }
 
 
@@ -326,7 +326,7 @@ vector<lootType> Player::getAvailableLoots()
 				continue;
 			else v.push_back(l->getType());
 		}
-			
+
 	return v;
 }
 vector<string> Player::getActions()
@@ -380,7 +380,7 @@ vector<string> Player::getActions()
 		}
 
 	}
-	if(throwingDices)
+	if (throwingDices)
 		possibleActions.push_back("THROW_DICE");
 
 	return possibleActions;
@@ -389,7 +389,7 @@ vector<string> Player::getActions()
 void Player::addToken()
 {
 	currentTile->doAction(string("ADD_TOKEN"), this);
-	newAction("ADD_TOKEN", getPosition(),INT_MAX);
+	newAction("ADD_TOKEN", getPosition(), INT_MAX);
 }
 
 bool Player::isOnRoof()
@@ -445,14 +445,14 @@ int  Player::getActionTokens()
 	return actionTokens;
 }
 
-void Player::newAction(string action, Coord tile,int dice)
+void Player::newAction(string action, Coord tile, int dice)
 {
 	actions.push_back(actionNode(action, tile, turn, dice));
 }
 
 string Player::lastAction(void)
 {
-	if(actions.empty() == false)
+	if (actions.empty() == false)
 		return actions.back().myAction;
 	else return string("");
 }
@@ -463,7 +463,7 @@ bool Player::throwDice(int n)
 	dice.push_back(n);
 	currDice = n;
 	b = currentTile->doAction("THROW_DICE", this);
-	newAction(toString(THROW_DICE), currentTile->getPos(),INT_MAX);
+	newAction(toString(THROW_DICE), currentTile->getPos(), INT_MAX);
 
 	notify();
 	return b;
@@ -478,13 +478,16 @@ int Player::throwDice()
 
 void Player::addLoot(lootType l)
 {
-	Loot * currLoot = (new LootFactory)->newLoot(l);
-	if (currLoot != nullptr)
+	if (loots.size() < 3)
 	{
-		currLoot->setPos(this->getPosition());
-		currLoot->pick(this);
-		loots.push_back(currLoot);
-		notify();
+		Loot * currLoot = (new LootFactory)->newLoot(l);
+		if (currLoot != nullptr)
+		{
+			currLoot->setPos(this->getPosition());
+			currLoot->pick(this);
+			loots.push_back(currLoot);
+			notify();
+		}
 	}
 };
 
@@ -493,27 +496,19 @@ bool Player::hasLoot()
 	return !loots.empty();
 }
 
-void Player::pickUpLoot(lootType l)
+void Player::pickUpLoot()
 {
 	if (this->currentTile->hasLoot())
 	{
-		bool b = false;
-		for (auto &it : this->loots)
-		{
-			it->is(GOLD_BAR);
-			b = true;
-		};
 		for (auto &it : this->currentTile->getLoot())
 		{
-			if (it->is(l))
+			if (it->is(GOLD_BAR) && this->has(GOLD_BAR))
+				cout << "Already has GOLD BAR cant pick another one" << endl;
+			else
 			{
-				if (l == GOLD_BAR && b) cout << "Already has GOLD BAR cant pick another one" << endl;
-				else
-				{
-					this->addLoot(it->getType());
-					cout << "Player just picked a:" << it->getDescription() << endl;
-					currentTile->removeLoot(it);
-				}
+				this->addLoot(it->getType());
+				currentTile->removeLoot(it);
+				cout << "Player just picked a:" << it->getDescription() << endl;
 			}
 		}
 	}
@@ -588,14 +583,14 @@ void Player::giveLoot(lootType type)
 		newAction("OFFER_LOOT", getPosition(), INT_MAX);
 		otherPlayer->newAction("REQUEST_LOOT", getPosition(), INT_MAX);
 
-		for (int i=0;i<loots.size();i++)
+		for (int i = 0; i < loots.size(); i++)
 			if (type == loots[i]->getType())
 				removeLoot(loots[i]);
 
 		otherPlayer->addLoot(type);
-		
+
 	}
-	
+
 }
 
 void Player::receiveLoot(lootType type)

@@ -2,10 +2,10 @@
 
 #include "Observer.h"
 #include "../Graphic Objects/Container.h"
-#include "./TileObserver.h"
 #include <Floor.h>
 #include "./GuardDeckObserver.h"
 #include "./GuardObserver.h"
+#include "./TileObserver.h"
 
 class FloorObserver :public Observer
 {

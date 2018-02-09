@@ -1,5 +1,8 @@
 #include "./FloorObserver.h"
+#include "./TileObserver.h"
 #include "Animations.h"
+
+
 
 static map<tileType, string> images = { {ATRIUM,string("../Game/Graphics/Images/Tiles/Tile - Atrium.png")},
 										{CAMERA,string("../Game/Graphics/Images/Tiles/Tile - Camera.png") },
@@ -239,10 +242,24 @@ void TileObserver::update()
 		openToken->setVisible(true);
 	}
 
-	if (tile->hasXLoot(PERSIAN_KITTY))
-		persianKitty->setVisible(true);
-	if (tile->hasXLoot(GOLD_BAR))
-		goldBar->setVisible(true);
+	if (tile->hasXLoot(PERSIAN_KITTY) != hasKitty)
+	{
+		hasKitty = tile->hasXLoot(PERSIAN_KITTY);
+		if(hasKitty)
+			persianKitty->setVisible(true);
+		else
+			persianKitty->setVisible(false);
+	}
+		
+	if (tile->hasXLoot(GOLD_BAR) != hasGoldBar)
+	{
+		hasGoldBar = tile->hasXLoot(GOLD_BAR);
+		if (hasGoldBar)
+			goldBar->setVisible(true);
+		else
+			goldBar->setVisible(false);
+	}
+		
 }
 
 void TileObserver::zoom()

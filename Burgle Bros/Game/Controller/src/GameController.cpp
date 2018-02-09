@@ -200,7 +200,7 @@ void GameController::processEvent()
 			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 		}
 	}
-	else if (s=="CRACK_SAFE")
+	else if (s == "CRACK_SAFE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
@@ -244,7 +244,7 @@ void GameController::processEvent()
 		else
 			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
 	}
-	else if(isInEnum_characterType(s.c_str()))
+	else if (isInEnum_characterType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
 	else if (isInEnum_lootType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::lootType(string(s)));
@@ -253,6 +253,17 @@ void GameController::processEvent()
 	else if (s.substr(0, 8) == string("ADD_LOOT"))
 	{
 		model->currentPlayer()->addLoot(toEnum_lootType(s.substr(9).c_str()));
+	}
+	else if (s.substr(0, 4) == string("DROP"))
+	{
+		LootFactory factory;
+		Loot * l = nullptr;
+		if (s.substr(5) == string("GOLDBAR"))
+			l = factory.newLoot(GOLD_BAR);
+		else if ((s.substr(5) == string("PERSIAN_KITTY")))
+			l = factory.newLoot(PERSIAN_KITTY);
+		if (l != nullptr)
+			model->getBoard()->getTile(model->currentPlayer()->getPosition())->setLoot(l);
 	}
 }
 
