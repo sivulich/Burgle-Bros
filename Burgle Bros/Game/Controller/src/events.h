@@ -7,7 +7,6 @@ BOOST_MPL_HAS_XXX_TRAIT_DEF(CoordProp)
 
 namespace ev {
 	struct BaseEvent {};
-
 	struct start : BaseEvent {};
 	struct rules : BaseEvent {};
 	struct credits : BaseEvent {};
@@ -55,10 +54,16 @@ namespace ev {
 	struct errorHandled : BaseEvent {};
 	struct offerLoot : BaseEvent {};
 	struct requestLoot : BaseEvent {};
+	struct lootType : BaseEvent
+	{
+		lootType(string s) :type(s) {};
+		string type;
+	};
 	struct goldBar : BaseEvent {};
 	struct persianKitty : BaseEvent {};
 	struct firstLoot : BaseEvent {};
 	struct secondLoot : BaseEvent {};
+
 	struct showAlarm : BaseEvent {};
 	struct createAlarm : BaseEvent {};
 	struct spyPatrol : BaseEvent {};

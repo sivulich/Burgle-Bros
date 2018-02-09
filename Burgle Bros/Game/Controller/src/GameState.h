@@ -313,7 +313,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				if (fsm.model->currentPlayer()->isLocal())
 				{
-					fsm.pocess_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
+					fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
 				}
 				//else is remote
 			}
