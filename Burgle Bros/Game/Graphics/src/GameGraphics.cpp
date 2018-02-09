@@ -283,7 +283,12 @@ void GameGraphics::showOkMessage(string message)
 
 void GameGraphics::showDices(string message, vector<int> dices)
 {
-	dialogBox = new DialogBox(DialogBox::DICE_MSG, message, cont, true,DialogBox::MIDDLE, dices);
+	dialogBox = new DialogBox(message, cont, true,DialogBox::MIDDLE, dices);
+}
+
+void GameGraphics::showAvailableLoots(string message, vector<lootType> dices)
+{
+	dialogBox = new DialogBox(message, cont, true, DialogBox::MIDDLE, dices);
 }
 
 void GameGraphics::showCancelMessage(string message)
