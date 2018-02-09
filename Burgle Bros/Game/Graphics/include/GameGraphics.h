@@ -49,6 +49,8 @@ public:
 	// Pop up a message showing dices
 	void showDices(string message, vector<int> dices);
 	
+	//Pop up a message showing aveilable loots
+	void showAvailableLoots(string message, vector<lootType> dices);
 		//
 	void showCancelMessage(string message);
 

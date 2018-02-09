@@ -35,6 +35,10 @@
 #define X_DEFINE_ENUM_WITH_CONVERSIONS_TOENUM(r,string, elem)						\
 	if(!strcmp(string,BOOST_PP_STRINGIZE(BOOST_PP_TUPLE_ELEM(0, elem)))) return BOOST_PP_TUPLE_ELEM(0, elem);
 
+#define CHECK_IF_BELONG_TO_ENUM(r,string, elem)						\
+	if(!strcmp(string,BOOST_PP_STRINGIZE(BOOST_PP_TUPLE_ELEM(0, elem)))) return true;
+
+
 // Auxiliar macro to expand enumeration and check if default value has been set
 //
 // Left parenthesis (
@@ -87,4 +91,13 @@
 			)                                                                 		\
 		std::cout<<"["<<v<<" is not in "<<BOOST_PP_STRINGIZE(name)"]"<<std::endl;	\
 		return (name)NOT_IN_ENUM;														  	\
+	}\
+inline const bool isInEnum_##name(const char * v)              					\
+	{          																		\
+		BOOST_PP_SEQ_FOR_EACH(												  		\
+			CHECK_IF_BELONG_TO_ENUM,					  				\
+			v,															      		\
+			BOOST_PP_VARIADIC_SEQ_TO_SEQ(enumerators)								\
+			)                                                                 		\
+		return false;														  	\
 	}

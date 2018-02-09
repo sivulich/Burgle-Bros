@@ -195,37 +195,23 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
 	else if (s == "THROW_DICE")
 	{
-		int dice = INT_MAX;
-		//habria que hacer un if Remote, es decir el dado q el remoto tira
 		if (model->currentPlayer()->isLocal() == false)
 		{
-			//dice = ...
+			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 		}
-		else dice = throwDice();
-
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice(int(dice)));
-		cout << "threw a " << dice << endl;
 	}
-	else if (s == "CONTINUE_THROW")
-	{
-		int dice = INT_MAX;
-		//habria que hacer un if Remote, es decir el dado q el remoto tira
-		dice = throwDice();
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::continueThrow(int(dice)));
-		cout << "continued. threw a " << dice << endl;
-	}
+	else if (s=="CRACK_SAFE")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
 	else if (s == "REQUEST_LOOT")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::requestLoot());
+	else if (s == "OFFER_LOOT")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::offerLoot());
 	else if (s == "PICK_UP_LOOT")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pickUpLoot());
-	else if (s == "FIRST_LOOT")
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::firstLoot());
-	else if (s == "SECOND_LOOT")
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::secondLoot());
 	else if (s == "PASS")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 	else if (s == "PAUSE")
@@ -252,13 +238,16 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ok());
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 	{
+		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
 		if (tileZoomMode == true)
-			graphics->zoomTile(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1));
+			graphics->zoomTile(c);
 		else
-			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1)));
+			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
 	}
-	else if (s == "ACROBAT" || s == "SPOTTER" || s == "JUICER" || s == "HAWK" || s == "HACKER" || s == "RAVEN" || s == "PETERMAN")
+	else if(isInEnum_characterType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
+	else if (isInEnum_lootType(s.c_str()))
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::lootType(string(s)));
 
 	//                       TRUCOS
 	else if (s.substr(0, 8) == string("ADD_LOOT"))

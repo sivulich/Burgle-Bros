@@ -21,7 +21,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	characterFigurePlaying = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1 PLAYING.png"));
 	loots = new Container(string("./Graphics/Images/Screen - Game/LootCont.png"));
 
-	
+
 
 	if (p->getNumber() == 1)
 	{
@@ -68,10 +68,10 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	}
 	else
 		DEBUG_MSG("ERROR: Invalid player number");
-	
+
 	numberOfLoots->setText(string("0"));
-	
-	lootReverse = new Image(string("./Graphics/Images/Loot/Loot - Reverse.png"),x0_loot,y0_loot,size0_loot,size0_loot);
+
+	lootReverse = new Image(string("./Graphics/Images/Loot/Loot - Reverse.png"), x0_loot, y0_loot, size0_loot, size0_loot);
 	lootReverse->setClickable(false);
 	lootReverse->setHoverable(false);
 	lootReverse->setVisible(false);
@@ -153,7 +153,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	for (int f = 0; f < 3; f++)
 		for (int r = 0; r < 4; r++)
 			for (int c = 0; c < 4; c++)
-				positions[f][r][c] = pair<int, int>((int)(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2),(int)( BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
+				positions[f][r][c] = pair<int, int>((int)(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2), (int)(BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
 
 	//------------------------------------------------------------------------------------
 
@@ -250,6 +250,7 @@ void PlayerObserver::update()
 					Image* image = new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0, 145, 145);
 					loots->addObject(image);
 					string message;
+
 					switch (playerLoots[i]->getType())
 					{
 					case TIARA:
@@ -283,13 +284,16 @@ void PlayerObserver::update()
 						message = string("You got a Gold Bar! Actually two, but you are strong enough to carry only one...");
 						break;
 					}
-					DialogBox * b = new DialogBox(DialogBox::OK_MSG, message, parentCont);
+					if (player->lastAction() != string("OFFER_LOOT") && player->lastAction() != string("REQUEST_LOOT"))
+						DialogBox * b = new DialogBox(DialogBox::OK_MSG, message, parentCont, false);
 				}
 			}
 		}
-		else // LOST A LOOT
+		else // LOST A LOOT, so update all images
 		{
-
+			loots->clear();
+			for (unsigned i = 0; i < playerLoots.size(); i++)
+				loots->addObject(new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0, 145, 145));
 		}
 		numberOfLoots->setText(to_string(currNLoots));
 	}

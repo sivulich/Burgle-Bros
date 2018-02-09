@@ -71,7 +71,8 @@ public:
 
 	// Get the loots the player carries
 	vector<Loot*>& getLoots() { return loots; };
-
+	//
+	vector<lootType> getAvailableLoots();
 	// Get the turn number
 	int getTurn() { return turn; };
 
@@ -160,17 +161,17 @@ public:
 	//
 	void setLoot2bTraded(int n) { loot2bTransfered = n; };
 
-	//
-	void giveLoot( int n);
+	// Removes loot from this player and gives it to the other
+	void giveLoot(lootType);
 
 	//
-	void receiveLoot(int n);
+	void receiveLoot(lootType type);
 
 	//
 	virtual void pickUpLoot(lootType l);
 
 	//
-	virtual void removeLoot(Loot * l){ if(l != nullptr) loots.erase(remove(loots.begin(), loots.end(), l), loots.end());	}
+	virtual void removeLoot(Loot * l) { if (l != nullptr) loots.erase(remove(loots.begin(), loots.end(), l), loots.end()); notify(); }
 
 	//
 	void losePersianKitty();
@@ -206,6 +207,7 @@ public:
 
 	//  Appends a new action to the action history
 	virtual void newAction(string action, Coord tile, int dice)override;
+	string lastAction(void);
 
 	// Tells the tile the player wants to spend to enter
 	void spentOK() { currentTile->doAction(toString(SPENT_OK), this); };

@@ -316,6 +316,19 @@ vector < string> Player::gettActions()
 	return v;
 }
 
+vector<lootType> Player::getAvailableLoots()
+{
+	vector<lootType> v;
+	for (auto& l : loots)
+		if (l->isLootAvailable())
+		{
+			if (l->is(GOLD_BAR) && otherPlayer->has(GOLD_BAR))
+				continue;
+			else v.push_back(l->getType());
+		}
+			
+	return v;
+}
 vector<string> Player::getActions()
 {
 	vector <string> possibleActions;
@@ -435,6 +448,13 @@ int  Player::getActionTokens()
 void Player::newAction(string action, Coord tile,int dice)
 {
 	actions.push_back(actionNode(action, tile, turn, dice));
+}
+
+string Player::lastAction(void)
+{
+	if(actions.empty() == false)
+		return actions.back().myAction;
+	else return string("");
 }
 
 bool Player::throwDice(int n)
@@ -561,25 +581,27 @@ void Player::areLootsReady()
 	}
 }
 
-void Player::giveLoot(int n)
+void Player::giveLoot(lootType type)
 {
-	if (n > 0 && (unsigned)n <= loots.size())
+	if (has(type))
 	{
-		if (loots[n - 1]->isLootAvailable() && loots[n - 1] != nullptr)
-		{
-			otherPlayer->addLoot(loots[n - 1]->getType());
-			this->removeLoot(loots[n - 1]);
-			cout << "sent Loot" << endl;
-		}
-		else
-			cout << "loot couldnt be sent" << endl;
+		newAction("OFFER_LOOT", getPosition(), INT_MAX);
+		otherPlayer->newAction("REQUEST_LOOT", getPosition(), INT_MAX);
+
+		for (int i=0;i<loots.size();i++)
+			if (type == loots[i]->getType())
+				removeLoot(loots[i]);
+
+		otherPlayer->addLoot(type);
+		
 	}
+	
 }
 
-
-void Player::receiveLoot(int n)
+void Player::receiveLoot(lootType type)
 {
-	if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
+	otherPlayer->giveLoot(type);
+	/*if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
 	{
 		if (otherPlayer->getLoots()[n - 1]->isLootAvailable() && otherPlayer->getLoots()[n - 1] != nullptr)
 		{
@@ -589,5 +611,5 @@ void Player::receiveLoot(int n)
 		}
 		else
 			cout << "loot couldnt be received" << endl;
-	}
+	}*/
 }
