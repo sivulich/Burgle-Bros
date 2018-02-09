@@ -124,8 +124,6 @@ void GameGraphics::showRulesScreen()
 	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
 }
 
-
-
 void GameGraphics::showSetupScreen(int player)
 {
 	current_screen = SETUP;
@@ -160,7 +158,11 @@ void GameGraphics::showSetupScreen(int player)
 		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"), 592, 120);
 
 	else if (player == 2)
+	{
+		cont->disableChild(string(toString(model->player1()->getCharacter())));
 		i = new Image(string("./Graphics/Images/Setup/PLAYER2.png"), 592, 120);
+	}
+		
 	else
 		i = nullptr;
 
@@ -171,10 +173,7 @@ void GameGraphics::showSetupScreen(int player)
 		cont->addObject(i);
 	}
 }
-
-
-
-// 
+ 
 void GameGraphics::showGameScreen()
 {
 	current_screen = GAME;

@@ -39,7 +39,6 @@ void ZoomAnimation::play(ObjectInterface* object)
 	if (framesLeft > 0)
 	{
 		std::pair<double, double> s = object->getScales();
-		std::cout << s.first + stepY << std::endl;
 		object->setScaleY(s.first + stepY);
 		object->setScaleX(s.second + stepX);
 	}

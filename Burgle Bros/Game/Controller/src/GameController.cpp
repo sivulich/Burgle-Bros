@@ -195,10 +195,7 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
 	else if (s == "THROW_DICE")
 	{
-		if (model->currentPlayer()->isLocal() == false)
-		{
-			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
-		}
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	}
 	else if (s == "CRACK_SAFE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
