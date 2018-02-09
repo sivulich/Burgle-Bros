@@ -15,6 +15,7 @@ public:
 	bool guardIsMoving() { return floors[0]->guardIsMoving() || floors[1]->guardIsMoving() || floors[2]->guardIsMoving(); };
 	void showTopPatrol(int floorNumber) { floors[floorNumber]->showTopPatrol(); };
 	void hideTopPatrol(int floorNumber) { floors[floorNumber]->hideTopPatrol(); };
+	Container * getContainer() { return boardContainer; };
 	// Zoom the selected tile
 	void zoomTile(Coord c);
 	// Unzoom the tile

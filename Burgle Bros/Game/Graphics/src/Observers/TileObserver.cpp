@@ -67,7 +67,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 	zoomedCard->setHoverable(false);
 	zoomedCard->setClickable(false);
 	zoomedCard->setVisible(false);
-	boardContainer->addObject(zoomedCard);
+	
 
 
 	// Now check for walls
@@ -264,6 +264,9 @@ void TileObserver::update()
 
 void TileObserver::zoom()
 {
+	boardContainer->removeObject(zoomedCard);
+	boardContainer->addObject(zoomedCard);
+
 	if (tile->isFlipped())
 	{
 		zoomedCard->setVisible(true);

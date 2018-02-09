@@ -34,9 +34,6 @@ public:
 	//	Add the amount of stealth tokens you want
 	void setStealthTokens(int i) { stealthTokens = i; };
 
-	// Get player current Destination
-	void setDest(Coord c) { if (c.row < F_HEIGHT && c.col < F_WIDTH && c.floor < NUMBER_FLOORS || c==ROOF) destination = c; else destination = NPOS; };
-
 	// GETTERS
 
 	//	Get player name
@@ -76,9 +73,7 @@ public:
 	// Get the turn number
 	int getTurn() { return turn; };
 
-	// Get player current Destination
-	Coord getDest() { return destination; };
-
+	
 	Tile * getCurrentTile() { return currentTile; };
 
 
@@ -94,9 +89,6 @@ public:
 	bool isPlaying() { return playing; };
 	void isPlaying(bool b) { playing = b; notify(); };
 
-	virtual bool isThrowingDices() { return throwingDices; };
-
-	virtual void dicesLeft2Throw(bool b) { throwingDices = b; };
 	//
 	//bool needConfirmationToMove(Coord c);
 
@@ -233,7 +225,7 @@ private:
 	//
 	bool local;
 	//
-	Coord lastPos, destination;
+	Coord lastPos;
 	// Character the player is using
 	Character * character;
 	// Tile where character token is placed on the board
@@ -262,8 +254,6 @@ private:
 	vector <unsigned int> dice;
 	//
 	int currDice;
-	//
-	bool throwingDices;
 	//
 	int loot2bTransfered;
 

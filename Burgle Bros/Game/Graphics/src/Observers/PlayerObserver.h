@@ -10,7 +10,7 @@
 class PlayerObserver :public Observer
 {
 public:
-	PlayerObserver(Player* p, Container * c, Container* hudCont);
+	PlayerObserver(Player* p, Container * c, Container* hudCont, Container * boardCont);
 	virtual void update()override;
 private:
 	// Observed object

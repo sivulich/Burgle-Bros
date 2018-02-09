@@ -60,7 +60,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		fsm.sound->playBackroundMusic();
 		//DESCOMENTARRRR DESPUES
 		//fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
-		
+
 	}
 
 	template <class EVT, class FSM>
@@ -116,7 +116,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Choose action: ";
 			fsm.graphics->printInHud(string("Choose an action"));
-			fsm.model->currentPlayer()->setDest(NPOS);
 			vector<string> v = fsm.model->currentPlayer()->gettActions();
 			for (auto& s : v)
 				std::cout << s << " ";
@@ -149,56 +148,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct placingCrow : public msm::front::state<>
-	{
-		template <class EVT, class FSM>
-		void on_entry(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-	};
-
-	struct offeringLoot : public msm::front::state<>
-	{
-		template <class EVT, class FSM>
-		void on_entry(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-	};
-
-	struct requestingLoot : public msm::front::state<>
-	{
-		template <class EVT, class FSM>
-		void on_entry(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-		}
-	};
-
 	struct chekActionTokens : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
+
+			if (fsm.model->gameOver() == true)
+				fsm.process_event(ev::gameOver());
 
 			if (fsm.model->currentPlayer()->getActionTokens() == 0)
 			{
@@ -357,9 +314,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			if (typeid(EVT) == typeid(ev::burglarsWin))
-				std::cout << "You win!" << std::endl;
+				fsm.graphics->showOkMessage(string("You win!"));
 			else if (typeid(EVT) == typeid(ev::gameOver))
-				std::cout << "You loose!" << std::endl;
+				fsm.graphics->showOkMessage(string("You lose!"));
+
 		}
 	};
 
@@ -375,24 +333,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-
-	struct doNormal
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			cout << "DO NORMAL" << endl;
-			// Move the player
-			bool b = fsm.model->currentPlayer()->move(fsm.model->currentPlayer()->getDest());
-
-			if (b == false)
-				std::cout << "Cant move!" << std::endl;
-			else if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
-				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
-			fsm.model->check4Cameras();
-			fsm.currentAction = NO_TYPE;
-		}
-	};
 
 	struct doMove
 	{
@@ -416,9 +356,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 			fsm.model->check4Cameras();
 			fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
-			fsm.model->currentPlayer()->setDest(NPOS);
 			fsm.model->currentPlayer()->gettActions();
 			fsm.currentAction = NO_TYPE;
+
+			if (fsm.model->win())
+				fsm.process_event(ev::burglarsWin());
+			else if (fsm.model->gameOver())
+				fsm.process_event(ev::gameOver());
+
 		}
 	};
 
@@ -692,7 +637,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Giving loot "<< string(toString(source.lootToOffer)) << " to " << fsm.model->otherPlayer()->getName() << std::endl;
+			std::cout << "Giving loot " << string(toString(source.lootToOffer)) << " to " << fsm.model->otherPlayer()->getName() << std::endl;
 			fsm.model->currentPlayer()->giveLoot(source.lootToOffer);
 		}
 	};
@@ -771,7 +716,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Moving guard" << std::endl;
 			fsm.model->moveGuard();
-			if (fsm.model->guardIsMoving() == false)
+
+			if (fsm.model->gameOver())
+				fsm.process_event(ev::gameOver());
+			else if (fsm.model->guardIsMoving() == false)
 			{
 				fsm.process_event(ev::passGuard());
 				fsm.guardTimer->stop();
@@ -908,6 +856,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		}
 	};
+
+	struct showEndMessage
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			if (is_same<EVT, ev::burglarsWin>::value)
+				fsm.graphics->showOkMessage(string("You win!"));
+			else if (is_same<EVT, ev::gameOver>::value)
+				fsm.graphics->showOkMessage(string("Yow loose"));
+		}
+	};
+
 
 	///////////// GUARDSSSSS
 	struct isMoving
@@ -1096,11 +1057,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
 
 		Row < chooseInitialPos, ev::coord, chooseAction, doSetInitialPos, none				>,
+
 		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
 
 		Row < chooseAction, ev::movee, none, showMove, none				>,
 		Row < chooseAction, ev::coord, chekActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
 		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
+
 
 		Row < chooseAction, ev::peek, none, showPeek, none				>,
 		Row < chooseAction, ev::coord, chekActionTokens, doPeek, isPeeking			>,
@@ -1131,21 +1094,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < askConfirmationMove, ev::no, chekActionTokens, dontMove, none >,
 		Row < askConfirmationMove, ev::coord, chekActionTokens, doMove, none			>,
 		Row < askConfirmationMove, ev::throwDice, none, doOpenKeypad, none	>,
+
 		//  +------------+-------------+------------+--------------+--------------+
-	/*	Row < throw_Dice, ev::throwDice, throw_Dice, doOpenKeypad, isThrowingDice	>,
-		Row < throw_Dice, ev::throwDice, throw_Dice, doCrackSafe, isCrackingSafe	>,
-		Row < throw_Dice, ev::finishThrow, askConfirmationMove, doFinishThrow, isThrowingDice	>,
-		Row < throw_Dice, ev::finishThrow, chekActionTokens, none, isCrackingSafe	>,*/
-		//  +------------+-------------+------------+--------------+--------------+
-		
+
 		Row < chooseLoot, ev::lootType, askConfirmation, doOfferLoot, isOfferingLoot	>,
 		Row < chooseLoot, ev::lootType, askConfirmation, doRequestLoot, isRequestingLoot	>,
-	//	Row < chooseLoot, ev::goldBar, chooseAction, doPickUpGoldBar, isPickingLoot		>,
-	//	Row < chooseLoot, ev::persianKitty, chooseAction, doPickUpKitty, isPickingLoot		>,
 		Row < chooseLoot, ev::cancel, chooseAction, none, none	>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < chekActionTokens, ev::no, guardTurn, doEndTurn, none				>,
 		Row < chekActionTokens, ev::yes, chooseAction, none, none				>,
+		Row < chekActionTokens, ev::gameOver, gameEnded, none, none				>,
+		Row < chekActionTokens, ev::burglarsWin, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < guardTurn, ev::movee, none, moveGuard, none				>,
 		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
@@ -1157,7 +1116,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>
+		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>,
+		Row < gameEnded, ev::ok, none, none, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
 	> {};

@@ -86,7 +86,7 @@ void GameModel::setInitialPosition(Coord c)
 }
 bool GameModel::gameOver()
 {
-	return player1_.getStealthTokens() == 0 || player2_.getStealthTokens() == 0;
+	return player1_.getStealthTokens() == -1 || player2_.getStealthTokens() == -1;
 }
 
 
@@ -143,11 +143,8 @@ void GameModel::doChihuahuaAction(int dice)
 	{
 		currentPlayer_->newAction("THROW_DICE", currentPlayer_->getPosition(), dice);
 		cout << "Threw dice for chihuahua" << endl;
-		currentPlayer_->dicesLeft2Throw(false);
 		if (dice == 6)
-		{
 			currentPlayer_->getCurrentTile()->setAlarm(true);
-		}
 	}
 
 }

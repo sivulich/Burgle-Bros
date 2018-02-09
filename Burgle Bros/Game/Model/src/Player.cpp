@@ -9,11 +9,9 @@ Player::Player(Board * b, Player * p, int n)
 	resetActionTokens();
 	crowToken = NPOS;
 	lastPos = NPOS;
-	destination = NPOS;
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
 	character = nullptr;
-	throwingDices = false;
 	this->n = n;
 	if (n == 1)
 		playing = true;
@@ -336,52 +334,39 @@ vector<string> Player::getActions()
 	{
 		possibleActions = currentTile->getActions(this);
 
-		if (!throwingDices)
+
+		if (currentTile->hasLoot())
 		{
-			if (currentTile->hasLoot())
-			{
-				bool b = false;
-				for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
-				if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
-					possibleActions.push_back("PICK_UP_LOOT");
-			}
+			bool b = false;
+			for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
+			if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
+				possibleActions.push_back("PICK_UP_LOOT");
 		}
+
 
 	}
 
 
 	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
-	if (!throwingDices)
-	{
-		if (character != nullptr)
-		{
-			possibleActions.push_back(character->getAction(this));
-			/*if (getCharacter() == JUICER)
-				possibleActions.push_back("CREATE_ALARM");
-			else if (getCharacter() == RAVEN)
-				possibleActions.push_back("PLACE_CROW");
-			else if (getCharacter() == SPOTTER)
-				possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
-		}
 
-		if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
-		{
-			if (hasLoot())
-				possibleActions.push_back("OFFER_LOOT");
-			if (otherPlayer->hasLoot())
-				possibleActions.push_back("REQUEST_LOOT");
-		}
-	}
-	if (destination.floor < NUMBER_FLOORS && destination.col < F_WIDTH && destination.row < F_HEIGHT)
+	if (character != nullptr)
 	{
-		if (board->getTile(destination)->is(KEYPAD) && !((Keypad *)board->getTile(destination))->keyDecoded())
-		{
-			possibleActions.push_back("THROW_DICE");
-		}
-
+		possibleActions.push_back(character->getAction(this));
+		/*if (getCharacter() == JUICER)
+			possibleActions.push_back("CREATE_ALARM");
+		else if (getCharacter() == RAVEN)
+			possibleActions.push_back("PLACE_CROW");
+		else if (getCharacter() == SPOTTER)
+			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
 	}
-	if (throwingDices)
-		possibleActions.push_back("THROW_DICE");
+
+	if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
+	{
+		if (hasLoot())
+			possibleActions.push_back("OFFER_LOOT");
+		if (otherPlayer->hasLoot())
+			possibleActions.push_back("REQUEST_LOOT");
+	}
 
 	return possibleActions;
 }

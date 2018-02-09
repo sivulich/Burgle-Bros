@@ -65,8 +65,8 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 		hudCont->addObject(a.second);
 	}
 	
-	player1 = new PlayerObserver(model->player1(), c, hudCont);
-	player2 = new PlayerObserver(model->player2(), c, hudCont);
+	player1 = new PlayerObserver(model->player1(), c, hudCont,b->getContainer());
+	player2 = new PlayerObserver(model->player2(), c, hudCont, b->getContainer());
 
 	map<characterType, string> images = { { ACROBAT,string("./Graphics/Images/Characters/The Acrobat.png") },
 	{ HACKER,string("./Graphics/Images/Characters/The Hacker.png") },

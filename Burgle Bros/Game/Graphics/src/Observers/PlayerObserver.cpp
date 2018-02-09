@@ -2,7 +2,7 @@
 #include <GraphicsDefs.h>
 #include "./Animations.h"
 #include "./DialogBox.h"
-PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
+PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container * boardCont)
 {
 	player = p;
 	parentCont = c;
@@ -92,6 +92,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 
 	c->addObject(characterFigure);
 	c->addObject(characterFigurePlaying);
+	
+
 	isPlaying = player->isPlaying();
 	if (isPlaying)
 	{
@@ -140,7 +142,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	token->setVisible(false);
 	token->setClickable(false);
 	token->setHoverable(false);
-	parentCont->addObject(token);
+	//parentCont->addObject(token);
+	boardCont->addObject(token);
 	//------------------------------------------------------------------------------------
 
 	// Compute player token positions
@@ -153,7 +156,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	for (int f = 0; f < 3; f++)
 		for (int r = 0; r < 4; r++)
 			for (int c = 0; c < 4; c++)
-				positions[f][r][c] = pair<int, int>((int)(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2), (int)(BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
+				//	positions[f][r][c] = pair<int, int>((int)(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2), (int)(BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
+				positions[f][r][c] = pair<int, int>((int)(FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2), (int)(FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
 
 	//------------------------------------------------------------------------------------
 
@@ -205,8 +209,7 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(true);
 			actionTokens->setVisible(true);
 			passButton->setVisible(true);
-			if (player->isThrowingDices()) passButton->setClickable(false);
-			else passButton->setClickable(true);
+			passButton->setClickable(true);
 		}
 		else
 		{
@@ -224,7 +227,12 @@ void PlayerObserver::update()
 	// Update stealth tokens
 	string currentStealthTokens = to_string(player->getStealthTokens());
 	if (stealthTokens->getText() != currentStealthTokens)
+	{
+		//	cout << currentStealthTokens << endl;
+			//if (currentStealthTokens == string("-1"))
+				//currentStealthTokens = string("0");
 		stealthTokens->setText(currentStealthTokens);
+	}
 
 	// Update loots
 	vector<Loot*> playerLoots = player->getLoots();
