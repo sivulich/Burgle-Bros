@@ -532,8 +532,9 @@ void Player::clearVisibleFrom()
 	visibleFrom.clear();
 }
 
-void Player::losePersianKitty()
+bool Player::losePersianKitty()
 {
+	bool b = false;
 	Coord pos = board->getFloor(getPosition().floor)->whereToPlaceKitty((getPosition()));
 	Loot * kitty = nullptr;
 
@@ -548,9 +549,11 @@ void Player::losePersianKitty()
 			board->getTile(pos)->setLoot(kitty);
 			cout << "kitty is found at " << pos << endl;
 			this->removeLoot(kitty);
+			b = true;
 		}
 	}
 	else cout << "No alarm tile flipped" << endl;
+	return b;
 }
 
 void Player::areLootsReady()
