@@ -253,25 +253,34 @@ void PlayerObserver::update()
 					switch (playerLoots[i]->getType())
 					{
 					case TIARA:
-						message = string("You have got a Tiara! When you move to a tile adjacent to the guard, you loose a stealth token.");
+						message = string("You got a Tiara! When you move to a tile adjacent to the guard, you lose a stealth token. Moving to the guard's tile removes an extra token.");
 						break;
 					case PERSIAN_KITTY:
+						message = string("You got a Persian Kitty! Every turn you carry it throw a die. The cat will run away if you get a 1 or a 2. Go catch him...");
 						break;
 					case PAINTING:
+						message = string("You got a Painting! You cannot use the special movement features of the Secret Door or Service Duct while carrying it.");
 						break;
 					case MIRROR:
+						message = string("You got a Mirror! Carrying it consumes one action token. On the bright side, you do not trigger an alarm in Laser tiles.");
 						break;
 					case KEYCARD:
+						message = string("You got a Keycard! Now the player holding this MUST be in the Safe tile in order to crack the safe.");
 						break;
 					case ISOTOPE:
+						message = string("You got an Isotope! You will trigger every Thermo alarm while holding this.");
 						break;
 					case GEMSTONE:
+						message = string("You got a Gemstone! Now you spend an extra action token when moving to the same tile as the other player.");
 						break;
 					case CURSED_GOBLET:
+						message = string("You got a Cursed Goblet! You lose a Stealth token.");
 						break;
 					case CHIHUAHUA:
+						message = string("You got a Chihuahua! At the begginning of your turn roll a die. If a 6, the Chihuahua starts barking and sets off an alarm on your tile.");
 						break;
 					case GOLD_BAR:
+						message = string("You got a Gold Bar! Actually two, but you are strong enough to carry only one...");
 						break;
 					}
 					DialogBox * b = new DialogBox(DialogBox::OK_MSG, message, parentCont);
