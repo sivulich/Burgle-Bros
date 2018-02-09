@@ -157,7 +157,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->gameOver() == true)
 				fsm.process_event(ev::gameOver());
 
-			if (fsm.model->currentPlayer()->getActionTokens() == 0)
+			if (fsm.model->currentPlayer()->getActionTokens() == 0 || fsm.model->currentPlayer()->isOnRoof())
 			{
 				fsm.process_event(ev::no());
 				std::cout << "Your turn ends" << std::endl;
@@ -268,19 +268,23 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Starting Turn" << std::endl;
-			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
-
-			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
+			if (fsm.model->currentPlayer()->isOnRoof())
+				fsm.process_event(ev::pass());
+			else
 			{
-				if (fsm.model->currentPlayer()->isLocal())
-				{
-					fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
-				}
-				//else is remote
-			}
-			else fsm.process_event(ev::done());
+				std::cout << "Starting Turn" << std::endl;
+				fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
 
+				if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
+				{
+					if (fsm.model->currentPlayer()->isLocal())
+					{
+						fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
+					}
+					//else is remote
+				}
+				else fsm.process_event(ev::done());
+			}
 		}
 
 		template <class EVT, class FSM>
@@ -295,8 +299,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Its the guards turn" << std::endl;
-			fsm.guardTimer->start();
+			if (fsm.model->currentPlayer()->isOnRoof())
+				fsm.process_event(ev::passGuard());
+			else
+			{
+				std::cout << "Its the guards turn" << std::endl;
+				fsm.guardTimer->start();
+			}
 		}
 
 		template <class EVT, class FSM>
@@ -355,15 +364,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 
 			fsm.model->check4Cameras();
-			fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
-			fsm.model->currentPlayer()->gettActions();
+			// HACER UNA FUNCION POSITION GUARD DEL MODELO
+			//fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
+			fsm.model->positionGuard();
+			//COMENTO PARA PROBAR EL ROOF fsm.model->currentPlayer()->gettActions();
 			fsm.currentAction = NO_TYPE;
-
-			if (fsm.model->win())
-				fsm.process_event(ev::burglarsWin());
-			else if (fsm.model->gameOver())
-				fsm.process_event(ev::gameOver());
-
 		}
 	};
 
@@ -1109,7 +1114,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < guardTurn, ev::movee, none, moveGuard, none				>,
 		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
 		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
-		//  +------------+-------------+------------+--------------+--------------+
+		//  +------------+-------------+------------+--------------+--------------+f
 		Row < beginTurn, ev::done, chooseAction, none, none				>,
 		Row < beginTurn, ev::throwDice, beginTurn, doKittyAction, isThrowing4Kitty	>,
 		Row < beginTurn, ev::throwDice, beginTurn, doChihuahuaAction, isThrowing4Chihuahua	>,

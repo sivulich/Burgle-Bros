@@ -184,6 +184,13 @@ void PlayerObserver::update()
 			token->setVisible(true);
 			token->addAnimation(new FadeAnimation(0.0, 1.0, 1));
 		}
+		else if (curr == ROOF)
+		{
+			token->addAnimation(new FadeAnimation(1.0, 0.0, 1,true));
+			characterFigurePlaying->setVisible(false);
+			characterFigure->setVisible(true);
+			characterFigure->disable();
+		}
 		else
 		{
 			pair<int, int> target = positions[curr.floor][curr.row][curr.col];
