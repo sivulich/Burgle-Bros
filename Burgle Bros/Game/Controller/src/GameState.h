@@ -51,7 +51,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		fsm.model->otherPlayer()->setCharacter(SPOTTER);
 		fsm.model->currentPlayer()->setName(string("Tobi"));
 		fsm.model->otherPlayer()->setName(string("Roma"));
-
 		// ESTO DE SETBOARD EL CLIENTE LO TIENE QUE HACER POR NETWORK
 		fsm.model->setBoard();
 		/*
@@ -61,6 +60,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		fsm.sound->playBackroundMusic();
 		//DESCOMENTARRRR DESPUES
 		//fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
+		vector<lootType> v;
+		v.push_back(KEYCARD);
+		v.push_back(GEMSTONE);
+		v.push_back(PERSIAN_KITTY);
+		fsm.graphics->showAvailableLoots(string("CHUPALA TOBIAS"), v);
 	}
 
 	template <class EVT, class FSM>
