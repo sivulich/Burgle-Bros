@@ -46,6 +46,9 @@ public:
 	// Move the corresponding guard one step
 	void moveGuard();
 
+	//
+	void positionGuard();
+
 	// Return true if guard is still moving
 	bool guardIsMoving();
 

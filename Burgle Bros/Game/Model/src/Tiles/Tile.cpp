@@ -163,11 +163,10 @@ vector<string> Tile::getActions(PlayerInterface * p)
 {
 
 	vector<string> actions;
-	if (!p->isThrowingDices())
-	{
-		actions.push_back("PEEK");
-		actions.push_back("MOVE");
-	}
+
+	actions.push_back("PEEK");
+	actions.push_back("MOVE");
+
 	return actions;
 }
 

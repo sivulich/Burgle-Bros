@@ -2,7 +2,7 @@
 #include <GraphicsDefs.h>
 #include "./Animations.h"
 #include "./DialogBox.h"
-PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
+PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container * boardCont)
 {
 	player = p;
 	parentCont = c;
@@ -21,7 +21,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	characterFigurePlaying = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1 PLAYING.png"));
 	loots = new Container(string("./Graphics/Images/Screen - Game/LootCont.png"));
 
-	
+
 
 	if (p->getNumber() == 1)
 	{
@@ -68,10 +68,10 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	}
 	else
 		DEBUG_MSG("ERROR: Invalid player number");
-	
+
 	numberOfLoots->setText(string("0"));
-	
-	lootReverse = new Image(string("./Graphics/Images/Loot/Loot - Reverse.png"),x0_loot,y0_loot,size0_loot,size0_loot);
+
+	lootReverse = new Image(string("./Graphics/Images/Loot/Loot - Reverse.png"), x0_loot, y0_loot, size0_loot, size0_loot);
 	lootReverse->setClickable(false);
 	lootReverse->setHoverable(false);
 	lootReverse->setVisible(false);
@@ -92,6 +92,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 
 	c->addObject(characterFigure);
 	c->addObject(characterFigurePlaying);
+	
+
 	isPlaying = player->isPlaying();
 	if (isPlaying)
 	{
@@ -140,7 +142,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	token->setVisible(false);
 	token->setClickable(false);
 	token->setHoverable(false);
-	parentCont->addObject(token);
+	//parentCont->addObject(token);
+	boardCont->addObject(token);
 	//------------------------------------------------------------------------------------
 
 	// Compute player token positions
@@ -153,7 +156,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h)
 	for (int f = 0; f < 3; f++)
 		for (int r = 0; r < 4; r++)
 			for (int c = 0; c < 4; c++)
-				positions[f][r][c] = pair<int, int>((int)(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2),(int)( BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
+				//	positions[f][r][c] = pair<int, int>((int)(BOARD_YPOS + FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2), (int)(BOARD_XPOS + FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
+				positions[f][r][c] = pair<int, int>((int)(FLOOR_YPOS + TILE_YPOS[r][c] + (TILE_SIZE - TOKEN_HEIGHT) / 2), (int)(FLOOR_XPOS[f] + TILE_XPOS[r][c] + XOFFSET));
 
 	//------------------------------------------------------------------------------------
 
@@ -180,6 +184,13 @@ void PlayerObserver::update()
 			token->setVisible(true);
 			token->addAnimation(new FadeAnimation(0.0, 1.0, 1));
 		}
+		else if (curr == ROOF)
+		{
+			token->addAnimation(new FadeAnimation(1.0, 0.0, 1,true));
+			characterFigurePlaying->setVisible(false);
+			characterFigure->setVisible(true);
+			characterFigure->disable();
+		}
 		else
 		{
 			pair<int, int> target = positions[curr.floor][curr.row][curr.col];
@@ -205,8 +216,7 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(true);
 			actionTokens->setVisible(true);
 			passButton->setVisible(true);
-			if (player->isThrowingDices()) passButton->setClickable(false);
-			else passButton->setClickable(true);
+			passButton->setClickable(true);
 		}
 		else
 		{
@@ -224,7 +234,12 @@ void PlayerObserver::update()
 	// Update stealth tokens
 	string currentStealthTokens = to_string(player->getStealthTokens());
 	if (stealthTokens->getText() != currentStealthTokens)
+	{
+		//	cout << currentStealthTokens << endl;
+			//if (currentStealthTokens == string("-1"))
+				//currentStealthTokens = string("0");
 		stealthTokens->setText(currentStealthTokens);
+	}
 
 	// Update loots
 	vector<Loot*> playerLoots = player->getLoots();
@@ -250,37 +265,50 @@ void PlayerObserver::update()
 					Image* image = new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0, 145, 145);
 					loots->addObject(image);
 					string message;
+
 					switch (playerLoots[i]->getType())
 					{
 					case TIARA:
-						message = string("You have got a Tiara! When you move to a tile adjacent to the guard, you loose a stealth token.");
+						message = string("You got a Tiara! When you move to a tile adjacent to the guard, you lose a stealth token. Moving to the guard's tile removes an extra token.");
 						break;
 					case PERSIAN_KITTY:
+						message = string("You got a Persian Kitty! Every turn you carry it throw a die. The cat will run away if you get a 1 or a 2. Go catch him...");
 						break;
 					case PAINTING:
+						message = string("You got a Painting! You cannot use the special movement features of the Secret Door or Service Duct while carrying it.");
 						break;
 					case MIRROR:
+						message = string("You got a Mirror! Carrying it consumes one action token. On the bright side, you do not trigger an alarm in Laser tiles.");
 						break;
 					case KEYCARD:
+						message = string("You got a Keycard! Now the player holding this MUST be in the Safe tile in order to crack the safe.");
 						break;
 					case ISOTOPE:
+						message = string("You got an Isotope! You will trigger every Thermo alarm while holding this.");
 						break;
 					case GEMSTONE:
+						message = string("You got a Gemstone! Now you spend an extra action token when moving to the same tile as the other player.");
 						break;
 					case CURSED_GOBLET:
+						message = string("You got a Cursed Goblet! You lose a Stealth token.");
 						break;
 					case CHIHUAHUA:
+						message = string("You got a Chihuahua! At the begginning of your turn roll a die. If a 6, the Chihuahua starts barking and sets off an alarm on your tile.");
 						break;
 					case GOLD_BAR:
+						message = string("You got a Gold Bar! Actually two, but you are strong enough to carry only one...");
 						break;
 					}
-					DialogBox * b = new DialogBox(DialogBox::OK_MSG, message, parentCont);
+					if (player->lastAction() != string("OFFER_LOOT") && player->lastAction() != string("REQUEST_LOOT"))
+						DialogBox * b = new DialogBox(DialogBox::OK_MSG, message, parentCont, false);
 				}
 			}
 		}
-		else // LOST A LOOT
+		else // LOST A LOOT, so update all images
 		{
-
+			loots->clear();
+			for (unsigned i = 0; i < playerLoots.size(); i++)
+				loots->addObject(new Image(string("./Graphics/Images/Loot/") + toString(playerLoots[i]->getType()) + string(".png"), i*162.5, 0, 145, 145));
 		}
 		numberOfLoots->setText(to_string(currNLoots));
 	}

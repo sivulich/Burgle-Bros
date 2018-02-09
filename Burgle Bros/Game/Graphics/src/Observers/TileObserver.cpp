@@ -1,5 +1,8 @@
 #include "./FloorObserver.h"
+#include "./TileObserver.h"
 #include "Animations.h"
+
+
 
 static map<tileType, string> images = { {ATRIUM,string("../Game/Graphics/Images/Tiles/Tile - Atrium.png")},
 										{CAMERA,string("../Game/Graphics/Images/Tiles/Tile - Camera.png") },
@@ -64,7 +67,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 	zoomedCard->setHoverable(false);
 	zoomedCard->setClickable(false);
 	zoomedCard->setVisible(false);
-	boardContainer->addObject(zoomedCard);
+	
 
 
 	// Now check for walls
@@ -77,7 +80,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 		floorContainer->addObject(wall);
 	}
 
-	if (tile->hasSouthWall() == true)
+	if (tile->hasSouthWall() == true && coord.row < 3)// QUICK FIX DE LAS PAREDES QUE NO TIENEN QUE ESTAR
 	{
 		wall = new Image(string("./Graphics/Images/wallH.png"), XPOS, YPOS + TILE_SIZE, TILE_SIZE, TILE_SEPARATION);
 		wall->setClickable(false);
@@ -239,14 +242,31 @@ void TileObserver::update()
 		openToken->setVisible(true);
 	}
 
-	if (tile->hasXLoot(PERSIAN_KITTY))
-		persianKitty->setVisible(true);
-	if (tile->hasXLoot(GOLD_BAR))
-		goldBar->setVisible(true);
+	if (tile->hasXLoot(PERSIAN_KITTY) != hasKitty)
+	{
+		hasKitty = tile->hasXLoot(PERSIAN_KITTY);
+		if(hasKitty)
+			persianKitty->setVisible(true);
+		else
+			persianKitty->setVisible(false);
+	}
+		
+	if (tile->hasXLoot(GOLD_BAR) != hasGoldBar)
+	{
+		hasGoldBar = tile->hasXLoot(GOLD_BAR);
+		if (hasGoldBar)
+			goldBar->setVisible(true);
+		else
+			goldBar->setVisible(false);
+	}
+		
 }
 
 void TileObserver::zoom()
 {
+	boardContainer->removeObject(zoomedCard);
+	boardContainer->addObject(zoomedCard);
+
 	if (tile->isFlipped())
 	{
 		zoomedCard->setVisible(true);

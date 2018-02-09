@@ -118,6 +118,16 @@ public:
 		Print name of all objects
 	*/
 	void printContent();
+	
+	/**
+		Disables the child with the given name
+	*/
+	void disableChild(string& name) { for (auto& obj : objects) if (obj->getName() == name) obj->disable(); };
+
+	/**
+		Enable the child with the given name
+	*/
+	void enableChild(string& name) { for (auto& obj : objects) if (obj->getName() == name) obj->enable(); };
 
 	~Container() { delete toDraw; };
 

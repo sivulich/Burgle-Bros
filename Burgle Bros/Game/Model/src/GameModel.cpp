@@ -49,15 +49,15 @@ void GameModel::print()
 	cout << "Current Player:" << endl;
 	currentPlayer()->print();
 
-//	cout << "Other Player:" << endl;
-//	otherPlayer()->print();
+	//	cout << "Other Player:" << endl;
+	//	otherPlayer()->print();
 
 	cout << "Guard" << endl;
 	for (int i = 0; i < 3; i++)
 	{
 		board[i].getGuard()->print();
 	}
-	cout <<  endl << "______________________________________________________________________________" << endl;
+	cout << endl << "______________________________________________________________________________" << endl;
 
 #endif
 
@@ -80,26 +80,36 @@ void GameModel::setInitialPosition(Coord c)
 	player1_.setPosition(c);
 	player2_.setPosition(c);
 	player1_.getCurrentTile()->turnUp();
-	
+
 	board.getGuard(c.floor)->locateGuard();
 	board.getTile(board.getGuard(c.floor)->getPos())->guardIs(true);
 }
 bool GameModel::gameOver()
 {
-	return player1_.getStealthTokens() == 0 || player2_.getStealthTokens() == 0;
+	return player1_.getStealthTokens() == -1 || player2_.getStealthTokens() == -1;
 }
 
 
 void GameModel::endTurn()
 {
 	// Fullfil tile end of turn actions
-	Tile * currentTile = board.getTile(currentPlayer_->getPosition());
-	if (currentTile->getType() == MOTION)		// Disarm the alarm in the Motion Room
-		((Motion *)currentTile)->disarm();
-	else if (currentTile->getType() == THERMO)
-		((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
+	if (currentPlayer_->getPosition() != ROOF)
+	{
+		Tile * currentTile = board.getTile(currentPlayer_->getPosition());
+		if (currentTile->getType() == MOTION)		// Disarm the alarm in the Motion Room
+			((Motion *)currentTile)->disarm();
+		else if (currentTile->getType() == THERMO)
+			((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
+	}
+
+
 }
 
+void GameModel::positionGuard()
+{
+	if (currentPlayer_->getPosition() != ROOF)
+		board.getGuard(currentPlayer_->getPosition().floor)->positionGuard();
+}
 /**
 Called after guard movement, it changes the turn
 */
@@ -109,7 +119,9 @@ void GameModel::changeTurn()
 	currentPlayer_->useAbility(false);
 
 	// Fullfil tile end of turn actions
-	Tile * currentTile = board.getTile(currentPlayer_->getPosition());
+	
+	//??? NO HACE NADATile * currentTile = board.getTile(currentPlayer_->getPosition());
+	
 	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->isPlaying(true);
 	otherPlayer_->isPlaying(false);
@@ -129,28 +141,24 @@ bool GameModel::doKittyAction(int dice)
 		if (dice == 1 || dice == 2)
 		{
 			cout << "Lost Persian Kitty" << endl;
-			if(currentPlayer_->losePersianKitty())
-			b = true;
+			currentPlayer_->losePersianKitty();
 		}
-
 	}
+	if (currentPlayer_->has(CHIHUAHUA)) b = true;
+	else b = false;
 	return b;
 }
 
-bool GameModel::doChihuahuaAction(int dice)
+void GameModel::doChihuahuaAction(int dice)
 {
-	bool b = false;
 	if (currentPlayer_->has(CHIHUAHUA))
 	{
 		currentPlayer_->newAction("THROW_DICE", currentPlayer_->getPosition(), dice);
 		cout << "Threw dice for chihuahua" << endl;
 		if (dice == 6)
-		{
-			b = true;
 			currentPlayer_->getCurrentTile()->setAlarm(true);
-		}
 	}
-	return b;
+
 }
 bool GameModel::guardIsMoving()
 {
@@ -180,7 +188,7 @@ void GameModel::moveGuard()
 			}
 		}
 	}
-	if(guardIsMoving_ == false)
+	if (guardIsMoving_ == false)
 		board.getFloor(floor)->getGuard()->isMyTurn(false);
 
 	notify();
@@ -195,7 +203,7 @@ void GameModel::spyPatrol(unsigned f)
 			board[f].getPatrolDeck()->spyTop();
 			currentPlayer_->removeActionToken();
 			currentPlayer_->useAbility(true);
-			cout << "currently spying" << board[f].getPatrolDeck()->topCard()->getDescription()<<endl;
+			cout << "currently spying" << board[f].getPatrolDeck()->topCard()->getDescription() << endl;
 		}
 	}
 };
@@ -227,7 +235,7 @@ vector<Coord> GameModel::getTilesXDist(unsigned x, Player * p)
 void GameModel::check4Cameras()
 {
 	board.checkCameras(currentPlayer_->getPosition());
-	
+
 };
 
 bool GameModel::win()

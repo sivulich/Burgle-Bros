@@ -17,10 +17,6 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 
 	pauseButton = new Image(string("./Graphics/Images/HUD/PAUSE.png"), 8, 17);
 	exitButton = new Image(string("./Graphics/Images/HUD/EXIT.png"), 803, 17);
-	yesButton = new Image(string("../Game/Graphics/Images/Actions/YES.png"), 8, 17);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
-	noButton = new Image(string("../Game/Graphics/Images/Actions/NO.png"), 803, 17);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
-	topHudCont->addObject(yesButton);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
-	topHudCont->addObject(noButton);// ESTO ES DE PRUEBA PROQ NO SE USAR QUESTION BOX
 	topHudCont->addObject(pauseButton);
 	topHudCont->addObject(exitButton);
 
@@ -69,8 +65,8 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 		hudCont->addObject(a.second);
 	}
 	
-	player1 = new PlayerObserver(model->player1(), c, hudCont);
-	player2 = new PlayerObserver(model->player2(), c, hudCont);
+	player1 = new PlayerObserver(model->player1(), c, hudCont,b->getContainer());
+	player2 = new PlayerObserver(model->player2(), c, hudCont, b->getContainer());
 
 	map<characterType, string> images = { { ACROBAT,string("./Graphics/Images/Characters/The Acrobat.png") },
 	{ HACKER,string("./Graphics/Images/Characters/The Hacker.png") },

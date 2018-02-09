@@ -1,6 +1,6 @@
 #include "DialogBox.h"
 
-DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int position, vector<int>& d)
+DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int position)
 {
 	int yOffset = 0;
 	if (position == TOP)
@@ -10,8 +10,9 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 
 
 	box = new Container(string("./Graphics/Images/Dialog Box/box.png"));
-	box->setPosition(yOffset + 290, 348);
 	box->setScale(1);
+	box->setPosition(c->getHeight() / 2 - box->getHeight()*box->getScale()*0.5,
+		c->getWidth() / 2 - box->getWidth()*box->getScale()*0.5);
 	if (bl)
 		blur = new Image(string("./Graphics/Images/blur.png"), 0, 0);
 	else blur = nullptr;
@@ -19,11 +20,8 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 
 	string font = string("./Graphics/Images/calibri.ttf");
 
-	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, 640-348, 51);
+	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, box->getWidth() / 2, 51);
 	box->addObject(message);
-	dices = new Container(50, 50 * 6 + 10 * 5, "Dice container");
-	dices->setVisible(false);
-	dices->setScale(0.8);
 	
 
 	parent = c;
@@ -31,9 +29,10 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 	{
 	case OK_MSG:
 		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 237,  91);
+		button1->setPosition(91, box->getWidth() / 2 - button1->getWidth() / 2);
 		button1->setName(string("OK"));
 		
-		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, 640-348,  385-290);
+		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, box->getWidth()/2,  95);
 		box->addObject(button1);
 		box->addObject(text1);
 		button2 = nullptr;
@@ -54,8 +53,9 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 		break;
 	case CANCEL_MSG:
 		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"),  237,  91);
+		button1->setPosition(91, box->getWidth() / 2 - button1->getWidth() / 2);
 		button1->setName(string("CANCEL"));
-		text1 = new Text(font, string("CANCEL"), al_map_rgba_f(1, 1, 1, 1), 15, 640-348,  51);
+		text1 = new Text(font, string("CANCEL"), al_map_rgba_f(1, 1, 1, 1), 15, box->getWidth()/2,  51);
 		box->addObject(button1);
 		box->addObject(text1);
 		button2 = nullptr;
@@ -68,35 +68,101 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 		button2 = nullptr;
 		text2 = nullptr;
 		break;
-	case DICE_MSG:
-		
-		for (unsigned i = 0; i < d.size(); i++)
-		{
-			Image* die = new Image("./Graphics/Images/Dices/White " + to_string(d[i]) + ".png");
-			die->setPosition(0, dices->getWidth() / 6 * i);
-			die->setScale(50.0 / die->getHeight());
-			die->setClickable(false);
-			dices->addObject(die);
-		}
-		dices->setClickable(false);
-		dices->setVisible(true);
-		dices->setPosition(box->getHeight() / 2 - dices->getHeight()*dices->getScale()*0.5,
-			box->getWidth() / 2 - dices->getWidth()*dices->getScale()*d.size() / 12.0);
-		message->setPosition(20, 640 - 348);
-		box->addObject(dices);
-		button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"));
-		button1->setPosition(box->getHeight()*0.9 - button1->getHeight(), box->getWidth()*0.5 - button1->getWidth() / 2);
-		button1->setName(string("OK"));
-
-		text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, 640 - 348, 385 - 290);
-		text1->setPosition(box->getHeight()*0.9 - button1->getHeight() + 5, box->getWidth()*0.5 - text1->getWidth() / 2 );
-		box->addObject(button1);
-		box->addObject(text1);
-		button2 = nullptr;
-		text2 = nullptr;
-
-		break;
 	}
+	parent->addObject(this);
+}
+DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<int>& d)
+{
+	parent = c;
+	int yOffset = 0;
+	if (position == TOP)
+		yOffset = -200;
+	if (position == BOTTOM)
+		yOffset = 200;
+
+
+	box = new Container(string("./Graphics/Images/Dialog Box/box.png"));
+	box->setScale(1);
+	box->setPosition(c->getHeight() / 2 - box->getHeight()*box->getScale()*0.5,
+		c->getWidth() / 2 - box->getWidth()*box->getScale()*0.5);
+	if (bl)
+		blur = new Image(string("./Graphics/Images/blur.png"), 0, 0);
+	else blur = nullptr;
+
+
+	string font = string("./Graphics/Images/calibri.ttf");
+
+	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, box->getWidth()/2, 51);
+	box->addObject(message);
+	dices = new Container(50, 50 * d.size() + 10 * (d.size()-1), "Dice container");
+	dices->setVisible(false);
+	for (unsigned i = 0; i < d.size(); i++)
+	{
+		Image* die = new Image("./Graphics/Images/Dices/White " + to_string(d[i]) + ".png");
+		die->setPosition(0, dices->getWidth()*1.0 / d.size() * i);
+		die->setScale(50.0 / die->getHeight());
+		die->setClickable(false);
+		dices->addObject(die);
+	}
+	dices->setClickable(false);
+	dices->setVisible(true);
+	dices->setPosition(box->getHeight() / 2 - dices->getHeight()*dices->getScale()*0.5,
+		box->getWidth() / 2 - dices->getWidth()*dices->getScale()*0.5);
+	message->setPosition(20, box->getWidth() / 2);
+	box->addObject(dices);
+	button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"));
+	button1->setPosition(box->getHeight()*0.9 - button1->getHeight(), box->getWidth()*0.5 - button1->getWidth() / 2);
+	button1->setName(string("OK"));
+
+	text1 = new Text(font, string("OK"), al_map_rgba_f(1, 1, 1, 1), 15, 640 - 348, 385 - 290);
+	text1->setPosition(box->getHeight()*0.9 - button1->getHeight() + 5, box->getWidth()*0.5 );
+	box->addObject(button1);
+	box->addObject(text1);
+	button2 = nullptr;
+	text2 = nullptr;
+	parent->addObject(this);
+}
+DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<lootType>& d)
+{
+	parent = c;
+	int yOffset = 0;
+	if (position == TOP)
+		yOffset = -200;
+	if (position == BOTTOM)
+		yOffset = 200;
+
+
+	box = new Container(string("./Graphics/Images/Dialog Box/LootBox.png"));
+	
+	box->setScale(1);
+	box->setPosition(c->getHeight()/2-box->getHeight()*box->getScale()*0.5,
+		             c->getWidth() / 2 - box->getWidth()*box->getScale()*0.5);
+	if (bl)
+		blur = new Image(string("./Graphics/Images/blur.png"), 0, 0);
+	else blur = nullptr;
+
+
+	string font = string("./Graphics/Images/calibri.ttf");
+
+	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, box->getWidth()/2, 20);
+	box->addObject(message);
+	for (unsigned i = 0; i < d.size(); i++)
+	{
+		Image* die = new Image("./Graphics/Images/Loot/" + string(toString(d[i])) + ".png");
+
+		die->setPosition(90, (145+12) * i+62);
+		die->setScale(145.0 / die->getHeight());
+		die->setClickable(true);
+		box->addObject(die);
+	}
+	message->setPosition(20, box->getWidth()/2);
+	button1 = new Image(string("./Graphics/Images/Dialog Box/button.png"), 237, 265);
+	button1->setPosition(265, box->getWidth()/2-button1->getWidth()/2);
+	button1->setName(string("CANCEL"));
+
+	text1 = new Text(font, string("CANCEL"), al_map_rgba_f(1, 1, 1, 1), 15, box->getWidth()/2, 265+5);
+	box->addObject(button1);
+	box->addObject(text1);
 	parent->addObject(this);
 }
 
@@ -106,17 +172,6 @@ void DialogBox::draw(Bitmap* target)
 		blur->draw(target);
 
 	box->draw(target);
-	/*message->draw(target);
-	if (button1 != nullptr)
-	{
-		button1->draw(target);
-		text1->draw(target);
-	}
-	if (button2 != nullptr)
-	{
-		button2->draw(target);
-		text2->draw(target);
-	}*/
 }
 
 std::string DialogBox::click(int y, int x)
