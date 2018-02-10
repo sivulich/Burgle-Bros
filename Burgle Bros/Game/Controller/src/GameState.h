@@ -82,22 +82,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// Set only first floor clickable
 			std::cout << "Choose initial pos: ";
 			vector<Coord> v;
-			v.push_back(Coord(0, 0, 0));
-			v.push_back(Coord(0, 0, 1));
-			v.push_back(Coord(0, 0, 2));
-			v.push_back(Coord(0, 0, 3));
-			v.push_back(Coord(0, 1, 0));
-			v.push_back(Coord(0, 1, 1));
-			v.push_back(Coord(0, 1, 2));
-			v.push_back(Coord(0, 1, 3));
-			v.push_back(Coord(0, 2, 0));
-			v.push_back(Coord(0, 2, 1));
-			v.push_back(Coord(0, 2, 2));
-			v.push_back(Coord(0, 2, 3));
-			v.push_back(Coord(0, 3, 0));
-			v.push_back(Coord(0, 3, 1));
-			v.push_back(Coord(0, 3, 2));
-			v.push_back(Coord(0, 3, 3));
+			for (int i = 0; i < 4; i++)
+				for (int j = 0; j < 4; j++)
+					v.push_back(Coord(0, i, j));
 			fsm.graphics->setTilesClickable(v);
 		}
 
@@ -148,7 +135,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct chekActionTokens : public msm::front::state<>
+	struct checkActionTokens : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
@@ -234,10 +221,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				cout << "Passing coord" << endl;
 				fsm.process_event(ev::coord(destinationCoord));
 			}
-			//Leave everything like before...
-			//if (wasFlipped == false && destinationTile != nullptr)
-			//	destinationTile->turnDown();
-			//std::cout << "Okay..." << std::endl;
 		}
 
 	};
@@ -1066,38 +1049,38 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
 
 		Row < chooseAction, ev::movee, none, showMove, none				>,
-		Row < chooseAction, ev::coord, chekActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
+		Row < chooseAction, ev::coord, checkActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
 		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
 
 
 		Row < chooseAction, ev::peek, none, showPeek, none				>,
-		Row < chooseAction, ev::coord, chekActionTokens, doPeek, isPeeking			>,
+		Row < chooseAction, ev::coord, checkActionTokens, doPeek, isPeeking			>,
 
 		Row	< chooseAction, ev::createAlarm, none, showAlarm, none				>,
-		Row	< chooseAction, ev::coord, chekActionTokens, doCreateAlarm, isCreatingAlarm   >,
+		Row	< chooseAction, ev::coord, checkActionTokens, doCreateAlarm, isCreatingAlarm   >,
 
 		Row < chooseAction, ev::placeCrow, none, showCrow, none				>,
 		Row	< chooseAction, ev::coord, chooseAction, doPlaceCrow, isPlacingCrow		>,
 
 		Row < chooseAction, ev::spyPatrol, askConfirmation, doSpyPatrol, none				>,
-		Row < chooseAction, ev::addToken, chekActionTokens, doAddToken, none				>,
+		Row < chooseAction, ev::addToken, checkActionTokens, doAddToken, none				>,
 		Row < chooseAction, ev::useToken, chooseAction, doUseToken, none				>,
-		Row < chooseAction, ev::throwDice, chekActionTokens, doCrackSafe, none				>,
+		Row < chooseAction, ev::throwDice, checkActionTokens, doCrackSafe, none				>,
 		Row < chooseAction, ev::offerLoot, chooseLoot, showOfferLoot, none				>,
 		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
 		Row < chooseAction, ev::pickUpLoot, chooseAction, doPickUpLoot, none				>,
 
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmation, ev::yes, chekActionTokens, doStayTop, isSpying			>,
-		Row < askConfirmation, ev::no, chekActionTokens, doSendBottom, isSpying			>,
+		Row < askConfirmation, ev::yes, checkActionTokens, doStayTop, isSpying			>,
+		Row < askConfirmation, ev::no, checkActionTokens, doSendBottom, isSpying			>,
 		Row < askConfirmation, ev::yes, chooseAction, doGiveLoot, isOfferingLoot	>,
 		Row < askConfirmation, ev::no, chooseAction, dontGiveLoot, isOfferingLoot	>,
 		Row < askConfirmation, ev::yes, chooseAction, doGetLoot, isRequestingLoot	>,
 		Row < askConfirmation, ev::no, chooseAction, dontGetLoot, isRequestingLoot	>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < askConfirmationMove, ev::yes, askConfirmationMove, none, none			>,
-		Row < askConfirmationMove, ev::no, chekActionTokens, dontMove, none >,
-		Row < askConfirmationMove, ev::coord, chekActionTokens, doMove, none			>,
+		Row < askConfirmationMove, ev::no, checkActionTokens, dontMove, none >,
+		Row < askConfirmationMove, ev::coord, checkActionTokens, doMove, none			>,
 		Row < askConfirmationMove, ev::throwDice, none, doOpenKeypad, none	>,
 
 		//  +------------+-------------+------------+--------------+--------------+
@@ -1106,10 +1089,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseLoot, ev::lootType, askConfirmation, doRequestLoot, isRequestingLoot	>,
 		Row < chooseLoot, ev::cancel, chooseAction, none, none	>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < chekActionTokens, ev::no, guardTurn, doEndTurn, none				>,
-		Row < chekActionTokens, ev::yes, chooseAction, none, none				>,
-		Row < chekActionTokens, ev::gameOver, gameEnded, none, none				>,
-		Row < chekActionTokens, ev::burglarsWin, gameEnded, none, none				>,
+		Row < checkActionTokens, ev::no, guardTurn, doEndTurn, none				>,
+		Row < checkActionTokens, ev::yes, chooseAction, none, none				>,
+		Row < checkActionTokens, ev::gameOver, gameEnded, none, none				>,
+		Row < checkActionTokens, ev::burglarsWin, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < guardTurn, ev::movee, none, moveGuard, none				>,
 		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
