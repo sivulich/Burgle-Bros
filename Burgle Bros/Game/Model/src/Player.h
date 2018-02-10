@@ -166,7 +166,7 @@ public:
 	virtual void removeLoot(Loot * l) { if (l != nullptr) loots.erase(remove(loots.begin(), loots.end(), l), loots.end()); notify(); }
 
 	//
-	void losePersianKitty();
+	bool losePersianKitty();
 
 	//
 	void areLootsReady();

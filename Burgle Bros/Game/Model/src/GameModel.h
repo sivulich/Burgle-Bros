@@ -84,7 +84,7 @@ public:
 
 	bool doKittyAction(int dice);
 
-	void doChihuahuaAction(int dice);
+	bool doChihuahuaAction(int dice);
 
 	Board* getBoard() { return &board; };
 

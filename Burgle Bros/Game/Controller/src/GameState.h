@@ -247,32 +247,30 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct beginTurn : public msm::front::state<>
 	{
-		bool throw4Chihuahua = false;
+
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			if (fsm.model->currentPlayer()->isOnRoof())
-				fsm.process_event(ev::pass());
-			else
-			{
-				std::cout << "Starting Turn" << std::endl;
-				fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
+			std::cout << "Starting Turn" << std::endl;
+			fsm.currentAction = NO_TYPE;
+			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
 
-				if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
+			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
+			{
+				if (fsm.model->currentPlayer()->isLocal())
 				{
-					if (fsm.model->currentPlayer()->isLocal())
-					{
-						fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
-					}
-					//else is remote
+					fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
 				}
-				else fsm.process_event(ev::done());
+				//else is remote
 			}
+			else fsm.process_event(ev::done());
+
 		}
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
+			fsm.currentAction = NO_TYPE;
 			std::cout << "" << std::endl;
 		}
 	};
@@ -675,13 +673,34 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Doing initial action" << std::endl;
-			if (fsm.model->doKittyAction(event.number))
+			vector<int> dices;
+			dices.push_back(event.number);
+			bool b = false;
+			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) == true)
 			{
-				source.throw4Chihuahua = true;
-				fsm.currentAction = THROW_DICE;
+				b = true;
+				if (fsm.model->doKittyAction(event.number)) fsm.graphics->showDices(string("You threw a 1 or a 2 and the kitty escaped your grasp."), dices);
+				else fsm.graphics->showDices(string("You either haven't thrown a 1 or a 2, or no alarm tiles where flipped. The kitty remains in your grasp."), dices);
 			}
-			else fsm.process_event(ev::done());
+
+			if (fsm.model->currentPlayer()->has(CHIHUAHUA))
+			{
+				fsm.currentAction = THROW_DICE;
+				if (!b) fsm.process_event(ev::throwDice(event.number));
+				else
+				{
+					if (fsm.model->currentPlayer()->isLocal())
+					{
+						fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
+					}
+					//else remoto
+				}
+			}
+			else
+			{
+				fsm.currentAction = NO_TYPE;
+				fsm.process_event(ev::done());
+			}
 		}
 	};
 
@@ -690,8 +709,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Doing initial action" << std::endl;
-			fsm.model->doChihuahuaAction(event.number);
+			vector<int> dices;
+			dices.push_back(event.number);
+			if (fsm.model->doChihuahuaAction(event.number)) fsm.graphics->showDices(string("You threw a 6. The alarm was triggered by the Chihuahua's barks"), dices);
+			else fsm.graphics->showDices(string("You didn't throw a 6. You silenced the Chihuahua before the alarm was triggered."), dices);
 			fsm.currentAction = NO_TYPE;
 			fsm.process_event(ev::done());
 		}
@@ -936,7 +957,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return (source.throw4Chihuahua == false);
+			return (fsm.currentAction == NO_TYPE);
 		}
 	};
 
@@ -945,7 +966,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return (source.throw4Chihuahua == true);
+			return (fsm.currentAction == THROW_DICE);
 		}
 	};
 
@@ -1099,8 +1120,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+f
 		Row < beginTurn, ev::done, chooseAction, none, none				>,
-		Row < beginTurn, ev::throwDice, beginTurn, doKittyAction, isThrowing4Kitty	>,
-		Row < beginTurn, ev::throwDice, beginTurn, doChihuahuaAction, isThrowing4Chihuahua	>,
+		Row < beginTurn, ev::throwDice, none, doKittyAction, isThrowing4Kitty	>,
+		Row < beginTurn, ev::throwDice, none, doChihuahuaAction, isThrowing4Chihuahua	>,
 
 
 		//  +------------+-------------+------------+--------------+--------------+
