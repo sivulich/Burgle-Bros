@@ -6,11 +6,11 @@
 
 int main()
 {
-	//BurgleNetwork * network = new BurgleNetwork();
+	BurgleNetwork * network = new BurgleNetwork();
 	GameModel* model = new GameModel();
 	GameGraphics * graphics = new GameGraphics(model);
 
-	GameController game(model, graphics);
+	GameController game(model, graphics,network);
 
 	while (game.isRunning())
 	{

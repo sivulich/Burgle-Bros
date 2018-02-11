@@ -571,7 +571,7 @@ void Player::giveLoot(lootType type)
 		newAction("OFFER_LOOT", getPosition(), INT_MAX);
 		otherPlayer->newAction("REQUEST_LOOT", getPosition(), INT_MAX);
 
-		for (int i = 0; i < loots.size(); i++)
+		for (unsigned i = 0; i < loots.size(); i++)
 			if (type == loots[i]->getType())
 				removeLoot(loots[i]);
 

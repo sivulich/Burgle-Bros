@@ -33,11 +33,11 @@ public:
 	GameFSM_() { };
 
 	// Constructor which receives a pointer to the model
-	GameFSM_(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/, Timer * t)
+	GameFSM_(GameModel * m, GameGraphics * g, BurgleNetwork * n, Timer * t)
 	{
 		model = m;
 		graphics = g;
-		//network = n;
+		network = n;
 		sound = new SoundEffects();
 		guardTimer = t;
 	};
@@ -46,6 +46,7 @@ public:
 	GameModel * model;
 	GameGraphics * graphics;
 	SoundEffects * sound;
+	BurgleNetwork * network;
 	//BurgleNetwork * network;
 	Timer * guardTimer;
 	enum { UNSET, LOCAL, REMOTE };
@@ -62,7 +63,7 @@ public:
 		s.graphics = fsm.graphics;
 		s.guardTimer = fsm.guardTimer;
 		s.sound = sound;
-		//s.network = fsm.network;
+		s.network = fsm.network;
 	}
 
 	template <class EVT, class FSM>

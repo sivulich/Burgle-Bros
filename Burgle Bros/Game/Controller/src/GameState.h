@@ -34,7 +34,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	GameModel * model;
 	GameGraphics * graphics;
 	SoundEffects * sound;
-	//BurgleNetwork * network;
+	BurgleNetwork * network;
 	int gameMode;
 	Timer * guardTimer;
 	// Stores current action chosen by player
