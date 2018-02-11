@@ -104,12 +104,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;packages\Apache Runtinme Library\apr-iconv\include;packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;..\packages\Apache Runtinme Library\apr\include;packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/FS  %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libapr-1.lib;libapriconv-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,6 +130,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>Controller\src;Graphics\src\Animations;Graphics\src\Graphic Objects;Graphics\src\Observers;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\boost.1.64.0.0\lib\native\include;Controller\include;Graphics\include;$(StlIncludeDirectories);Model\include;Network\include;Graphics\src\ALX;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MinimalRebuild>true</MinimalRebuild>
+      <AdditionalOptions>/FS  %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -299,6 +303,7 @@
     <ClInclude Include="Model\src\Tiles\Thermo.h" />
     <ClInclude Include="Model\src\Tiles\TileFactory.h" />
     <ClInclude Include="Model\src\Tiles\Walkway.h" />
+    <ClInclude Include="Network\include\BurgleNetwork.h" />
     <ClInclude Include="Sound\SoundEffects.h" />
   </ItemGroup>
   <ItemGroup>
@@ -383,6 +388,7 @@
     <ClCompile Include="Model\src\Tiles\Tile.cpp" />
     <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
+    <ClCompile Include="Network\src\BurgleNetwork.cpp" />
     <ClCompile Include="Sound\SoundEffects.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

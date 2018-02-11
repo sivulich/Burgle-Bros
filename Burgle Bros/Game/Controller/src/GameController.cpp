@@ -43,6 +43,29 @@ bool GameController::isRunning()
 void GameController::getInput()
 {
 	s = "";
+	if (model != nullptr && model->isRemote() && network != nullptr)
+	{
+		remoteInput inp = network->getRemoteInput();
+		if (inp.action != NO_TYPE)
+		{
+			switch (inp.action)
+			{
+			case ACK:
+				s = "ACK";
+				break;
+			case MOVE:
+				s = "MOVE";
+				break;
+			case PEEK:
+				s = "PEEK";
+				break;
+
+			}
+			return;
+		}
+
+	}
+
 	/*if (network->newEvent())
 	{
 		ALLEGRO_EVENT e = network->getEvent();
@@ -231,15 +254,18 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
 	else if (s == "NO")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
+	else if (s == "DONE")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::done());
 	else if (s == "OK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ok());
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 	{
 		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
-		if (tileZoomMode == true)
+		if (tileZoomMode == false)
 			graphics->zoomTile(c);
 		else
 			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
+		cout << "PROCCESS COORD " << s << endl;
 	}
 	else if (isInEnum_characterType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
@@ -253,21 +279,12 @@ void GameController::processEvent()
 	}
 	else if (s.substr(0, 4) == string("DROP"))
 	{
-		LootFactory factory;
 		Loot * l = nullptr;
 		if (s.substr(5) == string("GOLDBAR"))
-			l = factory.newLoot(GOLD_BAR);
+			l = LootFactory().newLoot(GOLD_BAR);
 		else if ((s.substr(5) == string("PERSIAN_KITTY")))
-			l = factory.newLoot(PERSIAN_KITTY);
+			l = LootFactory().newLoot(PERSIAN_KITTY);
 		if (l != nullptr)
 			model->getBoard()->getTile(model->currentPlayer()->getPosition())->setLoot(l);
 	}
-}
-
-int  GameController::throwDice()
-{
-	std::random_device rd;     // only used once to initialise (seed) engine
-	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
-	std::uniform_int_distribution<int> uni(1, 6); // guaranteed unbiased
-	return uni(rng);
 }

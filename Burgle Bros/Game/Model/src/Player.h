@@ -114,10 +114,10 @@ public:
 	vector<Coord> getAdjacentJuicer();
 
 	//	Move the player to the tile
-	bool move(Coord c);
+	unsigned int move(Coord c, unsigned int safeNumber = 0);
 
 	//	Peek the tile
-	bool peek(Coord c);
+	unsigned int peek(Coord c, unsigned int safeNumber = 0);
 
 	//	Use a token from a Computer Room or
 	void useToken();
@@ -147,6 +147,7 @@ public:
 	//
 	void setLocal(bool b) { local = b; };
 	bool isLocal() { return local; };
+	bool isRemote() { return !local; };
 	//
 	int getLoot2bTraded() { return loot2bTransfered; };
 
@@ -224,8 +225,6 @@ private:
 	bool playing;
 	//
 	bool local;
-	//
-	Coord lastPos;
 	// Character the player is using
 	Character * character;
 	// Tile where character token is placed on the board
@@ -260,9 +259,9 @@ private:
 
 	//       PRIVATE METHOD
 	//	Move to a tile
-	bool move(Tile * newTile);
+	unsigned int move(Tile * newTile, unsigned int safeNumber=0);
 	//	Peek a tile
-	bool peek(Tile * newTile);
+	unsigned int peek(Tile * newTile, unsigned int safeNumber=0);
 	//	Sets the player's position with a tile pointer
 	void setPosition(Tile*  newTile);
 };

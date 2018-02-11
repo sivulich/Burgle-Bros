@@ -29,14 +29,16 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 				{ string("PICK_UP_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/PICK_UP_LOOT.png"),663,23) },
 				{ string("OFFER_LOOT"),		new Image(string("../Game/Graphics/Images/Actions/OFFER_LOOT.png"),663,26) },
 				{ string("REQUEST_LOOT"),	new Image(string("../Game/Graphics/Images/Actions/REQUEST_LOOT.png"),691,26) },
-				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),577,24) } };
-	
-	
+				{ string("THROW_DICE"),		new Image(string("../Game/Graphics/Images/Actions/THROW_DICE.png"),577,24) },
+				{ string("ADD_DIE"),		new Image(string("../Game/Graphics/Images/Actions/ADD_DIE.png"), 435, 23) },
+				{ string("CRACK_SAFE"),		new Image(string("../Game/Graphics/Images/Actions/CRACK_SAFE.png"),462,23) } };
+
+
 	// Add special action buttons for each player
 	switch (model->player1()->getCharacter())
 	{
 	case JUICER:
-		actions.insert(pair<string, Image*>(string("CREATE_ALARM"), new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), 139,23 )));
+		actions.insert(pair<string, Image*>(string("CREATE_ALARM"), new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), 139, 23)));
 		break;
 	case SPOTTER:
 		actions.insert(pair<string, Image*>(string("SPY_PATROL"), new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"), 139, 23)));
@@ -49,7 +51,7 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 	switch (model->player2()->getCharacter())
 	{
 	case JUICER:
-		actions.insert(pair<string, Image*>(string("CREATE_ALARM"), new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), 864,23)));
+		actions.insert(pair<string, Image*>(string("CREATE_ALARM"), new Image(string("../Game/Graphics/Images/Actions/CREATE_ALARM.png"), 864, 23)));
 		break;
 	case SPOTTER:
 		actions.insert(pair<string, Image*>(string("SPY_PATROL"), new Image(string("../Game/Graphics/Images/Actions/SPY_PATROL.png"), 864, 23)));
@@ -64,8 +66,8 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 		a.second->disable();
 		hudCont->addObject(a.second);
 	}
-	
-	player1 = new PlayerObserver(model->player1(), c, hudCont,b->getContainer());
+
+	player1 = new PlayerObserver(model->player1(), c, hudCont, b->getContainer());
 	player2 = new PlayerObserver(model->player2(), c, hudCont, b->getContainer());
 
 	map<characterType, string> images = { { ACROBAT,string("./Graphics/Images/Characters/The Acrobat.png") },
@@ -83,14 +85,7 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 
 void HudObserver::update()
 {
-	// If guard is moving disable all actions
-	/*if (boardObs->guardIsMoving())
-	{
-		for (auto& a : actions)
-			a.second->disable();
-		passButton->disable();
-	}*/
-	// Else update actions
+	// Update actions
 
 	vector<string> possibleActions = model->currentPlayer()->getActions();
 	for (auto& a : actions)
@@ -108,4 +103,10 @@ HudObserver::~HudObserver()
 {
 	for (auto& a : actions)
 		delete a.second;
+}
+
+void HudObserver::disableActions()
+{
+	for (auto& a : actions)
+		a.second->disable();
 }

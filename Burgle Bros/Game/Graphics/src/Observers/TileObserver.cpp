@@ -242,18 +242,18 @@ void TileObserver::update()
 		openToken->setVisible(true);
 	}
 
-	if (tile->hasXLoot(PERSIAN_KITTY) != hasKitty)
+	if (tile->hasLoot(PERSIAN_KITTY) != hasKitty)
 	{
-		hasKitty = tile->hasXLoot(PERSIAN_KITTY);
+		hasKitty = tile->hasLoot(PERSIAN_KITTY);
 		if(hasKitty)
 			persianKitty->setVisible(true);
 		else
 			persianKitty->setVisible(false);
 	}
 		
-	if (tile->hasXLoot(GOLD_BAR) != hasGoldBar)
+	if (tile->hasLoot(GOLD_BAR) != hasGoldBar)
 	{
-		hasGoldBar = tile->hasXLoot(GOLD_BAR);
+		hasGoldBar = tile->hasLoot(GOLD_BAR);
 		if (hasGoldBar)
 			goldBar->setVisible(true);
 		else

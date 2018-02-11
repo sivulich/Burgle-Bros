@@ -3,7 +3,7 @@
 
 #include <GameModel.h>
 #include <GameGraphics.h>
-//#include <BurgleNetwork.h>
+#include <BurgleNetwork.h>
 #include <alx.hpp>
 
 using namespace alx;
@@ -29,7 +29,7 @@ private:
 	// Pointers to model and graphic classes
 	GameModel * model;
 	GameGraphics * graphics;
-	//BurgleNetwork * network;
+	BurgleNetwork * network;
 	// 
 	EventQueue eventQueue;
 	Timer renderTimer;

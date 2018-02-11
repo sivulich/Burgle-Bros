@@ -6,7 +6,6 @@
 
 int main()
 {
-	//BurgleNetwork * network = new BurgleNetwork();
 	GameModel* model = new GameModel();
 	GameGraphics * graphics = new GameGraphics(model);
 

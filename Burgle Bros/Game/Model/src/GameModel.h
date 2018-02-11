@@ -21,7 +21,9 @@ public:
 	//
 	void setLocal();
 	void setRemote();
-	
+	bool isRemote();
+	bool isLocal();
+
 	// Print game model in console
 	void print();
 

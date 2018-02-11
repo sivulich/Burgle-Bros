@@ -1,4 +1,4 @@
-/*#include "./BurgleNetwork.h"
+#include "./BurgleNetwork.h"
 #include <chrono>
 
 
@@ -715,7 +715,7 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 					apr_socket_opt_set(fl->sock, APR_SO_NONBLOCK, 1);
 		apr_socket_timeout_set(fl->sock, 0);
 		retVal = true;
-		*//*
+		*/
 					fl->server = false;
 					fl->executing = false;
 					fl->join = true;
@@ -1155,4 +1155,3 @@ BurgleNetwork::~BurgleNetwork()
 	flags.pool = nullptr;
 	apr_terminate2();
 }
-*/

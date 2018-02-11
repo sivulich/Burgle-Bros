@@ -75,6 +75,15 @@ void GameModel::setRemote()
 	player2_.setLocal(false);
 }
 
+bool GameModel::isRemote()
+{
+	return player1_.isRemote() || player2_.isRemote();
+}
+bool GameModel::isLocal()
+{
+	return player1_.isLocal() && player2_.isLocal();
+}
+
 void GameModel::setInitialPosition(Coord c)
 {
 	player1_.setPosition(c);
