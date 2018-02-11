@@ -32,6 +32,7 @@ public:
 	*/
 	PatrolCardDeck * getDeck(unsigned int f) {
 		if (f < 3) return floor[f]->getPatrolDeck();
+		else return nullptr;
 	}
 	/**
 		Sets board tiles randomly

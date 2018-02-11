@@ -168,6 +168,7 @@ unsigned int Player::move(Tile * newTile, unsigned int safeNumber)
 		notify();
 		return newTile->getSafeNumber();
 	}
+	return 0;
 }
 
 vector<Coord> Player::whereCanIPeek()
@@ -236,6 +237,7 @@ unsigned int Player::peek(Tile * newTile, unsigned int safeNumber)
 		notify();
 		return newTile->getSafeNumber();
 	}
+	return 0;
 }
 
 bool Player::createAlarm(Coord c)
@@ -528,7 +530,7 @@ void Player::giveLoot(lootType type)
 		newAction("OFFER_LOOT", getPosition(), INT_MAX);
 		otherPlayer->newAction("REQUEST_LOOT", getPosition(), INT_MAX);
 
-		for (unsigned int i = 0; i < loots.size(); i++)
+		for (unsigned i = 0; i < loots.size(); i++)
 			if (type == loots[i]->getType())
 				removeLoot(loots[i]);
 

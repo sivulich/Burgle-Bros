@@ -35,11 +35,11 @@ public:
 	GameFSM_() { };
 
 	// Constructor which receives a pointer to the model
-	GameFSM_(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/, Timer * t)
+	GameFSM_(GameModel * m, GameGraphics * g, BurgleNetwork * n, Timer * t)
 	{
 		model = m;
 		graphics = g;
-		//network = n;
+		network = n;
 		sound = new SoundEffects();
 		guardTimer = t;
 	};
@@ -333,6 +333,7 @@ public:
 			else if (fsm.gameMode == REMOTE)
 			{
 				fsm.process_event(ev::play());
+							
 			}
 		}
 	};
@@ -346,7 +347,20 @@ public:
 			string IP = fsm.graphics->getIP();
 			fsm.network = new BurgleNetwork();
 			fsm.network->connect(IP);
-			fsm.graphics->showCancelMessage(string("Connecting... Please wait."));
+			fsm.graphics->showTempMessage(string("Connecting... Please wait."));
+			while (!fsm.network->join())
+			{
+
+			}
+			fsm.graphics->removeDialogBox();
+			if (fsm.network->error())
+				fsm.graphics->showOkMessage(fsm.network->errMessage());
+			else
+			{
+				fsm.graphics->showOkMessage("Connected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				fsm.process_event(ev::next());
+			}
+				
 		}
 
 	};

@@ -14,9 +14,14 @@ public:
 		//player1_.setLocal(true);
 		currentPlayer_  =  &player1_;
 		otherPlayer_    =  &player2_;
+		player1_.setLocal(true);
 
+		player2_.setLocal(true);
 		srand((unsigned int)time(NULL));
 	};
+
+
+	std::pair<Coord, Coord> getInitialGuardPos();
 
 	//
 	void setLocal();
@@ -80,6 +85,8 @@ public:
 
 	//
 	vector<Coord> getTilesXDist(unsigned x, Player * p);
+
+
 
 	//
 	void check4Cameras();

@@ -12,7 +12,7 @@ using namespace alx;
 class GameController
 {
 public:
-	GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/);
+	GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n);
 	virtual ~GameController() {}
 	void start();
 	void stop();

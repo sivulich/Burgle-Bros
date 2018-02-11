@@ -7,6 +7,7 @@
 
 Board::Board(PlayerInterface* p1, PlayerInterface* p2)
 {
+	srand((unsigned int)time(NULL));
 	for (int i = 0; i < 3; i++)
 		floor[i] = new Floor(i, p1, p2);
 }

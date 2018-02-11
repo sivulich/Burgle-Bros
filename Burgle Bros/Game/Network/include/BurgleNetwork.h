@@ -89,6 +89,7 @@ public:
 	Coord startingPos() { return flags.playerPos; };
 	string remoteName() { return flags.remoteName; };
 	bool isServer() { return flags.server; };
+	bool iStart() { return flags.iStart; };
 	remoteInput getRemoteInput();
 
 	//Instruction senders

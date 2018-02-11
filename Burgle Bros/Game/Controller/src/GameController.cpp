@@ -2,9 +2,9 @@
 #include "./GameFSM.h"
 #include <random>
 
-GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/) : stateMachine(new GameFSM(m, g/*, n*/, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
+GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n) : stateMachine(new GameFSM(m, g, n, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
-	//network = n;
+	network = n;
 	model = m;
 	graphics = g;
 
@@ -15,10 +15,10 @@ GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork 
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
 	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
 
-	//	al_init_user_event_source(&BurgleNetwork::networkEventSource);
-	//	al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
+		al_init_user_event_source(&BurgleNetwork::networkEventSource);
+		al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
 
-		//eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
+		eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
 
 	renderTimer.start();
 	static_pointer_cast<GameFSM>(stateMachine)->start();
@@ -86,6 +86,7 @@ void GameController::getInput()
 
 		switch (event.getType())
 		{
+		
 		case ALLEGRO_EVENT_TIMER:
 			if (event.getTimer() == guardTimer)
 			{
@@ -94,14 +95,15 @@ void GameController::getInput()
 			else if (event.getTimer() == renderTimer)
 				s = "RENDER";
 			break;
+		
 		case ALLEGRO_EVENT_DISPLAY_CLOSE:
 			s = "EXIT";
 			break;
-
 		case ALLEGRO_EVENT_MOUSE_AXES:
 			graphics->hover(event.getMouseY(), event.getMouseX());
 			s = "";
 			break;
+		
 
 		case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 			s = graphics->click(event.getMouseY(), event.getMouseX());
