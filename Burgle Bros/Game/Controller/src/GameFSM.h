@@ -333,7 +333,6 @@ public:
 			else if (fsm.gameMode == REMOTE)
 			{
 				fsm.process_event(ev::play());
-							
 			}
 		}
 	};
@@ -347,20 +346,7 @@ public:
 			string IP = fsm.graphics->getIP();
 			fsm.network = new BurgleNetwork();
 			fsm.network->connect(IP);
-			fsm.graphics->showTempMessage(string("Connecting... Please wait."));
-			while (!fsm.network->join())
-			{
-
-			}
-			fsm.graphics->removeDialogBox();
-			if (fsm.network->error())
-				fsm.graphics->showOkMessage(fsm.network->errMessage());
-			else
-			{
-				fsm.graphics->showOkMessage("Connected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-				fsm.process_event(ev::next());
-			}
-				
+			fsm.graphics->showCancelMessage(string("Connecting... Please wait."));
 		}
 
 	};

@@ -7,6 +7,7 @@
 #include "Hawk.h"
 #include "Raven.h"
 #include "Peterman.h"
+#include "NoType.h"
 
 class CharacterFactory
 {
