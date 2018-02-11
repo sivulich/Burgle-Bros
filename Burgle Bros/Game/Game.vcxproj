@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;C:\work\apr\include;C:\work\apr-iconv\include;..\packages\Apache Runtinme Library\apr-iconv\include;..\packages\Apache Runtinme Library\apr\include;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
-      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\work\apr-iconv\Debug;C:\work\apr\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

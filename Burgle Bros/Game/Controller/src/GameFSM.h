@@ -370,7 +370,6 @@ public:
 			fsm.graphics->showTempMessage(string("Connecting... Please wait."));
 			while (!fsm.network->join())
 			{
-
 			}
 			fsm.graphics->removeDialogBox();
 			if (fsm.network->error())

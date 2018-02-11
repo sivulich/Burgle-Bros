@@ -39,3 +39,52 @@ SetupScreen::SetupScreen(Container* p) : Container(SCREEN_HEIGHT, SCREEN_WIDTH, 
 	addObject(player1);
 	addObject(player2);
 }
+
+string
+SetupScreen::click(int y, int x)
+{
+	if (initOk == false)
+	{
+		DEBUG_MSG("Trying to click container " << name << " when it was not initialized correctly");
+		return "";
+	}
+	DEBUG_MSG_V("Clicking on container " << name);
+
+	if (clickable == true && isInside(y, x) && visible == true)
+	{
+		string s = "";
+		if (onlyClickMe == false)
+		{
+			for (auto& ob : objects)
+			{
+				if (ob->overYou((y - this->y) / scaleY, (x - this->x) / scaleX) == true)
+				{
+					s = ob->click((y - this->y) / scaleY, (x - this->x) / scaleX);
+					if (s == string("Not Clickable"))
+						continue;
+					else
+					{
+						if (s != string("NEXT") && s != string("BACK"))
+							((Image*)ob)->setTone(1, 0.5, 0.5);
+					}
+					
+				}
+				else
+					if(ob->isEnable()==true)
+						((Image*)ob)->setTone(1, 1, 1);
+			}
+			return s;
+		}
+		else
+		{
+			clicked = true;
+
+			if (dontClickMe == false)
+				return name;
+			else
+				return "";
+		}
+
+	}
+	return "";
+}
