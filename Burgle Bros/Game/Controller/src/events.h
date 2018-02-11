@@ -25,7 +25,7 @@ namespace ev {
 
 	struct movee : BaseEvent {};
 	struct peek : BaseEvent {};
-	struct throwDice : BaseEvent 
+	struct throwDice : BaseEvent
 	{
 		throwDice() {};
 		throwDice(int n) :number(n) {};
@@ -33,12 +33,6 @@ namespace ev {
 		int number;
 		vector<int> dices;
 	};
-	struct continueThrow : BaseEvent
-	{
-		continueThrow(int n) :number(n) {};
-		int number;
-	};
-	struct finishThrow : BaseEvent{};
 	struct useToken : BaseEvent {};
 	struct addToken : BaseEvent {};
 	struct addDice : BaseEvent {};
@@ -69,13 +63,17 @@ namespace ev {
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};
 	struct done : BaseEvent {};
+	struct ack : BaseEvent {};
+	struct waitForNetwork : BaseEvent {};
 	struct ok : BaseEvent {};
 	struct render : BaseEvent {};
 	struct coord : BaseEvent
 	{
 		typedef int CoordProp;
-		coord(Coord p) :c(p) {};
+		coord(Coord p) :c(p) { safeNumber = 0; };
+	//	coord(Coord p,unsigned int n) :c(p),safeNumber(n) {};
 		Coord c;
+		unsigned int safeNumber;
 	};
 
 }

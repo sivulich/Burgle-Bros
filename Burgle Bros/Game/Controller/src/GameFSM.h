@@ -3,6 +3,8 @@
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 #define BOOST_MPL_LIMIT_VECTOR_SIZE 50 //or whatever you need                       
 #define BOOST_MPL_LIMIT_MAP_SIZE 50 //or whatever you need 
+#define FUSION_MAX_VECTOR_SIZE 20
+
 
 #include <iostream>
 // Back-end:
@@ -47,9 +49,8 @@ public:
 	GameGraphics * graphics;
 	SoundEffects * sound;
 	BurgleNetwork * network;
-	//BurgleNetwork * network;
 	Timer * guardTimer;
-	enum { UNSET, LOCAL, REMOTE };
+	enum MODE{ UNSET, LOCAL, REMOTE };
 	int gameMode;
 	//-------------------------------------------------------------
 	template <class EVT, class FSM>
@@ -363,9 +364,9 @@ public:
 		{
 			cout << "Connecting computers" << endl;
 			string IP = fsm.graphics->getIP();
-
-			//fsm.network->connect(IP);
-			//fsm.graphics->showCancelMessage(string("Connecting... Please wait."));
+			fsm.network = new BurgleNetwork();
+			fsm.network->connect(IP);
+			fsm.graphics->showCancelMessage(string("Connecting... Please wait."));
 		}
 
 	};
@@ -423,6 +424,22 @@ public:
 
 	};
 
+	struct passData
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			// Pass pointers to submachine 
+			GameState& s = fsm.get_state<GameState&>();
+			s.model = fsm.model;
+			s.graphics = fsm.graphics;
+			s.guardTimer = fsm.guardTimer;
+//			s.sound = sound;
+			s.network = fsm.network;
+		}
+
+	};
+
 	///////////// GUARDSSSSS
 
 	struct isLocal
@@ -463,7 +480,7 @@ public:
 		Row < SetupScreen	, ev::back			, IPScreen		, none				, isRemote	>,
 		Row < SetupScreen	, ev::characterName	, none			, setUpCharacter	, none		>,
 		Row < SetupScreen	, ev::next			, none			, doSetup			, none		>,
-		Row < SetupScreen	, ev::play			, GameState		, none				, none		>,
+		Row < SetupScreen	, ev::play			, GameState		, passData				, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < IPScreen		, ev::back			, ModeScreen	, none				, none		>,
 		Row < IPScreen		, ev::connect		, none			, doConnect			, none		>,

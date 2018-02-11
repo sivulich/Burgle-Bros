@@ -2,6 +2,7 @@
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 #define BOOST_MPL_LIMIT_VECTOR_SIZE 50 //or whatever you need                       
 #define BOOST_MPL_LIMIT_MAP_SIZE 50 //or whatever you need 
+#define FUSION_MAX_VECTOR_SIZE 20
 
 #include <iostream>
 // Back-end:
@@ -72,8 +73,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	//----------------------- STATES -----------------------------//
 
-	typedef ev::coord initial_event;
-
+	
 	struct chooseInitialPos : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -311,6 +311,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct idle : public msm::front::state<>
+	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+			cout << "IDLE..." << endl;
+
+		}
+	};
+
+	struct waitingForNetwork : public msm::front::state<>
+	{};
+
 	//----------------------- ACTIONS -----------------------------//
 
 	struct doSetInitialPos
@@ -329,19 +342,26 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			// Move the player
-			cout << "DO MOVE" << endl;
+
+			std::cout << "Moving to " << event.c.toString() << std::endl;
 			fsm.graphics->printInHud(string("Moving to ") + event.c.toString());
 
-			bool b = fsm.model->currentPlayer()->move(event.c);
+			unsigned int safeNumber = fsm.model->currentPlayer()->move(event.c, event.safeNumber);
+
+			// If other player is remote send move
+			if (fsm.model->otherPlayer()->isRemote())
+			{
+				fsm.network->sendMove(event.c, safeNumber);
+				fsm.process_event(ev::waitForNetwork());
+			}
+
 
 			// If coming from ask confirmation state, the player agreed to spent tokens
 			if (is_same<SourceState, askConfirmationMove>::value)
 				fsm.model->currentPlayer()->spentOK();
 
-			if (b == false)
-				std::cout << "Cant move!" << std::endl;
-			else if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
+			
+			if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 
 			fsm.model->check4Cameras();
@@ -370,11 +390,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Peeking" << std::endl;
+			std::cout << "Peeking " << event.c.toString() << std::endl;
 			fsm.graphics->printInHud(string("Peeking ") + event.c.toString());
-			bool b = fsm.model->currentPlayer()->peek(event.c);
-			if (b == false)
-				std::cout << "Cant peek!" << std::endl;
+
+			unsigned int safeNumber = fsm.model->currentPlayer()->peek(event.c, event.safeNumber);
+
+			// If other player is remote send peek
+			if (fsm.model->otherPlayer()->isRemote())
+			{
+				fsm.network->sendPeek(event.c, safeNumber);
+				fsm.process_event(ev::waitForNetwork());
+			}
 
 			fsm.currentAction = NO_TYPE;
 		}
@@ -645,6 +671,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Player turn ended" << std::endl;
 			fsm.model->endTurn();
 			fsm.currentAction = NO_TYPE;
+
+			// If other player is remote send pass 
+			if (is_same<EVT, ev::pass>::value && fsm.model->otherPlayer()->isRemote())
+			{
+				fsm.network->sendPass();
+				fsm.process_event(ev::waitForNetwork());
+			}
 		}
 	};
 
@@ -988,12 +1021,30 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
+	struct isOfferingLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == OFFER_LOOT;
+		}
+	};
+
+	struct isRequestingLoot
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return fsm.currentAction == REQUEST_LOOT;
+		}
+	};
+
 	struct gameIsRemote
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return fsm.gameMode == REMOTE;
+			return fsm.gameMode == GameFSM_::MODE::REMOTE;
 		}
 	};
 
@@ -1002,7 +1053,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return fsm.gameMode == REMOTE;
+			return fsm.gameMode == GameFSM_::MODE::LOCAL;
 		}
 	};
 
@@ -1024,41 +1075,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct isOfferingLoot
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			return fsm.currentAction == OFFER_LOOT;
-		}
-	};
-
-	struct isRequestingLoot
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			return fsm.currentAction == REQUEST_LOOT;
-		}
-	};
-
-	struct isMovingToDeadbolt
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			return source.destinationType == DEADBOLT;
-		}
-	};
-
-	struct isMovingToLaser
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			return source.destinationType == LASER;
-		}
-	};
 
 	// Transition table
 	struct transition_table : mpl::vector<
@@ -1126,8 +1142,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>,
-		Row < gameEnded, ev::ok, none, none, none				>
+		Row < gameEnded, ev::ok, none, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
+
+		Row < idle, ev::waitForNetwork, waitingForNetwork, none, gameIsRemote				>,
+		Row < waitingForNetwork, ev::ack, idle, none, gameIsRemote				>
 
 	> {};
 
@@ -1138,7 +1157,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
 	}
 
-	typedef chooseInitialPos initial_state;
+	typedef mpl::vector<idle, chooseInitialPos> initial_state;
 
 };
 // Pick a back-end

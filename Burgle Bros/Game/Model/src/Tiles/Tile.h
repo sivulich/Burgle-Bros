@@ -17,7 +17,7 @@ public:
 	Tile(tileType t, unsigned floor, unsigned col, unsigned row);
 
 	//	Apart from turning up the card, sort the safe number
-	virtual void turnUp();
+	virtual void turnUp(unsigned int safeNumber_ = 0);
 
 	//	Peek the tile
 	void peek();
@@ -64,7 +64,7 @@ public:
 	//	Checks if there is a loot on tile.
 	bool hasLoot();
 
-	bool hasXLoot(lootType l) { bool b = false; for (auto &it : this->loot) if (it->is(l)) b = true; return b; };
+	bool hasLoot(lootType l) { bool b = false; for (auto &it : this->loot) if (it->is(l)) b = true; return b; };
 
 	//
 	vector<Loot *> getLoot() { return loot; }
@@ -81,6 +81,7 @@ public:
 
 	//	If tile is flipped returns the safe number, else returns 0.
 	int getSafeNumber();
+	void setSafeNumber(unsigned int n) { safeNumber = n; };
 
 	//	Return a vector of Coords where player can move (override special cases)
 	virtual vector<Coord> whereCanIMove();
@@ -120,7 +121,7 @@ public:
 	void setCrowToken(bool b) { crowToken = b; notify(); };
 	bool hasCrowToken() { return crowToken; };
 
-	
+
 	//Returns the amount of hack tokens in the tile
 	int getHackTokens() { return hackToken; };
 

@@ -8,6 +8,10 @@ Tile::Tile()
 	crackToken = false;
 	crowToken = false;
 	hackerHere = false;
+	
+	default_random_engine generator((unsigned int)std::chrono::system_clock::now().time_since_epoch().count());
+	uniform_int_distribution<int> distribution(1, 6);
+	safeNumber = distribution(generator);
 }
 
 Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
@@ -29,6 +33,10 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 	eastWall = false;
 	southWall = false;
 	westWall = false;
+
+	default_random_engine generator((unsigned int)std::chrono::system_clock::now().time_since_epoch().count());
+	uniform_int_distribution<int> distribution(1, 6);
+	safeNumber = distribution(generator);
 }
 
 void Tile::setLoot(Loot * l)
@@ -90,13 +98,13 @@ bool Tile::hasSouthWall()
 }*/
 
 
-void Tile::turnUp()
+void Tile::turnUp(unsigned int safeNumber_)
 {
 	if (isFlipped() == false)
 	{
-		default_random_engine generator((unsigned int)std::chrono::system_clock::now().time_since_epoch().count());
-		uniform_int_distribution<int> distribution(1, 6);
-		safeNumber = distribution(generator);
+		if (safeNumber_ != 0)
+			safeNumber = safeNumber_;
+
 		BaseCard::turnUp();
 		notify();
 	}
@@ -113,9 +121,7 @@ void Tile::setAlarm(bool b)
 
 int Tile::getSafeNumber()
 {
-	//return isFlipped() ? safeNumber : 0;
 	return safeNumber;
-
 }
 
 vector<Coord> Tile::whereCanIMove()

@@ -8,7 +8,6 @@ Player::Player(Board * b, Player * p, int n)
 	otherPlayer = p;
 	resetActionTokens();
 	crowToken = NPOS;
-	lastPos = NPOS;
 	stealthTokens = NUMBER_STEALTH_TOKENS;
 	currentTile = nullptr;
 	character = nullptr;
@@ -127,30 +126,21 @@ vector<Coord> Player::whereCanIMove()
 	if (currentTile->is(WALKWAY) && currPos.floor > 0)
 		v.push_back(Coord(currPos.floor - 1, currPos.col, currPos.row));
 
-	/*// Remove the ones where I cant move
-	for (auto& t : v)
-	{
-		// Aca hay un problema con el keypad, porque canMove tira el dado!! Lo arreglo con un continue
-		if (board->getTile(t)->is(KEYPAD))
-			continue;
-		//else if (board->getTile(t)->canMove(this) == false)
-		//	v.erase(remove(v.begin(), v.end(), t));
-	}*/
 	return v;
 }
 
-bool Player::move(Coord c)
+unsigned int Player::move(Coord c, unsigned int safeNumber)
 {
 	if (c == ROOF)
 	{
 		setPosition(ROOF);
-		return true;
+		return 0;
 	}
 	else
 		return move(board->getTile(c));
 }
 
-bool Player::move(Tile * newTile)
+unsigned int Player::move(Tile * newTile, unsigned int safeNumber)
 {
 	removeActionToken();
 
@@ -161,7 +151,6 @@ bool Player::move(Tile * newTile)
 		newAction("MOVE", newTile->getPos(), INT_MAX);
 
 		// Exit the current tile
-		lastPos = this->getPosition();
 		currentTile->exit(this);
 
 		setPosition(newTile);
@@ -173,12 +162,12 @@ bool Player::move(Tile * newTile)
 		for (auto & t : loots)
 			t->update();
 
-		// Notify the view the player has moved
-		notify();
+		if (safeNumber != 0)
+			newTile->setSafeNumber(safeNumber);
 
-		return true;
+		notify();
+		return newTile->getSafeNumber();
 	}
-	return false;
 }
 
 vector<Coord> Player::whereCanIPeek()
@@ -188,22 +177,16 @@ vector<Coord> Player::whereCanIPeek()
 	//If character is Hawk can make one peek through walls
 	if (character->is(HAWK) && this->canIUseAbility())
 	{
+		Coord c = currentTile->getPos();
+
 		if (currentTile->hasNorthWall())
-		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row - 1));
-		}
+			v.push_back(Coord(c.floor, c.col, c.row - 1));
 		if (currentTile->hasWestWall())
-		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col - 1, currentTile->getPos().row));
-		}
+			v.push_back(Coord(c.floor, c.col - 1, c.row));
 		if (currentTile->hasSouthWall())
-		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col, currentTile->getPos().row + 1));
-		}
+			v.push_back(Coord(c.floor, c.col, c.row + 1));
 		if (currentTile->hasEastWall())
-		{
-			v.push_back(Coord(currentTile->getPos().floor, currentTile->getPos().col + 1, currentTile->getPos().row));
-		}
+			v.push_back(Coord(c.floor, c.col + 1, c.row));
 	}
 
 	// Remove the flipped ones
@@ -234,34 +217,25 @@ vector<Coord> Player::getAdjacentJuicer()
 
 }
 
-bool Player::peek(Coord c)
+unsigned int Player::peek(Coord c, unsigned int safeNumber)
 {
-	bool b = false;
-	if (character->is(HAWK))
-	{
-		for (auto &it : currentTile->getAdjacent())
-		{
-			if (it == c) b = true;
-		}
-	}
-	if (!b) useAbility(true);
+	// Remove ability from hawk
+	if (character->is(HAWK) && currentTile->isAdjacent(c) == false)
+		useAbility(true);
+
 	return peek(board->getTile(c));
 }
 
-bool Player::peek(Tile * newTile)
+unsigned int Player::peek(Tile * newTile, unsigned int safeNumber)
 {
-	// no chequeo mas si es adyacente, peek lo hace sin preguntar, la adyacencia se consigue con whereCanIPeek()
-
 	if (newTile->isFlipped() == false)
 	{
 		removeActionToken();
 		newAction("PEEK", newTile->getPos(), INT_MAX);
-		newTile->turnUp();
+		newTile->turnUp(safeNumber);
 		notify();
-		return true;
+		return newTile->getSafeNumber();
 	}
-	return false;
-
 }
 
 bool Player::createAlarm(Coord c)
@@ -334,31 +308,12 @@ vector<string> Player::getActions()
 	{
 		possibleActions = currentTile->getActions(this);
 
-
-		if (currentTile->hasLoot())
-		{
-			bool b = false;
-			for (auto &it : this->loots) if (it->is(GOLD_BAR)) b = true;
-			if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
-				possibleActions.push_back("PICK_UP_LOOT");
-		}
-
-
+		if (currentTile->hasLoot() && !(this->has(GOLD_BAR) && currentTile->hasLoot(GOLD_BAR)))
+			possibleActions.push_back("PICK_UP_LOOT");
 	}
-
-
-	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
-
+	
 	if (character != nullptr)
-	{
 		possibleActions.push_back(character->getAction(this));
-		/*if (getCharacter() == JUICER)
-			possibleActions.push_back("CREATE_ALARM");
-		else if (getCharacter() == RAVEN)
-			possibleActions.push_back("PLACE_CROW");
-		else if (getCharacter() == SPOTTER)
-			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
-	}
 
 	if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
 	{

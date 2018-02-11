@@ -5,6 +5,7 @@
 #include <string>
 
 #define NPOS Coord(5,5,5)
+#define ROOF Coord(3,0,0)
 
 class Coord
 {
@@ -32,7 +33,10 @@ public:
 
 	std::string toString() const
 	{
-		return char('A' + this->col) + std::to_string(this->row + 1) + std::string("F") + std::to_string(this->floor+1);
+		if ((Coord)*this == ROOF)
+			return std::string("ROOF");
+		else
+			return char('A' + this->col) + std::to_string(this->row + 1) + std::string("F") + std::to_string(this->floor+1);
 	
 	}
 
