@@ -73,7 +73,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	//----------------------- STATES -----------------------------//
 
-	
+
 	struct chooseInitialPos : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -85,15 +85,38 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			for (int i = 0; i < 4; i++)
 				for (int j = 0; j < 4; j++)
 					v.push_back(Coord(0, i, j));
-			fsm.graphics->setTilesClickable(v);
+
+			if (fsm.gameMode == GameFSM_::MODE::REMOTE && !fsm.network->iStart())
+			{
+				fsm.graphics->showOkMessage("Waiting for server info");
+				v.clear();
+				fsm.graphics->setTilesClickable(v);
+			}
+			else
+			{
+				fsm.graphics->showOkMessage("Choose Initial Position");
+				fsm.graphics->setTilesClickable(v);
+			}
+
 		}
 
 		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
+		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
+		on_exit(EVT const&  event, FSM& fsm)
 		{
 			// Set again all tiles clickable
 			fsm.graphics->setAllClickable();
+			if (fsm.gameMode == GameFSM_::MODE::REMOTE)
+			{
+
+				fsm.network->startupPhase(fsm.model->player1()->getName(), fsm.model->player1()->getCharacter(), fsm.model->getInitialGuardPos().first, fsm.model->getInitialGuardPos().second, *fsm.model->getBoard(), event.c);
+			}
 		}
+
+		template <class EVT, class FSM>
+		typename boost::disable_if<typename has_CoordProp<EVT>::type, void>::type
+		on_exit(EVT const&  event, FSM& fsm)
+		{}
 	};
 
 	struct chooseAction : public msm::front::state<>
@@ -360,7 +383,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (is_same<SourceState, askConfirmationMove>::value)
 				fsm.model->currentPlayer()->spentOK();
 
-			
+
 			if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
 				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
 

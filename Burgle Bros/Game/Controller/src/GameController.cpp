@@ -263,7 +263,7 @@ void GameController::processEvent()
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 	{
 		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
-		if (tileZoomMode == false)
+		if (tileZoomMode == true)
 			graphics->zoomTile(c);
 		else
 			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));

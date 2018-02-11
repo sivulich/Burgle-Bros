@@ -123,8 +123,8 @@ void GameGraphics::showGameScreen()
 	setAllNotVisible();
 	gameScreen->setBackground(string("./Graphics/Images/Screen - Game/background.jpg"));
 	//And observers for the board and player
-	board = new BoardObserver(model, cont);
-	hud = new HudObserver(model, board, cont);
+	board = new BoardObserver(model, gameScreen);
+	hud = new HudObserver(model, board, gameScreen);
 	textBox = new Textbox(CONSOLE_XPOS, -CONSOLE_HEIGHT, CONSOLE_WIDTH, CONSOLE_HEIGHT, string("./Graphics/Images/arial_narrow.ttf"));
 	textBox->setFontColor(al_map_rgba_f(0, 0, 0, 1));
 	textBox->setBoxColor(al_map_rgba_f(1, 1, 1, 1));

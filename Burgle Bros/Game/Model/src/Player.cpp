@@ -168,6 +168,7 @@ unsigned int Player::move(Tile * newTile, unsigned int safeNumber)
 		notify();
 		return newTile->getSafeNumber();
 	}
+	return 0;
 }
 
 vector<Coord> Player::whereCanIPeek()
@@ -236,6 +237,7 @@ unsigned int Player::peek(Tile * newTile, unsigned int safeNumber)
 		notify();
 		return newTile->getSafeNumber();
 	}
+	return 0;
 }
 
 bool Player::createAlarm(Coord c)
