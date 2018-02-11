@@ -131,7 +131,7 @@ public:
 
 	~Container() { delete toDraw; };
 
-private:
+protected:
 	/*Background info*/
 	Bitmap background;
 	int offsetX, offsetY; //Used to offset the drawing of the background in the given container
