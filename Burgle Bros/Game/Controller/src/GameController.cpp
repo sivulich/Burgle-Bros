@@ -43,7 +43,7 @@ bool GameController::isRunning()
 void GameController::getInput()
 {
 	s = "";
-	if (model != nullptr && model->isRemote() && network != nullptr)
+	if (model != nullptr && model->isRemote() && network != nullptr && network->join()==true)
 	{
 		remoteInput inp = network->getRemoteInput();
 		if (inp.action != NO_TYPE)
@@ -261,7 +261,7 @@ void GameController::processEvent()
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 	{
 		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
-		if (tileZoomMode == false)
+		if (tileZoomMode == true)
 			graphics->zoomTile(c);
 		else
 			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
@@ -286,5 +286,10 @@ void GameController::processEvent()
 			l = LootFactory().newLoot(PERSIAN_KITTY);
 		if (l != nullptr)
 			model->getBoard()->getTile(model->currentPlayer()->getPosition())->setLoot(l);
+	}
+	else if (s.substr(0, 13) == string("SET_CHARACTER"))
+	{
+		std::cout << s.substr(14) << std::endl;
+		model->currentPlayer()->setCharacter(s.substr(14));
 	}
 }

@@ -1174,7 +1174,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
 	}
 
-	typedef mpl::vector<idle, chooseInitialPos> initial_state;
+	///typedef mpl::vector<idle, chooseInitialPos> initial_state;
+	typedef chooseInitialPos initial_state;
 
 };
 // Pick a back-end
