@@ -16,6 +16,7 @@ class Stair :
 public:
 	Stair(int floor, int col, int row) : Tile(STAIR, floor, col, row) { this->alarmTile = false; };
 	~Stair();
+	vector<Coord> whereCanIPeek()override;
 };
 
 
