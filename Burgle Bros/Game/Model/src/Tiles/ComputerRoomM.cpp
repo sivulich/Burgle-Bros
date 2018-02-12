@@ -15,15 +15,19 @@ vector<string> ComputerRoomM::getActions(PlayerInterface * player)
 
 
 
-bool ComputerRoomM::doAction(string action, PlayerInterface * player) {
-	if (action == "ADD_TOKEN") {
+bool ComputerRoomM::doAction(string action, PlayerInterface * player)
+{
+	bool b = false;
+	if (action == "ADD_TOKEN")
+	{
 		if (hackToken < 6)
 		{
 			player->removeActionToken();
 			addToken();
-			return true;
+			b = true;
 		}
+
 		DEBUG_MSG("You added a token to " << getPos());
 	}
-	return false;
+	return b;
 }

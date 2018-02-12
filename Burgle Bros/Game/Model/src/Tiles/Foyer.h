@@ -13,10 +13,8 @@ public:
 	Foyer(int floor, int col, int row) : Tile(FOYER,floor, col, row) { this->alarmTile = false; };
 	~Foyer();
 
-	/**
-	Executes the tile's special actions, if any...
-	@param p player who is moving
-	*/
+	//Executes the tile's special actions, if any...
+	//@param p player who is moving
 	virtual void enter(PlayerInterface * player) override;
 
 	virtual void updateVisibleFrom(PlayerInterface * player)override;

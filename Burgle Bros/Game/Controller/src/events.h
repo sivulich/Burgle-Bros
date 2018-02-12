@@ -33,15 +33,8 @@ namespace ev {
 		int number;
 		vector<int> dices;
 	};
-	struct continueThrow : BaseEvent
-	{
-		continueThrow(int n) :number(n) {};
-		int number;
-	};
-	struct finishThrow : BaseEvent{};
 	struct useToken : BaseEvent {};
 	struct addToken : BaseEvent {};
-	struct addDice : BaseEvent {};
 	struct pass : BaseEvent {};
 	struct passGuard : BaseEvent {};
 	struct pause : BaseEvent {};
@@ -59,8 +52,6 @@ namespace ev {
 		lootType(string s) :type(s) {};
 		string type;
 	};
-	struct goldBar : BaseEvent {};
-	struct persianKitty : BaseEvent {};
 	struct showAlarm : BaseEvent {};
 	struct createAlarm : BaseEvent {};
 	struct spyPatrol : BaseEvent {};

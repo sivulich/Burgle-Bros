@@ -7,9 +7,6 @@ If you end your actions on a Thermo tile an alarm will go off. If you are moved 
 it does not trigger.
 */
 
-// SI EL USUARIO PASA O TERMINA SU TURNO, EL MODELO DEBE CHECKEAR SI PLAYER ESTA EN UNA THERMO TILE
-// EN ESE CASO HACE SONAR LA ALARMA
-
 class Thermo :
 	public Tile
 {

@@ -242,26 +242,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	};
 
-	struct throw_Dice : public msm::front::state<>
-	{
-		template <class EVT, class FSM>
-		void on_entry(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-			fsm.model->currentPlayer()->dicesLeft2Throw(true);
-			fsm.model->currentPlayer()->gettActions();
-		}
-
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-
-			fsm.model->currentPlayer()->dicesLeft2Throw(false);
-			fsm.model->currentPlayer()->gettActions();
-		}
-	};
-
 	struct beginTurn : public msm::front::state<>
 	{
 
@@ -503,16 +483,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					}
 				}
 			}
-		}
-	};
-
-	struct doFinishThrow
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			fsm.process_event(ev::done());
-			fsm.currentAction = MOVE;
 		}
 	};
 
@@ -866,7 +836,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Preparing to offer loot: ";
 			fsm.currentAction = OFFER_LOOT;
-			// ACA HAY Q HACER Q SE PUEDAN CLICKEAR LOS LOOTS Q SE PUEDEN OFRECER, PARA HACER ESO HAY Q FIJARSE Q SU BOOL READY SEA TRUE, ( EL UNICO CASO Q TIENE EL BOOL FALSE ES EL PERSIAN KITTY Q NO LO PODES CAMBIAR HASTA Q PASE UN TURNO, PERO DE ESO SE ENCARGA EL MODELO SOLO)
 			fsm.graphics->showAvailableLoots(string("Choose the loot you want to offer:"), fsm.model->currentPlayer()->getAvailableLoots());
 		}
 	};

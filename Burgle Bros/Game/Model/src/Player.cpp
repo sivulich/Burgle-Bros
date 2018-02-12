@@ -18,7 +18,6 @@ Player::Player(Board * b, Player * p, int n)
 	else
 		playing = false;
 	turn = 0;
-	loot2bTransfered = 0;
 }
 
 void Player::setPosition(Coord c)
@@ -38,7 +37,8 @@ void Player::setPosition(Tile * tile)
 	currentTile = tile;
 	if (tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)
 		tile->turnUp();
-	//tile->updateVisibleFrom(this);// En el primer turno sos visible??? O empezas a ser visible cuando te moves? Si es asi el segundo jugador tiene desventaja
+	if(turn != 0)
+	tile->updateVisibleFrom(this);
 	notify();
 }
 
@@ -64,11 +64,6 @@ bool Player::has(lootType l)
 			return true;
 	return false;
 }
-
-confirmation Player::needConfirmation(Coord c)
-{
-	return needConfirmationToMove(c);
-};
 
 // TRUE if the user needs to make a decision to move to Tile 'c'
 // FALSE if nothing is needed from the user
@@ -126,16 +121,6 @@ vector<Coord> Player::whereCanIMove()
 	}
 	if (currentTile->is(WALKWAY) && currPos.floor > 0)
 		v.push_back(Coord(currPos.floor - 1, currPos.col, currPos.row));
-
-	/*// Remove the ones where I cant move
-	for (auto& t : v)
-	{
-		// Aca hay un problema con el keypad, porque canMove tira el dado!! Lo arreglo con un continue
-		if (board->getTile(t)->is(KEYPAD))
-			continue;
-		//else if (board->getTile(t)->canMove(this) == false)
-		//	v.erase(remove(v.begin(), v.end(), t));
-	}*/
 	return v;
 }
 
@@ -250,7 +235,7 @@ bool Player::peek(Coord c)
 
 bool Player::peek(Tile * newTile)
 {
-	// no chequeo mas si es adyacente, peek lo hace sin preguntar, la adyacencia se consigue con whereCanIPeek()
+	// No longer check for adjacency, peek does it without discretion, adjacency is obtained with whereCanIPeek()
 
 	if (newTile->isFlipped() == false)
 	{
@@ -342,23 +327,9 @@ vector<string> Player::getActions()
 			if (!(b && (currentTile->getLoot().size() == 1 && currentTile->getLoot()[0]->is(GOLD_BAR))))
 				possibleActions.push_back("PICK_UP_LOOT");
 		}
-
-
 	}
-
-
-	//AGREGAR LAS ACCIONES DE LOS CHARACTERS
-
 	if (character != nullptr)
-	{
 		possibleActions.push_back(character->getAction(this));
-		/*if (getCharacter() == JUICER)
-			possibleActions.push_back("CREATE_ALARM");
-		else if (getCharacter() == RAVEN)
-			possibleActions.push_back("PLACE_CROW");
-		else if (getCharacter() == SPOTTER)
-			possibleActions.push_back("SPY_PATROL_DECK_CARD");*/
-	}
 
 	if (otherPlayer != nullptr && otherPlayer->getPosition() == getPosition())
 	{
@@ -524,9 +495,7 @@ characterType Player::getCharacter()
 	return character->getType();
 };
 
-/**
-Clears the visibleFrom list
-*/
+//Clears the visibleFrom list
 void Player::clearVisibleFrom()
 {
 	visibleFrom.clear();
@@ -584,15 +553,4 @@ void Player::giveLoot(lootType type)
 void Player::receiveLoot(lootType type)
 {
 	otherPlayer->giveLoot(type);
-	/*if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
-	{
-		if (otherPlayer->getLoots()[n - 1]->isLootAvailable() && otherPlayer->getLoots()[n - 1] != nullptr)
-		{
-			this->addLoot(otherPlayer->loots[n - 1]->getType());
-			otherPlayer->removeLoot(loots[n - 1]);
-			cout << "received Loot" << endl;
-		}
-		else
-			cout << "loot couldnt be received" << endl;
-	}*/
 }

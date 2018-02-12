@@ -60,23 +60,6 @@ void Guard::print()
 	}*/
 }
 
-/*bool Guard::RemoveAlarm(Coord coord)
-{
-	if (find(alarms->begin(), alarms->end(), coord) != alarms->end())
-	{
-		alarms->erase(std::remove(alarms->begin(), alarms->end(), coord), alarms->end());
-		//DEBUG_MSG("alarm removed from tile "<< coord << endl);
-		notify();
-		return true;
-	}
-	else
-	{
-		//DEBUG_MSG("there was no alarm in tile " << coord << endl);
-		notify();
-		return false;
-	}
-}*/
-
 void Guard::locateGuard()
 {
 	if (currsteps == 0 && !(pos == NPOS))
