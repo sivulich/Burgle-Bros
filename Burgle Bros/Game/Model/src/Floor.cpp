@@ -147,6 +147,8 @@ void Floor::setMap(vector<Coord> a[F_WIDTH][F_HEIGHT])
 		for (int j = 0; j < F_HEIGHT; j++)
 			adjacent[i][j] = a[i][j];
 	guard.setFloorMap(a);
+	this->getPatrolDeck()->moveCardtoTop(Coord(this->floorNumber, 0, 1));
+	this->getPatrolDeck()->removeCard("A2F"+to_string(floorNumber));
 }
 
 

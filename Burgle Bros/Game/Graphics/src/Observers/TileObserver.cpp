@@ -151,6 +151,36 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 		}
 	}
 
+	if (tile->is(SAFE))
+	{
+		for (int i = 0; i < 6; i++)
+		{
+			if (i <= 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			if (i > 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			dieTokens.back()->setVisible(false);
+			dieTokens.back()->setHoverable(false);
+			dieTokens.back()->setClickable(false);
+			floorContainer->addObject(dieTokens.back());
+		}
+	}
+
+	if (tile->is(KEYPAD))
+	{
+		for (int i = 0; i < NUMBER_ACTION_TOKENS+1; i++)
+		{
+			if (i <= 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			if (i > 2)
+				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			dieTokens.back()->setVisible(false);
+			dieTokens.back()->setHoverable(false);
+			dieTokens.back()->setClickable(false);
+			floorContainer->addObject(dieTokens.back());
+		}
+	}
+
 	persianKitty = new Image(string("../Game/Graphics/Images/Tokens/Persian kitty.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	persianKitty->setVisible(false);
 	persianKitty->setHoverable(false);
@@ -257,9 +287,43 @@ void TileObserver::update()
 		}
 	}
 
-	if (tile->isFlipped() && ((Keypad *)tile)->keyDecoded() && tile->is(KEYPAD))
+	if (tile->isFlipped() && tile->is(SAFE))
 	{
-		openToken->setVisible(true);
+		if (((Safe*)tile)->getTokens() > 0)
+		{
+			for (auto &it : dieTokens)
+				it->setVisible(false);
+			for (int i = 0; i < ((Safe*)tile)->getTokens(); i++)
+			{
+				dieTokens[i]->setVisible(true);
+			}
+		}
+		if (((Safe*)tile)->safeIsOpen())
+		{
+			for (auto &it : dieTokens)
+				it->setVisible(false);
+		}
+	}
+
+	if (tile->is(KEYPAD))
+	{
+		if (tile->isFlipped() && ((Keypad *)tile)->keyDecoded())
+		{
+			openToken->setVisible(true);
+			for (auto &it : dieTokens)
+				it->setVisible(false);
+		}
+		if (((Keypad *)tile)->getAttempts() > 0)
+		{
+			for (auto &it : dieTokens)
+				it->setVisible(false);
+			for (int i = 0; i < ((Safe*)tile)->getTokens(); i++)
+			{
+				dieTokens[i]->setVisible(true);
+			}
+		}
+		else for (auto &it : dieTokens)
+			it->setVisible(false);
 	}
 
 	if (tile->hasLoot(PERSIAN_KITTY) != hasKitty)

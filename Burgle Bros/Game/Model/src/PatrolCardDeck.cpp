@@ -41,3 +41,49 @@ void PatrolCardDeck::reset()
 
 	notify();
 }
+
+void PatrolCardDeck::removeCard(string cardDesc)
+{
+	bool b = true;
+	vector<BaseCard *>::iterator it = deck.begin();
+	for (it;it!=deck.end();it++)
+	{
+		if ((*it)->getDescription() == cardDesc)
+		{
+			b = false;
+			discarded.push_back(*it);
+			discarded.back()->turnUp();
+			deck.erase(it);
+			notify();
+			break;
+		}
+	}
+	if (b)
+	{
+		discarded.push_back(new PatrolCard(cardDesc));
+		discarded.back()->turnUp();
+		notify();
+	}
+}
+
+
+void PatrolCardDeck::moveCardtoTop(Coord pos)
+{
+	bool b = true;
+	vector<BaseCard *>::iterator it = deck.begin();
+	for (it; it != deck.end(); it++)
+	{
+		if (((PatrolCard *)*it)->getCoord() == pos)
+		{
+			b = false;
+			deck.push_back(new PatrolCard(pos));
+			deck.erase(it);
+			break;
+		}
+	}
+	if(b)
+	{ 
+		deck.pop_back();
+		deck.push_back(new PatrolCard(pos));
+	}
+}

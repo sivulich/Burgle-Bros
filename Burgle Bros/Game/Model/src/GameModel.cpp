@@ -115,6 +115,10 @@ void GameModel::endTurn()
 			((Motion *)currentTile)->disarm();
 		else if (currentTile->getType() == THERMO && !currentPlayer_->has(MIRROR))
 			((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
+		for (auto &it : currentPlayer_->getCurrentTile()->getAdjacent())
+		{
+			if (board.getTile(it)->is(KEYPAD)) ((Keypad *)(board.getTile(it)))->clearAttempts();
+		}
 	}
 
 

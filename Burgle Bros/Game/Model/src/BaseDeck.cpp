@@ -24,6 +24,29 @@ bool BaseDeck::discardTop()
 
 }
 
+void BaseDeck::removeCard(string cardDesc)
+{
+	bool b = true;
+	for (auto &it : deck)
+	{
+		if (it->getDescription() == cardDesc)
+		{
+			b = false;
+			discarded.push_back(it);
+			discarded.back()->turnUp();
+			deck.erase(std::remove(deck.begin(), deck.end(), it), deck.end());
+			notify();
+			break;
+		}
+	}
+	if (b)
+		{
+			discarded.push_back(new BaseCard(cardDesc,false));
+			discarded.back()->turnUp();
+			notify();
+		}
+}
+
 BaseCard* BaseDeck::next()
 {
 	if (discardTop() == true)

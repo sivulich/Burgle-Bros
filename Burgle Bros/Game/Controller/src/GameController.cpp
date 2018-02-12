@@ -224,7 +224,7 @@ void GameController::processEvent()
 	}
 	else if (s == "CRACK_SAFE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
-	else if (s == "ADD_TOKEN")
+	else if (s == "ADD_TOKEN" || s =="ADD_DIE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());

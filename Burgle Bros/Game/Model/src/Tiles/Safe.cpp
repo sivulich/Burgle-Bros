@@ -71,6 +71,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 				{
 					Tile::setLoot(LootFactory().newLoot(GOLD_BAR));
 				}
+				notify();
 			}
 			if (dicesThisTurn == (dices + b) && !safeIsOpen())
 			{
