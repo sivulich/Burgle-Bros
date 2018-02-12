@@ -10,9 +10,6 @@ Any players that enters after it is revealed do not fall, but can move downstair
 This is one-way; you cannot move up to this tile from below.
 */
 
-// PARA ESTA TILE, SI EL MODELO VE QUE UN PLAYER QUIERE MOVERSE A UN WALKWAY, SE FIJA SI ESTA DADO VUELTA. 
-// EN ESE CASO, EL MODELO LLAMA A fallDown(). SINO LLAMA A getActions normalmente.
-
 class Walkway :
 	public Tile
 {

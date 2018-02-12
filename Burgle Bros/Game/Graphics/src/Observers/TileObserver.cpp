@@ -139,7 +139,17 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 		}
 	}
 
-	
+	if (tile->is(LAVATORY))
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			stealthTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Stealth Token.png"), XPOS + 2 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			stealthTokens.back()->setVisible(false);
+			stealthTokens.back()->setHoverable(false);
+			stealthTokens.back()->setClickable(false);
+			floorContainer->addObject(stealthTokens.back());
+		}
+	}
 
 	persianKitty = new Image(string("../Game/Graphics/Images/Tokens/Persian kitty.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	persianKitty->setVisible(false);
@@ -234,6 +244,16 @@ void TileObserver::update()
 		for (int i = 0; i < tile->getHackTokens(); i++)
 		{
 			hackTokens[i]->setVisible(true);
+		}
+	}
+
+	if (tile->isFlipped() && tile->is(LAVATORY) && tile->getStealthTokens() > 0)
+	{
+		for (auto &it : stealthTokens)
+			it->setVisible(false);
+		for (int i = 0; i < tile->getStealthTokens(); i++)
+		{
+			stealthTokens[i]->setVisible(true);
 		}
 	}
 

@@ -29,6 +29,7 @@ Tile::Tile(tileType t, unsigned floor, unsigned col, unsigned row)
 	hackerHere = false;
 	hasGuard = false;
 	hackToken = 0;
+	stealthTokens = 0;
 	northWall = false;
 	eastWall = false;
 	southWall = false;

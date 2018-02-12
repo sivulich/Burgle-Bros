@@ -62,9 +62,6 @@ public:
 	//
 	void endTurn();
 
-	//
-	bool doInitialAction(int dice);
-
 	// Called after guard movement, it changes the turn of the player
 	void changeTurn();
 	void remotePlayerStarts();

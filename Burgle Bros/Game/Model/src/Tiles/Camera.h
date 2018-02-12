@@ -1,13 +1,10 @@
 #pragma once
 #include "Tile.h"
 #include "../PlayerInterface.h"
-//falta hacer
 
-/*
-Guards on a Camera tile see all the other revealed tiles that are cameras, on any floor.
-You do not lose Stealth, but they remotely trigger an Alarm on your tile (by calling on their
-radio). Note that Guards can see through Cameras when moving through a Camera Tile on their turn.
-*/
+//Guards on a Camera tile see all the other revealed tiles that are cameras, on any floor.
+//You do not lose Stealth, but they remotely trigger an Alarm on your tile (by calling on their
+//radio). Note that Guards can see through Cameras when moving through a Camera Tile on their turn.
 class Camera :
 	public Tile
 {

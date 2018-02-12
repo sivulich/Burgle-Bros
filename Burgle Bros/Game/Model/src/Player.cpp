@@ -17,7 +17,6 @@ Player::Player(Board * b, Player * p, int n)
 	else
 		playing = false;
 	turn = 0;
-	loot2bTransfered = 0;
 }
 
 void Player::setPosition(Coord c)
@@ -37,7 +36,8 @@ void Player::setPosition(Tile * tile)
 	currentTile = tile;
 	if (tile->getType() != WALKWAY && tile->getType() != LASER && tile->getType() != DEADBOLT)
 		tile->turnUp();
-	//tile->updateVisibleFrom(this);// En el primer turno sos visible??? O empezas a ser visible cuando te moves? Si es asi el segundo jugador tiene desventaja
+	if(turn != 0)
+	tile->updateVisibleFrom(this);
 	notify();
 }
 
@@ -63,11 +63,6 @@ bool Player::has(lootType l)
 			return true;
 	return false;
 }
-
-confirmation Player::needConfirmation(Coord c)
-{
-	return needConfirmationToMove(c);
-};
 
 // TRUE if the user needs to make a decision to move to Tile 'c'
 // FALSE if nothing is needed from the user
@@ -125,7 +120,6 @@ vector<Coord> Player::whereCanIMove()
 	}
 	if (currentTile->is(WALKWAY) && currPos.floor > 0)
 		v.push_back(Coord(currPos.floor - 1, currPos.col, currPos.row));
-
 	return v;
 }
 
@@ -180,13 +174,13 @@ vector<Coord> Player::whereCanIPeek()
 	{
 		Coord c = currentTile->getPos();
 
-		if (currentTile->hasNorthWall())
+		if (currentTile->hasNorthWall() && this->getPosition().row > 0)
 			v.push_back(Coord(c.floor, c.col, c.row - 1));
-		if (currentTile->hasWestWall())
+		if (currentTile->hasWestWall() && this->getPosition().col > 0)
 			v.push_back(Coord(c.floor, c.col - 1, c.row));
-		if (currentTile->hasSouthWall())
+		if (currentTile->hasSouthWall() && this->getPosition().row < 3)
 			v.push_back(Coord(c.floor, c.col, c.row + 1));
-		if (currentTile->hasEastWall())
+		if (currentTile->hasEastWall() && this->getPosition().col < 3)
 			v.push_back(Coord(c.floor, c.col + 1, c.row));
 	}
 
@@ -229,6 +223,8 @@ unsigned int Player::peek(Coord c, unsigned int safeNumber)
 
 unsigned int Player::peek(Tile * newTile, unsigned int safeNumber)
 {
+	// No longer check for adjacency, peek does it without discretion, adjacency is obtained with whereCanIPeek()
+
 	if (newTile->isFlipped() == false)
 	{
 		removeActionToken();
@@ -483,9 +479,7 @@ characterType Player::getCharacter()
 	else return NO_CHARACTER_TYPE;
 };
 
-/**
-Clears the visibleFrom list
-*/
+//Clears the visibleFrom list
 void Player::clearVisibleFrom()
 {
 	visibleFrom.clear();
@@ -543,15 +537,4 @@ void Player::giveLoot(lootType type)
 void Player::receiveLoot(lootType type)
 {
 	otherPlayer->giveLoot(type);
-	/*if (n > 0 && (unsigned)n <= otherPlayer->getLoots().size())
-	{
-		if (otherPlayer->getLoots()[n - 1]->isLootAvailable() && otherPlayer->getLoots()[n - 1] != nullptr)
-		{
-			this->addLoot(otherPlayer->loots[n - 1]->getType());
-			otherPlayer->removeLoot(loots[n - 1]);
-			cout << "received Loot" << endl;
-		}
-		else
-			cout << "loot couldnt be received" << endl;
-	}*/
 }

@@ -7,9 +7,6 @@ It takes two actions to enter this tile. If you can't or you don't want to spend
 goes off unless you us a Hack token from the Laser Computer Room
 */
 
-// SI EL PLAYER QUIERE ENTRAR A LA TILE, EL MODELO LE PREGUNTA AL USUARIO SI QUIERE USAR UN HACK TOKEN O GASTAR DOS ACCIONES PARA APAGAR LA ALARMA
-// SI LO QUIERE GASTAR, DESPUES DE MOVER AL PLAYER LLAMA A doaction CON "SPENT_OK" 
-
 class Laser :
 	public Tile
 {

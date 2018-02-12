@@ -46,17 +46,17 @@ bool Safe::doAction(string action, PlayerInterface * player)
 	}
 	else if (action == "THROW_DICE" && keyCardHere)
 	{
-		if (dicesThisTurn < (dices + b) && !safeIsOpen())	// while the safe remains closed, throw all the dice you have
+		if (dicesThisTurn < (dices + b) && !safeIsOpen())// while the safe remains closed, throw all the dice you have
 		{
 			if (dicesThisTurn == 0)
-				player->removeActionToken();					// remove an action
-			trySafeNumber(player->getDice());				// check how many tiles you cracked throwing one die
+				player->removeActionToken();// remove an action
+			trySafeNumber(player->getDice());// check how many tiles you cracked throwing one die
 			dicesThisTurn++;
 
-			if (combinationTiles.size() == 0)				//  if the vector is empty, then all the tiles were cracked
+			if (combinationTiles.size() == 0)//  if the vector is empty, then all the tiles were cracked
 			{
 				endThrow = true;
-				safeCracked = true;							// if so, you opened the safe
+				safeCracked = true;	// if so, you opened the safe
 				DEBUG_MSG("You cracked the safe!!");
 				player->addLoot(safeLoot);
 				player->newAction("SAFE_OPENED", getPos(), INT_MAX);
@@ -81,7 +81,6 @@ bool Safe::doAction(string action, PlayerInterface * player)
 		}
 		else endThrow = true;
 	}
-	////////////////// HACER BIEN RETURN VALUE
 	return endThrow;
 
 }
