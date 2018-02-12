@@ -113,10 +113,9 @@ void GameModel::endTurn()
 		Tile * currentTile = board.getTile(currentPlayer_->getPosition());
 		if (currentTile->getType() == MOTION)		// Disarm the alarm in the Motion Room
 			((Motion *)currentTile)->disarm();
-		else if (currentTile->getType() == THERMO)
+		else if (currentTile->getType() == THERMO && !currentPlayer_->has(MIRROR))
 			((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
 	}
-
 
 }
 
@@ -142,8 +141,19 @@ void GameModel::changeTurn()
 	otherPlayer_->isPlaying(false);
 	currentPlayer_->addTurn();
 	otherPlayer_->addTurn();
+	otherPlayer_->setPosition(otherPlayer_->getPosition());
 	notify();
 }
+
+void GameModel::remotePlayerStarts()
+{
+	swap(currentPlayer_, otherPlayer_);
+	currentPlayer_->isPlaying(true);
+	otherPlayer_->isPlaying(false);
+	notify();
+}
+
+
 
 
 

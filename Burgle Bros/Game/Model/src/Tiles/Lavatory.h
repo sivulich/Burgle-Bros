@@ -18,6 +18,5 @@ public:
 	*/
 	bool tryToHide() override;
 private:
-	unsigned int stealthTokens;
 };
 

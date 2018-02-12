@@ -46,21 +46,23 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
 		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
-		//fsm.model->currentPlayer()->setCharacter(JUICER);
-		//fsm.model->currentPlayer()->setLocal(true);
-		//fsm.model->otherPlayer()->setLocal(true);
-		//fsm.model->otherPlayer()->setCharacter(SPOTTER);
-		//fsm.model->currentPlayer()->setName(string("Tobi"));
-		//fsm.model->otherPlayer()->setName(string("Roma"));
-		// ESTO DE SETBOARD EL CLIENTE LO TIENE QUE HACER POR NETWORK
-		fsm.model->setBoard();
-		/*
 
-		*/
-		fsm.graphics->showGameScreen();
+		if (fsm.model->isLocal())
+		{
+			fsm.model->setBoard();
+			fsm.graphics->showOkMessage("Choose initial position!");
+			fsm.graphics->showGameScreen();
+		}
+		else if (fsm.model->isRemote())
+		{
+			if (fsm.network->isServer())
+				fsm.model->setBoard();
+
+			fsm.graphics->showOkMessage("Exchanging info with other player");
+			// Cord will be random in next state
+
+		}
 		fsm.sound->playBackroundMusic();
-		//DESCOMENTARRRR DESPUES
-		//fsm.graphics->showOkMessage(string("Please choose the entrance to the bank"));
 
 	}
 
@@ -76,48 +78,71 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	struct chooseInitialPos : public msm::front::state<>
 	{
+
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			// Set only first floor clickable
-			std::cout << "Choose initial pos: ";
-			vector<Coord> v;
-			for (int i = 0; i < 4; i++)
-				for (int j = 0; j < 4; j++)
-					v.push_back(Coord(0, i, j));
 
-			if (fsm.gameMode == GameFSM_::MODE::REMOTE && !fsm.network->iStart())
+			if (fsm.model->isLocal())
 			{
-				fsm.graphics->showOkMessage("Waiting for server info");
-				v.clear();
-				fsm.graphics->setTilesClickable(v);
+				// Set only first floor clickable
+				std::cout << "Choose initial pos: ";
+				vector<Coord> v;
+				for (int i = 0; i < 4; i++)
+					for (int j = 0; j < 4; j++)
+						v.push_back(Coord(0, i, j));
 			}
-			else
+			else if (fsm.model->isRemote())
 			{
-				fsm.graphics->showOkMessage("Choose Initial Position");
-				fsm.graphics->setTilesClickable(v);
+				string name = fsm.model->player1()->getName();
+				characterType character = fsm.model->player1()->getCharacter();
+
+				if (fsm.network->isServer())
+				{
+					Coord initialPos = Coord(0, 0, 0);// random initialpos
+					pair<Coord, Coord> pos = fsm.model->getInitialGuardPos();
+					vector<tileType> tiles = fsm.model->getBoardSetup();
+					while (fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
+				}
+				else
+				{
+					while (fsm.network->startupPhase(name, character) == false);
+
+					cout << string("YA TENGO TODO SUPUESTAMENTE") << endl;
+					while (true);
+					fsm.model->setBoard(fsm.network->remoteBoard());
+					/* QUEDA SETEAR ESTO
+					Coord fsm.network->remoteGuardPos()
+					Coord fsm.network->remoteGuardTarget()
+					Coord fsm.network->startingPos() */
+				}
+
+				// Set other player name
+				fsm.model->player2()->setName(fsm.network->remoteName());
+				fsm.model->player2()->setCharacter(fsm.network->remoteCharacter());
+
+				if (fsm.network->iStart() == false)
+					fsm.model->remotePlayerStarts();
+				fsm.graphics->showGameScreen();
 			}
 
 		}
 
+
 		template <class EVT, class FSM>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
-		on_exit(EVT const&  event, FSM& fsm)
+			on_exit(EVT const&  event, FSM& fsm)
 		{
 			// Set again all tiles clickable
 			fsm.graphics->setAllClickable();
-			if (fsm.gameMode == GameFSM_::MODE::REMOTE)
-			{
-
-				fsm.network->startupPhase(fsm.model->player1()->getName(), fsm.model->player1()->getCharacter(), fsm.model->getInitialGuardPos().first, fsm.model->getInitialGuardPos().second, *fsm.model->getBoard(), event.c);
-			}
 		}
 
 		template <class EVT, class FSM>
 		typename boost::disable_if<typename has_CoordProp<EVT>::type, void>::type
-		on_exit(EVT const&  event, FSM& fsm)
+			on_exit(EVT const&  event, FSM& fsm)
 		{}
 	};
+
 
 	struct chooseAction : public msm::front::state<>
 	{
@@ -246,26 +271,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			}
 		}
 
-	};
-
-	struct throw_Dice : public msm::front::state<>
-	{
-		template <class EVT, class FSM>
-		void on_entry(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-			fsm.model->currentPlayer()->dicesLeft2Throw(true);
-			fsm.model->currentPlayer()->gettActions();
-		}
-
-		template <class EVT, class FSM>
-		void on_exit(EVT const&  event, FSM& fsm)
-		{
-			std::cout << "" << std::endl;
-
-			fsm.model->currentPlayer()->dicesLeft2Throw(false);
-			fsm.model->currentPlayer()->gettActions();
-		}
 	};
 
 	struct beginTurn : public msm::front::state<>
@@ -535,16 +540,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					}
 				}
 			}
-		}
-	};
-
-	struct doFinishThrow
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			fsm.process_event(ev::done());
-			fsm.currentAction = MOVE;
 		}
 	};
 
@@ -905,7 +900,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Preparing to offer loot: ";
 			fsm.currentAction = OFFER_LOOT;
-			// ACA HAY Q HACER Q SE PUEDAN CLICKEAR LOS LOOTS Q SE PUEDEN OFRECER, PARA HACER ESO HAY Q FIJARSE Q SU BOOL READY SEA TRUE, ( EL UNICO CASO Q TIENE EL BOOL FALSE ES EL PERSIAN KITTY Q NO LO PODES CAMBIAR HASTA Q PASE UN TURNO, PERO DE ESO SE ENCARGA EL MODELO SOLO)
 			fsm.graphics->showAvailableLoots(string("Choose the loot you want to offer:"), fsm.model->currentPlayer()->getAvailableLoots());
 		}
 	};

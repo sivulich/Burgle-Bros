@@ -447,7 +447,7 @@ void BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardT
 	threadCloser(fl);
 	return;
 }
-void BurgleNetwork::exchangeBoard(thData* fl, Board& board, const Coord playerPos)
+void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> board, const Coord playerPos)
 {
 	if (fl->error == true)
 	{
@@ -461,7 +461,9 @@ void BurgleNetwork::exchangeBoard(thData* fl, Board& board, const Coord playerPo
 	{
 		vector<char> pack(1);
 		pack[0] = START_INFO;
-		for (size_t f = 0; f < 3; f++)
+		for(size_t i=0; i<48; i++)
+			pack.push_back((char)board[i]);
+	/*	for (size_t f = 0; f < 3; f++)
 		{
 			for (size_t r = 0; r < 4; r++)
 			{
@@ -470,7 +472,7 @@ void BurgleNetwork::exchangeBoard(thData* fl, Board& board, const Coord playerPo
 					pack.push_back((char)(board[f][r][c]->getType()));
 				}
 			}
-		}
+		}*/
 		pack.push_back((char)(playerPos.col + 'A'));
 		pack.push_back((char)(playerPos.row + '1'));
 		pack.push_back('F');
@@ -605,7 +607,7 @@ void BurgleNetwork::exchangeFirst(thData* fl)
 	threadCloser(fl);
 	return;
 }
-bool BurgleNetwork::startupPhase(const string& name, const characterType type, const Coord guardPos, const Coord guardTarget, Board& board, const Coord playerPos)
+bool BurgleNetwork::startupPhase(const string& name, const characterType type, const Coord guardPos, const Coord guardTarget, /* Board& board*/ vector<tileType> board, const Coord playerPos)
 {
 	if (flags.error == true)
 		return false;

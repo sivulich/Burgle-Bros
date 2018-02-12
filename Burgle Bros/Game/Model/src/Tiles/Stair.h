@@ -9,13 +9,13 @@ You can also peek up stairs and come back downstairs.
 It takes 1 action to take the stairs to the roof at the end of the game.
 */
 
-// DE LAS STAIRS SE ENCARGA EL MODELO CUANDO SE LAS DA VUELTA
 class Stair :
 	public Tile
 {
 public:
 	Stair(int floor, int col, int row) : Tile(STAIR, floor, col, row) { this->alarmTile = false; };
 	~Stair();
+	vector<Coord> whereCanIPeek()override;
 };
 
 

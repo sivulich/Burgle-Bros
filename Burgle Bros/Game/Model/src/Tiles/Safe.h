@@ -7,10 +7,6 @@ Safes are the goal. Roll the combination to open them. When opened, draw a Loot,
 movement die by one on this floor and all those below it.
 */
 
-//	CUANDO SALGA DE LA SAFE TILE, EL MODELO DEBE CHECKEAR EN LAS TILES (que esten boca arriba) DE LA FILA Y LA COLUMNA. 
-//	SI EL NUMERO DE LA TILE NO APARECE EN LA COMBINATION, ES PORQUE ESTA "CRACKED"
-
-
 class Safe : public Tile
 {
 public:
@@ -46,8 +42,6 @@ public:
 
 	/* Add a dice to later roll and crack the safe*/
 	void addDice() { if (dices<6)dices++; };
-	// IMPLEMENTAR
-	void crack();
 
 	void addSafe(Tile * safe) { otherSafes.push_back(safe); };
 

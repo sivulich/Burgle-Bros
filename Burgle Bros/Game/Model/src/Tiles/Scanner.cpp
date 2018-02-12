@@ -9,6 +9,6 @@ Scanner::~Scanner()
 void Scanner::enter(PlayerInterface * player) 
 {
 	Tile::enter(player);
-	if (player->hasLoot())
+	if (player->hasLoot() && !player->has(MIRROR))
 		setAlarm(true);
 }

@@ -2,10 +2,8 @@
 #include "Tile.h"
 #include "../PlayerInterface.h"
 
-/*
-	Players may spend an action here to put a token on it. Each time a player encouters a Laser tile,
-	they can spend one of these tokens to prevent an Alarm from triggering.
-*/
+//Players may spend an action here to put a token on it. Each time a player encouters a Laser tile,
+//they can spend one of these tokens to prevent an Alarm from triggering.
 
 class ComputerRoomL : public Tile
 {
@@ -16,9 +14,7 @@ public:
 	virtual vector<string> getActions(PlayerInterface * player) override;
 	virtual bool doAction(string action, PlayerInterface * player) override;
 
-	/**
-	Removes 1 hack token from the tile
-	*/
+	//Removes 1 hack token from the tile
 	void removeToken() { hackToken = hackToken - 1; notify(); };
 
 	void addToken() { if (hackToken < 6) ++hackToken; cout << "Current Hack tokens" << hackToken << endl; notify(); };

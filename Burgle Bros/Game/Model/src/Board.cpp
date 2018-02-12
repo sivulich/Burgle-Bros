@@ -40,6 +40,7 @@ void Board::setWalls()
 		{ ´,´,´,´,´,´,´ },
 		{ T,´,T,´,T,W,T } }
 	};
+	//FLOOR TEMPLATE IF NEW FLOOR CONFIGURATION IS DESIRED
 	/*bool walls[3][(4 * 2) - 1][(4 * 2) - 1] = {
 	  { { T,´,T,´,T,´,T },
 		{ ´,´,´,´,´,´,´ },
@@ -155,8 +156,10 @@ void Board::setBoard()
 		f[i].push_back(STAIR);
 		random_shuffle(f[i].begin(), f[i].end());
 		floor[i]->setTiles(f[i]);
+		floor[i]->print();
 	}
 	parseBoard();
+
 }
 
 void Board::setBoard(vector<tileType> tiles)
@@ -227,11 +230,7 @@ void Board::parseBoard()
 
 				case SAFE:
 					//If there is a safe set a loot
-					if (f == 0)
-						((Safe*)tile)->setLoot(/*loots.back()*/CHIHUAHUA);
-					else if (f == 1)
-						((Safe*)tile)->setLoot(/*loots.back()*/PERSIAN_KITTY);
-					else ((Safe*)tile)->setLoot(loots.back());
+					((Safe*)tile)->setLoot(loots.back());
 					loots.pop_back();
 					prepSafeTile((Safe *)tile);
 					safes.push_back(tile);
@@ -342,10 +341,10 @@ Board::~Board()
 void Board::prepSafeTile(Safe * safe) {
 	for (int index = 0; index < 4; index++)
 	{
-		if (index != safe->col())		// if index is not the safe's column
-			safe->addCrackTile(getTile(Coord(safe->floor(), index, safe->row())));	// add the tile in that floor, row and i column
-		if (index != safe->row())		// if index is not the safe's row
-			safe->addCrackTile(getTile(Coord(safe->floor(), safe->col(), index)));	// add the tile in that floor, row and i column
+		if (index != safe->col())// if index is not the safe's column
+			safe->addCrackTile(getTile(Coord(safe->floor(), index, safe->row())));// add the tile in that floor, row and i column
+		if (index != safe->row())// if index is not the safe's row
+			safe->addCrackTile(getTile(Coord(safe->floor(), safe->col(), index)));// add the tile in that floor, row and i column
 	}
 }
 
@@ -356,13 +355,13 @@ void Board::checkOnePlayer(PlayerInterface * p, unsigned f)
 		Coord temp = p->getPosition();
 		if (p->has(TIARA))
 		{
-			if (!(p->getPosition().row == 0) && !this->getTile(p->getPosition())->hasNorthWall())	//if its not the first row
+			if (!(p->getPosition().row == 0) && !this->getTile(p->getPosition())->hasNorthWall())//if its not the first row
 				p->addVisibleTile(Coord(temp.floor, temp.col, temp.row - 1));
-			if (!(p->getPosition().row == 3) && !this->getTile(p->getPosition())->hasSouthWall())	// if its not the last row
+			if (!(p->getPosition().row == 3) && !this->getTile(p->getPosition())->hasSouthWall())// if its not the last row
 				p->addVisibleTile(Coord(temp.floor, temp.col, temp.row + 1));
-			if (!(p->getPosition().col == 0) && !this->getTile(p->getPosition())->hasWestWall())	// if its not the first column
+			if (!(p->getPosition().col == 0) && !this->getTile(p->getPosition())->hasWestWall())// if its not the first column
 				p->addVisibleTile(Coord(temp.floor, temp.col - 1, temp.row));
-			if (!(p->getPosition().col == 3) && !this->getTile(p->getPosition())->hasEastWall())	// if its not the last column
+			if (!(p->getPosition().col == 3) && !this->getTile(p->getPosition())->hasEastWall())// if its not the last column
 				p->addVisibleTile(Coord(temp.floor, temp.col + 1, temp.row));
 		}
 		this->floor[f]->getGuard()->checkPlayer(p);
@@ -380,7 +379,7 @@ void Board::checkCameras(Coord c1)
 			{
 				for (auto &it : cameras)
 				{
-					if (!(floor[i]->getGuard()->getPos() == c1) && floor[i]->getGuard()->getPos() == it->getPos())
+					if (!(floor[i]->getGuard()->getPos() == c1) && floor[i]->getGuard()->getPos() == it->getPos() && floor[c1.floor]->tile(floor[i]->getGuard()->getPos().col, floor[i]->getGuard()->getPos().row)->isFlipped())
 						floor[c1.floor]->tile(c1.col, c1.row)->setAlarm(true);
 				}
 			}

@@ -62,11 +62,9 @@ public:
 	//
 	void endTurn();
 
-	//
-	bool doInitialAction(int dice);
-
 	// Called after guard movement, it changes the turn of the player
 	void changeTurn();
+	void remotePlayerStarts();
 
 	// Access to the current player
 	Player * currentPlayer() { return currentPlayer_; };
