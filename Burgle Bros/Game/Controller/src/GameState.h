@@ -96,10 +96,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				string name = fsm.model->player1()->getName();
 				characterType character = fsm.model->player1()->getCharacter();
-
+				Coord initialPos = Coord(0, 2, 0);// random initialpos
+				cout << "My name " << name << " My character " << character << endl;
 				if (fsm.network->isServer())
 				{
-					Coord initialPos = Coord(0, 0, 0);// random initialpos
+					
 					pair<Coord, Coord> pos = fsm.model->getInitialGuardPos();
 					vector<tileType> tiles = fsm.model->getBoardSetup();
 					while (fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
@@ -109,7 +110,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					while (fsm.network->startupPhase(name, character) == false);
 
 					cout << string("YA TENGO TODO SUPUESTAMENTE") << endl;
-					while (true);
 					fsm.model->setBoard(fsm.network->remoteBoard());
 					/* QUEDA SETEAR ESTO
 					Coord fsm.network->remoteGuardPos()
@@ -124,6 +124,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.network->iStart() == false)
 					fsm.model->remotePlayerStarts();
 				fsm.graphics->showGameScreen();
+
+				if (fsm.network->isServer())
+					fsm.model->setInitialPosition(initialPos);
+				else
+					fsm.model->setInitialPosition(fsm.network->startingPos());
 			}
 
 		}

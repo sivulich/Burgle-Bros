@@ -332,6 +332,7 @@ public:
 			}
 			else if (fsm.gameMode == REMOTE && fsm.model->player1()->hasCharacter())
 			{
+				fsm.model->player1()->setName(fsm.graphics->getPlayerName());
 				fsm.process_event(ev::play());
 			}
 		}
