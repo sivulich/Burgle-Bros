@@ -58,13 +58,6 @@ public:
 	{
 		std::cout << "Welcome to EDA Burgle Bros" << std::endl;
 
-		// Pass pointers to submachine 
-		GameState& s = fsm.get_state<GameState&>();
-		s.model = fsm.model;
-		s.graphics = fsm.graphics;
-		s.guardTimer = fsm.guardTimer;
-		s.sound = sound;
-		s.network = fsm.network;
 	}
 
 	template <class EVT, class FSM>
@@ -142,7 +135,10 @@ public:
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "" << std::endl;
+			if (is_same<EVT, ev::remote>::value)
+				fsm.gameMode = REMOTE;
+			else if (is_same<EVT, ev::local>::value)
+				fsm.gameMode = LOCAL;
 		}
 	};
 
@@ -154,10 +150,8 @@ public:
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			if (fsm.gameMode == UNSET) // LOCAL
+			if (fsm.gameMode == LOCAL) // LOCAL
 			{
-				fsm.gameMode = LOCAL;
-				//
 				std::cout << "LocalSetup" << std::endl;
 				fsm.graphics->showSetupScreen(1);
 				player1set = false;
@@ -184,7 +178,6 @@ public:
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Set IP direction" << std::endl;
-			fsm.gameMode = REMOTE;
 			fsm.graphics->showIPScreen();
 		}
 
@@ -214,10 +207,12 @@ public:
 	// Playing state is always active, unless game is paused or there is an error
 	struct playing : public msm::front::state<>
 	{
+		bool dialogBoxOpened;
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			std::cout << "Start playing" << std::endl;
+			dialogBoxOpened = false;
 		}
 
 		template <class EVT, class FSM>
@@ -276,14 +271,17 @@ public:
 
 	//----------------------- ACTIONS -----------------------------//
 
-	struct doMove
+	struct askConfirmationClose
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-
+			fsm.graphics->askQuestion(string("Are you sure you want to quit?"));
+			source.dialogBoxOpened = true;
 		}
 	};
+
+	
 
 
 	struct setUpCharacter
@@ -294,22 +292,12 @@ public:
 			if (fsm.gameMode == LOCAL)
 			{
 				if (source.player1set == false)
-				{
 					fsm.model->player1()->setCharacter(event.character);
-					fsm.model->player1()->setName(fsm.graphics->getPlayerName());
-				}
 				else if (source.player2set == false)
-				{
-					fsm.model->player2()->setCharacter(event.character);
-					fsm.model->player2()->setName(fsm.graphics->getPlayerName());
-				}
-					
+					fsm.model->player2()->setCharacter(event.character);	
 			}
 			else if (fsm.gameMode == REMOTE)
-			{
 				fsm.model->player1()->setCharacter(event.character);
-			}
-
 		}
 	};
 
@@ -331,29 +319,20 @@ public:
 					// If both have the same character
 					if (fsm.model->player1()->getCharacter() == fsm.model->player2()->getCharacter())
 					{
-
+						fsm.graphics->showOkMessage("Both players can't have the same character!");
 					}
 					else
 					{
 						source.player2set = true;
 						fsm.model->player2()->setName(fsm.graphics->getPlayerName());
 						// Both caracters set so go to game
-						GameState& s = fsm.get_state<GameState&>();
-						s.gameMode = LOCAL;
-						fsm.model->setLocal();
 						fsm.process_event(ev::play());
 					}
 				}
 			}
 			else if (fsm.gameMode == REMOTE)
 			{
-				GameState& s = fsm.get_state<GameState&>();
-				s.gameMode = REMOTE;
-				// ACa ya se sabe el nombre y caracter de cada jugador
-				// HACER EL INTERCAMBIO DE DATOS
-				fsm.model->setRemote();
 				fsm.process_event(ev::play());
-							
 			}
 		}
 	};
@@ -447,8 +426,14 @@ public:
 			s.model = fsm.model;
 			s.graphics = fsm.graphics;
 			s.guardTimer = fsm.guardTimer;
-//			s.sound = sound;
 			s.network = fsm.network;
+			//			s.sound = sound;
+
+			if (fsm.gameMode == LOCAL)
+				fsm.model->setLocal();
+			else if (fsm.gameMode == REMOTE)
+				fsm.model->setRemote();
+
 		}
 
 	};
@@ -472,6 +457,16 @@ public:
 			return 	fsm.gameMode == REMOTE;
 		}
 	};
+	
+
+	struct dialogBoxOpened
+	{
+		template <class EVT, class FSM, class SourceState, class TargetState>
+		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
+		{
+			return 	source.dialogBoxOpened == true;
+		}
+	};
 
 	// Transition table for main FSM
 	struct transition_table : mpl::vector<
@@ -493,7 +488,7 @@ public:
 		Row < SetupScreen	, ev::back			, IPScreen		, none				, isRemote	>,
 		Row < SetupScreen	, ev::characterName	, none			, setUpCharacter	, none		>,
 		Row < SetupScreen	, ev::next			, none			, doSetup			, none		>,
-		Row < SetupScreen	, ev::play			, GameState		, passData				, none		>,
+		Row < SetupScreen	, ev::play			, GameState		, passData			, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < IPScreen		, ev::back			, ModeScreen	, none				, none		>,
 		Row < IPScreen		, ev::connect		, none			, doConnect			, none		>,
@@ -507,7 +502,9 @@ public:
 
 //--------------------------Orthogonal region-----------------------------//
 //  +------------+-------------+------------+--------------+--------------+
-		Row <   playing		, ev::close			, exit			, none				, none		>,
+		Row <   playing		, ev::close			,none			, askConfirmationClose,Not_<dialogBoxOpened>		>,
+		Row <   playing 	, ev::yes			,exit			, none, dialogBoxOpened>,
+		Row <   playing 	, ev::no			,playing			, none, dialogBoxOpened>,
 	//	Row <   playing, ev::errorReceived, error, none, none     >,				
 		Row <   playing		, ev::pause			, paused		, none				, none		>,
 		//  +------------+-------------+------------+--------------+--------------+

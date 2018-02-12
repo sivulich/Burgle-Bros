@@ -71,7 +71,7 @@ namespace ev {
 	{
 		typedef int CoordProp;
 		coord(Coord p) :c(p) { safeNumber = 0; };
-	//	coord(Coord p,unsigned int n) :c(p),safeNumber(n) {};
+		coord(Coord p,unsigned int n) :c(p),safeNumber(n) {};
 		Coord c;
 		unsigned int safeNumber;
 	};

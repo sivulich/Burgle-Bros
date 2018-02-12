@@ -12,6 +12,7 @@ Character * CharacterFactory::newCharacter(characterType type)
 		case HAWK: return new Hawk;
 		case RAVEN: return new Raven;
 		case PETERMAN: return new Peterman;
+		case NO_CHARACTER_TYPE: return new NoType;
 		default: return nullptr;
 	}
 }

@@ -478,7 +478,9 @@ string Player::getName()
 
 characterType Player::getCharacter()
 {
-	return character->getType();
+	if(character != nullptr)
+		return character->getType();
+	else return NO_CHARACTER_TYPE;
 };
 
 /**

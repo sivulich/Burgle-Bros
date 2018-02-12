@@ -21,13 +21,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3DC9B7A-159A-4DEF-BA56-0B2E8AC28360}</ProjectGuid>
     <RootNamespace>Game</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -256,6 +255,7 @@
     <ClInclude Include="Model\include\Configs.h" />
     <ClInclude Include="Model\include\Coord.h" />
     <ClInclude Include="Model\include\Enumerations.h" />
+    <ClInclude Include="Model\src\Characters\NoType.h" />
     <ClInclude Include="Model\src\Floor.h" />
     <ClInclude Include="Model\src\GameModel.h" />
     <ClInclude Include="Model\src\Guard.h" />
@@ -359,6 +359,7 @@
     <ClCompile Include="Model\src\Characters\Hacker.cpp" />
     <ClCompile Include="Model\src\Characters\Hawk.cpp" />
     <ClCompile Include="Model\src\Characters\Juicer.cpp" />
+    <ClCompile Include="Model\src\Characters\NoType.cpp" />
     <ClCompile Include="Model\src\Characters\Peterman.cpp" />
     <ClCompile Include="Model\src\Characters\Raven.cpp" />
     <ClCompile Include="Model\src\Characters\Spotter.cpp" />

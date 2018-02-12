@@ -43,7 +43,7 @@ bool GameController::isRunning()
 void GameController::getInput()
 {
 	s = "";
-	if (model != nullptr && model->isRemote() && network != nullptr)
+	if (model != nullptr && model->isRemote() && network != nullptr && network->isConnected() && network->join()==true )
 	{
 		remoteInput inp = network->getRemoteInput();
 		if (inp.action != NO_TYPE)
@@ -288,5 +288,14 @@ void GameController::processEvent()
 			l = LootFactory().newLoot(PERSIAN_KITTY);
 		if (l != nullptr)
 			model->getBoard()->getTile(model->currentPlayer()->getPosition())->setLoot(l);
+	}
+	else if (s.substr(0, 13) == string("SET_CHARACTER"))
+	{
+		std::cout << s.substr(14) << std::endl;
+		model->currentPlayer()->setCharacter(s.substr(14));
+	}
+	else if (s.substr(0, 4) == string("MASK"))
+	{
+		//graphics->loadPlayerToken(s.substr(5));
 	}
 }
