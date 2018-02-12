@@ -121,7 +121,6 @@ void GameModel::endTurn()
 		}
 	}
 
-
 }
 
 void GameModel::positionGuard()
@@ -149,6 +148,16 @@ void GameModel::changeTurn()
 	otherPlayer_->setPosition(otherPlayer_->getPosition());
 	notify();
 }
+
+void GameModel::remotePlayerStarts()
+{
+	swap(currentPlayer_, otherPlayer_);
+	currentPlayer_->isPlaying(true);
+	otherPlayer_->isPlaying(false);
+	notify();
+}
+
+
 
 
 

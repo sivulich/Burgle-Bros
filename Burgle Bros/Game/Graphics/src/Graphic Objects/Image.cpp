@@ -125,7 +125,7 @@ bool Image::overYou(int y, int x)
 {
 	//if (initOk == true)
 	//{
-		if (isInside(y, x) && isNotTransparent(y, x))
+		if (visible==true && isInside(y, x) && isNotTransparent(y, x))
 		{
 			if (hoverable)
 			{
@@ -149,7 +149,7 @@ bool Image::overYou(int y, int x)
 bool Image::isNotTransparent(int y, int x)
 {
 	float r, g, b, a;
-	al_unmap_rgba_f(im.getPixel(x-this->x, y-this->y), &r, &g, &b, &a);
+	al_unmap_rgba_f(im.getPixel((x-this->x)*1.0/scaleX, (y-this->y)*1.0/scaleY), &r, &g, &b, &a);
 	return a != 0.0;
 }
 
