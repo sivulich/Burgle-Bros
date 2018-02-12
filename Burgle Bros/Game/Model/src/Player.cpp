@@ -216,7 +216,10 @@ unsigned int Player::peek(Coord c, unsigned int safeNumber)
 {
 	// Remove ability from hawk
 	if (character->is(HAWK) && currentTile->isAdjacent(c) == false)
+	{
 		useAbility(true);
+		this->actionTokens++;
+	}
 
 	return peek(board->getTile(c));
 }

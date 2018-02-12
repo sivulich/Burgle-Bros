@@ -91,6 +91,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				for (int i = 0; i < 4; i++)
 					for (int j = 0; j < 4; j++)
 						v.push_back(Coord(0, i, j));
+				fsm.graphics->setTilesClickable(v);
 			}
 			else if (fsm.model->isRemote())
 			{
