@@ -79,10 +79,10 @@ public:
 	bool join();
 
 	//Exchanges information with Client/Server about the game
-	bool startupPhase(const string& name, const characterType type, const Coord guardPos, const Coord guardTarget, Board& board, const Coord playerPos);
+	bool startupPhase(const string& name, const characterType type, const Coord guardPos = Coord(0,0,0), const Coord guardTarget = Coord(0, 0, 0), /* Board& board*/ vector<tileType> board = vector<tileType>(), const Coord playerPos = Coord(0, 0, 0));
 
 	//Information getters
-	characterType remotePlayer() { return flags.remotePlayer; };
+	characterType remoteCharacter() { return flags.remotePlayer; };
 	vector<tileType> remoteBoard() { return flags.remoteBoard; };
 	Coord remoteGuardPos() { return flags.remoteGuardPos; };
 	Coord remoteGuardTarget() { return flags.remoteGuardTarget; };
@@ -124,7 +124,7 @@ private:
 	void exchangeNames(thData* fl,const string& name);
 	void exchangeCharacters(thData* fl, const characterType type);
 	void exchangeGuard(thData* fl, const Coord guardPos, Coord guardTarget);
-	void exchangeBoard(thData* fl, Board& board, const Coord playerPos);
+	void exchangeBoard(thData* fl, /* Board& board*/ vector<tileType> board, const Coord playerPos);
 	void exchangeFirst(thData* fl);
 
 	//Utility
