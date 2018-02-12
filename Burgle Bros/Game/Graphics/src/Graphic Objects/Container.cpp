@@ -101,9 +101,9 @@ string Container::click(int y, int x)
 		{
 			for (auto& ob : objects)
 			{
-				if (ob->overYou((y - this->y) / scaleY, (x - this->x) / scaleX) == true)
+				if (ob->overYou((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX) == true)
 				{
-					string s = ob->click((y - this->y) / scaleY, (x - this->x) / scaleX);
+					string s = ob->click((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX);
 					if (s == string("Not Clickable"))
 						continue;
 					else return s;
