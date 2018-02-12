@@ -11,6 +11,7 @@ IpScreen::IpScreen(Container* p) :Container(SCREEN_HEIGHT, SCREEN_WIDTH, "IP_SCR
 
 	textBox = new Textbox(537, 325, 260, 44, string("./Graphics/Images/arial_narrow.ttf"));
 	textBox->setMax(16);
+	textBox->setText(string("127.0.0.1"));
 	textBox->setFontColor(al_map_rgba_f(1, 1, 1, 0.5));
 	textBox->setBoxColor(al_map_rgba_f(0, 0, 0, 0));
 	addObject(textBox);

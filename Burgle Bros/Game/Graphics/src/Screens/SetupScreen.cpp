@@ -64,14 +64,18 @@ SetupScreen::click(int y, int x)
 						continue;
 					else
 					{
-						if (s != string("NEXT") && s != string("BACK"))
+						//cout << isInEnum_characterType(ob->getName().c_str()) << endl;
+						if (isInEnum_characterType(ob->getName().c_str()))
+						{
+							for (auto& obj : objects)
+									((Image*)obj)->setTone(1, 1, 1);
 							((Image*)ob)->setTone(1, 0.5, 0.5);
+							return s;
+						}
 					}
-					
+
 				}
-				else
-					if(ob->isEnable()==true)
-						((Image*)ob)->setTone(1, 1, 1);
+					
 			}
 			return s;
 		}
