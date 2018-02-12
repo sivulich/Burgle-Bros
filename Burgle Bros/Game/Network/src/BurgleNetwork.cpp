@@ -723,6 +723,7 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 					fl->currState = MACHINES_CONNECTED;
 					//al_emit_user_event(&networkEventSource, &connectedEvent, NULL);
 					eventQueue.push(connectedEvent);
+					connected = true;
 					DEBUG_MSG("Connected as client!");
 				}
 				else
@@ -776,6 +777,7 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 						//al_emit_user_event(&networkEventSource, &connectedEvent, NULL);
 						eventQueue.push(connectedEvent);
 						fl->error = false;
+						connected = true;
 						DEBUG_MSG("Someone connected");
 					}
 					else

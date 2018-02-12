@@ -43,7 +43,7 @@ bool GameController::isRunning()
 void GameController::getInput()
 {
 	s = "";
-	if (model != nullptr && model->isRemote() && network != nullptr && network->join()==true)
+	if (model != nullptr && model->isRemote() && network != nullptr && network->isConnected() && network->join()==true )
 	{
 		remoteInput inp = network->getRemoteInput();
 		if (inp.action != NO_TYPE)
@@ -293,5 +293,9 @@ void GameController::processEvent()
 	{
 		std::cout << s.substr(14) << std::endl;
 		model->currentPlayer()->setCharacter(s.substr(14));
+	}
+	else if (s.substr(0, 4) == string("MASK"))
+	{
+		//graphics->loadPlayerToken(s.substr(5));
 	}
 }

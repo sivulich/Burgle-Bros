@@ -90,6 +90,7 @@ public:
 	string remoteName() { return flags.remoteName; };
 	bool isServer() { return flags.server; };
 	bool iStart() { return flags.iStart; };
+	bool isConnected() { return connected; };
 	remoteInput getRemoteInput();
 
 	//Instruction senders
@@ -140,5 +141,6 @@ private:
 	bool answerInput(remoteInput& inp);
 	thData flags;
 	thread* currThread;
+	bool connected;
 };
 
