@@ -174,13 +174,13 @@ vector<Coord> Player::whereCanIPeek()
 	{
 		Coord c = currentTile->getPos();
 
-		if (currentTile->hasNorthWall())
+		if (currentTile->hasNorthWall() && this->getPosition().row > 0)
 			v.push_back(Coord(c.floor, c.col, c.row - 1));
-		if (currentTile->hasWestWall())
+		if (currentTile->hasWestWall() && this->getPosition().col > 0)
 			v.push_back(Coord(c.floor, c.col - 1, c.row));
-		if (currentTile->hasSouthWall())
+		if (currentTile->hasSouthWall() && this->getPosition().row < 3)
 			v.push_back(Coord(c.floor, c.col, c.row + 1));
-		if (currentTile->hasEastWall())
+		if (currentTile->hasEastWall() && this->getPosition().col < 3)
 			v.push_back(Coord(c.floor, c.col + 1, c.row));
 	}
 

@@ -1,4 +1,4 @@
-#include "GameGraphics.h"
+#include "./GameGraphics.h"
 #include "Button.h"
 #include "Animations.h"
 GameGraphics::GameGraphics(GameModel * m)

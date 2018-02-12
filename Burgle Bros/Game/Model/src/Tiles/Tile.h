@@ -134,6 +134,9 @@ public:
 	//Returns the amount of hack tokens in the tile
 	int getHackTokens() { return hackToken; };
 
+	//
+	unsigned int getStealthTokens() { return stealthTokens; };
+
 	//	Returns true if you could hide from the guard. Used for Lavatory.
 	virtual bool tryToHide() { return false; };
 
@@ -158,6 +161,8 @@ protected:
 	bool crackToken, crowToken, stairToken, alarmToken, hackerHere, hasGuard, northWall, southWall, eastWall, westWall;
 	//
 	int hackToken;
+	//
+	unsigned stealthTokens;
 	//
 	bool alarmTile;
 };

@@ -228,7 +228,7 @@ void Board::parseBoard()
 
 				case SAFE:
 					//If there is a safe set a loot
-					((Safe*)tile)->setLoot(/*loots.back()*/MIRROR);
+					((Safe*)tile)->setLoot(loots.back());
 					loots.pop_back();
 					prepSafeTile((Safe *)tile);
 					safes.push_back(tile);

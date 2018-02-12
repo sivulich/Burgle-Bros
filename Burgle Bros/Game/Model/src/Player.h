@@ -150,8 +150,6 @@ public:
 	// Returns true if the player is local
 	bool isLocal() { return local; };
 	bool isRemote() { return !local; };
-	//
-	int getLoot2bTraded() { return loot2bTransfered; };
 
 	// Removes loot from this player and gives it to the other
 	void giveLoot(lootType);
