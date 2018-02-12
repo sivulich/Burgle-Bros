@@ -160,6 +160,7 @@ void Textbox::draw(Bitmap* target)
 					buffer.insert(curPos, 1, event.getKeyboardCharacter());
 					curPos++;
 				}
+				
 			}
 			else if (event.getType() == ALLEGRO_EVENT_KEY_DOWN)
 			{
@@ -167,7 +168,7 @@ void Textbox::draw(Bitmap* target)
 				if (c == ALLEGRO_KEY_LEFT && curPos > 0)
 					curPos--;
 
-			else if (c == ALLEGRO_KEY_RIGHT && curPos < (long long)buffer.size())
+				else if (c == ALLEGRO_KEY_RIGHT && curPos < (long long)buffer.size())
 				curPos++;
 
 				else if (c == ALLEGRO_KEY_BACKSPACE && curPos > 0)
@@ -175,6 +176,7 @@ void Textbox::draw(Bitmap* target)
 					curPos--;
 					buffer.erase(curPos, 1);
 				}
+				
 			}
 		}
 

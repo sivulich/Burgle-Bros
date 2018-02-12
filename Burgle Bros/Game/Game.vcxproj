@@ -21,12 +21,13 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3DC9B7A-159A-4DEF-BA56-0B2E8AC28360}</ProjectGuid>
     <RootNamespace>Game</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -312,6 +313,7 @@
     <ClInclude Include="Model\src\Tiles\TileFactory.h" />
     <ClInclude Include="Model\src\Tiles\Walkway.h" />
     <ClInclude Include="Network\include\BurgleNetwork.h" />
+    <ClInclude Include="Graphics\src\Screens\RuleBook.h" />
     <ClInclude Include="Sound\SoundEffects.h" />
   </ItemGroup>
   <ItemGroup>
@@ -404,6 +406,7 @@
     <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
     <ClCompile Include="Network\src\BurgleNetwork.cpp" />
+    <ClCompile Include="Graphics\src\Screens\RuleBook.cpp" />
     <ClCompile Include="Sound\SoundEffects.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
