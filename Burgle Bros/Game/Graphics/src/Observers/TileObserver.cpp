@@ -1,5 +1,8 @@
 #include "./FloorObserver.h"
+#include "./TileObserver.h"
 #include "Animations.h"
+
+
 
 static map<tileType, string> images = { {ATRIUM,string("../Game/Graphics/Images/Tiles/Tile - Atrium.png")},
 										{CAMERA,string("../Game/Graphics/Images/Tiles/Tile - Camera.png") },
@@ -64,7 +67,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 	zoomedCard->setHoverable(false);
 	zoomedCard->setClickable(false);
 	zoomedCard->setVisible(false);
-	boardContainer->addObject(zoomedCard);
+	
 
 
 	// Now check for walls
@@ -136,7 +139,17 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 		}
 	}
 
-	
+	if (tile->is(LAVATORY))
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			stealthTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Stealth Token.png"), XPOS + 2 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			stealthTokens.back()->setVisible(false);
+			stealthTokens.back()->setHoverable(false);
+			stealthTokens.back()->setClickable(false);
+			floorContainer->addObject(stealthTokens.back());
+		}
+	}
 
 	persianKitty = new Image(string("../Game/Graphics/Images/Tokens/Persian kitty.png"), XPOS + 3 * TOKEN_SIZE, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE);
 	persianKitty->setVisible(false);
@@ -234,19 +247,46 @@ void TileObserver::update()
 		}
 	}
 
+	if (tile->isFlipped() && tile->is(LAVATORY) && tile->getStealthTokens() > 0)
+	{
+		for (auto &it : stealthTokens)
+			it->setVisible(false);
+		for (int i = 0; i < tile->getStealthTokens(); i++)
+		{
+			stealthTokens[i]->setVisible(true);
+		}
+	}
+
 	if (tile->isFlipped() && ((Keypad *)tile)->keyDecoded() && tile->is(KEYPAD))
 	{
 		openToken->setVisible(true);
 	}
 
-	if (tile->hasXLoot(PERSIAN_KITTY))
-		persianKitty->setVisible(true);
-	if (tile->hasXLoot(GOLD_BAR))
-		goldBar->setVisible(true);
+	if (tile->hasLoot(PERSIAN_KITTY) != hasKitty)
+	{
+		hasKitty = tile->hasLoot(PERSIAN_KITTY);
+		if(hasKitty)
+			persianKitty->setVisible(true);
+		else
+			persianKitty->setVisible(false);
+	}
+		
+	if (tile->hasLoot(GOLD_BAR) != hasGoldBar)
+	{
+		hasGoldBar = tile->hasLoot(GOLD_BAR);
+		if (hasGoldBar)
+			goldBar->setVisible(true);
+		else
+			goldBar->setVisible(false);
+	}
+		
 }
 
 void TileObserver::zoom()
 {
+	boardContainer->removeObject(zoomedCard);
+	boardContainer->addObject(zoomedCard);
+
 	if (tile->isFlipped())
 	{
 		zoomedCard->setVisible(true);

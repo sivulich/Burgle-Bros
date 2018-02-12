@@ -1,10 +1,11 @@
 #include "FadeAnimation.h"
 
-FadeAnimation::FadeAnimation(double alpha0, double alpha1, double dur) : Animation(dur)
+FadeAnimation::FadeAnimation(double alpha0, double alpha1, double dur, bool hideWhenFinished) : Animation(dur)
 {
 	this->alpha0 = alpha0;
 	this->alpha1 = alpha1;
 	step = 0;
+	this->hideWhenFinished = hideWhenFinished;
 }
 
 void FadeAnimation::play(ObjectInterface* object)
@@ -15,7 +16,7 @@ void FadeAnimation::play(ObjectInterface* object)
 		object->setAlpha(alpha0);
 	}
 
-	if (framesLeft>1)
+	if (framesLeft > 1)
 	{
 		object->setAlpha(object->getAlpha() + step);
 		framesLeft--;
@@ -26,5 +27,7 @@ void FadeAnimation::play(ObjectInterface* object)
 	{
 		object->setAlpha(alpha1);
 		framesLeft--;
+		if (hideWhenFinished)
+			object->setVisible(false);
 	}
 }

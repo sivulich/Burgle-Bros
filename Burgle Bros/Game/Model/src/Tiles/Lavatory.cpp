@@ -7,6 +7,7 @@ Lavatory::~Lavatory()
 bool Lavatory::tryToHide() {
 	if (stealthTokens > 0) {
 		stealthTokens--;
+		notify();
 		DEBUG_MSG("You managed to hide in the stalls.");
 		return true;
 	}

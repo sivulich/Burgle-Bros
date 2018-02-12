@@ -137,7 +137,8 @@ DEFINE_ENUM_WITH_CONVERSIONS(characterType,
 (SPOTTER)
 (HAWK)
 (RAVEN)
-(PETERMAN))
+(PETERMAN)
+(NO_CHARACTER_TYPE) )
 
 typedef enum confirmation{_MOVE, _CANT_MOVE, _ASK, _DICE} confirmation;
 

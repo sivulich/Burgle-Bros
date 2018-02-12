@@ -10,7 +10,7 @@ void Fingerprint::enter(PlayerInterface * player) {
 	Tile::enter(player);
 	if (player->getCharacter() == HACKER)
 		hackerHere = true;
-	if(!hackerHere)
+	if(!hackerHere && !player->has(MIRROR))
 		setAlarm(true);
 }
 

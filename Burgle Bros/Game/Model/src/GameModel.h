@@ -14,14 +14,21 @@ public:
 		//player1_.setLocal(true);
 		currentPlayer_  =  &player1_;
 		otherPlayer_    =  &player2_;
+		player1_.setLocal(true);
 
+		player2_.setLocal(true);
 		srand((unsigned int)time(NULL));
 	};
+
+
+	std::pair<Coord, Coord> getInitialGuardPos();
 
 	//
 	void setLocal();
 	void setRemote();
-	
+	bool isRemote();
+	bool isLocal();
+
 	// Print game model in console
 	void print();
 
@@ -46,14 +53,14 @@ public:
 	// Move the corresponding guard one step
 	void moveGuard();
 
+	//
+	void positionGuard();
+
 	// Return true if guard is still moving
 	bool guardIsMoving();
 
 	//
 	void endTurn();
-
-	//
-	bool doInitialAction(int dice);
 
 	// Called after guard movement, it changes the turn of the player
 	void changeTurn();
@@ -76,12 +83,14 @@ public:
 	//
 	vector<Coord> getTilesXDist(unsigned x, Player * p);
 
+
+
 	//
 	void check4Cameras();
 
 	bool doKittyAction(int dice);
 
-	void doChihuahuaAction(int dice);
+	bool doChihuahuaAction(int dice);
 
 	Board* getBoard() { return &board; };
 

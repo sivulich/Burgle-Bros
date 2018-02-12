@@ -18,48 +18,48 @@ void Safe::exit(PlayerInterface * player)
 		keyCardHere = false;
 }
 
-vector<string> Safe::getActions(PlayerInterface * player) 
+vector<string> Safe::getActions(PlayerInterface * player)
 {
 	int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
 	vector<string> actions(Tile::getActions(player));
-	if (safeIsOpen() == false)		
-	{		
-		if (dices < 6 && player->getActionTokens() >= 2 && !player->isThrowingDices())
-			actions.push_back("ADD_TOKEN");
+	if (safeIsOpen() == false)
+	{
+		if (dices < 6 && player->getActionTokens() >= 2)
+			actions.push_back("ADD_DIE");
 		if ((dices + b) > 0 && player->getActionTokens() >= 1 && keyCardHere)
-			actions.push_back("THROW_DICE");
+			actions.push_back("CRACK_SAFE");
 	}
 	return actions;
 }
 
-bool Safe::doAction(string action, PlayerInterface * player) 
+bool Safe::doAction(string action, PlayerInterface * player)
 {
 	bool endThrow = false;
-	int b = (player->getCharacter() == PETERMAN) ? 1: 0;
-	if (action == "ADD_TOKEN" && player->getActionTokens()>=2)
+	int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
+	if (action == "ADD_TOKEN" && player->getActionTokens() >= 2)
 	{
 		player->removeActionToken();
 		player->removeActionToken();
 		addDice();
 		player->newAction("ADD_TOKEN", getPos(), INT_MAX);
-		DEBUG_MSG("You added a new die to this safe. You can now throw " <<dices << " dices.");
+		DEBUG_MSG("You added a new die to this safe. You can now throw " << dices << " dices.");
 	}
 	else if (action == "THROW_DICE" && keyCardHere)
 	{
-		if (dicesThisTurn < (dices + b) && !safeIsOpen())	// while the safe remains closed, throw all the dice you have
+		if (dicesThisTurn < (dices + b) && !safeIsOpen())// while the safe remains closed, throw all the dice you have
 		{
-			if(dicesThisTurn == 0)
-			player->removeActionToken();					// remove an action
-			trySafeNumber(player->getDice());				// check how many tiles you cracked throwing one die
+			if (dicesThisTurn == 0)
+				player->removeActionToken();// remove an action
+			trySafeNumber(player->getDice());// check how many tiles you cracked throwing one die
 			dicesThisTurn++;
 
-			if (combinationTiles.size() == 0)				//  if the vector is empty, then all the tiles were cracked
-			{				
+			if (combinationTiles.size() == 0)//  if the vector is empty, then all the tiles were cracked
+			{
 				endThrow = true;
-				safeCracked = true;							// if so, you opened the safe
+				safeCracked = true;	// if so, you opened the safe
 				DEBUG_MSG("You cracked the safe!!");
 				player->addLoot(safeLoot);
-				player->newAction("SAFE_OPENED", getPos(),INT_MAX);
+				player->newAction("SAFE_OPENED", getPos(), INT_MAX);
 				if (safeLoot == CURSED_GOBLET && player->getActionTokens() > 0)
 					player->removeActionToken();
 				if (safeLoot == KEYCARD)
@@ -78,10 +78,9 @@ bool Safe::doAction(string action, PlayerInterface * player)
 				endThrow = true;
 			}
 
-		}	
+		}
 		else endThrow = true;
 	}
-	////////////////// HACER BIEN RETURN VALUE
 	return endThrow;
 
 }
@@ -89,7 +88,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 void Safe::trySafeNumber(int number) {
 	cout << "Threw a " << number << endl;
 	vector <Tile *> v;
-	if (combinationTiles.size() != 0) 
+	if (combinationTiles.size() != 0)
 	{
 		for (auto &it : combinationTiles)
 		{
@@ -99,16 +98,16 @@ void Safe::trySafeNumber(int number) {
 		}
 		combinationTiles = v;
 		DEBUG_LN_MSG("Tiles remaining to crack: ");
-			for (auto i : combinationTiles)
-				DEBUG_LN_MSG(i->getPos() << " - ");
-			DEBUG_MSG(endl);
-			
+		for (auto i : combinationTiles)
+			DEBUG_LN_MSG(i->getPos() << " - ");
+		DEBUG_MSG(endl);
+
 	}
 }
 
 // if getSafeNumber equals diceThrown, then the tile will be cracked for the tile will always be uncracked when it arrives here
 // and getSafeNumber returns a 0 if the tile is flipped down
-bool Safe::canCrack( Tile * t, int dice) {	
+bool Safe::canCrack(Tile * t, int dice) {
 	if (t->getSafeNumber() == dice)		// check if the tile can be cracked
 	{
 		t->crackTile();

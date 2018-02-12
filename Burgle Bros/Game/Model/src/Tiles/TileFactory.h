@@ -28,6 +28,5 @@ public:
 	~TileFactory() {};
 
 	static Tile* newTile(tileType type,int f, int x, int y);
-	//static Tile* newTile(tileType type);
 
 };

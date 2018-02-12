@@ -2,9 +2,9 @@
 #include "./GameFSM.h"
 #include <random>
 
-GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork * n*/) : stateMachine(new GameFSM(m, g/*, n*/, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
+GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n) : stateMachine(new GameFSM(m, g, n, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
-	//network = n;
+	network = n;
 	model = m;
 	graphics = g;
 
@@ -15,10 +15,10 @@ GameController::GameController(GameModel * m, GameGraphics * g/*, BurgleNetwork 
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
 	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
 
-	//	al_init_user_event_source(&BurgleNetwork::networkEventSource);
-	//	al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
+		al_init_user_event_source(&BurgleNetwork::networkEventSource);
+		al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
 
-		//eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
+		eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
 
 	renderTimer.start();
 	static_pointer_cast<GameFSM>(stateMachine)->start();
@@ -43,6 +43,29 @@ bool GameController::isRunning()
 void GameController::getInput()
 {
 	s = "";
+	if (model != nullptr && model->isRemote() && network != nullptr && network->isConnected() && network->join()==true )
+	{
+		remoteInput inp = network->getRemoteInput();
+		if (inp.action != NO_TYPE)
+		{
+			switch (inp.action)
+			{
+			case ACK:
+				s = "ACK";
+				break;
+			case MOVE:
+				s = "MOVE";
+				break;
+			case PEEK:
+				s = "PEEK";
+				break;
+
+			}
+			return;
+		}
+
+	}
+
 	/*if (network->newEvent())
 	{
 		ALLEGRO_EVENT e = network->getEvent();
@@ -63,6 +86,7 @@ void GameController::getInput()
 
 		switch (event.getType())
 		{
+		
 		case ALLEGRO_EVENT_TIMER:
 			if (event.getTimer() == guardTimer)
 			{
@@ -71,14 +95,15 @@ void GameController::getInput()
 			else if (event.getTimer() == renderTimer)
 				s = "RENDER";
 			break;
+		
 		case ALLEGRO_EVENT_DISPLAY_CLOSE:
 			s = "EXIT";
 			break;
-
 		case ALLEGRO_EVENT_MOUSE_AXES:
 			graphics->hover(event.getMouseY(), event.getMouseX());
 			s = "";
 			break;
+		
 
 		case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 			s = graphics->click(event.getMouseY(), event.getMouseX());
@@ -195,12 +220,9 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
 	else if (s == "THROW_DICE")
 	{
-		if (model->currentPlayer()->isLocal() == false)
-		{
-			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
-		}
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	}
-	else if (s=="CRACK_SAFE")
+	else if (s == "CRACK_SAFE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
@@ -234,6 +256,8 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
 	else if (s == "NO")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
+	else if (s == "DONE")
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::done());
 	else if (s == "OK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ok());
 	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
@@ -243,8 +267,9 @@ void GameController::processEvent()
 			graphics->zoomTile(c);
 		else
 			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
+		cout << "PROCCESS COORD " << s << endl;
 	}
-	else if(isInEnum_characterType(s.c_str()))
+	else if (isInEnum_characterType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
 	else if (isInEnum_lootType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::lootType(string(s)));
@@ -254,12 +279,23 @@ void GameController::processEvent()
 	{
 		model->currentPlayer()->addLoot(toEnum_lootType(s.substr(9).c_str()));
 	}
-}
-
-int  GameController::throwDice()
-{
-	std::random_device rd;     // only used once to initialise (seed) engine
-	std::mt19937 rng(rd());    // random-number engine used (Mersenne-Twister in this case)
-	std::uniform_int_distribution<int> uni(1, 6); // guaranteed unbiased
-	return uni(rng);
+	else if (s.substr(0, 4) == string("DROP"))
+	{
+		Loot * l = nullptr;
+		if (s.substr(5) == string("GOLDBAR"))
+			l = LootFactory().newLoot(GOLD_BAR);
+		else if ((s.substr(5) == string("PERSIAN_KITTY")))
+			l = LootFactory().newLoot(PERSIAN_KITTY);
+		if (l != nullptr)
+			model->getBoard()->getTile(model->currentPlayer()->getPosition())->setLoot(l);
+	}
+	else if (s.substr(0, 13) == string("SET_CHARACTER"))
+	{
+		std::cout << s.substr(14) << std::endl;
+		model->currentPlayer()->setCharacter(s.substr(14));
+	}
+	else if (s.substr(0, 4) == string("MASK"))
+	{
+		//graphics->loadPlayerToken(s.substr(5));
+	}
 }

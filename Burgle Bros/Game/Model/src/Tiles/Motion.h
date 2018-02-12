@@ -7,8 +7,6 @@ You cannot enter AND leave this tile in one turn. You must stop here. If you don
 you use a hack token from the Motion Computer Room.
 */
 
-// CUANDO TERMINA EL TURNO SE LLAMA A DISARM
-
 class Motion : 	public Tile
 {
 public:

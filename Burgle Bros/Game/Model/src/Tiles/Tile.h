@@ -17,7 +17,7 @@ public:
 	Tile(tileType t, unsigned floor, unsigned col, unsigned row);
 
 	//	Apart from turning up the card, sort the safe number
-	virtual void turnUp();
+	virtual void turnUp(unsigned int safeNumber_ = 0);
 
 	//	Peek the tile
 	void peek();
@@ -64,7 +64,7 @@ public:
 	//	Checks if there is a loot on tile.
 	bool hasLoot();
 
-	bool hasXLoot(lootType l) { bool b = false; for (auto &it : this->loot) if (it->is(l)) b = true; return b; };
+	bool hasLoot(lootType l) { bool b = false; for (auto &it : this->loot) if (it->is(l)) b = true; return b; };
 
 	//
 	vector<Loot *> getLoot() { return loot; }
@@ -81,6 +81,7 @@ public:
 
 	//	If tile is flipped returns the safe number, else returns 0.
 	int getSafeNumber();
+	void setSafeNumber(unsigned int n) { safeNumber = n; };
 
 	//	Return a vector of Coords where player can move (override special cases)
 	virtual vector<Coord> whereCanIMove();
@@ -106,29 +107,43 @@ public:
 	bool hasNorthWall() { return northWall; };
 	bool hasSouthWall() { return southWall; };
 
+	// Set tile's walls
 	void setNorthWall(bool b) { northWall = b; }
 	void setEastWall(bool b) { eastWall = b; }
 	void setWestWall(bool b) { westWall = b; }
 	void setSouthWall(bool b) { southWall = b; }
 
+	// Sets the crack token in the current Tile
 	void crackTile() { crackToken = true; notify(); };
+
+	// Checks if the tile has the crack token
 	bool hasCrackToken() { return crackToken; };
 
+	// Sets the stair token in the current Tile
 	void setStairToken(bool b) { stairToken = b; notify(); };
+
+	// Checks if the tile has the stair token
 	bool hasStairToken() { return stairToken; };
 
+	// Sets the crow token in the current Tile
 	void setCrowToken(bool b) { crowToken = b; notify(); };
-	bool hasCrowToken() { return crowToken; };
 
+	// Checks if the tile has the crow token
+	bool hasCrowToken() { return crowToken; };
 	
 	//Returns the amount of hack tokens in the tile
 	int getHackTokens() { return hackToken; };
 
+	//
+	unsigned int getStealthTokens() { return stealthTokens; };
+
 	//	Returns true if you could hide from the guard. Used for Lavatory.
 	virtual bool tryToHide() { return false; };
 
+	//Sets if the guard is here or isn't
 	void guardIs(bool b) { hasGuard = b; };
 
+	//
 	bool guardHere() { return hasGuard; };
 
 protected:
@@ -146,6 +161,8 @@ protected:
 	bool crackToken, crowToken, stairToken, alarmToken, hackerHere, hasGuard, northWall, southWall, eastWall, westWall;
 	//
 	int hackToken;
+	//
+	unsigned stealthTokens;
 	//
 	bool alarmTile;
 };

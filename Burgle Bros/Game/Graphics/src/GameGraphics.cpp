@@ -1,4 +1,4 @@
-#include "GameGraphics.h"
+#include "./GameGraphics.h"
 #include "Button.h"
 #include "Animations.h"
 GameGraphics::GameGraphics(GameModel * m)
@@ -22,6 +22,23 @@ GameGraphics::GameGraphics(GameModel * m)
 
 			// Add a containter to the screen for all objects
 			cont = new Container(SCREEN_HEIGHT, SCREEN_WIDTH, "Root container");
+			ipScreen = new IpScreen(cont);
+			screens.push_back(ipScreen);
+			modeScreen = new ModeScreen(cont);
+			screens.push_back(modeScreen);
+			menuScreen = new MenuScreen(cont);
+			screens.push_back(menuScreen);
+			creditScreen = new CreditScreen(cont);
+			screens.push_back(creditScreen);
+			setupScreen = new SetupScreen(cont);
+			screens.push_back(setupScreen);
+			rulesScreen = new RulesScreen(cont);
+			screens.push_back(rulesScreen);
+			gameScreen = new Container(SCREEN_HEIGHT, SCREEN_WIDTH, "GAME_SCREEN");
+			gameScreen->setVisible(false);
+			gameScreen->setPosition(0, 0);
+			cont->addObject(gameScreen);
+			screens.push_back(gameScreen);
 			screen->addObject(cont);
 			cont->setPosition(0, 0);
 
@@ -44,158 +61,84 @@ void GameGraphics::setModel(GameModel * m)
 	m->attach(this);
 }
 
+//Screens Con nuevo Metodo
 void GameGraphics::showMenuScreen()
 {
 	current_screen = MENU;
-	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Menu/background.jpg"));
-
-	cont->addObject(new Button(string("START"),
-		string("./Graphics/Images/Menu/start.png"),
-		string("./Graphics/Images/Menu/startHover.png"),
-		string("./Graphics/Images/Menu/startClicked.png")));
-	cont->addObject(new Button(string("CREDITS"),
-		string("./Graphics/Images/Menu/credits.png"),
-		string("./Graphics/Images/Menu/creditsHover.png"),
-		string("./Graphics/Images/Menu/creditsClicked.png")));
-	cont->addObject(new Button(string("RULES"),
-		string("./Graphics/Images/Menu/rules.png"),
-		string("./Graphics/Images/Menu/rulesHover.png"),
-		string("./Graphics/Images/Menu/rulesClicked.png")));
-	cont->addObject(new Button(string("EXIT"),
-		string("./Graphics/Images/Menu/exit.png"),
-		string("./Graphics/Images/Menu/exitHover.png"),
-		string("./Graphics/Images/Menu/exitClicked.png")));
-
-	/*cont->addObject(new Image(string("./Graphics/Images/Menu/start.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	cont->addObject(new Image(string("./Graphics/Images/Menu/credits.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	cont->addObject(new Image(string("./Graphics/Images/Menu/rules.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));
-	cont->addObject(new Image(string("./Graphics/Images/Menu/exit.png"), 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT));*/
+	setAllNotVisible();
+	menuScreen->setVisible(true);
 
 }
 
 void GameGraphics::showModeScreen()
 {
 	current_screen = MODE;
-	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
-
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/LOCAL.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/REMOTE.png")));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png"), 0, 617));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png"), 1134, 631));
+	cont->addObject(modeScreen);
+	setAllNotVisible();
+	modeScreen->setVisible(true);
 }
 
 void GameGraphics::showIPScreen()
 {
 	current_screen = IP;
-	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Screen - Mode/backgroundIP.jpg"));
-
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/CONNECT.png"), 399, 389));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png"), 0, 617));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/EXIT.png"), 1134, 631));
-
-	if (textBox != nullptr)
-		delete textBox;
-
-	textBox = new Textbox(537, 325, 260, 44, string("./Graphics/Images/arial_narrow.ttf"));
-	textBox->setMax(16);
-	textBox->setFontColor(al_map_rgba_f(1, 1, 1, 0.5));
-	textBox->setBoxColor(al_map_rgba_f(0, 0, 0, 0));
-	cont->addObject(textBox);
+	setAllNotVisible();
+	ipScreen->setVisible(true);
 
 }
 
 void GameGraphics::showCreditsScreen()
 {
 	current_screen = CREDITS;
-	cont->clear();
-	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
+	setAllNotVisible();
+	creditScreen->setVisible(true);
+}
+
+void GameGraphics::showSetupScreen(int player)
+{
+	current_screen = SETUP;
+	setAllNotVisible();
+	setupScreen->setVisible(true);
+	// Load player number
+	if (player == 1)
+		setupScreen->showPlayer1();
+
+	else if (player == 2)
+	{
+		setupScreen->showPlayer2(string(toString(model->player1()->getCharacter())));
+	}
 }
 
 void GameGraphics::showRulesScreen()
 {
 	current_screen = RULES;
-	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Screen - Mode/background.jpg"));
-	cont->addObject(new Image(string("./Graphics/Images/Screen - Mode/BACK.png")));
+	setAllNotVisible();
+	rulesScreen->setVisible(true);
 }
 
 
-
-void GameGraphics::showSetupScreen(int player)
-{
-	current_screen = SETUP;
-	cont->clear();
-	// Load buttons and character
-	Image*i;
-	cont->setBackground(string("./Graphics/Images/Setup/background.jpg"));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/BACK.png"), 0, 616));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/NEXT.png"), 1136, 632));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/ACROBAT.png"), 53, 311));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/SPOTTER.png"), 147, 286));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/JUICER.png"), 254, 260));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/HAWK.png"), 361, 236));
-	i = new Image(string("./Graphics/Images/Setup/ROOK.png"), 463, 184);
-	i->disable();
-	cont->addObject(i);
-	cont->addObject(new Image(string("./Graphics/Images/Setup/HACKER.png"), 597, 190));
-	cont->addObject(new Image(string("./Graphics/Images/Setup/RAVEN.png"), 714, 234));
-	i = new Image(string("./Graphics/Images/Setup/RIGGER.png"), 880, 247);
-	i->disable();
-	cont->addObject(i);
-	cont->addObject(new Image(string("./Graphics/Images/Setup/PETERMAN.png"), 1073, 311));
-
-	// Load the textbox to enter the players name
-	textBox = new Textbox(574, 645, 270, 44, string("./Graphics/Images/arial_narrow.ttf"));
-	textBox->setFontColor(al_map_rgba_f(1, 1, 1, 0.5));
-	textBox->setBoxColor(al_map_rgba_f(0, 0, 0, 0));
-	cont->addObject(textBox);
-
-	// Load player number
-	if (player == 1)
-		i = new Image(string("./Graphics/Images/Setup/PLAYER1.png"), 592, 120);
-
-	else if (player == 2)
-		i = new Image(string("./Graphics/Images/Setup/PLAYER2.png"), 592, 120);
-	else
-		i = nullptr;
-
-	if (i != nullptr)
-	{
-		i->setHoverable(false);
-		i->setClickable(false);
-		cont->addObject(i);
-	}
-}
-
-
-
-// 
+ 
 void GameGraphics::showGameScreen()
 {
 	current_screen = GAME;
-	cont->clear();
-	cont->setBackground(string("./Graphics/Images/Screen - Game/background.jpg"));
+	setAllNotVisible();
+	gameScreen->setBackground(string("./Graphics/Images/Screen - Game/background.jpg"));
 	//And observers for the board and player
-	board = new BoardObserver(model, cont);
-	hud = new HudObserver(model, board, cont);
+	board = new BoardObserver(model, gameScreen);
+	hud = new HudObserver(model, board, gameScreen);
 	textBox = new Textbox(CONSOLE_XPOS, -CONSOLE_HEIGHT, CONSOLE_WIDTH, CONSOLE_HEIGHT, string("./Graphics/Images/arial_narrow.ttf"));
 	textBox->setFontColor(al_map_rgba_f(0, 0, 0, 1));
 	textBox->setBoxColor(al_map_rgba_f(1, 1, 1, 1));
-	cont->addObject(textBox);
+	gameScreen->addObject(textBox);
 
 	roof = new Image(string("../Game/Graphics/Images/HELIPAD.png"), ROOF_XPOS, ROOF_YPOS, TILE_SIZE / 4, TILE_SIZE / 4);
 	roof->setName(string("COORDA1F3"));
-	cont->addObject(roof);
+	gameScreen->addObject(roof);
 
 	hudText = new Text(string("./Graphics/Images/calibri.ttf"), al_map_rgba_f(1.0, 1.0, 1.0, 1.0), 20, 639, 29);
-	cont->addObject(hudText);
+	gameScreen->addObject(hudText);
 	hudTextTimer = new Timer(0.001);
 	hudTextTimer->start();
+	gameScreen->setVisible(true);
 }
 
 void GameGraphics::deleteGameScreen()
@@ -216,13 +159,15 @@ void GameGraphics::setBorderVisible(bool b)
 string GameGraphics::getPlayerName()
 {
 	if (current_screen = SETUP)
-		return textBox->getText();
+		return setupScreen->getPlayerName();
 }
 
 string GameGraphics::getIP()
 {
 	if (current_screen = IP)
-		return textBox->getText();
+		//return textBox->getText();
+		return ipScreen->getIp();
+	return "";
 }
 void GameGraphics::render()
 {
@@ -347,12 +292,18 @@ void GameGraphics::hideConsole()
 
 bool GameGraphics::showingConsole()
 {
-	return textBox->getPos() == pair<int, int>(CONSOLE_YPOS, CONSOLE_XPOS);
+	if (textBox != nullptr)
+		return textBox->getPos() == pair<int, int>(CONSOLE_YPOS, CONSOLE_XPOS);
+	else
+		return false;
 }
 
 bool GameGraphics::writingInConsole()
 {
-	return textBox->isClicked();
+	if (textBox != nullptr)
+		return textBox->isClicked();
+	else
+		return false;
 }
 
 string GameGraphics::getConsoleText()

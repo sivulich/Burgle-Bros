@@ -41,9 +41,12 @@ private:
 	Image *persianKitty;
 	Image *goldBar;
 	vector<Image *> hackTokens;
+	vector<Image *> stealthTokens;
 
 	Card * tileCard;
 	Image * zoomedCard;
 	bool flipped;
 	bool cracked;
+	bool hasGoldBar;
+	bool hasKitty;
 };

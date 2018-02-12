@@ -118,10 +118,20 @@ public:
 		Print name of all objects
 	*/
 	void printContent();
+	
+	/**
+		Disables the child with the given name
+	*/
+	void disableChild(string& name) { for (auto& obj : objects) if (obj->getName() == name) obj->disable(); };
+
+	/**
+		Enable the child with the given name
+	*/
+	void enableChild(string& name) { for (auto& obj : objects) if (obj->getName() == name) obj->enable(); };
 
 	~Container() { delete toDraw; };
 
-private:
+protected:
 	/*Background info*/
 	Bitmap background;
 	int offsetX, offsetY; //Used to offset the drawing of the background in the given container
