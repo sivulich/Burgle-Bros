@@ -9,13 +9,14 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 	hudCont = h;
 
 	// Load player card
-	map<characterType, string> images = { { ACROBAT,string("./Graphics/Images/Characters/The Acrobat.png") },
-	{ HACKER,string("./Graphics/Images/Characters/The Hacker.png") },
-	{ HAWK,string("./Graphics/Images/Characters/The Hawk.png") },
-	{ JUICER,string("./Graphics/Images/Characters/The Juicer.png") },
-	{ PETERMAN,string("./Graphics/Images/Characters/The Peterman.png") },
-	{ RAVEN,string("./Graphics/Images/Characters/The Raven.png") },
-	{ SPOTTER,string("./Graphics/Images/Characters/The Spotter.png") } };
+	map<characterType, string> images = { { ACROBAT,string("./Graphics/Images/Characters/ACROBAT.png") },
+	{ HACKER,string("./Graphics/Images/Characters/HACKER.png") },
+	{ HAWK,string("./Graphics/Images/Characters/HAWK.png") },
+	{ JUICER,string("./Graphics/Images/Characters/JUICER.png") },
+	{ PETERMAN,string("./Graphics/Images/Characters/PETERMAN.png") },
+	{ RAVEN,string("./Graphics/Images/Characters/RAVEN.png") },
+	{ SPOTTER,string("./Graphics/Images/Characters/SPOTTER.png") },
+	{ NO_CHARACTER_TYPE,string("./Graphics/Images/Characters/NO_CHARACTER_TYPE.png") } };
 
 	characterFigure = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1.png"));
 	characterFigurePlaying = new Image(string("./Graphics/Images/Screen - Game/Characters/") + toString(p->getCharacter()) + string(" 1 PLAYING.png"));
@@ -130,13 +131,14 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 	//------------------------------------------------------------------------------------
 
 	// Load player token
-	map<characterType, string> figures = { { ACROBAT,string("./Graphics/Images/Figures/The Acrobat.png") },
-	{ HACKER,string("./Graphics/Images/Figures/The Hacker.png") },
-	{ HAWK,string("./Graphics/Images/Figures/The Hawk.png") },
-	{ JUICER,string("./Graphics/Images/Figures/The Juicer.png") },
-	{ PETERMAN,string("./Graphics/Images/Figures/The Peterman.png") },
-	{ RAVEN,string("./Graphics/Images/Figures/The Raven.png") },
-	{ SPOTTER,string("./Graphics/Images/Figures/The Spotter.png") } };
+	map<characterType, string> figures = { { ACROBAT,string("./Graphics/Images/Figures/ACROBAT.png") },
+	{ HACKER,string("./Graphics/Images/Figures/HACKER.png") },
+	{ HAWK,string("./Graphics/Images/Figures/HAWK.png") },
+	{ JUICER,string("./Graphics/Images/Figures/JUICER.png") },
+	{ PETERMAN,string("./Graphics/Images/Figures/PETERMAN.png") },
+	{ RAVEN,string("./Graphics/Images/Figures/RAVEN.png") },
+	{ SPOTTER,string("./Graphics/Images/Figures/SPOTTER.png") },
+	{ NO_CHARACTER_TYPE,string("./Graphics/Images/Figures/NO_CHARACTER_TYPE.png") } };
 
 	token = new Image(figures[player->getCharacter()], 0, 0, TOKEN_WIDTH, TOKEN_HEIGHT);
 	token->setVisible(false);
@@ -202,10 +204,20 @@ void PlayerObserver::update()
 
 		lastPos = curr;
 	}
+
 	if (player->getName() != name->getText())
 	{
 		name->setText(player->getName());
 	}
+	
+	// Check if character changed
+	if (player->getCharacter() != toEnum_characterType(token->getName().c_str()))
+	{
+		characterFigure->load(string("./Graphics/Images/Screen - Game/Characters/") + toString(player->getCharacter()) + string(" 1.png"));
+		characterFigurePlaying->load(string("./Graphics/Images/Screen - Game/Characters/") + toString(player->getCharacter()) + string(" 1 PLAYING.png"));
+		token->load(string("./Graphics/Images/Figures/") + toString(player->getCharacter()) + string(".png"));
+	}
+
 	// Update character figure
 	if (isPlaying != player->isPlaying())
 	{

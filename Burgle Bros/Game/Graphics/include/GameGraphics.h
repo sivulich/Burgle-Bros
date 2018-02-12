@@ -2,6 +2,13 @@
 #include <GameModel.h>
 #include <GraphicsDefs.h>
 #include <alx.hpp>
+//Screens
+#include "../src/Screens/IpScreen.h"
+#include "../src/Screens/ModeScreen.h"
+#include "../src/Screens/MenuScreen.h"
+#include "../src/Screens/CreditScreen.h"
+#include "../src/Screens/SetupScreen.h"
+#include "../src/Screens/RulesScreen.h"
 
 #include "../Graphic Objects/Screen.h"
 #include "../Graphic Objects/Container.h"
@@ -141,6 +148,18 @@ private:
 	Container* cont;
 	Image * roof;
 
+	//Screens
+	void setAllNotVisible() { for (auto& s : screens)s->setVisible(false); };
+	vector<Object*> screens;
+	IpScreen* ipScreen;
+	ModeScreen* modeScreen;
+	MenuScreen* menuScreen;
+	CreditScreen* creditScreen;
+	SetupScreen* setupScreen;
+	RulesScreen* rulesScreen;
+	Container* gameScreen;
+
+	
 	Textbox * textBox;
 	Timer * hudTextTimer;
 	queue<string> hudTextQueue;

@@ -711,11 +711,11 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 
 				if (rv == APR_SUCCESS)
 				{
-//					 ESTO LO HACNE LOS CHICOS
+					/* ESTO LO HACNE LOS CHICOS
 					apr_socket_opt_set(fl->sock, APR_SO_NONBLOCK, 1);
 		apr_socket_timeout_set(fl->sock, 0);
-		//retVal = true;
-		
+		retVal = true;
+		*/
 					fl->server = false;
 					fl->executing = false;
 					fl->join = true;
@@ -723,6 +723,7 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 					fl->currState = MACHINES_CONNECTED;
 					//al_emit_user_event(&networkEventSource, &connectedEvent, NULL);
 					eventQueue.push(connectedEvent);
+					connected = true;
 					DEBUG_MSG("Connected as client!");
 				}
 				else
@@ -776,6 +777,7 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 						//al_emit_user_event(&networkEventSource, &connectedEvent, NULL);
 						eventQueue.push(connectedEvent);
 						fl->error = false;
+						connected = true;
 						DEBUG_MSG("Someone connected");
 					}
 					else

@@ -23,6 +23,8 @@ public:
 
 	void setMax(int max);
 
+	void setText(string& s) { buffer = s; };
+
 	void draw(Bitmap* target);
 	/** If the textbox is clicked it will return its name
 		@param y Mouse y coordinate

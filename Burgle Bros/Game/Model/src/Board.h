@@ -4,8 +4,6 @@
 #include "../src/Loots/Loot.h"
 #include <Tile.h>
 #include "../src/PlayerInterface.h"
-// Define the roof position
-#define ROOF Coord(3,0,0)
 
 class Board: public BaseModel
 {

@@ -11,6 +11,7 @@ class HudObserver : public Observer
 public:
 	HudObserver(GameModel * m,BoardObserver* boardObs, Container * c);
 	virtual void update()override;
+	void disableActions();
 	~HudObserver();
 private:
 	GameModel * model;

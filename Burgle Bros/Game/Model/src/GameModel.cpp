@@ -36,7 +36,13 @@ DEFINE_ENUM_WITH_CONVERSIONS(action_ID,
 (ERRO, 0xFF))*/
 
 
-
+std::pair<Coord,Coord>
+GameModel::getInitialGuardPos()
+{
+	BaseCard* c1 = board.getDeck(0)->getDeck()[board.getDeck(0)->getDeck().size() - 1];
+	BaseCard* c2 = board.getDeck(0)->getDeck()[board.getDeck(0)->getDeck().size() - 2];
+	return std::pair<Coord, Coord>(Coord::string2Coord(c1->getDescription()),Coord::string2Coord(c2->getDescription()));
+}
 
 
 void GameModel::print()
@@ -73,6 +79,15 @@ void GameModel::setRemote()
 {
 	player1_.setLocal(true);
 	player2_.setLocal(false);
+}
+
+bool GameModel::isRemote()
+{
+	return player1_.isRemote() || player2_.isRemote();
+}
+bool GameModel::isLocal()
+{
+	return player1_.isLocal() && player2_.isLocal();
 }
 
 void GameModel::setInitialPosition(Coord c)

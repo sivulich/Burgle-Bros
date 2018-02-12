@@ -95,7 +95,7 @@ string Container::click(int y, int x)
 	}
 	DEBUG_MSG_V("Clicking on container " << name);
 
-	if (clickable == true && isInside(y, x))
+	if (clickable == true && isInside(y, x)&& visible==true)
 	{
 		if (onlyClickMe == false)
 		{
@@ -139,6 +139,8 @@ void Container::unClick(int y, int x)
 
 bool Container::overYou(int y, int x)
 {
+	if (visible == false)
+		return false;
 	if (initOk == false)
 	{
 		DEBUG_MSG("Trying to hover container " << name << " when it was not initialized correctly");
@@ -150,10 +152,10 @@ bool Container::overYou(int y, int x)
 			return true;
 
 	// Probando hacer mas rapida la interfaz
-	//if (hoverable == true && this->x <= x  &&  x <= (this->x + scale*this->w) && this->y <= y && y <= (this->y + scale*this->h))
-	//{
-	//	return true;
-	//}
+	if (hoverable == true && this->x <= x  &&  x <= (this->x + scaleX*this->w) && this->y <= y && y <= (this->y + scaleY*this->h))
+	{
+		return true;
+	}
 	return false;
 }
 

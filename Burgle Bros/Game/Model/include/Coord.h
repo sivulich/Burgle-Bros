@@ -5,6 +5,7 @@
 #include <string>
 
 #define NPOS Coord(5,5,5)
+#define ROOF Coord(3,0,0)
 
 class Coord
 {
@@ -23,6 +24,9 @@ public:
 		return (col != other.col || row != other.row || floor != other.floor);
 	}
 
+	static Coord string2Coord(std::string& s) {
+		if (s.size() == 9) return Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1); else return Coord(s[3] - '0', s[0] - 'A', s[1] - '0' - 1);
+	};
 
 	friend std::ostream& operator<< (std::ostream &os, const Coord &c)
 	{
@@ -32,7 +36,10 @@ public:
 
 	std::string toString() const
 	{
-		return char('A' + this->col) + std::to_string(this->row + 1) + std::string("F") + std::to_string(this->floor+1);
+		if ((Coord)*this == ROOF)
+			return std::string("ROOF");
+		else
+			return char('A' + this->col) + std::to_string(this->row + 1) + std::string("F") + std::to_string(this->floor+1);
 	
 	}
 
