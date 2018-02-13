@@ -6,5 +6,4 @@ vector<Coord> Stair::whereCanIPeek() {
 		[&](const Coord t)-> bool { return t.floor == 3; }),
 		v.end());
 	return v;
-
 }
