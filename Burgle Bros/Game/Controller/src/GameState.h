@@ -104,7 +104,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					
 					pair<Coord, Coord> pos = fsm.model->getInitialGuardPos();
 					vector<tileType> tiles = fsm.model->getBoardSetup();
-					while (fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
+					while (fsm.network->error()==false && fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
+					if (fsm.network->error() == true)
+						cout << fsm.network->errMessage() << endl;
 				}
 				else
 				{
@@ -130,6 +132,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					fsm.model->setInitialPosition(initialPos);
 				else
 					fsm.model->setInitialPosition(fsm.network->startingPos());
+				fsm.process_event(ev::coord(initialPos));
 			}
 
 		}
