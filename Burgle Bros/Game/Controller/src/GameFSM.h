@@ -330,8 +330,9 @@ public:
 					}
 				}
 			}
-			else if (fsm.gameMode == REMOTE)
+			else if (fsm.gameMode == REMOTE && fsm.model->player1()->hasCharacter())
 			{
+				fsm.model->player1()->setName(fsm.graphics->getPlayerName());
 				fsm.process_event(ev::play());
 			}
 		}
@@ -348,14 +349,13 @@ public:
 			fsm.network->connect(IP);
 			fsm.graphics->showTempMessage(string("Connecting... Please wait."));
 			while (!fsm.network->join())
-			{
-			}
+			{}
 			fsm.graphics->removeDialogBox();
 			if (fsm.network->error())
 				fsm.graphics->showOkMessage(fsm.network->errMessage());
 			else
 			{
-				fsm.graphics->showOkMessage("Connected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+				// CONNECTED
 				fsm.process_event(ev::next());
 			}
 				

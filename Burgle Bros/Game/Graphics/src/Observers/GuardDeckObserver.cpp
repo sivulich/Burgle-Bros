@@ -29,6 +29,10 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* board)
 	back->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()]);
 	back->setHoverable(false);
 	back->setClickable(false);
+	//viewDeck = new Image(string("./Graphics/Images/Patrol/VIEW_DECK.png"));
+	//viewDeck->setPosition(GUARD_DECK_YPOS+3.0/4.0*TILE_SIZE, GUARD_DECK_XPOS[floor->number()] + 2 * (TILE_SIZE + TILE_SEPARATION/1.5));
+	//viewDeck->setScale(TILE_SIZE/4*1.0/viewDeck->getWidth());
+	//boardCont->addObject(viewDeck);
 	boardCont->addObject(back);
 	lastCard = "";
 	deck->attach(this);
@@ -55,6 +59,8 @@ void GuardDeckObserver::hideTop()
 
 void GuardDeckObserver::update()
 {
+	ALLEGRO_MOUSE_STATE state;
+	al_get_mouse_state(&state);
 	if ((unsigned)discardedCount > deck->getDiscarded().size())
 	{
 		for (int i = 0; i < 4; i++)
@@ -87,7 +93,7 @@ void GuardDeckObserver::update()
 	}
 
 	// Add animation if deck is clicked
-	else if ((lastCard.size()>0) && cards[lastCard[1] - '1'][lastCard[0] - 'A']->isClicked() != deckClicked)
+	if ((lastCard.size()>0) && (state.buttons&1) != deckClicked &&  cards[lastCard[1] - '1'][lastCard[0] - 'A']->isClicked() != deckClicked) //&& state.buttons & 1 != deckClicked) //viewDeck->isClicked())//
 	{
 		deckClicked = !deckClicked;
 		if (deckClicked == true)
@@ -99,7 +105,7 @@ void GuardDeckObserver::update()
 				int j = card->getDescription()[0] - 'A';
 				std::pair<int, int>target = std::pair<int, int>((int)TILE_YPOS[i][j] + FLOOR_YPOS, (int)(TILE_XPOS[i][j] + FLOOR_XPOS[floor->number()]));
 				cards[i][j]->deleteAnimation();
-				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
+				cards[i][j]->addAnimation(new MoveAnimation(target, 0.2));
 				//		boardCont->addObject(cards[i][j]);
 			}
 		}
@@ -111,7 +117,7 @@ void GuardDeckObserver::update()
 				int j = card->getDescription()[0] - 'A';
 				std::pair<int, int>target = std::pair<int, int>((int)GUARD_DECK_YPOS, (int)(GUARD_DECK_XPOS[floor->number()] + TILE_SIZE + TILE_SEPARATION));
 				cards[i][j]->deleteAnimation();
-				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
+				cards[i][j]->addAnimation(new MoveAnimation(target, 0.2));
 			}
 		}
 	}

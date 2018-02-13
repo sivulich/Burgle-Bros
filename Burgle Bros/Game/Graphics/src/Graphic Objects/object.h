@@ -150,6 +150,8 @@ public:
 	Animation* getAnimation();
 
 	virtual void flip() {};
+	// Checks if a coordinate is inside the object
+	bool isInside(int y, int x);
 
 protected:
 	Observer * obs;
@@ -168,8 +170,7 @@ protected:
 	string name;
 	queue<Animation*> animation;
 	bool initOk;
-	// Checks if a coordinate is inside the object
-	bool isInside(int y, int x);
+	
 };
 
 
