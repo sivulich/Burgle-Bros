@@ -166,7 +166,6 @@
     <ClInclude Include="Controller\src\GameController.h" />
     <ClInclude Include="Controller\src\GameFSM.h" />
     <ClInclude Include="Controller\src\GameState.h" />
-    <ClInclude Include="Graphics\src\Screens\CreditScreen.h" />
     <ClInclude Include="Graphics\src\Animations\Animations.h" />
     <ClInclude Include="Graphics\src\Animations\DelayAnimation.h" />
     <ClInclude Include="Graphics\src\Animations\FadeInOutAnimation.h" />
@@ -241,11 +240,6 @@
     <ClInclude Include="Graphics\src\Graphic Objects\Screen.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Text.h" />
     <ClInclude Include="Graphics\src\Graphic Objects\Textbox.h" />
-    <ClInclude Include="Graphics\src\Screens\RulesScreen.h" />
-    <ClInclude Include="Graphics\src\Screens\SetupScreen.h" />
-    <ClInclude Include="Graphics\src\Screens\MenuScreen.h" />
-    <ClInclude Include="Graphics\src\Screens\ModeScreen.h" />
-    <ClInclude Include="Graphics\src\Screens\IpScreen.h" />
     <ClInclude Include="Graphics\src\Observers\BoardObserver.h" />
     <ClInclude Include="Graphics\src\Observers\FloorObserver.h" />
     <ClInclude Include="Graphics\src\Observers\GuardDeckObserver.h" />
@@ -254,6 +248,12 @@
     <ClInclude Include="Graphics\src\Observers\observer.h" />
     <ClInclude Include="Graphics\src\Observers\TileObserver.h" />
     <ClInclude Include="Graphics\src\Observers\HudObserver.h" />
+    <ClInclude Include="Graphics\src\Screens\CreditScreen.h" />
+    <ClInclude Include="Graphics\src\Screens\IpScreen.h" />
+    <ClInclude Include="Graphics\src\Screens\MenuScreen.h" />
+    <ClInclude Include="Graphics\src\Screens\ModeScreen.h" />
+    <ClInclude Include="Graphics\src\Screens\RulesScreen.h" />
+    <ClInclude Include="Graphics\src\Screens\SetupScreen.h" />
     <ClInclude Include="Model\src\BaseModel.h" />
     <ClInclude Include="Model\src\Board.h" />
     <ClInclude Include="Model\include\Configs.h" />
@@ -316,12 +316,10 @@
     <ClInclude Include="Model\src\Tiles\TileFactory.h" />
     <ClInclude Include="Model\src\Tiles\Walkway.h" />
     <ClInclude Include="Network\include\BurgleNetwork.h" />
-    <ClInclude Include="Graphics\src\Screens\RuleBook.h" />
     <ClInclude Include="Sound\SoundEffects.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Controller\src\GameController.cpp" />
-    <ClCompile Include="Graphics\src\Screens\CreditScreen.cpp" />
     <ClCompile Include="Graphics\src\Animations\DelayAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\FadeInOutAnimation.cpp" />
     <ClCompile Include="Graphics\src\Animations\FadeAnimation.cpp" />
@@ -340,7 +338,6 @@
     <ClCompile Include="Graphics\src\Graphic Objects\Screen.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Text.cpp" />
     <ClCompile Include="Graphics\src\Graphic Objects\Textbox.cpp" />
-    <ClCompile Include="Graphics\src\Screens\IpScreen.cpp" />
     <ClCompile Include="Graphics\src\Observers\BoardObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\FloorObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\GuardDeckObserver.cpp" />
@@ -348,10 +345,12 @@
     <ClCompile Include="Graphics\src\Observers\PlayerObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\TileObserver.cpp" />
     <ClCompile Include="Graphics\src\Observers\HudObserver.cpp" />
-    <ClCompile Include="Graphics\src\Screens\ModeScreen.cpp" />
+    <ClCompile Include="Graphics\src\Screens\CreditScreen.cpp" />
+    <ClCompile Include="Graphics\src\Screens\IpScreen.cpp" />
     <ClCompile Include="Graphics\src\Screens\MenuScreen.cpp" />
-    <ClCompile Include="Graphics\src\Screens\SetupScreen.cpp" />
+    <ClCompile Include="Graphics\src\Screens\ModeScreen.cpp" />
     <ClCompile Include="Graphics\src\Screens\RulesScreen.cpp" />
+    <ClCompile Include="Graphics\src\Screens\SetupScreen.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model\src\actionNode.cpp" />
     <ClCompile Include="Model\src\BaseCard.cpp" />
@@ -409,7 +408,6 @@
     <ClCompile Include="Model\src\Tiles\TileFactory.cpp" />
     <ClCompile Include="Model\src\Tiles\Walkway.cpp" />
     <ClCompile Include="Network\src\BurgleNetwork.cpp" />
-    <ClCompile Include="Graphics\src\Screens\RuleBook.cpp" />
     <ClCompile Include="Sound\SoundEffects.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

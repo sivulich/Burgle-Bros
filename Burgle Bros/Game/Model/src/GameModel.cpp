@@ -157,7 +157,7 @@ void GameModel::remotePlayerStarts()
 	swap(currentPlayer_, otherPlayer_);
 	currentPlayer_->isPlaying(true);
 	otherPlayer_->isPlaying(false);
-	notify();
+	//notify();
 }
 
 

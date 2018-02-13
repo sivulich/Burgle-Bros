@@ -25,7 +25,7 @@ public:
 	}
 
 	//@Returns the i-th floor guard deck(PatrolCardDeck *)
-	PatrolCardDeck * getDeck(unsigned int f) { if (f < 3) return floor[f]->getPatrolDeck(); }
+	PatrolCardDeck * getDeck(unsigned int f) { if (f < 3) return floor[f]->getPatrolDeck(); return nullptr; }
 
     //Sets board tiles randomly
 	void setBoard();

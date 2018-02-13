@@ -143,7 +143,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			stealthTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Stealth Token.png"), XPOS + 2 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+			stealthTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Stealth Token.png"), XPOS+TILE_SIZE- TOKEN_SIZE, YPOS+i*TOKEN_SIZE/2, TOKEN_SIZE, TOKEN_SIZE));
 			stealthTokens.back()->setVisible(false);
 			stealthTokens.back()->setHoverable(false);
 			stealthTokens.back()->setClickable(false);
@@ -281,7 +281,7 @@ void TileObserver::update()
 	{
 		for (auto &it : stealthTokens)
 			it->setVisible(false);
-		for (int i = 0; i < tile->getStealthTokens(); i++)
+		for (unsigned  i = 0; i < tile->getStealthTokens(); i++)
 		{
 			stealthTokens[i]->setVisible(true);
 		}
