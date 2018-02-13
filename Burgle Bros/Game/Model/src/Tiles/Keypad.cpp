@@ -42,6 +42,7 @@ bool Keypad::tryToOpen(int dice, PlayerInterface * player)
 				keyKnown = true;		// you may enter the tile
 				DEBUG_MSG("You managed to hack the keypad. Now you can enter freely.");
 				endAction = true;
+				notify();
 			}
 			else
 				DEBUG_MSG("You threw the dice but you couldn't open the keypad.");

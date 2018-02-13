@@ -20,12 +20,12 @@ public:
 	*/
 	virtual bool canMove(PlayerInterface * player) override;
 	bool tryToOpen(int dice, PlayerInterface * player);
-	void clearAttempts() { attemptsThisTurn = 0; };
+	void clearAttempts() { attemptsThisTurn = 0; notify(); };
 	bool keyDecoded() { return keyKnown; };
+	unsigned int getAttempts() { return attemptsThisTurn; };
 
 private:
-	unsigned int getAttempts() { return attemptsThisTurn; };
-	void addAttempt() { ++attemptsThisTurn; };
+	void addAttempt() { ++attemptsThisTurn; notify(); };
 
 	bool keyKnown;
 	unsigned int attemptsThisTurn;

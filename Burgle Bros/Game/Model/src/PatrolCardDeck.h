@@ -32,6 +32,10 @@ public:
 	//Returns the floor of the patrol card deck
 	unsigned floor() { return floorNumber; };
 
+	void removeCard(string cardDesc);
+
+	void PatrolCardDeck::moveCardtoTop(Coord pos);
+
 private:
 	unsigned floorNumber;
 	PatrolCard * spiedCard;

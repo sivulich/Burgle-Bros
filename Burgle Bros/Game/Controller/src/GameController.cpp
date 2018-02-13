@@ -14,11 +14,10 @@ GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * 
 	tileZoomMode = false;
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
 	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
+	al_init_user_event_source(&BurgleNetwork::networkEventSource);
+	al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
 
-		al_init_user_event_source(&BurgleNetwork::networkEventSource);
-		al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
-
-		eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
+	eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
 
 	renderTimer.start();
 	static_pointer_cast<GameFSM>(stateMachine)->start();
@@ -228,7 +227,7 @@ void GameController::processEvent()
 	}
 	else if (s == "CRACK_SAFE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
-	else if (s == "ADD_TOKEN" || s=="ADD_DIE")
+	else if (s == "ADD_TOKEN" || s =="ADD_DIE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
