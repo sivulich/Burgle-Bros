@@ -393,6 +393,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.process_event(ev::waitForNetwork());
 			}
 
+			if (fsm.model->win())
+			{
+				fsm.process_event(ev::burglarsWin());
+			}
 
 			// If coming from ask confirmation state, the player agreed to spent tokens
 			if (is_same<SourceState, askConfirmationMove>::value)
@@ -1111,75 +1115,80 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	// Transition table
 	struct transition_table : mpl::vector<
-		//       Start					Event					Next				Action            Guard
-		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
+		//         Start			  Event			    Next				Action            Guard
+		//  +-----------------+----------------+---------------------+------------------+-------------------+
 
-		Row < chooseInitialPos, ev::coord, chooseAction, doSetInitialPos, none				>,
+		Row < chooseInitialPos,	ev::coord,		 chooseAction,			doSetInitialPos, none				>,
 
-		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
+		Row < chooseAction,		ev::pass,		 guardTurn,				doEndTurn,		 none				>,
 
-		Row < chooseAction, ev::movee, none, showMove, none				>,
-		Row < chooseAction, ev::coord, checkActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
-		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
+		Row < chooseAction,		ev::movee,		 none,					showMove,		 none				>,
+		Row < chooseAction,		ev::coord,		 checkActionTokens,		doMove,			 And_<isMoving, Not_<needsConfirmation> >>,
+		Row < chooseAction,		ev::coord,		 askConfirmationMove,	none,			 And_<isMoving, needsConfirmation>		>,
 
 
-		Row < chooseAction, ev::peek, none, showPeek, none				>,
-		Row < chooseAction, ev::coord, checkActionTokens, doPeek, isPeeking			>,
+		Row < chooseAction,		ev::peek,		 none,					showPeek,		none				>,
+		Row < chooseAction,		ev::coord,		 checkActionTokens,		doPeek,			isPeeking			>,
 
-		Row	< chooseAction, ev::createAlarm, none, showAlarm, none				>,
-		Row	< chooseAction, ev::coord, checkActionTokens, doCreateAlarm, isCreatingAlarm   >,
+		Row	< chooseAction,		ev::createAlarm, none,					showAlarm,		none				>,
+		Row	< chooseAction,		ev::coord,		 checkActionTokens,		doCreateAlarm,	isCreatingAlarm   >,
 
-		Row < chooseAction, ev::placeCrow, none, showCrow, none				>,
-		Row	< chooseAction, ev::coord, chooseAction, doPlaceCrow, isPlacingCrow		>,
+		Row < chooseAction,		ev::placeCrow,	 none,					showCrow,		none				>,
+		Row	< chooseAction,		ev::coord,		 chooseAction,			doPlaceCrow,	isPlacingCrow		>,
 
-		Row < chooseAction, ev::spyPatrol, askConfirmation, doSpyPatrol, none				>,
-		Row < chooseAction, ev::addToken, checkActionTokens, doAddToken, none				>,
-		Row < chooseAction, ev::useToken, chooseAction, doUseToken, none				>,
-		Row < chooseAction, ev::throwDice, checkActionTokens, doCrackSafe, none				>,
-		Row < chooseAction, ev::offerLoot, chooseLoot, showOfferLoot, none				>,
-		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
-		Row < chooseAction, ev::pickUpLoot, chooseAction, doPickUpLoot, none				>,
+		Row < chooseAction,		ev::spyPatrol,	 askConfirmation,		doSpyPatrol,	none				>,
+		Row < chooseAction,		ev::addToken,	 checkActionTokens,		doAddToken,		none				>,
+		Row < chooseAction,		ev::useToken,	 chooseAction,			doUseToken,		none				>,
+		Row < chooseAction,		ev::throwDice,	 checkActionTokens,		doCrackSafe,	none				>,
+		Row < chooseAction,		ev::offerLoot,	 chooseLoot,			showOfferLoot,	none				>,
+		Row < chooseAction,		ev::requestLoot, chooseLoot,			prepRequest,	none				>,
+		Row < chooseAction,		ev::pickUpLoot,	 chooseAction,			doPickUpLoot,	none				>,
 
-		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmation, ev::yes, checkActionTokens, doStayTop, isSpying			>,
-		Row < askConfirmation, ev::no, checkActionTokens, doSendBottom, isSpying			>,
-		Row < askConfirmation, ev::yes, chooseAction, doGiveLoot, isOfferingLoot	>,
-		Row < askConfirmation, ev::no, chooseAction, dontGiveLoot, isOfferingLoot	>,
-		Row < askConfirmation, ev::yes, chooseAction, doGetLoot, isRequestingLoot	>,
-		Row < askConfirmation, ev::no, chooseAction, dontGetLoot, isRequestingLoot	>,
-		//  +------------+-------------+------------+--------------+--------------+
-		Row < askConfirmationMove, ev::yes, askConfirmationMove, none, none			>,
-		Row < askConfirmationMove, ev::no, checkActionTokens, dontMove, none >,
-		Row < askConfirmationMove, ev::coord, checkActionTokens, doMove, none			>,
-		Row < askConfirmationMove, ev::throwDice, none, doOpenKeypad, none	>,
+		//         Start		  Event			    Next		    Action            Guard
+		//  +-----------------+------------+------------------+--------------+-------------------+
+		Row < askConfirmation, ev::yes,		checkActionTokens,	doStayTop,		isSpying			>,
+		Row < askConfirmation, ev::no,		checkActionTokens,	doSendBottom,	isSpying			>,
+		Row < askConfirmation, ev::yes,		chooseAction,		doGiveLoot,		isOfferingLoot		>,
+		Row < askConfirmation, ev::no,		chooseAction,		dontGiveLoot,	isOfferingLoot		>,
+		Row < askConfirmation, ev::yes,		chooseAction,		doGetLoot,		isRequestingLoot	>,
+		Row < askConfirmation, ev::no,		chooseAction,		dontGetLoot,	isRequestingLoot	>,
 
-		//  +------------+-------------+------------+--------------+--------------+
+		//  +-----------------+------------+-----------------------+--------------+-------------------+
+		Row < askConfirmationMove, ev::yes,	   askConfirmationMove,  none,			none		>,
+		Row < askConfirmationMove, ev::no,	   checkActionTokens,	 dontMove,		none		>,
+		Row < askConfirmationMove, ev::coord,  checkActionTokens,	 doMove,		none		>,
+		Row < askConfirmationMove, ev::throwDice, none,				 doOpenKeypad,  none		>,
 
-		Row < chooseLoot, ev::lootType, askConfirmation, doOfferLoot, isOfferingLoot	>,
+		//  +------------+-------------+---------------+--------------+--------------+
+		Row < chooseLoot, ev::lootType, askConfirmation, doOfferLoot,	isOfferingLoot	>,
 		Row < chooseLoot, ev::lootType, askConfirmation, doRequestLoot, isRequestingLoot	>,
-		Row < chooseLoot, ev::cancel, chooseAction, none, none	>,
-		//  +------------+-------------+------------+--------------+--------------+
-		Row < checkActionTokens, ev::no, guardTurn, doEndTurn, none				>,
-		Row < checkActionTokens, ev::yes, chooseAction, none, none				>,
-		Row < checkActionTokens, ev::gameOver, gameEnded, none, none				>,
-		Row < checkActionTokens, ev::burglarsWin, gameEnded, none, none				>,
-		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn, ev::movee, none, moveGuard, none				>,
-		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
-		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
-		//  +------------+-------------+------------+--------------+--------------+f
-		Row < beginTurn, ev::done, chooseAction, none, none				>,
-		Row < beginTurn, ev::throwDice, none, doKittyAction, isThrowing4Kitty	>,
-		Row < beginTurn, ev::throwDice, none, doChihuahuaAction, isThrowing4Chihuahua	>,
+		Row < chooseLoot, ev::cancel,	chooseAction,	 none,			none	>,
+
+		//         Start		  Event			    Next		    Action          Guard
+		//  +-------------------+---------------+-------------+--------------+------------+
+		Row < checkActionTokens, ev::no,		  guardTurn,	doEndTurn,		none		>,
+		Row < checkActionTokens, ev::yes,		  chooseAction, none,			none		>,
+		Row < checkActionTokens, ev::gameOver,	  gameEnded,	none,			none		>,
+		Row < checkActionTokens, ev::burglarsWin, gameEnded,	none,			none		>,
+
+		//  +-----------+-------------+-----------+------------+--------------+
+		Row < guardTurn, ev::movee,		none,		 moveGuard,		none			>,
+		Row < guardTurn, ev::passGuard, beginTurn,	 changeTurn,	none			>,
+		Row < guardTurn, ev::gameOver,	gameEnded,	 none,			none			>,
+
+		//  +-----------+-------------+---------------+-------------------+--------------+
+		Row < beginTurn, ev::done,		chooseAction,	none,				none					>,
+		Row < beginTurn, ev::throwDice, none,			doKittyAction,		isThrowing4Kitty		>,
+		Row < beginTurn, ev::throwDice, none,			doChihuahuaAction,	isThrowing4Chihuahua	>,
 
 
-		//  +------------+-------------+------------+--------------+--------------+
-		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>,
-		Row < gameEnded, ev::ok, none, none, none				>,
-		//  +------------+-------------+------------+--------------+--------------+
+		//  +-------------+----------------+-------------+--------------+--------------+
+		Row < gameEnded,	ev::playAgain,	chooseAction,	resetGame,		none		>,
+		Row < gameEnded,	ev::ok,			none,			none,			none		>,
 
-		Row < idle, ev::waitForNetwork, waitingForNetwork, none, gameIsRemote				>,
-		Row < waitingForNetwork, ev::ack, idle, none, gameIsRemote				>
+		//  +------------------+---------------------+------------------+--------------+--------------+
+		Row < idle,				 ev::waitForNetwork,  waitingForNetwork, none,			gameIsRemote		>,
+		Row < waitingForNetwork, ev::ack,			  idle,				 none,			gameIsRemote		>
 
 	> {};
 
