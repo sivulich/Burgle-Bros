@@ -412,6 +412,9 @@
     <ClCompile Include="Network\src\BurgleNetwork.cpp" />
     <ClCompile Include="Sound\SoundEffects.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="Graphics\Images\Loot\ISOTOPE.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.5.0.1\build\native\AllegroDeps.targets')" />
