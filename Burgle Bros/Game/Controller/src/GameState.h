@@ -114,6 +114,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 					cout << string("YA TENGO TODO SUPUESTAMENTE") << endl;
 					fsm.model->setBoard(fsm.network->remoteBoard());
+					fsm.model->initGuard4Network(fsm.network->remoteGuardPos(), fsm.network->remoteGuardTarget());
 					/* QUEDA SETEAR ESTO
 					Coord fsm.network->remoteGuardPos()
 					Coord fsm.network->remoteGuardTarget()

@@ -14,11 +14,10 @@ GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * 
 	tileZoomMode = false;
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
 	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
+	al_init_user_event_source(&BurgleNetwork::networkEventSource);
+	al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
 
-		al_init_user_event_source(&BurgleNetwork::networkEventSource);
-		al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
-
-		eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
+	eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
 
 	renderTimer.start();
 	static_pointer_cast<GameFSM>(stateMachine)->start();
