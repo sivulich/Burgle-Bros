@@ -20,6 +20,7 @@ private:
 	Container* boardCont;
 	Image* cards[4][4];
 	Image* back;
+	Image* viewDeck;
 	string lastCard;
 	bool deckClicked;
 	int discardedCount;

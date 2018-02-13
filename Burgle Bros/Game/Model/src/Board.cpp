@@ -182,7 +182,7 @@ vector<tileType> Board::getTileSetup()
 	for (int i = 0; i < 3; i++)
 	{
 		vector<tileType> v = floor[i]->getTileSetup();
-		tiles.insert(tiles.begin(), v.begin(), v.end());
+		tiles.insert(tiles.end(), v.begin(), v.end());
 	}
 	return tiles;
 }

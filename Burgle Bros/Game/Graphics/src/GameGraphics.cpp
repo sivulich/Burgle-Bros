@@ -41,7 +41,7 @@ GameGraphics::GameGraphics(GameModel * m)
 			screens.push_back(gameScreen);
 			screen->addObject(cont);
 			cont->setPosition(0, 0);
-
+			current_screen = MENU;
 			if (m != nullptr)
 				setModel(m);
 		}
@@ -178,7 +178,7 @@ void GameGraphics::render()
 
 void GameGraphics::update()
 {
-	if (current_screen = GAME)
+	if (current_screen == GAME)
 	{
 		board->update();
 		hud->update();
@@ -207,7 +207,8 @@ void GameGraphics::zoomTile(Coord c)
 }
 void GameGraphics::unZoomTile()
 {
-	board->unZoomTile();
+	if(current_screen==GAME)
+		board->unZoomTile();
 }
 
 void GameGraphics::askQuestion(string question)

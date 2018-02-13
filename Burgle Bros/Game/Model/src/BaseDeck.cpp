@@ -37,7 +37,7 @@ BaseCard* BaseDeck::next()
 }
 void BaseDeck::shuffle()
 {
-	srand((unsigned int)time(0));
+	//srand((unsigned int)time(nullp));
 	random_shuffle(deck.begin(), deck.end());
 	notify();
 }
