@@ -293,7 +293,7 @@ void TileObserver::update()
 		{
 			for (auto &it : dieTokens)
 				it->setVisible(false);
-			for (int i = 0; i < ((Safe*)tile)->getTokens(); i++)
+			for (unsigned i = 0; i < ((Safe*)tile)->getTokens(); i++)
 			{
 				dieTokens[i]->setVisible(true);
 			}
@@ -317,7 +317,7 @@ void TileObserver::update()
 		{
 			for (auto &it : dieTokens)
 				it->setVisible(false);
-			for (int i = 0; i < ((Safe*)tile)->getTokens(); i++)
+			for (unsigned i = 0; i < ((Safe*)tile)->getTokens(); i++)
 			{
 				dieTokens[i]->setVisible(true);
 			}

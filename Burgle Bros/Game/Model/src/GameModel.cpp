@@ -96,7 +96,6 @@ void GameModel::setInitialPosition(Coord c)
 	player2_.setPosition(c);
 	player1_.getCurrentTile()->turnUp();
 
-	initGuard4Network(Coord(0, 1, 1), Coord(0, 2, 2));
 	board.getGuard(c.floor)->locateGuard();
 	board.getTile(board.getGuard(c.floor)->getPos())->guardIs(true);
 }

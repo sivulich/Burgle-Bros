@@ -12,9 +12,9 @@ PatrolCard::PatrolCard(Coord c)
 
 PatrolCard::PatrolCard(string s)
 {
-	coord.floor = s[3];
-	coord.col = s[1] - 1;
-	coord.row = s[0] - 65;
+	coord.floor = s[3]-'0';
+	coord.col = s[1] - '1';
+	coord.row = s[0] - 'A';
 	description = s;
 }
 
