@@ -83,7 +83,7 @@ void PatrolCardDeck::moveCardtoTop(Coord pos)
 	}
 	if(b)
 	{ 
-		deck.pop_back();
+		deck.erase(deck.begin());
 		deck.push_back(new PatrolCard(pos));
 	}
 }

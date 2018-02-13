@@ -89,9 +89,14 @@ public:
 	//
 	void check4Cameras();
 
+	//
 	bool doKittyAction(int dice);
 
+	//
 	bool doChihuahuaAction(int dice);
+
+	//Initializes guard when recieving packets from network. Pos is the guard starting position, target the first patrol Card
+	void initGuard4Network(Coord pos, Coord target);
 
 	Board* getBoard() { return &board; };
 
