@@ -97,7 +97,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				string name = fsm.model->player1()->getName();
 				characterType character = fsm.model->player1()->getCharacter();
-				Coord initialPos = Coord(0, 2, 0);// random initialpos
+				Coord initialPos = Coord(0, rand()%4, rand() % 4);// random initialpos
 				cout << "My name " << name << " My character " << character << endl;
 				if (fsm.network->isServer())
 				{
@@ -107,13 +107,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					while (fsm.network->error()==false && fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
 					if (fsm.network->error() == true)
 						cout << fsm.network->errMessage() << endl;
+					//fsm.model->setInitialPosition(initialPos);
 				}
 				else
 				{
-					while (fsm.network->startupPhase(name, character) == false);
+					while (fsm.network->startupPhase(name, character) == false && fsm.network->error()==false);
+					if (fsm.network->error() == true)
+						cout << fsm.network->errMessage() << endl;
+					else
+						cout << "Info exchange ok" << endl;
 
-					cout << string("YA TENGO TODO SUPUESTAMENTE") << endl;
+					
 					fsm.model->setBoard(fsm.network->remoteBoard());
+					initialPos = fsm.network->startingPos();
+					//fsm.model->setInitialPosition(fsm.network->startingPos());
+					cout << "The remote guard info is " << fsm.network->remoteGuardPos() << " " << fsm.network->remoteGuardTarget() << endl;
 					fsm.model->initGuard4Network(fsm.network->remoteGuardPos(), fsm.network->remoteGuardTarget());
 					/* QUEDA SETEAR ESTO
 					Coord fsm.network->remoteGuardPos()
@@ -128,11 +136,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.network->iStart() == false)
 					fsm.model->remotePlayerStarts();
 				fsm.graphics->showGameScreen();
-
-				if (fsm.network->isServer())
-					fsm.model->setInitialPosition(initialPos);
-				else
-					fsm.model->setInitialPosition(fsm.network->startingPos());
+					
 				fsm.process_event(ev::coord(initialPos));
 			}
 

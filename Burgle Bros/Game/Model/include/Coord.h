@@ -25,7 +25,7 @@ public:
 	}
 
 	static Coord string2Coord(std::string& s) {
-		if (s.size() == 9) return Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1); else return Coord(s[3] - '0', s[0] - 'A', s[1] - '0' - 1);
+		if (s.size() == 9) return Coord(s[8] - '0', s[5] - 'A', s[6] - '1'); else return Coord(s[3] - '0', s[0] - 'A', s[1] - '1' );
 	};
 
 	friend std::ostream& operator<< (std::ostream &os, const Coord &c)

@@ -409,10 +409,10 @@ void BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardT
 		}
 		fl->remoteGuardPos.col = buffer[1] - 'A';
 		fl->remoteGuardPos.row = buffer[2] - '1';
-		fl->remoteGuardPos.col = buffer[4] - '1';
+		fl->remoteGuardPos.floor = buffer[4] - '1';
 		fl->remoteGuardTarget.col = buffer[5] - 'A';
 		fl->remoteGuardTarget.row = buffer[6] - '1';
-		fl->remoteGuardTarget.col = buffer[8] - '1';
+		fl->remoteGuardTarget.floor = buffer[8] - '1';
 	}
 	this_thread::sleep_for(chrono::milliseconds(10));
 
