@@ -112,10 +112,10 @@ void Floor::setTiles(vector<tileType> t)
 vector<tileType> Floor::getTileSetup()
 {
 	vector<tileType> v;
-	for (int col = 0; col < 4; col++)
+	for(int row = 0; row < 4; row++)
 	{
-		for (int row = 0; row < 4; row++)
-			v[row * 4 + col] = tiles[col][row]->getType();
+		for (int col = 0; col < 4; col++)
+			v.push_back(tiles[col][row]->getType());
 	}
 	return v;
 }

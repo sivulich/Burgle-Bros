@@ -117,7 +117,6 @@ void GameModel::endTurn()
 			((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
 	}
 
-
 }
 
 void GameModel::positionGuard()
@@ -145,6 +144,16 @@ void GameModel::changeTurn()
 	otherPlayer_->setPosition(otherPlayer_->getPosition());
 	notify();
 }
+
+void GameModel::remotePlayerStarts()
+{
+	swap(currentPlayer_, otherPlayer_);
+	currentPlayer_->isPlaying(true);
+	otherPlayer_->isPlaying(false);
+	//notify();
+}
+
+
 
 
 
