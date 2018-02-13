@@ -68,6 +68,9 @@ public:
 	//Returns guard current Speed (Base movements per turn)
 	unsigned getSpeed() { return speed; };
 
+	//
+	void increaseSpeed() { this->speed++; notify(); };
+
 	// Returns guard current target
 	Coord getTarget() { return target; };
 
