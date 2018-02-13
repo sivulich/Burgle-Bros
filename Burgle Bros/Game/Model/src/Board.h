@@ -56,6 +56,9 @@ public:
 
 	//
 	vector<Tile *> getCameras() { return cameras; };
+
+	//
+	void setSilentAlarm(Coord c);
 private:
 
 	//Sets the vector of tiles the safe needs to be cracked 

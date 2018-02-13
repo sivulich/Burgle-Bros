@@ -486,13 +486,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isLocal())
 			{
 				vector<int> dices;
-				while (true)
+				while (true && !((Safe *)currTile)->safeIsOpen())
 				{
 					int dice = fsm.model->currentPlayer()->throwDice();
 					dices.push_back(dice);
-					if (fsm.model->currentPlayer()->throwDice(dice))// Cant throw more dices or keypad crackes
+					if (fsm.model->currentPlayer()->throwDice(dice))// Cant throw more dices or safe crackes
 					{
 						fsm.graphics->showDices(string("You threw this dices."), dices);
+						if (((Safe *)currTile)->safeIsOpen())
+						{
+							fsm.model->getBoard()->setSilentAlarm(fsm.model->currentPlayer()->getPosition());
+						}
 						break;
 					}
 				}

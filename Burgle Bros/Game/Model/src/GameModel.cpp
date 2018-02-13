@@ -117,7 +117,10 @@ void GameModel::endTurn()
 			((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
 		for (auto &it : currentPlayer_->getCurrentTile()->getAdjacent())
 		{
-			if (board.getTile(it)->is(KEYPAD)) ((Keypad *)(board.getTile(it)))->clearAttempts();
+			if (it.floor < NUMBER_FLOORS)
+			{
+				if (board.getTile(it)->is(KEYPAD)) ((Keypad *)(board.getTile(it)))->clearAttempts();
+			}
 		}
 	}
 

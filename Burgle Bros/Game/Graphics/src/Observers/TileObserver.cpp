@@ -156,9 +156,9 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 		for (int i = 0; i < 6; i++)
 		{
 			if (i <= 2)
-				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+				dieTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
 			if (i > 2)
-				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+				dieTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
 			dieTokens.back()->setVisible(false);
 			dieTokens.back()->setHoverable(false);
 			dieTokens.back()->setClickable(false);
@@ -171,9 +171,9 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 		for (int i = 0; i < NUMBER_ACTION_TOKENS+1; i++)
 		{
 			if (i <= 2)
-				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+				dieTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + i*TOKEN_SIZE / 2, YPOS + TILE_SIZE - TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
 			if (i > 2)
-				hackTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
+				dieTokens.push_back(new Image(string("../Game/Graphics/Images/Tokens/Die Token.png"), XPOS + 0 * TOKEN_SIZE + (i - 2)* TOKEN_SIZE / 2, YPOS + TILE_SIZE - 2 * TOKEN_SIZE, TOKEN_SIZE, TOKEN_SIZE));
 			dieTokens.back()->setVisible(false);
 			dieTokens.back()->setHoverable(false);
 			dieTokens.back()->setClickable(false);
@@ -313,7 +313,7 @@ void TileObserver::update()
 			for (auto &it : dieTokens)
 				it->setVisible(false);
 		}
-		if (((Keypad *)tile)->getAttempts() > 0)
+		if (((Keypad *)tile)->getAttempts() > 0 && !((Keypad *)tile)->keyDecoded())
 		{
 			for (auto &it : dieTokens)
 				it->setVisible(false);

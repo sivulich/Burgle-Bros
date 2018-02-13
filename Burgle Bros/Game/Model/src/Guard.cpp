@@ -108,7 +108,7 @@ bool Guard::move()
 		if (patroldeck->isEmpty())
 		{
 			patroldeck->reset();
-			speed++;
+			this->increaseSpeed();
 		}
 		p = static_cast<PatrolCard*>(patroldeck->next());
 		expectedMov = p->getCoord();
