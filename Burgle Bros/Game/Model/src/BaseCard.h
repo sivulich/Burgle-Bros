@@ -8,6 +8,8 @@ class BaseCard:public BaseModel
 {
 public:
 	BaseCard() : faceUp(false) {};
+
+	BaseCard(string s, bool face) : faceUp(face) { setDescription(s); };
 	/**
 	False = Turned Down ; True = Turned  Up
 	*/

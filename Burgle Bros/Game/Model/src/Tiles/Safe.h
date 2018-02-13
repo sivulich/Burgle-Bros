@@ -41,11 +41,15 @@ public:
 	void addCrackTile( Tile * t) { combinationTiles.push_back(t); };
 
 	/* Add a dice to later roll and crack the safe*/
-	void addDice() { if (dices<6)dices++; };
+	void addDice() { if (dices < 6)dices++; notify(); };
 
 	void addSafe(Tile * safe) { otherSafes.push_back(safe); };
 
 	void isKeyCardHere(bool b) { keyCardHere = b; };
+
+	unsigned int getTokens() { return dices; };
+
+	bool safeIsOpen() { return safeCracked; };
 private:
 	lootType safeLoot;
 	unsigned int dices;
@@ -56,11 +60,8 @@ private:
 	bool keyCardHere;
 
 	vector<Tile *> otherSafes;
-
-	bool safeIsOpen() { return safeCracked; };
 	
 	void removeToken() { if(dices>0)	dices--; };
-	unsigned int getTokens() { return dices; };
 
 	/**
 		Checks if the number given is one of the combination numbers. If so, removes that number from the list and returns the amount of

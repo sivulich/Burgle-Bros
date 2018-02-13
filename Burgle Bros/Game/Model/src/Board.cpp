@@ -230,7 +230,7 @@ void Board::parseBoard()
 
 				case SAFE:
 					//If there is a safe set a loot
-					((Safe*)tile)->setLoot(loots.back());
+					((Safe*)tile)->setLoot(/*loots.back()*/CURSED_GOBLET);
 					loots.pop_back();
 					prepSafeTile((Safe *)tile);
 					safes.push_back(tile);
@@ -386,3 +386,14 @@ void Board::checkCameras(Coord c1)
 		}
 	}
 };
+
+void Board::setSilentAlarm(Coord c)
+{
+	if (c.floor < NUMBER_FLOORS)
+	{
+		for (unsigned i = 0; i <= c.floor; i++)
+		{
+			this->getGuard(i)->increaseSpeed();
+		}
+	}
+}

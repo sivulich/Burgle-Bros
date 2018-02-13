@@ -96,6 +96,7 @@ void GameModel::setInitialPosition(Coord c)
 	player2_.setPosition(c);
 	player1_.getCurrentTile()->turnUp();
 
+	initGuard4Network(Coord(0, 1, 1), Coord(0, 2, 2));
 	board.getGuard(c.floor)->locateGuard();
 	board.getTile(board.getGuard(c.floor)->getPos())->guardIs(true);
 }
@@ -115,6 +116,13 @@ void GameModel::endTurn()
 			((Motion *)currentTile)->disarm();
 		else if (currentTile->getType() == THERMO && !currentPlayer_->has(MIRROR))
 			((Thermo *)currentTile)->setAlarm(true);	//Set the alarm in Thermo Room
+		for (auto &it : currentPlayer_->getCurrentTile()->getAdjacent())
+		{
+			if (it.floor < NUMBER_FLOORS)
+			{
+				if (board.getTile(it)->is(KEYPAD)) ((Keypad *)(board.getTile(it)))->clearAttempts();
+			}
+		}
 	}
 
 }
@@ -292,4 +300,13 @@ void GameModel::setBoard(vector<tileType> tiles)
 	board.setWalls();
 	board.parseBoard();
 
+}
+
+void GameModel::initGuard4Network(Coord pos, Coord target)
+{
+	if (pos.floor == target.floor && pos.floor < NUMBER_FLOORS)
+	{
+		this->getBoard()->getFloor(pos.floor)->getPatrolDeck()->moveCardtoTop(target);
+		this->getBoard()->getFloor(pos.floor)->getPatrolDeck()->moveCardtoTop(pos);
+	}
 }
