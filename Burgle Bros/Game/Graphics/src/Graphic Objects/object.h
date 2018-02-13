@@ -122,7 +122,6 @@ public:
 	virtual void drag(int y, int x);
 
 	// Returns a nullptr it can be overloaded for diferent pruposes
-	// NO ES MEDIO CABEZA DEVOLVER NULL?? CHEQUEAR SI SE PUEDE HACER VIRTUAL PURA
 	virtual Bitmap* getTarget() { return nullptr; };
 
 	// Draws the object to the given target 

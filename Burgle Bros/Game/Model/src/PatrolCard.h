@@ -8,6 +8,7 @@ class PatrolCard : public BaseCard
 public:
 
 	PatrolCard(Coord c);
+	PatrolCard(string s);
 	
 	Coord getCoord() { return coord; };
 

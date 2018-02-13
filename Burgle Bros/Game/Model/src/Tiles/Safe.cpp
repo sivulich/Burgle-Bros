@@ -61,7 +61,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 				player->addLoot(safeLoot);
 				player->newAction("SAFE_OPENED", getPos(), INT_MAX);
 				if (safeLoot == CURSED_GOBLET && player->getActionTokens() > 0)
-					player->removeActionToken();
+					player->removeStealthToken();
 				if (safeLoot == KEYCARD)
 				{
 					for (auto &it : otherSafes)
@@ -71,6 +71,7 @@ bool Safe::doAction(string action, PlayerInterface * player)
 				{
 					Tile::setLoot(LootFactory().newLoot(GOLD_BAR));
 				}
+				notify();
 			}
 			if (dicesThisTurn == (dices + b) && !safeIsOpen())
 			{

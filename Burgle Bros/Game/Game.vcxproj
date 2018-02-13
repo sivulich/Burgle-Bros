@@ -104,12 +104,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\work\apr-iconv\include;C:\work\apr\include;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\include;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\include;..\packages\Apache Runtinme Library\apr-iconv\include;..\packages\Apache Runtinme Library\apr\include;Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\work\apr-iconv\include;C:\work\apr-util\include;C:\work\apr\include;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\include;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\include;..\packages\Apache Runtinme Library\apr-iconv\include;..\packages\Apache Runtinme Library\apr\include;Graphics\src\Animations;Graphics\src\Graphic Objects;Model\src;Model\src\Characters;Model\src\Loots;Model\src\Tiles;Graphics\src;Graphics\src\Observers;Controller\src;Graphics\src\ALX;$(StlIncludeDirectories);Model\include;Network\include;Controller\include;Graphics\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/FS %(AdditionalOptions)</AdditionalOptions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>C:\work\apr-iconv\Debug;C:\work\apr\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\work\apr-util\LibD;C:\work\apr\LibD;C:\work\apr-iconv\Debug;C:\work\apr\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libapr-1.lib;libapriconv-1.lib;Ws2_32.lib;RpcRT4.lib;advapi32.lib;odbc32.lib;mswsock.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>

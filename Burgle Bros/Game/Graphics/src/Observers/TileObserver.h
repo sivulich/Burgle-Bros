@@ -42,6 +42,7 @@ private:
 	Image *goldBar;
 	vector<Image *> hackTokens;
 	vector<Image *> stealthTokens;
+	vector<Image *> dieTokens;
 
 	Card * tileCard;
 	Image * zoomedCard;
