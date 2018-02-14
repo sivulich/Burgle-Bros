@@ -70,15 +70,14 @@ void GameController::getInput()
 			switch (inp.action)
 			{
 			case ACK:
-				cout << "Received an ack " << endl;
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
+			case PASS:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 				break;
 			case MOVE:
-				cout << "Received a move! " << endl;
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee(inp.pos));
 				break;
 			case PEEK:
-				cout << "Received a peek! " << endl;
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos));
 				break;
 			case ERROR:

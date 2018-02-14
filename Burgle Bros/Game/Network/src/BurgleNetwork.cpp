@@ -822,25 +822,34 @@ remoteInput BurgleNetwork::getRemoteInput()
 {
 	remoteInput inp;
 	inp.action = NO_TYPE;
-	if (flags.currState != EXCHANGE_FINISHED ||join()==false)
+
+	if (/*flags.currState != EXCHANGE_FINISHED ||*/ join() == false)
 		return inp;
-	//if (flags.connected == false || join() == false)
-	//	return inp;
+
+	if (flags.ack == true)
+	{
+		flags.ack = false;
+		inp.action = ACK;
+		DEBUG_MSG("Received a " << toString(inp.action));
+		return inp;
+	}
+
 	vector<char> buffer(1024, 0);
 	apr_size_t size = 1024;
 	clock_t t = clock();
 	apr_status_t rv;
 	rv = apr_socket_recv(flags.sock, buffer.data(), &size);
 	if (APR_STATUS_IS_EOF(rv) || size == 0 || size == 1024)
-	{
 		return inp;
-	}
+
 	packetToInput(inp, buffer);
+	DEBUG_MSG("Received a " << toString(inp.action));
 	if (answerInput(inp) == false)
 	{
 		flags.error = true;
 		flags.errMessage = "Couldnt answer " + string(toString(inp.action));
 	}
+	
 	return inp;
 }
 bool BurgleNetwork::answerInput(remoteInput& inp)
@@ -849,6 +858,7 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 	{
 	case MOVE:
 	case PEEK:
+	case PASS:
 	case SPY_PATROL:
 	case ADD_TOKEN:
 	case USE_TOKEN:
@@ -860,7 +870,10 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 	case OFFER_LOOT:
 	case REQUEST_LOOT:
 	case ROLL_DICE_FOR_LOOT:
+		DEBUG_MSG("Sending ACK");
 		return sendPacket(flags.sock, vector<char>(1, (char)ACK));
+		break;
+
 	case ERROR:
 		flags.error = true;
 		flags.errMessage = "Recivied error from remote player";
@@ -961,12 +974,14 @@ void BurgleNetwork::packetAndAck(thData* fl, vector<char>& pack)
 	}
 
 	vector<char> buffer;
+	
 	if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != ACK)
 	{
 		fl->error = true;
 		fl->errMessage = "Didnt recieve ACK for " + string(toString(act));
 		return;
 	}
+	else fl->ack = true;
 }
 
 void BurgleNetwork::packetAndAckThreded(thData* fl, vector<char>pack)
@@ -981,6 +996,7 @@ void BurgleNetwork::packetAndAckThreded(thData* fl, vector<char>pack)
 
 void BurgleNetwork::sendPeek(Coord pos, char num)
 {
+	DEBUG_MSG("Sending PEEK");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, PEEK, pos, num);
 	else
@@ -989,29 +1005,34 @@ void BurgleNetwork::sendPeek(Coord pos, char num)
 
 void BurgleNetwork::sendMove(Coord pos, char num)
 {
+	DEBUG_MSG("Sending MOVE");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, MOVE, pos, num);
 }
 
 void BurgleNetwork::sendSpent(char yn)
 {
+	DEBUG_MSG("Sending SPENT_OK");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, SPENT_OK, yn);
 }
 
 void BurgleNetwork::sendAddToken(Coord pos)
 {
+	DEBUG_MSG("Sending ADD_TOKEN");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, ADD_TOKEN, pos, 0);
 }
 void BurgleNetwork::sendUseToken(Coord pos)
 {
+	DEBUG_MSG("Sending USE_TOKEN");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, USE_TOKEN, pos, 0);
 }
 
 void BurgleNetwork::sendThrowDice(char d1, char d2, char d3, char d4, char d5, char d6)
 {
+	DEBUG_MSG("Sending TROW_DICE");
 	vector<char> pack(7, (char)THROW_DICE);
 	pack[1] = d1;
 	pack[2] = d2;
@@ -1026,11 +1047,13 @@ void BurgleNetwork::sendThrowDice(char d1, char d2, char d3, char d4, char d5, c
 }
 void BurgleNetwork::sendSafeOpened(lootType loot)
 {
+	DEBUG_MSG("Sending SAFE_OPENED");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithMod, this, &flags, SAFE_OPENED, (char)loot);
 }
 void BurgleNetwork::sendCreateAlarm(Coord pos)
 {
+	DEBUG_MSG("Sending CREATE_ALARM");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, CREATE_ALARM, pos, 0);
 }
@@ -1041,16 +1064,19 @@ void BurgleNetwork::sendInitialGuardPos(Coord pos)
 }
 void BurgleNetwork::sendSpyPatrol(Coord pos, char tb)
 {
+	DEBUG_MSG("Sending SPY_PATROL");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, SPY_PATROL, pos, tb);
 }
 void BurgleNetwork::sendPlaceCrow(Coord pos)
 {
+	DEBUG_MSG("Sending PLACE_CROW");
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, PLACE_CROW, pos, 0);
 }
 void BurgleNetwork::sendOfferLoot(lootType loot)
 {
+	DEBUG_MSG("Sending OFFER_LOOT");
 	if (join() == true)
 	{
 		vector<char> pack(2, (char)OFFER_LOOT);
@@ -1065,6 +1091,7 @@ void BurgleNetwork::sendOfferLoot(lootType loot)
 }
 void BurgleNetwork::sendRequestLoot(lootType loot)
 {
+	DEBUG_MSG("Sending REQUEST_LOOT");
 	if (join() == true)
 	{
 		vector<char> pack(2, (char)REQUEST_LOOT);

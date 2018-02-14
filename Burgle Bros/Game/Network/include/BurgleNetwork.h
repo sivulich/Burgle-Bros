@@ -27,6 +27,7 @@ typedef struct {
 	atomic_bool iStart;
 	atomic_bool connected;
 	atomic_bool join;
+	atomic_bool ack;
 	atomic_bool executing;
 	atomic_bool exit;
 	string errMessage;
