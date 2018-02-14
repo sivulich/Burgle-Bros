@@ -15,7 +15,7 @@
 #include <Board.h>
 #include "../../Model/src/Characters/Character.h"
 #include <Coord.h>
-#define DEF_SOCK_TIMEOUT (APR_USEC_PER_SEC * 5) 
+#define DEF_SOCK_TIMEOUT 5000//(APR_USEC_PER_SEC * 5) 
 #define MAX_CONNECTION_WAIT 120
 #define MAX_PACKET_WAIT 60
 

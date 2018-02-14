@@ -31,7 +31,7 @@ void SoundEffects::playbackgroundMusic()
 	if (!background) {
 		printf("Audio clip sample not loaded!\n");
 	}
-	if (std::get<0>(background->play(0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP)) == true)
+	if (std::get<0>(background->play(1, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP)) == true)
 		std::cout << "PLAYING MUSIC" << std::endl;
 	else
 		std::cout << "Couldnt play music" << std::endl;

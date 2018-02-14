@@ -71,7 +71,8 @@ bool BurgleNetwork::sendPacket(apr_socket_t* sock, const vector<char>& dat)
 	rv = apr_socket_send(sock, dat.data(), &size);
 	if (rv == APR_SUCCESS)
 		return true;
-	else return false;
+	cout << "Couldnt send packet" << endl;
+	return false;
 }
 
 bool BurgleNetwork::recievePacket(apr_socket_t* sock, vector<char>& dat)
@@ -824,6 +825,9 @@ remoteInput BurgleNetwork::getRemoteInput()
 {
 	remoteInput inp;
 	inp.action = NO_TYPE;
+	if (flags.currState != EXCHANGE_FINISHED)
+		return inp;
+	
 	vector<char> buffer(1024, 0);
 	apr_size_t size = 1024;
 	clock_t t = clock();

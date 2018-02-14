@@ -344,7 +344,6 @@ public:
 		{
 			cout << "Connecting computers" << endl;
 			string IP = fsm.graphics->getIP();
-			fsm.network = new BurgleNetwork();
 			fsm.network->connect(IP);
 			fsm.graphics->showTempMessage(string("Connecting... Please wait."));
 			while (!fsm.network->join())

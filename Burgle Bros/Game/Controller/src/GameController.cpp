@@ -42,7 +42,7 @@ bool GameController::isRunning()
 void GameController::getInput()
 {
 	s = "";
-	if (model != nullptr && model->isRemote() && network != nullptr && network->isConnected() && network->join()==true )
+	if (model != nullptr && model->isRemote() && network != nullptr )
 	{
 		remoteInput inp = network->getRemoteInput();
 		if (inp.action != NO_TYPE)
