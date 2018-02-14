@@ -820,7 +820,7 @@ remoteInput BurgleNetwork::getRemoteInput()
 {
 	remoteInput inp;
 	inp.action = NO_TYPE;
-	if (flags.currState != EXCHANGE_FINISHED)
+	if (flags.currState != EXCHANGE_FINISHED ||join()==false)
 		return inp;
 	//if (flags.connected == false || join() == false)
 	//	return inp;
