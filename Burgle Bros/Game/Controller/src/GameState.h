@@ -15,7 +15,8 @@
 #include <boost/msm/front/euml/euml.hpp>
 //FOR and operator  And_<>
 #include <boost/msm/front/euml/operator.hpp>
-
+// Check
+#include <boost/msm/back/mpl_graph_fsm_check.hpp>
 
 #include <GameModel.h>
 #include <GameGraphics.h>
@@ -34,7 +35,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
-	SoundEffects * sound;
 	BurgleNetwork * network;
 	int gameMode;
 	Timer * guardTimer;
@@ -62,7 +62,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// Cord will be random in next state
 
 		}
-		fsm.sound->playBackroundMusic();
 
 	}
 
@@ -107,6 +106,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					while (fsm.network->error()==false && fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
 					if (fsm.network->error() == true)
 						cout << fsm.network->errMessage() << endl;
+					else
+						cout << "Info exchange ok" << endl;
 					//fsm.model->setInitialPosition(initialPos);
 				}
 				else
@@ -121,12 +122,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					fsm.model->setBoard(fsm.network->remoteBoard());
 					initialPos = fsm.network->startingPos();
 					//fsm.model->setInitialPosition(fsm.network->startingPos());
-					cout << "The remote guard info is " << fsm.network->remoteGuardPos() << " " << fsm.network->remoteGuardTarget() << endl;
+					//cout << "The remote guard info is " << fsm.network->remoteGuardPos() << " " << fsm.network->remoteGuardTarget() << endl;
 					fsm.model->initGuard4Network(fsm.network->remoteGuardPos(), fsm.network->remoteGuardTarget());
-					/* QUEDA SETEAR ESTO
-					Coord fsm.network->remoteGuardPos()
-					Coord fsm.network->remoteGuardTarget()
-					Coord fsm.network->startingPos() */
 				}
 
 				// Set other player name
@@ -165,7 +162,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Choose action: ";
 			fsm.graphics->printInHud(string("Choose an action"));
-			vector<string> v = fsm.model->currentPlayer()->gettActions();
+			vector<string> v = fsm.model->currentPlayer()->getActions();
 			for (auto& s : v)
 				std::cout << s << " ";
 			std::cout << std::endl;
@@ -363,8 +360,22 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct waitingForNetwork : public msm::front::state<>
-	{};
+	struct waitingForNetwork : public msm::front::interrupt_state<ev::ack>
+	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+			cout << "wAITING FOR NETWORK"<< endl;
+
+		}
+
+		template <class EVT, class FSM>
+		void on_exit(EVT const&  event, FSM& fsm)
+		{
+			cout << "ACKNOWLEDGE RECEIVED" << endl;
+
+		}
+	};
 
 	//----------------------- ACTIONS -----------------------------//
 
@@ -387,23 +398,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 			std::cout << "Moving to " << event.c.toString() << std::endl;
 			fsm.graphics->printInHud(string("Moving to ") + event.c.toString());
-			if (event.c.floor==3 && (fsm.model->currentPlayer()->getLoots().size() + fsm.model->otherPlayer()->getLoots().size()) != fsm.model->lootsToWin())
-				fsm.graphics->showOkMessage(string("You can't leave without the loots!"));
-			else
-			{
-				unsigned int safeNumber = fsm.model->currentPlayer()->move(event.c, event.safeNumber);
-				if (fsm.model->win())
-					fsm.process_event(ev::burglarsWin());
 
-				// If other player is remote send move
-				if (fsm.model->otherPlayer()->isRemote())
-				{
-					fsm.network->sendMove(event.c, safeNumber);
-					fsm.process_event(ev::waitForNetwork());
-				}
+			unsigned int safeNumber = fsm.model->currentPlayer()->move(event.c, event.safeNumber);
+
+			// If other player is remote send move
+			if (fsm.model->otherPlayer()->isRemote())
+			{
+				fsm.network->sendMove(event.c, safeNumber);
+				fsm.process_event(ev::waitForNetwork());
 			}
 
-		
 
 			// If coming from ask confirmation state, the player agreed to spent tokens
 			if (is_same<SourceState, askConfirmationMove>::value)
@@ -449,7 +453,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// If other player is remote send peek
 			if (fsm.model->otherPlayer()->isRemote())
 			{
+				std::cout << "Sending peek to " << fsm.model->otherPlayer()->getName() << std::endl;
 				fsm.network->sendPeek(event.c, safeNumber);
+				if (fsm.network->error())
+				{
+					cout << fsm.network->errMessage() << endl;
+				}
+
 				fsm.process_event(ev::waitForNetwork());
 			}
 
@@ -846,14 +856,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Tiles availables to peek: ";
-			fsm.graphics->printInHud(string("Choose a tile available to peek..."));
-			vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
-			Coord::printVec(v);
-			std::cout << std::endl;
-			fsm.currentAction = PEEK;
-			// Distinguir las tiles disponibles para moverse
-			fsm.graphics->setTilesClickable(v);
+			if ((Coord)event.c != NPOS)
+			{
+				fsm.process_event(ev::coord(event.c));
+			}
+			else
+			{
+				std::cout << "Tiles availables to peek: ";
+				fsm.graphics->printInHud(string("Choose a tile available to peek..."));
+				vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
+				Coord::printVec(v);
+				std::cout << std::endl;
+				fsm.currentAction = PEEK;
+				// Distinguir las tiles disponibles para moverse
+				fsm.graphics->setTilesClickable(v);
+			}
 
 		}
 	};
@@ -1122,80 +1139,75 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	// Transition table
 	struct transition_table : mpl::vector<
-		//         Start			  Event			    Next				Action            Guard
-		//  +-----------------+----------------+---------------------+------------------+-------------------+
+		//       Start					Event					Next				Action            Guard
+		//  +-----------+-------------+------------+--------------+--------------+-----------------+-----------+
 
-		Row < chooseInitialPos,	ev::coord,		 chooseAction,			doSetInitialPos, none				>,
+		Row < chooseInitialPos, ev::coord, chooseAction, doSetInitialPos, none				>,
 
-		Row < chooseAction,		ev::pass,		 guardTurn,				doEndTurn,		 none				>,
+		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
 
-		Row < chooseAction,		ev::movee,		 none,					showMove,		 none				>,
-		Row < chooseAction,		ev::coord,		 checkActionTokens,		doMove,			 And_<isMoving, Not_<needsConfirmation> >>,
-		Row < chooseAction,		ev::coord,		 askConfirmationMove,	none,			 And_<isMoving, needsConfirmation>		>,
+		Row < chooseAction, ev::movee, none, showMove, none				>,
+		Row < chooseAction, ev::coord, checkActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
+		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
 
 
-		Row < chooseAction,		ev::peek,		 none,					showPeek,		none				>,
-		Row < chooseAction,		ev::coord,		 checkActionTokens,		doPeek,			isPeeking			>,
+		Row < chooseAction, ev::peek, none, showPeek, none				>,
+		Row < chooseAction, ev::coord, checkActionTokens, doPeek, isPeeking			>,
 
-		Row	< chooseAction,		ev::createAlarm, none,					showAlarm,		none				>,
-		Row	< chooseAction,		ev::coord,		 checkActionTokens,		doCreateAlarm,	isCreatingAlarm   >,
+		Row	< chooseAction, ev::createAlarm, none, showAlarm, none				>,
+		Row	< chooseAction, ev::coord, checkActionTokens, doCreateAlarm, isCreatingAlarm   >,
 
-		Row < chooseAction,		ev::placeCrow,	 none,					showCrow,		none				>,
-		Row	< chooseAction,		ev::coord,		 chooseAction,			doPlaceCrow,	isPlacingCrow		>,
+		Row < chooseAction, ev::placeCrow, none, showCrow, none				>,
+		Row	< chooseAction, ev::coord, chooseAction, doPlaceCrow, isPlacingCrow		>,
 
-		Row < chooseAction,		ev::spyPatrol,	 askConfirmation,		doSpyPatrol,	none				>,
-		Row < chooseAction,		ev::addToken,	 checkActionTokens,		doAddToken,		none				>,
-		Row < chooseAction,		ev::useToken,	 chooseAction,			doUseToken,		none				>,
-		Row < chooseAction,		ev::throwDice,	 checkActionTokens,		doCrackSafe,	none				>,
-		Row < chooseAction,		ev::offerLoot,	 chooseLoot,			showOfferLoot,	none				>,
-		Row < chooseAction,		ev::requestLoot, chooseLoot,			prepRequest,	none				>,
-		Row < chooseAction,		ev::pickUpLoot,	 chooseAction,			doPickUpLoot,	none				>,
+		Row < chooseAction, ev::spyPatrol, askConfirmation, doSpyPatrol, none				>,
+		Row < chooseAction, ev::addToken, checkActionTokens, doAddToken, none				>,
+		Row < chooseAction, ev::useToken, chooseAction, doUseToken, none				>,
+		Row < chooseAction, ev::throwDice, checkActionTokens, doCrackSafe, none				>,
+		Row < chooseAction, ev::offerLoot, chooseLoot, showOfferLoot, none				>,
+		Row < chooseAction, ev::requestLoot, chooseLoot, prepRequest, none				>,
+		Row < chooseAction, ev::pickUpLoot, chooseAction, doPickUpLoot, none				>,
 
-		//         Start		  Event			    Next		    Action            Guard
-		//  +-----------------+------------+------------------+--------------+-------------------+
-		Row < askConfirmation, ev::yes,		checkActionTokens,	doStayTop,		isSpying			>,
-		Row < askConfirmation, ev::no,		checkActionTokens,	doSendBottom,	isSpying			>,
-		Row < askConfirmation, ev::yes,		chooseAction,		doGiveLoot,		isOfferingLoot		>,
-		Row < askConfirmation, ev::no,		chooseAction,		dontGiveLoot,	isOfferingLoot		>,
-		Row < askConfirmation, ev::yes,		chooseAction,		doGetLoot,		isRequestingLoot	>,
-		Row < askConfirmation, ev::no,		chooseAction,		dontGetLoot,	isRequestingLoot	>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < askConfirmation, ev::yes, checkActionTokens, doStayTop, isSpying			>,
+		Row < askConfirmation, ev::no, checkActionTokens, doSendBottom, isSpying			>,
+		Row < askConfirmation, ev::yes, chooseAction, doGiveLoot, isOfferingLoot	>,
+		Row < askConfirmation, ev::no, chooseAction, dontGiveLoot, isOfferingLoot	>,
+		Row < askConfirmation, ev::yes, chooseAction, doGetLoot, isRequestingLoot	>,
+		Row < askConfirmation, ev::no, chooseAction, dontGetLoot, isRequestingLoot	>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < askConfirmationMove, ev::yes, askConfirmationMove, none, none			>,
+		Row < askConfirmationMove, ev::no, checkActionTokens, dontMove, none >,
+		Row < askConfirmationMove, ev::coord, checkActionTokens, doMove, none			>,
+		Row < askConfirmationMove, ev::throwDice, none, doOpenKeypad, none	>,
 
-		//  +-----------------+------------+-----------------------+--------------+-------------------+
-		Row < askConfirmationMove, ev::yes,	   askConfirmationMove,  none,			none		>,
-		Row < askConfirmationMove, ev::no,	   checkActionTokens,	 dontMove,		none		>,
-		Row < askConfirmationMove, ev::coord,  checkActionTokens,	 doMove,		none		>,
-		Row < askConfirmationMove, ev::throwDice, none,				 doOpenKeypad,  none		>,
+		//  +------------+-------------+------------+--------------+--------------+
 
-		//  +------------+-------------+---------------+--------------+--------------+
-		Row < chooseLoot, ev::lootType, askConfirmation, doOfferLoot,	isOfferingLoot	>,
+		Row < chooseLoot, ev::lootType, askConfirmation, doOfferLoot, isOfferingLoot	>,
 		Row < chooseLoot, ev::lootType, askConfirmation, doRequestLoot, isRequestingLoot	>,
-		Row < chooseLoot, ev::cancel,	chooseAction,	 none,			none	>,
-
-		//         Start		  Event			    Next		    Action          Guard
-		//  +-------------------+---------------+-------------+--------------+------------+
-		Row < checkActionTokens, ev::no,		  guardTurn,	doEndTurn,		none		>,
-		Row < checkActionTokens, ev::yes,		  chooseAction, none,			none		>,
-		Row < checkActionTokens, ev::gameOver,	  gameEnded,	none,			none		>,
-		Row < checkActionTokens, ev::burglarsWin, gameEnded,	none,			none		>,
-
-		//  +-----------+-------------+-----------+------------+--------------+
-		Row < guardTurn, ev::movee,		none,		 moveGuard,		none			>,
-		Row < guardTurn, ev::passGuard, beginTurn,	 changeTurn,	none			>,
-		Row < guardTurn, ev::gameOver,	gameEnded,	 none,			none			>,
-
-		//  +-----------+-------------+---------------+-------------------+--------------+
-		Row < beginTurn, ev::done,		chooseAction,	none,				none					>,
-		Row < beginTurn, ev::throwDice, none,			doKittyAction,		isThrowing4Kitty		>,
-		Row < beginTurn, ev::throwDice, none,			doChihuahuaAction,	isThrowing4Chihuahua	>,
+		Row < chooseLoot, ev::cancel, chooseAction, none, none	>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < checkActionTokens, ev::no, guardTurn, doEndTurn, none				>,
+		Row < checkActionTokens, ev::yes, chooseAction, none, none				>,
+		Row < checkActionTokens, ev::gameOver, gameEnded, none, none				>,
+		Row < checkActionTokens, ev::burglarsWin, gameEnded, none, none				>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < guardTurn, ev::movee, none, moveGuard, none				>,
+		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
+		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
+		//  +------------+-------------+------------+--------------+--------------+f
+		Row < beginTurn, ev::done, chooseAction, none, none				>,
+		Row < beginTurn, ev::throwDice, none, doKittyAction, isThrowing4Kitty	>,
+		Row < beginTurn, ev::throwDice, none, doChihuahuaAction, isThrowing4Chihuahua	>,
 
 
-		//  +-------------+----------------+-------------+--------------+--------------+
-		Row < gameEnded,	ev::playAgain,	chooseAction,	resetGame,		none		>,
-		Row < gameEnded,	ev::ok,			none,			none,			none		>,
+		//  +------------+-------------+------------+--------------+--------------+
+		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>,
+		Row < gameEnded, ev::ok, none, none, none				>,
+		//  +------------+-------------+------------+--------------+--------------+
 
-		//  +------------------+---------------------+------------------+--------------+--------------+
-		Row < idle,				 ev::waitForNetwork,  waitingForNetwork, none,			gameIsRemote		>,
-		Row < waitingForNetwork, ev::ack,			  idle,				 none,			gameIsRemote		>
+		Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
+		Row < waitingForNetwork, ev::ack, idle, none, none			>
 
 	> {};
 
@@ -1206,9 +1218,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
 	}
 
-	///typedef mpl::vector<idle, chooseInitialPos> initial_state;
-	typedef chooseInitialPos initial_state;
+	typedef mpl::vector<idle, chooseInitialPos> initial_state;
+	//typedef chooseInitialPos initial_state;
 
 };
 // Pick a back-end
 typedef msm::back::state_machine<GameState_> GameState;
+//typedef msm::back::state_machine<GameState_, msm::back::mpl_graph_fsm_check> GameState;

@@ -7,6 +7,7 @@
 #include "../../Model/include/Configs.h"
 #include <string>
 #include <Font.hpp>
+#include <alx.hpp>
 
 class DialogBox : public Object
 {
@@ -23,6 +24,11 @@ public:
 	void remove();
 
 private:
+	//Sound
+	alx::Sample * dice;
+	bool played;
+	bool diceBox;
+
 	Object * blur;
 	Container * box;
 	Object * button1;

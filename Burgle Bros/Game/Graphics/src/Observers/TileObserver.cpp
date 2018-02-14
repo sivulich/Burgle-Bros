@@ -201,7 +201,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 	tile->flip();
 	tile->debugFlip();
 #endif // All tiles are set facing up (picture only)
-
+	flip = new alx::Sample("../Game/Sound/FLIP.wav");
 }
 
 void TileObserver::showSafeNumber()
@@ -225,6 +225,9 @@ void TileObserver::update()
 	if (flipped != tile->isFlipped() && tileCard->hasAnimation()==false)
 	{
 		tileCard->addAnimation(new FlipAnimation(tileCard,0.4));
+		
+		flip->play(1, 0, 1, ALLEGRO_PLAYMODE_ONCE);
+		
 		flipped = tile->isFlipped();
 		if (safeNumber != nullptr)
 			safeNumber->load(string("./Graphics/Images/Safe numbers/7SEG_") + to_string(tile->getSafeNumber()) + string(".jpg"), true);

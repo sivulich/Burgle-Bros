@@ -7,12 +7,13 @@ class SoundEffects
 public:
 	SoundEffects();
 
-	void playBackroundMusic();
+	void playbackgroundMusic();
+	void stopBackgroundMusic();
 	void playFlipCard();
 	void playWalk();
 	void playAlarm();
 	void playChangeTurn();
 private:
-	alx::Sample * backround;
-
+	alx::Sample * background;
+	
 };

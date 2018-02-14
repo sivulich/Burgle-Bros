@@ -15,8 +15,8 @@ public:
 		currentPlayer_  =  &player1_;
 		otherPlayer_    =  &player2_;
 		player1_.setLocal(true);
-
 		player2_.setLocal(true);
+		local = true;
 		srand((unsigned int)time(NULL));
 	};
 
@@ -118,4 +118,5 @@ private:
 	Board board;
 	
 	bool guardIsMoving_;
+	bool local;
 };

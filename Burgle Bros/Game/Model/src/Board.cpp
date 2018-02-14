@@ -156,7 +156,7 @@ void Board::setBoard()
 		f[i].push_back(STAIR);
 		random_shuffle(f[i].begin(), f[i].end());
 		floor[i]->setTiles(f[i]);
-		floor[i]->print();
+		//floor[i]->print();
 	}
 	parseBoard();
 

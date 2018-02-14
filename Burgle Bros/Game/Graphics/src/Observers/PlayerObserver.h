@@ -2,7 +2,7 @@
 #include "./Observer.h"
 #include <Player.h>
 #include <Configs.h>
-
+#include <alx.hpp>
 #include "./BoardObserver.h"
 #include "../Graphic Objects/Container.h"
 #include "../Graphic Objects/Text.h"
@@ -19,6 +19,9 @@ private:
 	bool isPlaying;
 
 	pair<int, int> positions[3][4][4];
+	//Sound
+	alx::Sample * walk;
+
 	// Graphic objects
 	Container* parentCont;
 	Container* hudCont;
