@@ -80,7 +80,7 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 	if (position == BOTTOM)
 		yOffset = 200;
 
-
+	diceBox = true;
 	box = new Container(string("./Graphics/Images/Dialog Box/box.png"));
 	box->setScale(1);
 	box->setPosition(c->getHeight() / 2 - box->getHeight()*box->getScale()*0.5,
@@ -121,6 +121,7 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 	button2 = nullptr;
 	text2 = nullptr;
 	parent->addObject(this);
+	dice = new alx::Sample("../Game/Sound/DICES.wav");
 }
 DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<lootType>& d)
 {
@@ -170,7 +171,8 @@ void DialogBox::draw(Bitmap* target)
 {
 	if (blur != nullptr)
 		blur->draw(target);
-
+	if (diceBox==true && played == false && (played = true) == true)
+		dice->play(1, 0, 1, ALLEGRO_PLAYMODE_ONCE);
 	box->draw(target);
 }
 

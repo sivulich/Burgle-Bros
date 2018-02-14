@@ -33,7 +33,6 @@ private:
 
 	//Sound
 	alx::Sample * flip;
-	alx::Sample * camera;
 
 	//Graphics object
 	Image *safeNumber;

@@ -67,7 +67,8 @@ void GameGraphics::showMenuScreen()
 	current_screen = MENU;
 	setAllNotVisible();
 	menuScreen->setVisible(true);
-	sound.playbackgroundMusic();
+	if(!alreadyPlaying && (alreadyPlaying=true)==true)
+		sound.playbackgroundMusic();
 }
 
 void GameGraphics::showModeScreen()

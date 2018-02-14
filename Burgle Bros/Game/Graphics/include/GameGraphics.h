@@ -144,6 +144,7 @@ private:
 	SCREEN current_screen;
 	//Sound
 	SoundEffects sound;
+	bool alreadyPlaying;
 	// Pointer to the Game Model
 	GameModel * model;
 
