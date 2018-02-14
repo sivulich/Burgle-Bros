@@ -38,6 +38,9 @@ public:
 	// Returns true if the burglars have won
 	bool win();
 
+	// Returns 3 or 4 depending on whether the gold bar is in play. (Counts loots carried by the player at that time)
+	unsigned int lootsToWin();
+
 	// Sets the board, sorting the tiles randomly
 	void setBoard();
 
