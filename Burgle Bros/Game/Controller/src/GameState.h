@@ -106,6 +106,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					while (fsm.network->error()==false && fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
 					if (fsm.network->error() == true)
 						cout << fsm.network->errMessage() << endl;
+					else
+						cout << "Info exchange ok" << endl;
 					//fsm.model->setInitialPosition(initialPos);
 				}
 				else
@@ -120,12 +122,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					fsm.model->setBoard(fsm.network->remoteBoard());
 					initialPos = fsm.network->startingPos();
 					//fsm.model->setInitialPosition(fsm.network->startingPos());
-					cout << "The remote guard info is " << fsm.network->remoteGuardPos() << " " << fsm.network->remoteGuardTarget() << endl;
+					//cout << "The remote guard info is " << fsm.network->remoteGuardPos() << " " << fsm.network->remoteGuardTarget() << endl;
 					fsm.model->initGuard4Network(fsm.network->remoteGuardPos(), fsm.network->remoteGuardTarget());
-					/* QUEDA SETEAR ESTO
-					Coord fsm.network->remoteGuardPos()
-					Coord fsm.network->remoteGuardTarget()
-					Coord fsm.network->startingPos() */
 				}
 
 				// Set other player name

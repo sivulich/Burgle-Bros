@@ -3,20 +3,20 @@
 //#include <BurgleNetwork.h>
 #include <GameModel.h>
 #include "GameState.h"
-
-int main()
+#include <cstdio>
+int main(void)
 {
-	//BurgleNetwork * network = new BurgleNetwork();
-	//GameModel* model = new GameModel();
-	//GameGraphics * graphics = new GameGraphics(model);
-	//GameController game(model, graphics,network);
-	//while (game.isRunning())
-	//{
-	//	game.getInput();
-	//	game.processEvent();
-	//}
-	//game.stop();
-
+	BurgleNetwork * network = new BurgleNetwork();
+	GameModel* model = new GameModel();
+	GameGraphics * graphics = new GameGraphics(model);
+	GameController game(model, graphics,network);
+	while (game.isRunning())
+	{
+		game.getInput();
+		game.processEvent();
+	}
+	game.stop();
+/*
 	BurgleNetwork * network = new BurgleNetwork();
 	network->connect("127.0.0.1");
 
@@ -34,7 +34,12 @@ int main()
 		bool b = true;
 		while (b)
 		{
-			remoteInput inp = network->getRemoteInput();
+			remoteInput inp;
+			inp.action = NO_TYPE;
+			if (network->isServer() == false)
+				inp = network->getRemoteInput();
+			else
+				b = !network->join();
 			if (inp.action != NO_TYPE)
 			{
 				switch (inp.action)
@@ -56,9 +61,13 @@ int main()
 			if (network->error())
 			{
 				cout << "ERROR: " << network->errMessage() << endl;
+				b = false;
 			}
 		}
 
 	}
-	while (true);
+	getchar();
+	getchar();
+	*/
+	return 0;
 }

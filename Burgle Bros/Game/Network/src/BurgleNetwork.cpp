@@ -822,7 +822,8 @@ remoteInput BurgleNetwork::getRemoteInput()
 	inp.action = NO_TYPE;
 	if (flags.currState != EXCHANGE_FINISHED)
 		return inp;
-	
+	//if (flags.connected == false || join() == false)
+	//	return inp;
 	vector<char> buffer(1024, 0);
 	apr_size_t size = 1024;
 	clock_t t = clock();
