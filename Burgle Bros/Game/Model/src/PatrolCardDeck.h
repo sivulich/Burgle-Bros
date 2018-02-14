@@ -36,6 +36,8 @@ public:
 
 	void PatrolCardDeck::moveCardtoTop(Coord pos);
 
+	Coord getSpiedCardCoord() { return spiedCard->getCoord(); };
+
 private:
 	unsigned floorNumber;
 	PatrolCard * spiedCard;

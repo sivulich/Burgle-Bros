@@ -33,6 +33,8 @@ public:
 	*/
 	virtual bool doAction(string action, PlayerInterface * player) override;
 
+	virtual Coord getComputer() override;
+
 	virtual void exit(PlayerInterface * player) override;
 
 	void setComputerRoom(ComputerRoomL * c) { computerRoom = c; };

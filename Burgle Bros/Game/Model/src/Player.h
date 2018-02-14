@@ -126,11 +126,11 @@ public:
 	//	Peek the tile
 	unsigned int peek(Coord c, unsigned int safeNumber = 0);
 
-	//	Use a token from a Computer Room or
-	void useToken();
+	//	Use a token from a Computer Room or Lavatory
+	Coord useToken();
 
 	//	Add a token to a Computer Room
-	void addToken();
+	Coord addToken();
 
 	//Simulates a die being thrown, recieves a number representing the dice number. This function realizes an action related to the tile.
 	virtual  bool throwDice(int n);
