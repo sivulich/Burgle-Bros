@@ -398,13 +398,20 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Moving to " << event.c.toString() << std::endl;
 			fsm.graphics->printInHud(string("Moving to ") + event.c.toString());
 
-			unsigned int safeNumber = fsm.model->currentPlayer()->move(event.c, event.safeNumber);
-
-			// If other player is remote send move
-			if (fsm.model->otherPlayer()->isRemote())
+			if (event.c.floor == 3 && (fsm.model->currentPlayer()->getLoots().size() + fsm.model->otherPlayer()->getLoots().size()) != fsm.model->lootsToWin())
+				fsm.graphics->showOkMessage(string("You can't leave without the loots!"));
+			else
 			{
-				fsm.network->sendMove(event.c, safeNumber);
-				fsm.process_event(ev::waitForNetwork());
+				unsigned int safeNumber = fsm.model->currentPlayer()->move(event.c, event.safeNumber);
+				if (fsm.model->win())
+					fsm.process_event(ev::burglarsWin());
+
+				// If other player is remote send move
+				if (fsm.model->otherPlayer()->isRemote())
+				{
+					fsm.network->sendMove(event.c, safeNumber);
+					fsm.process_event(ev::waitForNetwork());
+				}
 			}
 
 

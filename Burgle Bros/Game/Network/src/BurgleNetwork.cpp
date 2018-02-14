@@ -715,6 +715,8 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 
 				if (rv == APR_SUCCESS)
 				{
+					apr_socket_opt_set(fl->sock, APR_SO_NONBLOCK, 1);
+					apr_socket_timeout_set(fl->sock, 0);
 					fl->connected = true;
 					fl->server = false;
 					fl->executing = false;
@@ -820,7 +822,7 @@ remoteInput BurgleNetwork::getRemoteInput()
 {
 	remoteInput inp;
 	inp.action = NO_TYPE;
-	if (flags.currState != EXCHANGE_FINISHED)
+	if (flags.currState != EXCHANGE_FINISHED ||join()==false)
 		return inp;
 	//if (flags.connected == false || join() == false)
 	//	return inp;
