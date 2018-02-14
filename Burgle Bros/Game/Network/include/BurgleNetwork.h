@@ -18,7 +18,7 @@
 //#define DEF_SOCK_TIMEOUT (APR_USEC_PER_SEC * 5) 
 #define DEF_SOCK_TIMEOUT 500 
 #define MAX_CONNECTION_WAIT 120
-#define MAX_PACKET_WAIT 60
+#define MAX_PACKET_WAIT 5
 
 typedef struct {
 	atomic_bool error;
