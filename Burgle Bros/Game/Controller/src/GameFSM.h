@@ -16,6 +16,9 @@
 #include <boost/msm/front/euml/common.hpp>
 #include <boost/msm/front/euml/euml.hpp>
 
+// Check
+#include <boost/msm/back/mpl_graph_fsm_check.hpp>
+
 #include <GameModel.h>
 #include <GameGraphics.h>
 #include <BurgleNetwork.h>
@@ -135,9 +138,15 @@ public:
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
 			if (is_same<EVT, ev::remote>::value)
+			{
 				fsm.gameMode = REMOTE;
+				cout << "REMOTE  gamemode !!" << endl;
+			}
 			else if (is_same<EVT, ev::local>::value)
+			{
 				fsm.gameMode = LOCAL;
+				cout << "LOCAL  gamemode !!" << endl;
+			}
 		}
 	};
 
@@ -344,18 +353,22 @@ public:
 		{
 			cout << "Connecting computers" << endl;
 			string IP = fsm.graphics->getIP();
-			fsm.network = new BurgleNetwork();
+			//fsm.network = new BurgleNetwork();
 			fsm.network->connect(IP);
 			fsm.graphics->showTempMessage(string("Connecting... Please wait."));
-			while (!fsm.network->join())
-			{}
+			while (!fsm.network->join()){}
+
 			fsm.graphics->removeDialogBox();
 			if (fsm.network->error())
+			{
 				fsm.graphics->showOkMessage(fsm.network->errMessage());
+				cout << fsm.network->errMessage() << endl;
+			}
 			else
 			{
 				// CONNECTED
 				fsm.process_event(ev::next());
+				cout << fsm.network->isConnected() << endl;
 			}
 				
 		}
@@ -516,7 +529,7 @@ public:
 		//  +------------+-------------+------------+--------------+--------------+*/
 			> {};
 
-	typedef mpl::vector<playing, MenuScreen> initial_state;
+	typedef mpl::vector<playing, ModeScreen> initial_state;
 
 	// Replaces the default no-transition response.
 	template <class FSM, class EVT>
@@ -527,3 +540,4 @@ public:
 };
 // Pick a back-end
 typedef msm::back::state_machine<GameFSM_> GameFSM;
+//typedef msm::back::state_machine<GameFSM_, msm::back::mpl_graph_fsm_check> GameFSM;

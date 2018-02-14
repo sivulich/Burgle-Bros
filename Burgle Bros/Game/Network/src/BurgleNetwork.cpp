@@ -22,6 +22,7 @@ void BurgleNetwork::connect(string IP)
 	flags.currState = WAITINNG_CONN;
 	flags.exit = false;
 	flags.error = false;
+	flags.connected = false;
 	apr_initialize();
 	currThread = new thread(&BurgleNetwork::establishConn, this, &flags, IP);
 }
@@ -713,11 +714,7 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 
 				if (rv == APR_SUCCESS)
 				{
-					/* ESTO LO HACNE LOS CHICOS
-					apr_socket_opt_set(fl->sock, APR_SO_NONBLOCK, 1);
-		apr_socket_timeout_set(fl->sock, 0);
-		retVal = true;
-		*/
+					fl->connected = true;
 					fl->server = false;
 					fl->executing = false;
 					fl->join = true;
@@ -725,7 +722,6 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 					fl->currState = MACHINES_CONNECTED;
 					//al_emit_user_event(&networkEventSource, &connectedEvent, NULL);
 					eventQueue.push(connectedEvent);
-					connected = true;
 					DEBUG_MSG("Connected as client!");
 				}
 				else
@@ -771,7 +767,7 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 						apr_socket_shutdown(temp, APR_SHUTDOWN_READWRITE);
 						apr_socket_opt_set(fl->sock, APR_SO_NONBLOCK, 1);
 						apr_socket_timeout_set(fl->sock, 0);
-
+						fl->connected = true;
 						fl->server = true;
 						fl->executing = false;
 						fl->join = true;
@@ -779,7 +775,6 @@ void BurgleNetwork::establishConn(thData* fl, string IP)
 						//al_emit_user_event(&networkEventSource, &connectedEvent, NULL);
 						eventQueue.push(connectedEvent);
 						fl->error = false;
-						connected = true;
 						DEBUG_MSG("Someone connected");
 					}
 					else
@@ -824,20 +819,24 @@ remoteInput BurgleNetwork::getRemoteInput()
 {
 	remoteInput inp;
 	inp.action = NO_TYPE;
-	vector<char> buffer(1024, 0);
-	apr_size_t size = 1024;
-	clock_t t = clock();
-	apr_status_t rv;
-	rv = apr_socket_recv(flags.sock, buffer.data(), &size);
-	if (APR_STATUS_IS_EOF(rv) || size == 0 || size == 1024)
+	// Only get input if is connected and thread is not executing
+	if (flags.connected == true && this->join() == true)
 	{
-		return inp;
-	}
-	packetToInput(inp, buffer);
-	if (answerInput(inp) == false)
-	{
-		flags.error = true;
-		flags.errMessage = "Couldnt answer " + string(toString(inp.action));
+		vector<char> buffer(1024, 0);
+		apr_size_t size = 1024;
+		clock_t t = clock();
+		apr_status_t rv;
+		rv = apr_socket_recv(flags.sock, buffer.data(), &size);
+		if (APR_STATUS_IS_EOF(rv) || size == 0 || size == 1024)
+		{
+			return inp;
+		}
+		packetToInput(inp, buffer);
+		if (answerInput(inp) == false)
+		{
+			flags.error = true;
+			flags.errMessage = "Couldnt answer " + string(toString(inp.action));
+		}
 	}
 	return inp;
 }
@@ -922,7 +921,7 @@ void BurgleNetwork::coordToPacket(Coord pos, vector<char>& pack)
 }
 void BurgleNetwork::instructionWithCoord(thData* fl, action_ID act, Coord pos, char modifier)
 {
-	if (fl->error = true)
+	if (fl->error == true)
 		return;
 	threadStarter(fl);
 	vector<char> pack(1, (char)act);
@@ -936,7 +935,7 @@ void BurgleNetwork::instructionWithCoord(thData* fl, action_ID act, Coord pos, c
 }
 void BurgleNetwork::instructionWithMod(thData* fl, action_ID act, char mod)
 {
-	if (fl->error = true)
+	if (fl->error == true)
 		return;
 	threadStarter(fl);
 	vector<char> pack(2, (char)act);
@@ -969,7 +968,7 @@ void BurgleNetwork::packetAndAck(thData* fl, vector<char>& pack)
 
 void BurgleNetwork::packetAndAckThreded(thData* fl, vector<char>pack)
 {
-	if (fl->error = true)
+	if (fl->error == true)
 		return;
 	threadStarter(fl);
 	packetAndAck(fl, pack);
@@ -981,6 +980,8 @@ void BurgleNetwork::sendPeek(Coord pos, char num)
 {
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, PEEK, pos, num);
+	else
+		cout << "couldn't send peek!" << endl;
 }
 
 void BurgleNetwork::sendMove(Coord pos, char num)

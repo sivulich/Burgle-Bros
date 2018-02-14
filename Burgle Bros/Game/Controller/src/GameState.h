@@ -15,7 +15,8 @@
 #include <boost/msm/front/euml/euml.hpp>
 //FOR and operator  And_<>
 #include <boost/msm/front/euml/operator.hpp>
-
+// Check
+#include <boost/msm/back/mpl_graph_fsm_check.hpp>
 
 #include <GameModel.h>
 #include <GameGraphics.h>
@@ -361,7 +362,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct waitingForNetwork : public msm::front::interrupt_state<mpl::vector<ev::ack>>
+	struct waitingForNetwork : public msm::front::interrupt_state<ev::ack>
 	{
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
@@ -456,6 +457,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				std::cout << "Sending peek to " << fsm.model->otherPlayer()->getName() << std::endl;
 				fsm.network->sendPeek(event.c, safeNumber);
+				if (fsm.network->error())
+				{
+					cout << fsm.network->errMessage() << endl;
+				}
+
 				fsm.process_event(ev::waitForNetwork());
 			}
 
@@ -1220,3 +1226,4 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 };
 // Pick a back-end
 typedef msm::back::state_machine<GameState_> GameState;
+//typedef msm::back::state_machine<GameState_, msm::back::mpl_graph_fsm_check> GameState;
