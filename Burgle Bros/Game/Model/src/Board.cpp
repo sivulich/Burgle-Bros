@@ -199,8 +199,8 @@ void Board::parseBoard()
 	vector<Laser *> lasers;
 	vector<Tile *> safes;
 
-	lootType l[] = { TIARA, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR, GOLD_BAR };
-	vector<lootType>loots(l, l + 10);
+	lootType l[] = { TIARA, PERSIAN_KITTY, PAINTING, MIRROR, KEYCARD, ISOTOPE, GEMSTONE, CURSED_GOBLET, CHIHUAHUA, GOLD_BAR };
+	vector<lootType>loots(l, l + 9);
 	random_shuffle(loots.begin(), loots.end());
 
 
@@ -230,7 +230,7 @@ void Board::parseBoard()
 
 				case SAFE:
 					//If there is a safe set a loot
-					((Safe*)tile)->setLoot(/*loots.back()*/CURSED_GOBLET);
+					((Safe*)tile)->setLoot(loots.back());
 					loots.pop_back();
 					prepSafeTile((Safe *)tile);
 					safes.push_back(tile);

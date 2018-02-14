@@ -280,7 +280,30 @@ void GameModel::check4Cameras()
 bool GameModel::win()
 {
 	// If both players are on the roof and have all the loots, the game has finished
-	return player1_.isOnRoof() && player2_.isOnRoof() && player1_.getLoots().size() + player2_.getLoots().size() == 3;
+
+
+	return player1_.isOnRoof() && player2_.isOnRoof() && player1_.getLoots().size() + player2_.getLoots().size() == lootsToWin();
+}
+
+unsigned int GameModel::lootsToWin()
+{
+	vector <Loot *> p1Loots = player1_.getLoots();
+	vector <Loot *> p2Loots = player2_.getLoots();
+
+	unsigned int loots = 4;
+
+
+	for (auto it = p1Loots.begin(); it != p1Loots.end(); it++)
+	{
+		if ((*it)->getType() == GOLD_BAR)	return loots;
+	}
+	for (auto it = p2Loots.begin(); it != p2Loots.end(); it++)
+	{
+		if ((*it)->getType() == GOLD_BAR)	return loots;
+	}
+
+	loots = 3;
+	return loots;
 }
 
 void GameModel::setBoard()
