@@ -36,6 +36,7 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* board)
 	boardCont->addObject(back);
 	lastCard = "";
 	deck->attach(this);
+	slide = new alx::Sample("../Game/Sound/SLIDE.wav");
 }
 
 void GuardDeckObserver::showTop()
@@ -96,6 +97,7 @@ void GuardDeckObserver::update()
 	if ((lastCard.size()>0) && (state.buttons&1) != deckClicked &&  cards[lastCard[1] - '1'][lastCard[0] - 'A']->isClicked() != deckClicked) //&& state.buttons & 1 != deckClicked) //viewDeck->isClicked())//
 	{
 		deckClicked = !deckClicked;
+		slide->play(1, 0, 3, ALLEGRO_PLAYMODE_ONCE);
 		if (deckClicked == true)
 		{
 			//boardCont->removeObject(cards[lastCard[0] - 'A'][lastCard[1] - '1']);
@@ -105,7 +107,7 @@ void GuardDeckObserver::update()
 				int j = card->getDescription()[0] - 'A';
 				std::pair<int, int>target = std::pair<int, int>((int)TILE_YPOS[i][j] + FLOOR_YPOS, (int)(TILE_XPOS[i][j] + FLOOR_XPOS[floor->number()]));
 				cards[i][j]->deleteAnimation();
-				cards[i][j]->addAnimation(new MoveAnimation(target, 0.2));
+				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
 				//		boardCont->addObject(cards[i][j]);
 			}
 		}
@@ -117,7 +119,7 @@ void GuardDeckObserver::update()
 				int j = card->getDescription()[0] - 'A';
 				std::pair<int, int>target = std::pair<int, int>((int)GUARD_DECK_YPOS, (int)(GUARD_DECK_XPOS[floor->number()] + TILE_SIZE + TILE_SEPARATION));
 				cards[i][j]->deleteAnimation();
-				cards[i][j]->addAnimation(new MoveAnimation(target, 0.2));
+				cards[i][j]->addAnimation(new MoveAnimation(target, 0.3));
 			}
 		}
 	}

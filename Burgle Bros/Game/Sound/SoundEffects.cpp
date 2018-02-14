@@ -14,18 +14,33 @@ SoundEffects::SoundEffects()
 		std::cout << "failed to initialize audio codecs!\n" << std::endl;
 	}
 
-	if (!al_reserve_samples(1)) {
+	if (!al_reserve_samples(10)) {
 		std::cout << "failed to reserve samples!\n" << std::endl;
 	}
 
-	backround = new alx::Sample("./backround.wav");
+	
 	
 }
 
-void SoundEffects::playBackroundMusic()
+void SoundEffects::playbackgroundMusic()
 {
-	backround->play(1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP);
-	std::cout << "PLAYING MUSIC" << std::endl;
+	if (background)
+		return;
+	background = new alx::Sample("../Game/Sound/background.wav");
+
+	if (!background) {
+		printf("Audio clip sample not loaded!\n");
+	}
+	if (std::get<0>(background->play(0.5, 0.0, 1.0, ALLEGRO_PLAYMODE_LOOP)) == true)
+		std::cout << "PLAYING MUSIC" << std::endl;
+	else
+		std::cout << "Couldnt play music" << std::endl;
+}
+void SoundEffects::stopBackgroundMusic()
+{
+	if(background)
+		delete background;
+	background = nullptr;
 }
 void SoundEffects::playFlipCard()
 {

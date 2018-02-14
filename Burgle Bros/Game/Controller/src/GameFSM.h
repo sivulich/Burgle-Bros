@@ -80,7 +80,6 @@ public:
 		{
 			std::cout << "Main Menu" << std::endl;
 			fsm.graphics->showMenuScreen();
-			fsm.sound->playBackroundMusic();
 		}
 
 		template <class EVT, class FSM>

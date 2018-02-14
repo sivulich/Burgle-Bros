@@ -34,7 +34,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
-	SoundEffects * sound;
 	BurgleNetwork * network;
 	int gameMode;
 	Timer * guardTimer;
@@ -62,7 +61,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// Cord will be random in next state
 
 		}
-		fsm.sound->playBackroundMusic();
 
 	}
 
@@ -164,7 +162,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Choose action: ";
 			fsm.graphics->printInHud(string("Choose an action"));
-			vector<string> v = fsm.model->currentPlayer()->gettActions();
+			vector<string> v = fsm.model->currentPlayer()->getActions();
 			for (auto& s : v)
 				std::cout << s << " ";
 			std::cout << std::endl;
@@ -362,8 +360,22 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-	struct waitingForNetwork : public msm::front::state<>
-	{};
+	struct waitingForNetwork : public msm::front::interrupt_state<mpl::vector<ev::ack>>
+	{
+		template <class EVT, class FSM>
+		void on_entry(EVT const&  event, FSM& fsm)
+		{
+			cout << "wAITING FOR NETWORK"<< endl;
+
+		}
+
+		template <class EVT, class FSM>
+		void on_exit(EVT const&  event, FSM& fsm)
+		{
+			cout << "ACKNOWLEDGE RECEIVED" << endl;
+
+		}
+	};
 
 	//----------------------- ACTIONS -----------------------------//
 
@@ -440,6 +452,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// If other player is remote send peek
 			if (fsm.model->otherPlayer()->isRemote())
 			{
+				std::cout << "Sending peek to " << fsm.model->otherPlayer()->getName() << std::endl;
 				fsm.network->sendPeek(event.c, safeNumber);
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -835,14 +848,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Tiles availables to peek: ";
-			fsm.graphics->printInHud(string("Choose a tile available to peek..."));
-			vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
-			Coord::printVec(v);
-			std::cout << std::endl;
-			fsm.currentAction = PEEK;
-			// Distinguir las tiles disponibles para moverse
-			fsm.graphics->setTilesClickable(v);
+			if ((Coord)event.c != NPOS)
+			{
+				fsm.process_event(ev::coord(event.c));
+			}
+			else
+			{
+				std::cout << "Tiles availables to peek: ";
+				fsm.graphics->printInHud(string("Choose a tile available to peek..."));
+				vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
+				Coord::printVec(v);
+				std::cout << std::endl;
+				fsm.currentAction = PEEK;
+				// Distinguir las tiles disponibles para moverse
+				fsm.graphics->setTilesClickable(v);
+			}
 
 		}
 	};
@@ -1178,8 +1198,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < gameEnded, ev::ok, none, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
 
-		Row < idle, ev::waitForNetwork, waitingForNetwork, none, gameIsRemote				>,
-		Row < waitingForNetwork, ev::ack, idle, none, gameIsRemote				>
+		Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
+		Row < waitingForNetwork, ev::ack, idle, none, none			>
 
 	> {};
 
@@ -1190,8 +1210,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
 	}
 
-	///typedef mpl::vector<idle, chooseInitialPos> initial_state;
-	typedef chooseInitialPos initial_state;
+	typedef mpl::vector<idle, chooseInitialPos> initial_state;
+	//typedef chooseInitialPos initial_state;
 
 };
 // Pick a back-end

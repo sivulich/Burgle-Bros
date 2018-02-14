@@ -167,7 +167,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 	// Observed variables;
 	lastPos = NPOS;
 	player->attach(this);
-
+	walk = new alx::Sample("../Game/Sound/WALK.wav");
 	update();
 }
 
@@ -200,6 +200,7 @@ void PlayerObserver::update()
 				token->addAnimation(new FadeInOutAnimation(target, TOKEN_MOVE_SPEED * 2));
 			else
 				token->addAnimation(new MoveAnimation(target, TOKEN_MOVE_SPEED));
+			walk->play(0.5, 0, 1, ALLEGRO_PLAYMODE_ONCE);
 		}
 
 		lastPos = curr;
@@ -227,8 +228,11 @@ void PlayerObserver::update()
 			characterFigure->setVisible(false);
 			characterFigurePlaying->setVisible(true);
 			actionTokens->setVisible(true);
-			passButton->setVisible(true);
-			passButton->setClickable(true);
+			// Hide pass button when player is remote
+			if(player->isRemote())
+				passButton->setVisible(false);
+			else
+				passButton->setVisible(true);
 		}
 		else
 		{
@@ -236,6 +240,7 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(false);
 			actionTokens->setVisible(false);
 			passButton->setVisible(false);
+			
 		}
 	}
 	// Update action tokens

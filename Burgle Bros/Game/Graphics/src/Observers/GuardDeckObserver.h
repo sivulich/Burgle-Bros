@@ -4,7 +4,7 @@
 #include "../Graphic Objects/Container.h"
 #include "../Graphic Objects/Card.h"
 #include "../Graphic Objects/Image.h"
-
+#include <alx.hpp>
 class GuardDeckObserver :public Observer
 {
 public:
@@ -24,4 +24,5 @@ private:
 	string lastCard;
 	bool deckClicked;
 	int discardedCount;
+	alx::Sample* slide;
 };
