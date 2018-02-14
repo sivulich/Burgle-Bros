@@ -459,12 +459,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// If other player is remote send peek
 			if (fsm.model->otherPlayer()->isRemote())
 			{
-				std::cout << "Sending peek to " << fsm.model->otherPlayer()->getName() << std::endl;
 				fsm.network->sendPeek(event.c, safeNumber);
+
 				if (fsm.network->error())
-				{
 					cout << fsm.network->errMessage() << endl;
-				}
 
 				fsm.process_event(ev::waitForNetwork());
 			}
