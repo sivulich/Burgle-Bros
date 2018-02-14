@@ -1,6 +1,7 @@
 #include <GameController.h>
 #include "./GameFSM.h"
 #include <random>
+#include <chrono>
 
 GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n) : stateMachine(new GameFSM(m, g, n, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
@@ -42,23 +43,46 @@ bool GameController::isRunning()
 void GameController::getInput()
 {
 	s = "";
-	if (model != nullptr && model->isRemote() && network != nullptr )
+
+	//if (network != nullptr && model != nullptr)
+	//{
+	//	bool remote, connected, join;
+	//	remote = model->isRemote();
+	//	connected = network->isConnected();
+	//	join = network->join();
+
+	//	cout <<  remote << connected <<  join << endl;
+	//}
+
+	if (model != nullptr && model->isRemote() && network != nullptr)
 	{
+		std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 		remoteInput inp = network->getRemoteInput();
+		std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+
+		auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
+
+		cout << " Remote input time " << duration << " us." << endl;
+
+
 		if (inp.action != NO_TYPE)
 		{
 			switch (inp.action)
 			{
 			case ACK:
+				cout << "Received an ack " << endl;
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
 				break;
 			case MOVE:
+				cout << "Received a move! " << endl;
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee(inp.pos));
 				break;
 			case PEEK:
 				cout << "Received a peek! " << endl;
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos));
 				break;
+			case ERROR:
+				cout << network->errMessage() << endl;
 			}
 			return;
 		}
@@ -85,7 +109,7 @@ void GameController::getInput()
 
 		switch (event.getType())
 		{
-		
+
 		case ALLEGRO_EVENT_TIMER:
 			if (event.getTimer() == guardTimer)
 			{
@@ -98,15 +122,15 @@ void GameController::getInput()
 				graphics->hover(state.y, state.x);
 				s = "RENDER";
 			}
-				
+
 			break;
-		
+
 		case ALLEGRO_EVENT_DISPLAY_CLOSE:
 			s = "EXIT";
 			break;
-		//case ALLEGRO_EVENT_MOUSE_AXES:	
-		//	break;
-		
+			//case ALLEGRO_EVENT_MOUSE_AXES:	
+			//	break;
+
 
 		case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
 			s = graphics->click(event.getMouseY(), event.getMouseX());
@@ -192,7 +216,6 @@ void GameController::processEvent()
 			graphics->zoomTile(c);
 		else
 			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
-		cout << "PROCCESS COORD " << s << endl;
 	}
 	else if (isInEnum_characterType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
@@ -230,7 +253,7 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
 	else if (s == "THROW_DICE" || s == "CRACK_SAFE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
-	else if (s == "ADD_TOKEN" || s =="ADD_DIE")
+	else if (s == "ADD_TOKEN" || s == "ADD_DIE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
 	else if (s == "USE_TOKEN")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());

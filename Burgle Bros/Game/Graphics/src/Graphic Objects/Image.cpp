@@ -104,7 +104,7 @@ string Image::click(int y, int x)
 		{
 			if (isInside(y, x) && isNotTransparent(y, x))
 			{
-				DEBUG_MSG("Clicking image " << name);
+			//	DEBUG_MSG("Clicking image " << name);
 				clicked = true;
 				if (obs != nullptr)
 					obs->update();

@@ -73,21 +73,23 @@ void GameModel::setLocal()
 {
 	player1_.setLocal(true);
 	player2_.setLocal(true);
+	local = true;
 }
 
 void GameModel::setRemote()
 {
 	player1_.setLocal(true);
 	player2_.setLocal(false);
+	local = false;
 }
 
 bool GameModel::isRemote()
 {
-	return player1_.isRemote() || player2_.isRemote();
+	return !local;
 }
 bool GameModel::isLocal()
 {
-	return player1_.isLocal() && player2_.isLocal();
+	return local;
 }
 
 void GameModel::setInitialPosition(Coord c)
