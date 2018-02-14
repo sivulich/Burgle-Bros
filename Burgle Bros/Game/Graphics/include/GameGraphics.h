@@ -2,6 +2,9 @@
 #include <GameModel.h>
 #include <GraphicsDefs.h>
 #include <alx.hpp>
+#include "Button.h"
+#include "Animations.h"
+#include "../../Sound/SoundEffects.h"
 //Screens
 #include "../src/Screens/IpScreen.h"
 #include "../src/Screens/ModeScreen.h"
@@ -139,7 +142,8 @@ private:
 
 	typedef enum { MENU, RULES, CREDITS, MODE, SETUP, IP, GAME } SCREEN;
 	SCREEN current_screen;
-
+	//Sound
+	SoundEffects sound;
 	// Pointer to the Game Model
 	GameModel * model;
 

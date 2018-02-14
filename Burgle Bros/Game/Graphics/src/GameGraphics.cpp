@@ -1,6 +1,5 @@
 #include "./GameGraphics.h"
-#include "Button.h"
-#include "Animations.h"
+
 GameGraphics::GameGraphics(GameModel * m)
 {
 	if (al_init() == true)
@@ -44,6 +43,7 @@ GameGraphics::GameGraphics(GameModel * m)
 			current_screen = MENU;
 			if (m != nullptr)
 				setModel(m);
+			
 		}
 		else
 			DEBUG_MSG("Couldnt init allegro addons");
@@ -67,7 +67,7 @@ void GameGraphics::showMenuScreen()
 	current_screen = MENU;
 	setAllNotVisible();
 	menuScreen->setVisible(true);
-
+	sound.playbackgroundMusic();
 }
 
 void GameGraphics::showModeScreen()

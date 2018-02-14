@@ -34,7 +34,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
-	SoundEffects * sound;
 	BurgleNetwork * network;
 	int gameMode;
 	Timer * guardTimer;
@@ -62,7 +61,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// Cord will be random in next state
 
 		}
-		fsm.sound->playBackroundMusic();
 
 	}
 

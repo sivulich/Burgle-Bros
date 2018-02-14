@@ -1,7 +1,7 @@
 #pragma once
 
 #include "./Observer.h"
-
+#include <alx.hpp>
 #include <Tile.h>
 #include "../Animations/FlipAnimation.h"
 #include "../Graphic Objects/Card.h"
@@ -30,6 +30,10 @@ private:
 	Container* boardContainer;
 	// Pointer to observed tile
 	Tile* tile;
+
+	//Sound
+	alx::Sample * flip;
+	alx::Sample * camera;
 
 	//Graphics object
 	Image *safeNumber;
