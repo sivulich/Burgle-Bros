@@ -2,6 +2,10 @@
 
 Guard::~Guard()
 {
+	player1 = nullptr;
+	player2 = nullptr;
+	patroldeck = nullptr;
+	alarms = nullptr;
 }
 
 void Guard::setFloorMap(vector<Coord> floor[4][4])

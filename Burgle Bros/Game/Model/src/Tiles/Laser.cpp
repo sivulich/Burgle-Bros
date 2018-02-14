@@ -58,3 +58,8 @@ void Laser::exit(PlayerInterface * player) {
 	if (player->getCharacter() == HACKER)
 		hackerHere = false;
 }
+
+Coord Laser::getComputer()
+{
+	return computerRoom->getPos();
+}

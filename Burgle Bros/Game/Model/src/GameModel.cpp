@@ -245,22 +245,28 @@ void GameModel::spyPatrol(unsigned f)
 	}
 };
 
-void GameModel::stopSpying(unsigned f)
+Coord GameModel::stopSpying(unsigned f)
 {
-	if (f < 3)
+	Coord topCardCoord = NPOS;
+	if (f < NUMBER_FLOORS)
 	{
+		topCardCoord = board[f].getPatrolDeck()->getSpiedCardCoord();
 		board[f].getPatrolDeck()->noLongerSpied();
 		cout << "Stopped spying" << endl;
 	}
+	return topCardCoord;
 }
-void GameModel::sendBottom(unsigned f)
+Coord GameModel::sendBottom(unsigned f)
 {
-	if (f < 3)
+	Coord topCardCoord = NPOS;
+	if (f < NUMBER_FLOORS)
 	{
+		topCardCoord = board[f].getPatrolDeck()->getSpiedCardCoord();
 		board[f].getPatrolDeck()->topToBottom();
 		board[f].getPatrolDeck()->noLongerSpied();
 		cout << "Sent top card to bottom" << endl;
 	}
+	return topCardCoord;
 }
 
 vector<Coord> GameModel::getTilesXDist(unsigned x, Player * p)

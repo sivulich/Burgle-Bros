@@ -50,3 +50,8 @@ bool Motion::doAction(string action, PlayerInterface * player)
 	}
 	return false;
 }
+
+Coord Motion::getComputer()
+{
+	return computerRoom->getPos();
+}

@@ -76,10 +76,10 @@ public:
 	void spyPatrol(unsigned f) ;
 
 	//
-	void stopSpying(unsigned f);
+	Coord stopSpying(unsigned f);
 
 	//
-	void sendBottom(unsigned f);
+	Coord sendBottom(unsigned f);
 
 	//
 	vector<Coord> getTilesXDist(unsigned x, Player * p);

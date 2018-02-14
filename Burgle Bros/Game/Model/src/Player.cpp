@@ -270,10 +270,18 @@ bool Player::placeCrow(Coord c)
 }
 
 
-void Player::useToken()
+Coord Player::useToken()
 {
+	Coord where2UseToken = NPOS;
 	currentTile->doAction(toString(USE_TOKEN), this);
 	newAction("USE_TOKEN", getPosition(), INT_MAX);
+	if (currentTile->is(LAVATORY))
+		where2UseToken = getPosition();
+	if (currentTile->is(LASER) || currentTile->is(FINGERPRINT) || currentTile->is(MOTION))
+	{
+		where2UseToken = currentTile->getComputer();
+	}
+	return where2UseToken;
 }
 
 
@@ -330,10 +338,14 @@ vector<string> Player::getActions()
 	return possibleActions;
 }
 
-void Player::addToken()
+Coord Player::addToken()
 {
-	currentTile->doAction(string("ADD_TOKEN"), this);
-	newAction("ADD_TOKEN", getPosition(), INT_MAX);
+	if (currentTile->doAction(string("ADD_TOKEN"), this))
+	{
+		newAction("ADD_TOKEN", getPosition(), INT_MAX);
+		return getPosition();
+	}
+	else return NPOS;
 }
 
 bool Player::isOnRoof()

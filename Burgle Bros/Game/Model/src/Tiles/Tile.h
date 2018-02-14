@@ -140,6 +140,9 @@ public:
 	//	Returns true if you could hide from the guard. Used for Lavatory.
 	virtual bool tryToHide() { return false; };
 
+	//	Returns coord of room's computer if it has any, if it does not it returns NPOS
+	virtual Coord getComputer() { return NPOS; };
+
 	//Sets if the guard is here or isn't
 	void guardIs(bool b) { hasGuard = b; };
 
