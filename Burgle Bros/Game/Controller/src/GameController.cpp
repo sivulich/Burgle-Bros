@@ -181,6 +181,10 @@ void GameController::getInput()
 					graphics->showConsole();
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
 					s = "PICK_UP_LOOT";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_K)
+					s = "ACK";
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_W)
+					s = "WAIT";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
 					for (int f = 0; f < 3; f++)
 						for (int i = 0; i < 4; i++)
@@ -289,6 +293,10 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::done());
 	else if (s == "OK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ok());
+	else if (s == "ACK")// este evento es de prueba
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
+	else if (s == "WAIT")// este evento es de prueba
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::waitForNetwork());
 
 	//                       TRUCOS
 	else if (s.substr(0, 8) == string("ADD_LOOT"))
