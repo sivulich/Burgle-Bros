@@ -227,8 +227,11 @@ void PlayerObserver::update()
 			characterFigure->setVisible(false);
 			characterFigurePlaying->setVisible(true);
 			actionTokens->setVisible(true);
-			passButton->setVisible(true);
-			passButton->setClickable(true);
+			// Hide pass button when player is remote
+			if(player->isRemote())
+				passButton->setVisible(false);
+			else
+				passButton->setVisible(true);
 		}
 		else
 		{
@@ -236,6 +239,7 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(false);
 			actionTokens->setVisible(false);
 			passButton->setVisible(false);
+			
 		}
 	}
 	// Update action tokens

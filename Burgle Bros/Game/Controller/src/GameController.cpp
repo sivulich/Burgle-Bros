@@ -50,15 +50,15 @@ void GameController::getInput()
 			switch (inp.action)
 			{
 			case ACK:
-				s = "ACK";
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
 				break;
 			case MOVE:
-				s = "MOVE";
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee(inp.pos));
 				break;
 			case PEEK:
-				s = "PEEK";
+				cout << "Received a peek! " << endl;
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos));
 				break;
-
 			}
 			return;
 		}
@@ -155,10 +155,6 @@ void GameController::getInput()
 					s = "NO";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
 					graphics->showConsole();
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_1)
-					s = "FIRST_LOOT";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_2)
-					s = "SECOND_LOOT";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
 					s = "PICK_UP_LOOT";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
@@ -171,8 +167,6 @@ void GameController::getInput()
 							}
 
 			}
-
-
 			// como string al_keycode_to_name(event.getKeyboardKeycode());
 			break;
 		case ALLEGRO_EVENT_KEY_UP:
@@ -191,6 +185,19 @@ void GameController::processEvent()
 {
 	if (s == "RENDER")
 		graphics->render();
+	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
+	{
+		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
+		if (tileZoomMode == true)
+			graphics->zoomTile(c);
+		else
+			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
+		cout << "PROCCESS COORD " << s << endl;
+	}
+	else if (isInEnum_characterType(s.c_str()))
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
+	else if (isInEnum_lootType(s.c_str()))
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::lootType(string(s)));
 	if (s == "START")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::start());
 	else if (s == "CREDITS")
@@ -221,11 +228,7 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::placeCrow());
 	else if (s == "SPY_PATROL")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol());
-	else if (s == "THROW_DICE")
-	{
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
-	}
-	else if (s == "CRACK_SAFE")
+	else if (s == "THROW_DICE" || s == "CRACK_SAFE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice());
 	else if (s == "ADD_TOKEN" || s =="ADD_DIE")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
@@ -263,25 +266,10 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::done());
 	else if (s == "OK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ok());
-	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
-	{
-		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
-		if (tileZoomMode == true)
-			graphics->zoomTile(c);
-		else
-			static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::coord(c));
-		cout << "PROCCESS COORD " << s << endl;
-	}
-	else if (isInEnum_characterType(s.c_str()))
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
-	else if (isInEnum_lootType(s.c_str()))
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::lootType(string(s)));
 
 	//                       TRUCOS
 	else if (s.substr(0, 8) == string("ADD_LOOT"))
-	{
 		model->currentPlayer()->addLoot(toEnum_lootType(s.substr(9).c_str()));
-	}
 	else if (s.substr(0, 4) == string("DROP"))
 	{
 		Loot * l = nullptr;
