@@ -15,7 +15,8 @@
 #include <Board.h>
 #include "../../Model/src/Characters/Character.h"
 #include <Coord.h>
-#define DEF_SOCK_TIMEOUT (APR_USEC_PER_SEC * 5) 
+//#define DEF_SOCK_TIMEOUT (APR_USEC_PER_SEC * 5) 
+#define DEF_SOCK_TIMEOUT 500 
 #define MAX_CONNECTION_WAIT 120
 #define MAX_PACKET_WAIT 60
 
@@ -24,6 +25,7 @@ typedef struct {
 	atomic_int currState;
 	atomic_bool usingData;
 	atomic_bool iStart;
+	atomic_bool connected;
 	atomic_bool join;
 	atomic_bool executing;
 	atomic_bool exit;
@@ -90,7 +92,7 @@ public:
 	string remoteName() { return flags.remoteName; };
 	bool isServer() { return flags.server; };
 	bool iStart() { return flags.iStart; };
-	bool isConnected() { return connected; };
+	bool isConnected() { return flags.connected; };
 	remoteInput getRemoteInput();
 
 	//Instruction senders
@@ -141,6 +143,5 @@ private:
 	bool answerInput(remoteInput& inp);
 	thData flags;
 	thread* currThread;
-	bool connected;
 };
 
