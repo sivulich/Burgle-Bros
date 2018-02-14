@@ -157,7 +157,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{}
 	};
 
-
 	struct chooseAction : public msm::front::state<>
 	{
 		template <class EVT, class FSM>
@@ -377,7 +376,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			fsm.model->setInitialPosition(event.c);
 		}
 	};
-
 
 	struct doMove
 	{
@@ -636,7 +634,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		}
 	};
 
-
 	struct  doOfferLoot
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>
@@ -736,7 +733,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			}
 		}
 	};
-
 
 
 	struct doKittyAction

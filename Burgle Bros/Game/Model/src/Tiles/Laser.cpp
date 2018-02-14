@@ -22,7 +22,7 @@ void Laser::enter(PlayerInterface * player)
 vector<string> Laser::getActions(PlayerInterface * player)
 {
 	vector<string> actions(Tile::getActions(player));
-	if (computerRoom->getHackTokens() > 0 && ! this->hasAlarm())
+	if (computerRoom->getHackTokens() > 0 && this->hasAlarm())
 		actions.push_back("USE_TOKEN");		// you can use an extra action to turn off the alarm
 	return actions;
 }
