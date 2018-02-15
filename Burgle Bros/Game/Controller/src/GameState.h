@@ -453,6 +453,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Peeking " << event.c.toString() << std::endl;
 			fsm.graphics->printInHud(string("Peeking ") + event.c.toString());
 
+			DEBUG_MSG("Safe number " << event.safeNumber);
 			unsigned int safeNumber = fsm.model->currentPlayer()->peek(event.c, event.safeNumber);
 
 			// If other player is remote send peek
@@ -899,7 +900,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			fsm.currentAction = PEEK;
 			if ((Coord)event.c != NPOS)
-				fsm.process_event(ev::coord(event.c,event.safeNumber));
+			{
+				fsm.process_event(ev::coord(event.c, event.safeNumber));
+				DEBUG_MSG("Safe number " << event.safeNumber);
+			}
 			else
 			{
 				std::cout << "Tiles availables to peek: ";

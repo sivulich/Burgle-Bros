@@ -79,10 +79,12 @@ void GameController::getInput()
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move(inp.pos,inp.modifier));
 				break;
 			case PEEK:
+				DEBUG_MSG("Safe number " <<inp.modifier);
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos,inp.modifier));
 				break;
 			case ERROR:
 				DEBUG_MSG("ERROR: " << network->errMessage());
+				break;
 			}
 			//return;
 		}
