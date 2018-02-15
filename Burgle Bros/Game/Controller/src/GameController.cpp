@@ -71,6 +71,7 @@ void GameController::getInput()
 			{
 			case ACK:
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
+				break;
 			case PASS:
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 				break;
@@ -108,25 +109,9 @@ void GameController::getInput()
 
 		switch (event.getType())
 		{
-
-		case ALLEGRO_EVENT_TIMER:
-			if (event.getTimer() == guardTimer)
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::moveGuard());
-			else if (event.getTimer() == renderTimer)
-			{
-				ALLEGRO_MOUSE_STATE state;
-				al_get_mouse_state(&state);
-				graphics->hover(state.y, state.x);
-				graphics->render();
-			}
-
-			break;
-
-		case ALLEGRO_EVENT_DISPLAY_CLOSE:
-			s = "EXIT";
-			break;
-			//case ALLEGRO_EVENT_MOUSE_AXES:	
-			//	break;
+			case ALLEGRO_EVENT_MOUSE_AXES:	
+				eventQueue.clear();
+				break;
 
 
 		case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
@@ -201,7 +186,22 @@ void GameController::getInput()
 				graphics->unZoomTile();
 			}
 			break;
+		case ALLEGRO_EVENT_TIMER:
+			if (event.getTimer() == guardTimer)
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::moveGuard());
+			else if (event.getTimer() == renderTimer)
+			{
+				ALLEGRO_MOUSE_STATE state;
+				al_get_mouse_state(&state);
+				graphics->hover(state.y, state.x);
+				graphics->render();
+			}
 
+			break;
+
+		case ALLEGRO_EVENT_DISPLAY_CLOSE:
+			s = "EXIT";
+			break;
 		}
 	}
 }
