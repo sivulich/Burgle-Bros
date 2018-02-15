@@ -69,6 +69,7 @@ bool BurgleNetwork::sendPacket(apr_socket_t* sock, const vector<char>& dat)
 	apr_status_t rv;
 	if (dat.size() == 0)
 		return true;
+	action_ID a = (action_ID) dat[0];
 	rv = apr_socket_send(sock, dat.data(), &size);
 	if (rv == APR_SUCCESS)
 		return true;
