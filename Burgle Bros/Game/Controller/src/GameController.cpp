@@ -85,6 +85,82 @@ void GameController::getInput()
 			case ERROR:
 				DEBUG_MSG("ERROR: " << network->errMessage());
 				break;
+
+			case AGREE:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
+				break;
+
+			case DISAGREE:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
+				break;
+
+
+			case INITIAL_G_POS:
+				break;
+
+			case SPENT_OK:
+				if(inp.modifier == 'Y')
+					static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
+				else if((inp.modifier == 'N'))
+					static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
+				break;
+
+			case ADD_TOKEN:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
+				break;
+
+			case USE_TOKEN:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
+				break;
+
+			case THROW_DICE:
+				break;
+
+			case SAFE_OPENED:
+				break;
+
+			case CREATE_ALARM:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::createAlarm(inp.pos));
+				break;
+
+			case SPY_PATROL:
+				break;
+
+			case PLACE_CROW:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::placeCrow(inp.pos));
+				break;
+
+			case OFFER_LOOT:
+				break;
+
+			case REQUEST_LOOT:
+				break;
+
+			case PICK_UP_LOOT:
+				break;
+
+			case ROLL_DICE_FOR_LOOT:
+				break;
+
+			case GUARD_MOVEMENT:
+				break;
+
+			case WE_WON:
+				break;
+
+			case WE_LOST:
+				break;
+
+			case GAME_OVER:
+				break;
+
+			case QUIT:
+
+				break;
+
+			case ERRO:
+				break;
+
 			}
 			//return;
 		}
