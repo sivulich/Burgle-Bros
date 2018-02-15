@@ -110,7 +110,7 @@
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>C:\work\apr-util\LibD;C:\work\apr\LibD;C:\work\apr-util\LibD;C:\work\apr\LibD;C:\work\apr-iconv\Debug;C:\work\apr\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr-iconv\Debug;T:\Google Drive\ITBA\3° Cuatrimestre\EDA\Burgle Bros\Burgle Bros\packages\Apache Runtinme Library\apr\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>apr-1.lib;aprutil-1.lib;Ws2_32.lib;RpcRT4.lib;mswsock.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libapr-1.lib;libapriconv-1.lib;Ws2_32.lib;RpcRT4.lib;mswsock.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ProjectReference>
       <UseLibraryDependencyInputs>true</UseLibraryDependencyInputs>

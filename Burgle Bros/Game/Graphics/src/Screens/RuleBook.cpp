@@ -14,7 +14,7 @@ RuleBook::RuleBook() : Container(SCREEN_HEIGHT, SCREEN_WIDTH, "RULE_BOOK")
 	right->setPosition(h*0.5 - right->getHeight()*right->getScale()*0.5, w-right->getWidth()*right->getScale());
 	//right->setBorderVisible(true);
 	
-	for (int i = 0; i < totalPages; i++)
+	for (unsigned i = 0; i < totalPages; i++)
 	{
 		pages.push_back(new Image("./Graphics/Images/RuleBook/" + to_string(i+1) + ".png"));
 		if (pages[i]->getWidth()*h > pages[i]->getHeight()*w)
