@@ -86,8 +86,9 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 void HudObserver::update()
 {
 	// Update actions
-
-	vector<string> possibleActions = model->currentPlayer()->getActions();
+	vector<string> possibleActions;
+	if(model->currentPlayer()->isLocal())
+		possibleActions = model->currentPlayer()->getActions();
 	for (auto& a : actions)
 	{
 		if (std::find(possibleActions.begin(), possibleActions.end(), a.first) != possibleActions.end())

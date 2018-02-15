@@ -343,6 +343,7 @@ Coord Player::addToken()
 	if (currentTile->doAction(string("ADD_TOKEN"), this))
 	{
 		newAction("ADD_TOKEN", getPosition(), INT_MAX);
+		notify();
 		return getPosition();
 	}
 	else return NPOS;

@@ -5,6 +5,78 @@
 ALLEGRO_EVENT_SOURCE BurgleNetwork::networkEventSource;
 ALLEGRO_EVENT BurgleNetwork::connectedEvent;
 
+action_ID char2action_ID(char c)
+{
+	switch ((unsigned char)c)
+	{
+	case 0x00:
+		return NO_TYPE;
+	case 0x01:
+		return ACK;
+	case  0x02:
+		return AGREE;
+	case 0x03:
+		return DISAGREE;
+	case 0x10:
+		return NAME;
+	case 0x11:
+		return NAME_IS;
+	case 0x12:
+		return I_AM;
+	case 0x13:
+		return INITIAL_G_POS;
+	case  0x14:
+		return START_INFO;
+	case  0x20:
+		return YOU_START;
+	case 0x21:
+		return I_START;
+	case 0x30:
+		return PEEK;
+	case  0x31:
+		return MOVE;
+	case  0x32:
+		return SPENT_OK;
+	case 0x33:
+		return ADD_TOKEN;
+	case 0x34:
+		return USE_TOKEN;
+	case  0x35:
+		return THROW_DICE;
+	case 0x36:
+		return SAFE_OPENED;
+	case 0x37:
+		return CREATE_ALARM;
+	case 0x38:
+		return SPY_PATROL;
+	case 0x39:
+		return PLACE_CROW;
+	case 0x3A:
+		return OFFER_LOOT;
+	case 0x3B:
+		return REQUEST_LOOT;
+	case 0x3C:
+		return PICK_UP_LOOT;
+	case 0x3D:
+		return PASS;
+	case 0x3E:
+		return ROLL_DICE_FOR_LOOT;
+	case 0x3F:
+		return GUARD_MOVEMENT;
+	case  0x40:
+		return WE_WON;
+	case  0x41:
+		return WE_LOST;
+	case 0x42:
+		return GAME_OVER;
+	case 0xFE:
+		return QUIT;
+	case 0xFF:
+		return ERRO;
+	default:
+		return NO_TYPE;
+	}
+}
 ALLEGRO_EVENT BurgleNetwork::getEvent()
 {
 	ALLEGRO_EVENT e = eventQueue.front();
@@ -69,7 +141,6 @@ bool BurgleNetwork::sendPacket(apr_socket_t* sock, const vector<char>& dat)
 	apr_status_t rv;
 	if (dat.size() == 0)
 		return true;
-	action_ID a = (action_ID) dat[0];
 	rv = apr_socket_send(sock, dat.data(), &size);
 	if (rv == APR_SUCCESS)
 		return true;
@@ -121,7 +192,12 @@ void BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	else
 	{
 		vector<char> buffer;
-		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != NAME)
+		bool b;
+		clock_t t = clock();
+		do {
+			b = recievePacket(fl->sock, buffer);
+		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_CONNECTION_WAIT && b == false);
+		if (b== false || buffer.size() != 1 || buffer[0] != NAME)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -136,7 +212,12 @@ void BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	if (fl->server == true)
 	{
 		vector<char> buffer;
-		if (recievePacket(fl->sock, buffer) == false || buffer.size() == 0 || buffer[0] != NAME_IS)
+		bool b;
+		clock_t t = clock();
+		do {
+			b = recievePacket(fl->sock, buffer);
+		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_CONNECTION_WAIT && b==false);
+		if (b == false || buffer.size() == 0 || buffer[0] != NAME_IS)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -885,9 +966,10 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 {
 	char n;
+	int mod = 2;
 	Coord temp;
-	inp.action = (action_ID)pack[0];
-	switch ((action_ID)pack[0])
+	inp.action = char2action_ID(pack[0]);
+	switch (char2action_ID(pack[0]))
 	{
 	case MOVE:
 	case PEEK:
@@ -907,11 +989,23 @@ void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 		break;
 	case GUARD_MOVEMENT:
 		n = pack[1];
+		
 		for (char i = 0; i < n; i++)
 		{
-			temp.col = pack[2 + 4 * i];
-			temp.row = pack[3 + 4 * i];
-			temp.floor = pack[5 + 4 * i];
+			if (pack[2 + 4 * i])
+			{
+				temp.col = 0;
+				temp.row = 0;
+				temp.floor = 3;
+				mod++;
+			}
+			else
+			{
+				temp.col = pack[mod + 4 * i];
+				temp.row = pack[mod+1 + 4 * i];
+				temp.floor = pack[mod+3 + 4 * i];
+				
+			}
 			inp.guardMoves.push_back(temp);
 		}
 		break;
@@ -931,6 +1025,11 @@ void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 //Utility and bulk functions
 void BurgleNetwork::coordToPacket(Coord pos, vector<char>& pack)
 {
+	if (pos == Coord(3, 0, 0))
+	{
+		pack.push_back((char)0xff);
+		return;
+	}
 	pack.push_back(pos.col + 'A');
 	pack.push_back(pos.row + '1');
 	pack.push_back('F');
@@ -966,7 +1065,7 @@ void BurgleNetwork::instructionWithMod(thData* fl, action_ID act, char mod)
 }
 void BurgleNetwork::packetAndAck(thData* fl, vector<char>& pack)
 {
-	action_ID act = (action_ID)pack[0];
+	action_ID act = char2action_ID(pack[0]);
 	if (sendPacket(fl->sock, pack) == false)
 	{
 		fl->error = true;

@@ -70,6 +70,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	{
 		std::cout << "Leaving Burgle Bros" << std::endl;
 		fsm.graphics->deleteGameScreen();
+		if (fsm.model->isRemote())
+			fsm.network->sendQuit();
 	}
 
 	//----------------------- STATES -----------------------------//
@@ -91,7 +93,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					for (int j = 0; j < 4; j++)
 						v.push_back(Coord(0, i, j));
 				fsm.graphics->setTilesClickable(v);
-				cout << "PUTO" << endl;
 			}
 			else if (fsm.model->isRemote())
 			{
@@ -635,8 +636,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Spying patrol deck" << std::endl;
-			if ((Coord)event.c == NPOS);
-			else if (event.tb == 'T' || event.tb == 'B')
+			if ((Coord)event.c == NPOS) fsm.graphics->askQuestion("Do you want to keep the card on the top of the deck?");
+			else if(event.tb == 'T' || event.tb == 'B')
 			{
 				fsm.model->getBoard()->getDeck(fsm.model->currentPlayer()->getPosition().floor)->moveCardtoTop(event.c);
 				if (event.tb == 'T')
@@ -650,8 +651,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					//hacer una dialog box avisando que el otro jugador decidió bajar la carta
 				}
 			}
-
-			else;//ACA HABRIA Q VER DEL ERROR
+			//else;//ACA HABRIA Q VER DEL ERROR
 			fsm.model->spyPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.graphics->spyPatrolCard(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.currentAction = SPY_PATROL;
@@ -666,14 +666,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			Coord topCard;
 			std::cout << "Card staying on top of deck" << std::endl;
 			topCard = fsm.model->stopSpying(fsm.model->currentPlayer()->getPosition().floor);
+			fsm.graphics->hideTopPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			if (fsm.model->otherPlayer()->isRemote() && topCard != NPOS)
 			{
 				std::cout << "Sending stay at top, card " << topCard << "to " << fsm.model->otherPlayer()->getName() << std::endl;
 				fsm.network->sendSpyPatrol(topCard, 'T');
 				fsm.process_event(ev::waitForNetwork());
 			}
-
-			fsm.graphics->hideTopPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -685,6 +684,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			Coord movingCard;
 			std::cout << "Card  sent to bottom" << std::endl;
+			fsm.graphics->hideTopPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			movingCard = fsm.model->sendBottom(fsm.model->currentPlayer()->getPosition().floor);
 			if (fsm.model->otherPlayer()->isRemote() && movingCard != NPOS)
 			{
@@ -692,7 +692,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.network->sendSpyPatrol(movingCard, 'B');
 				fsm.process_event(ev::waitForNetwork());
 			}
-			fsm.graphics->hideTopPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.currentAction = NO_TYPE;
 		}
 	};
