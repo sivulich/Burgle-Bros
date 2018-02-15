@@ -124,6 +124,8 @@ void GameController::getInput()
 				break;
 
 			case SPY_PATROL:
+				DEBUG_MSG("Patrol card spied " << inp.pos << "decided to do" << inp.modifier);
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::spyPatrol(inp.pos, inp.modifier));
 				break;
 
 			case PLACE_CROW:
@@ -137,9 +139,11 @@ void GameController::getInput()
 				break;
 
 			case PICK_UP_LOOT:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pickUpLoot());
 				break;
 
 			case ROLL_DICE_FOR_LOOT:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice((int)(inp.modifier-'0')));
 				break;
 
 			case GUARD_MOVEMENT:
