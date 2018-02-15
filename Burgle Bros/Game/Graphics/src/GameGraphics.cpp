@@ -388,6 +388,8 @@ GameGraphics::~GameGraphics()
 	//delete pl;
 	delete screen;
 	delete cont;
+	for (auto& s : screens)
+		delete s;
 
 
 	// FALTAN COSAS
