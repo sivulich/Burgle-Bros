@@ -145,9 +145,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
 			on_exit(EVT const&  event, FSM& fsm)
 		{
-			// Set again all tiles clickable
-			//if (fsm.model->otherPlayer()->isRemote())
-		//		fsm.network->sendQuit();
+			//Set again all tiles clickable
+			if (fsm.model->otherPlayer()->isRemote())
+				fsm.network->sendQuit();
 			fsm.graphics->setAllClickable();
 		}
 
@@ -924,13 +924,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Alarm can be created on the following tiles: ";
-			vector<Coord> v = fsm.model->currentPlayer()->getAdjacentJuicer();
-			Coord::printVec(v);
-			std::cout << std::endl;
 			fsm.currentAction = CREATE_ALARM;
-			// Distinguir las tiles disponibles para crear la alarma
-			fsm.graphics->setTilesClickable(v);
+			if ((Coord)event.c != NPOS)
+				fsm.process_event(ev::coord(event.c);
+			else
+			{
+				std::cout << "Alarm can be created on the following tiles: ";
+				vector<Coord> v = fsm.model->currentPlayer()->getAdjacentJuicer();
+				Coord::printVec(v);
+				std::cout << std::endl;
+				// Distinguir las tiles disponibles para crear la alarma
+				fsm.graphics->setTilesClickable(v);
+			}
+			
 		}
 	};
 
@@ -939,44 +945,18 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Crow token can placed in following tiles: ";
-			vector<Coord> v = fsm.model->getTilesXDist(2, fsm.model->currentPlayer());
-			Coord::printVec(v);
-			std::cout << std::endl;
-			fsm.currentAction = PLACE_CROW;
-			// Distinguir las tiles disponibles para poner el Crow token
-			fsm.graphics->setTilesClickable(v);
-
-		}
-	};
-
-	struct showPickUpLoot
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			fsm.currentAction = PICK_UP_LOOT;
-		}
-	};
-
-	struct prepAddToken
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			std::cout << "Preparing to add token: ";
-			fsm.currentAction = ADD_TOKEN;
-
-		}
-	};
-
-	struct prepThrowDice
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			std::cout << "Preparing to throw dice: ";
-			fsm.currentAction = THROW_DICE;
+			if ((Coord)event.c != NPOS)
+				fsm.process_event(ev::coord(event.c);
+			else
+			{
+				std::cout << "Crow token can placed in following tiles: ";
+				vector<Coord> v = fsm.model->getTilesXDist(2, fsm.model->currentPlayer());
+				Coord::printVec(v);
+				std::cout << std::endl;
+				fsm.currentAction = PLACE_CROW;
+				// Distinguir las tiles disponibles para poner el Crow token
+				fsm.graphics->setTilesClickable(v);
+			}
 
 		}
 	};
@@ -997,9 +977,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Preparing to request loot: ";
 			fsm.currentAction = REQUEST_LOOT;
-			fsm.graphics->showAvailableLoots(string("Choose the loot you want to request:"), fsm.model->otherPlayer()->getAvailableLoots());
+			if (event.type == NO_CHARACTER_TYPE)
+			{
+				std::cout << "Preparing to request loot: ";
+				fsm.graphics->showAvailableLoots(string("Choose the loot you want to request:"), fsm.model->otherPlayer()->getAvailableLoots());
+			}
+			else
+			{
+				// NO ESTOY SEGURO QUE ESTE EVENTO SE PROCESE BIEN PORQUE TODAVIA NO ESTOY EN CHOOSE LOOT
+				fsm.process_event(ev::lootType(event.type));
+			}
 
 		}
 	};
