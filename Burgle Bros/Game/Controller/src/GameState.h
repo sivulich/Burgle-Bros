@@ -146,6 +146,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			on_exit(EVT const&  event, FSM& fsm)
 		{
 			// Set again all tiles clickable
+			//if (fsm.model->otherPlayer()->isRemote())
+		//		fsm.network->sendQuit();
 			fsm.graphics->setAllClickable();
 		}
 
@@ -204,14 +206,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.process_event(ev::gameOver());
 
 			if (fsm.model->currentPlayer()->getActionTokens() == 0 || fsm.model->currentPlayer()->isOnRoof())
-			{
 				fsm.process_event(ev::no());
-				std::cout << "Your turn ends" << std::endl;
-			}
 			else
 			{
 				fsm.process_event(ev::yes());
-				std::cout << "Action tokens left: " << fsm.model->currentPlayer()->getActionTokens() << std::endl;
+				DEBUG_MSG("Action tokens left: " << fsm.model->currentPlayer()->getActionTokens());
 			}
 
 		}
@@ -856,7 +855,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			else if (fsm.model->guardIsMoving() == false)
 			{
 				fsm.process_event(ev::passGuard());
-				fsm.guardTimer->stop();
 			}
 		}
 	};

@@ -71,6 +71,7 @@ void GameController::getInput()
 			{
 			case ACK:
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
+				break;
 			case PASS:
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 				break;
