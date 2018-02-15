@@ -53,21 +53,23 @@ RuleBook::click(int y, int x)
 			currentPage++;
 		changePage();
 	}
-	if (currentPage>0)// && left->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX) )
-		left->setVisible(true);
-	else
-		left->setVisible(false);
-
-	if (currentPage<pages.size() - 1) //&&right->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX) )
-		right->setVisible(true);
-	else
-		right->setVisible(false);
+	
 	return s;
 }
 bool
 RuleBook::overYou(int y, int x)
 {
-	
+	left->setVisible(false);
+	right->setVisible(false);
+	if (currentPage>0 && left->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX))
+		left->setVisible(true);
+	else
+		left->setVisible(false);
+
+	if (currentPage<pages.size() - 1 && right->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX))
+		right->setVisible(true);
+	else
+		right->setVisible(false);
 	return Container::overYou(y, x);
 }
 

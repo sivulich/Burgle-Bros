@@ -202,6 +202,7 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 	tile->debugFlip();
 #endif // All tiles are set facing up (picture only)
 	flip = new alx::Sample("../Game/Sound/FLIP.wav");
+	alarm = new alx::Sample("../Game/Sound/ALARM.wav");
 }
 
 void TileObserver::showSafeNumber()
@@ -241,8 +242,12 @@ void TileObserver::update()
 
 	if (tile->hasAlarm() != alarmToken->isVisible())
 	{
-		if (tile->hasAlarm())
+		if (tile->hasAlarm() && alarmToken->isVisible() == false)
+		{
 			alarmToken->setVisible(true);
+			alarm->play(2, 0, 1, ALLEGRO_PLAYMODE_ONCE);
+		}
+			
 		else
 			alarmToken->setVisible(false);
 	}
