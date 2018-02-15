@@ -146,8 +146,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			on_exit(EVT const&  event, FSM& fsm)
 		{
 			//Set again all tiles clickable
-			if (fsm.model->otherPlayer()->isRemote())
-				fsm.network->sendQuit();
+			//if (fsm.model->otherPlayer()->isRemote())
+				//fsm.network->sendQuit();
 			fsm.graphics->setAllClickable();
 		}
 
@@ -945,6 +945,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
+			fsm.currentAction = PLACE_CROW;
 			if ((Coord)event.c != NPOS)
 				fsm.process_event(ev::coord(event.c));
 			else
@@ -953,7 +954,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				vector<Coord> v = fsm.model->getTilesXDist(2, fsm.model->currentPlayer());
 				Coord::printVec(v);
 				std::cout << std::endl;
-				fsm.currentAction = PLACE_CROW;
+				
 				// Distinguir las tiles disponibles para poner el Crow token
 				fsm.graphics->setTilesClickable(v);
 			}
