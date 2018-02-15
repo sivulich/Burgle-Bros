@@ -121,7 +121,12 @@ void BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	else
 	{
 		vector<char> buffer;
-		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 1 || buffer[0] != NAME)
+		bool b;
+		clock_t t = clock();
+		do {
+			b = recievePacket(fl->sock, buffer);
+		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_CONNECTION_WAIT && b == false);
+		if (b== false || buffer.size() != 1 || buffer[0] != NAME)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -136,7 +141,12 @@ void BurgleNetwork::exchangeNames(thData* fl, const string& name)
 	if (fl->server == true)
 	{
 		vector<char> buffer;
-		if (recievePacket(fl->sock, buffer) == false || buffer.size() == 0 || buffer[0] != NAME_IS)
+		bool b;
+		clock_t t = clock();
+		do {
+			b = recievePacket(fl->sock, buffer);
+		} while (double(clock() - t) / CLOCKS_PER_SEC < MAX_CONNECTION_WAIT && b==false);
+		if (b == false || buffer.size() == 0 || buffer[0] != NAME_IS)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -885,6 +895,7 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 {
 	char n;
+	int mod = 2;
 	Coord temp;
 	inp.action = (action_ID)pack[0];
 	switch ((action_ID)pack[0])
@@ -907,11 +918,23 @@ void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 		break;
 	case GUARD_MOVEMENT:
 		n = pack[1];
+		
 		for (char i = 0; i < n; i++)
 		{
-			temp.col = pack[2 + 4 * i];
-			temp.row = pack[3 + 4 * i];
-			temp.floor = pack[5 + 4 * i];
+			if (pack[2 + 4 * i])
+			{
+				temp.col = 0;
+				temp.row = 0;
+				temp.floor = 3;
+				mod++;
+			}
+			else
+			{
+				temp.col = pack[mod + 4 * i];
+				temp.row = pack[mod+1 + 4 * i];
+				temp.floor = pack[mod+3 + 4 * i];
+				
+			}
 			inp.guardMoves.push_back(temp);
 		}
 		break;
@@ -931,6 +954,11 @@ void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 //Utility and bulk functions
 void BurgleNetwork::coordToPacket(Coord pos, vector<char>& pack)
 {
+	if (pos == Coord(3, 0, 0))
+	{
+		pack.push_back((char)0xff);
+		return;
+	}
 	pack.push_back(pos.col + 'A');
 	pack.push_back(pos.row + '1');
 	pack.push_back('F');
