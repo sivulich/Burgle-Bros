@@ -12,6 +12,7 @@ public:
 	bool overYou(int y, int x)override;
 	~RuleBook();
 private:
+	unsigned int totalPages = 6;
 	void changePage();
 	vector<Image*> pages;
 	Image* left, *right;
