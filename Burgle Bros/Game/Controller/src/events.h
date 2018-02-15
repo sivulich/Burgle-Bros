@@ -23,20 +23,22 @@ namespace ev {
 		string character;
 	};
 
-	struct movee : BaseEvent
+	struct move : BaseEvent
 	{
 		typedef int CoordProp;
-		movee() :c(NPOS) {};
-		movee(Coord p) :c(p) {};
+		move() :c(NPOS), safeNumber(0) {};
+		move(Coord p, unsigned int n) :c(p), safeNumber(n) {};
 		Coord c;
+		unsigned int safeNumber;
 	};
-
+	struct moveGuard : BaseEvent	{};
 	struct peek : BaseEvent
 	{
 		typedef int CoordProp;
-		peek() :c(NPOS) {};
-		peek(Coord p) :c(p) {};
+		peek() :c(NPOS),safeNumber(0) {};
+		peek(Coord p, unsigned int n) :c(p),safeNumber(n) {};
 		Coord c;
+		unsigned int safeNumber;
 	};
 	struct throwDice : BaseEvent
 	{

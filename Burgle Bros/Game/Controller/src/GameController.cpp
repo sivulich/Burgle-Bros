@@ -75,13 +75,13 @@ void GameController::getInput()
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 				break;
 			case MOVE:
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee(inp.pos));
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move(inp.pos,inp.modifier));
 				break;
 			case PEEK:
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos));
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos,inp.modifier));
 				break;
 			case ERROR:
-				cout << network->errMessage() << endl;
+				DEBUG_MSG("ERROR: " << network->errMessage());
 			}
 			//return;
 		}
@@ -111,15 +111,13 @@ void GameController::getInput()
 
 		case ALLEGRO_EVENT_TIMER:
 			if (event.getTimer() == guardTimer)
-			{
-				s = "MOVE";
-			}
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::moveGuard());
 			else if (event.getTimer() == renderTimer)
 			{
 				ALLEGRO_MOUSE_STATE state;
 				al_get_mouse_state(&state);
 				graphics->hover(state.y, state.x);
-				s = "RENDER";
+				graphics->render();
 			}
 
 			break;
@@ -206,9 +204,7 @@ void GameController::getInput()
 
 void GameController::processEvent()
 {
-	if (s == "RENDER")
-		graphics->render();
-	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
+	if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 	{
 		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
 		if (tileZoomMode == true)
@@ -241,7 +237,7 @@ void GameController::processEvent()
 	else if (s == "CANCEL")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::cancel());
 	else if (s == "MOVE")
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee());
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move());
 	else if (s == "PEEK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek());
 	else if (s == "CREATE_ALARM")

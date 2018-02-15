@@ -844,15 +844,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Tiles availables to move: ";
-			fsm.graphics->printInHud(string("Choose a tile available to move..."));
-			vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
-			Coord::printVec(v);
-			std::cout << std::endl;
-
 			fsm.currentAction = MOVE;
-			// Distinguir las tiles disponibles para moverse
-			fsm.graphics->setTilesClickable(v);
+			if ((Coord)event.c != NPOS)
+				fsm.process_event(ev::coord(event.c, event.safeNumber));
+			else
+			{
+				std::cout << "Tiles availables to move: ";
+				fsm.graphics->printInHud(string("Choose a tile available to move..."));
+				vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
+				Coord::printVec(v);
+				std::cout << std::endl;
+
+				// Distinguir las tiles disponibles para moverse
+				fsm.graphics->setTilesClickable(v);
+			}
+			
 		}
 	};
 
@@ -861,10 +867,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
+			fsm.currentAction = PEEK;
 			if ((Coord)event.c != NPOS)
-			{
-				fsm.process_event(ev::coord(event.c));
-			}
+				fsm.process_event(ev::coord(event.c,event.safeNumber));
 			else
 			{
 				std::cout << "Tiles availables to peek: ";
@@ -872,7 +877,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
 				Coord::printVec(v);
 				std::cout << std::endl;
-				fsm.currentAction = PEEK;
+				
 				// Distinguir las tiles disponibles para moverse
 				fsm.graphics->setTilesClickable(v);
 			}
@@ -1151,7 +1156,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
 
-		Row < chooseAction, ev::movee, none, showMove, none				>,
+		Row < chooseAction, ev::move, none, showMove, none				>,
 		Row < chooseAction, ev::coord, checkActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
 		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
 
@@ -1197,7 +1202,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < checkActionTokens, ev::gameOver, gameEnded, none, none				>,
 		Row < checkActionTokens, ev::burglarsWin, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn, ev::movee, none, moveGuard, none				>,
+		Row < guardTurn, ev::moveGuard, none, moveGuard, none				>,
 		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
 		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+f
@@ -1208,11 +1213,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>,
-		Row < gameEnded, ev::ok, none, none, none				>,
+		Row < gameEnded, ev::ok, none, none, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
-		Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
-		Row < waitingForNetwork, ev::ack, idle, none, none			>
+	//	Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
+	//	Row < waitingForNetwork, ev::ack, idle, none, none			>
 
 	> {};
 
