@@ -57,20 +57,47 @@ namespace ev {
 	struct gameOver : BaseEvent {};
 	struct burglarsWin : BaseEvent {};
 	struct playAgain : BaseEvent {};
-	struct close : BaseEvent {};
+	struct close : BaseEvent
+	{
+		close() : remote(false) {};
+		close(bool b) : remote(b) {};
+		bool remote;
+	};
 	struct errorReceived : BaseEvent {};
 	struct errorHandled : BaseEvent {};
-	struct offerLoot : BaseEvent {};
-	struct requestLoot : BaseEvent {};
+	struct offerLoot : BaseEvent
+	{
+		offerLoot() : type(NO_CHARACTER_TYPE) {};
+		offerLoot(lootType t) : type(t) {};
+		lootType type;
+	};
+	struct requestLoot : BaseEvent
+	{
+		requestLoot() : type(NO_CHARACTER_TYPE) {};
+		requestLoot(lootType t) : type(t) {};
+		lootType type;
+	};
 	struct lootType : BaseEvent
 	{
 		lootType(string s) :type(s) {};
 		string type;
 	};
 	struct showAlarm : BaseEvent {};
-	struct createAlarm : BaseEvent {};
+	struct createAlarm : BaseEvent
+	{
+		typedef int CoordProp;
+		createAlarm() :c(NPOS) {};
+		createAlarm(Coord p) : c(p) {};
+		Coord c;
+	};
+	struct placeCrow : BaseEvent
+	{
+		typedef int CoordProp;
+		placeCrow() :c(NPOS) {};
+		placeCrow(Coord p) : c(p) {};
+		Coord c;
+	};
 	struct spyPatrol : BaseEvent {};
-	struct placeCrow : BaseEvent {};
 	struct pickUpLoot : BaseEvent {};
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};
@@ -82,7 +109,7 @@ namespace ev {
 	struct coord : BaseEvent
 	{
 		typedef int CoordProp;
-		coord(Coord p) :c(p) { safeNumber = 0; };
+		coord(Coord p) :c(p),safeNumber(0) {};
 		coord(Coord p,unsigned int n) :c(p),safeNumber(n) {};
 		Coord c;
 		unsigned int safeNumber;

@@ -101,6 +101,7 @@ bool Tile::hasSouthWall()
 
 void Tile::turnUp(unsigned int safeNumber_)
 {
+	DEBUG_MSG("Safe number " << safeNumber_);
 	if (isFlipped() == false)
 	{
 		if (safeNumber_ != 0)
