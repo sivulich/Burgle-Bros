@@ -227,7 +227,7 @@ void GameController::getInput()
 
 			if (graphics->writingInConsole() == false)
 			{
-				if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
+				/*if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
 					s = "MOVE";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
 					s = "PEEK";
@@ -236,15 +236,15 @@ void GameController::getInput()
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_D)
 					s = "CONTINUE_THROW";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
-					s = "NO";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
+					s = "NO";*/
+				if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
 					graphics->showConsole();
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
+				/*else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
 					s = "PICK_UP_LOOT";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_K)
 					s = "ACK";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_W)
-					s = "WAIT";
+					s = "WAIT";*/
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
 					for (int f = 0; f < 3; f++)
 						for (int i = 0; i < 4; i++)

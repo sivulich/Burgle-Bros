@@ -926,7 +926,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			fsm.currentAction = CREATE_ALARM;
 			if ((Coord)event.c != NPOS)
-				fsm.process_event(ev::coord(event.c);
+				fsm.process_event(ev::coord(event.c));
 			else
 			{
 				std::cout << "Alarm can be created on the following tiles: ";
@@ -946,7 +946,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			if ((Coord)event.c != NPOS)
-				fsm.process_event(ev::coord(event.c);
+				fsm.process_event(ev::coord(event.c));
 			else
 			{
 				std::cout << "Crow token can placed in following tiles: ";
@@ -985,8 +985,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			}
 			else
 			{
-				// NO ESTOY SEGURO QUE ESTE EVENTO SE PROCESE BIEN PORQUE TODAVIA NO ESTOY EN CHOOSE LOOT
-				fsm.process_event(ev::lootType(event.type));
+				fsm.graphics->askQuestion(fsm.model->otherPlayer()->getName() + string(" is asking for the ") + string(toString(event.type)) + string(" Do you accept?"));
 			}
 
 		}
