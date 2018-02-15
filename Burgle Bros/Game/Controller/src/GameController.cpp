@@ -155,7 +155,7 @@ void GameController::getInput()
 				break;
 
 			case QUIT:
-
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::close(true));
 				break;
 
 			case ERRO:

@@ -57,11 +57,26 @@ namespace ev {
 	struct gameOver : BaseEvent {};
 	struct burglarsWin : BaseEvent {};
 	struct playAgain : BaseEvent {};
-	struct close : BaseEvent {};
+	struct close : BaseEvent
+	{
+		close() : remote(false) {};
+		close(bool b) : remote(b) {};
+		bool remote;
+	};
 	struct errorReceived : BaseEvent {};
 	struct errorHandled : BaseEvent {};
-	struct offerLoot : BaseEvent {};
-	struct requestLoot : BaseEvent {};
+	struct offerLoot : BaseEvent
+	{
+		offerLoot() : type(NO_CHARACTER_TYPE) {};
+		offerLoot(lootType t) : type(t) {};
+		lootType type;
+	};
+	struct requestLoot : BaseEvent
+	{
+		requestLoot() : type(NO_CHARACTER_TYPE) {};
+		requestLoot(lootType t) : type(t) {};
+		lootType type;
+	};
 	struct lootType : BaseEvent
 	{
 		lootType(string s) :type(s) {};
