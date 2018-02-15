@@ -70,6 +70,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	{
 		std::cout << "Leaving Burgle Bros" << std::endl;
 		fsm.graphics->deleteGameScreen();
+		if (fsm.model->isRemote())
+			fsm.network->sendQuit();
 	}
 
 	//----------------------- STATES -----------------------------//
@@ -91,7 +93,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					for (int j = 0; j < 4; j++)
 						v.push_back(Coord(0, i, j));
 				fsm.graphics->setTilesClickable(v);
-				cout << "PUTO" << endl;
 			}
 			else if (fsm.model->isRemote())
 			{
