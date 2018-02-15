@@ -821,13 +821,17 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) == true)
 			{
 				b = true;
-				if (fsm->currentPlayer()->isLocal())
+				if (fsm.model->currentPlayer()->isLocal())
 				{
 					if (fsm.model->doKittyAction(event.number)) fsm.graphics->showDices(string("You threw a 1 or a 2 and the kitty escaped your grasp."), dices);
 					else fsm.graphics->showDices(string("You either haven't thrown a 1 or a 2, or no alarm tiles where flipped. The kitty remains in your grasp."), dices);
 					std::cout << "Sending kitty loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
-					fsm.network->sendLoot Dice((char)(event.number + '0'));
-					fsm.process_event(ev::waitForNetwork());
+					if (fsm.model->otherPlayer()->isRemote())
+					{
+						fsm.network->sendLootDice((char)(event.number + '0'));
+						fsm.process_event(ev::waitForNetwork());
+					}
+					
 				}
 			}
 
@@ -842,10 +846,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 						int dice = fsm.model->currentPlayer()->throwDice();
 						fsm.process_event(ev::throwDice(dice));
 						std::cout << "Sending chihuahua loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
-						fsm.network->sendLoot Dice((char)(dice + '0'));
-						fsm.process_event(ev::waitForNetwork());
+						if (fsm.model->otherPlayer()->isRemote())
+						{
+							fsm.network->sendLootDice((char)(dice + '0'));
+							fsm.process_event(ev::waitForNetwork());
+						}
 					}
-					//else remoto
 				}
 			}
 			else
@@ -863,7 +869,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			vector<int> dices;
 			dices.push_back(event.number);
-			if (fsm->model()->currentPlayer()->isLocal())
+			if (fsm.model->currentPlayer()->isLocal())
 			{
 				if (fsm.model->doChihuahuaAction(event.number)) fsm.graphics->showDices(string("You threw a 6. The alarm was triggered by the Chihuahua's barks"), dices);
 				else fsm.graphics->showDices(string("You didn't throw a 6. You silenced the Chihuahua before the alarm was triggered."), dices);
