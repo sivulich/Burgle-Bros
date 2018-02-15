@@ -97,7 +97,14 @@ namespace ev {
 		placeCrow(Coord p) : c(p) {};
 		Coord c;
 	};
-	struct spyPatrol : BaseEvent {};
+	struct spyPatrol : BaseEvent 
+	{
+		typedef int CoordProp;
+		spyPatrol() :c(NPOS), tb('A'){};
+		spyPatrol(Coord p,char b) : c(p), tb(b){};
+		Coord c;
+		char tb;
+	};
 	struct pickUpLoot : BaseEvent {};
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};

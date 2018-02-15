@@ -608,6 +608,23 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			std::cout << "Spying patrol deck" << std::endl;
+			if ((Coord)event.c == NPOS);
+			else if(event.tb == 'T' || event.tb == 'B')
+			{
+				fsm.model->getBoard()->getDeck(fsm.model->currentPlayer()->getPosition().floor)->moveCardtoTop(event.c);
+				if (event.tb == 'T')
+				{
+					fsm.process_event(ev::yes());
+					//hacer una dialog box avisando que el otro jugador decidió dejar la carta arriba
+				}
+				else if (event.tb == 'B')
+				{
+					fsm.process_event(ev::no());
+					//hacer una dialog box avisando que el otro jugador decidió bajar la carta
+				}
+			}
+
+			else;//ACA HABRIA Q VER DEL ERROR
 			fsm.model->spyPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.graphics->spyPatrolCard(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.currentAction = SPY_PATROL;
@@ -804,8 +821,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) == true)
 			{
 				b = true;
-				if (fsm.model->doKittyAction(event.number)) fsm.graphics->showDices(string("You threw a 1 or a 2 and the kitty escaped your grasp."), dices);
-				else fsm.graphics->showDices(string("You either haven't thrown a 1 or a 2, or no alarm tiles where flipped. The kitty remains in your grasp."), dices);
+				if (fsm->currentPlayer()->isLocal())
+				{
+					if (fsm.model->doKittyAction(event.number)) fsm.graphics->showDices(string("You threw a 1 or a 2 and the kitty escaped your grasp."), dices);
+					else fsm.graphics->showDices(string("You either haven't thrown a 1 or a 2, or no alarm tiles where flipped. The kitty remains in your grasp."), dices);
+					std::cout << "Sending kitty loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
+					fsm.network->sendLoot Dice((char)(event.number + '0'));
+					fsm.process_event(ev::waitForNetwork());
+				}
 			}
 
 			if (fsm.model->currentPlayer()->has(CHIHUAHUA))
@@ -816,7 +839,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				{
 					if (fsm.model->currentPlayer()->isLocal())
 					{
-						fsm.process_event(ev::throwDice(fsm.model->currentPlayer()->throwDice()));
+						int dice = fsm.model->currentPlayer()->throwDice();
+						fsm.process_event(ev::throwDice(dice));
+						std::cout << "Sending chihuahua loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
+						fsm.network->sendLoot Dice((char)(dice + '0'));
+						fsm.process_event(ev::waitForNetwork());
 					}
 					//else remoto
 				}
@@ -836,8 +863,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			vector<int> dices;
 			dices.push_back(event.number);
-			if (fsm.model->doChihuahuaAction(event.number)) fsm.graphics->showDices(string("You threw a 6. The alarm was triggered by the Chihuahua's barks"), dices);
-			else fsm.graphics->showDices(string("You didn't throw a 6. You silenced the Chihuahua before the alarm was triggered."), dices);
+			if (fsm->model()->currentPlayer()->isLocal())
+			{
+				if (fsm.model->doChihuahuaAction(event.number)) fsm.graphics->showDices(string("You threw a 6. The alarm was triggered by the Chihuahua's barks"), dices);
+				else fsm.graphics->showDices(string("You didn't throw a 6. You silenced the Chihuahua before the alarm was triggered."), dices);
+			}
+			else //dialogbox para remoto
 			fsm.currentAction = NO_TYPE;
 			fsm.process_event(ev::done());
 		}
