@@ -68,9 +68,21 @@ namespace ev {
 		string type;
 	};
 	struct showAlarm : BaseEvent {};
-	struct createAlarm : BaseEvent {};
+	struct createAlarm : BaseEvent
+	{
+		typedef int CoordProp;
+		createAlarm() :c(NPOS) {};
+		createAlarm(Coord p) : c(p) {};
+		Coord c;
+	};
+	struct placeCrow : BaseEvent
+	{
+		typedef int CoordProp;
+		placeCrow() :c(NPOS) {};
+		placeCrow(Coord p) : c(p) {};
+		Coord c;
+	};
 	struct spyPatrol : BaseEvent {};
-	struct placeCrow : BaseEvent {};
 	struct pickUpLoot : BaseEvent {};
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};
