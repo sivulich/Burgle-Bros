@@ -23,20 +23,22 @@ namespace ev {
 		string character;
 	};
 
-	struct movee : BaseEvent
+	struct move : BaseEvent
 	{
 		typedef int CoordProp;
-		movee() :c(NPOS) {};
-		movee(Coord p) :c(p) {};
+		move() :c(NPOS), safeNumber(0) {};
+		move(Coord p, unsigned int n) :c(p), safeNumber(n) {};
 		Coord c;
+		unsigned int safeNumber;
 	};
-
+	struct moveGuard : BaseEvent	{};
 	struct peek : BaseEvent
 	{
 		typedef int CoordProp;
-		peek() :c(NPOS) {};
-		peek(Coord p) :c(p) {};
+		peek() :c(NPOS),safeNumber(0) {};
+		peek(Coord p, unsigned int n) :c(p),safeNumber(n) {};
 		Coord c;
+		unsigned int safeNumber;
 	};
 	struct throwDice : BaseEvent
 	{
@@ -55,20 +57,47 @@ namespace ev {
 	struct gameOver : BaseEvent {};
 	struct burglarsWin : BaseEvent {};
 	struct playAgain : BaseEvent {};
-	struct close : BaseEvent {};
+	struct close : BaseEvent
+	{
+		close() : remote(false) {};
+		close(bool b) : remote(b) {};
+		bool remote;
+	};
 	struct errorReceived : BaseEvent {};
 	struct errorHandled : BaseEvent {};
-	struct offerLoot : BaseEvent {};
-	struct requestLoot : BaseEvent {};
+	struct offerLoot : BaseEvent
+	{
+		offerLoot() : type((lootType)0) {};
+		offerLoot(lootType t) : type(t) {};
+		lootType type;
+	};
+	struct requestLoot : BaseEvent
+	{
+		requestLoot() : type((lootType)0) {};
+		requestLoot(lootType t) : type(t) {};
+		lootType type;
+	};
 	struct lootType : BaseEvent
 	{
 		lootType(string s) :type(s) {};
 		string type;
 	};
 	struct showAlarm : BaseEvent {};
-	struct createAlarm : BaseEvent {};
+	struct createAlarm : BaseEvent
+	{
+		typedef int CoordProp;
+		createAlarm() :c(NPOS) {};
+		createAlarm(Coord p) : c(p) {};
+		Coord c;
+	};
+	struct placeCrow : BaseEvent
+	{
+		typedef int CoordProp;
+		placeCrow() :c(NPOS) {};
+		placeCrow(Coord p) : c(p) {};
+		Coord c;
+	};
 	struct spyPatrol : BaseEvent {};
-	struct placeCrow : BaseEvent {};
 	struct pickUpLoot : BaseEvent {};
 	struct yes : BaseEvent {};
 	struct no : BaseEvent {};
@@ -80,7 +109,7 @@ namespace ev {
 	struct coord : BaseEvent
 	{
 		typedef int CoordProp;
-		coord(Coord p) :c(p) { safeNumber = 0; };
+		coord(Coord p) :c(p),safeNumber(0) {};
 		coord(Coord p,unsigned int n) :c(p),safeNumber(n) {};
 		Coord c;
 		unsigned int safeNumber;

@@ -14,7 +14,7 @@ RuleBook::RuleBook() : Container(SCREEN_HEIGHT, SCREEN_WIDTH, "RULE_BOOK")
 	right->setPosition(h*0.5 - right->getHeight()*right->getScale()*0.5, w-right->getWidth()*right->getScale());
 	//right->setBorderVisible(true);
 	
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < totalPages; i++)
 	{
 		pages.push_back(new Image("./Graphics/Images/RuleBook/" + to_string(i+1) + ".png"));
 		if (pages[i]->getWidth()*h > pages[i]->getHeight()*w)
@@ -53,21 +53,23 @@ RuleBook::click(int y, int x)
 			currentPage++;
 		changePage();
 	}
-	if (currentPage>0)// && left->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX) )
-		left->setVisible(true);
-	else
-		left->setVisible(false);
-
-	if (currentPage<pages.size() - 1) //&&right->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX) )
-		right->setVisible(true);
-	else
-		right->setVisible(false);
+	
 	return s;
 }
 bool
 RuleBook::overYou(int y, int x)
 {
-	
+	left->setVisible(false);
+	right->setVisible(false);
+	if (currentPage>0 && left->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX))
+		left->setVisible(true);
+	else
+		left->setVisible(false);
+
+	if (currentPage<pages.size() - 1 && right->isInside((y - this->y)*1.0 / scaleY, (x - this->x)*1.0 / scaleX))
+		right->setVisible(true);
+	else
+		right->setVisible(false);
 	return Container::overYou(y, x);
 }
 

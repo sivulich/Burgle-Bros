@@ -313,7 +313,7 @@ vector<lootType> Player::getAvailableLoots()
 vector<string> Player::getActions()
 {
 	vector <string> possibleActions;
-	if (otherPlayer->isRemote() && this->isPlaying() == false)
+	if (otherPlayer->isRemote() && otherPlayer->isPlaying())
 		return possibleActions;
 
 	if (currentTile != nullptr)

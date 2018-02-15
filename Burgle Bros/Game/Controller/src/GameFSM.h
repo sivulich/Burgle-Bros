@@ -284,7 +284,14 @@ public:
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			fsm.graphics->askQuestion(string("Are you sure you want to quit?"));
+			if (event.remote == true)
+			{
+				fsm.graphics->showOkMessage(fsm.model->otherPlayer()->getName() + string(" has closed the game!"));
+			}
+			else
+			{
+				fsm.graphics->askQuestion("Are you sure you want to quit?");
+			}
 			source.dialogBoxOpened = true;
 		}
 	};

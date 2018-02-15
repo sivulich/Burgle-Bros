@@ -145,7 +145,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
 			on_exit(EVT const&  event, FSM& fsm)
 		{
-			// Set again all tiles clickable
+			//Set again all tiles clickable
+			if (fsm.model->otherPlayer()->isRemote())
+				fsm.network->sendQuit();
 			fsm.graphics->setAllClickable();
 		}
 
@@ -204,14 +206,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.process_event(ev::gameOver());
 
 			if (fsm.model->currentPlayer()->getActionTokens() == 0 || fsm.model->currentPlayer()->isOnRoof())
-			{
 				fsm.process_event(ev::no());
-				std::cout << "Your turn ends" << std::endl;
-			}
 			else
 			{
 				fsm.process_event(ev::yes());
-				std::cout << "Action tokens left: " << fsm.model->currentPlayer()->getActionTokens() << std::endl;
+				DEBUG_MSG("Action tokens left: " << fsm.model->currentPlayer()->getActionTokens());
 			}
 
 		}
@@ -454,6 +453,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			std::cout << "Peeking " << event.c.toString() << std::endl;
 			fsm.graphics->printInHud(string("Peeking ") + event.c.toString());
 
+			DEBUG_MSG("Safe number " << event.safeNumber);
 			unsigned int safeNumber = fsm.model->currentPlayer()->peek(event.c, event.safeNumber);
 
 			// If other player is remote send peek
@@ -856,7 +856,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			else if (fsm.model->guardIsMoving() == false)
 			{
 				fsm.process_event(ev::passGuard());
-				fsm.guardTimer->stop();
 			}
 		}
 	};
@@ -876,15 +875,21 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Tiles availables to move: ";
-			fsm.graphics->printInHud(string("Choose a tile available to move..."));
-			vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
-			Coord::printVec(v);
-			std::cout << std::endl;
-
 			fsm.currentAction = MOVE;
-			// Distinguir las tiles disponibles para moverse
-			fsm.graphics->setTilesClickable(v);
+			if ((Coord)event.c != NPOS)
+				fsm.process_event(ev::coord(event.c, event.safeNumber));
+			else
+			{
+				std::cout << "Tiles availables to move: ";
+				fsm.graphics->printInHud(string("Choose a tile available to move..."));
+				vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
+				Coord::printVec(v);
+				std::cout << std::endl;
+
+				// Distinguir las tiles disponibles para moverse
+				fsm.graphics->setTilesClickable(v);
+			}
+			
 		}
 	};
 
@@ -893,9 +898,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
+			fsm.currentAction = PEEK;
 			if ((Coord)event.c != NPOS)
 			{
-				fsm.process_event(ev::coord(event.c));
+				fsm.process_event(ev::coord(event.c, event.safeNumber));
+				DEBUG_MSG("Safe number " << event.safeNumber);
 			}
 			else
 			{
@@ -904,7 +911,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
 				Coord::printVec(v);
 				std::cout << std::endl;
-				fsm.currentAction = PEEK;
+				
 				// Distinguir las tiles disponibles para moverse
 				fsm.graphics->setTilesClickable(v);
 			}
@@ -917,13 +924,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Alarm can be created on the following tiles: ";
-			vector<Coord> v = fsm.model->currentPlayer()->getAdjacentJuicer();
-			Coord::printVec(v);
-			std::cout << std::endl;
 			fsm.currentAction = CREATE_ALARM;
-			// Distinguir las tiles disponibles para crear la alarma
-			fsm.graphics->setTilesClickable(v);
+			if ((Coord)event.c != NPOS)
+				fsm.process_event(ev::coord(event.c));
+			else
+			{
+				std::cout << "Alarm can be created on the following tiles: ";
+				vector<Coord> v = fsm.model->currentPlayer()->getAdjacentJuicer();
+				Coord::printVec(v);
+				std::cout << std::endl;
+				// Distinguir las tiles disponibles para crear la alarma
+				fsm.graphics->setTilesClickable(v);
+			}
+			
 		}
 	};
 
@@ -932,44 +945,18 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Crow token can placed in following tiles: ";
-			vector<Coord> v = fsm.model->getTilesXDist(2, fsm.model->currentPlayer());
-			Coord::printVec(v);
-			std::cout << std::endl;
-			fsm.currentAction = PLACE_CROW;
-			// Distinguir las tiles disponibles para poner el Crow token
-			fsm.graphics->setTilesClickable(v);
-
-		}
-	};
-
-	struct showPickUpLoot
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			fsm.currentAction = PICK_UP_LOOT;
-		}
-	};
-
-	struct prepAddToken
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			std::cout << "Preparing to add token: ";
-			fsm.currentAction = ADD_TOKEN;
-
-		}
-	};
-
-	struct prepThrowDice
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			std::cout << "Preparing to throw dice: ";
-			fsm.currentAction = THROW_DICE;
+			if ((Coord)event.c != NPOS)
+				fsm.process_event(ev::coord(event.c));
+			else
+			{
+				std::cout << "Crow token can placed in following tiles: ";
+				vector<Coord> v = fsm.model->getTilesXDist(2, fsm.model->currentPlayer());
+				Coord::printVec(v);
+				std::cout << std::endl;
+				fsm.currentAction = PLACE_CROW;
+				// Distinguir las tiles disponibles para poner el Crow token
+				fsm.graphics->setTilesClickable(v);
+			}
 
 		}
 	};
@@ -990,9 +977,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Preparing to request loot: ";
 			fsm.currentAction = REQUEST_LOOT;
-			fsm.graphics->showAvailableLoots(string("Choose the loot you want to request:"), fsm.model->otherPlayer()->getAvailableLoots());
+			if (event.type == NO_CHARACTER_TYPE)
+			{
+				std::cout << "Preparing to request loot: ";
+				fsm.graphics->showAvailableLoots(string("Choose the loot you want to request:"), fsm.model->otherPlayer()->getAvailableLoots());
+			}
+			else
+			{
+				fsm.graphics->askQuestion(fsm.model->otherPlayer()->getName() + string(" is asking for the ") + string(toString(event.type)) + string(" Do you accept?"));
+			}
 
 		}
 	};
@@ -1183,7 +1177,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		Row < chooseAction, ev::pass, guardTurn, doEndTurn, none				>,
 
-		Row < chooseAction, ev::movee, none, showMove, none				>,
+		Row < chooseAction, ev::move, none, showMove, none				>,
 		Row < chooseAction, ev::coord, checkActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>			>,
 		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
 
@@ -1229,7 +1223,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < checkActionTokens, ev::gameOver, gameEnded, none, none				>,
 		Row < checkActionTokens, ev::burglarsWin, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < guardTurn, ev::movee, none, moveGuard, none				>,
+		Row < guardTurn, ev::moveGuard, none, moveGuard, none				>,
 		Row < guardTurn, ev::passGuard, beginTurn, changeTurn, none				>,
 		Row < guardTurn, ev::gameOver, gameEnded, none, none				>,
 		//  +------------+-------------+------------+--------------+--------------+f
@@ -1240,11 +1234,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		//  +------------+-------------+------------+--------------+--------------+
 		Row < gameEnded, ev::playAgain, chooseAction, resetGame, none				>,
-		Row < gameEnded, ev::ok, none, none, none				>,
+		Row < gameEnded, ev::ok, none, none, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
-		Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
-		Row < waitingForNetwork, ev::ack, idle, none, none			>
+	//	Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
+	//	Row < waitingForNetwork, ev::ack, idle, none, none			>
 
 	> {};
 

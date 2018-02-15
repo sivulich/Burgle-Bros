@@ -71,17 +71,96 @@ void GameController::getInput()
 			{
 			case ACK:
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
+				break;
 			case PASS:
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 				break;
 			case MOVE:
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee(inp.pos));
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move(inp.pos,inp.modifier));
 				break;
 			case PEEK:
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos));
+				DEBUG_MSG("Safe number " <<inp.modifier);
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos,inp.modifier));
 				break;
 			case ERROR:
-				cout << network->errMessage() << endl;
+				DEBUG_MSG("ERROR: " << network->errMessage());
+				break;
+
+			case AGREE:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
+				break;
+
+			case DISAGREE:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
+				break;
+
+
+			case INITIAL_G_POS:
+				break;
+
+			case SPENT_OK:
+				if(inp.modifier == 'Y')
+					static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
+				else if((inp.modifier == 'N'))
+					static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
+				break;
+
+			case ADD_TOKEN:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::addToken());
+				break;
+
+			case USE_TOKEN:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::useToken());
+				break;
+
+			case THROW_DICE:
+				break;
+
+			case SAFE_OPENED:
+				break;
+
+			case CREATE_ALARM:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::createAlarm(inp.pos));
+				break;
+
+			case SPY_PATROL:
+				break;
+
+			case PLACE_CROW:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::placeCrow(inp.pos));
+				break;
+
+			case OFFER_LOOT:
+				break;
+
+			case REQUEST_LOOT:
+				break;
+
+			case PICK_UP_LOOT:
+				break;
+
+			case ROLL_DICE_FOR_LOOT:
+				break;
+
+			case GUARD_MOVEMENT:
+				break;
+
+			case WE_WON:
+				break;
+
+			case WE_LOST:
+				break;
+
+			case GAME_OVER:
+				break;
+
+			case QUIT:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::close(true));
+				break;
+
+			case ERRO:
+				break;
+
 			}
 			//return;
 		}
@@ -108,27 +187,9 @@ void GameController::getInput()
 
 		switch (event.getType())
 		{
-
-		case ALLEGRO_EVENT_TIMER:
-			if (event.getTimer() == guardTimer)
-			{
-				s = "MOVE";
-			}
-			else if (event.getTimer() == renderTimer)
-			{
-				ALLEGRO_MOUSE_STATE state;
-				al_get_mouse_state(&state);
-				graphics->hover(state.y, state.x);
-				s = "RENDER";
-			}
-
-			break;
-
-		case ALLEGRO_EVENT_DISPLAY_CLOSE:
-			s = "EXIT";
-			break;
-			//case ALLEGRO_EVENT_MOUSE_AXES:	
-			//	break;
+			case ALLEGRO_EVENT_MOUSE_AXES:	
+				eventQueue.clear();
+				break;
 
 
 		case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
@@ -166,7 +227,7 @@ void GameController::getInput()
 
 			if (graphics->writingInConsole() == false)
 			{
-				if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
+				/*if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
 					s = "MOVE";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
 					s = "PEEK";
@@ -175,15 +236,15 @@ void GameController::getInput()
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_D)
 					s = "CONTINUE_THROW";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
-					s = "NO";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
+					s = "NO";*/
+				if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
 					graphics->showConsole();
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
+				/*else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
 					s = "PICK_UP_LOOT";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_K)
 					s = "ACK";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_W)
-					s = "WAIT";
+					s = "WAIT";*/
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
 					for (int f = 0; f < 3; f++)
 						for (int i = 0; i < 4; i++)
@@ -203,16 +264,29 @@ void GameController::getInput()
 				graphics->unZoomTile();
 			}
 			break;
+		case ALLEGRO_EVENT_TIMER:
+			if (event.getTimer() == guardTimer)
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::moveGuard());
+			else if (event.getTimer() == renderTimer)
+			{
+				ALLEGRO_MOUSE_STATE state;
+				al_get_mouse_state(&state);
+				graphics->hover(state.y, state.x);
+				graphics->render();
+			}
 
+			break;
+
+		case ALLEGRO_EVENT_DISPLAY_CLOSE:
+			s = "EXIT";
+			break;
 		}
 	}
 }
 
 void GameController::processEvent()
 {
-	if (s == "RENDER")
-		graphics->render();
-	else if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
+	if (s.substr(0, 5) == string("COORD") && s.length() == 9)// String format: COORD[col][row]F[floor]
 	{
 		Coord c = Coord(s[8] - '0', s[5] - 'A', s[6] - '0' - 1);
 		if (tileZoomMode == true)
@@ -245,7 +319,7 @@ void GameController::processEvent()
 	else if (s == "CANCEL")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::cancel());
 	else if (s == "MOVE")
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::movee());
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move());
 	else if (s == "PEEK")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek());
 	else if (s == "CREATE_ALARM")
