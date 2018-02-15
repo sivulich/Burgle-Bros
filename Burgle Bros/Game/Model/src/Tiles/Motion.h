@@ -26,6 +26,8 @@ public:
 	*/
 	virtual bool doAction(string action, PlayerInterface * player) override;
 
+	virtual Coord getComputer() override;
+
 	/**
 		Executes the tile's special actions, if any...
 		@param p player who is moving

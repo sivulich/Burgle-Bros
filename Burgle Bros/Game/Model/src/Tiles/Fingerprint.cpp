@@ -44,3 +44,8 @@ void Fingerprint::exit(PlayerInterface * player) {
 	if (player->getCharacter() == HACKER)
 		hackerHere = false;
 }
+
+Coord Fingerprint::getComputer()
+{
+	return computerRoom->getPos();
+}

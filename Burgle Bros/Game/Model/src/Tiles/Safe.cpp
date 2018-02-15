@@ -32,16 +32,17 @@ vector<string> Safe::getActions(PlayerInterface * player)
 	return actions;
 }
 
-bool Safe::doAction(string action, PlayerInterface * player)
-{
-	bool endThrow = false;
+bool Safe::doAction(string action, PlayerInterface * player)// Bool endThrow return value has different meanings depending on the action realized in the tile
+{															// If adding a token, true means that the token was added correctly, false meaning otherwise
+	bool endThrow = false;									// If throwing die, true means that all throws done during the current action are done, false meaning that more dies are waiting to be thrown.
 	int b = (player->getCharacter() == PETERMAN) ? 1 : 0;
-	if (action == "ADD_TOKEN" && player->getActionTokens() >= 2)
+	if (action == "ADD_TOKEN" && player->getActionTokens() >= 2 && dices < 6)
 	{
 		player->removeActionToken();
 		player->removeActionToken();
 		addDice();
 		player->newAction("ADD_TOKEN", getPos(), INT_MAX);
+		endThrow = true;
 		DEBUG_MSG("You added a new die to this safe. You can now throw " << dices << " dices.");
 	}
 	else if (action == "THROW_DICE" && keyCardHere)
