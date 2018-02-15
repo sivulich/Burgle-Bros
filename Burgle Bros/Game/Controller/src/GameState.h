@@ -2,7 +2,7 @@
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 #define BOOST_MPL_LIMIT_VECTOR_SIZE 50 //or whatever you need                       
 #define BOOST_MPL_LIMIT_MAP_SIZE 50 //or whatever you need 
-#define FUSION_MAX_VECTOR_SIZE 20
+#define FUSION_MAX_VECTOR_SIZE 25
 
 #include <iostream>
 // Back-end:
@@ -624,7 +624,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			topCard = fsm.model->stopSpying(fsm.model->currentPlayer()->getPosition().floor);
 			if (fsm.model->otherPlayer()->isRemote() && topCard != NPOS)
 			{
-				std::cout << "Sending stay at top, card "<< topCard << "to " << fsm.model->otherPlayer()->getName() << std::endl;
+				DEBUG_MSG("Sending stay at top, card " << topCard << "to " << fsm.model->otherPlayer()->getName());
 				fsm.network->sendSpyPatrol(topCard, 'T');
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -1136,7 +1136,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return fsm.gameMode == GameFSM_::MODE::REMOTE;
+			return fsm.model->isRemote(); 
 		}
 	};
 
@@ -1145,7 +1145,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return fsm.gameMode == GameFSM_::MODE::LOCAL;
+			return !fsm.model->isRemote();
 		}
 	};
 

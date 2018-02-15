@@ -12,6 +12,7 @@ public:
 	HudObserver(GameModel * m,BoardObserver* boardObs, Container * c);
 	virtual void update()override;
 	void disableActions();
+	void loadPlayerToken(string s);
 	~HudObserver();
 private:
 	GameModel * model;

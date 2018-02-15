@@ -95,8 +95,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 	c->addObject(characterFigurePlaying);
 	
 
-	isPlaying = player->isPlaying();
-	if (isPlaying)
+	isPlaying_ = player->isPlaying();
+	if (isPlaying_)
 	{
 		characterFigure->setVisible(false);
 		actionTokens->setVisible(true);
@@ -171,6 +171,15 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 	update();
 }
 
+void PlayerObserver::loadPlayerToken(string s)
+{
+	if (s == "ROMA" || s == "MARCOS" || s == "TOBI" || s == "SANTI" || s == "AGUSTIN" || s == "MARK")
+		token->load(string("./Graphics/Images/Figures/") + s + string(".png"));
+	else if (s == "RESET")
+		token->load(string("./Graphics/Images/Figures/") + string(toString(player->getCharacter())) + string(".png"));
+}
+
+
 void PlayerObserver::update()
 {
 	// Update player token position
@@ -220,10 +229,10 @@ void PlayerObserver::update()
 	}
 
 	// Update character figure
-	if (isPlaying != player->isPlaying())
+	if (isPlaying_ != player->isPlaying())
 	{
-		isPlaying = player->isPlaying();
-		if (isPlaying)
+		isPlaying_ = player->isPlaying();
+		if (isPlaying_)
 		{
 			characterFigure->setVisible(false);
 			characterFigurePlaying->setVisible(true);

@@ -3,7 +3,7 @@
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
 #define BOOST_MPL_LIMIT_VECTOR_SIZE 50 //or whatever you need                       
 #define BOOST_MPL_LIMIT_MAP_SIZE 50 //or whatever you need 
-#define FUSION_MAX_VECTOR_SIZE 20
+#define FUSION_MAX_VECTOR_SIZE 25
 
 
 #include <iostream>
@@ -47,13 +47,50 @@ public:
 		guardTimer = t;
 	};
 
+	bool isRemote()
+	{
+		if(model!=nullptr)
+			return model->isRemote();
+		else return false;
+	}
+	remoteInput getRemoteInput()
+	{
+		if (network != nullptr)
+			return network->getRemoteInput();
+	}
+	void processTrick(string s)
+	{
+		if (model!=nullptr)
+		{
+			if (s.substr(0, 8) == string("ADD_LOOT"))
+				model->currentPlayer()->addLoot(toEnum_lootType(s.substr(9).c_str()));
+			else if (s.substr(0, 4) == string("DROP"))
+			{
+				Loot * l = nullptr;
+				if (s.substr(5) == string("GOLDBAR"))
+					l = LootFactory().newLoot(GOLD_BAR);
+				else if ((s.substr(5) == string("PERSIAN_KITTY")))
+					l = LootFactory().newLoot(PERSIAN_KITTY);
+				if (l != nullptr)
+					model->getBoard()->getTile(model->currentPlayer()->getPosition())->setLoot(l);
+			}
+			else if (s.substr(0, 13) == string("SET_CHARACTER"))
+				model->currentPlayer()->setCharacter(s.substr(14));
+
+			else if (s.substr(0, 4) == string("MASK"))
+				graphics->loadPlayerToken(s.substr(5));
+			else if (s == "FLIP_ALL")
+				model->flipAll();
+				
+		}
+	}
 	// FSM variables
 	GameModel * model;
 	GameGraphics * graphics;
 	SoundEffects * sound;
 	BurgleNetwork * network;
 	Timer * guardTimer;
-	enum MODE{ UNSET, LOCAL, REMOTE };
+	enum MODE { UNSET, LOCAL, REMOTE };
 	int gameMode;
 	//-------------------------------------------------------------
 	template <class EVT, class FSM>
@@ -296,7 +333,7 @@ public:
 		}
 	};
 
-	
+
 
 
 	struct setUpCharacter
@@ -309,7 +346,7 @@ public:
 				if (source.player1set == false)
 					fsm.model->player1()->setCharacter(event.character);
 				else if (source.player2set == false)
-					fsm.model->player2()->setCharacter(event.character);	
+					fsm.model->player2()->setCharacter(event.character);
 			}
 			else if (fsm.gameMode == REMOTE)
 				fsm.model->player1()->setCharacter(event.character);
@@ -360,9 +397,10 @@ public:
 		{
 			cout << "Connecting computers" << endl;
 			string IP = fsm.graphics->getIP();
-			fsm.network->connect(IP);
+			fsm.network = new BurgleNetwork();
+			//fsm.network->connect(IP);
 			fsm.graphics->showTempMessage(string("Connecting... Please wait."));
-			while (!fsm.network->join()){}
+			while (!fsm.network->join()) {}
 
 			fsm.graphics->removeDialogBox();
 			if (fsm.network->error())
@@ -376,7 +414,7 @@ public:
 				fsm.process_event(ev::next());
 				cout << fsm.network->isConnected() << endl;
 			}
-				
+
 		}
 
 	};
@@ -386,7 +424,7 @@ public:
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			fsm.model = 
+			fsm.model =
 
 		}
 
@@ -397,8 +435,8 @@ public:
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			
-			
+
+
 		}
 
 	};
@@ -439,6 +477,10 @@ public:
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
+			// Create model
+			fsm.model = new GameModel();
+			fsm.graphics->setModel(fsm.model);
+
 			// Pass pointers to submachine 
 			GameState& s = fsm.get_state<GameState&>();
 			s.model = fsm.model;
@@ -475,7 +517,7 @@ public:
 			return 	fsm.gameMode == REMOTE;
 		}
 	};
-	
+
 
 	struct dialogBoxOpened
 	{
@@ -490,50 +532,46 @@ public:
 	struct transition_table : mpl::vector<
 		//       Start        Event         Next         Action         Guard
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < MenuScreen	, ev::start			, ModeScreen	, none				, none		>,
-		Row < MenuScreen	, ev::rules			, RulesScreen	, none				, none		>,
-		Row < MenuScreen	, ev::credits		, CreditsScreen	, none				, none		>,
+		Row < MenuScreen, ev::start, ModeScreen, none, none		>,
+		Row < MenuScreen, ev::rules, RulesScreen, none, none		>,
+		Row < MenuScreen, ev::credits, CreditsScreen, none, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < ModeScreen	, ev::local			, SetupScreen	, none				, none		>,
-		Row < ModeScreen	, ev::remote		, IPScreen		, none				, none		>,
-		Row < ModeScreen	, ev::back			, MenuScreen	, none				, none		>,
+		Row < ModeScreen, ev::local, SetupScreen, none, none		>,
+		Row < ModeScreen, ev::remote, IPScreen, none, none		>,
+		Row < ModeScreen, ev::back, MenuScreen, none, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < RulesScreen	, ev::back			, MenuScreen	, none				, none		>,
+		Row < RulesScreen, ev::back, MenuScreen, none, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < CreditsScreen	, ev::back			, MenuScreen	, none				, none		>,
+		Row < CreditsScreen, ev::back, MenuScreen, none, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < SetupScreen	, ev::back			, ModeScreen	, none				, isLocal	>,
-		Row < SetupScreen	, ev::back			, IPScreen		, none				, isRemote	>,
-		Row < SetupScreen	, ev::characterName	, none			, setUpCharacter	, none		>,
-		Row < SetupScreen	, ev::next			, none			, doSetup			, none		>,
-		Row < SetupScreen	, ev::play			, GameState		, passData			, none		>,
+		Row < SetupScreen, ev::back, ModeScreen, none, isLocal	>,
+		Row < SetupScreen, ev::back, IPScreen, none, Not_<isLocal>	>,
+		Row < SetupScreen, ev::characterName, none, setUpCharacter, none		>,
+		Row < SetupScreen, ev::next, none, doSetup, none		>,
+		Row < SetupScreen, ev::play, GameState, passData, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row < IPScreen		, ev::back			, ModeScreen	, none				, none		>,
-		Row < IPScreen		, ev::connect		, none			, doConnect			, none		>,
-		Row < IPScreen		, ev::next			, SetupScreen	, removeMessage		, none		>,
-		Row < IPScreen		, ev::cancel		, none			, stopConnecting	, none		>,
-//		Row < RemoteSetupScreen, ev::characterName, none, setUpCharacter, none >,
-//		Row < RemoteSetupScreen, ev::next, none, doRemoteSetup, none >,
-//	    Row < RemoteSetupScreen, ev::play, GameState, none, none >,
+		Row < IPScreen, ev::back, ModeScreen, none, none		>,
+		Row < IPScreen, ev::connect, none, doConnect, none		>,
+		Row < IPScreen, ev::next, SetupScreen, removeMessage, none		>,
+		Row < IPScreen, ev::cancel, none, stopConnecting, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
-		Row <GameState		, ev::back			, MenuScreen	, restartGame			, none		>,
+		Row <GameState, ev::back, MenuScreen, restartGame, none		>,
 
-//--------------------------Orthogonal region-----------------------------//
-//  +------------+-------------+------------+--------------+--------------+
-		Row <   playing		, ev::close			,none			, askConfirmationClose,Not_<dialogBoxOpened>		>,
-		Row <   playing 	, ev::yes			,exit			, none, dialogBoxOpened>,
-		Row <   playing 	, ev::no			,playing			, none, dialogBoxOpened>,
-	//	Row <   playing, ev::errorReceived, error, none, none     >,				
-		Row <   playing		, ev::pause			, paused		, none				, none		>,
+		//--------------------------Orthogonal region-----------------------------//
 		//  +------------+-------------+------------+--------------+--------------+
-		Row <   paused		, ev::pause			, playing		, none				, none		>,
-		Row <   paused		, ev::close			, exit			, none				, none		>
+		Row <   playing, ev::close, none, askConfirmationClose, Not_<dialogBoxOpened>		>,
+		Row <   playing, ev::yes, exit, none, dialogBoxOpened>,
+		Row <   playing, ev::no, playing, none, dialogBoxOpened>,
+		//	Row <   playing, ev::errorReceived, error, none, none     >,				
+		Row <   playing, ev::pause, paused, none, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
-	//	Row <   error, ev::errorHandled, playing, none, none     >,
-	//	Row <   error, ev::close, exit, none, none     >,
-	//	Row <   error, ev::render, none, doRender, none     >
+		Row <   paused, ev::pause, playing, none, none		>,
+		Row <   paused, ev::close, exit, none, none		>
+		//  +------------+-------------+------------+--------------+--------------+
+		//Row <   error, ev::errorHandled, playing, none, none     >,
+		//Row <   error, ev::close, exit, none, none     >
 		//  +------------+-------------+------------+--------------+--------------+*/
-			> {};
+	> {};
 
 	typedef mpl::vector<playing, MenuScreen> initial_state;
 

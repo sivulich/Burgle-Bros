@@ -61,6 +61,14 @@ void GameGraphics::setModel(GameModel * m)
 	m->attach(this);
 }
 
+
+void GameGraphics::loadPlayerToken(string s)
+{
+	if (current_screen == GAME)
+			this->hud->loadPlayerToken(s);
+}
+
+
 //Screens Con nuevo Metodo
 void GameGraphics::showMenuScreen()
 {

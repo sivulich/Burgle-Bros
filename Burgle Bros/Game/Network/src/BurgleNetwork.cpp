@@ -830,7 +830,7 @@ remoteInput BurgleNetwork::getRemoteInput()
 	{
 		flags.ack = false;
 		inp.action = ACK;
-		DEBUG_MSG("Received a " << toString(inp.action));
+		DEBUG_MSG("Received a " << toString(inp.action) << " (" << inp.action << ")");
 		return inp;
 	}
 

@@ -12,11 +12,13 @@ class PlayerObserver :public Observer
 public:
 	PlayerObserver(Player* p, Container * c, Container* hudCont, Container * boardCont);
 	virtual void update()override;
+	bool isPlaying() { return player->isPlaying(); };
+	void loadPlayerToken(string s);
 private:
 	// Observed object
 	Player* player;
 	Coord lastPos;
-	bool isPlaying;
+	bool isPlaying_;
 
 	pair<int, int> positions[3][4][4];
 	//Sound

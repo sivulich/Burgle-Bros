@@ -9,8 +9,6 @@ GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * 
 	model = m;
 	graphics = g;
 
-	// NUEVO
-
 	connectedFlag = false;
 	tileZoomMode = false;
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
@@ -38,32 +36,24 @@ bool GameController::isRunning()
 	return static_pointer_cast<GameFSM>(stateMachine)->is_flag_active<GameFSM::gameClosed>() == false;
 };
 
+bool GameController::isRemote()
+{
+	return static_pointer_cast<GameFSM>(stateMachine)->isRemote();
+};
+
+remoteInput GameController::getRemoteInput()
+{
+	return static_pointer_cast<GameFSM>(stateMachine)->getRemoteInput();
+};
 
 
 void GameController::getInput()
 {
 	s = "";
 
-	//if (network != nullptr && model != nullptr)
-	//{
-	//	bool remote, connected, join;
-	//	remote = model->isRemote();
-	//	connected = network->isConnected();
-	//	join = network->join();
-
-	//	cout <<  remote << connected <<  join << endl;
-	//}
-
-	if (model != nullptr && model->isRemote() && network != nullptr)
+	if (isRemote())
 	{
-		//std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-		remoteInput inp = network->getRemoteInput();
-		//std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-
-		//auto duration = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1).count();
-
-		//cout << " Remote input time " << duration << " us." << endl;
-
+		remoteInput inp = getRemoteInput();
 
 		if (inp.action != NO_TYPE)
 		{
@@ -76,11 +66,11 @@ void GameController::getInput()
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 				break;
 			case MOVE:
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move(inp.pos,inp.modifier));
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move(inp.pos, inp.modifier));
 				break;
 			case PEEK:
-				DEBUG_MSG("Safe number " <<inp.modifier);
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos,inp.modifier));
+				DEBUG_MSG("Safe number (remote input)" << inp.modifier);
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos, inp.modifier));
 				break;
 			case ERROR:
 				DEBUG_MSG("ERROR: " << network->errMessage());
@@ -99,9 +89,9 @@ void GameController::getInput()
 				break;
 
 			case SPENT_OK:
-				if(inp.modifier == 'Y')
+				if (inp.modifier == 'Y')
 					static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::yes());
-				else if((inp.modifier == 'N'))
+				else if ((inp.modifier == 'N'))
 					static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::no());
 				break;
 
@@ -162,34 +152,18 @@ void GameController::getInput()
 				break;
 
 			}
-			//return;
 		}
-
 	}
 
-	/*if (network->newEvent())
-	{
-		ALLEGRO_EVENT e = network->getEvent();
-		switch (e.type)
-		{
-		case NETWORK_CONNECTED:
-			s = "NEXT";
-		case NETWORK_INPUT:
-			s = e.user.data1;
-			break;
-		}
-
-	}
-	else*/
 	if (eventQueue.isEmpty() == false)
 	{
 		Event event = eventQueue.getEvent();
 
 		switch (event.getType())
 		{
-			case ALLEGRO_EVENT_MOUSE_AXES:	
-				eventQueue.clear();
-				break;
+		case ALLEGRO_EVENT_MOUSE_AXES:
+			eventQueue.clear();
+			break;
 
 
 		case ALLEGRO_EVENT_MOUSE_BUTTON_DOWN:
@@ -213,8 +187,7 @@ void GameController::getInput()
 				else
 					s = "EXIT";
 			}
-
-			if (event.getKeyboardKeycode() == ALLEGRO_KEY_ENTER)
+			else if (event.getKeyboardKeycode() == ALLEGRO_KEY_ENTER)
 			{
 				if (graphics->writingInConsole() == true)
 				{
@@ -227,32 +200,8 @@ void GameController::getInput()
 
 			if (graphics->writingInConsole() == false)
 			{
-				/*if (event.getKeyboardKeycode() == ALLEGRO_KEY_M)
-					s = "MOVE";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
-					s = "PEEK";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
-					s = "YES";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_D)
-					s = "CONTINUE_THROW";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
-					s = "NO";*/
 				if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
 					graphics->showConsole();
-				/*else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
-					s = "PICK_UP_LOOT";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_K)
-					s = "ACK";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_W)
-					s = "WAIT";*/
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Z)
-					for (int f = 0; f < 3; f++)
-						for (int i = 0; i < 4; i++)
-							for (int j = 0; j < 4; j++)
-							{
-								if ((*model->getBoard())[f][i][j]->isFlipped() == false)
-									(*model->getBoard())[f][i][j]->turnUp();
-							}
 
 			}
 			// como string al_keycode_to_name(event.getKeyboardKeycode());
@@ -370,27 +319,7 @@ void GameController::processEvent()
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::ack());
 	else if (s == "WAIT")// este evento es de prueba
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::waitForNetwork());
-
-	//                       TRUCOS
-	else if (s.substr(0, 8) == string("ADD_LOOT"))
-		model->currentPlayer()->addLoot(toEnum_lootType(s.substr(9).c_str()));
-	else if (s.substr(0, 4) == string("DROP"))
-	{
-		Loot * l = nullptr;
-		if (s.substr(5) == string("GOLDBAR"))
-			l = LootFactory().newLoot(GOLD_BAR);
-		else if ((s.substr(5) == string("PERSIAN_KITTY")))
-			l = LootFactory().newLoot(PERSIAN_KITTY);
-		if (l != nullptr)
-			model->getBoard()->getTile(model->currentPlayer()->getPosition())->setLoot(l);
-	}
-	else if (s.substr(0, 13) == string("SET_CHARACTER"))
-	{
-		std::cout << s.substr(14) << std::endl;
-		model->currentPlayer()->setCharacter(s.substr(14));
-	}
-	else if (s.substr(0, 4) == string("MASK"))
-	{
-		//graphics->loadPlayerToken(s.substr(5));
-	}
+	else
+		static_pointer_cast<GameFSM>(stateMachine)->processTrick(s);
+	
 }

@@ -99,6 +99,13 @@ void HudObserver::update()
 	player2->update();
 }
 
+void HudObserver::loadPlayerToken(string s)
+{
+	if (player1->isPlaying())
+		player1->loadPlayerToken(s);
+	if (player2->isPlaying())
+		player2->loadPlayerToken(s);
+}
 HudObserver::~HudObserver()
 {
 	for (auto& a : actions)

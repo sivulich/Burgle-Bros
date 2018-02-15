@@ -81,6 +81,9 @@ public:
 	//
 	Coord stopSpying(unsigned f);
 
+	// 
+	void flipAll();
+
 	//
 	Coord sendBottom(unsigned f);
 

@@ -1,8 +1,7 @@
 #include <GameController.h>
 #include <GameGraphics.h>
-//#include <BurgleNetwork.h>
+#include <BurgleNetwork.h>
 #include <GameModel.h>
-#include "GameState.h"
 #include <cstdio>
 int main(void)
 {

@@ -39,6 +39,8 @@ public:
 	//Parse the board and set things in tiles depending on its type. Should be called after setting the board and walls
 	void parseBoard();
 	
+	// Flip all tiles
+	void flipAll();
 	//
 	Floor * getFloor(unsigned f) { if (f < NUMBER_FLOORS) return floor[f]; return nullptr; };
 

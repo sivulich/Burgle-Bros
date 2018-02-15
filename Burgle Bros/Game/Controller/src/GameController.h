@@ -21,11 +21,17 @@ public:
 	void processEvent();
 private:
 	int throwDice();
+	remoteInput getRemoteInput();
+	bool isRemote();
+
+	// State machine of the game
 	shared_ptr<void> stateMachine;
+
 	// String name obtained from graphics 
 	string s;
 	bool connectedFlag;
 	bool tileZoomMode;
+
 	// Pointers to model and graphic classes
 	GameModel * model;
 	GameGraphics * graphics;

@@ -101,28 +101,19 @@ public:
 	bool guardIsMoving() { if (current_screen = GAME) return board->guardIsMoving(); };
 	// Create graphic objects to represent game model on scren
 
-
-	//
+	// Show Screen methods
 	void showMenuScreen();
-	//
 	void showCreditsScreen();
-	//
 	void showRulesScreen();
-	//
 	void showModeScreen();
-
 	void showIPScreen();
-
 	void showSetupScreen(int player = 0);
-	// Shows the game screen
 	void showGameScreen();
 	void deleteGameScreen();
-
-	//
 	void showPauseScreen();
 	void hidePauseScreen();
 
-	// Show a console to input text
+	// Console methods
 	void toggleConsole();
 	void showConsole();
 	void hideConsole();
@@ -137,6 +128,8 @@ public:
 	string getPlayerName();
 	// In IP screen get IP
 	string getIP();
+	// Change player token (easter egg)
+	void loadPlayerToken(string s);
 private:
 	bool initOK_;
 
