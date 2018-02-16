@@ -57,9 +57,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		else if (fsm.model->isRemote())
 		{
 			if (fsm.network->isServer())
-				fsm.model->setBoard();
-
-			fsm.graphics->showOkMessage("Exchanging info with other player");
+				fsm.model->setBoard();	
 			// Cord will be random in next state
 
 		}
@@ -235,6 +233,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	struct askConfirmationMove : public msm::front::state<>
 	{
 		Coord destinationCoord;
+		int destinationSafeNumber;
 		tileType destinationType;
 
 		template <class EVT, class FSM>
@@ -243,6 +242,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			DEBUG_MSG("ASK CONFIRMATION MOVE");
 			destinationCoord = event.c;
+			destinationSafeNumber = event.safeNumber;
 
 			if (destinationCoord != ROOF)
 			{
@@ -289,7 +289,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (is_same<EVT, ev::yes>::value)
 			{
 				DEBUG_MSG("Passing coord");
-				fsm.process_event(ev::coord(destinationCoord));
+				fsm.process_event(ev::coord(destinationCoord,destinationSafeNumber));
 			}
 			DEBUG_MSG("Leaving ask confirmation");
 		}
@@ -435,11 +435,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			DEBUG_MSG("Moving to " << event.c.toString());
 			fsm.graphics->printInHud(string("Moving to ") + event.c.toString());
 
+			// Esto moverlo a where can I move
 			if (event.c.floor == 3 && (fsm.model->currentPlayer()->getLoots().size() + fsm.model->otherPlayer()->getLoots().size()) != fsm.model->lootsToWin())
 				fsm.graphics->showOkMessage(string("You can't leave without the loots!"));
 			else
 			{
-				unsigned int safeNumber = fsm.model->currentPlayer()->move(event.c, event.safeNumber);
+				if (fsm.model->currentPlayer()->isRemote())
+					fsm.model->getBoard()->getTile(event.c)->setSafeNumber(event.safeNumber);
+
+				fsm.model->currentPlayer()->move(event.c);
 				if (fsm.model->win())
 					fsm.process_event(ev::burglarsWin());
 
@@ -447,6 +451,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				bool b = is_same<SourceState, chooseAction>::value;
 				if (b && fsm.model->otherPlayer()->isRemote())
 				{
+					unsigned int safeNumber = fsm.model->getBoard()->getTile(event.c)->getSafeNumber();
 					fsm.network->sendMove(event.c, safeNumber);
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -509,12 +514,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			DEBUG_MSG("Peeking " << event.c.toString());
 			fsm.graphics->printInHud(string("Peeking ") + event.c.toString());
 
-			DEBUG_MSG("Safe number " << event.safeNumber);
-			unsigned int safeNumber = fsm.model->currentPlayer()->peek(event.c, event.safeNumber);
+			if (fsm.model->currentPlayer()->isRemote())
+				fsm.model->getBoard()->getTile(event.c)->setSafeNumber(event.safeNumber);
 
-			// If other player is remote send peek
+			
+			 fsm.model->currentPlayer()->peek(event.c);
+			
+			// If other player is remote send peek 
 			if (fsm.model->otherPlayer()->isRemote())
 			{
+				unsigned int safeNumber = fsm.model->getBoard()->getTile(event.c)->getSafeNumber();
 				fsm.network->sendPeek(event.c, safeNumber);
 
 				if (fsm.network->error())
@@ -610,7 +619,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					fsm.graphics->showDices(string("You threw this dices."), dicesThrown);
 
 					// Add remaining zeros
-					for (int i = currDice; i <= 6; i++)
+					for (int i = currDice; i < 6; i++)
 						dicesThrown.push_back(0);
 
 					if (dicesThrown.size() != 6)
@@ -621,7 +630,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					{
 						vector<int> d = dicesThrown;
 						while (fsm.network->join() == false);
-						fsm.network->sendThrowDice(d[1], d[2], d[3], d[4], d[5], d[6]);
+						fsm.network->sendThrowDice(d[0],d[1], d[2], d[3], d[4], d[5]);
 					}
 
 					if (((Safe *)currTile)->safeIsOpen())
@@ -1112,7 +1121,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if ((Coord)event.c != NPOS)
 			{
 				fsm.process_event(ev::coord(event.c, event.safeNumber));
-				DEBUG_MSG("Safe number " << event.safeNumber);
+				DEBUG_MSG("Safe number in show peek " << event.safeNumber);
 			}
 			else
 			{

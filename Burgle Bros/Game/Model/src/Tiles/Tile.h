@@ -17,7 +17,7 @@ public:
 	Tile(tileType t, unsigned floor, unsigned col, unsigned row);
 
 	//	Apart from turning up the card, sort the safe number
-	virtual void turnUp(unsigned int safeNumber_ = 0);
+	virtual void turnUp();
 
 	//	Peek the tile
 	void peek();
@@ -81,7 +81,7 @@ public:
 
 	//	If tile is flipped returns the safe number, else returns 0.
 	int getSafeNumber();
-	void setSafeNumber(unsigned int n) { safeNumber = n; };
+	void setSafeNumber(unsigned int n) { if(isFlipped()==false) safeNumber = n; };
 
 	//	Return a vector of Coords where player can move (override special cases)
 	virtual vector<Coord> whereCanIMove();

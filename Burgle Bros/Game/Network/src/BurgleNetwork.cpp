@@ -531,7 +531,7 @@ void BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardT
 	threadCloser(fl);
 	return;
 }
-void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> board, const Coord playerPos)
+void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> board, const Coord playerPos/*,int initialSafeNumber*/)
 {
 	if (fl->error == true)
 	{
@@ -561,6 +561,7 @@ void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> 
 		pack.push_back((char)(playerPos.row + '1'));
 		pack.push_back('F');
 		pack.push_back((char)(playerPos.floor + '1'));
+		//pack.push_back((char)(initialSafeNumber+'0'));
 		if (sendPacket(fl->sock, pack) == false)
 		{
 			fl->error = true;
@@ -574,7 +575,7 @@ void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> 
 	else
 	{
 		vector<char> buffer;
-		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 53 || buffer[0] != START_INFO)
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 53 /*54!*/|| buffer[0] != START_INFO)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -589,6 +590,7 @@ void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> 
 		fl->playerPos.col = buffer[49] - 'A';
 		fl->playerPos.row = buffer[50] - '1';
 		fl->playerPos.floor = buffer[52] - '1';
+		//fl->initialSafeNumber = buffer[52] - '0';
 	}
 
 	//Second packet server listens, client sends ACK
@@ -1135,9 +1137,9 @@ void BurgleNetwork::sendUseToken(Coord pos)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, USE_TOKEN, pos, 0);
 }
 
-void BurgleNetwork::sendThrowDice(char d1, char d2, char d3, char d4, char d5, char d6)
+void BurgleNetwork::sendThrowDice(int d1, int d2, int d3, int d4, int d5, int d6)
 {
-	DEBUG_MSG("Sending TROW_DICE");
+	DEBUG_MSG("Sending THROW_DICE");
 	vector<char> pack(7, (char)THROW_DICE);
 	pack[1] = d1 + '0';
 	pack[2] = d2 + '0';

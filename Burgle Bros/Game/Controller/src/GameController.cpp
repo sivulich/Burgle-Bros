@@ -65,10 +65,11 @@ void GameController::getInput()
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::pass());
 				break;
 			case MOVE:
+				DEBUG_MSG("Safe number in remote input" << inp.modifier);
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::move(inp.pos, inp.modifier));
 				break;
 			case PEEK:
-				DEBUG_MSG("Safe number (remote input)" << inp.modifier);
+				DEBUG_MSG("Safe number in remote input" << inp.modifier);
 				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::peek(inp.pos, inp.modifier));
 				break;
 			case ERROR:
@@ -103,6 +104,7 @@ void GameController::getInput()
 				break;
 
 			case THROW_DICE:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice(inp.dice));
 				break;
 
 			case SAFE_OPENED:

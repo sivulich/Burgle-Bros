@@ -124,10 +124,10 @@ public:
 	vector<Coord> getAdjacentJuicer();
 
 	//	Move the player to the tile
-	unsigned int move(Coord c, unsigned int safeNumber = 0);
+	void move(Coord c);
 
 	//	Peek the tile
-	unsigned int peek(Coord c, unsigned int safeNumber = 0);
+	void peek(Coord c);
 
 	//	Use a token from a Computer Room or Lavatory
 	Coord useToken();
@@ -247,9 +247,9 @@ private:
 
 	//       PRIVATE METHOD
 	//	Move to a tile
-	unsigned int move(Tile * newTile, unsigned int safeNumber=0);
+	void move(Tile * newTile);
 	//	Peek a tile
-	unsigned int peek(Tile * newTile, unsigned int safeNumber=0);
+	void peek(Tile * newTile);
 	//	Sets the player's position with a tile pointer
 	void setPosition(Tile*  newTile);
 };
