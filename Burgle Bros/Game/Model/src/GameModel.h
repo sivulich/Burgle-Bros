@@ -102,6 +102,10 @@ public:
 	//
 	bool doChihuahuaAction(int dice);
 
+
+	bool setSafeNumber(Coord c, unsigned int sNumber);
+
+
 	//Initializes guard when recieving packets from network. Pos is the guard starting position, target the first patrol Card
 	void initGuard4Network(Coord pos, Coord target);
 

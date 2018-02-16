@@ -199,6 +199,27 @@ bool GameModel::doChihuahuaAction(int dice)
 	return b;
 
 }
+
+unsigned int GameModel::getSafeNumber(Coord c) 
+{
+	if (c == ROOF)
+		return 0;
+
+	return this->getBoard()->getTile(c)->getSafeNumber();
+}
+
+bool GameModel::setSafeNumber(Coord c, unsigned int sNumber)
+{
+	if (c == ROOF)
+		return false;
+
+	this->getBoard()->getTile(c)->setSafeNumber(sNumber);
+	return true;
+
+}
+
+
+
 bool GameModel::guardIsMoving()
 {
 	return guardIsMoving_;
@@ -282,11 +303,6 @@ vector<Coord> GameModel::getTilesXDist(unsigned x, Player * p)
 	return board[c.floor].getXDistanceTiles(x, c);
 };
 
-// 
-unsigned int GameModel::getSafeNumber(Coord c)
-{
-	return board.getTile(c)->getSafeNumber();
-}
 void GameModel::check4Cameras()
 {
 	board.checkCameras(currentPlayer_->getPosition());

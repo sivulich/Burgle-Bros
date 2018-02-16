@@ -961,7 +961,6 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 	case SAFE_OPENED:
 	case THROW_DICE:
 	case OFFER_LOOT:
-	case THROW_DICE:
 	case REQUEST_LOOT:
 	case ROLL_DICE_FOR_LOOT:
 		DEBUG_MSG("Sending ACK");

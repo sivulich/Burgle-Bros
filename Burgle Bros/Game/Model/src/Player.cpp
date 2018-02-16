@@ -68,7 +68,7 @@ bool Player::has(lootType l)
 // FALSE if nothing is needed from the user
 confirmation Player::needConfirmationToMove(Coord c)
 {
-	if (c == ROOF)
+	if (c.floor == 3)
 		return _MOVE;
 
 	confirmation  b = _MOVE;

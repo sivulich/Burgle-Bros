@@ -1,6 +1,6 @@
 #pragma once
 #define BOOST_MPL_CFG_NO_PREPROCESSED_HEADERS
-#define BOOST_MPL_LIMIT_VECTOR_SIZE 50 //or whatever you need                      
+#define BOOST_MPL_LIMIT_VECTOR_SIZE 50 //or whatever you need                       
 #define BOOST_MPL_LIMIT_MAP_SIZE 50 //or whatever you need 
 #define FUSION_MAX_VECTOR_SIZE 25
 
@@ -57,7 +57,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		else if (fsm.model->isRemote())
 		{
 			if (fsm.network->isServer())
-				fsm.model->setBoard();
+				fsm.model->setBoard();	
 			// Cord will be random in next state
 
 		}
@@ -74,7 +74,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			while (fsm.network->join() == false);
 			fsm.network->sendQuit();
 		}
-
+			
 	}
 
 	//----------------------- STATES -----------------------------//
@@ -212,8 +212,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 			if (fsm.model->gameOver() == true)
 				fsm.process_event(ev::gameOver());
-
-			if (fsm.model->currentPlayer()->getActionTokens() == 0 || fsm.model->currentPlayer()->isOnRoof())
+			else if(fsm.model->win())
+				fsm.process_event(ev::burglarsWin());
+			else if (fsm.model->currentPlayer()->getActionTokens() == 0 || fsm.model->currentPlayer()->isOnRoof())
 				fsm.process_event(ev::no());
 			else
 			{
@@ -232,7 +233,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			DEBUG_MSG("ENTRANDO A ESTADO: askConfirmation");
-
+			
 		}
 
 	};
@@ -280,7 +281,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					unsigned int safeNumber = fsm.model->getSafeNumber(event.c);
 					while (fsm.network->join() == false);
 					fsm.network->sendMove(event.c, safeNumber);
-					//				fsm.process_event(ev::waitForNetwork());
+					fsm.process_event(ev::waitForNetwork());
 				}
 
 			}
@@ -297,7 +298,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (is_same<EVT, ev::yes>::value)
 			{
 				DEBUG_MSG("Passing coord");
-				fsm.process_event(ev::coord(destinationCoord, destinationSafeNumber));
+				fsm.process_event(ev::coord(destinationCoord,destinationSafeNumber));
 			}
 			DEBUG_MSG("Leaving ask confirmation");
 		}
@@ -379,7 +380,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			if (is_same<EVT, ev::burglarsWin>::value)
+			{
 				fsm.graphics->showOkMessage(string("You win!"));
+
+			}
 			else if (is_same<EVT, ev::gameOver>::value)
 				fsm.graphics->showOkMessage(string("You lose!"));
 
@@ -449,57 +453,51 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.graphics->showOkMessage(string("You can't leave without the loots!"));
 			else
 			{
-				if (fsm.model->currentPlayer()->isRemote())
-					fsm.model->getBoard()->getTile(event.c)->setSafeNumber(event.safeNumber);
-
 				fsm.model->currentPlayer()->move(event.c);
-				if (fsm.model->win())
+				if (fsm.model->win()) {
 					fsm.process_event(ev::burglarsWin());
-
-				// If other player is remote and coming from chooseAction send move
-				bool b = is_same<SourceState, chooseAction>::value;
-				if (b && fsm.model->otherPlayer()->isRemote())
+				}
+				else
 				{
-					unsigned int safeNumber = fsm.model->getBoard()->getTile(event.c)->getSafeNumber();
-					while (fsm.network->join() == false);
-					fsm.network->sendMove(event.c, safeNumber);
-					fsm.process_event(ev::waitForNetwork());
+					if (fsm.model->currentPlayer()->isRemote())
+						fsm.model->setSafeNumber(event.c, event.safeNumber);
+
+					// If other player is remote and coming from chooseAction send move
+					bool b = is_same<SourceState, chooseAction>::value;
+					if (b && fsm.model->otherPlayer()->isRemote())
+					{
+						unsigned int safeNumber = fsm.model->getSafeNumber(event.c);
+						while (fsm.network->join() == false);
+						fsm.network->sendMove(event.c, safeNumber);
+						fsm.process_event(ev::waitForNetwork());
+					}
+
+					// If coming from ask confirmation state and DEADBOLT or LASER, the player agreed to spend tokens
+					if (event.c.floor < 3)
+					{
+						tileType tileT = fsm.model->getBoard()->getTile(event.c)->getType();
+						if (is_same<SourceState, askConfirmationMove>::value && (tileT == DEADBOLT || tileT == LASER))
+						{
+							fsm.model->currentPlayer()->spentOK();
+							if (fsm.model->otherPlayer()->isRemote())
+							{
+								while (fsm.network->join() == false);
+								fsm.network->sendSpent('Y');
+								fsm.process_event(ev::waitForNetwork());
+							}
+						}
+					}
+					if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
+						fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
+
+					fsm.model->check4Cameras();
+					// HACER UNA FUNCION POSITION GUARD DEL MODELO
+					//fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
+					fsm.model->positionGuard();
+					//COMENTO PARA PROBAR EL ROOF fsm.model->currentPlayer()->gettActions();
+					fsm.currentAction = NO_TYPE;
 				}
 			}
-
-
-			// If coming from ask confirmation state and DEADBOLT or LASER, the player agreed to spend tokens
-			tileType tileT = fsm.model->getBoard()->getTile(event.c)->getType();
-			if (is_same<SourceState, askConfirmationMove>::value && (tileT == DEADBOLT || tileT == LASER))
-			{
-				fsm.model->currentPlayer()->spentOK();
-				if (fsm.model->otherPlayer()->isRemote())
-				{
-					while (fsm.network->join() == false);
-					fsm.network->sendSpent('Y');
-					fsm.process_event(ev::waitForNetwork());
-				}
-			}
-
-
-			if (fsm.model->currentPlayer()->getCharacter() != ACROBAT)
-				fsm.model->getBoard()->checkOnePlayer(fsm.model->currentPlayer(), fsm.model->currentPlayer()->getPosition().floor);
-
-			fsm.model->check4Cameras();
-			// HACER UNA FUNCION POSITION GUARD DEL MODELO
-			//fsm.model->getBoard()->getFloor(fsm.model->currentPlayer()->getPosition().floor)->getGuard()->positionGuard();
-			if (fsm.model->currentPlayer()->isLocal())
-				fsm.model->positionGuard();
-			if (fsm.model->otherPlayer()->isRemote())
-			{
-				while (fsm.network->join() == false);
-				//fsm.network->sendInitialGuardPos(Coord pos, Coord destino);
-				fsm.process_event(ev::waitForNetwork());
-			}
-
-
-			//COMENTO PARA PROBAR EL ROOF fsm.model->currentPlayer()->gettActions();
-			fsm.currentAction = NO_TYPE;
 		}
 	};
 
@@ -540,9 +538,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isRemote())
 				fsm.model->getBoard()->getTile(event.c)->setSafeNumber(event.safeNumber);
 
-
-			fsm.model->currentPlayer()->peek(event.c);
-
+			
+			 fsm.model->currentPlayer()->peek(event.c);
+			
 			// If other player is remote send peek 
 			if (fsm.model->otherPlayer()->isRemote())
 			{
@@ -553,7 +551,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.network->error())
 					DEBUG_MSG(fsm.network->errMessage());
 
-				//		fsm.process_event(ev::waitForNetwork());
+		//		fsm.process_event(ev::waitForNetwork());
 			}
 
 			fsm.currentAction = NO_TYPE;
@@ -628,7 +626,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				for (int i = 0; i < 6; i++)
 					dices.push_back(fsm.model->currentPlayer()->throwDice());
 			}
-			//dices.push_back(0);
 			// If remote get dices from other computer
 			else if (fsm.model->currentPlayer()->isRemote())
 				dices = event.dices;
@@ -636,15 +633,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			int currDice = 0;
 			while (!((Safe *)currTile)->safeIsOpen())
 			{
-				if (dices[currDice] == 0)
+				if (dices[currDice]==0)
 					DEBUG_MSG("A DICE WAS 0!");
 
 				if (fsm.model->currentPlayer()->throwDice(dices[currDice]) || currDice==5)// Cant throw more dices or safe crackes
 				{
 					currDice++;
 					vector<unsigned int> dicesThrown(dices.begin(), dices.begin() + currDice);
-					
 					fsm.graphics->showDices(string("You threw this dices."), dicesThrown);
+
 					// Add remaining zeros
 					for (int i = currDice; i < 6; i++)
 						dicesThrown.push_back(0);
@@ -678,7 +675,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				}
 				currDice++;
 			}
-			
 
 		}
 	};
@@ -723,7 +719,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				if (((Keypad *)destTile)->tryToOpen(dicesT[diceCount], fsm.model->currentPlayer()) == true)// Cant throw more dices or keypad crackes
 				{
-					dicesT.resize(diceCount + 1);
+					dicesT.resize(diceCount+1);
 					if (destTile->canMove(fsm.model->currentPlayer())) //Keypad decodes
 					{
 						fsm.graphics->showDices(string("You threw a 6 and decoded the keypad! Now you can enter freely."), dicesT);
@@ -745,9 +741,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				while (fsm.network->join() == false);
 				fsm.network->sendThrowDice(dicesT);
-				//				fsm.process_event(ev::waitForNetwork());
+				fsm.process_event(ev::waitForNetwork());
 			}
-
+			
 		}
 	};
 
@@ -950,7 +946,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			if (fsm.model->currentPlayer()->isLocal())
-				fsm.graphics->showOkMessage(fsm.model->otherPlayer()->getName() + string(" rejected your request."));
+				fsm.graphics->showOkMessage(fsm.model->otherPlayer()->getName() + string(" rejected your request.") );
 			if (fsm.model->currentPlayer()->isRemote())
 			{
 				DEBUG_MSG("Sending disagree to " << fsm.model->otherPlayer()->getName());
@@ -1011,22 +1007,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.network->sendPass();
 				fsm.process_event(ev::waitForNetwork());
 			}
-		}
-	};
-
-
-
-	struct	doSetGuardPos
-	{
-		template <class EVT, class FSM, class SourceState, class TargetState>
-		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
-		{
-			DEBUG_MSG("SETTING GUARD POS");
-			if (fsm.model->currentPlayer()->isRemote)
-			{
-				fsm.model->initGuard4Network(fsm.network->remoteGuardPos(), fsm.network->remoteGuardTarget());
-			}
-
 		}
 	};
 
@@ -1467,7 +1447,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 	// Transition table
 	struct transition_table : mpl::vector<
-		//       Start		    Event			Next		Action            Guard
+		//       Start		    Event			Next		  Action            Guard
 		//  +-----------+------------------+--------------+--------------+-----------------+-----------+
 
 		Row < chooseInitialPos, ev::coord, chooseAction, doSetInitialPos, none				>,
@@ -1477,8 +1457,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < chooseAction, ev::move, none, showMove, none				>,
 		Row < chooseAction, ev::coord, checkActionTokens, doMove, And_<isMoving, Not_<needsConfirmation>>	>,
 		Row < chooseAction, ev::coord, askConfirmationMove, none, And_<isMoving, needsConfirmation>			>,
-	
-	//	Row < chooseAction, ev::guardPos, none, doSetGuardPos, none			>,
+
 
 		Row < chooseAction, ev::peek, none, showPeek, none				>,
 		Row < chooseAction, ev::coord, checkActionTokens, doPeek, isPeeking			>,
@@ -1539,7 +1518,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		//Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
 		//Row < waitingForNetwork, ev::ack, idle, none, none			>
 
-				> {};
+	> {};
 
 	// Replaces the default no-transition response.
 	template <class FSM, class EVT>
