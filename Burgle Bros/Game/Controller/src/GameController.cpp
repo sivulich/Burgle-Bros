@@ -86,6 +86,7 @@ void GameController::getInput()
 
 
 			case INITIAL_G_POS:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::guardPos(inp.remoteGuardPos,inp.remoteGuardTarget));
 				break;
 
 			case SPENT_OK:

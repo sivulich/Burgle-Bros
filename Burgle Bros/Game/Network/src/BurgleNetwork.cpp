@@ -1171,10 +1171,16 @@ void BurgleNetwork::sendCreateAlarm(Coord pos)
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, CREATE_ALARM, pos, 0);
 }
-void BurgleNetwork::sendInitialGuardPos(Coord pos)
+void BurgleNetwork::sendInitialGuardPos(Coord init,Coord target)
 {
 	if (join() == true)
-		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, INITIAL_G_POS, pos, 0);
+	{
+		vector<char> pack(1, INITIAL_G_POS);
+		coordToPacket(init, pack);
+		coordToPacket(target, pack);
+		sendPacket(flags.sock,pack);
+	}
+		
 }
 void BurgleNetwork::sendSpyPatrol(Coord pos, char tb)
 {
@@ -1240,7 +1246,7 @@ void BurgleNetwork::sendError()
 {
 	if (join() == true)
 	{
-		vector<char> pack(1, ERRO);
+		vector<char> pack(1, (char)ERRO);
 		if (sendPacket(flags.sock, pack) == false)
 		{
 			flags.errMessage = "Couldnt send ERROR";

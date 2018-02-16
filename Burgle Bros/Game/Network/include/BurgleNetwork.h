@@ -46,6 +46,7 @@ public:
 	action_ID action;
 	vector<unsigned int> dice;
 	Coord pos;
+	Coord remoteGuardPos, remoteGuardTarget;
 	vector<Coord> guardMoves;
 	lootType loot;
 	char modifier;
@@ -111,7 +112,7 @@ public:
 	void sendPlaceCrow(Coord pos);
 	void sendOfferLoot(lootType loot);
 	void sendRequestLoot(lootType loot);
-	void sendInitialGuardPos(Coord pos);
+	void sendInitialGuardPos(Coord init, Coord target);
 	void sendPickupLoot();
 	void sendPass();
 	void sendAgree();

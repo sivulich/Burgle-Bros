@@ -32,6 +32,13 @@ namespace ev {
 		unsigned int safeNumber;
 	};
 	struct moveGuard : BaseEvent	{};
+	struct guardPos: BaseEvent
+	{
+		guardPos(Coord c0, Coord t0) :remoteGuardPos(c0),remoteGuardTarget(t0) {};
+		Coord remoteGuardPos;
+		Coord remoteGuardTarget;
+	};
+
 	struct peek : BaseEvent
 	{
 		typedef int CoordProp;
