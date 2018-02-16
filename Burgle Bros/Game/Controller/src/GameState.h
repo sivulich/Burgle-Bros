@@ -246,7 +246,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				Tile * tile = fsm.model->getBoard()->getTile(event.c);
 				destinationType = tile->getType();
 
-				if ((fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()))
+				if ((fsm.model->currentPlayer()->isLocal())) //&& fsm.model->otherPlayer()->isRemote()))
 				{
 					confirmation conf = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
 					if (tile->is(DEADBOLT))
@@ -903,7 +903,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				{
 					if (fsm.model->otherPlayer()->isRemote() || (fsm.model->otherPlayer()->isLocal() && fsm.model->currentPlayer()->isLocal()))
 						fsm.graphics->showDices(string("You threw a 1/2. The kitty escaped your grasp."), dices);
-					else fsm.graphics->showDices(string("The other player threw a 1,2. The kitty escaped his\her grasp."), dices);
+					else fsm.graphics->showDices(string("The other player threw a 1,2. The kitty escaped his/her grasp."), dices);
 				}
 				else
 				{
