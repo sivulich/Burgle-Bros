@@ -49,6 +49,7 @@ public:
 	vector<Coord> guardMoves;
 	lootType loot;
 	char modifier;
+	string errMessage;
 };
 using namespace std;
 enum{WAITINNG_CONN=1,MACHINES_CONNECTED,EXCHANGE_NAMES,EXCHANGE_CHARACTERS,EXCHANGE_GUARD,EXCHANGE_BOARD,EXCHANGE_FIRST,EXCHANGE_FINISHED};

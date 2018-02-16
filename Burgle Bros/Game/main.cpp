@@ -14,52 +14,80 @@ int main(void)
 	}
 	game.stop();
 
-	/*BurgleNetwork * network = new BurgleNetwork();
-	network->connect("127.0.0.1");
+	//BurgleNetwork * network = new BurgleNetwork();
+	//network->connect("127.0.0.1");
 
-	while (!network->join()) {}
+	//while (!network->join()) {}
 
-	if (network->error())
-		cout << network->errMessage() << endl;
-	else
-	{
-		cout << network->isConnected() << endl;
-		if (network->isServer())
-			network->sendPeek(Coord(0, 0, 0), 1);
+	//if (network->error())
+	//	cout << network->errMessage() << endl;
+	//else
+	//{
+	//	if (network->isServer())
+	//		network->sendPeek(Coord(0, 0, 0), 1);
+
+	//	bool b = true;
+	//	while (b)
+	//	{
+	//		remoteInput	inp = network->getRemoteInput();
+	//		if (inp.action != NO_TYPE)
+	//		{
+	//			b = false;
+	//			//cout << "Received a " << inp.action << endl;
+	//		}
+	//			
+	//		if (network->error())
+	//		{
+	//			cout << "ERROR: " << network->errMessage() << endl;
+	//			b = false;
+	//		}
+	//	}
+
+	//	if (network->isServer())
+	//		network->sendThrowDice(1, 2, 3, 4, 5, 6);
+
+	//	b = true;
+	//	while (b)
+	//	{
+	//		remoteInput	inp = network->getRemoteInput();
+	//		if (inp.action != NO_TYPE)
+	//		{
+	//			b = false;
+	//			//cout << "Received a " << inp.action << endl;
+	//		}
+	//		if (network->error())
+	//		{
+	//			cout << "ERROR: " << network->errMessage() << endl;
+	//			b = false;
+	//		}
+	//	}
+
+	//	if (network->isServer())
+	//		network->sendSafeOpened(TIARA);
+
+	//    b = true;
+	//	while (b)
+	//	{
+	//		remoteInput	inp = network->getRemoteInput();
+	//		if (inp.action != NO_TYPE)
+	//		{
+	//			b = false;
+	//			//cout << "Received a " << inp.action << endl;
+	//		}
+
+	//		if (network->error())
+	//		{
+	//			cout << "ERROR: " << network->errMessage() << endl;
+	//			b = false;
+	//		}
+	//	}
 
 
-		bool b = true;
-		while (b)
-		{
-			remoteInput	inp = network->getRemoteInput();
-			if (inp.action != NO_TYPE)
-				b = false;
-			if (network->error())
-			{
-				cout << "ERROR: " << network->errMessage() << endl;
-				b = false;
-			}
-		}
+	//
 
-
-		if (network->isServer() == false)
-			network->sendMove(Coord(1, 1, 3), 1);
-		b = true;
-		while (b)
-		{
-			remoteInput	inp = network->getRemoteInput();
-			if (inp.action != NO_TYPE)
-				b = false;
-			if (network->error())
-			{
-				cout << "ERROR: " << network->errMessage() << endl;
-				b = false;
-			}
-		}
-
-	}
-	getchar();
-	getchar();*/
+	//}
+	//getchar();
+	//getchar();
 	
 	return 0;
 }

@@ -533,7 +533,7 @@ void BurgleNetwork::exchangeGuard(thData* fl, const Coord guardPos, Coord guardT
 	threadCloser(fl);
 	return;
 }
-void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> board, const Coord playerPos)
+void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> board, const Coord playerPos/*,int initialSafeNumber*/)
 {
 	if (fl->error == true)
 	{
@@ -563,6 +563,7 @@ void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> 
 		pack.push_back((char)(playerPos.row + '1'));
 		pack.push_back('F');
 		pack.push_back((char)(playerPos.floor + '1'));
+		//pack.push_back((char)(initialSafeNumber+'0'));
 		if (sendPacket(fl->sock, pack) == false)
 		{
 			fl->error = true;
@@ -576,7 +577,7 @@ void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> 
 	else
 	{
 		vector<char> buffer;
-		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 53 || buffer[0] != START_INFO)
+		if (recievePacket(fl->sock, buffer) == false || buffer.size() != 53 /*54!*/|| buffer[0] != START_INFO)
 		{
 			fl->error = true;
 			fl->join = true;
@@ -591,6 +592,7 @@ void BurgleNetwork::exchangeBoard(thData* fl,/* Board& board*/ vector<tileType> 
 		fl->playerPos.col = buffer[49] - 'A';
 		fl->playerPos.row = buffer[50] - '1';
 		fl->playerPos.floor = buffer[52] - '1';
+		//fl->initialSafeNumber = buffer[52] - '0';
 	}
 
 	//Second packet server listens, client sends ACK
@@ -917,6 +919,13 @@ remoteInput BurgleNetwork::getRemoteInput()
 		return inp;
 	}
 
+	if (flags.error == true)
+	{
+		inp.action = ERRO;
+		inp.errMessage = flags.errMessage;
+		return inp;
+	}
+
 	vector<char> buffer(1024, 0);
 	apr_size_t size = 1024;
 	clock_t t = clock();
@@ -950,6 +959,7 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 	case SPENT_OK:
 	case INITIAL_G_POS:
 	case SAFE_OPENED:
+	case THROW_DICE:
 	case OFFER_LOOT:
 	case THROW_DICE:
 	case REQUEST_LOOT:
@@ -958,7 +968,7 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 		return sendPacket(flags.sock, vector<char>(1, (char)ACK));
 		break;
 
-	case ERROR:
+	case ERRO:
 		flags.error = true;
 		flags.errMessage = "Recivied error from remote player";
 	default:
@@ -1233,7 +1243,7 @@ void BurgleNetwork::sendError()
 {
 	if (join() == true)
 	{
-		vector<char> pack(1, ERROR);
+		vector<char> pack(1, ERRO);
 		if (sendPacket(flags.sock, pack) == false)
 		{
 			flags.errMessage = "Couldnt send ERROR";

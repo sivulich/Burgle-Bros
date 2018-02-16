@@ -123,18 +123,14 @@ vector<Coord> Player::whereCanIMove()
 	return v;
 }
 
-unsigned int Player::move(Coord c, unsigned int safeNumber)
+void Player::move(Coord c)
 {
 	if (c == ROOF)
-	{
 		setPosition(ROOF);
-		return 0;
-	}
-	else
-		return move(board->getTile(c));
+	else move(board->getTile(c));
 }
 
-unsigned int Player::move(Tile * newTile, unsigned int safeNumber)
+void Player::move(Tile * newTile)
 {
 	removeActionToken();
 
@@ -156,13 +152,8 @@ unsigned int Player::move(Tile * newTile, unsigned int safeNumber)
 		for (auto & t : loots)
 			t->update();
 
-		if (safeNumber != 0)
-			newTile->setSafeNumber(safeNumber);
-
 		notify();
-		return newTile->getSafeNumber();
 	}
-	return 0;
 }
 
 vector<Coord> Player::whereCanIPeek()
@@ -212,7 +203,7 @@ vector<Coord> Player::getAdjacentJuicer()
 
 }
 
-unsigned int Player::peek(Coord c, unsigned int safeNumber)
+void Player::peek(Coord c)
 {
 	// Remove ability from hawk
 	if (character->is(HAWK) && currentTile->isAdjacent(c) == false)
@@ -221,22 +212,19 @@ unsigned int Player::peek(Coord c, unsigned int safeNumber)
 		this->actionTokens++;
 	}
 
-	return peek(board->getTile(c));
+	peek(board->getTile(c));
 }
 
-unsigned int Player::peek(Tile * newTile, unsigned int safeNumber)
+void Player::peek(Tile * newTile)
 {
 	// No longer check for adjacency, peek does it without discretion, adjacency is obtained with whereCanIPeek()
-
 	if (newTile->isFlipped() == false)
 	{
 		removeActionToken();
 		newAction("PEEK", newTile->getPos(), INT_MAX);
-		newTile->turnUp(safeNumber);
+		newTile->turnUp();
 		notify();
-		return newTile->getSafeNumber();
 	}
-	return 0;
 }
 
 bool Player::createAlarm(Coord c)
