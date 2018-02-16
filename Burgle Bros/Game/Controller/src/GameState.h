@@ -82,6 +82,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
+			DEBUG_MSG("ENTRANDO A ESTADO: chooseInitialPos");
 
 			if (fsm.model->isLocal())
 			{
@@ -162,6 +163,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
+			DEBUG_MSG("ENTRANDO A ESTADO: chooseAction");
 			fsm.graphics->printInHud(string("Choose an action"));
 			vector<string> v = fsm.model->currentPlayer()->getActions();
 
@@ -186,7 +188,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("CHOOSE LOOT");
+			DEBUG_MSG("ENTRANDO A ESTADO: chooseLoot");
 		}
 
 		template <class EVT, class FSM>
@@ -202,7 +204,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("CHECK ACTION TOKENS");
+			DEBUG_MSG("ENTRANDO A ESTADO: checkActionTokens");
 
 			if (fsm.model->gameOver() == true)
 				fsm.process_event(ev::gameOver());
@@ -225,7 +227,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("ASK CONFIRMATION");
+			DEBUG_MSG("ENTRANDO A ESTADO: askConfirmation");
+			
 		}
 
 	};
@@ -240,7 +243,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
 			on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("ASK CONFIRMATION MOVE");
+			DEBUG_MSG("ENTRANDO A ESTADO: askConfirmationMove");
 			destinationCoord = event.c;
 			destinationSafeNumber = event.safeNumber;
 
@@ -272,7 +275,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				{
 					unsigned int safeNumber = fsm.model->getSafeNumber(event.c);
 					fsm.network->sendMove(event.c, safeNumber);
-					fsm.process_event(ev::waitForNetwork());
+	//				fsm.process_event(ev::waitForNetwork());
 				}
 
 			}
@@ -280,7 +283,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 		template <class EVT, class FSM>
 		typename boost::disable_if<typename has_CoordProp<EVT>::type, void>::type
-			on_entry(EVT const&  event, FSM& fsm) {};
+			on_entry(EVT const&  event, FSM& fsm) {	};
 
 
 		template <class EVT, class FSM>
@@ -302,7 +305,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("BEGIN TURN");
+			DEBUG_MSG("ENTRANDO A ESTADO: beginTurn");
 			fsm.currentAction = NO_TYPE;
 			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
 
@@ -391,7 +394,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("IDLE...");
+			DEBUG_MSG("ENTRANDO A ESTADO: idle");
 
 		}
 	};
@@ -401,7 +404,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("wAITING FOR NETWORK");
+			DEBUG_MSG("ENTRANDO A ESTADO: waitingForNetwork");
 
 		}
 
@@ -458,11 +461,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			}
 
 
-			// If coming from ask confirmation state, the player agreed to spent tokens
-			if (is_same<SourceState, askConfirmationMove>::value)
+			// If coming from ask confirmation state and DEADBOLT or LASER, the player agreed to spend tokens
+			tileType tileT = fsm.model->getBoard()->getTile(event.c)->getType();
+			if (is_same<SourceState, askConfirmationMove>::value && (tileT == DEADBOLT || tileT == LASER))
 			{
 				fsm.model->currentPlayer()->spentOK();
-				if (fsm.model->otherPlayer()->isRemote()) {
+				if (fsm.model->otherPlayer()->isRemote())
+				{
 					fsm.network->sendSpent('Y');
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -529,7 +534,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.network->error())
 					DEBUG_MSG(fsm.network->errMessage());
 
-				fsm.process_event(ev::waitForNetwork());
+		//		fsm.process_event(ev::waitForNetwork());
 			}
 
 			fsm.currentAction = NO_TYPE;
@@ -681,29 +686,45 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			DEBUG_MSG("Trying to open Keypad");
 			Tile * destTile = fsm.model->getBoard()->getTile(source.destinationCoord);
-			if (fsm.model->currentPlayer()->isLocal())
+
+			vector<unsigned int> dicesT;
+			if (fsm.model->currentPlayer()->isRemote())
+				dicesT = event.dices;
+			else
 			{
-				vector<int> dices;
-				while (true)
-				{
-					int dice = fsm.model->currentPlayer()->throwDice();
-					dices.push_back(dice);
-					if (((Keypad *)destTile)->tryToOpen(dice, fsm.model->currentPlayer()) == true)// Cant throw more dices or keypad crackes
-					{
-						if (destTile->canMove(fsm.model->currentPlayer())) //Keypad decodes
-						{
-							fsm.graphics->showDices(string("You threw a 6 and decoded the keypad! Now you can enter freely."), dices);
-							fsm.process_event(ev::yes());
-						}
-						else
-						{
-							fsm.graphics->showDices(string("You couldn't decode the keypad!"), dices);
-							fsm.process_event(ev::no());
-						}
-						break;
-					}
-				}
+				for (int i = 0; i < 6; i++)
+					dicesT.push_back(fsm.model->currentPlayer()->throwDice());
 			}
+			unsigned int diceCount = 0;
+			while (true) //&& event.dices.size()>0)
+			{
+				if (((Keypad *)destTile)->tryToOpen(dicesT[diceCount], fsm.model->currentPlayer()) == true)// Cant throw more dices or keypad crackes
+				{
+					dicesT.resize(diceCount+1);
+					if (destTile->canMove(fsm.model->currentPlayer())) //Keypad decodes
+					{
+						fsm.graphics->showDices(string("You threw a 6 and decoded the keypad! Now you can enter freely."), dicesT);
+						fsm.process_event(ev::yes());
+						DEBUG_MSG("Proccesing a YES");
+					}
+					else
+					{
+						fsm.graphics->showDices(string("You couldn't decode the keypad!"), dicesT);
+						fsm.process_event(ev::no());
+						DEBUG_MSG("Proccesing a NO");
+					}
+					break;
+				}
+				diceCount++;
+			}
+
+			if (fsm.model->otherPlayer()->isRemote())
+			{
+				while (fsm.network->join() == false);
+				fsm.network->sendThrowDice(dicesT);
+//				fsm.process_event(ev::waitForNetwork());
+			}
+			
 		}
 	};
 
@@ -982,7 +1003,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			vector<int> dices;
+			vector<unsigned int> dices;
 			dices.push_back(event.number);
 			bool b = false;
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) == true)
@@ -1036,7 +1057,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			vector<int> dices;
+			vector<unsigned int> dices;
 			dices.push_back(event.number);
 			if (fsm.model->doChihuahuaAction(event.number))
 			{
@@ -1228,7 +1249,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	};
 
 
-	///////////// GUARDSSSSS
+	/////////// GUARDSSSSS
 	struct isMoving
 	{
 		template <class EVT, class FSM, class SourceState, class TargetState>

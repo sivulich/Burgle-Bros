@@ -85,7 +85,7 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 	}
 	parent->addObject(this);
 }
-DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<int>& d)
+DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<unsigned int>& d)
 {
 	parent = c;
 	int yOffset = 0;
