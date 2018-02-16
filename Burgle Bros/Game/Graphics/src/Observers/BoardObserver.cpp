@@ -11,12 +11,21 @@ BoardObserver::BoardObserver(GameModel* model, Container* c)
 	boardContainer->setBackground(string("../Game/Graphics/Images/Board.jpg"));
 	parent->addObject(boardContainer);
 
-	for (int i = 0; i<3; i++)
+	for (int i = 0; i < 3; i++)
 		floors[i] = new FloorObserver(&(*board)[i], boardContainer);
 
 	// Atach to the model of the board
 	board->attach(this);
 }
+
+BoardObserver::~BoardObserver()
+{
+	DEBUG_MSG("DELETING BOARD");
+	delete boardContainer;
+	for (int i = 0; i < 3; i++)
+		delete floors[i];
+}
+
 
 // Zoom the clicked tile
 void BoardObserver::zoomTile(Coord c)

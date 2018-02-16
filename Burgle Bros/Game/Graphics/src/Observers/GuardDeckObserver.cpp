@@ -29,14 +29,21 @@ GuardDeckObserver::GuardDeckObserver(Floor* f, Container* board)
 	back->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()]);
 	back->setHoverable(false);
 	back->setClickable(false);
-	//viewDeck = new Image(string("./Graphics/Images/Patrol/VIEW_DECK.png"));
-	//viewDeck->setPosition(GUARD_DECK_YPOS+3.0/4.0*TILE_SIZE, GUARD_DECK_XPOS[floor->number()] + 2 * (TILE_SIZE + TILE_SEPARATION/1.5));
-	//viewDeck->setScale(TILE_SIZE/4*1.0/viewDeck->getWidth());
-	//boardCont->addObject(viewDeck);
 	boardCont->addObject(back);
 	lastCard = "";
 	deck->attach(this);
 	slide = new alx::Sample("../Game/Sound/SLIDE.wav");
+}
+
+GuardDeckObserver::~GuardDeckObserver()
+{
+	DEBUG_MSG("DELETING GUARD DECK");
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			delete cards[i][j];
+
+	delete back;
+	delete slide;
 }
 
 void GuardDeckObserver::showTop()

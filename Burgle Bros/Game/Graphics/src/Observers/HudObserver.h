@@ -10,9 +10,10 @@ class HudObserver : public Observer
 {
 public:
 	HudObserver(GameModel * m,BoardObserver* boardObs, Container * c);
+	~HudObserver();
 	virtual void update()override;
 	void disableActions();
-	~HudObserver();
+	void loadPlayerToken(string s);
 private:
 	GameModel * model;
 	BoardObserver * boardObs;

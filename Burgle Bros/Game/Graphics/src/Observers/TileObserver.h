@@ -11,6 +11,7 @@ class TileObserver :public Observer
 {
 public:
 	TileObserver(Tile* t, Container* floorContainer, Container* boardContainer);
+	~TileObserver();
 	void update();
 	void setHoverable(bool b) { tileCard->setHoverable(b); };
 	void setClickable(bool b) { tileCard->setClickable(b); };
@@ -23,7 +24,6 @@ public:
 	pair<int, int> pos() { return tileCard->getPos(); };
 	void zoom();
 	void unZoom();
-	~TileObserver();
 private:
 	// Pointer to the container in which the tile is
 	Container* floorContainer;
@@ -34,6 +34,11 @@ private:
 	//Sound
 	alx::Sample * flip;
 	alx::Sample * alarm;
+	alx::Sample * crow;
+	alx::Sample * kitty;
+	alx::Sample * gold;
+	alx::Sample * safe;
+	alx::Sample * keypad;
 
 	//Graphics object
 	Image *safeNumber;

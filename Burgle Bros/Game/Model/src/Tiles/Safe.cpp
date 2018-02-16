@@ -59,20 +59,8 @@ bool Safe::doAction(string action, PlayerInterface * player)// Bool endThrow ret
 				endThrow = true;
 				safeCracked = true;	// if so, you opened the safe
 				DEBUG_MSG("You cracked the safe!!");
-				player->addLoot(safeLoot);
 				player->newAction("SAFE_OPENED", getPos(), INT_MAX);
-				if (safeLoot == CURSED_GOBLET && player->getActionTokens() > 0)
-					player->removeStealthToken();
-				if (safeLoot == KEYCARD)
-				{
-					for (auto &it : otherSafes)
-						((Safe *)it)->isKeyCardHere(false);
-				}
-				if (safeLoot == GOLD_BAR)
-				{
-					Tile::setLoot(LootFactory().newLoot(GOLD_BAR));
-				}
-				notify();
+				// CALL giveLootToPlayer()!
 			}
 			if (dicesThisTurn == (dices + b) && !safeIsOpen())
 			{
@@ -85,6 +73,22 @@ bool Safe::doAction(string action, PlayerInterface * player)// Bool endThrow ret
 	}
 	return endThrow;
 
+}
+
+void Safe::giveLootToPlayer(PlayerInterface * player)
+{
+	player->addLoot(safeLoot);
+
+	if (safeLoot == CURSED_GOBLET && player->getActionTokens() > 0)
+		player->removeStealthToken();
+	if (safeLoot == KEYCARD)
+	{
+		for (auto &it : otherSafes)
+			((Safe *)it)->isKeyCardHere(false);
+	}
+	if (safeLoot == GOLD_BAR)
+		Tile::setLoot(LootFactory().newLoot(GOLD_BAR));
+	notify();
 }
 
 void Safe::trySafeNumber(int number) {

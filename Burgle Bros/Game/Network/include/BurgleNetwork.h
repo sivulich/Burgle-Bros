@@ -42,6 +42,7 @@ typedef struct {
 
 class remoteInput{
 public:
+	remoteInput() { action = NO_TYPE; };
 	action_ID action;
 	vector<unsigned int> dice;
 	Coord pos;

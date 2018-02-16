@@ -311,6 +311,13 @@ void Board::parseBoard()
 	}
 }
 
+void Board::flipAll()
+{
+	for (int f = 0; f < 3; f++)
+		for (int i = 0; i < 4; i++)
+			for (int j = 0; j < 4; j++)
+					getTile(Coord(f, i, j))->turnUp();
+}
 
 void Board::print()
 {

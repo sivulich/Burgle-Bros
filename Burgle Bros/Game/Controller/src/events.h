@@ -67,20 +67,22 @@ namespace ev {
 	struct errorHandled : BaseEvent {};
 	struct offerLoot : BaseEvent
 	{
-		offerLoot() : type((lootType)0) {};
+		offerLoot() : type(NO_LOOT_TYPE) {};
 		offerLoot(lootType t) : type(t) {};
 		lootType type;
 	};
 	struct requestLoot : BaseEvent
 	{
-		requestLoot() : type((lootType)0) {};
+		requestLoot() : type(NO_LOOT_TYPE) {};
 		requestLoot(lootType t) : type(t) {};
 		lootType type;
 	};
-	struct lootType : BaseEvent
+	struct loot : BaseEvent
 	{
-		lootType(string s) :type(s) {};
-		string type;
+		loot() :type(NO_LOOT_TYPE) {};
+		loot(string s) :type(toEnum_lootType(s.c_str())) {};
+		loot(lootType t) :type(t) {};
+		lootType type;
 	};
 	struct showAlarm : BaseEvent {};
 	struct createAlarm : BaseEvent

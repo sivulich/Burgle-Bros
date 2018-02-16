@@ -10,6 +10,7 @@ class GuardObserver:public Observer
 {
 public:
 	GuardObserver(Guard* g, Container* c,int floorNumber);	
+	~GuardObserver();
 	bool guardIsMoving() { return guardIm->hasAnimation(); };
 	void update();
 	void reset();

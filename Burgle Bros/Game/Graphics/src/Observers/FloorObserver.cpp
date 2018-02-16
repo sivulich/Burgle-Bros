@@ -33,6 +33,20 @@ FloorObserver::FloorObserver(Floor* f, Container* boardContainer)
 	deck = new GuardDeckObserver(f, boardContainer);
 }
 
+FloorObserver::~FloorObserver()
+{
+	DEBUG_MSG("DELETING FLOOR");
+	delete floorContainer;
+
+	/*for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			delete tiles[i][j];
+*/
+	delete guard;
+	delete deck;
+}
+
+
 // Zoom the selected tile
 void FloorObserver::zoomTile(Coord c)
 {

@@ -9,6 +9,7 @@ class GuardDeckObserver :public Observer
 {
 public:
 	GuardDeckObserver(Floor* f, Container* c);
+	~GuardDeckObserver();
 	// Shows the top card of the deck
 	void showTop();
 	// Hide the top card of the deck

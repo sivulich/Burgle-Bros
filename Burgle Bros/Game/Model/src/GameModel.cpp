@@ -258,6 +258,11 @@ Coord GameModel::stopSpying(unsigned f)
 	}
 	return topCardCoord;
 }
+
+void GameModel::flipAll()
+{
+	board.flipAll();
+}
 Coord GameModel::sendBottom(unsigned f)
 {
 	Coord topCardCoord = NPOS;

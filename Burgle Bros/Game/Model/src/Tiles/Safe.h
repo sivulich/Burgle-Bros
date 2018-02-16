@@ -17,10 +17,9 @@ public:
 
 	void Safe::exit(PlayerInterface * player);
 
-	void setLoot(lootType l)
-	{
-		safeLoot = l;
-	}
+	void setLoot(lootType l) { safeLoot = l; };
+	lootType getLoot() { return safeLoot; };
+	void giveLootToPlayer(PlayerInterface * player);
 	/**
 		Returns a vector of strings with the actions the player can do on the tile they are on
 		@param p Player who wants to check the actions

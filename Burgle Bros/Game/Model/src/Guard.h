@@ -10,6 +10,7 @@ public:
 	Guard(unsigned n, PatrolCardDeck*p, PlayerInterface * p1, PlayerInterface* p2) : pos(NPOS), movedOnce(false), floorNumber(n), player1(p1), player2(p2), patroldeck(p)
 	{
 		pos = NPOS;
+		target = NPOS;
 		speed = 2 + n;
 	};
 
@@ -85,6 +86,7 @@ public:
 
 	// Sets bool that determines if guard moved at least once in his current Turn
 	void moved(bool b) { movedOnce = b; };
+
 
 private:
 	unsigned speed, currsteps, floorNumber;

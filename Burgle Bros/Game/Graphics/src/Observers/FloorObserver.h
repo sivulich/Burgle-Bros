@@ -12,6 +12,7 @@ class FloorObserver :public Observer
 public:
 	// Recives a floor pointer and the container of the board
 	FloorObserver(Floor* f, Container* boardContainer);
+	~FloorObserver();
 	bool guardIsMoving() { return guard->guardIsMoving(); };
 	virtual void update();
 	Container * getContainer() { return floorContainer; }
