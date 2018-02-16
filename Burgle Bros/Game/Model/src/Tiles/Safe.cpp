@@ -26,7 +26,7 @@ vector<string> Safe::getActions(PlayerInterface * player)
 	{
 		if (dices < 6 && player->getActionTokens() >= 2)
 			actions.push_back("ADD_DIE");
-		if ((dices + b) > 0 && player->getActionTokens() >= 1 && keyCardHere)
+		if ((dices) > 0 && player->getActionTokens() >= 1 && keyCardHere)
 			actions.push_back("CRACK_SAFE");
 	}
 	return actions;
@@ -47,7 +47,7 @@ bool Safe::doAction(string action, PlayerInterface * player)// Bool endThrow ret
 	}
 	else if (action == "THROW_DICE" && keyCardHere)
 	{
-		if (dicesThisTurn < (dices + b) && !safeIsOpen())// while the safe remains closed, throw all the dice you have
+		if (dicesThisTurn < (dices + b) && !safeIsOpen() && (dices + b) < 6)// while the safe remains closed, throw all the dice you have
 		{
 			if (dicesThisTurn == 0)
 				player->removeActionToken();// remove an action

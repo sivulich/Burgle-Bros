@@ -126,6 +126,8 @@ bool BurgleNetwork::join()
 }
 void BurgleNetwork::threadStarter(thData* fl)
 {
+	//Probando
+	//fl->join = false;
 	fl->executing = true;
 }
 
@@ -949,6 +951,7 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 	case INITIAL_G_POS:
 	case SAFE_OPENED:
 	case OFFER_LOOT:
+	case THROW_DICE:
 	case REQUEST_LOOT:
 	case ROLL_DICE_FOR_LOOT:
 		DEBUG_MSG("Sending ACK");

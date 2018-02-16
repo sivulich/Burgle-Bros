@@ -274,8 +274,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->otherPlayer()->isRemote())
 				{
 					unsigned int safeNumber = fsm.model->getSafeNumber(event.c);
+					while (fsm.network->join() == false);
 					fsm.network->sendMove(event.c, safeNumber);
-	//				fsm.process_event(ev::waitForNetwork());
+					fsm.process_event(ev::waitForNetwork());
 				}
 
 			}
@@ -452,6 +453,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (b && fsm.model->otherPlayer()->isRemote())
 				{
 					DEBUG_MSG("SENDING MOVE FROM CHOOSE ACTION");
+					while (fsm.network->join() == false);
 					fsm.network->sendMove(event.c, safeNumber);
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -465,6 +467,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.model->currentPlayer()->spentOK();
 				if (fsm.model->otherPlayer()->isRemote())
 				{
+					while (fsm.network->join() == false);
 					fsm.network->sendSpent('Y');
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -500,6 +503,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				if (destTile->getType() == DEADBOLT || destTile->getType() == LASER)
 				{
+					while (fsm.network->join() == false);
 					fsm.network->sendSpent('N');
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -587,7 +591,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			DEBUG_MSG("CRACKING SAFE");
+/*			DEBUG_MSG("CRACKING SAFE");
 			fsm.currentAction = SAFE_OPENED;
 
 			Tile * currTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getPosition());
@@ -649,7 +653,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					break;
 				}
 				currDice++;
-			}
+			}*/
 
 		}
 	};
@@ -716,7 +720,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				while (fsm.network->join() == false);
 				fsm.network->sendThrowDice(dicesT);
-//				fsm.process_event(ev::waitForNetwork());
+				fsm.process_event(ev::waitForNetwork());
 			}
 			
 		}
