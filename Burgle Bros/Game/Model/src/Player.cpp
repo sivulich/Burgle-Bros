@@ -208,10 +208,24 @@ void Player::peek(Coord c)
 	// Remove ability from hawk
 	if (character->is(HAWK) && currentTile->isAdjacent(c) == false)
 	{
-		useAbility(true);
-		this->actionTokens++;
+		bool b = false;
+		if (currentTile->is(ATRIUM))
+		{
+			if (getPosition().floor < NUMBER_FLOORS)
+			{
+				if (c == Coord(getPosition().floor + 1, getPosition().col, getPosition().row)) b = true;
+			}
+			if (getPosition().floor > 0)
+			{
+				if (c == Coord(getPosition().floor - 1, getPosition().col, getPosition().row)) b = true;
+			}
+		}
+		if (!b)
+		{
+			useAbility(true);
+			this->actionTokens++;
+		}
 	}
-
 	peek(board->getTile(c));
 }
 
