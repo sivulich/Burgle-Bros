@@ -6,6 +6,7 @@ Guard::~Guard()
 	player2 = nullptr;
 	patroldeck = nullptr;
 	alarms = nullptr;
+	
 }
 
 void Guard::setFloorMap(vector<Coord> floor[4][4])
@@ -72,6 +73,7 @@ void Guard::locateGuard()
 		//DEBUG_MSG("Current steps " << currsteps<< endl);
 	}
 	positionGuard();
+	notify();
 }
 
 void Guard::positionGuard()
@@ -187,6 +189,7 @@ bool Guard::FindPath(Coord const coord)
 		//for (auto& a : path)
 			//DEBUG_MSG(a <<" ");
 		//cout << endl;
+		notify();
 		return true;
 	}
 	return false;

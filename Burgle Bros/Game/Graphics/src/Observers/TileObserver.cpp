@@ -203,6 +203,11 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 #endif // All tiles are set facing up (picture only)
 	flip = new alx::Sample("../Game/Sound/FLIP.wav");
 	alarm = new alx::Sample("../Game/Sound/ALARM.wav");
+	crow = new alx::Sample("../Game/Sound/CROW.wav");
+	kitty = new alx::Sample("../Game/Sound/CAT.wav");
+	gold = new alx::Sample("../Game/Sound/GOLD.wav");
+	safe = new alx::Sample("../Game/Sound/SAFE.wav");
+	keypad = new alx::Sample("../Game/Sound/KEYPAD.wav");
 }
 
 void TileObserver::showSafeNumber()
@@ -239,7 +244,6 @@ void TileObserver::update()
 		cracked = tile->hasCrackToken();
 		safeNumber->load(string("./Graphics/Images/Safe numbers/7SEG_") + to_string(tile->getSafeNumber()) + string("_GREEN.jpg"), true);
 	}
-
 	if (tile->hasAlarm() != alarmToken->isVisible())
 	{
 		if (tile->hasAlarm() && alarmToken->isVisible() == false)
@@ -262,8 +266,12 @@ void TileObserver::update()
 
 	if (tile->hasCrowToken() != crowToken->isVisible())
 	{
-		if (tile->hasCrowToken())
+		if (tile->hasCrowToken() && crowToken->isVisible()==false)
+		{
 			crowToken->setVisible(true);
+			crow->play(2, 0, 1, ALLEGRO_PLAYMODE_ONCE);
+		}
+			
 		else
 			crowToken->setVisible(false);
 	}
@@ -308,8 +316,11 @@ void TileObserver::update()
 		}
 		if (((Safe*)tile)->safeIsOpen())
 		{
+			if (dieTokens[0]->isVisible())
+				safe->play(2, 0, 1, ALLEGRO_PLAYMODE_ONCE);
 			for (auto &it : dieTokens)
 				it->setVisible(false);
+
 		}
 	}
 
@@ -317,9 +328,14 @@ void TileObserver::update()
 	{
 		if (tile->isFlipped() && ((Keypad *)tile)->keyDecoded())
 		{
-			openToken->setVisible(true);
-			for (auto &it : dieTokens)
-				it->setVisible(false);
+			if (openToken->isVisible()==false)
+			{
+				openToken->setVisible(true);
+				for (auto &it : dieTokens)
+					it->setVisible(false);
+				keypad->play(2, 0, 1, ALLEGRO_PLAYMODE_ONCE);
+			}
+			
 		}
 		if (((Keypad *)tile)->getAttempts() > 0 && !((Keypad *)tile)->keyDecoded())
 		{
@@ -337,8 +353,12 @@ void TileObserver::update()
 	if (tile->hasLoot(PERSIAN_KITTY) != hasKitty)
 	{
 		hasKitty = tile->hasLoot(PERSIAN_KITTY);
-		if(hasKitty)
+		if (hasKitty && persianKitty->isVisible()==false)
+		{
 			persianKitty->setVisible(true);
+			kitty->play(1, 0, 1, ALLEGRO_PLAYMODE_ONCE);
+		}
+			
 		else
 			persianKitty->setVisible(false);
 	}
@@ -346,8 +366,12 @@ void TileObserver::update()
 	if (tile->hasLoot(GOLD_BAR) != hasGoldBar)
 	{
 		hasGoldBar = tile->hasLoot(GOLD_BAR);
-		if (hasGoldBar)
+		if (hasGoldBar && goldBar->isVisible()==false)
+		{
 			goldBar->setVisible(true);
+			gold->play(2, 0, 1, ALLEGRO_PLAYMODE_ONCE);
+		}
+			
 		else
 			goldBar->setVisible(false);
 	}

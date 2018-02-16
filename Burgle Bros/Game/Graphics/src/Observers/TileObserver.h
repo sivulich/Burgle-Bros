@@ -34,6 +34,11 @@ private:
 	//Sound
 	alx::Sample * flip;
 	alx::Sample * alarm;
+	alx::Sample * crow;
+	alx::Sample * kitty;
+	alx::Sample * gold;
+	alx::Sample * safe;
+	alx::Sample * keypad;
 
 	//Graphics object
 	Image *safeNumber;

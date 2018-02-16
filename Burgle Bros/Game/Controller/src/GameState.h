@@ -342,7 +342,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				std::cout << "Its the guards turn" << std::endl;
 				fsm.guardTimer->start();
-				if (fsm.model->otherPlayer()->isRemote());
+				//if (fsm.model->otherPlayer()->isRemote());
 				//fsm.model->getGuardPath
 			}
 		}
