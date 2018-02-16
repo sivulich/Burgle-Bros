@@ -861,7 +861,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				{
 					if (fsm.model->otherPlayer()->isRemote() || (fsm.model->otherPlayer()->isLocal() && fsm.model->currentPlayer()->isLocal()))
 						fsm.graphics->showDices(string("You threw a 1/2. The kitty escaped your grasp."), dices);
-					else fsm.graphics->showDices(string("The other player threw a 1,2. The kitty escaped his\her grasp."), dices);
+					else fsm.graphics->showDices(string("The other player threw a 1,2. The kitty escaped his/her grasp."), dices);
 				}
 				else
 				{

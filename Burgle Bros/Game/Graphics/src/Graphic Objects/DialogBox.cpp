@@ -73,6 +73,16 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 		text2 = nullptr;
 		break;
 	}
+	if (text1 != nullptr)
+	{
+		text1->setClickable(false);
+		text1->setHoverable(false);
+	}
+	if (text2 != nullptr)
+	{
+		text2->setClickable(false);
+		text2->setHoverable(false);
+	}
 	parent->addObject(this);
 }
 DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<int>& d)
@@ -126,6 +136,16 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 	text2 = nullptr;
 	parent->addObject(this);
 	dice = new alx::Sample("../Game/Sound/DICES.wav");
+	if (text1 != nullptr)
+	{
+		text1->setClickable(false);
+		text1->setHoverable(false);
+	}
+	if (text2 != nullptr)
+	{
+		text2->setClickable(false);
+		text2->setHoverable(false);
+	}
 }
 DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<lootType>& d)
 {
@@ -169,6 +189,16 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 	box->addObject(button1);
 	box->addObject(text1);
 	parent->addObject(this);
+	if (text1 != nullptr)
+	{
+		text1->setClickable(false);
+		text1->setHoverable(false);
+	}
+	if (text2 != nullptr)
+	{
+		text2->setClickable(false);
+		text2->setHoverable(false);
+	}
 }
 
 void DialogBox::draw(Bitmap* target)
