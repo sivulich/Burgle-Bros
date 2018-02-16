@@ -157,6 +157,7 @@ void GameController::getInput()
 				break;
 
 			case ERRO:
+				DEBUG_MSG("ERROR: " << inp.errMessage);
 				break;
 
 			}

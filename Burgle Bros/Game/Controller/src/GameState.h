@@ -628,9 +628,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					// Send the dices
 					if (fsm.model->otherPlayer()->isRemote())
 					{
-						vector<int> d = dicesThrown;
 						while (fsm.network->join() == false);
-						fsm.network->sendThrowDice(d[0],d[1], d[2], d[3], d[4], d[5]);
+						fsm.network->sendThrowDice(dicesThrown);
 					}
 
 					if (((Safe *)currTile)->safeIsOpen())

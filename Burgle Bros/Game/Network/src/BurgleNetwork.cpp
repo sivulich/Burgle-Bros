@@ -918,6 +918,13 @@ remoteInput BurgleNetwork::getRemoteInput()
 		return inp;
 	}
 
+	if (flags.error == true)
+	{
+		inp.action = ERRO;
+		inp.errMessage = flags.errMessage;
+		return inp;
+	}
+
 	vector<char> buffer(1024, 0);
 	apr_size_t size = 1024;
 	clock_t t = clock();
@@ -951,6 +958,7 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 	case SPENT_OK:
 	case INITIAL_G_POS:
 	case SAFE_OPENED:
+	case THROW_DICE:
 	case OFFER_LOOT:
 	case REQUEST_LOOT:
 	case ROLL_DICE_FOR_LOOT:
@@ -958,7 +966,7 @@ bool BurgleNetwork::answerInput(remoteInput& inp)
 		return sendPacket(flags.sock, vector<char>(1, (char)ACK));
 		break;
 
-	case ERROR:
+	case ERRO:
 		flags.error = true;
 		flags.errMessage = "Recivied error from remote player";
 	default:
@@ -1233,7 +1241,7 @@ void BurgleNetwork::sendError()
 {
 	if (join() == true)
 	{
-		vector<char> pack(1, ERROR);
+		vector<char> pack(1, ERRO);
 		if (sendPacket(flags.sock, pack) == false)
 		{
 			flags.errMessage = "Couldnt send ERROR";
