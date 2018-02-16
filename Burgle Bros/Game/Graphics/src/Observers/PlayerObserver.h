@@ -11,6 +11,7 @@ class PlayerObserver :public Observer
 {
 public:
 	PlayerObserver(Player* p, Container * c, Container* hudCont, Container * boardCont);
+	~PlayerObserver();
 	virtual void update()override;
 	bool isPlaying() { return player->isPlaying(); };
 	void loadPlayerToken(string s);

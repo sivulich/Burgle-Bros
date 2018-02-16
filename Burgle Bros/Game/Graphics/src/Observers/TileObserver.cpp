@@ -2,8 +2,6 @@
 #include "./TileObserver.h"
 #include "Animations.h"
 
-
-
 static map<tileType, string> images = { {ATRIUM,string("../Game/Graphics/Images/Tiles/Tile - Atrium.png")},
 										{CAMERA,string("../Game/Graphics/Images/Tiles/Tile - Camera.png") },
 										{COMPUTER_ROOM_F,string("../Game/Graphics/Images/Tiles/Tile - Computer Room (Fingerprint).png") },
@@ -205,6 +203,31 @@ TileObserver::TileObserver(Tile* t, Container* floorContainer, Container* boardC
 	alarm = new alx::Sample("../Game/Sound/ALARM.wav");
 }
 
+
+TileObserver::~TileObserver()
+{
+	delete tileCard;
+	delete zoomedCard;
+	delete alarmToken;
+	delete crowToken;
+	delete stairToken;
+	delete openToken;
+
+	for (auto& h : hackTokens)
+		delete h;
+
+	for (auto& s : stealthTokens)
+		delete s;
+
+	for (auto& d : dieTokens)
+		delete d;
+
+	delete persianKitty;
+	delete goldBar;
+	delete flip;
+	delete alarm;
+}
+
 void TileObserver::showSafeNumber()
 {
 	string path;
@@ -388,11 +411,3 @@ double TileObserver::ypos()
 	return tileCard->getPos().second;
 }
 
-TileObserver::~TileObserver()
-{
-	if (tileCard != nullptr)
-	{
-		floorContainer->removeObject(tileCard);
-		delete tileCard;
-	}
-}

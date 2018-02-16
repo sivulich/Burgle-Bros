@@ -8,9 +8,10 @@ class SetupScreen : public Container
 {
 public:
 	SetupScreen(Container* p);
-	void showPlayer1() { for (auto& obj : objects) if (obj->getName() != "ROOK" &&obj->getName() != "RIGGER")obj->enable(); player1->setVisible(true); };
+	void reset();
+	void showPlayer1();
+	void showPlayer2(string& character);
 	string click(int y, int x)override;
-	void showPlayer2(string& character) { player1->setVisible(false); player2->setVisible(true); textBox->clear(); disableChild(character); };
 	string getPlayerName() { return textBox->getText(); };
 private:
 	Textbox* textBox;

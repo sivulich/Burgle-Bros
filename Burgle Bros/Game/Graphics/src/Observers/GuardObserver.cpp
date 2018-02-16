@@ -30,13 +30,22 @@ GuardObserver::GuardObserver(Guard* g, Container* board, int floorNumber)
 	guard->attach(this);
 }
 
+GuardObserver::~GuardObserver()
+{
+	DEBUG_MSG("DELETING FLOOR" << floorNumber);
+	//delete guardIm;
+
+	for (int i = 1; i <= 6; i++)
+		delete dices[i];
+}
+
 void GuardObserver::update()
 {
 	// Update position
 	Coord pos = guard->getPos();
 	if (pos != lastPos)
 	{
-		std::pair<int, int> target = std::pair<int, int>((int)(FLOOR_YPOS + TILE_YPOS[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2),(int) (FLOOR_XPOS[pos.floor] + TILE_XPOS[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2));
+		std::pair<int, int> target = std::pair<int, int>((int)(FLOOR_YPOS + TILE_YPOS[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2), (int)(FLOOR_XPOS[pos.floor] + TILE_XPOS[pos.row][pos.col] + (TILE_SIZE - GUARD_SIZE) / 2));
 		if (lastPos == NPOS)
 		{
 			guardIm->addAnimation(new FadeInOutAnimation(target, GUARD_MOVE_SPEED * 3));
@@ -45,7 +54,7 @@ void GuardObserver::update()
 			lastTarget = guard->getTarget();
 			int i = guard->getTarget().row;
 			int j = guard->getTarget().col;
-			dices[lastSpeed]->setPosition((int)(FLOOR_YPOS + TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2),(int) (FLOOR_XPOS[pos.floor] + TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2));
+			dices[lastSpeed]->setPosition((int)(FLOOR_YPOS + TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2), (int)(FLOOR_XPOS[pos.floor] + TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2));
 		}
 		else
 			guardIm->addAnimation(new MoveAnimation(target, GUARD_MOVE_SPEED));
@@ -59,7 +68,7 @@ void GuardObserver::update()
 		boardCont->addObject(dices[guard->getSpeed()]);
 		int i = guard->getTarget().row;
 		int j = guard->getTarget().col;
-		dices[lastSpeed]->setPosition((int)(TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2),(int) (FLOOR_XPOS[pos.floor]+ TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2));
+		dices[lastSpeed]->setPosition((int)(TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2), (int)(FLOOR_XPOS[pos.floor] + TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2));
 
 		lastSpeed = guard->getSpeed();
 		lastTarget = guard->getTarget();

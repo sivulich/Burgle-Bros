@@ -43,7 +43,7 @@ GameGraphics::GameGraphics(GameModel * m)
 			current_screen = MENU;
 			if (m != nullptr)
 				setModel(m);
-			
+
 		}
 		else
 			DEBUG_MSG("Couldnt init allegro addons");
@@ -65,7 +65,7 @@ void GameGraphics::setModel(GameModel * m)
 void GameGraphics::loadPlayerToken(string s)
 {
 	if (current_screen == GAME)
-			this->hud->loadPlayerToken(s);
+		this->hud->loadPlayerToken(s);
 }
 
 
@@ -75,7 +75,7 @@ void GameGraphics::showMenuScreen()
 	current_screen = MENU;
 	setAllNotVisible();
 	menuScreen->setVisible(true);
-	if(!alreadyPlaying && (alreadyPlaying=true)==true)
+	if (!alreadyPlaying && (alreadyPlaying = true) == true)
 		sound.playbackgroundMusic();
 }
 
@@ -102,19 +102,17 @@ void GameGraphics::showCreditsScreen()
 	creditScreen->setVisible(true);
 }
 
-void GameGraphics::showSetupScreen(int player)
+void GameGraphics::showSetupScreen(int player, string character)
 {
 	current_screen = SETUP;
 	setAllNotVisible();
+	setupScreen->reset();
 	setupScreen->setVisible(true);
 	// Load player number
 	if (player == 1)
 		setupScreen->showPlayer1();
-
 	else if (player == 2)
-	{
-		setupScreen->showPlayer2(string(toString(model->player1()->getCharacter())));
-	}
+		setupScreen->showPlayer2(character);
 }
 
 void GameGraphics::showRulesScreen()
@@ -125,15 +123,17 @@ void GameGraphics::showRulesScreen()
 }
 
 
- 
+
 void GameGraphics::showGameScreen()
 {
 	current_screen = GAME;
 	setAllNotVisible();
 	gameScreen->setBackground(string("./Graphics/Images/Screen - Game/background.jpg"));
+	
 	//And observers for the board and player
 	board = new BoardObserver(model, gameScreen);
 	hud = new HudObserver(model, board, gameScreen);
+	
 	textBox = new Textbox(CONSOLE_XPOS, -CONSOLE_HEIGHT, CONSOLE_WIDTH, CONSOLE_HEIGHT, string("./Graphics/Images/arial_narrow.ttf"));
 	textBox->setFontColor(al_map_rgba_f(0, 0, 0, 1));
 	textBox->setBoxColor(al_map_rgba_f(1, 1, 1, 1));
@@ -145,18 +145,19 @@ void GameGraphics::showGameScreen()
 
 	hudText = new Text(string("./Graphics/Images/calibri.ttf"), al_map_rgba_f(1.0, 1.0, 1.0, 1.0), 20, 639, 29);
 	gameScreen->addObject(hudText);
+	
 	hudTextTimer = new Timer(0.001);
 	hudTextTimer->start();
+	
 	gameScreen->setVisible(true);
 }
 
 void GameGraphics::deleteGameScreen()
 {
-	delete board;
-	delete hud;
-	delete roof;
-	delete hudTextTimer;
-	delete textBox;
+	gameScreen->clear();
+	//delete hudTextTimer;
+	//delete hud;
+	//delete board;
 }
 
 void GameGraphics::setBorderVisible(bool b)
@@ -216,7 +217,7 @@ void GameGraphics::zoomTile(Coord c)
 }
 void GameGraphics::unZoomTile()
 {
-	if(current_screen==GAME)
+	if (current_screen == GAME)
 		board->unZoomTile();
 }
 
@@ -238,7 +239,7 @@ void GameGraphics::showOkMessage(string message)
 
 void GameGraphics::showDices(string message, vector<int> dices)
 {
-	dialogBox = new DialogBox(message, cont, true,DialogBox::MIDDLE, dices);
+	dialogBox = new DialogBox(message, cont, true, DialogBox::MIDDLE, dices);
 }
 
 void GameGraphics::showAvailableLoots(string message, vector<lootType> dices)
@@ -302,18 +303,21 @@ void GameGraphics::hideConsole()
 
 bool GameGraphics::showingConsole()
 {
-	if (textBox != nullptr)
+
+	if (current_screen == GAME)
+	{
 		return textBox->getPos() == pair<int, int>(CONSOLE_YPOS, CONSOLE_XPOS);
-	else
-		return false;
+	}
+	else return false;
 }
 
 bool GameGraphics::writingInConsole()
 {
-	if (textBox != nullptr)
+	if (current_screen == GAME)
+	{
 		return textBox->isClicked();
-	else
-		return false;
+	}
+	else return false;
 }
 
 string GameGraphics::getConsoleText()

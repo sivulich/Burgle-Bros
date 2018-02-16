@@ -93,7 +93,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 
 	c->addObject(characterFigure);
 	c->addObject(characterFigurePlaying);
-	
+
 
 	isPlaying_ = player->isPlaying();
 	if (isPlaying_)
@@ -171,6 +171,27 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 	update();
 }
 
+PlayerObserver::~PlayerObserver()
+{
+	loots->clear();
+	delete loots;
+
+	delete characterFigure;
+	delete characterFigurePlaying;
+	delete playerCard;
+	delete passButton;
+	delete actionTokens;
+	delete stealthTokens;
+	delete numberOfLoots;
+	delete name;
+	delete infoButton;
+	delete lootButton;
+	delete lootReverse;
+	delete token;
+	delete walk;
+}
+
+
 void PlayerObserver::loadPlayerToken(string s)
 {
 	if (s == "ROMA" || s == "MARCOS" || s == "TOBI" || s == "SANTI" || s == "AGUSTIN" || s == "MARK")
@@ -197,7 +218,7 @@ void PlayerObserver::update()
 		}
 		else if (curr == ROOF)
 		{
-			token->addAnimation(new FadeAnimation(1.0, 0.0, 1,true));
+			token->addAnimation(new FadeAnimation(1.0, 0.0, 1, true));
 			characterFigurePlaying->setVisible(false);
 			characterFigure->setVisible(true);
 			characterFigure->disable();
@@ -219,7 +240,7 @@ void PlayerObserver::update()
 	{
 		name->setText(player->getName());
 	}
-	
+
 	// Check if character changed
 	if (player->getCharacter() != toEnum_characterType(token->getName().c_str()))
 	{
@@ -238,7 +259,7 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(true);
 			actionTokens->setVisible(true);
 			// Hide pass button when player is remote
-			if(player->isRemote())
+			if (player->isRemote())
 				passButton->setVisible(false);
 			else
 				passButton->setVisible(true);
@@ -249,7 +270,7 @@ void PlayerObserver::update()
 			characterFigurePlaying->setVisible(false);
 			actionTokens->setVisible(false);
 			passButton->setVisible(false);
-			
+
 		}
 	}
 	// Update action tokens

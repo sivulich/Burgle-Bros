@@ -45,7 +45,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_entry(EVT const&  event, FSM& fsm)
 	{
-		std::cout << "Entering Burgle Bros Finite State Machine" << std::endl;
+		DEBUG_MSG("Entering Burgle Bros Finite State Machine");
+		fsm.graphics->removeDialogBox();
 
 		if (fsm.model->isLocal())
 		{
@@ -68,7 +69,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class EVT, class FSM>
 	void on_exit(EVT const&  event, FSM& fsm)
 	{
-		std::cout << "Leaving Burgle Bros" << std::endl;
+		DEBUG_MSG("Leaving Burgle Bros");
 		fsm.graphics->deleteGameScreen();
 	}
 
@@ -85,45 +86,44 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->isLocal())
 			{
 				// Set only first floor clickable
-				std::cout << "Choose initial pos: ";
+				DEBUG_MSG("Choose initial pos: ");
 				vector<Coord> v;
 				for (int i = 0; i < 4; i++)
 					for (int j = 0; j < 4; j++)
 						v.push_back(Coord(0, i, j));
 				fsm.graphics->setTilesClickable(v);
-				cout << "PUTO" << endl;
 			}
 			else if (fsm.model->isRemote())
 			{
 				string name = fsm.model->player1()->getName();
 				characterType character = fsm.model->player1()->getCharacter();
-				Coord initialPos = Coord(0, rand()%4, rand() % 4);// random initialpos
-				cout << "My name " << name << " My character " << character << endl;
+				Coord initialPos = Coord(0, rand() % 4, rand() % 4);// random initialpos
+				DEBUG_MSG("My name " << name << " My character " << character);
 				if (fsm.network->isServer())
 				{
-					
+
 					pair<Coord, Coord> pos = fsm.model->getInitialGuardPos();
 					vector<tileType> tiles = fsm.model->getBoardSetup();
-					while (fsm.network->error()==false && fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
+					while (fsm.network->error() == false && fsm.network->startupPhase(name, character, pos.first, pos.second, tiles, initialPos) == false);
 					if (fsm.network->error() == true)
-						cout << fsm.network->errMessage() << endl;
+						DEBUG_MSG(fsm.network->errMessage());
 					else
-						cout << "Info exchange ok" << endl;
+						DEBUG_MSG("Info exchange ok");
 					//fsm.model->setInitialPosition(initialPos);
 				}
 				else
 				{
-					while (fsm.network->startupPhase(name, character) == false && fsm.network->error()==false);
+					while (fsm.network->startupPhase(name, character) == false && fsm.network->error() == false);
 					if (fsm.network->error() == true)
-						cout << fsm.network->errMessage() << endl;
+						DEBUG_MSG(fsm.network->errMessage());
 					else
-						cout << "Info exchange ok" << endl;
+						DEBUG_MSG("Info exchange ok");
 
-					
+
 					fsm.model->setBoard(fsm.network->remoteBoard());
 					initialPos = fsm.network->startingPos();
 					//fsm.model->setInitialPosition(fsm.network->startingPos());
-					//cout << "The remote guard info is " << fsm.network->remoteGuardPos() << " " << fsm.network->remoteGuardTarget() << endl;
+					//DEBUG_MSG("The remote guard info is " << fsm.network->remoteGuardPos() << " " << fsm.network->remoteGuardTarget() );
 					fsm.model->initGuard4Network(fsm.network->remoteGuardPos(), fsm.network->remoteGuardTarget());
 				}
 
@@ -134,7 +134,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.network->iStart() == false)
 					fsm.model->remotePlayerStarts();
 				fsm.graphics->showGameScreen();
-					
+
 				fsm.process_event(ev::coord(initialPos));
 			}
 
@@ -162,12 +162,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Choose action: ";
 			fsm.graphics->printInHud(string("Choose an action"));
 			vector<string> v = fsm.model->currentPlayer()->getActions();
+
+			string actions;
 			for (auto& s : v)
-				std::cout << s << " ";
-			std::cout << std::endl;
+				actions = actions + string(" ") + s;
+			DEBUG_MSG("Choose action: " + actions);
 		}
 
 		template <class EVT, class FSM>
@@ -223,7 +224,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Are you sure? Yes/No" << std::endl;
+			DEBUG_MSG("Are you sure? Yes/No");
 		}
 
 	};
@@ -237,7 +238,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
 			on_entry(EVT const&  event, FSM& fsm)
 		{
-			cout << "Entering ask confirmation" << endl;
+			DEBUG_MSG("Entering ask confirmation");
 			destinationCoord = event.c;
 
 			if (destinationCoord != ROOF)
@@ -276,7 +277,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			if (is_same<EVT, ev::yes>::value)
 			{
-				cout << "Passing coord" << endl;
+				DEBUG_MSG("Passing coord");
 				fsm.process_event(ev::coord(destinationCoord));
 			}
 		}
@@ -289,7 +290,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Starting Turn" << std::endl;
+			DEBUG_MSG("Starting Turn");
 			fsm.currentAction = NO_TYPE;
 			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
 
@@ -309,7 +310,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
 			fsm.currentAction = NO_TYPE;
-			std::cout << "" << std::endl;
+
 		}
 	};
 
@@ -318,20 +319,25 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			if (fsm.model->currentPlayer()->isOnRoof())
-				fsm.process_event(ev::passGuard());
-			else
+			// If player isnt on roof start timer to move the guard
+			if (fsm.model->currentPlayer()->isOnRoof() == false)
 			{
-				std::cout << "Its the guards turn" << std::endl;
+				DEBUG_MSG("Its the guards turn");
 				fsm.guardTimer->start();
 			}
+			// If player is on roof, the guard doesnt move
+			else
+				fsm.process_event(ev::passGuard());
 		}
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
-			std::cout << "Leaving guard turn" << std::endl;
-			fsm.guardTimer->stop();
+			if (fsm.model->currentPlayer()->isOnRoof() == false)
+			{
+				DEBUG_MSG("Leaving guard turn");
+				fsm.guardTimer->stop();
+			}
 		}
 
 	};
@@ -341,9 +347,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			if (typeid(EVT) == typeid(ev::burglarsWin))
+			if (is_same<EVT, ev::burglarsWin>::value)
 				fsm.graphics->showOkMessage(string("You win!"));
-			else if (typeid(EVT) == typeid(ev::gameOver))
+			else if (is_same<EVT, ev::gameOver>::value)
 				fsm.graphics->showOkMessage(string("You lose!"));
 
 		}
@@ -354,7 +360,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			cout << "IDLE..." << endl;
+			DEBUG_MSG("IDLE...");
 
 		}
 	};
@@ -364,14 +370,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			cout << "wAITING FOR NETWORK"<< endl;
+			DEBUG_MSG("wAITING FOR NETWORK");
 
 		}
 
 		template <class EVT, class FSM>
 		void on_exit(EVT const&  event, FSM& fsm)
 		{
-			cout << "ACKNOWLEDGE RECEIVED" << endl;
+			DEBUG_MSG("ACKNOWLEDGE RECEIVED");
 
 		}
 	};
@@ -383,7 +389,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Setting initial position to  " << event.c << std::endl;
+			DEBUG_MSG("Setting initial position to  " << event.c);
 			fsm.model->setInitialPosition(event.c);
 		}
 	};
@@ -394,7 +400,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 
-			std::cout << "Moving to " << event.c.toString() << std::endl;
+			DEBUG_MSG("Moving to " << event.c.toString());
 			fsm.graphics->printInHud(string("Moving to ") + event.c.toString());
 
 			if (event.c.floor == 3 && (fsm.model->currentPlayer()->getLoots().size() + fsm.model->otherPlayer()->getLoots().size()) != fsm.model->lootsToWin())
@@ -450,7 +456,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Peeking " << event.c.toString() << std::endl;
+			DEBUG_MSG("Peeking " << event.c.toString());
 			fsm.graphics->printInHud(string("Peeking ") + event.c.toString());
 
 			DEBUG_MSG("Safe number " << event.safeNumber);
@@ -462,7 +468,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.network->sendPeek(event.c, safeNumber);
 
 				if (fsm.network->error())
-					cout << fsm.network->errMessage() << endl;
+					DEBUG_MSG(fsm.network->errMessage());
 
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -481,7 +487,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				if (fsm.model->otherPlayer()->isRemote())
 				{
-					std::cout << "Sending use token to " << fsm.model->otherPlayer()->getName() << std::endl;
+					DEBUG_MSG("Sending use token to " << fsm.model->otherPlayer()->getName());
 					fsm.network->sendUseToken(tokenTile);
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -496,12 +502,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			Coord coord2AddTkn;
-			std::cout << "Adding token" << std::endl;
+			DEBUG_MSG("Adding token");
 			coord2AddTkn = fsm.model->currentPlayer()->addToken();
 			fsm.currentAction = NO_TYPE;
 			if (fsm.model->otherPlayer()->isRemote() && coord2AddTkn != NPOS)
 			{
-				std::cout << "Sending add token to " << fsm.model->otherPlayer()->getName() << std::endl;
+				DEBUG_MSG("Sending add token to " << fsm.model->otherPlayer()->getName());
 				fsm.network->sendAddToken(coord2AddTkn);
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -513,7 +519,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Throwing dice" << std::endl;
+			DEBUG_MSG("Throwing dice");
 			//fsm.model->currentPlayer()->throwDice();
 			fsm.currentAction = NO_TYPE;
 		}
@@ -552,7 +558,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Trying to open Keypad" << std::endl;
+			DEBUG_MSG("Trying to open Keypad");
 			Tile * destTile = fsm.model->getBoard()->getTile(source.destinationCoord);
 			if (fsm.model->currentPlayer()->isLocal())
 			{
@@ -585,19 +591,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Creating Alarm" << std::endl;
+			DEBUG_MSG("Creating Alarm");
 			bool b = fsm.model->currentPlayer()->createAlarm(event.c);
 			if (b)
 			{
 				if (fsm.model->otherPlayer()->isRemote())
 				{
-					std::cout << "Sending create alarm to " << fsm.model->otherPlayer()->getName() << std::endl;
+					DEBUG_MSG("Sending create alarm to " << fsm.model->otherPlayer()->getName());
 					fsm.network->sendCreateAlarm(event.c);
 					fsm.process_event(ev::waitForNetwork());
 				}
 			}
 			else
-				std::cout << "Cant create Alarm!" << std::endl;
+				DEBUG_MSG("Cant create Alarm!");
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -607,9 +613,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Spying patrol deck" << std::endl;
+			DEBUG_MSG("Spying patrol deck");
 			if ((Coord)event.c == NPOS);
-			else if(event.tb == 'T' || event.tb == 'B')
+			else if (event.tb == 'T' || event.tb == 'B')
 			{
 				fsm.model->getBoard()->getDeck(fsm.model->currentPlayer()->getPosition().floor)->moveCardtoTop(event.c);
 				if (event.tb == 'T')
@@ -637,7 +643,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			Coord topCard;
-			std::cout << "Card staying on top of deck" << std::endl;
+			DEBUG_MSG("Card staying on top of deck");
 			topCard = fsm.model->stopSpying(fsm.model->currentPlayer()->getPosition().floor);
 			if (fsm.model->otherPlayer()->isRemote() && topCard != NPOS)
 			{
@@ -645,7 +651,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.network->sendSpyPatrol(topCard, 'T');
 				fsm.process_event(ev::waitForNetwork());
 			}
-			
+
 			fsm.graphics->hideTopPatrol(fsm.model->currentPlayer()->getPosition().floor);
 			fsm.currentAction = NO_TYPE;
 		}
@@ -657,11 +663,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			Coord movingCard;
-			std::cout << "Card  sent to bottom" << std::endl;
+			DEBUG_MSG("Card  sent to bottom");
 			movingCard = fsm.model->sendBottom(fsm.model->currentPlayer()->getPosition().floor);
 			if (fsm.model->otherPlayer()->isRemote() && movingCard != NPOS)
 			{
-				std::cout << "Sending go to bottom, card " << movingCard << "to " << fsm.model->otherPlayer()->getName() << std::endl;
+				DEBUG_MSG("Sending go to bottom, card " << movingCard << "to " << fsm.model->otherPlayer()->getName());
 				fsm.network->sendSpyPatrol(movingCard, 'B');
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -675,19 +681,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Placing crow token" << std::endl;
+			DEBUG_MSG("Placing crow token");
 			bool b = fsm.model->currentPlayer()->placeCrow(event.c);
 			if (b)
 			{
 				if (fsm.model->otherPlayer()->isRemote())
 				{
-					std::cout << "Sending place crow to " << fsm.model->otherPlayer()->getName() << std::endl;
+					DEBUG_MSG("Sending place crow to " << fsm.model->otherPlayer()->getName());
 					fsm.network->sendPlaceCrow(event.c);
 					fsm.process_event(ev::waitForNetwork());
 				}
 			}
 			else
-				std::cout << "Cant place crow token!" << std::endl;
+				DEBUG_MSG("Cant place crow token!");
 			fsm.currentAction = NO_TYPE;
 		}
 	};
@@ -697,11 +703,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Pick up loot" << std::endl;
+			DEBUG_MSG("Pick up loot");
 			fsm.model->currentPlayer()->pickUpLoot();
 			if (fsm.model->otherPlayer()->isRemote())
 			{
-				std::cout << "Sending pick up loot to " << fsm.model->otherPlayer()->getName() << std::endl;
+				DEBUG_MSG("Sending pick up loot to " << fsm.model->otherPlayer()->getName());
 				fsm.network->sendPickupLoot();
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -740,7 +746,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Getting loot " << string(toString(source.lootToOffer)) << " from " << fsm.model->otherPlayer()->getName() << std::endl;
+			DEBUG_MSG("Getting loot " << string(toString(source.lootToOffer)) << " from " << fsm.model->otherPlayer()->getName());
 			fsm.model->currentPlayer()->receiveLoot(source.lootToOffer);
 		}
 	};
@@ -750,7 +756,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << fsm.model->otherPlayer()->getName() << " rejected your request." << std::endl;
+			DEBUG_MSG(fsm.model->otherPlayer()->getName() << " rejected your request.");
 		}
 	};
 
@@ -759,7 +765,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Giving loot " << string(toString(source.lootToOffer)) << " to " << fsm.model->otherPlayer()->getName() << std::endl;
+			DEBUG_MSG("Giving loot " << string(toString(source.lootToOffer)) << " to " << fsm.model->otherPlayer()->getName());
 			fsm.model->currentPlayer()->giveLoot(source.lootToOffer);
 		}
 	};
@@ -769,7 +775,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << fsm.model->otherPlayer()->getName() << " rejected your offer." << std::endl;
+			DEBUG_MSG(fsm.model->otherPlayer()->getName() << " rejected your offer.");
 		}
 	};
 
@@ -778,7 +784,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Player turn ended" << std::endl;
+			DEBUG_MSG("Player turn ended");
 			fsm.model->endTurn();
 			fsm.currentAction = NO_TYPE;
 
@@ -798,11 +804,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			if (fsm.model->otherPlayer()->isOnRoof())
 			{
-				std::cout << "Keep playing, you are alone!" << std::endl;
+				DEBUG_MSG("Keep playing, you are alone!");
 			}
 			else
 			{
-				std::cout << "Changing turns" << std::endl;
+				DEBUG_MSG("Changing turns");
 				fsm.model->changeTurn();
 				fsm.currentAction = NO_TYPE;
 			}
@@ -825,13 +831,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				{
 					if (fsm.model->doKittyAction(event.number)) fsm.graphics->showDices(string("You threw a 1 or a 2 and the kitty escaped your grasp."), dices);
 					else fsm.graphics->showDices(string("You either haven't thrown a 1 or a 2, or no alarm tiles where flipped. The kitty remains in your grasp."), dices);
-					std::cout << "Sending kitty loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
+					DEBUG_MSG("Sending kitty loot dice to " << fsm.model->otherPlayer()->getName());
 					if (fsm.model->otherPlayer()->isRemote())
 					{
 						fsm.network->sendLootDice((char)(event.number + '0'));
 						fsm.process_event(ev::waitForNetwork());
 					}
-					
+
 				}
 			}
 
@@ -845,7 +851,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					{
 						int dice = fsm.model->currentPlayer()->throwDice();
 						fsm.process_event(ev::throwDice(dice));
-						std::cout << "Sending chihuahua loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
+						DEBUG_MSG("Sending chihuahua loot dice to " << fsm.model->otherPlayer()->getName());
 						if (fsm.model->otherPlayer()->isRemote())
 						{
 							fsm.network->sendLootDice((char)(dice + '0'));
@@ -875,7 +881,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				else fsm.graphics->showDices(string("You didn't throw a 6. You silenced the Chihuahua before the alarm was triggered."), dices);
 			}
 			else //dialogbox para remoto
-			fsm.currentAction = NO_TYPE;
+				fsm.currentAction = NO_TYPE;
 			fsm.process_event(ev::done());
 		}
 	};
@@ -885,7 +891,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Moving guard" << std::endl;
+			DEBUG_MSG("Moving guard");
 			fsm.model->moveGuard();
 
 			if (fsm.model->gameOver())
@@ -902,7 +908,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Reset game" << std::endl;
+			DEBUG_MSG("Reset game");
 		}
 	};
 
@@ -917,16 +923,18 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.process_event(ev::coord(event.c, event.safeNumber));
 			else
 			{
-				std::cout << "Tiles availables to move: ";
 				fsm.graphics->printInHud(string("Choose a tile available to move..."));
 				vector<Coord> v = fsm.model->currentPlayer()->whereCanIMove();
-				Coord::printVec(v);
-				std::cout << std::endl;
+
+				string tiles, space(" ");
+				for (auto&c : v)
+					tiles += space + c.toString();
+				DEBUG_MSG("Tiles availables to move: " + tiles);
 
 				// Distinguir las tiles disponibles para moverse
 				fsm.graphics->setTilesClickable(v);
 			}
-			
+
 		}
 	};
 
@@ -943,12 +951,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			}
 			else
 			{
-				std::cout << "Tiles availables to peek: ";
 				fsm.graphics->printInHud(string("Choose a tile available to peek..."));
 				vector<Coord> v = fsm.model->currentPlayer()->whereCanIPeek();
-				Coord::printVec(v);
-				std::cout << std::endl;
-				
+
+				string tiles, space(" ");
+				for (auto&c : v)
+					tiles += space + c.toString();
+				DEBUG_MSG("Tiles availables to peek: " + tiles);
+
+
 				// Distinguir las tiles disponibles para moverse
 				fsm.graphics->setTilesClickable(v);
 			}
@@ -966,14 +977,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.process_event(ev::coord(event.c));
 			else
 			{
-				std::cout << "Alarm can be created on the following tiles: ";
 				vector<Coord> v = fsm.model->currentPlayer()->getAdjacentJuicer();
-				Coord::printVec(v);
-				std::cout << std::endl;
 				// Distinguir las tiles disponibles para crear la alarma
 				fsm.graphics->setTilesClickable(v);
+
+				string tiles, space(" ");
+				for (auto&c : v)
+					tiles += space + c.toString();
+				DEBUG_MSG("Alarm can be created on the following tiles: " + tiles);
 			}
-			
+
 		}
 	};
 
@@ -987,13 +1000,15 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.process_event(ev::coord(event.c));
 			else
 			{
-				std::cout << "Crow token can placed in following tiles: ";
 				vector<Coord> v = fsm.model->getTilesXDist(2, fsm.model->currentPlayer());
-				Coord::printVec(v);
-				std::cout << std::endl;
-				
 				// Distinguir las tiles disponibles para poner el Crow token
 				fsm.graphics->setTilesClickable(v);
+
+
+				string tiles, space(" ");
+				for (auto& c : v)
+					tiles += space + c.toString();
+				DEBUG_MSG("Crow token can placed in following tiles: " + tiles);
 			}
 
 		}
@@ -1004,7 +1019,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			std::cout << "Preparing to offer loot: ";
+			DEBUG_MSG("Preparing to offer loot: ");
 			fsm.currentAction = OFFER_LOOT;
 			fsm.graphics->showAvailableLoots(string("Choose the loot you want to offer:"), fsm.model->currentPlayer()->getAvailableLoots());
 		}
@@ -1018,7 +1033,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			fsm.currentAction = REQUEST_LOOT;
 			if (event.type == NO_CHARACTER_TYPE)
 			{
-				std::cout << "Preparing to request loot: ";
+				DEBUG_MSG("Preparing to request loot: ");
 				fsm.graphics->showAvailableLoots(string("Choose the loot you want to request:"), fsm.model->otherPlayer()->getAvailableLoots());
 			}
 			else
@@ -1174,7 +1189,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		bool operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			return fsm.model->isRemote(); 
+			return fsm.model->isRemote();
 		}
 	};
 
@@ -1275,8 +1290,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		Row < gameEnded, ev::ok, none, none, none				>
 		//  +------------+-------------+------------+--------------+--------------+
 
-	//	Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
-	//	Row < waitingForNetwork, ev::ack, idle, none, none			>
+		//Row < idle, ev::waitForNetwork, waitingForNetwork, none, none>,
+		//Row < waitingForNetwork, ev::ack, idle, none, none			>
 
 	> {};
 
@@ -1284,7 +1299,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 	template <class FSM, class EVT>
 	void no_transition(EVT const&  event, FSM& fsm, int state)
 	{
-		std::cout << "no transition from state " << state << " on event " << typeid(event).name() << std::endl;
+		DEBUG_MSG("no transition from state " << state << " on event " << typeid(event).name());
 	}
 
 	typedef mpl::vector<idle, chooseInitialPos> initial_state;

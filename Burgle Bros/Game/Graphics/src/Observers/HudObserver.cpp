@@ -83,6 +83,21 @@ HudObserver::HudObserver(GameModel * m, BoardObserver*b, Container * c)
 	update();
 }
 
+HudObserver::~HudObserver()
+{
+	DEBUG_MSG("DELETING HUD");
+	hudCont->clear();
+	delete hudCont;
+	topHudCont->clear();
+	delete topHudCont;
+
+	//delete pauseButton; 
+	//delete exitButton;
+		
+	delete player1;
+	delete player2;
+}
+
 void HudObserver::update()
 {
 	// Update actions
@@ -106,11 +121,7 @@ void HudObserver::loadPlayerToken(string s)
 	if (player2->isPlaying())
 		player2->loadPlayerToken(s);
 }
-HudObserver::~HudObserver()
-{
-	for (auto& a : actions)
-		delete a.second;
-}
+
 
 void HudObserver::disableActions()
 {

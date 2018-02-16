@@ -5,10 +5,8 @@
 #include <cstdio>
 int main(void)
 {
-	BurgleNetwork * network = new BurgleNetwork();
-	GameModel* model = new GameModel();
-	GameGraphics * graphics = new GameGraphics(model);
-	GameController game(model, graphics,network);
+	GameGraphics * graphics = new GameGraphics();
+	GameController game( graphics);
 	while (game.isRunning())
 	{
 		game.getInput();

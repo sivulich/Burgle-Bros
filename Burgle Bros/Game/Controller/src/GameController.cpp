@@ -3,27 +3,26 @@
 #include <random>
 #include <chrono>
 
-GameController::GameController(GameModel * m, GameGraphics * g, BurgleNetwork * n) : stateMachine(new GameFSM(m, g, n, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
+GameController::GameController(GameGraphics * g) : stateMachine(new GameFSM(g, &guardTimer)), guardTimer(GUARD_SPEED), renderTimer(1.0 / FPS)
 {
-	network = n;
-	model = m;
 	graphics = g;
 
 	connectedFlag = false;
 	tileZoomMode = false;
+	// CONSTRUIR GRAFICOS ACA???
+
+	// Register event sources
 	eventQueue << Keyboard::getEventSource() << Mouse::getEventSource() << graphics->getScreenEventSource();
 	eventQueue << renderTimer.getEventSource() << guardTimer.getEventSource();
-	al_init_user_event_source(&BurgleNetwork::networkEventSource);
-	al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
-
-	eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
-
+	
+	// NETWORK EVENT SOURCE NO USADA
+	//al_init_user_event_source(&BurgleNetwork::networkEventSource);
+	//al_register_event_source(eventQueue.get(), &BurgleNetwork::networkEventSource);
+	//eventQueue << alx::EventSource(&BurgleNetwork::networkEventSource);
+	
 	renderTimer.start();
 	static_pointer_cast<GameFSM>(stateMachine)->start();
 };
-
-
-
 
 void GameController::stop()
 {

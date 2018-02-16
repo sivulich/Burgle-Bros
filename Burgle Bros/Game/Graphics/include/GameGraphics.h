@@ -107,7 +107,7 @@ public:
 	void showRulesScreen();
 	void showModeScreen();
 	void showIPScreen();
-	void showSetupScreen(int player = 0);
+	void showSetupScreen(int player = 0, string character = string(""));
 	void showGameScreen();
 	void deleteGameScreen();
 	void showPauseScreen();

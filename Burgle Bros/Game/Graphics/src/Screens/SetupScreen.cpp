@@ -40,8 +40,7 @@ SetupScreen::SetupScreen(Container* p) : Container(SCREEN_HEIGHT, SCREEN_WIDTH, 
 	addObject(player2);
 }
 
-string
-SetupScreen::click(int y, int x)
+string SetupScreen::click(int y, int x)
 {
 	if (initOk == false)
 	{
@@ -92,3 +91,28 @@ SetupScreen::click(int y, int x)
 	}
 	return "";
 }
+
+void SetupScreen::reset()
+{
+	for (auto& obj : objects)
+	{
+		if (obj->getName() != "ROOK" && obj->getName() != "RIGGER")
+			obj->enable();
+		((Image*)obj)->setTone(1, 1, 1);
+	}
+	textBox->clear();
+}
+void SetupScreen::showPlayer1()
+{
+	reset();		
+	player1->setVisible(true);
+	player2->setVisible(false);
+};
+
+void SetupScreen::showPlayer2(string& character)
+{
+	reset();
+	disableChild(character);
+	player1->setVisible(false);
+	player2->setVisible(true);	
+};

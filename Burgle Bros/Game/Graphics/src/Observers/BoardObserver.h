@@ -12,6 +12,7 @@ class BoardObserver :public Observer
 public:
 	// Construct the observer with a board pointer and a parent container
 	BoardObserver(GameModel* model, Container* c);
+	~BoardObserver();
 	bool guardIsMoving() { return floors[0]->guardIsMoving() || floors[1]->guardIsMoving() || floors[2]->guardIsMoving(); };
 	void showTopPatrol(int floorNumber) { floors[floorNumber]->showTopPatrol(); };
 	void hideTopPatrol(int floorNumber) { floors[floorNumber]->hideTopPatrol(); };
