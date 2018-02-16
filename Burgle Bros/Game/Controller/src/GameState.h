@@ -230,6 +230,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
 			DEBUG_MSG("ENTRANDO A ESTADO: askConfirmation");
+			
 		}
 
 	};
@@ -371,7 +372,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("ENTRANDO A ESTADO: gameEnded");
 			if (is_same<EVT, ev::burglarsWin>::value)
 				fsm.graphics->showOkMessage(string("You win!"));
 			else if (is_same<EVT, ev::gameOver>::value)
@@ -453,7 +453,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				{
 					DEBUG_MSG("SENDING MOVE FROM CHOOSE ACTION");
 					fsm.network->sendMove(event.c, safeNumber);
-			//		fsm.process_event(ev::waitForNetwork());
+					fsm.process_event(ev::waitForNetwork());
 				}
 			}
 
@@ -466,7 +466,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->otherPlayer()->isRemote())
 				{
 					fsm.network->sendSpent('Y');
-			//		fsm.process_event(ev::waitForNetwork());
+					fsm.process_event(ev::waitForNetwork());
 				}
 			}
 
@@ -501,7 +501,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (destTile->getType() == DEADBOLT || destTile->getType() == LASER)
 				{
 					fsm.network->sendSpent('N');
-			//		fsm.process_event(ev::waitForNetwork());
+					fsm.process_event(ev::waitForNetwork());
 				}
 				//				else	//KEYPAD
 			}
@@ -735,7 +735,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				{
 					DEBUG_MSG("Sending create alarm to " << fsm.model->otherPlayer()->getName());
 					fsm.network->sendCreateAlarm(event.c);
-				//	fsm.process_event(ev::waitForNetwork());
+					fsm.process_event(ev::waitForNetwork());
 				}
 			}
 			else
@@ -968,7 +968,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (is_same<EVT, ev::pass>::value && fsm.model->otherPlayer()->isRemote())
 			{
 				fsm.network->sendPass();
-		//		fsm.process_event(ev::waitForNetwork());
+				fsm.process_event(ev::waitForNetwork());
 			}
 		}
 	};
