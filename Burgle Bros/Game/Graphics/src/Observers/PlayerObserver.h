@@ -21,6 +21,7 @@ private:
 	pair<int, int> positions[3][4][4];
 	//Sound
 	alx::Sample * walk;
+	alx::Sample * hurt;
 
 	// Graphic objects
 	Container* parentCont;

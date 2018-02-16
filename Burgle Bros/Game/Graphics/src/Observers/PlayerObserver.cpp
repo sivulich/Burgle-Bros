@@ -108,8 +108,8 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 		actionTokens->setVisible(false);
 		passButton->setVisible(false);
 	}
-
-	hudCont->addObject(passButton);
+	if (p->isRemote() == false)
+		hudCont->addObject(passButton);
 	hudCont->addObject(actionTokens);
 	hudCont->addObject(stealthTokens);
 	hudCont->addObject(numberOfLoots);
@@ -168,6 +168,7 @@ PlayerObserver::PlayerObserver(Player* p, Container * c, Container* h, Container
 	lastPos = NPOS;
 	player->attach(this);
 	walk = new alx::Sample("../Game/Sound/WALK.wav");
+	hurt = new alx::Sample("../Game/Sound/HURT.wav");
 	update();
 }
 
@@ -255,6 +256,8 @@ void PlayerObserver::update()
 		//	cout << currentStealthTokens << endl;
 			//if (currentStealthTokens == string("-1"))
 				//currentStealthTokens = string("0");
+		if(currentStealthTokens!="3")
+			hurt->play(1, 0, 1, ALLEGRO_PLAYMODE_ONCE);
 		stealthTokens->setText(currentStealthTokens);
 	}
 

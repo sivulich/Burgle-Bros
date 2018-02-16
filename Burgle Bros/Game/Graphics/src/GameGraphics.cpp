@@ -41,6 +41,8 @@ GameGraphics::GameGraphics(GameModel * m)
 			screen->addObject(cont);
 			cont->setPosition(0, 0);
 			current_screen = MENU;
+			dog = new alx::Sample("../Game/Sound/DOG.wav");
+			lose = new alx::Sample("../Game/Sound/LOSE.wav");
 			if (m != nullptr)
 				setModel(m);
 			
