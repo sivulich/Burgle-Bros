@@ -1,6 +1,6 @@
 #include "./GuardDeckObserver.h"
 #include "../Animations/MoveAnimation.h"
-#include "../Animations/DelayAnimation.h"
+#include "../Animations/FlipAnimation.h"
 #include "../Animations/FadeAnimation.h"
 GuardDeckObserver::GuardDeckObserver(Floor* f, Container* board)
 {
@@ -51,9 +51,10 @@ void GuardDeckObserver::showTop()
 	int i = deck->topCard()->getDescription()[1] - '1';
 	int j = deck->topCard()->getDescription()[0] - 'A';
 	cards[i][j]->setPosition(GUARD_DECK_YPOS, GUARD_DECK_XPOS[floor->number()]);
-	cards[i][j]->setAlpha(0.0);
-	cards[i][j]->addAnimation(new FadeAnimation(0.0, 1.0, 1.0));
+	//cards[i][j]->setAlpha(0.0);
+	//cards[i][j]->addAnimation(new FadeAnimation(0.0, 1.0, 1.0));
 	//cards[i][j]->addAnimation(new DelayAnimation(1.0));
+	cards[i][j]->addAnimation(new FlipAnimation(cards[i][j],0.2));
 	boardCont->addObject(cards[i][j]);
 }
 

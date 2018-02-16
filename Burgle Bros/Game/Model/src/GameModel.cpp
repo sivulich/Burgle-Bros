@@ -282,6 +282,11 @@ vector<Coord> GameModel::getTilesXDist(unsigned x, Player * p)
 	return board[c.floor].getXDistanceTiles(x, c);
 };
 
+// 
+unsigned int GameModel::getSafeNumber(Coord c)
+{
+	return board.getTile(c)->getSafeNumber();
+}
 void GameModel::check4Cameras()
 {
 	board.checkCameras(currentPlayer_->getPosition());

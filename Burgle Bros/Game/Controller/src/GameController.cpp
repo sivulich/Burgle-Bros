@@ -132,7 +132,7 @@ void GameController::getInput()
 				break;
 
 			case ROLL_DICE_FOR_LOOT:
-				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice((int)(inp.modifier-'0')));
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice((int)(inp.modifier)));
 				break;
 
 			case GUARD_MOVEMENT:

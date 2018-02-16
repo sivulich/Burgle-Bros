@@ -19,10 +19,14 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 
 
 	string font = string("./Graphics/Images/calibri.ttf");
-
-	message = new Text(font, content, al_map_rgba_f(1, 1, 1, 0.5), 15, box->getWidth() / 2, 51);
+	unsigned lines = ceil(content.size()*1.0 / 90.0);
+	for (unsigned i = 0; i < lines - 1; i++)
+	{
+		message = new Text(font, content.substr(i * 90, 90), al_map_rgba_f(1, 1, 1, 0.5), 15, box->getWidth() / 2 , 51 - (9.0*lines) + 18.0*i);
+		box->addObject(message);
+	}
+	message = new Text(font, content.substr((lines-1) * 90), al_map_rgba_f(1, 1, 1, 0.5), 15, box->getWidth() / 2 , 51 - (9.0*lines) + 18.0*(lines - 1));
 	box->addObject(message);
-	
 
 	parent = c;
 	switch (t)
@@ -68,6 +72,16 @@ DialogBox::DialogBox(type t, std::string content, Container * c, bool bl, int po
 		button2 = nullptr;
 		text2 = nullptr;
 		break;
+	}
+	if (text1 != nullptr)
+	{
+		text1->setClickable(false);
+		text1->setHoverable(false);
+	}
+	if (text2 != nullptr)
+	{
+		text2->setClickable(false);
+		text2->setHoverable(false);
 	}
 	parent->addObject(this);
 }
@@ -122,6 +136,16 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 	text2 = nullptr;
 	parent->addObject(this);
 	dice = new alx::Sample("../Game/Sound/DICES.wav");
+	if (text1 != nullptr)
+	{
+		text1->setClickable(false);
+		text1->setHoverable(false);
+	}
+	if (text2 != nullptr)
+	{
+		text2->setClickable(false);
+		text2->setHoverable(false);
+	}
 }
 DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, vector<lootType>& d)
 {
@@ -165,6 +189,16 @@ DialogBox::DialogBox(std::string content, Container * c, bool bl, int position, 
 	box->addObject(button1);
 	box->addObject(text1);
 	parent->addObject(this);
+	if (text1 != nullptr)
+	{
+		text1->setClickable(false);
+		text1->setHoverable(false);
+	}
+	if (text2 != nullptr)
+	{
+		text2->setClickable(false);
+		text2->setHoverable(false);
+	}
 }
 
 void DialogBox::draw(Bitmap* target)

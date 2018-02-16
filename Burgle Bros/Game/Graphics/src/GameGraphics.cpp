@@ -228,7 +228,7 @@ void GameGraphics::askQuestion(string question)
 
 void  GameGraphics::spyPatrolCard(int floorNumber)
 {
-	dialogBox = new DialogBox(DialogBox::YES_NO_MSG, "Do you want to keep the card on the top of the deck?", cont, false);
+	//dialogBox = new DialogBox(DialogBox::YES_NO_MSG, "Do you want to keep the card on the top of the deck?", cont, false);
 	showTopPatrol(floorNumber);
 
 }
@@ -400,6 +400,8 @@ GameGraphics::~GameGraphics()
 	//delete pl;
 	delete screen;
 	delete cont;
+	for (auto& s : screens)
+		delete s;
 
 
 	// FALTAN COSAS

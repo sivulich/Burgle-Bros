@@ -90,7 +90,8 @@ public:
 	//
 	vector<Coord> getTilesXDist(unsigned x, Player * p);
 
-
+	// 
+	unsigned int getSafeNumber(Coord c);
 
 	//
 	void check4Cameras();
