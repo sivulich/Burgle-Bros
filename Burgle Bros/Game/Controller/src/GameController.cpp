@@ -106,6 +106,7 @@ void GameController::getInput()
 				break;
 
 			case SAFE_OPENED:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::loot(inp.loot));
 				break;
 
 			case CREATE_ALARM:
@@ -249,7 +250,7 @@ void GameController::processEvent()
 	else if (isInEnum_characterType(s.c_str()))
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::characterName(string(s)));
 	else if (isInEnum_lootType(s.c_str()))
-		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::lootType(string(s)));
+		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::loot(string(s)));
 	if (s == "START")
 		static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::start());
 	else if (s == "CREDITS")

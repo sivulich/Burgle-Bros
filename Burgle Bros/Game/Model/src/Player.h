@@ -37,6 +37,9 @@ public:
 
 	void setLocal(bool b) { local = b; };
 
+	// Call after loot has been cracked!!
+	void getLootFromSafe();
+
 	//Set a vector of tiles from where the guard can see the player 
 	void setVisibleFrom(vector<Coord> v) { if (!v.empty()) this->visibleFrom = v; };
 

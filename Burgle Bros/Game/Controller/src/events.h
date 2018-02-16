@@ -77,10 +77,12 @@ namespace ev {
 		requestLoot(lootType t) : type(t) {};
 		lootType type;
 	};
-	struct lootType : BaseEvent
+	struct loot : BaseEvent
 	{
-		lootType(string s) :type(s) {};
-		string type;
+		loot() :type(NO_LOOT_TYPE) {};
+		loot(string s) :type(toEnum_lootType(s.c_str())) {};
+		loot(lootType t) :type(t) {};
+		lootType type;
 	};
 	struct showAlarm : BaseEvent {};
 	struct createAlarm : BaseEvent

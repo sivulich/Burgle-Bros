@@ -426,6 +426,15 @@ bool Player::throwDice(int n)
 	return b;
 }
 
+void Player::getLootFromSafe()
+{
+	if (currentTile->is(SAFE))
+	{
+		((Safe*)currentTile)->giveLootToPlayer(this);
+		notify();
+	}
+}
+
 int Player::throwDice()
 {
 	default_random_engine generator((unsigned int)std::chrono::system_clock::now().time_since_epoch().count());

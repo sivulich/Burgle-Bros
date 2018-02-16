@@ -535,6 +535,7 @@ public:
 				return !fsm.graphics->getPlayerName().empty() && !source.character1.empty();
 			else if (source.player2set == false)
 				return !fsm.graphics->getPlayerName().empty() && !source.character2.empty();
+			else return false;
 		}
 	};
 
@@ -575,11 +576,13 @@ public:
 		Row < IPScreen, ev::cancel, none, stopConnecting, none		>,
 		//  +------------+-------------+------------+--------------+--------------+
 		Row <GameState, ev::back, MenuScreen, restartGame, none		>,
+		//Row <GameState::exit_pt<GameState::exitState>, ev::next, MenuScreen, restartGame, none		>,
 
 		//--------------------------Orthogonal region-----------------------------//
 		//  +------------+-------------+------------+--------------+--------------+
 		Row <   playing, ev::close, none, askConfirmationClose, Not_<dialogBoxOpened>		>,
-		Row <   playing, Or_<ev::yes,ev::ok>, exit, none, dialogBoxOpened>,
+		Row <   playing, ev::yes, exit, none, dialogBoxOpened>,
+		Row <   playing, ev::ok, exit, none, dialogBoxOpened>,// SE PUEDE CAMBIAR PARA QUE CUANDO EL REMOTO CIERRA NO SE CIERRE ACA
 		Row <   playing, ev::no, playing, none, dialogBoxOpened>,
 		//	Row <   playing, ev::errorReceived, error, none, none     >,				
 		Row <   playing, ev::pause, paused, none, none		>,
