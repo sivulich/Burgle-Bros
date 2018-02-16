@@ -246,7 +246,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				Tile * tile = fsm.model->getBoard()->getTile(event.c);
 				destinationType = tile->getType();
 
-				if ( (fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()) )
+				if ((fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()))
 				{
 					confirmation conf = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
 					if (tile->is(DEADBOLT))
@@ -262,8 +262,8 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					else if (tile->is(LASER))
 						fsm.graphics->askQuestion(string("Do you want to spend 1 extra action token to enter the laser room? If not you trigger an alarm."));
 					else if (tile->is(KEYPAD) && conf == _DICE)
-							fsm.process_event(ev::throwDice());
-					
+						fsm.process_event(ev::throwDice());
+
 				}
 				if (fsm.model->otherPlayer()->isRemote())
 				{
@@ -271,7 +271,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					fsm.network->sendMove(event.c, safeNumber);
 					fsm.process_event(ev::waitForNetwork());
 				}
-				
+
 			}
 		}
 
@@ -305,17 +305,19 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 			if (fsm.model->currentPlayer()->has(PERSIAN_KITTY) || fsm.model->currentPlayer()->has(CHIHUAHUA))
 			{
-				int dice = fsm.model->currentPlayer()->throwDice();
 				if (fsm.model->currentPlayer()->isLocal())
 				{
-					fsm.process_event(ev::throwDice(dice));
+					int dice = fsm.model->currentPlayer()->throwDice();
+
 					if (fsm.model->otherPlayer()->isRemote())
 					{
 						fsm.network->sendLootDice(dice);
 						fsm.process_event(ev::waitForNetwork());
 					}
+					fsm.process_event(ev::throwDice(dice));
+
 				}
-				}
+			}
 
 			else fsm.process_event(ev::done());
 
@@ -471,12 +473,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 			if (fsm.model->otherPlayer()->isRemote())
 			{
-				if (destTile->getType() == DEADBOLT || destTile->getType() == LASER) 
+				if (destTile->getType() == DEADBOLT || destTile->getType() == LASER)
 				{
 					fsm.network->sendSpent('N');
 					fsm.process_event(ev::waitForNetwork());
 				}
-//				else	//KEYPAD
+				//				else	//KEYPAD
 			}
 		}
 	};
@@ -645,7 +647,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			std::cout << "Spying patrol deck" << std::endl;
 			if ((Coord)event.c == NPOS) fsm.graphics->askQuestion("Do you want to keep the card on the top of the deck?");
-			else if(event.tb == 'T' || event.tb == 'B')
+			else if (event.tb == 'T' || event.tb == 'B')
 			{
 				fsm.model->getBoard()->getDeck(fsm.model->currentPlayer()->getPosition().floor)->moveCardtoTop(event.c);
 				if (event.tb == 'T')
@@ -858,14 +860,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->doKittyAction(event.number))
 				{
 					if (fsm.model->otherPlayer()->isRemote() || (fsm.model->otherPlayer()->isLocal() && fsm.model->currentPlayer()->isLocal()))
-					fsm.graphics->showDices(string("You threw a 1 or a 2 and the kitty escaped your grasp."), dices);
-					else fsm.graphics->showDices(string("The other player threw a 1 or a 2 and the kitty escaped his grasp."), dices);
+						fsm.graphics->showDices(string("You threw a 1/2. The kitty escaped your grasp."), dices);
+					else fsm.graphics->showDices(string("The other player threw a 1,2. The kitty escaped his\her grasp."), dices);
 				}
 				else
 				{
 					if (fsm.model->otherPlayer()->isRemote() || (fsm.model->otherPlayer()->isLocal() && fsm.model->currentPlayer()->isLocal()))
-					fsm.graphics->showDices(string("You either haven't thrown a 1 or a 2, or no alarm tiles where flipped. The kitty remains in your grasp."), dices);
-					else fsm.graphics->showDices(string("The other player either hasn't thrown a 1 or a 2, or no alarm tiles where flipped. The kitty remains in his grasp."), dices);
+						fsm.graphics->showDices(string("You haven't thrown a 1/2, or no alarm tiles where flipped. The kitty remains with you."), dices);
+					else fsm.graphics->showDices(string("The other player hasn't thrown a 1/2, or no alarm tiles where flipped. The kitty remains."), dices);
 				}
 				std::cout << "Sending kitty loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
 			}
@@ -880,10 +882,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					{
 						int dice = fsm.model->currentPlayer()->throwDice();
 						fsm.process_event(ev::throwDice(dice));
-						std::cout << "Sending chihuahua loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
+						
 						if (fsm.model->otherPlayer()->isRemote())
 						{
-							fsm.network->sendLootDice((char)('2'));
+							std::cout << "Sending chihuahua loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
+							fsm.network->sendLootDice(dice);
 							fsm.process_event(ev::waitForNetwork());
 						}
 					}
@@ -904,8 +907,6 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			vector<int> dices;
 			dices.push_back(event.number);
-			if (fsm.model->currentPlayer()->isLocal())
-			{
 				if (fsm.model->doChihuahuaAction(event.number))
 				{
 					if (fsm.model->otherPlayer()->isRemote() || (fsm.model->otherPlayer()->isLocal() && fsm.model->currentPlayer()->isLocal()))
@@ -920,11 +921,9 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					{
 						fsm.graphics->showDices(string("You didn't throw a 6. You silenced the Chihuahua before the alarm was triggered."), dices);
 					}
-					else fsm.graphics->showDices(string("The other player didn't throw a 6.He/She silenced the Chihuahua before the alarm was triggered."), dices);
+					else fsm.graphics->showDices(string("The other player didn't throw a 6.The alarm wasn't triggered."), dices);
 				}
-			}
-			else
-			fsm.currentAction = NO_TYPE;
+				fsm.currentAction = NO_TYPE;
 			fsm.process_event(ev::done());
 		}
 	};

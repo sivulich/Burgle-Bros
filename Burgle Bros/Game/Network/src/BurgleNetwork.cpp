@@ -1015,7 +1015,7 @@ void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 		inp.loot = (lootType)pack[1];
 		break;
 	case ROLL_DICE_FOR_LOOT:
-		inp.modifier = pack[2]-'0';
+		inp.modifier = pack[1]-'0';
 		break;
 	case THROW_DICE:
 		for (int i = 1; i <= 6; i++)
@@ -1283,7 +1283,7 @@ void BurgleNetwork::sendLootDice(char dice)
 	if (join() == true)
 	{
 		vector<char> pack(2, ROLL_DICE_FOR_LOOT);
-		pack[1] = dice;
+		pack[1] = dice + '0';
 		currThread = new thread(&BurgleNetwork::packetAndAckThreded, this, &flags, pack);
 	}
 }
