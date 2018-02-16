@@ -70,7 +70,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		DEBUG_MSG("Leaving Burgle Bros");
 		fsm.graphics->deleteGameScreen();
 		if (fsm.model->isRemote())
+		{
+			while (fsm.network->join() == false);
 			fsm.network->sendQuit();
+		}
+			
 	}
 
 	//----------------------- STATES -----------------------------//
@@ -274,6 +278,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->otherPlayer()->isRemote())
 				{
 					unsigned int safeNumber = fsm.model->getSafeNumber(event.c);
+					while (fsm.network->join() == false);
 					fsm.network->sendMove(event.c, safeNumber);
 	//				fsm.process_event(ev::waitForNetwork());
 				}
@@ -317,6 +322,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 
 					if (fsm.model->otherPlayer()->isRemote())
 					{
+						while (fsm.network->join() == false);
 						fsm.network->sendLootDice(dice);
 						fsm.process_event(ev::waitForNetwork());
 					}
@@ -455,6 +461,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (b && fsm.model->otherPlayer()->isRemote())
 				{
 					unsigned int safeNumber = fsm.model->getBoard()->getTile(event.c)->getSafeNumber();
+					while (fsm.network->join() == false);
 					fsm.network->sendMove(event.c, safeNumber);
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -468,6 +475,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				fsm.model->currentPlayer()->spentOK();
 				if (fsm.model->otherPlayer()->isRemote())
 				{
+					while (fsm.network->join() == false);
 					fsm.network->sendSpent('Y');
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -503,6 +511,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				if (destTile->getType() == DEADBOLT || destTile->getType() == LASER)
 				{
+					while (fsm.network->join() == false);
 					fsm.network->sendSpent('N');
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -529,6 +538,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->otherPlayer()->isRemote())
 			{
 				unsigned int safeNumber = fsm.model->getBoard()->getTile(event.c)->getSafeNumber();
+				while (fsm.network->join() == false);
 				fsm.network->sendPeek(event.c, safeNumber);
 
 				if (fsm.network->error())
@@ -552,6 +562,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->otherPlayer()->isRemote())
 				{
 					DEBUG_MSG("Sending use token to " << fsm.model->otherPlayer()->getName());
+					while (fsm.network->join() == false);
 					fsm.network->sendUseToken(tokenTile);
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -572,6 +583,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->otherPlayer()->isRemote() && coord2AddTkn != NPOS)
 			{
 				DEBUG_MSG("Sending add token to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendAddToken(coord2AddTkn);
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -600,7 +612,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			Tile * currTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getPosition());
 			bool b = false;
 
-			vector<int> dices;
+			vector<unsigned int> dices;
 			// If local sort 6 dices
 			if (fsm.model->currentPlayer()->isLocal())
 			{
@@ -620,7 +632,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->currentPlayer()->throwDice(dices[currDice]))// Cant throw more dices or safe crackes
 				{
 					currDice++;
-					vector<int> dicesThrown(dices.begin(), dices.begin() + currDice);
+					vector<unsigned int> dicesThrown(dices.begin(), dices.begin() + currDice);
 					fsm.graphics->showDices(string("You threw this dices."), dicesThrown);
 
 					// Add remaining zeros
@@ -740,6 +752,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->otherPlayer()->isRemote())
 				{
 					DEBUG_MSG("Sending create alarm to " << fsm.model->otherPlayer()->getName());
+					while (fsm.network->join() == false);
 					fsm.network->sendCreateAlarm(event.c);
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -790,6 +803,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->otherPlayer()->isRemote() && topCard != NPOS)
 			{
 				DEBUG_MSG("Sending stay at top, card " << topCard << "to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendSpyPatrol(topCard, 'T');
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -809,6 +823,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->otherPlayer()->isRemote() && movingCard != NPOS)
 			{
 				DEBUG_MSG("Sending go to bottom, card " << movingCard << "to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendSpyPatrol(movingCard, 'B');
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -828,6 +843,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (fsm.model->otherPlayer()->isRemote())
 				{
 					DEBUG_MSG("Sending place crow to " << fsm.model->otherPlayer()->getName());
+					while (fsm.network->join() == false);
 					fsm.network->sendPlaceCrow(event.c);
 					fsm.process_event(ev::waitForNetwork());
 				}
@@ -848,6 +864,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->otherPlayer()->isRemote())
 			{
 				DEBUG_MSG("Sending pick up loot to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendPickupLoot();
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -866,6 +883,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->otherPlayer()->isRemote())
 			{
 				std::cout << "Sending offer loot to " << fsm.model->otherPlayer()->getName() << std::endl;
+				while (fsm.network->join() == false);
 				fsm.network->sendOfferLoot(target.lootToOffer);
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -887,6 +905,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->otherPlayer()->isRemote())
 			{
 				std::cout << "Sending request loot to " << fsm.model->otherPlayer()->getName() << std::endl;
+				while (fsm.network->join() == false);
 				fsm.network->sendRequestLoot(target.lootToOffer);
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -906,6 +925,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isRemote())
 			{
 				DEBUG_MSG("Sending agree to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendAgree();
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -923,6 +943,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isRemote())
 			{
 				DEBUG_MSG("Sending disagree to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendDisagree();
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -938,6 +959,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isRemote())
 			{
 				DEBUG_MSG("Sending agree to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendAgree();
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -955,6 +977,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isRemote())
 			{
 				DEBUG_MSG("Sending disagree to " << fsm.model->otherPlayer()->getName());
+				while (fsm.network->join() == false);
 				fsm.network->sendDisagree();
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -973,6 +996,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// If other player is remote send pass 
 			if (is_same<EVT, ev::pass>::value && fsm.model->otherPlayer()->isRemote())
 			{
+				while (fsm.network->join() == false);
 				fsm.network->sendPass();
 				fsm.process_event(ev::waitForNetwork());
 			}
@@ -1038,6 +1062,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 						if (fsm.model->otherPlayer()->isRemote())
 						{
 							std::cout << "Sending chihuahua loot dice to " << fsm.model->otherPlayer()->getName() << std::endl;
+							while (fsm.network->join() == false);
 							fsm.network->sendLootDice(dice);
 							fsm.process_event(ev::waitForNetwork());
 						}
