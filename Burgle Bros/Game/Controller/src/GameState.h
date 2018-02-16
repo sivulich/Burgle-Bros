@@ -188,7 +188,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-
+			DEBUG_MSG("CHOOSE LOOT");
 		}
 
 		template <class EVT, class FSM>
@@ -204,6 +204,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
+			DEBUG_MSG("CHECK ACTION TOKENS");
 
 			if (fsm.model->gameOver() == true)
 				fsm.process_event(ev::gameOver());
@@ -226,7 +227,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("Are you sure? Yes/No");
+			DEBUG_MSG("ASK CONFIRMATION");
 		}
 
 	};
@@ -240,7 +241,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		typename boost::enable_if<typename has_CoordProp<EVT>::type, void>::type
 			on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("Entering ask confirmation");
+			DEBUG_MSG("ASK CONFIRMATION MOVE");
 			destinationCoord = event.c;
 
 			if (destinationCoord != ROOF)
@@ -290,7 +291,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				DEBUG_MSG("Passing coord");
 				fsm.process_event(ev::coord(destinationCoord));
 			}
-			cout << "Leaving ask confirmation" << endl;
+			DEBUG_MSG("Leaving ask confirmation");
 		}
 
 	};
@@ -301,7 +302,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM>
 		void on_entry(EVT const&  event, FSM& fsm)
 		{
-			DEBUG_MSG("Starting Turn");
+			DEBUG_MSG("BEGIN TURN");
 			fsm.currentAction = NO_TYPE;
 			fsm.graphics->printInHud(fsm.model->currentPlayer()->getName() + string("'s turn."));
 
@@ -341,7 +342,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// If player isnt on roof start timer to move the guard
 			if (fsm.model->currentPlayer()->isOnRoof() == false)
 			{
-				DEBUG_MSG("Its the guards turn");
+				DEBUG_MSG("GUARD TURN");
 				fsm.guardTimer->start();
 				//if (fsm.model->otherPlayer()->isRemote());
 				//fsm.model->getGuardPath
@@ -356,7 +357,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			if (fsm.model->currentPlayer()->isOnRoof() == false)
 			{
-				DEBUG_MSG("Leaving guard turn");
+				DEBUG_MSG("LEAVING GUARD TURN");
 				fsm.guardTimer->stop();
 			}
 		}
@@ -841,7 +842,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			}
 			if (!(fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()))
 			{
-				fsm.graphics->askQuestion(name + string(" is offering you the ") + event.type + string(". Do you accept it?"));
+				fsm.graphics->askQuestion(name + string(" is offering you the ") + string(toString(event.type)) + string(". Do you accept it?"));
 			}
 		}
 	};
@@ -862,7 +863,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			}
 			if (!(fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()))
 			{
-				fsm.graphics->askQuestion(name + string(" is requesting you the ") + event.type + string(". Do you accept?"));
+				fsm.graphics->askQuestion(name + string(" is requesting you the ") + string(toString(event.type)) + string(". Do you accept?"));
 			}
 		}
 	};
@@ -1188,7 +1189,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isLocal())
 				fsm.graphics->showAvailableLoots(string("Choose the loot you want to offer:"), fsm.model->currentPlayer()->getAvailableLoots());
 			else if (fsm.model->currentPlayer()->isRemote())
-				fsm.process_event(ev::lootType(toString(event.type)));
+				fsm.process_event(ev::loot(event.type));
 		}
 	};
 
@@ -1202,7 +1203,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			if (fsm.model->currentPlayer()->isLocal())
 				fsm.graphics->showAvailableLoots(string("Choose the loot you want to request:"), fsm.model->otherPlayer()->getAvailableLoots());
 			else if (fsm.model->currentPlayer()->isRemote())
-				fsm.process_event(ev::lootType(toString(event.type)));
+				fsm.process_event(ev::loot(event.type));
 		}
 	};
 
