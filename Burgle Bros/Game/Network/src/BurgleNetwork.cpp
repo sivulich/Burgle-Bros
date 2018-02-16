@@ -1001,7 +1001,7 @@ void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 		
 		for (char i = 0; i < n; i++)
 		{
-			if (pack[2 + 4 * i])
+			if (pack[2 + 4 * i]==0xff)
 			{
 				temp.col = 0;
 				temp.row = 0;

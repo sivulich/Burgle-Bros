@@ -26,7 +26,7 @@ vector<string> Safe::getActions(PlayerInterface * player)
 	{
 		if (dices < 6 && player->getActionTokens() >= 2)
 			actions.push_back("ADD_DIE");
-		if ((dices + b) > 0 && player->getActionTokens() >= 1 && keyCardHere)
+		if ((dices ) > 0 && player->getActionTokens() >= 1 && keyCardHere)
 			actions.push_back("CRACK_SAFE");
 	}
 	return actions;

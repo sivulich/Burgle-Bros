@@ -628,6 +628,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				for (int i = 0; i < 6; i++)
 					dices.push_back(fsm.model->currentPlayer()->throwDice());
 			}
+			//dices.push_back(0);
 			// If remote get dices from other computer
 			else if (fsm.model->currentPlayer()->isRemote())
 				dices = event.dices;
@@ -638,12 +639,12 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				if (dices[currDice] == 0)
 					DEBUG_MSG("A DICE WAS 0!");
 
-				if (fsm.model->currentPlayer()->throwDice(dices[currDice]))// Cant throw more dices or safe crackes
+				if (fsm.model->currentPlayer()->throwDice(dices[currDice]) || currDice==5)// Cant throw more dices or safe crackes
 				{
 					currDice++;
 					vector<unsigned int> dicesThrown(dices.begin(), dices.begin() + currDice);
+					
 					fsm.graphics->showDices(string("You threw this dices."), dicesThrown);
-
 					// Add remaining zeros
 					for (int i = currDice; i < 6; i++)
 						dicesThrown.push_back(0);
@@ -677,6 +678,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				}
 				currDice++;
 			}
+			
 
 		}
 	};
