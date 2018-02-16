@@ -133,9 +133,11 @@ void GameController::getInput()
 				break;
 
 			case OFFER_LOOT:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::offerLoot(inp.loot));
 				break;
 
 			case REQUEST_LOOT:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::requestLoot(inp.loot));
 				break;
 
 			case PICK_UP_LOOT:

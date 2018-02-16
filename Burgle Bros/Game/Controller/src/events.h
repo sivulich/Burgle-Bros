@@ -67,13 +67,13 @@ namespace ev {
 	struct errorHandled : BaseEvent {};
 	struct offerLoot : BaseEvent
 	{
-		offerLoot() : type((lootType)0) {};
+		offerLoot() : type(NO_LOOT_TYPE) {};
 		offerLoot(lootType t) : type(t) {};
 		lootType type;
 	};
 	struct requestLoot : BaseEvent
 	{
-		requestLoot() : type((lootType)0) {};
+		requestLoot() : type(NO_LOOT_TYPE) {};
 		requestLoot(lootType t) : type(t) {};
 		lootType type;
 	};
