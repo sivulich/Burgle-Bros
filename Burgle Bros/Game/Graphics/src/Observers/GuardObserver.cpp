@@ -23,6 +23,8 @@ GuardObserver::GuardObserver(Guard* g, Container* board, int floorNumber)
 		dices[i]->setSize(DICE_SIZE, DICE_SIZE);
 		dices[i]->setHoverable(false);
 		dices[i]->setClickable(false);
+		dices[i]->setVisible(false);
+		boardCont->addObject(dices[i]);
 	}
 
 	lastSpeed = g->getSpeed();
@@ -54,7 +56,8 @@ void GuardObserver::update()
 			lastTarget = guard->getTarget();
 			int i = guard->getTarget().row;
 			int j = guard->getTarget().col;
-			dices[lastSpeed]->setPosition((int)(FLOOR_YPOS + TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2), (int)(FLOOR_XPOS[pos.floor] + TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2));
+			dices[lastSpeed]->setVisible(false);
+			dices[lastSpeed]->setPosition((int)(FLOOR_YPOS + TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2),(int) (FLOOR_XPOS[pos.floor] + TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2));
 		}
 		else
 			guardIm->addAnimation(new MoveAnimation(target, GUARD_MOVE_SPEED));
@@ -62,16 +65,19 @@ void GuardObserver::update()
 	}
 
 	// Update dice
-	if (lastSpeed != guard->getSpeed() || lastTarget != guard->getTarget())
+	//if (lastSpeed != guard->getSpeed() || lastTarget != guard->getTarget())
 	{
-		boardCont->removeObject(dices[lastSpeed]);
-		boardCont->addObject(dices[guard->getSpeed()]);
+		//for (int i = 1; i <= 6; i++)
+			//dices[i]->setVisible(false);
+		dices[lastSpeed]->setVisible(false);
+		lastSpeed = guard->getSpeed();
+		lastTarget = guard->getTarget();
+		dices[lastSpeed]->setVisible(true);
 		int i = guard->getTarget().row;
 		int j = guard->getTarget().col;
 		dices[lastSpeed]->setPosition((int)(TILE_YPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2), (int)(FLOOR_XPOS[pos.floor] + TILE_XPOS[i][j] + (TILE_SIZE - DICE_SIZE) / 2));
 
-		lastSpeed = guard->getSpeed();
-		lastTarget = guard->getTarget();
+		
 	}
 }
 

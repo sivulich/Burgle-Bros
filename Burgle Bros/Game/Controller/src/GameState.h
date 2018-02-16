@@ -248,7 +248,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 				Tile * tile = fsm.model->getBoard()->getTile(event.c);
 				destinationType = tile->getType();
 
-				if ((fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()))
+				if ((fsm.model->currentPlayer()->isLocal())) //&& fsm.model->otherPlayer()->isRemote()))
 				{
 					confirmation conf = fsm.model->currentPlayer()->needConfirmationToMove(event.c);
 					if (tile->is(DEADBOLT))
@@ -343,7 +343,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			{
 				DEBUG_MSG("Its the guards turn");
 				fsm.guardTimer->start();
-				if (fsm.model->otherPlayer()->isRemote());
+				//if (fsm.model->otherPlayer()->isRemote());
 				//fsm.model->getGuardPath
 			}
 			// If player is on roof, the guard doesnt move
@@ -833,8 +833,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// Guardo en el estado askConfirmation el loot que quiero ofrecer
 			target.lootToOffer = event.type;
 			string name = fsm.model->currentPlayer()->getName();
-
-			fsm.graphics->askQuestion(name + string(" is offering you the ") + string(toString(event.type)) + string(". Do you accept it?"));
+			if (fsm.model->otherPlayer()->isRemote())
+			{
+				std::cout << "Sending offer loot to " << fsm.model->otherPlayer()->getName() << std::endl;
+				fsm.network->sendOfferLoot(target.lootToOffer);
+				fsm.process_event(ev::waitForNetwork());
+			}
+			if (!(fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()))
+			{
+				fsm.graphics->askQuestion(name + string(" is offering you the ") + event.type + string(". Do you accept it?"));
+			}
 		}
 	};
 
@@ -846,8 +854,16 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 			// Guardo en el estado askConfirmation el loot que quiero pedir
 			target.lootToOffer = event.type;
 			string name = fsm.model->currentPlayer()->getName();
-
-			fsm.graphics->askQuestion(name + string(" is requesting you the ") + string(toString(event.type)) + string(". Do you accept?"));
+			if (fsm.model->otherPlayer()->isRemote())
+			{
+				std::cout << "Sending request loot to " << fsm.model->otherPlayer()->getName() << std::endl;
+				fsm.network->sendRequestLoot(target.lootToOffer);
+				fsm.process_event(ev::waitForNetwork());
+			}
+			if (!(fsm.model->currentPlayer()->isLocal() && fsm.model->otherPlayer()->isRemote()))
+			{
+				fsm.graphics->askQuestion(name + string(" is requesting you the ") + event.type + string(". Do you accept?"));
+			}
 		}
 	};
 
@@ -856,7 +872,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			DEBUG_MSG("Getting loot " << string(toString(source.lootToOffer)) << " from " << fsm.model->otherPlayer()->getName());
+			std::cout << "Getting loot " << string(toString(source.lootToOffer)) << " from " << fsm.model->otherPlayer()->getName() << std::endl;
+			if (fsm.model->currentPlayer()->isRemote())
+			{
+				DEBUG_MSG("Sending agree to " << fsm.model->otherPlayer()->getName());
+				fsm.network->sendAgree();
+				fsm.process_event(ev::waitForNetwork());
+			}
 			fsm.model->currentPlayer()->receiveLoot(source.lootToOffer);
 		}
 	};
@@ -866,7 +888,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			DEBUG_MSG(fsm.model->otherPlayer()->getName() << " rejected your request.");
+			if (fsm.model->currentPlayer()->isLocal())
+				fsm.graphics->showOkMessage(fsm.model->otherPlayer()->getName() + string(" rejected your request.") );
+			if (fsm.model->currentPlayer()->isRemote())
+			{
+				DEBUG_MSG("Sending disagree to " << fsm.model->otherPlayer()->getName());
+				fsm.network->sendDisagree();
+				fsm.process_event(ev::waitForNetwork());
+			}
 		}
 	};
 
@@ -875,7 +904,13 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			DEBUG_MSG("Giving loot " << string(toString(source.lootToOffer)) << " to " << fsm.model->otherPlayer()->getName());
+			std::cout << "Giving loot " << string(toString(source.lootToOffer)) << " to " << fsm.model->otherPlayer()->getName() << std::endl;
+			if (fsm.model->currentPlayer()->isRemote())
+			{
+				DEBUG_MSG("Sending agree to " << fsm.model->otherPlayer()->getName());
+				fsm.network->sendAgree();
+				fsm.process_event(ev::waitForNetwork());
+			}
 			fsm.model->currentPlayer()->giveLoot(source.lootToOffer);
 		}
 	};
@@ -885,7 +920,14 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			DEBUG_MSG(fsm.model->otherPlayer()->getName() << " rejected your offer.");
+			if (fsm.model->currentPlayer()->isLocal())
+				fsm.graphics->showOkMessage(fsm.model->otherPlayer()->getName() + string(" rejected your offer."));
+			if (fsm.model->currentPlayer()->isRemote())
+			{
+				DEBUG_MSG("Sending disagree to " << fsm.model->otherPlayer()->getName());
+				fsm.network->sendDisagree();
+				fsm.process_event(ev::waitForNetwork());
+			}
 		}
 	};
 
@@ -1143,7 +1185,10 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		{
 			DEBUG_MSG("Preparing to offer loot: ");
 			fsm.currentAction = OFFER_LOOT;
-			fsm.graphics->showAvailableLoots(string("Choose the loot you want to offer:"), fsm.model->currentPlayer()->getAvailableLoots());
+			if (fsm.model->currentPlayer()->isLocal())
+				fsm.graphics->showAvailableLoots(string("Choose the loot you want to offer:"), fsm.model->currentPlayer()->getAvailableLoots());
+			else if (fsm.model->currentPlayer()->isRemote())
+				fsm.process_event(ev::lootType(toString(event.type)));
 		}
 	};
 
@@ -1153,16 +1198,11 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
 			fsm.currentAction = REQUEST_LOOT;
-			if (event.type == NO_CHARACTER_TYPE)
-			{
-				DEBUG_MSG("Preparing to request loot: ");
+			DEBUG_MSG("Preparing to request loot: ");
+			if (fsm.model->currentPlayer()->isLocal())
 				fsm.graphics->showAvailableLoots(string("Choose the loot you want to request:"), fsm.model->otherPlayer()->getAvailableLoots());
-			}
-			else
-			{
-				fsm.graphics->askQuestion(fsm.model->otherPlayer()->getName() + string(" is asking for the ") + string(toString(event.type)) + string(" Do you accept?"));
-			}
-
+			else if (fsm.model->currentPlayer()->isRemote())
+				fsm.process_event(ev::lootType(toString(event.type)));
 		}
 	};
 
