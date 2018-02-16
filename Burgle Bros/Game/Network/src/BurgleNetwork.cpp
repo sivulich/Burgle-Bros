@@ -904,7 +904,6 @@ remoteInput BurgleNetwork::getRemoteInput()
 {
 	remoteInput inp;
 	inp.action = NO_TYPE;
-
 	if (flags.currState != EXCHANGE_FINISHED || join() == false)
 		return inp;
 
@@ -1019,8 +1018,10 @@ void BurgleNetwork::packetToInput(remoteInput& inp, vector<char>& pack)
 		break;
 	case THROW_DICE:
 		for (int i = 1; i <= 6; i++)
-			if(pack[i]!='0')
-				inp.dice.push_back( pack[i] - '0');
+		{
+			if (pack[i] != '0')
+				inp.dice.push_back((unsigned int)pack[i] - '0');
+		}
 		break;
 	default:
 		break;
@@ -1135,19 +1136,17 @@ void BurgleNetwork::sendUseToken(Coord pos)
 		currThread = new thread(&BurgleNetwork::instructionWithCoord, this, &flags, USE_TOKEN, pos, 0);
 }
 
-void BurgleNetwork::sendThrowDice(char d1, char d2, char d3, char d4, char d5, char d6)
-{
-	DEBUG_MSG("Sending TROW_DICE");
+void BurgleNetwork::sendThrowDice(vector <unsigned int> diceThrown)
+{	DEBUG_MSG("Sending THROW_DICE");
 	vector<char> pack(7, (char)THROW_DICE);
-	pack[1] = d1 + '0';
-	pack[2] = d2 + '0';
-	pack[3] = d3 + '0';
-	pack[4] = d4 + '0';
-	pack[5] = d5 + '0';
-	pack[6] = d6 + '0';
+	for (unsigned int i = 0; i < diceThrown.size(); i++) 
+		pack[i+1] = diceThrown[i] + '0';
+
+	for (int i = diceThrown.size(); i < 6; i++)
+		pack[i+1] = '0';
+
 	if (join() == true)
 		currThread = new thread(&BurgleNetwork::packetAndAckThreded, this, &flags, pack);
-	return;
 
 }
 void BurgleNetwork::sendSafeOpened(lootType loot)

@@ -228,7 +228,7 @@ void GameGraphics::showOkMessage(string message)
 	dialogBox = new DialogBox(DialogBox::OK_MSG, message, cont);
 }
 
-void GameGraphics::showDices(string message, vector<int> dices)
+void GameGraphics::showDices(string message, vector<unsigned int> dices)
 {
 	dialogBox = new DialogBox(message, cont, true,DialogBox::MIDDLE, dices);
 }

@@ -57,7 +57,7 @@ public:
 	void showOkMessage(string message);
 
 	// Pop up a message showing dices
-	void showDices(string message, vector<int> dices);
+	void showDices(string message, vector<unsigned int> dices);
 	
 	//Pop up a message showing aveilable loots
 	void showAvailableLoots(string message, vector<lootType> dices);

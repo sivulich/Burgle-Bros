@@ -43,10 +43,10 @@ namespace ev {
 	struct throwDice : BaseEvent
 	{
 		throwDice() {};
-		throwDice(int n) :number(n) {};
-		throwDice(vector<int> n) : dices(n) {};
-		int number;
-		vector<int> dices;
+		throwDice(unsigned int n) :number(n) {};
+		throwDice(vector<unsigned int> n) : dices(n) {};
+		unsigned int number;
+		vector<unsigned int> dices;
 	};
 	struct useToken : BaseEvent {};
 	struct addToken : BaseEvent {};

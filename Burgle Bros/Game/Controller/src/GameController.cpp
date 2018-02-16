@@ -114,6 +114,7 @@ void GameController::getInput()
 				break;
 
 			case THROW_DICE:
+				static_pointer_cast<GameFSM>(stateMachine)->process_event(ev::throwDice(inp.dice));
 				break;
 
 			case SAFE_OPENED:
@@ -235,14 +236,15 @@ void GameController::getInput()
 					s = "MOVE";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_P)
 					s = "PEEK";
-				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
-					s = "YES";
+				
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_D)
 					s = "CONTINUE_THROW";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_N)
 					s = "NO";*/
 				if (event.getKeyboardKeycode() == ALLEGRO_KEY_C)
 					graphics->showConsole();
+				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_Y)
+					s = "YES";
 				/*else if (event.getKeyboardKeycode() == ALLEGRO_KEY_L)
 					s = "PICK_UP_LOOT";
 				else if (event.getKeyboardKeycode() == ALLEGRO_KEY_K)

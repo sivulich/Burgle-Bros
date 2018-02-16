@@ -43,7 +43,7 @@ typedef struct {
 class remoteInput{
 public:
 	action_ID action;
-	vector<char> dice;
+	vector<unsigned int> dice;
 	Coord pos;
 	vector<Coord> guardMoves;
 	lootType loot;
@@ -102,7 +102,7 @@ public:
 	void sendSpent(char yn);
 	void sendAddToken(Coord pos);
 	void sendUseToken(Coord pos);
-	void sendThrowDice(char d1, char d2, char d3, char d4, char d5, char d6);
+	void sendThrowDice(vector <unsigned int> diceThrown);
 	void sendSafeOpened(lootType loot);
 	void sendCreateAlarm(Coord pos);
 	void sendSpyPatrol(Coord pos, char tb);
