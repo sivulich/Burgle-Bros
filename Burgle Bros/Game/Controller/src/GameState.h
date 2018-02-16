@@ -615,7 +615,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 		template <class EVT, class FSM, class SourceState, class TargetState>
 		void operator()(EVT const& event, FSM& fsm, SourceState& source, TargetState& target)
 		{
-			DEBUG_MSG("CRACKING SAFE");
+/*			DEBUG_MSG("CRACKING SAFE");
 			fsm.currentAction = SAFE_OPENED;
 
 			Tile * currTile = fsm.model->getBoard()->getTile(fsm.model->currentPlayer()->getPosition());
@@ -676,7 +676,7 @@ struct GameState_ : public msm::front::state_machine_def<GameState_>
 					break;
 				}
 				currDice++;
-			}
+			}*/
 
 		}
 	};
