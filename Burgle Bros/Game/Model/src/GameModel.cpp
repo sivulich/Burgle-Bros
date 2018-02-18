@@ -224,7 +224,7 @@ bool GameModel::guardIsMoving()
 {
 	return guardIsMoving_;
 }
-// ME TENGO Q FIJAR SI HACER EL CHEQUEO DE CAMARAS UNS SUBFUNCION. NO lo pase al moveGuard del floor porq este no conoce a las camaras de otros pisos
+
 void GameModel::moveGuard()
 {
 	int floor = currentPlayer_->getPosition().floor;

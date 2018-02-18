@@ -8,20 +8,14 @@ public:
 	ServiceDuct(int floor, int col, int row) : Tile(SERVICE_DUCT, floor, col, row) { isConnected = false; this->alarmTile = false; };
 	~ServiceDuct();
 
-	/**
-		Points this tile to the other side of the duct
-	*/
+	//Points this tile to the other side of the duct
 	void setOtherSide(ServiceDuct* t);
 
-	/**
-	Executes the tile's special actions, if any...
-	@param p player who is moving
-	*/
+	//Executes the tile's special actions, if any...
+	//@param p player who is moving
 	virtual void enter(PlayerInterface * player) override;
 
-	/**
-		Check if the other side of the duct has been revealed
-	*/
+	//Check if the other side of the duct has been revealed
 	bool isOpen();
 private:
 	ServiceDuct* otherSide;

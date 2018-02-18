@@ -1,18 +1,14 @@
 #pragma once
 #include "./Configs.h"
 #include "./BaseModel.h"
-/*
-	Base class for a card. It can be flipped in different ways and has a description
-*/
+//Base class for a card. It can be flipped in different ways and has a description
 class BaseCard:public BaseModel
 {
 public:
 	BaseCard() : faceUp(false) {};
 
 	BaseCard(string s, bool face) : faceUp(face) { setDescription(s); };
-	/**
-	False = Turned Down ; True = Turned  Up
-	*/
+	//False = Turned Down ; True = Turned  Up
 	
 	// FOR DEBUGGING!!!
 	void debugFlip() { faceUp = !faceUp; };

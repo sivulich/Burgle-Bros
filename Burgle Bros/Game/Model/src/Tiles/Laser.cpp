@@ -50,7 +50,6 @@ bool Laser::doAction(string action, PlayerInterface * player)
 			player->newAction(toString(USE_TOKEN), getPos(),INT_MAX);
 		}
 	}
-	////////////////// HACER BIEN RETURN VALUE
 	return true;
 }
 
